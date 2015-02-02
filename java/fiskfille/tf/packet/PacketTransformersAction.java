@@ -8,10 +8,12 @@ import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.entity.EntityMissile;
 import fiskfille.tf.entity.EntityTankShell;
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.transformer.Transformer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -70,11 +72,18 @@ public class PacketTransformersAction extends TransformersPacket
 
 			if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
 			{
-				if(TFHelper.isPlayerTank(from) && TFDataManager.isInVehicleMode(from))
+				Transformer transformer = TFHelper.getTransformer(player);
+				
+				if(transformer != null)
 				{
-					from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":tankfire", 1, 1, false);
-					from.rotationPitch -= 2;
-				} 
+					String shootSound = transformer.getShootSound();
+					
+					if(shootSound != null && TFDataManager.isInVehicleMode(from))
+					{
+						from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
+//						from.rotationPitch -= 2;
+					} 
+				}
 			}
 		}
 	}
@@ -101,57 +110,82 @@ public class PacketTransformersAction extends TransformersPacket
 		{
 			if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
 			{
-				if(TFHelper.isPlayerTank(from) && TFDataManager.isInVehicleMode(from))
+				Transformer transformer = TFHelper.getTransformer(player);
+				
+				if(transformer != null)
 				{
-					boolean isCreative = from.capabilities.isCreativeMode;
-					boolean hasShell = isCreative || from.inventory.hasItem(TFItems.tankShell);
-					
-					if(hasShell)
+					if(transformer.canShoot(player) && TFDataManager.isInVehicleMode(from))
 					{
-						World world = from.worldObj;
-						EntityTankShell shell = new EntityTankShell(world, from, 3);
-						shell.posY--;
-						world.spawnEntityInWorld(shell);
-
-						if(!isCreative)
-						{
-							player.inventory.consumeInventoryItem(TFItems.tankShell);
-						}
-					}
-				} 
-				else 
-				{
-					boolean stealthMode = TFDataManager.isInStealthMode(player);
-					if((TFHelper.isPlayerJet(from) || stealthMode) && TFDataManager.isInVehicleMode(from))
-					{
+						Item shootItem = transformer.getShootItem();
+						
 						boolean isCreative = from.capabilities.isCreativeMode;
-						boolean hasMissile = isCreative || from.inventory.hasItem(TFItems.missile);
-
-						if(hasMissile)
+						boolean hasAmmo = isCreative || from.inventory.hasItem(shootItem);
+						
+						if(hasAmmo)
 						{
 							World world = from.worldObj;
-							EntityMissile missile = new EntityMissile(world, from, 3, TFConfig.allowMissileExplosions, stealthMode);
-
-							if(stealthMode)
-							{
-								missile.posY-=2;
-							}
-							else
-							{
-								missile.posY--;
-							}
-
-							world.spawnEntityInWorld(missile);
-
-							player.addStat(TFAchievements.firstMissile, 1);
+							Entity entity = transformer.getShootEntity(player);
+							entity.posY--;
+							world.spawnEntityInWorld(entity);
 
 							if(!isCreative)
 							{
-								player.inventory.consumeInventoryItem(TFItems.missile);
+								player.inventory.consumeInventoryItem(TFItems.tankShell);
 							}
 						}
-					}
+					} 
 				}
+//				if(TFHelper.isPlayerTank(from) && TFDataManager.isInVehicleMode(from))
+//				{
+//					boolean isCreative = from.capabilities.isCreativeMode;
+//					boolean hasShell = isCreative || from.inventory.hasItem(TFItems.tankShell);
+//					
+//					if(hasShell)
+//					{
+//						World world = from.worldObj;
+//						EntityTankShell shell = new EntityTankShell(world, from, 3);
+//						shell.posY--;
+//						world.spawnEntityInWorld(shell);
+//
+//						if(!isCreative)
+//						{
+//							player.inventory.consumeInventoryItem(TFItems.tankShell);
+//						}
+//					}
+//				} 
+//				else 
+//				{
+//					boolean stealthMode = TFDataManager.isInStealthMode(player);
+//					if((TFHelper.isPlayerJet(from) || stealthMode) && TFDataManager.isInVehicleMode(from))
+//					{
+//						boolean isCreative = from.capabilities.isCreativeMode;
+//						boolean hasMissile = isCreative || from.inventory.hasItem(TFItems.missile);
+//
+//						if(hasMissile)
+//						{
+//							World world = from.worldObj;
+//							EntityMissile missile = new EntityMissile(world, from, 3, TFConfig.allowMissileExplosions, stealthMode);
+//
+//							if(stealthMode)
+//							{
+//								missile.posY-=2;
+//							}
+//							else
+//							{
+//								missile.posY--;
+//							}
+//
+//							world.spawnEntityInWorld(missile);
+//
+//							player.addStat(TFAchievements.firstMissile, 1);
+//
+//							if(!isCreative)
+//							{
+//								player.inventory.consumeInventoryItem(TFItems.missile);
+//							}
+//						}
+//					}
+//				}
 			}
 		}
 	}

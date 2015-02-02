@@ -147,6 +147,7 @@ public class ItemSkystrikesCrossbow extends ItemSword
 		{
 			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 		}
+		
 		return stack;
 	}
 

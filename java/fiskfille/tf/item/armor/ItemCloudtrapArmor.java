@@ -15,13 +15,13 @@ import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.item.TFItems;
-import fiskfille.tf.misc.VehicleType;
+import fiskfille.tf.transformer.Transformer;
 
 public class ItemCloudtrapArmor extends ItemArmor implements ITransformerArmor
 {
-	public ItemCloudtrapArmor(int par2)
+	public ItemCloudtrapArmor(int armorPiece)
 	{
-		super(TFItems.TRANSFORMERMATERIAL, 4, par2);
+		super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
 		this.setCreativeTab(TransformersMod.transformersTab);
 	}
 
@@ -30,21 +30,21 @@ public class ItemCloudtrapArmor extends ItemArmor implements ITransformerArmor
 		return TransformersMod.modid + ":textures/models/cloudtrap/cloudtrap.png";
 	}
 
-    /**
-     * Called to tick armor in the armor slot. Override to do something
-     *
-     * @param world
-     * @param player
-     * @param itemStack
-     */
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
-    {
-    	if(TFHelper.isPlayerCloudtrap(player))
-    	{
-    		player.addStat(TFAchievements.transformer, 1);
-    	}
-    }
-	
+	/**
+	 * Called to tick armor in the armor slot. Override to do something
+	 *
+	 * @param world
+	 * @param player
+	 * @param itemStack
+	 */
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
+	{
+		if(TFHelper.isPlayerTransformer(player))
+		{
+			player.addStat(TFAchievements.transformer, 1);
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemstack, int armorSlot) 
 	{
@@ -88,14 +88,14 @@ public class ItemCloudtrapArmor extends ItemArmor implements ITransformerArmor
 		return null;
 	}
 
-	public void registerIcons(IIconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegistry)
 	{
-		itemIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+		itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
 
 	@Override
-	public VehicleType getVehicleType()
+	public Transformer getTransformer() 
 	{
-		return VehicleType.JET;
+		return TransformersMod.transformerCloudtrap;
 	}
 }

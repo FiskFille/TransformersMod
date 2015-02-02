@@ -12,6 +12,7 @@ import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.packet.PacketHandleTransformation;
 import fiskfille.tf.packet.PacketSyncTransformationStates;
+import fiskfille.tf.transformer.Transformer;
 
 public class TFDataManager 
 {
@@ -74,7 +75,14 @@ public class TFDataManager
 
 	public static boolean isInStealthMode(EntityPlayer player)
 	{
-		return TFHelper.isPlayerCar(player) && isInVehicleMode(player) && TFPlayerData.getData(player).stealthMode;
+		Transformer transformer = TFHelper.getTransformer(player);
+
+		if(transformer != null)
+		{
+			return transformer.hasStealthForce(player) && isInVehicleMode(player) && TFPlayerData.getData(player).stealthMode;
+		}
+		
+		return false;
 	}
 	
 	public static int getTransformationTimer(EntityPlayer player)

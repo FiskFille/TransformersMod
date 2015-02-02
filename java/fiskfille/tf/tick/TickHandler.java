@@ -14,6 +14,7 @@ import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.data.TFPlayerData;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.proxy.ClientProxy;
+import fiskfille.tf.transformer.Transformer;
 
 public class TickHandler
 {
@@ -67,19 +68,24 @@ public class TickHandler
 
 		if (ClientProxy.keyBindingStealthMode.getIsKeyPressed())
 		{
-			if(TFDataManager.isInVehicleMode(player) && Minecraft.getMinecraft().currentScreen == null && (TFHelper.isPlayerCar(player)))
+			Transformer transformer = TFHelper.getTransformer(player);
+			
+			if(transformer != null)
 			{
-				int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
-				
-				if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
+				if(TFDataManager.isInVehicleMode(player) && Minecraft.getMinecraft().currentScreen == null && transformer.hasStealthForce(player))
 				{
-					TFDataManager.setInStealthMode(player, false);
-					player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.5F);
-				}
-				else if (!TFDataManager.isInStealthMode(player) && stealthModeTimer == 5)
-				{
-					TFDataManager.setInStealthMode(player, true);
-					player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.5F);
+					int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+					
+					if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
+					{
+						TFDataManager.setInStealthMode(player, false);
+						player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.5F);
+					}
+					else if (!TFDataManager.isInStealthMode(player) && stealthModeTimer == 5)
+					{
+						TFDataManager.setInStealthMode(player, true);
+						player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.5F);
+					}
 				}
 			}
 		}

@@ -22,6 +22,7 @@ import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.proxy.ClientProxy;
 import fiskfille.tf.render.entity.CustomEntityRenderer;
+import fiskfille.tf.transformer.Transformer;
 
 public class ClientEventHandler
 {
@@ -54,45 +55,44 @@ public class ClientEventHandler
 	{
 		EntityPlayer player = event.entityPlayer;
 
-		boolean jet = TFHelper.isPlayerJet(player);
+		Transformer transformer = TFHelper.getTransformer(player);
 
-		boolean isClientPlayer = mc.thePlayer == player;
-		boolean isTransformer = TFHelper.isPlayerTransformer(player);
-		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-		boolean halfTransformed = TFDataManager.getTransformationTimer(player) <= 10;
-		boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
-
-		boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
-
-		if(notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
+		if(transformer != null)
 		{
-			GL11.glPushMatrix();
-			if(TFHelper.isPlayerCar(player))
-			{
-				GL11.glTranslatef(0, -1.1F, 0);
-			}
-			else
-			{
-				GL11.glTranslatef(0, -1, 0);
-			}
-		}
+			boolean isClientPlayer = mc.thePlayer == player;
+			boolean isTransformer = TFHelper.isPlayerTransformer(player);
+			boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+			boolean halfTransformed = TFDataManager.getTransformationTimer(player) <= 10;
+			boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
 
-		if (!jet)
-		{
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
-		}
-		
-		if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 10)
-		{
-			if(jet)
+			boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
+
+			float cameraYOffset = transformer.getCameraYOffset();
+			
+			if(notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
 			{
-				GL11.glTranslatef(0, 0.002F, 0);
+				GL11.glPushMatrix();
+
+				GL11.glTranslatef(0, -cameraYOffset, 0);
 			}
-			else
+
+			if (cameraYOffset != 0)
 			{
-				GL11.glTranslatef(0, 0.08F, 0);
+				GL11.glPushMatrix();
+				GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
 			}
+
+//			if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 10)
+//			{
+//				if(jet)
+//				{
+//					GL11.glTranslatef(0, 0.002F, 0);
+//				}
+//				else
+//				{
+//					GL11.glTranslatef(0, 0.08F, 0);
+//				}
+//			}
 		}
 	}
 
@@ -101,30 +101,35 @@ public class ClientEventHandler
 	{
 		EntityPlayer player = event.entityPlayer;
 
-		boolean isClientPlayer = mc.thePlayer == player;
-		boolean isTransformer = TFHelper.isPlayerTransformer(player);
-		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-		boolean halfTransformed = TFDataManager.getTransformationTimer(player) <= 10;
-		boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
+		Transformer transformer = TFHelper.getTransformer(player);
 
-		boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
-
-		if(notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
+		if(transformer != null)
 		{
-			GL11.glPopMatrix();
+			boolean isClientPlayer = mc.thePlayer == player;
+			boolean isTransformer = TFHelper.isPlayerTransformer(player);
+			boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+			boolean halfTransformed = TFDataManager.getTransformationTimer(player) <= 10;
+			boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
+
+			boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
+
+			if(notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
+			{
+				GL11.glPopMatrix();
+			}
+
+			if (transformer.getCameraYOffset() != 0)
+			{
+				GL11.glPopMatrix();
+			}
+
+			ModelBiped modelBipedMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, new String[]{"f", "modelBipedMain"});
+			ClientProxy.modelBipedMain = modelBipedMain;
+
+			//	TFHelper.getInstance().adjustPlayerVisibility(event.entityPlayer, modelBipedMain);
+
+			ObfuscationReflectionHelper.setPrivateValue(RenderPlayer.class, event.renderer, modelBipedMain, new String[]{"f", "modelBipedMain"});
 		}
-
-		if (!(TFHelper.isPlayerJet(player)))
-		{
-			GL11.glPopMatrix();
-		}
-
-		ModelBiped modelBipedMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, new String[]{"f", "modelBipedMain"});
-		ClientProxy.modelBipedMain = modelBipedMain;
-
-		//	TFHelper.getInstance().adjustPlayerVisibility(event.entityPlayer, modelBipedMain);
-
-		ObfuscationReflectionHelper.setPrivateValue(RenderPlayer.class, event.renderer, modelBipedMain, new String[]{"f", "modelBipedMain"});
 	}
 
 	@SubscribeEvent
@@ -138,21 +143,27 @@ public class ClientEventHandler
 			{				
 				EntityClientPlayerMP player = mc.thePlayer;
 
-				if (!(TFHelper.isPlayerJet(player)))
+				Transformer transformer = TFHelper.getTransformer(player);
+
+				if(transformer != null)
 				{
-					if (renderer == null)
+					if(transformer.getCameraYOffset() != 0)
 					{
-						renderer = new CustomEntityRenderer(mc);
+						if (renderer == null)
+						{
+							renderer = new CustomEntityRenderer(mc);
+						}
+
+						if (mc.entityRenderer != renderer)
+						{
+							prevRenderer = mc.entityRenderer;
+							mc.entityRenderer = renderer;
+						}
 					}
-					if (mc.entityRenderer != renderer)
+					else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
 					{
-						prevRenderer = mc.entityRenderer;
-						mc.entityRenderer = renderer;
+						mc.entityRenderer = prevRenderer;
 					}
-				}
-				else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
-				{
-					mc.entityRenderer = prevRenderer;
 				}
 			}
 		}
@@ -162,7 +173,7 @@ public class ClientEventHandler
 	public void onFOVUpdate(FOVUpdateEvent event)
 	{
 		EntityPlayerSP player = event.entity;
-		VehicleMotion transformedPlayer = TFMotionManager.transformedPlayerMap.get(player);
+		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
 		int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
 		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
@@ -173,14 +184,6 @@ public class ClientEventHandler
 			if (nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
 			{
 				event.newfov = 1.3F;
-			}
-
-			if(TFHelper.isPlayerPurge(player))
-			{
-				if(ClientProxy.keyBindingZoom.getIsKeyPressed())
-				{
-					//event.newfov = 0.2F;
-				}
 			}
 		}
 	}

@@ -24,7 +24,6 @@ public class Donators
 
 	public static boolean isDonator(UUID id)
 	{
-		//return true;
 		return donators.containsKey(id);
 	}
 

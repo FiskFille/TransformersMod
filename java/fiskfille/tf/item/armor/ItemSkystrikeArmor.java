@@ -15,13 +15,13 @@ import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.item.TFItems;
-import fiskfille.tf.misc.VehicleType;
+import fiskfille.tf.transformer.Transformer;
 
 public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
 {
-	public ItemSkystrikeArmor(int par2)
+	public ItemSkystrikeArmor(int armorPiece)
 	{
-		super(TFItems.TRANSFORMERMATERIAL, 4, par2);
+		super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
 		this.setCreativeTab(TransformersMod.transformersTab);
 	}
 
@@ -34,7 +34,7 @@ public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
      */
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
     {
-    	if(TFHelper.isPlayerSkystrike(player))
+    	if(TFHelper.isPlayerTransformer(player))
     	{
     		player.addStat(TFAchievements.transformer, 1);
     	}
@@ -88,14 +88,14 @@ public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
 		return null;
 	}
 
-	public void registerIcons(IIconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegistry)
 	{
-		itemIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+		itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
-
+	
 	@Override
-	public VehicleType getVehicleType()
+	public Transformer getTransformer() 
 	{
-		return VehicleType.JET;
+		return TransformersMod.transformerSkystrike;
 	}
 }

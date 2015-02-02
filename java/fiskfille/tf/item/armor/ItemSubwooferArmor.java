@@ -15,13 +15,13 @@ import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.item.TFItems;
-import fiskfille.tf.misc.VehicleType;
+import fiskfille.tf.transformer.Transformer;
 
 public class ItemSubwooferArmor extends ItemArmor implements ITransformerArmor
 {
-	public ItemSubwooferArmor(int par2)
+	public ItemSubwooferArmor(int armorPiece)
 	{
-		super(TFItems.TRANSFORMERMATERIAL, 4, par2);
+		super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
 		this.setCreativeTab(TransformersMod.transformersTab);
 	}
 
@@ -39,7 +39,7 @@ public class ItemSubwooferArmor extends ItemArmor implements ITransformerArmor
      */
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
     {
-    	if(TFHelper.isPlayerSubwoofer(player))
+    	if(TFHelper.isPlayerTransformer(player))
     	{
     		player.addStat(TFAchievements.transformer, 1);
     	}
@@ -92,10 +92,10 @@ public class ItemSubwooferArmor extends ItemArmor implements ITransformerArmor
 	{
 		itemIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
-	
+
 	@Override
-	public VehicleType getVehicleType()
+	public Transformer getTransformer() 
 	{
-		return VehicleType.CAR;
+		return TransformersMod.transformerSubwoofer;
 	}
 }

@@ -48,6 +48,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
                 }
 
                 itemstack.stackSize -= j1;
+              
                 EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                 if (itemstack.hasTagCompound())
@@ -56,9 +57,11 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
                 }
 
                 float f3 = 0.05F;
+               
                 entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
                 entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
                 entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+               
                 world.spawnEntityInWorld(entityitem);
             }
         }
@@ -66,7 +69,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
         super.breakBlock(world, x, y, z, block, metadata);
     }
 	
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (world.isRemote)
         {
@@ -74,22 +77,25 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
         }
         else
         {
-            TileEntityDisplayPillar tileentitydisplaypillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
+            TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
 
-            if (tileentitydisplaypillar != null)
+            if (tileEntityDisplayPillar != null)
             {
             	int meta = world.getBlockMetadata(x, y, z);
             	
-            	for (int i = 0; i < 5; ++i)
+            	//TODO for cleanup
+            	for (int displayVehicleType = 0; displayVehicleType < 5; ++displayVehicleType)
             	{
-                	if (meta == i + 1 && player.getHeldItem() == null)
+                	if (meta == displayVehicleType + 1 && player.getHeldItem() == null)
                 	{
                     	world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-                    	player.setCurrentItemOrArmor(0, new ItemStack(TFItems.displayVehicle, 1, i));
+                    	
+                    	player.setCurrentItemOrArmor(0, new ItemStack(TFItems.displayVehicle, 1, displayVehicleType));
                 	}
-                	else if (meta == 0 && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.displayVehicle && player.getHeldItem().getItemDamage() == i)
+                	else if (meta == 0 && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.displayVehicle && player.getHeldItem().getItemDamage() == displayVehicleType)
                 	{
-                		world.setBlockMetadataWithNotify(x, y, z, i + 1, 2);
+                		world.setBlockMetadataWithNotify(x, y, z, displayVehicleType + 1, 2);
+                		
                 		if(!player.capabilities.isCreativeMode)
                 		{
                          	player.setCurrentItemOrArmor(0, null);

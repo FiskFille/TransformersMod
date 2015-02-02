@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
-//Gegy is not as good as Fisk ;)
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -27,6 +26,12 @@ import fiskfille.tf.packet.TFPacketPipeline;
 import fiskfille.tf.packet.TFPackets;
 import fiskfille.tf.proxy.CommonProxy;
 import fiskfille.tf.recipe.TFRecipes;
+import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.TransformerCloudtrap;
+import fiskfille.tf.transformer.TransformerPurge;
+import fiskfille.tf.transformer.TransformerSkystrike;
+import fiskfille.tf.transformer.TransformerSubwoofer;
+import fiskfille.tf.transformer.TransformerVurp;
 import fiskfille.tf.updatechecker.Update;
 import fiskfille.tf.updatechecker.UpdateChecker;
 
@@ -35,7 +40,9 @@ public class TransformersMod
 {
 	@Instance(TransformersMod.modid)
 	public static TransformersMod instance;
+	
 	public static Configuration configFile;
+	
 	public static final String modid = "transformers";
 	public static final String version = "0.5.0";
 	
@@ -43,14 +50,22 @@ public class TransformersMod
 	
 	@SidedProxy(clientSide = "fiskfille.tf.proxy.ClientProxy", serverSide = "fiskfille.tf.proxy.CommonProxy")
 	public static CommonProxy proxy;
+
 	public TFConfig config = new TFConfig();
 	public TFItems items = new TFItems();
 	public TFBlocks blocks = new TFBlocks();
+	
 	public static CreativeTabs transformersTab = new CreativeTabTransformers();
 	
 	public static Method setSizeMethod;
 	
 	public static Update latestUpdate;
+	
+	public static Transformer transformerPurge = new TransformerPurge();
+	public static Transformer transformerSkystrike = new TransformerSkystrike();
+	public static Transformer transformerCloudtrap = new TransformerCloudtrap();
+	public static Transformer transformerVurp = new TransformerVurp();
+	public static Transformer transformerSubwoofer = new TransformerSubwoofer();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -74,7 +89,6 @@ public class TransformersMod
 		TFEntities.registerEntities();
 		
 		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
-		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerTF());
 	
 		proxy.registerRenderInformation();
 		proxy.registerKeyBinds();

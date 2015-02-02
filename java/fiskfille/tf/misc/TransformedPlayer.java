@@ -14,9 +14,10 @@ public class TransformedPlayer
 	public TransformedPlayer(int nitro, double forwardVelocity, double horizontalVelocity) 
 	{
 		this.forwardVelocity = forwardVelocity;
+		this.horizontalVelocity = horizontalVelocity;
+		
 		this.nitro = nitro;
 		this.boosting = false;
-		this.horizontalVelocity = horizontalVelocity;
 	}
 	
 	public boolean isBoosting()

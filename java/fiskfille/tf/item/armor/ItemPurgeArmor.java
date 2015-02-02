@@ -15,49 +15,49 @@ import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.item.TFItems;
-import fiskfille.tf.misc.VehicleType;
+import fiskfille.tf.transformer.Transformer;
 
 public class ItemPurgeArmor extends ItemArmor implements ITransformerArmor
 {
-	public ItemPurgeArmor(int par2)
+	public ItemPurgeArmor(int armorPiece)
 	{
-		super(TFItems.TANKMATERIAL, 4, par2);
+		super(TFItems.TANKMATERIAL, 4, armorPiece);
 		this.setCreativeTab(TransformersMod.transformersTab);
 	}
 
-    /**
-     * Called to tick armor in the armor slot. Override to do something
-     *
-     * @param world
-     * @param player
-     * @param itemStack
-     */
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
-    {
-    	if(TFHelper.isPlayerPurge(player))
-    	{
-    		player.addStat(TFAchievements.transformer, 1);
-    	}
-    }
-	
-	 /**
-     * Called by RenderBiped and RenderPlayer to determine the armor texture that 
-     * should be use for the currently equiped item.
-     * This will only be called on instances of ItemArmor. 
-     * 
-     * Returning null from this function will use the default value.
-     * 
-     * @param stack ItemStack for the equpt armor
-     * @param entity The entity wearing the armor
-     * @param slot The slot the armor is in
-     * @param type The subtype, can be null or "overlay"
-     * @return Path of texture to bind, or null to use default
-     */
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
-    {
-    	return TransformersMod.modid + ":textures/models/purge/purge.png";
-    }
-	
+	/**
+	 * Called to tick armor in the armor slot. Override to do something
+	 *
+	 * @param world
+	 * @param player
+	 * @param itemStack
+	 */
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
+	{
+		if(TFHelper.isPlayerTransformer(player))
+		{
+			player.addStat(TFAchievements.transformer, 1);
+		}
+	}
+
+	/**
+	 * Called by RenderBiped and RenderPlayer to determine the armor texture that 
+	 * should be use for the currently equiped item.
+	 * This will only be called on instances of ItemArmor. 
+	 * 
+	 * Returning null from this function will use the default value.
+	 * 
+	 * @param stack ItemStack for the equpt armor
+	 * @param entity The entity wearing the armor
+	 * @param slot The slot the armor is in
+	 * @param type The subtype, can be null or "overlay"
+	 * @return Path of texture to bind, or null to use default
+	 */
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
+	{
+		return TransformersMod.modid + ":textures/models/purge/purge.png";
+	}
+
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemstack, int armorSlot) 
 	{
@@ -100,14 +100,14 @@ public class ItemPurgeArmor extends ItemArmor implements ITransformerArmor
 		return null;
 	}
 
-	public void registerIcons(IIconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegistry)
 	{
-		itemIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+		itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
-	
+
 	@Override
-	public VehicleType getVehicleType()
+	public Transformer getTransformer() 
 	{
-		return VehicleType.TANK;
+		return TransformersMod.transformerPurge;
 	}
 }

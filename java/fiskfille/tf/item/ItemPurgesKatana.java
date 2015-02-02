@@ -32,11 +32,11 @@ public class ItemPurgesKatana extends ItemSword
 		this.setMaxDamage(1500);
 	}
 	
-	public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int par4)
     {
-		if (!TFDataManager.isInVehicleMode(par3EntityPlayer) && TFHelper.isPlayerPurge(par3EntityPlayer))
+		if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerPurge(player))
 		{
-	        int j = this.getMaxItemUseDuration(par1ItemStack) - par4;
+	        int j = this.getMaxItemUseDuration(stack) - par4;
 	        double d = (double)j / 10;
 	        
 	        if (d > 2.0D)
@@ -44,11 +44,11 @@ public class ItemPurgesKatana extends ItemSword
 	        	d = 2.0D;
 	        }
 	        	        
-	        par1ItemStack.damageItem(2, par3EntityPlayer);
-	        Vec3 vec3 = TFMotionManager.getFrontCoords(par3EntityPlayer, par3EntityPlayer.onGround ? d : d * 0.75D, true);
-	        par3EntityPlayer.motionX = (vec3.xCoord - par3EntityPlayer.posX);
-	        par3EntityPlayer.motionY = (vec3.yCoord - par3EntityPlayer.posY) / 2;
-			par3EntityPlayer.motionZ = (vec3.zCoord - par3EntityPlayer.posZ);
+	        stack.damageItem(2, player);
+	        Vec3 vec3 = TFMotionManager.getFrontCoords(player, player.onGround ? d : d * 0.75D, true);
+	        player.motionX = (vec3.xCoord - player.posX);
+	        player.motionY = (vec3.yCoord - player.posY) / 2;
+			player.motionZ = (vec3.zCoord - player.posZ);
 		}
     }
 

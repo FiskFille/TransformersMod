@@ -23,6 +23,7 @@ import fiskfille.tf.event.CommonEventHandler;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
+import fiskfille.tf.transformer.Transformer;
 
 public class GuiOverlay extends Gui
 {
@@ -63,7 +64,7 @@ public class GuiOverlay extends Gui
 
 	public void renderNitroAndSpeed(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
 	{
-		VehicleMotion transformedPlayer = TFMotionManager.transformedPlayerMap.get(player);
+		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
  		if(transformedPlayer != null && TFDataManager.getTransformationTimer(player) <= 20)
 		{
@@ -115,61 +116,64 @@ public class GuiOverlay extends Gui
 
 	public void renderShotsLeft(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
 	{
-		boolean jet = TFHelper.isPlayerJet(player);
-
-		int transformationTimer = TFDataManager.getTransformationTimer(player);
-	
-		int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
-		boolean car = TFHelper.isPlayerCar(player);
-		boolean stealthForce = TFHelper.isPlayerCar(player) && stealthModeTimer <= 10;
-	
-		if(transformationTimer <= 20 && (TFHelper.isPlayerPurge(player) || jet || car))
+		Transformer transformer = TFHelper.getTransformer(player);
+		
+		if(transformer != null)
 		{
-			int i;
-			if(stealthForce)
+			int transformationTimer = TFDataManager.getTransformationTimer(player);
+		
+			int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+			boolean stealthForce = transformer.hasStealthForce(player) && stealthModeTimer <= 10;
+		
+			if(transformationTimer <= 20 && (transformer.canShoot(player)))
 			{
-				i = stealthModeTimer * 25;
-			}
-			else
-			{
-				i = (int)(transformationTimer * 7.5F);
-			}
-
-			boolean show = true;
-			
-			if(car && stealthModeTimer == 5)
-			{
-				show = false;
-			}
-			
-			if(show)
-			{
-				int x = 80;
-
-				int j = 20 - CommonEventHandler.shootCooldown;
-
-				double d = (double)j * 2.5;
-
-				String shotsLeft = "" + CommonEventHandler.shotsLeft;
+				int transformationOffsetX = 0;
 				
-				if(CommonEventHandler.shotsLeft <= 0)
+				if(stealthForce)
 				{
-					shotsLeft = EnumChatFormatting.RED + shotsLeft;
+					transformationOffsetX = stealthModeTimer * 25;
+				}
+				else
+				{
+					transformationOffsetX = (int)(transformationTimer * 7.5F);
+				}
+
+				boolean show = true;
+				
+				if(stealthForce && stealthModeTimer == 5)
+				{
+					show = false;
 				}
 				
-				drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, 5 - i, 5, 0xffffff);
+				if(show)
+				{
+					int x = 80;
 
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GL11.glColor4f(0F, 0F, 0F, 0.15F);
+					int j = 20 - CommonEventHandler.shootCooldown;
 
-				int y = 3;
-				drawTexturedModalRect(x - i, y, 0, 0, 52, 12);
-				GL11.glColor4f(1F, 0F, 0F, 0.25F);
-				drawTexturedModalRect(x + 1 - i, y + 1, 0, 0, (int)(d), 10);
+					double d = (double)j * 2.5;
 
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
+					String shotsLeft = "" + CommonEventHandler.shotsLeft;
+					
+					if(CommonEventHandler.shotsLeft <= 0)
+					{
+						shotsLeft = EnumChatFormatting.RED + shotsLeft;
+					}
+					
+					drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, 5 - transformationOffsetX, 5, 0xffffff);
+
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					GL11.glColor4f(0F, 0F, 0F, 0.15F);
+
+					int y = 3;
+					drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 52, 12);
+					GL11.glColor4f(1F, 0F, 0F, 0.25F);
+					drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int)(d), 10);
+
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+				}
 			}
 		}
 	}

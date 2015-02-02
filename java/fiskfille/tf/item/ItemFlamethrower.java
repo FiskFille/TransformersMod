@@ -138,12 +138,14 @@ public class ItemFlamethrower extends ItemSword
 		{
 			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 		}
+		
 		return stack;
 	}
 
 	public List<Entity> getEntitiesNear(World world, double par1, double par2, double par3, float par4)
 	{
 		List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(par1 - par4, par2 - par4, par3 - par4, par1 + par4, par2 + par4, par3 + par4), IEntitySelector.selectAnything);
+		
 		return list;
 	}
 

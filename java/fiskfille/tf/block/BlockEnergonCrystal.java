@@ -56,7 +56,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 		return MathHelper.getRandomIntegerInRange(rand, 0, 2);
 	}
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int p_149668_2_, int p_149668_3_, int p_149668_4_)
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
 	{
 		return null;
 	}
@@ -112,51 +112,51 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 	 */
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
-		int j1 = metadata;
+		int rotation = metadata;
 
 		if (side == 0 && this.isSolid(world, x, y + 1, z))
 		{
-			j1 = 6;
+			rotation = 6;
 		}
 
 		if (side == 1 && this.isSolid(world, x, y - 1, z))
 		{
-			j1 = 5;
+			rotation = 5;
 		}
 
 		if (side == 2 && world.isSideSolid(x, y, z + 1, NORTH, true))
 		{
-			j1 = 4;
+			rotation = 4;
 		}
 
 		if (side == 3 && world.isSideSolid(x, y, z - 1, SOUTH, true))
 		{
-			j1 = 3;
+			rotation = 3;
 		}
 
 		if (side == 4 && world.isSideSolid(x + 1, y, z, WEST, true))
 		{
-			j1 = 2;
+			rotation = 2;
 		}
 
 		if (side == 5 && world.isSideSolid(x - 1, y, z, EAST, true))
 		{
-			j1 = 1;
+			rotation = 1;
 		}
 
-		return j1;
+		return rotation;
 	}
 
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
-	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+	public void updateTick(World world, int x, int y, int z, Random rand)
 	{
-		super.updateTick(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, p_149674_5_);
+		super.updateTick(world, x, y, z, rand);
 
-		if (p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_, p_149674_4_) == 0)
+		if (world.getBlockMetadata(x, y, z) == 0)
 		{
-			this.onBlockAdded(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
+			this.onBlockAdded(world, x, y, z);
 		}
 	}
 
@@ -193,56 +193,51 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 			}
 		}
 
-		this.func_150109_e(world, x, y, z);
+		this.canPlaceAt(world, x, y, z);
 	}
 
 	/**
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
 	 * their own) Args: x, y, z, neighbor Block
 	 */
-	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
-		this.func_150108_b(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
+		this.neighbourChanged(world, x, y, z, block);
 	}
 
-	protected boolean func_150108_b(World world, int x, int y, int z, Block block)
+	protected boolean neighbourChanged(World world, int x, int y, int z, Block block)
 	{
-		if (this.func_150109_e(world, x, y, z))
+		if (this.canPlaceAt(world, x, y, z))
 		{
-			int l = world.getBlockMetadata(x, y, z);
-			boolean flag = false;
+			int metadata = world.getBlockMetadata(x, y, z);
+			boolean canSupport = true;
 
-			if (!world.isSideSolid(x - 1, y, z, EAST, true) && l == 1)
+			if (!world.isSideSolid(x - 1, y, z, EAST, true) && metadata == 1)
 			{
-				flag = true;
+				canSupport = false;
+			}
+			else if (!world.isSideSolid(x + 1, y, z, WEST, true) && metadata == 2)
+			{
+				canSupport = false;
+			}
+			else if (!world.isSideSolid(x, y, z - 1, SOUTH, true) && metadata == 3)
+			{
+				canSupport = false;
+			}
+			else if (!world.isSideSolid(x, y, z + 1, NORTH, true) && metadata == 4)
+			{
+				canSupport = false;
+			}
+			else if (!this.isSolid(world, x, y - 1, z) && metadata == 5)
+			{
+				canSupport = false;
+			}
+			else if (!this.isSolid(world, x, y + 1, z) && metadata == 6)
+			{
+				canSupport = false;
 			}
 
-			if (!world.isSideSolid(x + 1, y, z, WEST, true) && l == 2)
-			{
-				flag = true;
-			}
-
-			if (!world.isSideSolid(x, y, z - 1, SOUTH, true) && l == 3)
-			{
-				flag = true;
-			}
-
-			if (!world.isSideSolid(x, y, z + 1, NORTH, true) && l == 4)
-			{
-				flag = true;
-			}
-
-			if (!this.isSolid(world, x, y - 1, z) && l == 5)
-			{
-				flag = true;
-			}
-
-			if (!this.isSolid(world, x, y + 1, z) && l == 6)
-			{
-				flag = true;
-			}
-
-			if (flag)
+			if (!canSupport)
 			{
 				if(new Random().nextInt(9) == 0)
 				{
@@ -261,7 +256,9 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 				{
 					this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 				}
+				
 				world.setBlockToAir(x, y, z);
+				
 				return true;
 			}
 			else
@@ -275,14 +272,14 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 		}
 	}
 
-	protected boolean func_150109_e(World p_150109_1_, int p_150109_2_, int p_150109_3_, int p_150109_4_)
+	protected boolean canPlaceAt(World world, int x, int y, int z)
 	{
-		if (!this.canPlaceBlockAt(p_150109_1_, p_150109_2_, p_150109_3_, p_150109_4_))
+		if (!this.canPlaceBlockAt(world, x, y, z))
 		{
-			if (p_150109_1_.getBlock(p_150109_2_, p_150109_3_, p_150109_4_) == this)
+			if (world.getBlock(x, y, z) == this)
 			{
-				this.dropBlockAsItem(p_150109_1_, p_150109_2_, p_150109_3_, p_150109_4_, p_150109_1_.getBlockMetadata(p_150109_2_, p_150109_3_, p_150109_4_), 0);
-				p_150109_1_.setBlockToAir(p_150109_2_, p_150109_3_, p_150109_4_);
+				this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+				world.setBlockToAir(x, y, z);
 			}
 
 			return false;

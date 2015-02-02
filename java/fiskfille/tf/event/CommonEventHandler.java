@@ -38,6 +38,7 @@ import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.packet.PacketBroadcastState;
 import fiskfille.tf.packet.PacketTransformersAction;
 import fiskfille.tf.tick.TickHandler;
+import fiskfille.tf.transformer.Transformer;
 import fiskfille.tf.updatechecker.Update;
 
 public class CommonEventHandler
@@ -63,16 +64,16 @@ public class CommonEventHandler
 		}
 	}
 
-//	@SubscribeEvent
-//	public void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event)
-//	{
-//		if(event.player.worldObj.isRemote && event.player == Minecraft.getMinecraft().thePlayer)
-//		{	
-//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestTransformationState(event.player));
-//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestStealthState(event.player));
-//		}
-//	}
-	
+	//	@SubscribeEvent
+	//	public void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event)
+	//	{
+	//		if(event.player.worldObj.isRemote && event.player == Minecraft.getMinecraft().thePlayer)
+	//		{	
+	//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestTransformationState(event.player));
+	//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestStealthState(event.player));
+	//		}
+	//	}
+
 	@SubscribeEvent
 	public void onEntityLoad(EntityEvent.EntityConstructing event)
 	{
@@ -92,58 +93,40 @@ public class CommonEventHandler
 
 		if (TFDataManager.isInVehicleMode(player)) 
 		{
-			Action action = event.action;
+			Transformer transformer = TFHelper.getTransformer(player);
 
-			if(action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+			if(transformer.canShoot(player))
 			{
-				if(shotsLeft > 0)
+				Action action = event.action;
+
+				if(action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 				{
-					if(TFHelper.isPlayerTank(player))
+					if(shotsLeft > 0)
 					{
-						if(shootCooldown <= 0)
+						if(transformer != null)
 						{
-							boolean isCreative = player.capabilities.isCreativeMode;
-							boolean hasShell = isCreative || player.inventory.hasItem(TFItems.tankShell);
-
-							if(hasShell)
+							if(shootCooldown <= 0)
 							{
-								TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
-
-								if(!isCreative)
+								if(transformer.canShoot(player) && TFDataManager.isInVehicleMode(player))
 								{
-									player.inventory.consumeInventoryItem(TFItems.tankShell);
-								}
-							}
+									Item shootItem = transformer.getShootItem();
 
-							shotsLeft--;
-							
-							if(shotsLeft <= 0)
-							{
-								shootCooldown = 20;
-								reloading = true;
-							}
-						}
-					}
-					else if(TFHelper.isPlayerJet(player) || TFDataManager.isInStealthMode(player))
-					{
-						if(shootCooldown <= 0)
-						{
-							boolean isCreative = player.capabilities.isCreativeMode;
-							boolean hasMissile = isCreative || player.inventory.hasItem(TFItems.missile);
+									boolean isCreative = player.capabilities.isCreativeMode;
+									boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
 
-							if(hasMissile && shotsLeft > 0)
-							{
-								TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
+									if(hasAmmo)
+									{
+										TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
 
-								player.addStat(TFAchievements.firstMissile, 1);
-
-								if(!isCreative)
-								{
-									player.inventory.consumeInventoryItem(TFItems.missile);
-								}
+										if(!isCreative)
+										{
+											player.inventory.consumeInventoryItem(shootItem);
+										}
+									}
+								} 
 
 								shotsLeft--;
-								
+
 								if(shotsLeft <= 0)
 								{
 									shootCooldown = 20;
@@ -152,18 +135,18 @@ public class CommonEventHandler
 							}
 						}
 					}
-				}
-				else
-				{
-					if(!reloading)
+					else
 					{
-						shootCooldown = 20;
-						reloading = true;
+						if(!reloading)
+						{
+							shootCooldown = 20;
+							reloading = true;
+						}
 					}
 				}
-			}
 
-			event.setCanceled(true);
+				event.setCanceled(true);
+			}
 		}
 	}
 
@@ -171,7 +154,7 @@ public class CommonEventHandler
 	public void startTracking(StartTracking event)
 	{
 		EntityPlayer player = event.entityPlayer;
-	
+
 		if(player != null)
 		{
 			if(!player.worldObj.isRemote)
@@ -179,14 +162,14 @@ public class CommonEventHandler
 				if(event.target instanceof EntityPlayer)
 				{
 					EntityPlayer beingTracked = (EntityPlayer) event.target;
-					
+
 					TransformersMod.packetPipeline.sendToDimension(new PacketBroadcastState(beingTracked), beingTracked.dimension);
 					TransformersMod.packetPipeline.sendToDimension(new PacketBroadcastState(player), beingTracked.dimension);
 				}
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onEntityInteract(EntityInteractEvent event) {if (TFDataManager.isInVehicleMode(event.entityPlayer)) {event.setCanceled(true);}}
 
@@ -204,6 +187,7 @@ public class CommonEventHandler
 	{
 		Entity entity = event.entity;
 		World world = entity.worldObj;
+		
 		if(entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
@@ -218,7 +202,7 @@ public class CommonEventHandler
 			{
 				TransformersMod.packetPipeline.sendToDimension(new PacketBroadcastState(player), player.dimension);
 				TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
-				
+
 				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 10 : 0);
 				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 5 : 0);
 
@@ -233,6 +217,7 @@ public class CommonEventHandler
 						player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "" + EnumChatFormatting.BOLD + "What's New: "));
 
 						String[] updates = update.updateLog.split(Pattern.quote("(newline)"));
+
 						for (String updatePart : updates)
 						{
 							EnumChatFormatting colour = EnumChatFormatting.RED;
@@ -262,13 +247,6 @@ public class CommonEventHandler
 				}
 			}
 		}
-		//		else if(entity instanceof EntityTankShell)
-		//		{
-		//				if(world.isRemote)
-		//				{
-		//					world.playSound(entity.posX, entity.posY - (double)entity.yOffset, entity.posZ, TransformersMod.modid + ":tankfire", 1, 1, false);
-		//				}
-		//		}
 	}
 
 	@SubscribeEvent
@@ -278,13 +256,13 @@ public class CommonEventHandler
 		{
 			EntityPlayer player = (EntityPlayer)event.entity;
 
-			if (TFHelper.isPlayerSkystrike(player))
+			Transformer transformer = TFHelper.getTransformer(player);
+
+			if(transformer != null)
 			{
-				player.motionY += 0.205D;
-			}
-			if (TFHelper.isPlayerTank(player) || (TFHelper.isPlayerCar(player) && !TFDataManager.isInStealthMode(player)))
-			{
-				if (TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
+				transformer.onJump(player);
+				
+				if(!transformer.canJumpAsVehicle(player) && TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
 				{
 					player.motionY = 0D;
 				}
@@ -371,59 +349,59 @@ public class CommonEventHandler
 			{
 				if(player == Minecraft.getMinecraft().thePlayer)
 				{
+					Transformer transformer = TFHelper.getTransformer(player);
+
 					if(shootCooldown > 0)
 					{
 						shootCooldown--;
 					}
 
-					Item ammo = getAmmunition(player);
-
-					if(ammo != null)
+					if(transformer != null)
 					{
-						int maxAmmo = 4;
+						Item ammo = transformer.getShootItem();
 
-						if(TFDataManager.isInStealthMode(player))
+						if(ammo != null)
 						{
-							maxAmmo = 8;
-						}
+							int maxAmmo = transformer.getShots();
 
-						int ammoCount; 
+							int ammoCount; 
 
-						if(player.capabilities.isCreativeMode)
-						{
-							ammoCount = maxAmmo;
-						}
-						else
-						{
-							ammoCount = getAmountOf(ammo, player);
-						}
+							if(player.capabilities.isCreativeMode)
+							{
+								ammoCount = maxAmmo;
+							}
+							else
+							{
+								ammoCount = getAmountOf(ammo, player);
+							}
 
-						if(ammoCount > maxAmmo)
-						{
-							ammoCount = maxAmmo;
-						}
+							if(ammoCount > maxAmmo)
+							{
+								ammoCount = maxAmmo;
+							}
 
-						if(shotsLeft > ammoCount)
-						{
-							shotsLeft = ammoCount;
-						}
-
-						if(TFDataManager.isInVehicleMode(player))
-						{
-							if(reloading && shootCooldown <= 0)
+							if(shotsLeft > ammoCount)
 							{
 								shotsLeft = ammoCount;
-
-								reloading = false;
 							}
-						}
-						else
-						{
-							int shots = ammoCount;
 
-							if(shotsLeft > shots)
+							if(TFDataManager.isInVehicleMode(player))
 							{
-								shotsLeft = shots;
+								if(reloading && shootCooldown <= 0)
+								{
+									shotsLeft = ammoCount;
+
+									reloading = false;
+								}
+							}
+							else
+							{
+								int shots = ammoCount;
+
+								if(shotsLeft > shots)
+								{
+									shotsLeft = shots;
+								}
 							}
 						}
 					}
@@ -455,7 +433,8 @@ public class CommonEventHandler
 		int amount = 0;
 
 		InventoryPlayer inventory = player.inventory;
-		for (ItemStack stack : inventory.mainInventory)
+		
+		for(ItemStack stack : inventory.mainInventory)
 		{
 			if(stack != null)
 			{
@@ -476,28 +455,20 @@ public class CommonEventHandler
 		{
 			EntityPlayer player = (EntityPlayer)event.entity;
 
-			if (TFHelper.isPlayerJet(player) || (TFHelper.isPlayerTank(player) && TFDataManager.isInVehicleMode(player)))
+			Transformer transformer = TFHelper.getTransformer(player);
+			
+			if(transformer != null)
 			{
-				event.setCanceled(true);
+				if (transformer.shouldTakeFallDamage(player))
+				{
+					event.setCanceled(true);
+				}
+				//TODO
+//				else if(TFHelper.isPlayerCar(player))
+//				{
+//					event.distance /= 2;
+//				}
 			}
-			else if(TFHelper.isPlayerCar(player))
-			{
-				event.distance /= 2;
-			}
 		}
-	}
-
-	private Item getAmmunition(EntityPlayer player)
-	{
-		if(TFHelper.isPlayerJet(player) || TFHelper.isPlayerCar(player))
-		{
-			return TFItems.missile;
-		}
-		else if(TFHelper.isPlayerTank(player))
-		{
-			return TFItems.tankShell;
-		}
-
-		return null;
 	}
 }

@@ -1,16 +1,10 @@
 package fiskfille.tf;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.item.armor.ITransformerArmor;
-import fiskfille.tf.misc.VehicleType;
-import fiskfille.tf.proxy.ClientProxy;
+import fiskfille.tf.transformer.Transformer;
 
 public class TFHelper
 {
@@ -19,11 +13,6 @@ public class TFHelper
 	public static TFHelper getInstance()
 	{
 		return instance;
-	}
-	
-	private static boolean hasPlayerFullArmor(EntityPlayer player)
-	{
-		return player != null ? player.getCurrentArmor(0) != null && player.getCurrentArmor(1) != null && player.getCurrentArmor(2) != null && player.getCurrentArmor(3) != null : false;
 	}
 	
 	public static boolean isPlayerCloudtrap(EntityPlayer player)
@@ -50,32 +39,11 @@ public class TFHelper
 	{
 		return hasPlayerFullArmor(player) && player.getCurrentArmor(3).getItem() == TFItems.subwooferHelmet && player.getCurrentArmor(2).getItem() == TFItems.subwooferChestplate && player.getCurrentArmor(1).getItem() == TFItems.subwooferLeggings && player.getCurrentArmor(0).getItem() == TFItems.subwooferBoots;
 	}
+
 	
-	public static ResourceLocation getPlayerHandTexture(EntityPlayer player)
+	private static boolean hasPlayerFullArmor(EntityPlayer player)
 	{
-		if (player.getCurrentArmor(2) != null)
-		{
-			if (player.getCurrentArmor(2).getItem() == TFItems.skystrikeChestplate) {return new ResourceLocation(TransformersMod.modid, "textures/models/skystrike/skystrike1.png");}
-			if (player.getCurrentArmor(2).getItem() == TFItems.purgeChestplate) {return new ResourceLocation(TransformersMod.modid, "textures/models/purge/purge1.png");}
-			if (player.getCurrentArmor(2).getItem() == TFItems.vurpChestplate) {return new ResourceLocation(TransformersMod.modid, "textures/models/vurp/vurp1.png");}
-			if (player.getCurrentArmor(2).getItem() == TFItems.subwooferChestplate) {return new ResourceLocation(TransformersMod.modid, "textures/models/subwoofer/subwoofer.png");}
-			if (player.getCurrentArmor(2).getItem() == TFItems.subwooferChestplate) {return new ResourceLocation(TransformersMod.modid, "textures/models/cloudtrap/cloudtrap.png");}
-		}
-		return null;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public static ModelBiped getPlayerModel(EntityPlayer player, int piece)
-	{
-		if (player.getCurrentArmor(piece) != null)
-		{
-			if (player.getCurrentArmor(piece).getItem() == TFItems.skystrikeChestplate) {return ClientProxy.getSkystrike();}
-			if (player.getCurrentArmor(piece).getItem() == TFItems.purgeChestplate) {return ClientProxy.getPurge();}
-			if (player.getCurrentArmor(piece).getItem() == TFItems.cloudtrapChestplate) {return ClientProxy.getCloudtrap();}
-			if (player.getCurrentArmor(piece).getItem() == TFItems.vurpChestplate) {return ClientProxy.getVurp();}
-			if (player.getCurrentArmor(piece).getItem() == TFItems.subwooferChestplate) {return ClientProxy.getSubwoofer();}
-		}
-		return null;
+		return player != null ? player.getCurrentArmor(0) != null && player.getCurrentArmor(1) != null && player.getCurrentArmor(2) != null && player.getCurrentArmor(3) != null : false;
 	}
 	
 	public static boolean isTransformerArmor(EntityPlayer player, Item item)
@@ -83,55 +51,6 @@ public class TFHelper
 		return item instanceof ITransformerArmor;
 	}
 	
-	@Deprecated
-	public void adjustPlayerVisibility(EntityPlayer player, ModelBiped model)
-	{
-		boolean flag = false; 
-		if(player.worldObj.isRemote)
-		{
-			flag = Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
-		}
-		
-		if (player.getCurrentArmor(3) != null)
-		{
-			int i = isTransformerArmor(player, player.getCurrentArmor(3).getItem()) ? 256 : 0;
-    		model.bipedHead.offsetY = i;
-    		model.bipedHeadwear.offsetY = i;
-		}
-		else
-		{
-			model.bipedHead.offsetY = 0;
-			model.bipedHeadwear.offsetY = 0;
-		}
-		if (player.getCurrentArmor(2) != null)
-		{
-			int i = isTransformerArmor(player, player.getCurrentArmor(2).getItem()) ? 256 : 0;
-			model.bipedBody.offsetY = i;
-			model.bipedRightArm.offsetY = i;
-			model.bipedLeftArm.offsetY = i;
-		}
-		else
-		{
-			model.bipedBody.offsetY = 0;
-			model.bipedRightArm.offsetY = 0;
-			model.bipedLeftArm.offsetY = 0;
-		}
-		if (player.getCurrentArmor(1) != null)
-		{
-			int i = isTransformerArmor(player, player.getCurrentArmor(1).getItem()) ? 256 : 0;
-			model.bipedRightLeg.offsetY = i;
-			model.bipedLeftLeg.offsetY = i;
-		}
-		else
-		{
-			model.bipedRightLeg.offsetY = 0;
-			model.bipedLeftLeg.offsetY = 0;
-		}
-		
-		model.bipedRightArm.rotateAngleX = 1;
-		ClientProxy.modelBipedMain.bipedRightArm.rotateAngleX = 1;
-	}
-
 	public static boolean isPlayerTransformer(EntityPlayer player) 
 	{
 		if(hasPlayerFullArmor(player))
@@ -149,23 +68,8 @@ public class TFHelper
 		return false;
 	}
 
-	public static boolean isPlayerJet(EntityPlayer player)
+	public static Transformer getTransformer(EntityPlayer player)
 	{
-		return getTransformerType(player) == VehicleType.JET;
-	}
-	
-	public static boolean isPlayerTank(EntityPlayer player)
-	{
-		return getTransformerType(player) == VehicleType.TANK;
-	}
-	
-	public static boolean isPlayerCar(EntityPlayer player)
-	{
-		return getTransformerType(player) == VehicleType.CAR;
-	}
-
-	public static VehicleType getTransformerType(EntityPlayer player)
-	{
-		return isPlayerTransformer(player) ? ((ITransformerArmor)(player.getCurrentArmor(3).getItem())).getVehicleType() : null;
+		return isPlayerTransformer(player) ? ((ITransformerArmor)(player.getCurrentArmor(3).getItem())).getTransformer() : null;
 	}
 }

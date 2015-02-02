@@ -1,8 +1,8 @@
 package fiskfille.tf.item.armor;
 
-import fiskfille.tf.misc.VehicleType;
+import fiskfille.tf.transformer.Transformer;
 
 public interface ITransformerArmor
 {
-	public VehicleType getVehicleType();
+	Transformer getTransformer();
 }

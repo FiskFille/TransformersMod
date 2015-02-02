@@ -61,7 +61,6 @@ public class TFItems
 	
 	public static Item tankShell;
 	public static Item missile;
-	public static Item car_missile;
 	public static Item smallThruster;
 	
 	public static Item transformiumDetector;

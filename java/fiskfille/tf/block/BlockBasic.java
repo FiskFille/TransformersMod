@@ -28,8 +28,8 @@ public class BlockBasic extends Block
     }
     
     @Override
-    public void registerBlockIcons(IIconRegister par1IconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-    	blockIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
+    	blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
     }
 }
