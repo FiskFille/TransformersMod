@@ -26,11 +26,11 @@ public class ItemMetaBasic extends Item
 		this.setHasSubtypes(true);
 	}
 	
-	public void getSubItems(Item par1Item, CreativeTabs par2CreativeTabs, List par3List)
+	public void getSubItems(Item item, CreativeTabs tab, List subItems)
 	{
 		for (int i = 0; i < itemNames.length; ++i)
 		{
-			par3List.add(new ItemStack(this, 1, i));
+			subItems.add(new ItemStack(this, 1, i));
 		}
 	}
 	

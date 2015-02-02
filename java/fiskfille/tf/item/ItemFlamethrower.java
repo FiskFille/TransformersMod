@@ -36,7 +36,7 @@ public class ItemFlamethrower extends ItemSword
 		{
 			stack.damageItem(5, player);
 
-			if(!player.capabilities.isCreativeMode)
+			if (!player.capabilities.isCreativeMode)
 			{
 				player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece);
 			}

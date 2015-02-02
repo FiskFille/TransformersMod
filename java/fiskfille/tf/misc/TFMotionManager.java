@@ -73,7 +73,7 @@ public class TFMotionManager
 		float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
 		float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
 
-		if(!pitch)
+		if (!pitch)
 		{
 			f1 = 0;
 		}
@@ -152,7 +152,7 @@ public class TFMotionManager
 	{
 		VehicleMotion transformedPlayer = transformedPlayerMap.get(player);
 
-		if(transformedPlayer != null)
+		if (transformedPlayer != null)
 		{
 			transformedPlayer.setForwardVelocity(vel);
 		}
@@ -166,7 +166,7 @@ public class TFMotionManager
 	{
 		VehicleMotion transformedPlayer = transformedPlayerMap.get(player);
 
-		if(transformedPlayer != null)
+		if (transformedPlayer != null)
 		{
 			transformedPlayer.setNitro(nitro);
 		}
@@ -180,7 +180,7 @@ public class TFMotionManager
 	{
 		VehicleMotion transformedPlayer = transformedPlayerMap.get(player);
 
-		if(transformedPlayer != null)
+		if (transformedPlayer != null)
 		{
 			transformedPlayer.setHorizontalVelocity(vel);
 		}
@@ -200,7 +200,7 @@ public class TFMotionManager
 	{
 		VehicleMotion vehicleMotion = transformedPlayerMap.get(player);
 
-		if(vehicleMotion == null)
+		if (vehicleMotion == null)
 		{
 			vehicleMotion = new VehicleMotion(0, 0, 0);
 			transformedPlayerMap.put(player, vehicleMotion);

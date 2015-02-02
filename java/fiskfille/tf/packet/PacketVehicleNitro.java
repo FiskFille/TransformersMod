@@ -42,9 +42,10 @@ public class PacketVehicleNitro extends TransformersPacket
 	{
 		Entity entity = player.worldObj.getEntityByID(id);
 		
-		if(entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer fromPlayer = (EntityPlayer) entity;
+		
 			if (fromPlayer != player)
 			{
 				TFNitroParticleHandler.setNitro(fromPlayer, nitroOn);

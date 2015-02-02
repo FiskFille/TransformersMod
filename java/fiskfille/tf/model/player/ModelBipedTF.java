@@ -21,41 +21,41 @@ public class ModelBipedTF extends ModelBiped
 		this(0.0F);
 	}
 
-	public ModelBipedTF(float p_i1148_1_)
+	public ModelBipedTF(float modelScale)
 	{
-		this(p_i1148_1_, 0.0F, 64, 32);
+		this(modelScale, 0.0F, 64, 32);
 	}
 
-	public ModelBipedTF(float p_i1149_1_, float p_i1149_2_, int p_i1149_3_, int p_i1149_4_)
+	public ModelBipedTF(float scaleFactor, float p_i1149_2_, int textureWidth, int textureHeight)
 	{
-		this.textureWidth = p_i1149_3_;
-		this.textureHeight = p_i1149_4_;
+		this.textureWidth = textureWidth;
+		this.textureHeight = textureHeight;
 		this.bipedCloak = new ModelRenderer(this, 0, 0);
-		this.bipedCloak.addBox(-5.0F, 0.0F, -1.0F, 10, 16, 1, p_i1149_1_);
+		this.bipedCloak.addBox(-5.0F, 0.0F, -1.0F, 10, 16, 1, scaleFactor);
 		this.bipedEars = new ModelRenderer(this, 24, 0);
-		this.bipedEars.addBox(-3.0F, -6.0F, -1.0F, 6, 6, 1, p_i1149_1_);
+		this.bipedEars.addBox(-3.0F, -6.0F, -1.0F, 6, 6, 1, scaleFactor);
 		this.bipedHead = new ModelRenderer(this, 0, 0);
-		this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, p_i1149_1_);
+		this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, scaleFactor);
 		this.bipedHead.setRotationPoint(0.0F, 0.0F + p_i1149_2_, 0.0F);
 		this.bipedHeadwear = new ModelRenderer(this, 32, 0);
-		this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, p_i1149_1_ + 0.5F);
+		this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, scaleFactor + 0.5F);
 		this.bipedHeadwear.setRotationPoint(0.0F, 0.0F + p_i1149_2_, 0.0F);
 		this.bipedBody = new ModelRenderer(this, 16, 16);
-		this.bipedBody.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, p_i1149_1_);
+		this.bipedBody.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, scaleFactor);
 		this.bipedBody.setRotationPoint(0.0F, 0.0F + p_i1149_2_, 0.0F);
 		this.bipedRightArm = new ModelRenderer(this, 40, 16);
-		this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, p_i1149_1_);
+		this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, scaleFactor);
 		this.bipedRightArm.setRotationPoint(-5.0F, 2.0F + p_i1149_2_, 0.0F);
 		this.bipedLeftArm = new ModelRenderer(this, 40, 16);
 		this.bipedLeftArm.mirror = true;
-		this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, p_i1149_1_);
+		this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, scaleFactor);
 		this.bipedLeftArm.setRotationPoint(5.0F, 2.0F + p_i1149_2_, 0.0F);
 		this.bipedRightLeg = new ModelRenderer(this, 0, 16);
-		this.bipedRightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i1149_1_);
+		this.bipedRightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, scaleFactor);
 		this.bipedRightLeg.setRotationPoint(-1.9F, 12.0F + p_i1149_2_, 0.0F);
 		this.bipedLeftLeg = new ModelRenderer(this, 0, 16);
 		this.bipedLeftLeg.mirror = true;
-		this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i1149_1_);
+		this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, scaleFactor);
 		this.bipedLeftLeg.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
 	}
 
@@ -66,7 +66,7 @@ public class ModelBipedTF extends ModelBiped
 	{
 		this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_, entity);
 
-		if(entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
 
@@ -84,7 +84,7 @@ public class ModelBipedTF extends ModelBiped
 				GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
 				GL11.glTranslatef(0.0F, 16.0F * p_78088_7_, 0.0F);
 				
-				if(!wearingTransformerHelm)
+				if (!wearingTransformerHelm)
 				{
 					this.bipedHead.render(p_78088_7_);
 				}
@@ -93,20 +93,20 @@ public class ModelBipedTF extends ModelBiped
 				GL11.glPushMatrix();
 				GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
 				GL11.glTranslatef(0.0F, 24.0F * p_78088_7_, 0.0F);
-				if(!wearingTransformerChest)
+				if (!wearingTransformerChest)
 				{
 					this.bipedBody.render(p_78088_7_);
 					this.bipedRightArm.render(p_78088_7_);
 					this.bipedLeftArm.render(p_78088_7_);
 				}
 
-				if(!wearingTransformerPants)
+				if (!wearingTransformerPants)
 				{
 					this.bipedRightLeg.render(p_78088_7_);
 					this.bipedLeftLeg.render(p_78088_7_);
 				}
 
-				if(!wearingTransformerHelm)
+				if (!wearingTransformerHelm)
 				{
 					this.bipedHeadwear.render(p_78088_7_);
 				}
@@ -114,25 +114,25 @@ public class ModelBipedTF extends ModelBiped
 			}
 			else
 			{
-				if(!wearingTransformerHelm)
+				if (!wearingTransformerHelm)
 				{
 					this.bipedHead.render(p_78088_7_);
 				}
 
-				if(!wearingTransformerChest)
+				if (!wearingTransformerChest)
 				{
 					this.bipedBody.render(p_78088_7_);
 					this.bipedRightArm.render(p_78088_7_);
 					this.bipedLeftArm.render(p_78088_7_);
 				}
 
-				if(!wearingTransformerPants)
+				if (!wearingTransformerPants)
 				{
 					this.bipedRightLeg.render(p_78088_7_);
 					this.bipedLeftLeg.render(p_78088_7_);
 				}
 
-				if(!wearingTransformerHelm)
+				if (!wearingTransformerHelm)
 				{
 					this.bipedHeadwear.render(p_78088_7_);
 				}

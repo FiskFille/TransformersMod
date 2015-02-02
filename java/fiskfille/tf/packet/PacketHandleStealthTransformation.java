@@ -48,12 +48,12 @@ public class PacketHandleStealthTransformation extends TransformersPacket
 
 		Entity entity = player.worldObj.getEntityByID(id);
 		
-		if(entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 		{
 			from = (EntityPlayer) entity;
 		}
 
-		if(from != null && from != Minecraft.getMinecraft().thePlayer)
+		if (from != null && from != Minecraft.getMinecraft().thePlayer)
 		{
 			TFPlayerData playerData = TFPlayerData.getData(from);
 			TFDataManager.setStealthModeTimer(from, mode ? 5 : 0);
@@ -75,14 +75,14 @@ public class PacketHandleStealthTransformation extends TransformersPacket
 		{
 			Entity entity = world.getEntityByID(id);
 			
-			if(entity instanceof EntityPlayer)
+			if (entity instanceof EntityPlayer)
 			{
 				from = (EntityPlayer) entity;
 				break;
 			}
 		}
 
-		if(from != null)
+		if (from != null)
 		{
 			TFDataManager.setInStealthMode(player, mode);
 		}

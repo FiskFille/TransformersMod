@@ -96,7 +96,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
                 	{
                 		world.setBlockMetadataWithNotify(x, y, z, displayVehicleType + 1, 2);
                 		
-                		if(!player.capabilities.isCreativeMode)
+                		if (!player.capabilities.isCreativeMode)
                 		{
                          	player.setCurrentItemOrArmor(0, null);
                 		}

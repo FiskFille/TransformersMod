@@ -43,7 +43,7 @@ public class ClientTickHandler
 
 		CustomEntityRenderer.setOffsetY(player, offsetY);
 
-		if(transformer != null)
+		if (transformer != null)
 		{
 			int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
@@ -62,7 +62,7 @@ public class ClientTickHandler
 			{
 				player.setSprinting(false);
 
-				if(player == Minecraft.getMinecraft().thePlayer)
+				if (player == Minecraft.getMinecraft().thePlayer)
 				{
 					GameSettings gameSettings = mc.gameSettings;
 
@@ -86,14 +86,14 @@ public class ClientTickHandler
 			}
 			else
 			{
-				if(transformer.hasJetpack())
+				if (transformer.hasJetpack())
 				{
 					boolean isClientPlayer = mc.thePlayer == player;
 					boolean jetpacking = mc.gameSettings.keyBindJump.getIsKeyPressed();
 
-					if(isClientPlayer)
+					if (isClientPlayer)
 					{
-						if(prevJetpacking != jetpacking)
+						if (prevJetpacking != jetpacking)
 						{
 							TransformersMod.packetPipeline.sendToServer(new PacketCloudtrapJetpack(player, jetpacking));
 							prevJetpacking = jetpacking;
@@ -111,11 +111,11 @@ public class ClientTickHandler
 						}
 					}
 
-					if(jetpacking)
+					if (jetpacking)
 					{
 						player.motionY += 0.09F;
 
-						if(isClientPlayer)
+						if (isClientPlayer)
 						{
 							for (int i = 0; i < 20; ++i)
 							{
@@ -153,7 +153,7 @@ public class ClientTickHandler
 
 	private float getCameraOffset(Transformer transformer) 
 	{
-		if(transformer != null)
+		if (transformer != null)
 		{
 			return transformer.getCameraYOffset();
 		}
@@ -176,7 +176,7 @@ public class ClientTickHandler
 
 			if (transformationTimer == 19)
 			{
-				if(Minecraft.getMinecraft().thePlayer == player)
+				if (Minecraft.getMinecraft().thePlayer == player)
 				{
 					Minecraft.getMinecraft().gameSettings.thirdPersonView = TFConfig.firstPersonAfterTransformation ? 0 : Minecraft.getMinecraft().gameSettings.thirdPersonView;
 				}
@@ -221,7 +221,7 @@ public class ClientTickHandler
 
 			float thirdPersonDistance = 4;
 			
-			if(transformer != null)
+			if (transformer != null)
 			{
 				//4.0F - (2.0F - (float)TFDataManager.getTransformationTimer(player) / 10);
 

@@ -36,7 +36,7 @@ public class Donators
 	{
 		Money money = donators.get(id);
 
-		if(money == null)
+		if (money == null)
 		{
 			money = new Money("$0");
 		}
@@ -51,15 +51,15 @@ public class Donators
 
 	public static void doAchievements(Side side)
 	{
-		if(side.isServer())
+		if (side.isServer())
 		{
 			for (WorldServer world : MinecraftServer.getServer().worldServers) 
 			{
 				for (Object player : world.playerEntities)
 				{
-					if(player instanceof EntityPlayer)
+					if (player instanceof EntityPlayer)
 					{
-						if(isDonator((EntityPlayer) player))
+						if (isDonator((EntityPlayer) player))
 						{
 							((EntityPlayer) player).addStat(TFAchievements.donate, 1);
 						}

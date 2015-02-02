@@ -54,7 +54,7 @@ public abstract class TransformerJet extends Transformer
 		int nitro = 0;
 		double vel = 0;
 
-		if(motion != null)
+		if (motion != null)
 		{
 			nitro = motion.getNitro();
 			vel = motion.getForwardVelocity();
@@ -88,7 +88,7 @@ public abstract class TransformerJet extends Transformer
 			if (vel <= 0.09F) {vel = 0.09F;}
 			if (vel > 1.41F) {vel = 1.41F;}
 
-			if(player == Minecraft.getMinecraft().thePlayer)
+			if (player == Minecraft.getMinecraft().thePlayer)
 			{
 				if (nitro > 0 && nitroPressed && moveForward)
 				{
@@ -118,7 +118,7 @@ public abstract class TransformerJet extends Transformer
 
 				try
 				{
-					if(TFConfig.rollWithJet)
+					if (TFConfig.rollWithJet)
 					{
 						EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
 

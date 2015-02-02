@@ -101,7 +101,7 @@ public class EntityMissile extends EntityArrow implements IProjectile
 		double dZ; 
 		double dX; 
 		
-		if(stealth)
+		if (stealth)
 		{
 			dZ = Math.cos((double)this.rotationYaw * Math.PI / 180.0D) * (1.2D + rand.nextFloat());
 			dX = -Math.sin((double)this.rotationYaw * Math.PI / 180.0D) * (1.2D + rand.nextFloat());
@@ -282,7 +282,7 @@ public class EntityMissile extends EntityArrow implements IProjectile
 
 			Entity entityHit = null;
 
-			if(movingobjectposition != null)
+			if (movingobjectposition != null)
 			{
 				entityHit = movingobjectposition.entityHit;
 			}
@@ -396,7 +396,7 @@ public class EntityMissile extends EntityArrow implements IProjectile
 			this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 			float slow = 0.99F;
 			
-			if(stealth)
+			if (stealth)
 			{
 				gravity = 0.15F;
 			}

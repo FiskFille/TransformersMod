@@ -56,14 +56,14 @@ public abstract class TransformerCar extends Transformer
 
 		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
-		if(transformedPlayer != null)
+		if (transformedPlayer != null)
 		{
 			nitro = transformedPlayer.getNitro();
 			forwardVelocity = transformedPlayer.getForwardVelocity();
 			horizontalVelocity = transformedPlayer.getHorizontalVelocity();
 			double increment;
 
-			if(inStealthMode)
+			if (inStealthMode)
 			{
 				increment = (0.328D - forwardVelocity) / 10 + 0.001D;
 			}
@@ -76,11 +76,11 @@ public abstract class TransformerCar extends Transformer
 			{
 				forwardVelocity += increment * 0.5F;
 			}
-			else if(forwardVelocity > 0.02D)
+			else if (forwardVelocity > 0.02D)
 			{
 				forwardVelocity -= 0.02D;
 			}
-			else if(forwardVelocity <= 0.02D)
+			else if (forwardVelocity <= 0.02D)
 			{
 				forwardVelocity = 0;
 			}
@@ -89,11 +89,11 @@ public abstract class TransformerCar extends Transformer
 			{
 				horizontalVelocity += increment * 0.5F;
 			}
-			else if(horizontalVelocity > 0.02D)
+			else if (horizontalVelocity > 0.02D)
 			{
 				horizontalVelocity-= 0.02D;
 			}
-			else if(horizontalVelocity <= 0.02D)
+			else if (horizontalVelocity <= 0.02D)
 			{
 				horizontalVelocity = 0;
 			}

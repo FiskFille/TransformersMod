@@ -43,7 +43,8 @@ public class PacketBroadcastTransformationState extends TransformersPacket
 	public void handleClientSide(EntityPlayer player) 
 	{
 		Entity lookupEntity = player.worldObj.getEntityByID(id);
-		if(lookupEntity instanceof EntityPlayer && player != lookupEntity)
+	
+		if (lookupEntity instanceof EntityPlayer && player != lookupEntity)
 		{
 			EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
 			

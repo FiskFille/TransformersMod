@@ -239,7 +239,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 
 			if (!canSupport)
 			{
-				if(new Random().nextInt(9) == 0)
+				if (new Random().nextInt(9) == 0)
 				{
 					if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops") && !world.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
 					{

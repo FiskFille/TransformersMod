@@ -286,7 +286,7 @@ public class EntityTankShell extends EntityArrow implements IProjectile
 
 			Entity entityHit = null;
 
-			if(movingobjectposition != null)
+			if (movingobjectposition != null)
 			{
 				entityHit = movingobjectposition.entityHit;
 			}

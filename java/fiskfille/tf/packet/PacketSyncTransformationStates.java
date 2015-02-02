@@ -56,7 +56,7 @@ public class PacketSyncTransformationStates extends TransformersPacket
 	@Override
 	public void handleClientSide(EntityPlayer player)
 	{
-		if(states != null)
+		if (states != null)
 		{
 			for (Object cPlayer : Minecraft.getMinecraft().theWorld.playerEntities) 
 			{
@@ -67,7 +67,7 @@ public class PacketSyncTransformationStates extends TransformersPacket
 						EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
 
 						UUID uuid = state.getKey();
-						if(uuid != null && uuid.equals(currentPlayer.getUniqueID()))
+						if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
 						{
 							TFPlayerData.getData(currentPlayer).mode = state.getValue()[0];
 							TFPlayerData.getData(currentPlayer).stealthMode = state.getValue()[1];

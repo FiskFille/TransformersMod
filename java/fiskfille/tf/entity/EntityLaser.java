@@ -41,21 +41,20 @@ public class EntityLaser extends Entity implements IProjectile
     private double damage = 2.0D;
     /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
 
-    public EntityLaser(World p_i1753_1_)
+    public EntityLaser(World world)
     {
-        super(p_i1753_1_);
+        super(world);
         this.renderDistanceWeight = 10.0D;
         this.setSize(0.5F, 0.5F);
     }
 
-    public EntityLaser(World p_i1754_1_, double p_i1754_2_, double p_i1754_4_, double p_i1754_6_)
+    public EntityLaser(World world, double x, double y, double z)
     {
-        super(p_i1754_1_);
+        super(world);
         this.renderDistanceWeight = 10.0D;
         this.setSize(0.5F, 0.5F);
-        this.setPosition(p_i1754_2_, p_i1754_4_, p_i1754_6_);
+        this.setPosition(x, y, z);
         this.yOffset = 0.0F;
     }
 

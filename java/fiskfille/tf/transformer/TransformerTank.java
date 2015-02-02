@@ -52,7 +52,7 @@ public abstract class TransformerTank extends Transformer
 		int nitro = 0;
 		double vel = 0;
 
-		if(transformedPlayer != null)
+		if (transformedPlayer != null)
 		{
 			nitro = transformedPlayer.getNitro();
 			vel = transformedPlayer.getForwardVelocity();

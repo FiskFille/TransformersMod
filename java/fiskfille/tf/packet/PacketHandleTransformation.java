@@ -77,7 +77,7 @@ public class PacketHandleTransformation extends TransformersPacket
 //		{
 //			Entity entity = world.getEntityByID(id);
 //
-//			if(entity instanceof EntityPlayer)
+//			if (entity instanceof EntityPlayer)
 //			{
 //				from = (EntityPlayer) entity;
 //				break;

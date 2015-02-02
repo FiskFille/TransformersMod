@@ -53,7 +53,7 @@ public class GuiOverlay extends Gui
 		int height = event.resolution.getScaledHeight();
 		EntityPlayer player = mc.thePlayer;
 
-		if(event.type == ElementType.JUMPBAR || event.type == ElementType.HOTBAR)
+		if (event.type == ElementType.JUMPBAR || event.type == ElementType.HOTBAR)
 		{
 			renderNitroAndSpeed(event, width, height, player);
 			renderKatanaDash(event, width, height, player);
@@ -66,13 +66,13 @@ public class GuiOverlay extends Gui
 	{
 		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
- 		if(transformedPlayer != null && TFDataManager.getTransformationTimer(player) <= 20)
+ 		if (transformedPlayer != null && TFDataManager.getTransformationTimer(player) <= 20)
 		{
 			long time = System.currentTimeMillis();
 
 			long timeDiff = time - lastTime;
 
-			if(timeDiff >= 500)
+			if (timeDiff >= 500)
 			{
 				double diffX = (player.posX - lastX);
 				double diffY = (player.posY - lastY);
@@ -118,18 +118,18 @@ public class GuiOverlay extends Gui
 	{
 		Transformer transformer = TFHelper.getTransformer(player);
 		
-		if(transformer != null)
+		if (transformer != null)
 		{
 			int transformationTimer = TFDataManager.getTransformationTimer(player);
 		
 			int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 			boolean stealthForce = transformer.hasStealthForce(player) && stealthModeTimer <= 10;
 		
-			if(transformationTimer <= 20 && (transformer.canShoot(player)))
+			if (transformationTimer <= 20 && (transformer.canShoot(player)))
 			{
 				int transformationOffsetX = 0;
 				
-				if(stealthForce)
+				if (stealthForce)
 				{
 					transformationOffsetX = stealthModeTimer * 25;
 				}
@@ -140,12 +140,12 @@ public class GuiOverlay extends Gui
 
 				boolean show = true;
 				
-				if(stealthForce && stealthModeTimer == 5)
+				if (stealthForce && stealthModeTimer == 5)
 				{
 					show = false;
 				}
 				
-				if(show)
+				if (show)
 				{
 					int x = 80;
 
@@ -155,7 +155,7 @@ public class GuiOverlay extends Gui
 
 					String shotsLeft = "" + CommonEventHandler.shotsLeft;
 					
-					if(CommonEventHandler.shotsLeft <= 0)
+					if (CommonEventHandler.shotsLeft <= 0)
 					{
 						shotsLeft = EnumChatFormatting.RED + shotsLeft;
 					}
@@ -198,7 +198,7 @@ public class GuiOverlay extends Gui
 
 			int y = 0;
 
-			if(TFConfig.purgeDashTop)
+			if (TFConfig.purgeDashTop)
 				y = 5;
 			else
 				y = height / 2 + 9;

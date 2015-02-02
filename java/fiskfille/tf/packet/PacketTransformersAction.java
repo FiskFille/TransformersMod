@@ -44,7 +44,7 @@ public class PacketTransformersAction extends TransformersPacket
 		int cID = 0;
 		for (Action cAction : PlayerInteractEvent.Action.values()) 
 		{
-			if(cAction == action)
+			if (cAction == action)
 			{
 				index = cID;
 				break;
@@ -66,19 +66,19 @@ public class PacketTransformersAction extends TransformersPacket
 	public void handleClientSide(EntityPlayer player)
 	{
 		Entity fromEntity = player.worldObj.getEntityByID(id);
-		if(fromEntity instanceof EntityPlayer)
+		if (fromEntity instanceof EntityPlayer)
 		{
 			EntityPlayer from = (EntityPlayer) fromEntity;
 
-			if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
+			if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
 			{
 				Transformer transformer = TFHelper.getTransformer(player);
 				
-				if(transformer != null)
+				if (transformer != null)
 				{
 					String shootSound = transformer.getShootSound();
 					
-					if(shootSound != null && TFDataManager.isInVehicleMode(from))
+					if (shootSound != null && TFDataManager.isInVehicleMode(from))
 					{
 						from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
 //						from.rotationPitch -= 2;
@@ -99,93 +99,42 @@ public class PacketTransformersAction extends TransformersPacket
 		{
 			Entity entity = world.getEntityByID(id);
 
-			if(entity instanceof EntityPlayer)
+			if (entity instanceof EntityPlayer)
 			{
 				from = (EntityPlayer) entity;
 				break;
 			}
 		}
 
-		if(from != null)
+		if (from != null)
 		{
-			if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
+			if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
 			{
 				Transformer transformer = TFHelper.getTransformer(player);
 				
-				if(transformer != null)
+				if (transformer != null)
 				{
-					if(transformer.canShoot(player) && TFDataManager.isInVehicleMode(from))
+					if (transformer.canShoot(player) && TFDataManager.isInVehicleMode(from))
 					{
 						Item shootItem = transformer.getShootItem();
 						
 						boolean isCreative = from.capabilities.isCreativeMode;
 						boolean hasAmmo = isCreative || from.inventory.hasItem(shootItem);
 						
-						if(hasAmmo)
+						if (hasAmmo)
 						{
 							World world = from.worldObj;
 							Entity entity = transformer.getShootEntity(player);
 							entity.posY--;
 							world.spawnEntityInWorld(entity);
 
-							if(!isCreative)
+							if (!isCreative)
 							{
 								player.inventory.consumeInventoryItem(TFItems.tankShell);
 							}
 						}
 					} 
 				}
-//				if(TFHelper.isPlayerTank(from) && TFDataManager.isInVehicleMode(from))
-//				{
-//					boolean isCreative = from.capabilities.isCreativeMode;
-//					boolean hasShell = isCreative || from.inventory.hasItem(TFItems.tankShell);
-//					
-//					if(hasShell)
-//					{
-//						World world = from.worldObj;
-//						EntityTankShell shell = new EntityTankShell(world, from, 3);
-//						shell.posY--;
-//						world.spawnEntityInWorld(shell);
-//
-//						if(!isCreative)
-//						{
-//							player.inventory.consumeInventoryItem(TFItems.tankShell);
-//						}
-//					}
-//				} 
-//				else 
-//				{
-//					boolean stealthMode = TFDataManager.isInStealthMode(player);
-//					if((TFHelper.isPlayerJet(from) || stealthMode) && TFDataManager.isInVehicleMode(from))
-//					{
-//						boolean isCreative = from.capabilities.isCreativeMode;
-//						boolean hasMissile = isCreative || from.inventory.hasItem(TFItems.missile);
-//
-//						if(hasMissile)
-//						{
-//							World world = from.worldObj;
-//							EntityMissile missile = new EntityMissile(world, from, 3, TFConfig.allowMissileExplosions, stealthMode);
-//
-//							if(stealthMode)
-//							{
-//								missile.posY-=2;
-//							}
-//							else
-//							{
-//								missile.posY--;
-//							}
-//
-//							world.spawnEntityInWorld(missile);
-//
-//							player.addStat(TFAchievements.firstMissile, 1);
-//
-//							if(!isCreative)
-//							{
-//								player.inventory.consumeInventoryItem(TFItems.missile);
-//							}
-//						}
-//					}
-//				}
 			}
 		}
 	}

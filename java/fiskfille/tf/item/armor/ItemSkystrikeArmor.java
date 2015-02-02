@@ -34,7 +34,7 @@ public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
      */
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
     {
-    	if(TFHelper.isPlayerTransformer(player))
+    	if (TFHelper.isPlayerTransformer(player))
     	{
     		player.addStat(TFAchievements.transformer, 1);
     	}

@@ -51,7 +51,8 @@ public class PacketSound extends TransformersPacket
 	public void handleClientSide(EntityPlayer player)
 	{
 		Entity entity = player.worldObj.getEntityByID(id);
-		if(entity != null)
+		
+		if (entity != null)
 		{
 			entity.worldObj.playSound(entity.posX, entity.posY - (double)entity.yOffset, entity.posZ, TransformersMod.modid + ":" + sound, 1, 1, false);
 		}

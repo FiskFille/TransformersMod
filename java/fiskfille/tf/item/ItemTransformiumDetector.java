@@ -30,6 +30,7 @@ public class ItemTransformiumDetector extends ItemBasic
 				world.setBlock(p_77648_4_ + x, p_77648_5_, p_77648_6_ + z, TFBlocks.energonCube);
 			}
 		}
+		
 		return true;
 	}
 	
@@ -37,12 +38,12 @@ public class ItemTransformiumDetector extends ItemBasic
 	{
 		int time = entity.ticksExisted;
 
-		//if(world.isRemote)
+		//if (world.isRemote)
 		{
-			if(time > 0)
+			if (time > 0)
 			{
 				NBTTagCompound tagCompound = stack.getTagCompound();
-				if(tagCompound == null)
+				if (tagCompound == null)
 				{
 					tagCompound = new NBTTagCompound();
 					stack.setTagCompound(tagCompound);
@@ -50,23 +51,23 @@ public class ItemTransformiumDetector extends ItemBasic
 
 				int energonFuel = tagCompound.getInteger("fuel");
 
-				if(entity instanceof EntityPlayer)
+				if (entity instanceof EntityPlayer)
 				{
 					EntityPlayer player = (EntityPlayer) entity;
 
-					if(energonFuel > 0)
+					if (energonFuel > 0)
 					{
-						if(time % 500 == 0)
+						if (time % 500 == 0)
 						{
 							energonFuel--;
 							tagCompound.setInteger("fuel", energonFuel);
-							if(energonFuel <= 0)
+							if (energonFuel <= 0)
 							{
 								player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_fuel.message")));
 							}
 						}
 
-						if(time % 5 == 0)
+						if (time % 5 == 0)
 						{
 							int posX = (int) entity.posX;
 							int posY = (int) entity.posY;
@@ -87,7 +88,7 @@ public class ItemTransformiumDetector extends ItemBasic
 								{
 									for (int z = startZ; z < endZ; z++) 
 									{
-										if(world.getBlock(x, y, z) == TFBlocks.transformiumOre)
+										if (world.getBlock(x, y, z) == TFBlocks.transformiumOre)
 										{
 											int xDiff = x - posX;
 											int yDiff = y - posY;
@@ -95,7 +96,7 @@ public class ItemTransformiumDetector extends ItemBasic
 
 											int distance = (int) Math.sqrt((xDiff*xDiff) + (yDiff*yDiff) + (zDiff*zDiff));
 
-											if(distance < smallestDist)
+											if (distance < smallestDist)
 											{
 												smallestDist = distance;
 											}
@@ -104,7 +105,7 @@ public class ItemTransformiumDetector extends ItemBasic
 								}
 							}
 
-							if(smallestDist != 1000)
+							if (smallestDist != 1000)
 							{
 								tagCompound.setInteger("d", smallestDist);
 							}
@@ -114,13 +115,13 @@ public class ItemTransformiumDetector extends ItemBasic
 							}
 						}
 
-						if(Minecraft.getMinecraft().thePlayer == player)
+						if (Minecraft.getMinecraft().thePlayer == player)
 						{
 							int d = tagCompound.getInteger("d");
 
-							if(d > 0)
+							if (d > 0)
 							{
-								if(time % (d * 3) == 0)
+								if (time % (d * 3) == 0)
 								{
 									for (int i = 0; i < 3; ++i)
 									{
@@ -140,23 +141,23 @@ public class ItemTransformiumDetector extends ItemBasic
 	 */
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		if(stack.getTagCompound() == null)
+		if (stack.getTagCompound() == null)
 		{
 			stack.setTagCompound(new NBTTagCompound());
 		}
 
 		int fuel = stack.getTagCompound().getInteger("fuel");
 
-		if(player.isSneaking())
+		if (player.isSneaking())
 		{
-			if(player.inventory.getFirstEmptyStack() != -1)
+			if (player.inventory.getFirstEmptyStack() != -1)
 			{
 				player.inventory.addItemStackToInventory(new ItemStack(TFItems.energonCrystalPiece, fuel));
 				stack.getTagCompound().setInteger("fuel", 0);
 			}
 			else
 			{
-				if(world.isRemote)
+				if (world.isRemote)
 				{
 					player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_space.message")));
 					//player.addChatMessage(new ChatComponentText("There is no space in your inventory for the Energon Crystal Pieces!"));
@@ -165,17 +166,17 @@ public class ItemTransformiumDetector extends ItemBasic
 		}
 		else
 		{
-			if(player.capabilities.isCreativeMode || player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece))
+			if (player.capabilities.isCreativeMode || player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece))
 			{
 				stack.getTagCompound().setInteger("fuel", fuel+1);
-				if(world.isRemote)
+				if (world.isRemote)
 				{
 					player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.insert_fuel.message")));
 				}
 			}
 			else
 			{
-				if(world.isRemote)
+				if (world.isRemote)
 				{
 					player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_energon.message")));
 				}
@@ -192,7 +193,8 @@ public class ItemTransformiumDetector extends ItemBasic
 	public void addInformation(ItemStack stack, EntityPlayer player, List informationList, boolean p_77624_4_) 
 	{
 		NBTTagCompound tagCompound = stack.getTagCompound();
-		if(tagCompound != null)
+		
+		if (tagCompound != null)
 		{
 			informationList.add(StatCollector.translateToLocal("stats.fuel.name") + ": " + tagCompound.getInteger("fuel"));
 		}

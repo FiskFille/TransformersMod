@@ -17,7 +17,7 @@ public class RenderCustomPlayer extends RenderPlayer
 	@Override
 	public void renderFirstPersonArm(EntityPlayer player)
 	{
-		if(!(TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) == 0))
+		if (!(TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) == 0))
 		{
 			super.renderFirstPersonArm(player);
 		}

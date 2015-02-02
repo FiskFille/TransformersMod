@@ -21,7 +21,7 @@ public class UpdateChecker extends Thread
 			Version newestVersion = new Version(version);
 			Version currentVersion = new Version(TransformersMod.version);
 
-			if(newestVersion.compareTo(currentVersion) == 1)
+			if (newestVersion.compareTo(currentVersion) == 1)
 			{
 				isNewUpdateAvailable = true;
 				update = new Update(isNewUpdateAvailable, version, text.get(1).split("\\:")[1]);
@@ -37,7 +37,7 @@ public class UpdateChecker extends Thread
 			e.printStackTrace();
 		}
 		
-		if(update == null)
+		if (update == null)
 		{
 			update = new Update();
 		}

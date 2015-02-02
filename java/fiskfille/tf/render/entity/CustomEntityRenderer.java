@@ -57,7 +57,7 @@ public class CustomEntityRenderer extends EntityRenderer
 
 		Float offsetForPlayer = offsetY.get(player);
 
-		if(offsetForPlayer == null)
+		if (offsetForPlayer == null)
 		{
 			offsetForPlayer = 1.62F;
 			offsetY.put(player, 1.62F);
@@ -80,7 +80,8 @@ public class CustomEntityRenderer extends EntityRenderer
 		}
 
 		Float offsetY = this.offsetY.get(mc.thePlayer);
-		if(offsetY == null)
+		
+		if (offsetY == null)
 		{
 			offsetY = 1.62F;
 			this.offsetY.put(mc.thePlayer, 1.62F);

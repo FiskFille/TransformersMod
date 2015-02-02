@@ -53,7 +53,7 @@ public class TFHelper
 	
 	public static boolean isPlayerTransformer(EntityPlayer player) 
 	{
-		if(hasPlayerFullArmor(player))
+		if (hasPlayerFullArmor(player))
 		{
 			Item helmet = player.getCurrentArmor(3).getItem();
 			Item chestplate = player.getCurrentArmor(2).getItem();

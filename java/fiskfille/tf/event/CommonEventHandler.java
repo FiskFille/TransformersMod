@@ -58,7 +58,7 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onSmelt(ItemSmeltedEvent event)
 	{
-		if(event.smelting.getItem() == TFItems.transformium)
+		if (event.smelting.getItem() == TFItems.transformium)
 		{
 			event.player.addStat(TFAchievements.transformium, 1);
 		}
@@ -67,7 +67,7 @@ public class CommonEventHandler
 	//	@SubscribeEvent
 	//	public void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event)
 	//	{
-	//		if(event.player.worldObj.isRemote && event.player == Minecraft.getMinecraft().thePlayer)
+	//		if (event.player.worldObj.isRemote && event.player == Minecraft.getMinecraft().thePlayer)
 	//		{	
 	//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestTransformationState(event.player));
 	//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestStealthState(event.player));
@@ -95,30 +95,30 @@ public class CommonEventHandler
 		{
 			Transformer transformer = TFHelper.getTransformer(player);
 
-			if(transformer.canShoot(player))
+			if (transformer.canShoot(player))
 			{
 				Action action = event.action;
 
-				if(action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+				if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 				{
-					if(shotsLeft > 0)
+					if (shotsLeft > 0)
 					{
-						if(transformer != null)
+						if (transformer != null)
 						{
-							if(shootCooldown <= 0)
+							if (shootCooldown <= 0)
 							{
-								if(transformer.canShoot(player) && TFDataManager.isInVehicleMode(player))
+								if (transformer.canShoot(player) && TFDataManager.isInVehicleMode(player))
 								{
 									Item shootItem = transformer.getShootItem();
 
 									boolean isCreative = player.capabilities.isCreativeMode;
 									boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
 
-									if(hasAmmo)
+									if (hasAmmo)
 									{
 										TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
 
-										if(!isCreative)
+										if (!isCreative)
 										{
 											player.inventory.consumeInventoryItem(shootItem);
 										}
@@ -127,7 +127,7 @@ public class CommonEventHandler
 
 								shotsLeft--;
 
-								if(shotsLeft <= 0)
+								if (shotsLeft <= 0)
 								{
 									shootCooldown = 20;
 									reloading = true;
@@ -137,7 +137,7 @@ public class CommonEventHandler
 					}
 					else
 					{
-						if(!reloading)
+						if (!reloading)
 						{
 							shootCooldown = 20;
 							reloading = true;
@@ -155,11 +155,11 @@ public class CommonEventHandler
 	{
 		EntityPlayer player = event.entityPlayer;
 
-		if(player != null)
+		if (player != null)
 		{
-			if(!player.worldObj.isRemote)
+			if (!player.worldObj.isRemote)
 			{
-				if(event.target instanceof EntityPlayer)
+				if (event.target instanceof EntityPlayer)
 				{
 					EntityPlayer beingTracked = (EntityPlayer) event.target;
 
@@ -176,7 +176,7 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void formatName(NameFormat event)
 	{
-		if(Donators.isDonator(event.entityPlayer))
+		if (Donators.isDonator(event.entityPlayer))
 		{
 			event.displayname = EnumChatFormatting.BOLD + "" + EnumChatFormatting.GOLD + "[Donator] " + event.displayname;
 		}
@@ -188,12 +188,12 @@ public class CommonEventHandler
 		Entity entity = event.entity;
 		World world = entity.worldObj;
 		
-		if(entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
 			player.addStat(TFAchievements.transformers, 1);
 
-			if(!world.isRemote)
+			if (!world.isRemote)
 			{
 				Donators.loadDonators();
 				playersNotSunc.add(player);
@@ -206,11 +206,11 @@ public class CommonEventHandler
 				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 10 : 0);
 				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 5 : 0);
 
-				if(!loadedFromInternet)
+				if (!loadedFromInternet)
 				{
 					Update update = TransformersMod.latestUpdate;
 
-					if(update.isAvailable)
+					if (update.isAvailable)
 					{
 						player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Version " + update.version + " is now available!"));
 						player.addChatMessage(new ChatComponentText(""));
@@ -222,11 +222,11 @@ public class CommonEventHandler
 						{
 							EnumChatFormatting colour = EnumChatFormatting.RED;
 
-							if(updatePart.trim().startsWith("*"))
+							if (updatePart.trim().startsWith("*"))
 							{
 								colour = EnumChatFormatting.GOLD;
 							}
-							else if(updatePart.trim().startsWith("+"))
+							else if (updatePart.trim().startsWith("+"))
 							{
 								colour = EnumChatFormatting.GREEN;
 							}
@@ -237,7 +237,7 @@ public class CommonEventHandler
 						player.addChatMessage(new ChatComponentText(""));
 					}
 
-					if(Donators.isDonator(player))
+					if (Donators.isDonator(player))
 					{
 						player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Thank you for donating $" + Donators.getDonationAmount(player).toString().replaceAll(Pattern.quote("$"), "") + "!"));
 						player.addStat(TFAchievements.donate, 1);
@@ -258,11 +258,11 @@ public class CommonEventHandler
 
 			Transformer transformer = TFHelper.getTransformer(player);
 
-			if(transformer != null)
+			if (transformer != null)
 			{
 				transformer.onJump(player);
 				
-				if(!transformer.canJumpAsVehicle(player) && TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
+				if (!transformer.canJumpAsVehicle(player) && TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
 				{
 					player.motionY = 0D;
 				}
@@ -273,23 +273,23 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event)
 	{
-		if(event.entity instanceof EntityPlayer)
+		if (event.entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
 
-			//			if(!TFHelper.isPlayerJet(player))
+			//			if (!TFHelper.isPlayerJet(player))
 			//			{
 			//				boolean vehicleMode = TFDataManager.isInVehicleMode(player);
 			//
-			//				//if(vehicleMode != prevVehicleMode)
+			//				//if (vehicleMode != prevVehicleMode)
 			//				{
-			//					if(player == Minecraft.getMinecraft().thePlayer)
+			//					if (player == Minecraft.getMinecraft().thePlayer)
 			//					{
-			//						if(!vehicleMode)
+			//						if (!vehicleMode)
 			//						{
 			//							float defaultEyeHeight = player.getDefaultEyeHeight();
 			//
-			//							if(player.eyeHeight != defaultEyeHeight)
+			//							if (player.eyeHeight != defaultEyeHeight)
 			//							{
 			//								player.eyeHeight = defaultEyeHeight;
 			//							}
@@ -304,11 +304,11 @@ public class CommonEventHandler
 			//
 			//					try 
 			//					{
-			//						if(vehicleMode)
+			//						if (vehicleMode)
 			//						{
 			//							boolean tank = TFHelper.isPlayerTank(player);
 			//
-			//							if(tank)
+			//							if (tank)
 			//							{
 			//								MainClass.setSizeMethod.invoke(player, 0.8F, 0.6F);
 			//							}
@@ -337,9 +337,9 @@ public class CommonEventHandler
 			//				}
 			//			}
 
-			if(!event.entity.worldObj.isRemote)
+			if (!event.entity.worldObj.isRemote)
 			{
-				if(playersNotSunc.size() > 0 && playersNotSunc.contains(player))
+				if (playersNotSunc.size() > 0 && playersNotSunc.contains(player))
 				{
 					TFDataManager.updateTransformationStatesFor(player);
 					playersNotSunc.remove(player);
@@ -347,26 +347,26 @@ public class CommonEventHandler
 			}
 			else
 			{
-				if(player == Minecraft.getMinecraft().thePlayer)
+				if (player == Minecraft.getMinecraft().thePlayer)
 				{
 					Transformer transformer = TFHelper.getTransformer(player);
 
-					if(shootCooldown > 0)
+					if (shootCooldown > 0)
 					{
 						shootCooldown--;
 					}
 
-					if(transformer != null)
+					if (transformer != null)
 					{
 						Item ammo = transformer.getShootItem();
 
-						if(ammo != null)
+						if (ammo != null)
 						{
 							int maxAmmo = transformer.getShots();
 
 							int ammoCount; 
 
-							if(player.capabilities.isCreativeMode)
+							if (player.capabilities.isCreativeMode)
 							{
 								ammoCount = maxAmmo;
 							}
@@ -375,19 +375,19 @@ public class CommonEventHandler
 								ammoCount = getAmountOf(ammo, player);
 							}
 
-							if(ammoCount > maxAmmo)
+							if (ammoCount > maxAmmo)
 							{
 								ammoCount = maxAmmo;
 							}
 
-							if(shotsLeft > ammoCount)
+							if (shotsLeft > ammoCount)
 							{
 								shotsLeft = ammoCount;
 							}
 
-							if(TFDataManager.isInVehicleMode(player))
+							if (TFDataManager.isInVehicleMode(player))
 							{
-								if(reloading && shootCooldown <= 0)
+								if (reloading && shootCooldown <= 0)
 								{
 									shotsLeft = ammoCount;
 
@@ -398,7 +398,7 @@ public class CommonEventHandler
 							{
 								int shots = ammoCount;
 
-								if(shotsLeft > shots)
+								if (shotsLeft > shots)
 								{
 									shotsLeft = shots;
 								}
@@ -436,9 +436,9 @@ public class CommonEventHandler
 		
 		for(ItemStack stack : inventory.mainInventory)
 		{
-			if(stack != null)
+			if (stack != null)
 			{
-				if(stack.getItem() == item)
+				if (stack.getItem() == item)
 				{
 					amount += stack.stackSize;
 				}
@@ -457,14 +457,14 @@ public class CommonEventHandler
 
 			Transformer transformer = TFHelper.getTransformer(player);
 			
-			if(transformer != null)
+			if (transformer != null)
 			{
 				if (transformer.shouldTakeFallDamage(player))
 				{
 					event.setCanceled(true);
 				}
 				//TODO
-//				else if(TFHelper.isPlayerCar(player))
+//				else if (TFHelper.isPlayerCar(player))
 //				{
 //					event.distance /= 2;
 //				}

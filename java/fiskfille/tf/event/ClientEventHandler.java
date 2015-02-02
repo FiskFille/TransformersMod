@@ -57,7 +57,7 @@ public class ClientEventHandler
 
 		Transformer transformer = TFHelper.getTransformer(player);
 
-		if(transformer != null)
+		if (transformer != null)
 		{
 			boolean isClientPlayer = mc.thePlayer == player;
 			boolean isTransformer = TFHelper.isPlayerTransformer(player);
@@ -69,7 +69,7 @@ public class ClientEventHandler
 
 			float cameraYOffset = transformer.getCameraYOffset();
 			
-			if(notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
+			if (notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
 			{
 				GL11.glPushMatrix();
 
@@ -84,7 +84,7 @@ public class ClientEventHandler
 
 //			if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 10)
 //			{
-//				if(jet)
+//				if (jet)
 //				{
 //					GL11.glTranslatef(0, 0.002F, 0);
 //				}
@@ -103,7 +103,7 @@ public class ClientEventHandler
 
 		Transformer transformer = TFHelper.getTransformer(player);
 
-		if(transformer != null)
+		if (transformer != null)
 		{
 			boolean isClientPlayer = mc.thePlayer == player;
 			boolean isTransformer = TFHelper.isPlayerTransformer(player);
@@ -113,7 +113,7 @@ public class ClientEventHandler
 
 			boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
 
-			if(notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
+			if (notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
 			{
 				GL11.glPopMatrix();
 			}
@@ -145,9 +145,9 @@ public class ClientEventHandler
 
 				Transformer transformer = TFHelper.getTransformer(player);
 
-				if(transformer != null)
+				if (transformer != null)
 				{
-					if(transformer.getCameraYOffset() != 0)
+					if (transformer.getCameraYOffset() != 0)
 					{
 						if (renderer == null)
 						{
@@ -179,7 +179,7 @@ public class ClientEventHandler
 		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
 		boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
 
-		if(TFDataManager.isInVehicleMode(player))
+		if (TFDataManager.isInVehicleMode(player))
 		{
 			if (nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
 			{

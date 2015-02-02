@@ -21,11 +21,11 @@ public class TFDataManager
 
 	public static void setInVehicleMode(EntityPlayer player, boolean vehicleMode)
 	{
-		if(vehicleMode != TFPlayerData.getData(player).mode)
+		if (vehicleMode != TFPlayerData.getData(player).mode)
 		{
 			player.triggerAchievement(TFAchievements.transform);
 			
-			if(player.worldObj.isRemote)
+			if (player.worldObj.isRemote)
 			{
 				TransformersMod.packetPipeline.sendToServer(new PacketHandleTransformation(player, vehicleMode));
 			}
@@ -40,11 +40,11 @@ public class TFDataManager
 	
 	public static void setInStealthMode(EntityPlayer player, boolean stealthMode)
 	{
-		if(stealthMode != TFPlayerData.getData(player).stealthMode)
+		if (stealthMode != TFPlayerData.getData(player).stealthMode)
 		{
-			if(isInVehicleMode(player))
+			if (isInVehicleMode(player))
 			{
-				if(player.worldObj.isRemote)
+				if (player.worldObj.isRemote)
 				{
 					TransformersMod.packetPipeline.sendToServer(new PacketHandleStealthTransformation(player, stealthMode));
 				}
@@ -77,7 +77,7 @@ public class TFDataManager
 	{
 		Transformer transformer = TFHelper.getTransformer(player);
 
-		if(transformer != null)
+		if (transformer != null)
 		{
 			return transformer.hasStealthForce(player) && isInVehicleMode(player) && TFPlayerData.getData(player).stealthMode;
 		}
@@ -115,13 +115,13 @@ public class TFDataManager
 
 		for (Object obj : player.worldObj.playerEntities) 
 		{
-			if(obj instanceof EntityPlayer)
+			if (obj instanceof EntityPlayer)
 			{
 				EntityPlayer cPlayer = (EntityPlayer) obj;
 
 				TFPlayerData data = TFPlayerData.getData(cPlayer);
 
-				if(data != null)
+				if (data != null)
 				{
 					states.put(cPlayer.getUniqueID(), new Boolean[]{data.mode, data.stealthMode});
 				}

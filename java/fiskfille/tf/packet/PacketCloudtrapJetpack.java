@@ -47,16 +47,16 @@ public class PacketCloudtrapJetpack extends TransformersPacket
 
 		Entity entity = player.worldObj.getEntityByID(id);
 
-		if(entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 		{
 			from = (EntityPlayer) entity;
 		}
 
-		if(from != null && from != Minecraft.getMinecraft().thePlayer)
+		if (from != null && from != Minecraft.getMinecraft().thePlayer)
 		{
-			if(jetpacking)
+			if (jetpacking)
 			{
-				if(!ClientTickHandler.cloudtrapJetpacking.contains(from))
+				if (!ClientTickHandler.cloudtrapJetpacking.contains(from))
 				{
 					ClientTickHandler.cloudtrapJetpacking.add(from);
 				}
@@ -77,14 +77,14 @@ public class PacketCloudtrapJetpack extends TransformersPacket
 		{
 			Entity entity = world.getEntityByID(id);
 
-			if(entity instanceof EntityPlayer)
+			if (entity instanceof EntityPlayer)
 			{
 				from = (EntityPlayer) entity;
 				break;
 			}
 		}
 
-		if(from != null)
+		if (from != null)
 		{
 			TransformersMod.packetPipeline.sendToAll(this);
 		}

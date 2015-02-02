@@ -70,9 +70,9 @@ public class TickHandler
 		{
 			Transformer transformer = TFHelper.getTransformer(player);
 			
-			if(transformer != null)
+			if (transformer != null)
 			{
-				if(TFDataManager.isInVehicleMode(player) && Minecraft.getMinecraft().currentScreen == null && transformer.hasStealthForce(player))
+				if (TFDataManager.isInVehicleMode(player) && Minecraft.getMinecraft().currentScreen == null && transformer.hasStealthForce(player))
 				{
 					int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 					

@@ -48,7 +48,7 @@ public class ItemSkystrikesCrossbow extends ItemSword
 			
 			par1ItemStack.damageItem(5, player);
 			
-			if(!player.capabilities.isCreativeMode)
+			if (!player.capabilities.isCreativeMode)
 			{
 				player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece);
 			}

@@ -20,15 +20,15 @@ public class TFNitroParticleHandler
 	{
 		boolean nitro = getNitro(player);
 		
-		if(nitro)
+		if (nitro)
 		{
 			if (TFDataManager.isInVehicleMode(player))
 			{
-				if(player != Minecraft.getMinecraft().thePlayer)
+				if (player != Minecraft.getMinecraft().thePlayer)
 				{
 					Transformer transformer = TFHelper.getTransformer(player);
 					
-					if(transformer != null)
+					if (transformer != null)
 					{
 						transformer.doNitroParticles(player);
 					}
@@ -109,7 +109,7 @@ public class TFNitroParticleHandler
 		float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
 		float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
 		
-		if(!pitch)
+		if (!pitch)
 		{
 			f1 = 0;
 		}
