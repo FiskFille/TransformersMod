@@ -1,4 +1,4 @@
-# TransformersMod
+# Transformers Mod
 
 This is the Official GitHub Repository for the Transformers Mod for Minecraft. 
 This mod is developed by Gegy1000 and FiskFille. 
