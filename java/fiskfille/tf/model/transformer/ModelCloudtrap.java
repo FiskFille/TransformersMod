@@ -417,15 +417,14 @@ public class ModelCloudtrap extends ModelChildBase.Biped
 			}
 			else
 			{
-				// t = 0;
-				float f = (10 - timer);
+				float f = (float)(20 - timer) / 2;
 				this.bipedBody.rotateAngleZ = 0.0F;
 				this.frontPiece2.rotateAngleX = -(pi / 20) * f * 2 - 0.06981317007977318F;
 				this.frontPiece2.rotateAngleY = -3.141592653589793F - (pi / 10) * f;
 				this.bipedRightArm.rotationPointZ = f * 1.2F;
 				this.bipedLeftArm.rotationPointZ = f * 1.2F;
 				
-				if (timer < 10)
+				if (timer < 20)
 				{
 					this.bipedBody.rotateAngleX = (pi / 20) * f;
 					this.bipedHead.rotateAngleX = (pi / 20) * f;

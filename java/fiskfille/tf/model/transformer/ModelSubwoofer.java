@@ -758,7 +758,7 @@ public class ModelSubwoofer extends ModelChildBase.Biped
 			else
 			{
 				int t = TFDataManager.getTransformationTimer(player);
-				float f = (10 - t);
+				float f = (float)(20 - t) / 2;
 
 				vehicleBase.rotateAngleX = 0;
 				chestPanel4.rotationPointY = f / 2 - 1.6F;
@@ -782,7 +782,7 @@ public class ModelSubwoofer extends ModelChildBase.Biped
 				bipedRightLeg.rotationPointX = -f / 7.5F;
 				bipedLeftLeg.rotationPointX = -f / 7.5F;
 
-				if (t < 10)
+				if (t < 20)
 				{
 					bipedRightLeg.rotateAngleX = f * pi / 2 / 10;
 					bipedLeftLeg.rotateAngleX = f * pi / 2 / 10;

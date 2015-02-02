@@ -626,36 +626,36 @@ public class ModelVurp extends ModelChildBase.Biped
 			else
 			{
 				int t = TFDataManager.getTransformationTimer(player);
-				float f = (((float)(20 - t) / 2));
+				float f = (float)(20 - t) / 2;
 				
 				vehicleBody.rotateAngleX = 0;
 				bipedBody.rotationPointY = f * 2.5F;
-				bipedBody.rotationPointZ = f / 20 * -7.5F;
-				bipedRightArm.rotationPointZ = f / 20 * -5F;
-				bipedLeftArm.rotationPointZ = f / 20 * -5F;
-				chest.rotationPointZ = -3.0F / 20 * f;
-				chest.rotateAngleX = -pi / 2 / 20 * f;
+				bipedBody.rotationPointZ = f / 10 * -7.5F;
+				bipedRightArm.rotationPointZ = f / 10 * -5F;
+				bipedLeftArm.rotationPointZ = f / 10 * -5F;
+				chest.rotationPointZ = -3.0F / 10 * f;
+				chest.rotateAngleX = -pi / 2 / 10 * f;
 				bipedRightArm.rotationPointY = f * 2;
 				bipedLeftArm.rotationPointY = f * 2;
 				bipedRightArm.rotationPointX = f / 3.5F - 5;
 				bipedLeftArm.rotationPointX = -f / 3.5F + 5;
-				bipedRightLeg.rotateAngleZ = f * pi / 20;
-				bipedLeftLeg.rotateAngleZ = f * pi / 20;
+				bipedRightLeg.rotateAngleZ = f * pi / 10;
+				bipedLeftLeg.rotateAngleZ = f * pi / 10;
 				bipedRightLeg.rotationPointX = -f / 7.5F;
 				bipedLeftLeg.rotationPointX = -f / 7.5F;
 				
-				if (t < 10)
+				if (t < 20)
 				{
-					bipedRightLeg.rotateAngleX = f * pi / 2 / 20;
-					bipedLeftLeg.rotateAngleX = f * pi / 2 / 20;
+					bipedRightLeg.rotateAngleX = f * pi / 2 / 10;
+					bipedLeftLeg.rotateAngleX = f * pi / 2 / 10;
 					bipedRightLeg.rotationPointY = f * 1.3F + 12;
 					bipedLeftLeg.rotationPointY = f * 1.3F + 12;
 					bipedRightLeg.rotationPointZ = -f / 2;
 					bipedLeftLeg.rotationPointZ = -f / 2;
-					bipedBody.rotateAngleX = pi / 2 / 20 * f;
-					bipedHead.rotationPointY = f * 1.25F;
-					bipedRightArm.rotateAngleX = f / 20 * 1.5F;
-					bipedLeftArm.rotateAngleX = f / 20 * 1.5F;
+					bipedBody.rotateAngleX = pi / 2 / 10 * f;
+					bipedHead.rotationPointY = f * 2.5F;
+					bipedRightArm.rotateAngleX = f / 10 * 1.5F;
+					bipedLeftArm.rotateAngleX = f / 10 * 1.5F;
 				}
 				
 				bipedHead.offsetY = 0F;
