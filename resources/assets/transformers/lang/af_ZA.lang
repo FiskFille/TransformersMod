@@ -1,0 +1,82 @@
+Afrikaans Translations by: gegy1000
+
+------Miscellaneous------
+item.transformium.name=Transformium
+item.energon_crystal_piece.name=Energon Kristal Stuk
+item.standard_engine.name=Standaarde Motor
+item.jet_turbine.name=Straalvliegtuig Turbine
+item.jet_thruster.name=Straalvliegtuig Thruster
+item.small_thruster.name=Klein Thruster
+item.f-88_jet_wing.name=F-88 Straalvliegtuig Vlerk
+item.f-88_jet_cockpit.name=F-88 Straalvliegtuig Kajuit
+item.t-50_jet_wing.name=T-50 Straalvliegtuig Vlerk
+item.t-50_jet_cockpit.name=T-50 Straalvliegtuig Kajuit
+item.tracks.name=Tracks
+item.turret.name=Toering
+item.wheel.name=Wiel
+item.missile.name=Vuurpyl
+
+------Armor------
+item.skystrike_head.name=Skystrike Kop
+item.skystrike_torso.name=Skystrike Borsplaat
+item.skystrike_legs.name=Skystrike Kamaste
+item.skystrike_feet.name=Skystrike Skoene
+item.purge_head.name=Purge Kop
+item.purge_torso.name=Purge Borsplaat
+item.purge_legs.name=Purge Kamaste
+item.purge_feet.name=Purge Skoene
+item.vurp_head.name=Vurp Kop
+item.vurp_torso.name=Vurp Borsplaat
+item.vurp_legs.name=Vurp Kamaste
+item.vurp_feet.name=Vurp Skoene
+item.subwoofer_head.name=Subwoofer Kop
+item.subwoofer_torso.name=Subwoofer Borsplaat
+item.subwoofer_legs.name=Subwoofer Kamaste
+item.subwoofer_feet.name=Subwoofer Skoene
+item.cloudtrap_head.name=Cloudtrap Kop
+item.cloudtrap_torso.name=Cloudtrap Borsplaat
+item.cloudtrap_legs.name=Cloudtrap Kamaste
+item.cloudtrap_feet.name=Cloudtrap Skoene
+
+------Display Vehicles------
+item.display_skystrike.name=F-88 Vegvliegtuig
+item.display_purge.name=Tenk
+item.display_vurp.name=2015 Chevrolet Corvette Z06
+item.display_subwoofer.name=2015 Acura NSX
+item.display_cloudtrap.name=T-50 Onderduims Straalvliegtuig
+
+------Weapons------
+item.skystrikes_energon_crossbow.name=Skystrike se Energon Kruisboog
+item.purges_katana.name=Purge se Katana
+item.tank_shell.name=Tenk Shell
+
+------Blocks------
+tile.display_pillar.name=Vertoon Pilaar
+tile.transformium_ore.name=Transformium Erts
+tile.energon_crystal.name=Energon Kristal
+
+-----GUI------
+stats.nitro.name=Nitro
+stats.shots_left.name=Skote Oorskiet
+gui.display_pillar.name=Vertoon Pilaar
+
+----Tab------
+itemGroup.Transformers=Transformators
+
+--Stats--
+achievement.shoot_missile=Gerig Deur Michael Bay!
+achievement.shoot_missile.desc=Skiet 'n Vuurpyl!
+achievement.transformium=Transformium!
+achievement.transformium.desc=Geruik Sommige Transformium Erts!
+
+achievement.transformers_mod=Transformers Mod!
+achievement.transformers_mod.desc=Speel met die Transformers Mod!
+
+achievement.transformer=Transformer!
+achievement.transformer.desc=Dra 'n Transformer Pak!
+
+achievement.tf.donate=Generosity!
+achievement.tf.donate.desc=Donate!
+
+achievement.transform=Robots in Disguise!
+achievement.transform.desc=Transform into a Vehicle!

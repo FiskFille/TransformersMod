@@ -1,0 +1,74 @@
+Norwegian Translations by: Haakonhawk
+
+------Miscellaneous------
+item.transformium.name=Transformium
+item.energon_crystal_piece.name=Energon Krystall bit
+item.standard_engine.name=Standard Motor
+item.jet_turbine.name=Jet Turbin
+item.jet_thruster.name=Jet Thruster
+item.small_thruster.name=Liten Thruster
+item.f-88_jet_wing.name=F-88 Jet Fløy
+item.f-88_jet_cockpit.name=F-88 Jet Cockpit
+item.t-50_jet_wing.name=T-50 Jet Fløy
+item.t-50_jet_cockpit.name=T-50 Jet Cockpit
+item.tracks.name=Spor
+item.turret.name=Turret
+item.wheel.name=Hjul
+item.missile.name=Missil
+ 
+------Armor------
+item.skystrike_head.name=Skystrike Hode
+item.skystrike_torso.name=Skystrike Kropp
+item.skystrike_legs.name=Skystrike Ben
+item.skystrike_feet.name=Skystrike Føtter
+item.purge_head.name=Purge Hode
+item.purge_torso.name=Purge Kropp
+item.purge_legs.name=Purge Ben
+item.purge_feet.name=Purge Føtter
+item.vurp_head.name=Vurp Hode
+item.vurp_torso.name=Vurp Kropp
+item.vurp_legs.name=Vurp Ben
+item.vurp_feet.name=Vurp Føtter
+item.subwoofer_head.name=Subwoofer Hode
+item.subwoofer_torso.name=Subwoofer Kropp
+item.subwoofer_legs.name=Subwoofer Ben
+item.subwoofer_feet.name=Subwoofer Føtter
+item.cloudtrap_head.name=Cloudtrap Hode
+item.cloudtrap_torso.name=Cloudtrap Kropp
+item.cloudtrap_legs.name=Cloudtrap Ben
+item.cloudtrap_feet.name=Cloudtrap Føtter
+ 
+------Weapons------
+item.skystrikes_energon_crossbow.name=Skystrike sin Energon Armbrøst
+item.purges_katana.name=Purge sin Katana
+item.tank_shell.name=Tank Skall
+ 
+------Blocks------
+tile.display_pillar.name=Utstillings Søyle
+tile.transformium_ore.name=Transformium Malm
+tile.energon_crystal.name=Energon Krystall
+ 
+-----GUI------
+stat.nitro.name=Nitro
+stat.shots_left.name=gjenværende skudd
+gui.display_pillar.name=Utstillings Søyle
+
+itemGroup.Transformers=Transformers
+
+--Stats--
+achievement.shoot_missile=Regissert av Michael Bay!
+achievement.shoot_missile.desc=Skyte en missil!
+achievement.transformium=Transformium!
+achievement.transformium.desc=Smelte Transformium Malm!
+
+achievement.transformers_mod=Transformers Mod!
+achievement.transformers_mod.desc=Spill med Transformers Modden!
+
+achievement.transformer=Transformer!
+achievement.transformer.desc=Ta på deg en Transformer drakt!
+
+achievement.transform=Roboter i forkledning!
+achievement.transform.desc=Transformer til et kjøretøy!
+
+achievement.tf.donate=Generosity!
+achievement.tf.donate.desc=Donate!
