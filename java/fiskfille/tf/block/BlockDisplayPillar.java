@@ -83,7 +83,6 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
             {
             	int meta = world.getBlockMetadata(x, y, z);
             	
-            	//TODO for cleanup
             	for (int displayVehicleType = 0; displayVehicleType < 5; ++displayVehicleType)
             	{
                 	if (meta == displayVehicleType + 1 && player.getHeldItem() == null)

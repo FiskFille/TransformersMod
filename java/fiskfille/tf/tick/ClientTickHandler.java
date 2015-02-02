@@ -185,29 +185,6 @@ public class ClientTickHandler
 		else if (transformationTimer > 0 && inVehicleMode)
 		{
 			TFDataManager.setTransformationTimer(player, transformationTimer - 1);
-
-			//TODO ????
-			//			if (TFHelper.isPlayerCar(player))
-			//			{
-			//				double forwardVelocity = transformedPlayer == null ? 0 : transformedPlayer.getForwardVelocity();
-			//				double horizontalVelocity = transformedPlayer == null ? 0 : transformedPlayer.getHorizontalVelocity();
-			//				Vec3 forwardVec = TFMotionManager.getFrontCoords(player, 0, forwardVelocity);
-			//				Vec3 horizontalVec = TFMotionManager.getSideCoords(player, 0, horizontalVelocity > 0);
-			//
-			//				forwardVelocity += 0.05D;
-			//				horizontalVelocity += 0.05D;
-			//
-			//				player.motionX = (forwardVec.xCoord - player.posX);
-			//				player.motionZ = (forwardVec.zCoord - player.posZ);
-			//				
-			//				player.motionX = (horizontalVec.xCoord - player.posX);
-			//				player.motionZ = (horizontalVec.zCoord - player.posZ);
-			//				
-			//				if (transformationTimer >= 14)
-			//				{
-			//					player.motionY += 0.2D;
-			//				}
-			//			}
 		}
 	}
 

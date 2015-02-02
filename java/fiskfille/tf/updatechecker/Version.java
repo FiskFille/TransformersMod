@@ -30,7 +30,7 @@ public class Version implements Comparable<Version>
 		
 		int length = Math.max(thisParts.length, thatParts.length);
 
-		for(int i = 0; i < length; i++) 
+		for (int i = 0; i < length; i++) 
 		{
 			int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0; int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
 			
@@ -39,6 +39,7 @@ public class Version implements Comparable<Version>
 			if (thisPart > thatPart)
 				return 1;
 		}
+		
 		return 0;
 	}
 
@@ -51,6 +52,7 @@ public class Version implements Comparable<Version>
 			return false;
 		if (this.getClass() != version.getClass())
 			return false;
+		
 		return this.compareTo((Version) version) == 0;
 	}
 
