@@ -95,15 +95,15 @@ public class CommonEventHandler
 		{
 			Transformer transformer = TFHelper.getTransformer(player);
 
-			if (transformer.canShoot(player))
+			if(transformer != null)
 			{
-				Action action = event.action;
-
-				if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+				if (transformer.canShoot(player))
 				{
-					if (shotsLeft > 0)
+					Action action = event.action;
+
+					if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 					{
-						if (transformer != null)
+						if (shotsLeft > 0)
 						{
 							if (shootCooldown <= 0)
 							{
@@ -134,18 +134,18 @@ public class CommonEventHandler
 								}
 							}
 						}
-					}
-					else
-					{
-						if (!reloading)
+						else
 						{
-							shootCooldown = 20;
-							reloading = true;
+							if (!reloading)
+							{
+								shootCooldown = 20;
+								reloading = true;
+							}
 						}
 					}
-				}
 
-				event.setCanceled(true);
+					event.setCanceled(true);
+				}
 			}
 		}
 	}
@@ -187,7 +187,7 @@ public class CommonEventHandler
 	{
 		Entity entity = event.entity;
 		World world = entity.worldObj;
-		
+
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
@@ -203,8 +203,8 @@ public class CommonEventHandler
 				TransformersMod.packetPipeline.sendToDimension(new PacketBroadcastState(player), player.dimension);
 				TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
 
-				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 10 : 0);
-				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 5 : 0);
+				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 0 : 20);
+				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 0 : 5);
 
 				if (!loadedFromInternet)
 				{
@@ -261,7 +261,7 @@ public class CommonEventHandler
 			if (transformer != null)
 			{
 				transformer.onJump(player);
-				
+
 				if (!transformer.canJumpAsVehicle(player) && TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
 				{
 					player.motionY = 0D;
@@ -433,7 +433,7 @@ public class CommonEventHandler
 		int amount = 0;
 
 		InventoryPlayer inventory = player.inventory;
-		
+
 		for(ItemStack stack : inventory.mainInventory)
 		{
 			if (stack != null)
@@ -456,7 +456,7 @@ public class CommonEventHandler
 			EntityPlayer player = (EntityPlayer)event.entity;
 
 			Transformer transformer = TFHelper.getTransformer(player);
-			
+
 			if (transformer != null)
 			{
 				if (transformer.shouldTakeFallDamage(player))
@@ -464,10 +464,10 @@ public class CommonEventHandler
 					event.setCanceled(true);
 				}
 				//TODO 
-//				else if (TFHelper.isPlayerCar(player))
-//				{
-//					event.distance /= 2;
-//				}
+				//				else if (TFHelper.isPlayerCar(player))
+				//				{
+				//					event.distance /= 2;
+				//				}
 			}
 		}
 	}

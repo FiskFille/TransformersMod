@@ -39,52 +39,55 @@ public class ClientTickHandler
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
-		float offsetY = getCameraOffset(transformer) + (float)transformationTimer / 20;
+		float offsetY = getCameraOffset(player, transformer) + (float)transformationTimer / 20;
 
 		CustomEntityRenderer.setOffsetY(player, offsetY);
 
-		if (transformer != null)
+		int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+
+		if (stealthModeTimer < 5 && !TFDataManager.isInStealthMode(player))
 		{
-			int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+			TFDataManager.setStealthModeTimer(player, stealthModeTimer + 1);
+		}
+		if (stealthModeTimer > 0 && TFDataManager.isInStealthMode(player))
+		{
+			TFDataManager.setStealthModeTimer(player, stealthModeTimer - 1);
+		}
 
-			if (stealthModeTimer < 5 && !TFDataManager.isInStealthMode(player))
+		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+
+		if (inVehicleMode && transformationTimer < 10)
+		{
+			player.setSprinting(false);
+
+			if (player == Minecraft.getMinecraft().thePlayer)
 			{
-				TFDataManager.setStealthModeTimer(player, stealthModeTimer + 1);
-			}
-			if (stealthModeTimer > 0 && TFDataManager.isInStealthMode(player))
-			{
-				TFDataManager.setStealthModeTimer(player, stealthModeTimer - 1);
-			}
+				GameSettings gameSettings = mc.gameSettings;
 
-			VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-			if (inVehicleMode && transformationTimer < 10)
-			{
-				player.setSprinting(false);
-
-				if (player == Minecraft.getMinecraft().thePlayer)
+				if (Keyboard.isKeyDown(Keyboard.KEY_R) && Minecraft.getMinecraft().currentScreen == null)
 				{
-					GameSettings gameSettings = mc.gameSettings;
-
-					if (Keyboard.isKeyDown(Keyboard.KEY_R) && Minecraft.getMinecraft().currentScreen == null)
-					{
-						gameSettings.thirdPersonView = 2;
-					}
-					else if (ClientProxy.keyBindingVehicleFirstPerson.getIsKeyPressed())
-					{
-						gameSettings.thirdPersonView = 0;
-					}
-					else
-					{
-						gameSettings.thirdPersonView = 3;
-					}
-
-					transformer.updateMovement(player);
+					gameSettings.thirdPersonView = 2;
+				}
+				else if (ClientProxy.keyBindingVehicleFirstPerson.getIsKeyPressed())
+				{
+					gameSettings.thirdPersonView = 0;
+				}
+				else
+				{
+					gameSettings.thirdPersonView = 3;
 				}
 
-				TFNitroParticleHandler.doNitroParticles(player);
+				if(transformer != null)
+				{
+					transformer.updateMovement(player);
+				}
 			}
-			else
+
+			TFNitroParticleHandler.doNitroParticles(player);
+		}
+		else
+		{
+			if (transformer != null)
 			{
 				if (transformer.hasJetpack())
 				{
@@ -125,35 +128,36 @@ public class ClientTickHandler
 						}
 					}
 				}
-
-				player.stepHeight = 0.5F;
-
-				if (player.isPotionActive(Potion.resistance) && player.getActivePotionEffect(Potion.resistance).getDuration() < 1)
-				{
-					player.removePotionEffect(Potion.resistance.id);
-				}
 			}
 
-			int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
-			boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
-			boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
+			player.stepHeight = 0.5F;
 
-			if (nitro < 160 && !((nitroPressed && !TFDataManager.isInStealthMode(player)) && moveForward && inVehicleMode && transformationTimer < 10))
+			if (player.isPotionActive(Potion.resistance) && player.getActivePotionEffect(Potion.resistance).getDuration() < 1)
 			{
-				++nitro;
+				player.removePotionEffect(Potion.resistance.id);
 			}
-
-			TFMotionManager.setNitro(player, nitro);
 		}
-		else
+
+		int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
+		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
+		boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
+
+		if (nitro < 160 && !((nitroPressed && !TFDataManager.isInStealthMode(player)) && moveForward && inVehicleMode && transformationTimer < 10))
+		{
+			++nitro;
+		}
+
+		TFMotionManager.setNitro(player, nitro);
+
+		if(transformer == null && inVehicleMode)
 		{
 			TFDataManager.setInVehicleMode(player, false);
 		}
 	}
 
-	private float getCameraOffset(Transformer transformer) 
+	private float getCameraOffset(EntityPlayer player, Transformer transformer) 
 	{
-		if (transformer != null)
+		if (transformer != null && TFDataManager.getTransformationTimer(player) > 10)
 		{
 			return transformer.getCameraYOffset();
 		}
@@ -165,13 +169,23 @@ public class ClientTickHandler
 
 	public void handleTransformation(EntityPlayer player)
 	{
+		Transformer transformer = TFHelper.getTransformer(player);
+
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
 		if (transformationTimer < 20 && !inVehicleMode)
 		{
-			TFDataManager.setTransformationTimer(player, transformationTimer + 1);
+			transformationTimer++;
+			
+			TFDataManager.setTransformationTimer(player, transformationTimer);
+
+			if(transformer != null)
+			{
+				transformer.transformationTick(player, transformationTimer);
+			}
+
 			TFMotionManager.setForwardVelocity(player, 0.0D);
 
 			if (transformationTimer == 19)
@@ -184,7 +198,14 @@ public class ClientTickHandler
 		}
 		else if (transformationTimer > 0 && inVehicleMode)
 		{
-			TFDataManager.setTransformationTimer(player, transformationTimer - 1);
+			transformationTimer--;
+			
+			TFDataManager.setTransformationTimer(player, transformationTimer);
+
+			if(transformer != null)
+			{
+				transformer.transformationTick(player, transformationTimer);
+			}
 		}
 	}
 
@@ -196,22 +217,17 @@ public class ClientTickHandler
 		{
 			Transformer transformer = TFHelper.getTransformer(player);
 
-			float thirdPersonDistance = 4;
-			
-			if (transformer != null)
-			{
-				//4.0F - (2.0F - (float)TFDataManager.getTransformationTimer(player) / 10);
+			float thirdPersonDistance = 4.0F - (2.0F - (float)TFDataManager.getTransformationTimer(player) / 10);
 
-				if ((transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && ClientProxy.keyBindingZoom.getIsKeyPressed())
-				{
-					thirdPersonDistance = transformer.getZoomAmount(player);
-				}
-				else
-				{
-					thirdPersonDistance = transformer.getThirdPersonDistance(player);
-				}
+			if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && ClientProxy.keyBindingZoom.getIsKeyPressed())
+			{
+				thirdPersonDistance = transformer.getZoomAmount(player);
 			}
-			
+			else
+			{
+				thirdPersonDistance = transformer.getThirdPersonDistance(player);
+			}
+
 			ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
 		}
 		catch (Exception e) {}

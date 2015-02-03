@@ -28,18 +28,20 @@ public class TickHandler
 	{
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
+		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 		if (ClientProxy.keyBindingTransform.getIsKeyPressed() && Minecraft.getMinecraft().currentScreen == null && (TFHelper.isPlayerTransformer(player)))
 		{
 			GameSettings gameSettings = Minecraft.getMinecraft().gameSettings;
+			int transformationTimer = TFDataManager.getTransformationTimer(player);
 			
-			if (TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) == 0)
+			if (inVehicleMode && transformationTimer == 0)
 			{
 				TFDataManager.setInVehicleMode(player, false);
 				gameSettings.viewBobbing = prevViewBobbing;
 				player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
 				TFPlayerData.getData(player).stealthMode = false;
 			}
-			else if (!TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) == 20)
+			else if (!inVehicleMode && transformationTimer == 20)
 			{
 				TFDataManager.setInVehicleMode(player, true);
 				prevViewBobbing = gameSettings.viewBobbing;
@@ -72,7 +74,7 @@ public class TickHandler
 			
 			if (transformer != null)
 			{
-				if (TFDataManager.isInVehicleMode(player) && Minecraft.getMinecraft().currentScreen == null && transformer.hasStealthForce(player))
+				if (inVehicleMode && Minecraft.getMinecraft().currentScreen == null && transformer.hasStealthForce(player))
 				{
 					int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 					

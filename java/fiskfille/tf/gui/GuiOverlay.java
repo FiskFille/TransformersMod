@@ -66,7 +66,9 @@ public class GuiOverlay extends Gui
 	{
 		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
- 		if (transformedPlayer != null && TFDataManager.getTransformationTimer(player) <= 20)
+ 		int transformationTimer = TFDataManager.getTransformationTimer(player);
+		
+ 		if (transformedPlayer != null && transformationTimer <= 20)
 		{
 			long time = System.currentTimeMillis();
 
@@ -89,22 +91,26 @@ public class GuiOverlay extends Gui
 
 			int nitro = transformedPlayer.getNitro();
 			//int speed = (int)(transformedPlayer.getVelocity() * 100);
-			int i = TFDataManager.getTransformationTimer(player) * 30;
+			
+			int i = transformationTimer * 10;
 
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glColor4f(0F, 0F, 0F, 0.3F);
-			drawTexturedModalRect(5 - i, height - 17, 0, 0, 202, 12);
-			drawTexturedModalRect(5 - i, height - 25, 0, 0, 202, 6);
-			GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
-			drawTexturedModalRect(6 - i, height - 16, 0, 0, (int)(nitro * 1.25F), 10);
-			GL11.glColor4f(1.0F, 0.0F, 0.0F, 0.5F);
-			drawTexturedModalRect(6 - i, height - 24, 0, 0, (int)(speed * 1F), 4);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			if(transformationTimer <= 19)
+			{
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				GL11.glColor4f(0F, 0F, 0F, 0.3F);
+				drawTexturedModalRect(5 - i, height - 17, 0, 0, 202, 12);
+				drawTexturedModalRect(5 - i, height - 25, 0, 0, 202, 6);
+				GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
+				drawTexturedModalRect(6 - i, height - 16, 0, 0, (int)(nitro * 1.25F), 10);
+				GL11.glColor4f(1.0F, 0.0F, 0.0F, 0.5F);
+				drawTexturedModalRect(6 - i, height - 24, 0, 0, (int)(speed * 1F), 4);
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-			drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, height - 15, 0xffffff);
-			drawCenteredString(mc.fontRenderer, (int) speed + " km/h", 106 - i, height - 26, 0xffffff);
+				drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, height - 15, 0xffffff);
+				drawCenteredString(mc.fontRenderer, (int) speed + " km/h", 106 - i, height - 26, 0xffffff);
+			}
 		}
 		else
 		{
@@ -123,13 +129,12 @@ public class GuiOverlay extends Gui
 			int transformationTimer = TFDataManager.getTransformationTimer(player);
 		
 			int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
-			boolean stealthForce = transformer.hasStealthForce(player) && stealthModeTimer <= 10;
 		
 			if (transformationTimer <= 20 && (transformer.canShoot(player)))
 			{
 				int transformationOffsetX = 0;
 				
-				if (stealthForce)
+				if (transformer.hasStealthForce(player) && stealthModeTimer <= 5)
 				{
 					transformationOffsetX = stealthModeTimer * 25;
 				}
@@ -139,11 +144,6 @@ public class GuiOverlay extends Gui
 				}
 
 				boolean show = true;
-				
-				if (stealthForce && stealthModeTimer == 5)
-				{
-					show = false;
-				}
 				
 				if (show)
 				{

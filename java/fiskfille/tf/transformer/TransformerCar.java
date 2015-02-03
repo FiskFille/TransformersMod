@@ -21,28 +21,37 @@ import fiskfille.tf.proxy.ClientProxy;
 public abstract class TransformerCar extends Transformer
 {
 	@Override
+	public void transformationTick(EntityPlayer player, int timer)
+	{
+		if (timer >= 14 && TFDataManager.isInVehicleMode(player))
+		{
+			player.motionY += 0.12D;
+		}
+	}
+
+	@Override
 	public boolean hasStealthForce(EntityPlayer player)
 	{
 		return true;
 	}
-	
+
 	@Override
 	public boolean canJumpAsVehicle(EntityPlayer player)
 	{
 		return TFDataManager.isInStealthMode(player);
 	}
-	
+
 	@Override
 	public float getCameraYOffset()
 	{
 		return -1.1F;
 	}
-	
+
 	@Override
 	public void updateMovement(EntityPlayer player)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		
+
 		boolean inStealthMode = TFDataManager.isInStealthMode(player);
 		boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
 		boolean moveSide = player.moveStrafing != 0;
@@ -142,7 +151,7 @@ public abstract class TransformerCar extends Transformer
 			if (forwardVelocity > 1) {forwardVelocity = 1;}
 
 			boolean prevNitro = TFMotionManager.prevNitro;
-			
+
 			if (nitro > 0 && nitroPressed && moveForward && player == mc.thePlayer && !inStealthMode)
 			{
 				--nitro;
@@ -186,13 +195,13 @@ public abstract class TransformerCar extends Transformer
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean canShoot(EntityPlayer player)
 	{
-		return TFDataManager.isInStealthMode(player);
+		return TFDataManager.getStealthModeTimer(player) < 5;
 	}
-	
+
 	@Override
 	public Item getShootItem()
 	{
@@ -204,16 +213,16 @@ public abstract class TransformerCar extends Transformer
 	{
 		EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
 		entityMissile.posY--;
-		
+
 		return entityMissile;
 	}
-	
+
 	@Override
 	public int getShots()
 	{
 		return 8;
 	}
-	
+
 	@Override
 	public void doNitroParticles(EntityPlayer player)
 	{

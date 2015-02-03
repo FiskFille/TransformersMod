@@ -12,6 +12,10 @@ public abstract class Transformer
 	public abstract Item getLeggings();
 	public abstract Item getBoots();
 	
+	public void transformationTick(EntityPlayer player, int timer)
+	{
+	}
+	
 	public void vehicleTick(EntityPlayer player)
 	{
 	}
