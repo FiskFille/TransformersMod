@@ -57,7 +57,7 @@ public class PacketHandleTransformation extends TransformersPacket
 
 			playerData.stealthMode = false;
 
-			TFDataManager.setTransformationTimer(from, mode ? 10 : 0);
+			TFDataManager.setTransformationTimer(from, mode ? 20 : 0);
 			String suffix = mode ? "vehicle" : "robot";
 			
 			from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
@@ -87,6 +87,7 @@ public class PacketHandleTransformation extends TransformersPacket
 		if (player != null)
 		{
 			TFDataManager.setInVehicleMode(player, mode);
+			
 			TransformersMod.packetPipeline.sendToDimension(new PacketBroadcastStealthState(player), player.dimension);
 		}
 	}

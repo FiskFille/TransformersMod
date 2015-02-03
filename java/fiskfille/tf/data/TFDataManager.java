@@ -21,9 +21,16 @@ public class TFDataManager
 
 	public static void setInVehicleMode(EntityPlayer player, boolean vehicleMode)
 	{
-		if (vehicleMode != TFPlayerData.getData(player).mode)
+		TFPlayerData data = TFPlayerData.getData(player);
+		
+		if (vehicleMode != data.mode)
 		{
 			player.triggerAchievement(TFAchievements.transform);
+			
+			if(!vehicleMode)
+			{
+				data.stealthMode = false;
+			}
 			
 			if (player.worldObj.isRemote)
 			{
@@ -34,7 +41,7 @@ public class TFDataManager
 				TransformersMod.packetPipeline.sendToDimension(new PacketHandleTransformation(player, vehicleMode), player.dimension);
 			}
 
-			TFPlayerData.getData(player).mode = vehicleMode;
+			data.mode = vehicleMode;
 		}
 	}
 	

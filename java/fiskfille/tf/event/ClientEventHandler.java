@@ -57,46 +57,37 @@ public class ClientEventHandler
 
 		Transformer transformer = TFHelper.getTransformer(player);
 
-			boolean isClientPlayer = mc.thePlayer == player;
-			boolean isTransformer = TFHelper.isPlayerTransformer(player);
-			boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-			boolean halfTransformed = TFDataManager.getTransformationTimer(player) <= 10;
-			boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
+		boolean isClientPlayer = mc.thePlayer == player;
+		boolean isTransformer = TFHelper.isPlayerTransformer(player);
+		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+		int transformationTimer = TFDataManager.getTransformationTimer(player);
+		boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
 
-			boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
+		float cameraYOffset = 0;
 
-			float cameraYOffset = 0;
-			
-			if (transformer != null)
-			{
-				cameraYOffset = transformer.getCameraYOffset();
-			}
+		if (transformer != null)
+		{
+			cameraYOffset = transformer.getCameraYOffset();
+		}
+		
+		if (isClientPlayer && cameraYOffset != 0)
+		{
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
+		}
 
-			if (notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
-			{
-				GL11.glPushMatrix();
-
-				GL11.glTranslatef(0, -cameraYOffset, 0);
-			}
-
-			if (cameraYOffset != 0)
-			{
-				GL11.glPushMatrix();
-				GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
-			}
-
-			//TODO?
-			//			if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 10)
-			//			{
-			//				if (jet)
-			//				{
-			//					GL11.glTranslatef(0, 0.002F, 0);
-			//				}
-			//				else
-			//				{
-			//					GL11.glTranslatef(0, 0.08F, 0);
-			//				}
-			//			}
+		//TODO?
+				//			if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 10)
+		//			{
+		//				if (jet)
+		//				{
+		//					GL11.glTranslatef(0, 0.002F, 0);
+		//				}
+		//				else
+		//				{
+		//					GL11.glTranslatef(0, 0.08F, 0);
+		//				}
+		//			}
 	}
 
 	@SubscribeEvent
@@ -107,21 +98,10 @@ public class ClientEventHandler
 		Transformer transformer = TFHelper.getTransformer(player);
 
 		boolean isClientPlayer = mc.thePlayer == player;
-		boolean isTransformer = TFHelper.isPlayerTransformer(player);
-		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-		boolean halfTransformed = TFDataManager.getTransformationTimer(player) <= 10;
-		boolean isTransformerAndInVehicleMode = isTransformer && inVehicleMode;
-
-		boolean notMainClientPlayer = !(player instanceof EntityClientPlayerMP) && !(isClientPlayer);
-
-		if (notMainClientPlayer && isTransformerAndInVehicleMode && halfTransformed)
-		{
-			GL11.glPopMatrix();
-		}
 
 		if (transformer != null)
 		{
-			if (transformer.getCameraYOffset() != 0)
+			if (isClientPlayer && transformer.getCameraYOffset() != 0)
 			{
 				GL11.glPopMatrix();
 			}
