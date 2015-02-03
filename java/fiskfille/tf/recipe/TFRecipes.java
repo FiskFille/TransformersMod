@@ -16,7 +16,7 @@ public class TFRecipes
 		addWeaponRecipes();
 		addCraftingComponentRecipes();
 		addProjectileRecipes();
-		addArmourRecipes();
+		addArmorRecipes();
 		
 		GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), new Object[] {"IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformium, 'R', Blocks.redstone_block, 'r', Items.redstone});
 		GameRegistry.addRecipe(new ItemStack(TFBlocks.energonCube, 1), new Object[] {"CCC", "CCC", "CCC", 'C', TFItems.energonCrystalPiece});
@@ -55,12 +55,7 @@ public class TFRecipes
 	private static void addDisplayRecipes()
 	{
 		GameRegistry.addRecipe(new ItemStack(TFBlocks.displayPillar, 1), new Object[] {" - ", "SWS", '-', Blocks.stone_slab, 'S', Blocks.stone, 'W', Blocks.cobblestone_wall});
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.displayVehicle, 1, 0), new Object[] {TFItems.skystrikeHelmet, TFItems.skystrikeChestplate, TFItems.skystrikeLeggings, TFItems.skystrikeBoots});
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.displayVehicle, 1, 1), new Object[] {TFItems.purgeHelmet, TFItems.purgeChestplate, TFItems.purgeLeggings, TFItems.purgeBoots});
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.displayVehicle, 1, 2), new Object[] {TFItems.vurpHelmet, TFItems.vurpChestplate, TFItems.vurpLeggings, TFItems.vurpBoots});
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.displayVehicle, 1, 3), new Object[] {TFItems.subwooferHelmet, TFItems.subwooferChestplate, TFItems.subwooferLeggings, TFItems.subwooferBoots});
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.displayVehicle, 1, 4), new Object[] {TFItems.cloudtrapHelmet, TFItems.cloudtrapChestplate, TFItems.cloudtrapLeggings, TFItems.cloudtrapBoots});
+		GameRegistry.addRecipe(new RecipesDisplayItems());
 	}
 
 	private static void addProjectileRecipes() 
@@ -69,7 +64,7 @@ public class TFRecipes
 		GameRegistry.addRecipe(new ItemStack(TFItems.tankShell, 4), new Object[] {"IIT", 'I', Items.iron_ingot, 'T', Items.gunpowder});
 	}
 
-	private static void addArmourRecipes()
+	private static void addArmorRecipes()
 	{
 		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeHelmet, 1), new Object[] {"I*I", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 0), 'I', Items.iron_ingot});
 		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeChestplate, 1), new Object[] {"WCW", "r*r", " w ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 1), 'C', TFItems.f88JetCockpit, 'W', TFItems.f88JetWing, 'r', new ItemStack(Items.dye, 1, 1), 'w', new ItemStack(Items.dye, 1, 15)});
