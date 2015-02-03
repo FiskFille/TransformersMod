@@ -30,7 +30,7 @@ public class GuiOverlay extends Gui
 	private Minecraft mc;
 	private RenderItem itemRenderer;
 	public static final ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/gui/mod_icons.png");
-
+	
 	private long lastTime;
 	private double lastX;
 	private double lastY;
@@ -94,7 +94,7 @@ public class GuiOverlay extends Gui
 			
 			int i = transformationTimer * 10;
 
-			if(transformationTimer <= 19)
+			if (transformationTimer <= 19)
 			{
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				GL11.glEnable(GL11.GL_BLEND);
@@ -105,11 +105,11 @@ public class GuiOverlay extends Gui
 				GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
 				drawTexturedModalRect(6 - i, height - 16, 0, 0, (int)(nitro * 1.25F), 10);
 				GL11.glColor4f(1.0F, 0.0F, 0.0F, 0.5F);
-				drawTexturedModalRect(6 - i, height - 24, 0, 0, (int)(speed * 1F), 4);
+				drawTexturedModalRect(6 - i, height - 24, 0, 0, (int)(speed * 1F) > 200 ? 200 : (int)(speed * 1F), 4);
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 				drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, height - 15, 0xffffff);
-				drawCenteredString(mc.fontRenderer, (int) speed + " km/h", 106 - i, height - 26, 0xffffff);
+				drawCenteredString(mc.fontRenderer, (int)(TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - i, height - 26, 0xffffff);
 			}
 		}
 		else
