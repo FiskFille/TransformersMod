@@ -71,36 +71,36 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		if (world.isRemote)
-		{
-			return false;
-		}
-		else
-		{
-			TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
+		//		if (world.isRemote)
+		//		{
+		//			return false;
+		//		}
+		//		else
+		//		{
+		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
 
-			if (tileEntityDisplayPillar != null)
+		if (tileEntityDisplayPillar != null)
+		{
+			if (player.getHeldItem() == null && tileEntityDisplayPillar.displayItem != null)
 			{
-				if (player.getHeldItem() == null && tileEntityDisplayPillar.displayItem != null)
-				{
-					tileEntityDisplayPillar.displayItem = null;
+				tileEntityDisplayPillar.displayItem = null;
 
-					player.setCurrentItemOrArmor(0, tileEntityDisplayPillar.displayItem);
-				}
-				else if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.displayVehicle)
-				{
-					tileEntityDisplayPillar.displayItem = player.getHeldItem();
+				player.setCurrentItemOrArmor(0, tileEntityDisplayPillar.displayItem);
+			}
+			else if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.displayVehicle)
+			{
+				tileEntityDisplayPillar.displayItem = player.getHeldItem();
 
-					if (!player.capabilities.isCreativeMode)
-					{
-						player.setCurrentItemOrArmor(0, null);
-					}
+				if (!player.capabilities.isCreativeMode)
+				{
+					player.setCurrentItemOrArmor(0, null);
 				}
 			}
-
-			return false;
 		}
-	}
+
+		return false;
+		//	}
+}
 
 	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
 	{

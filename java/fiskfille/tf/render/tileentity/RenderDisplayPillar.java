@@ -22,7 +22,7 @@ import fiskfille.tf.model.transformer.vehicle.ModelSubwooferVehicle;
 import fiskfille.tf.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.model.transformer.vehicle.ModelVurpVehicle;
 import fiskfille.tf.tileentity.TileEntityDisplayPillar;
- 
+
 public class RenderDisplayPillar extends TileEntitySpecialRenderer
 {
 	private ResourceLocation texture = new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/display_pillar.png");
@@ -33,60 +33,62 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 	private ModelSubwooferVehicle subwoofer = new ModelSubwooferVehicle();
 	private ModelCloudtrapVehicle cloudtrap = new ModelCloudtrapVehicle();
 	private ItemRenderer itemRenderer;
- 
-    public RenderDisplayPillar()
-    {
-        model = new ModelDisplayPillar();
-        itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
-    }
-       
-    public void renderAModelAt(TileEntityDisplayPillar tileentity, double d, double d1, double d2, float f)
-    {
-    	GL11.glPushMatrix();
-    	GL11.glTranslatef((float)d + 0.5F, (float)d1 + 1.5F, (float)d2 + 0.5F);
-    	GL11.glScalef(1.0F, -1F, -1F);
-    	this.bindTexture(texture);
-    	model.renderAll();
-		int meta = tileentity.getWorldObj().getBlockMetadata(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
-		
-    	if (meta != 0)
-    	{
-    		this.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromMetadata(meta)));
-    		ModelVehicleBase vehicle = getModelFromTileEntity(tileentity);
-    		
-    		GL11.glRotatef(Minecraft.getMinecraft().thePlayer.ticksExisted, 0.0F, 1.0F, 0.0F);
-    		GL11.glTranslatef(0.0F, -0.2F/* + (vehicle == skystrike ? 0.15F : 0.0F)*/, 0.0F);
-    		
-    		float scale = 0.75F;
-    		GL11.glScalef(scale, scale, scale);
-    		vehicle.render();
-    	}
-    	
-    	GL11.glPopMatrix();
-    }
-    
-    public ModelVehicleBase getModelFromTileEntity(TileEntityDisplayPillar tileEntity)
+
+	public RenderDisplayPillar()
 	{
+		model = new ModelDisplayPillar();
+		itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
+	}
+
+	public void renderAModelAt(TileEntityDisplayPillar tileentity, double d, double d1, double d2, float f)
+	{
+		GL11.glPushMatrix();
+		GL11.glTranslatef((float)d + 0.5F, (float)d1 + 1.5F, (float)d2 + 0.5F);
+		GL11.glScalef(1.0F, -1F, -1F);
+		this.bindTexture(texture);
+		model.renderAll();
+		if(tileentity.displayItem != null)
+		{
+			this.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromTileEntity(tileentity)));
+			ModelVehicleBase vehicle = getModelFromTileEntity(tileentity);
+
+			if(vehicle != null)
+			{
+				GL11.glRotatef(Minecraft.getMinecraft().thePlayer.ticksExisted, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(0.0F, -0.2F/* + (vehicle == skystrike ? 0.15F : 0.0F)*/, 0.0F);
+
+				float scale = 0.75F;
+				GL11.glScalef(scale, scale, scale);
+				vehicle.render();
+			}
+		}
+
+		GL11.glPopMatrix();
+	}
+
+	public ModelVehicleBase getModelFromTileEntity(TileEntityDisplayPillar tileEntity)
+	{
+		//TODO
 		if (tileEntity.displayItem.getItem() instanceof ItemSkystrikeArmor) {return skystrike;}
-		if (tileEntity.displayItem.getItem() instanceof ItemPurgeArmor) {return purge;}
-		if (tileEntity.displayItem.getItem() instanceof ItemVurpArmor) {return vurp;}
-		if (tileEntity.displayItem.getItem() instanceof ItemSubwooferArmor) {return subwoofer;}
-		if (tileEntity.displayItem.getItem() instanceof ItemCloudtrapArmor) {return cloudtrap;}
+		else if (tileEntity.displayItem.getItem() instanceof ItemPurgeArmor) {return purge;}
+		else if (tileEntity.displayItem.getItem() instanceof ItemVurpArmor) {return vurp;}
+		else if (tileEntity.displayItem.getItem() instanceof ItemSubwooferArmor) {return subwoofer;}
+		else if (tileEntity.displayItem.getItem() instanceof ItemCloudtrapArmor) {return cloudtrap;}
+		return null;
+	}
+
+	public String getTextureFromTileEntity(TileEntityDisplayPillar tileEntity)
+	{
+		if (tileEntity.displayItem.getItem() instanceof ItemSkystrikeArmor) {return "skystrike/skystrike.png";}
+		if (tileEntity.displayItem.getItem() instanceof ItemPurgeArmor) {return "purge/purge.png";}
+		if (tileEntity.displayItem.getItem() instanceof ItemVurpArmor) {return "vurp/vurp.png";}
+		if (tileEntity.displayItem.getItem() instanceof ItemSubwooferArmor) {return "subwoofer/subwoofer.png";}
+		if (tileEntity.displayItem.getItem() instanceof ItemCloudtrapArmor) {return "cloudtrap/cloudtrap.png";}
 		return null;
 	}
 	
-	public String getTextureFromMetadata(int metadata)
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
 	{
-		if (metadata == 1) {return "skystrike/skystrike.png";}
-		if (metadata == 2) {return "purge/purge.png";}
-		if (metadata == 3) {return "vurp/vurp.png";}
-		if (metadata == 4) {return "subwoofer/subwoofer.png";}
-		if (metadata == 5) {return "cloudtrap/cloudtrap.png";}
-		return null;
-	}
-    
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
-    {
-    	renderAModelAt((TileEntityDisplayPillar)tileentity, d, d1, d2, f);
-    } 
+		renderAModelAt((TileEntityDisplayPillar)tileentity, d, d1, d2, f);
+	} 
 }
