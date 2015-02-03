@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Money 
 {
-	private float money;
+	private double money;
 	private String moneyString;
 	
 	public Money(String moneyString)
@@ -19,12 +19,12 @@ public class Money
 		this.money = fromString(amount);
 	}
 	
-	private float fromString(String moneyString)
+	private double fromString(String moneyString)
 	{
-		return Float.parseFloat(moneyString.replaceAll(Pattern.quote("$"), "").replaceAll(",", ""));
+		return Double.parseDouble(moneyString.replaceAll(Pattern.quote("$"), "").replaceAll(",", ""));
 	}
 	
-	public float getMoney()
+	public double getMoney()
 	{
 		return money;
 	}
