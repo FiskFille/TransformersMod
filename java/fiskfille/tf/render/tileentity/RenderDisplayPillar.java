@@ -47,16 +47,17 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 		GL11.glScalef(1.0F, -1F, -1F);
 		this.bindTexture(texture);
 		model.renderAll();
-		if(tileentity.displayItem != null)
+				
+		if (tileentity.displayItem != null)
 		{
 			this.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromTileEntity(tileentity)));
 			ModelVehicleBase vehicle = getModelFromTileEntity(tileentity);
-
-			if(vehicle != null)
+			
+			if (vehicle != null)
 			{
 				GL11.glRotatef(Minecraft.getMinecraft().thePlayer.ticksExisted, 0.0F, 1.0F, 0.0F);
 				GL11.glTranslatef(0.0F, -0.2F/* + (vehicle == skystrike ? 0.15F : 0.0F)*/, 0.0F);
-
+				
 				float scale = 0.75F;
 				GL11.glScalef(scale, scale, scale);
 				vehicle.render();
@@ -68,22 +69,21 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 
 	public ModelVehicleBase getModelFromTileEntity(TileEntityDisplayPillar tileEntity)
 	{
-		//TODO
-		if (tileEntity.displayItem.getItem() instanceof ItemSkystrikeArmor) {return skystrike;}
-		else if (tileEntity.displayItem.getItem() instanceof ItemPurgeArmor) {return purge;}
-		else if (tileEntity.displayItem.getItem() instanceof ItemVurpArmor) {return vurp;}
-		else if (tileEntity.displayItem.getItem() instanceof ItemSubwooferArmor) {return subwoofer;}
-		else if (tileEntity.displayItem.getItem() instanceof ItemCloudtrapArmor) {return cloudtrap;}
+		if (tileEntity.displayItem.getItemDamage() == 0) {return skystrike;}
+		if (tileEntity.displayItem.getItemDamage() == 1) {return purge;}
+		if (tileEntity.displayItem.getItemDamage() == 2) {return vurp;}
+		if (tileEntity.displayItem.getItemDamage() == 3) {return subwoofer;}
+		if (tileEntity.displayItem.getItemDamage() == 4) {return cloudtrap;}
 		return null;
 	}
 
 	public String getTextureFromTileEntity(TileEntityDisplayPillar tileEntity)
 	{
-		if (tileEntity.displayItem.getItem() instanceof ItemSkystrikeArmor) {return "skystrike/skystrike.png";}
-		if (tileEntity.displayItem.getItem() instanceof ItemPurgeArmor) {return "purge/purge.png";}
-		if (tileEntity.displayItem.getItem() instanceof ItemVurpArmor) {return "vurp/vurp.png";}
-		if (tileEntity.displayItem.getItem() instanceof ItemSubwooferArmor) {return "subwoofer/subwoofer.png";}
-		if (tileEntity.displayItem.getItem() instanceof ItemCloudtrapArmor) {return "cloudtrap/cloudtrap.png";}
+		if (tileEntity.displayItem.getItemDamage() == 0) {return "skystrike/skystrike.png";}
+		if (tileEntity.displayItem.getItemDamage() == 1) {return "purge/purge.png";}
+		if (tileEntity.displayItem.getItemDamage() == 2) {return "vurp/vurp.png";}
+		if (tileEntity.displayItem.getItemDamage() == 3) {return "subwoofer/subwoofer.png";}
+		if (tileEntity.displayItem.getItemDamage() == 4) {return "cloudtrap/cloudtrap.png";}
 		return null;
 	}
 	

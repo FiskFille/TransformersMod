@@ -11,6 +11,11 @@ import net.minecraft.util.StatCollector;
 public class TileEntityDisplayPillar extends TileEntity
 {
 	public ItemStack displayItem;
+	
+	public void updateEntity()
+	{
+		super.updateEntity();
+	}
 
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{

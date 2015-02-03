@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -71,27 +72,20 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		//		if (world.isRemote)
-		//		{
-		//			return false;
-		//		}
-		//		else
-		//		{
 		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
 
 		if (tileEntityDisplayPillar != null)
 		{
 			if (player.getHeldItem() == null && tileEntityDisplayPillar.displayItem != null)
 			{
-				tileEntityDisplayPillar.displayItem = null;
-
 				player.setCurrentItemOrArmor(0, tileEntityDisplayPillar.displayItem);
+				tileEntityDisplayPillar.displayItem = null;
 			}
 			else if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.displayVehicle)
 			{
 				tileEntityDisplayPillar.displayItem = player.getHeldItem();
 
-				if (!player.capabilities.isCreativeMode)
+//				if (!player.capabilities.isCreativeMode)
 				{
 					player.setCurrentItemOrArmor(0, null);
 				}
@@ -99,25 +93,26 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 		}
 
 		return false;
-		//	}
-}
+	}
 
 	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
 	{
-		int l = world.getBlockMetadata(x, y, z);
-		float f = 0.21F;
-
-		if (l == 0)
+		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
+		
+		if (tileEntityDisplayPillar != null)
 		{
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.55F, 1.0F);
-		}
-		else if (l == 1 || l == 2)
-		{
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		}
-		else if (l == 3 || l == 4)
-		{
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
+			if (tileEntityDisplayPillar.displayItem != null)
+			{
+				float f = 0.21F;
+				int metadata = tileEntityDisplayPillar.displayItem.getItemDamage();
+				
+				if (metadata == 0 || metadata == 1 || metadata == 4) {this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);}
+				else if (metadata == 2 || metadata == 3) {this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);}
+			}
+			else
+			{
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.55F, 1.0F);
+			}
 		}
 
 		return super.collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
