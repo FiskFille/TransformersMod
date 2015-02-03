@@ -14,10 +14,10 @@ public class GuiHandlerTF implements IGuiHandler
 	{
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		
-		switch (id)
-		{
-			case 0: return id == 0 &&  world.getBlock(x, y, z) == TFBlocks.displayPillar ? new ContainerDisplayPillar(player.inventory, (TileEntityDisplayPillar)tileEntity) : null;
-		}
+//		switch (id)
+//		{
+//			case 0: return id == 0 &&  world.getBlock(x, y, z) == TFBlocks.displayPillar ? new ContainerDisplayPillar(player.inventory, (TileEntityDisplayPillar)tileEntity) : null;
+//		}
 		
 		return null;
 	}
@@ -26,10 +26,10 @@ public class GuiHandlerTF implements IGuiHandler
 	{
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		
-		switch (id)
-		{
-			case 0: return id == 0 &&  world.getBlock(x, y, z) == TFBlocks.displayPillar ? new GuiDisplayPillar(player.inventory, (TileEntityDisplayPillar)tileEntity) : null;
-		}
+//		switch (id)
+//		{
+//			case 0: return id == 0 &&  world.getBlock(x, y, z) == TFBlocks.displayPillar ? new GuiDisplayPillar(player.inventory, (TileEntityDisplayPillar)tileEntity) : null;
+//		}
 		
 		return null;
 	}

@@ -14,8 +14,7 @@ public class ContainerDisplayPillar extends ContainerBasic
     {
     	this.pillar = tileEntity;
 
-    	this.addSlotToContainer(new Slot(tileEntity, 0, 80, 35));
-        this.addPlayerInventory(inventory, 0);
+    	this.addPlayerInventory(inventory, 0);
     }
     
     public boolean canInteractWith(EntityPlayer player)

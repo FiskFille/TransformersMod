@@ -9,6 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.item.armor.ItemCloudtrapArmor;
+import fiskfille.tf.item.armor.ItemPurgeArmor;
+import fiskfille.tf.item.armor.ItemSkystrikeArmor;
+import fiskfille.tf.item.armor.ItemSubwooferArmor;
+import fiskfille.tf.item.armor.ItemVurpArmor;
 import fiskfille.tf.model.tileentity.ModelDisplayPillar;
 import fiskfille.tf.model.transformer.vehicle.ModelCloudtrapVehicle;
 import fiskfille.tf.model.transformer.vehicle.ModelPurgeVehicle;
@@ -47,7 +52,7 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
     	if (meta != 0)
     	{
     		this.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromMetadata(meta)));
-    		ModelVehicleBase vehicle = getModelFromMetadata(meta);
+    		ModelVehicleBase vehicle = getModelFromTileEntity(tileentity);
     		
     		GL11.glRotatef(Minecraft.getMinecraft().thePlayer.ticksExisted, 0.0F, 1.0F, 0.0F);
     		GL11.glTranslatef(0.0F, -0.2F/* + (vehicle == skystrike ? 0.15F : 0.0F)*/, 0.0F);
@@ -60,13 +65,13 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
     	GL11.glPopMatrix();
     }
     
-    public ModelVehicleBase getModelFromMetadata(int metadata)
+    public ModelVehicleBase getModelFromTileEntity(TileEntityDisplayPillar tileEntity)
 	{
-		if (metadata == 1) {return skystrike;}
-		if (metadata == 2) {return purge;}
-		if (metadata == 3) {return vurp;}
-		if (metadata == 4) {return subwoofer;}
-		if (metadata == 5) {return cloudtrap;}
+		if (tileEntity.displayItem.getItem() instanceof ItemSkystrikeArmor) {return skystrike;}
+		if (tileEntity.displayItem.getItem() instanceof ItemPurgeArmor) {return purge;}
+		if (tileEntity.displayItem.getItem() instanceof ItemVurpArmor) {return vurp;}
+		if (tileEntity.displayItem.getItem() instanceof ItemSubwooferArmor) {return subwoofer;}
+		if (tileEntity.displayItem.getItem() instanceof ItemCloudtrapArmor) {return cloudtrap;}
 		return null;
 	}
 	
