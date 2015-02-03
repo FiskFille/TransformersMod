@@ -459,7 +459,7 @@ public class CommonEventHandler
 
 			if (transformer != null)
 			{
-				if (transformer.shouldTakeFallDamage(player))
+				if (!transformer.shouldTakeFallDamage(player))
 				{
 					event.setCanceled(true);
 				}
