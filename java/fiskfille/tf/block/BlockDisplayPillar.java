@@ -16,6 +16,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.item.ItemMiniVehicle;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.tileentity.TileEntityDisplayPillar;
 
@@ -72,20 +73,25 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
+		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
 
 		if (tileEntityDisplayPillar != null)
 		{
-			if (player.getHeldItem() == null && tileEntityDisplayPillar.displayItem != null)
-			{
-				player.setCurrentItemOrArmor(0, tileEntityDisplayPillar.displayItem);
-				tileEntityDisplayPillar.displayItem = null;
-			}
-			else if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.displayVehicle)
-			{
-				tileEntityDisplayPillar.displayItem = player.getHeldItem();
+			ItemStack heldItem = player.getHeldItem();
 
-//				if (!player.capabilities.isCreativeMode)
+			ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
+
+			if (heldItem == null && displayItem != null)
+			{
+				player.setCurrentItemOrArmor(0, displayItem);
+
+				tileEntityDisplayPillar.setDisplayItem(null, true);
+			}
+			else if (heldItem != null && heldItem.getItem() instanceof ItemMiniVehicle)
+			{
+				tileEntityDisplayPillar.setDisplayItem(heldItem, true);
+
+				//if (!player.capabilities.isCreativeMode)
 				{
 					player.setCurrentItemOrArmor(0, null);
 				}
@@ -98,14 +104,16 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
 	{
 		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
-		
+
 		if (tileEntityDisplayPillar != null)
 		{
-			if (tileEntityDisplayPillar.displayItem != null)
+			ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
+
+			if (displayItem != null)
 			{
 				float f = 0.21F;
-				int metadata = tileEntityDisplayPillar.displayItem.getItemDamage();
-				
+				int metadata = displayItem.getItemDamage();
+
 				if (metadata == 0 || metadata == 1 || metadata == 4) {this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);}
 				else if (metadata == 2 || metadata == 3) {this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);}
 			}

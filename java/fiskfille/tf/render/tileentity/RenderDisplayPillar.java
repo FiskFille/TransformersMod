@@ -3,6 +3,7 @@ package fiskfille.tf.render.tileentity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -48,10 +49,12 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 		this.bindTexture(texture);
 		model.renderAll();
 				
-		if (tileentity.displayItem != null)
+		ItemStack displayItem = tileentity.getDisplayItem();
+		
+		if (displayItem != null)
 		{
-			this.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromTileEntity(tileentity)));
-			ModelVehicleBase vehicle = getModelFromTileEntity(tileentity);
+			this.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromStack(displayItem)));
+			ModelVehicleBase vehicle = getModelFromStack(displayItem);
 			
 			if (vehicle != null)
 			{
@@ -67,23 +70,25 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 	}
 
-	public ModelVehicleBase getModelFromTileEntity(TileEntityDisplayPillar tileEntity)
+	public ModelVehicleBase getModelFromStack(ItemStack displayItem)
 	{
-		if (tileEntity.displayItem.getItemDamage() == 0) {return skystrike;}
-		if (tileEntity.displayItem.getItemDamage() == 1) {return purge;}
-		if (tileEntity.displayItem.getItemDamage() == 2) {return vurp;}
-		if (tileEntity.displayItem.getItemDamage() == 3) {return subwoofer;}
-		if (tileEntity.displayItem.getItemDamage() == 4) {return cloudtrap;}
+		if (displayItem.getItemDamage() == 0) {return skystrike;}
+		if (displayItem.getItemDamage() == 1) {return purge;}
+		if (displayItem.getItemDamage() == 2) {return vurp;}
+		if (displayItem.getItemDamage() == 3) {return subwoofer;}
+		if (displayItem.getItemDamage() == 4) {return cloudtrap;}
+		
 		return null;
 	}
 
-	public String getTextureFromTileEntity(TileEntityDisplayPillar tileEntity)
+	public String getTextureFromStack(ItemStack displayItem)
 	{
-		if (tileEntity.displayItem.getItemDamage() == 0) {return "skystrike/skystrike.png";}
-		if (tileEntity.displayItem.getItemDamage() == 1) {return "purge/purge.png";}
-		if (tileEntity.displayItem.getItemDamage() == 2) {return "vurp/vurp.png";}
-		if (tileEntity.displayItem.getItemDamage() == 3) {return "subwoofer/subwoofer.png";}
-		if (tileEntity.displayItem.getItemDamage() == 4) {return "cloudtrap/cloudtrap.png";}
+		if (displayItem.getItemDamage() == 0) {return "skystrike/skystrike.png";}
+		if (displayItem.getItemDamage() == 1) {return "purge/purge.png";}
+		if (displayItem.getItemDamage() == 2) {return "vurp/vurp.png";}
+		if (displayItem.getItemDamage() == 3) {return "subwoofer/subwoofer.png";}
+		if (displayItem.getItemDamage() == 4) {return "cloudtrap/cloudtrap.png";}
+		
 		return null;
 	}
 	
