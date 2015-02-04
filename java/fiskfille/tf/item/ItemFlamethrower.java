@@ -20,6 +20,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.misc.TFMotionManager;
 
 public class ItemFlamethrower extends ItemSword
 {
@@ -47,10 +48,15 @@ public class ItemFlamethrower extends ItemSword
 	{
 		int duration = this.getMaxItemUseDuration(stack) - count;
 		
+		if (duration < 100)
 		if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
-		{
-			if (duration % 6 == 0)
+		{			
+			if (duration % 5 == 0)
 			{
+				Vec3 backCoords = TFMotionManager.getFrontCoords(player, -0.3F, true);
+				player.motionX = (backCoords.xCoord - player.posX);
+				player.motionZ = (backCoords.zCoord - player.posZ);
+				
 				player.worldObj.playAuxSFX(1009, (int)player.posX, (int)player.posY, (int)player.posZ, 0);
 			}
 			
@@ -70,7 +76,7 @@ public class ItemFlamethrower extends ItemSword
 			double d31 = 0.5D;
 			Vec3 vec33 = vec32.addVector(f71 * d31, f61 * d31, f81 * d31);
 			
-			for (int i = 0; i < 10; ++i)
+			for (int i = 0; i < 7; ++i)
 			{
 	            float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
 				float f2 = (player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f);
@@ -91,7 +97,8 @@ public class ItemFlamethrower extends ItemSword
 				{
 					Random rand = new Random();
 					Block block = player.worldObj.getBlock((int)hurtVec.xCoord - 1, (int)hurtVec.yCoord, (int)hurtVec.zCoord);
-					player.worldObj.spawnParticle("flame", hurtVec.xCoord + rand.nextFloat() - 0.5F, hurtVec.yCoord + rand.nextFloat() - 1.0F, hurtVec.zCoord + rand.nextFloat() - 0.5F, 0.0D, 0.0D, 0.0D);
+//					player.worldObj.spawnParticle("flame", hurtVec.xCoord + rand.nextFloat() - 0.5F, hurtVec.yCoord + rand.nextFloat() - 1.0F, hurtVec.zCoord + rand.nextFloat() - 0.5F, 0.0D, 0.0D, 0.0D);
+					player.worldObj.spawnParticle("flame", hurtVec.xCoord, hurtVec.yCoord, hurtVec.zCoord, rand.nextFloat() / 5, rand.nextFloat() / 5, rand.nextFloat() / 5);
 					
 					if (!player.worldObj.isRemote)
 					{
@@ -111,7 +118,7 @@ public class ItemFlamethrower extends ItemSword
 						if (entity instanceof EntityLivingBase)
 						{
 							((EntityLivingBase)entity).setFire(20);
-							((EntityLivingBase)entity).attackEntityFrom(DamageSource.causePlayerDamage(player), entity.isInWater() ? 2.0F : 10.0F);
+							((EntityLivingBase)entity).attackEntityFrom(DamageSource.causePlayerDamage(player), 10.0F);
 						}
 					}
 				}

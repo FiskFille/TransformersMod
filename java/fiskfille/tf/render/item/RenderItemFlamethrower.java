@@ -34,9 +34,9 @@ public class RenderItemFlamethrower implements IItemRenderer
 		{
 			GL11.glPushMatrix();
 			
-			GL11.glTranslatef(0.6F, 0.6F, 0);
+			GL11.glTranslatef(0.8F, 0.6F, 0);
 			GL11.glRotatef(-10, 1, 0, 0);
-			GL11.glRotatef(180, 0, 0, 1);
+			GL11.glRotatef(200, 0, 0, 1);
 			GL11.glRotatef(180, 0, 1, 0);
 			
 			if ((Entity)data[1] instanceof EntityPlayer)
@@ -58,14 +58,12 @@ public class RenderItemFlamethrower implements IItemRenderer
 		else if (type == ItemRenderType.EQUIPPED)
 		{
 			GL11.glPushMatrix();
-//			
-			GL11.glTranslatef(0.4F, 0.5F, 0F);
+			GL11.glTranslatef(0.6F, 0.4F, -0F);
 			GL11.glRotatef(-135, 0, 0, 1);
-//			GL11.glRotatef(180, 0, 0, 1);
-			GL11.glRotatef(180, 0, 1, 0);
-//			GL11.glRotatef(90, 0, 1, 0);
+			GL11.glRotatef(0, 0, 0, 1);
+			GL11.glRotatef(185, 0, 1, 0);
 			
-			float f = 1.2F;
+			float f = 0.9F;
 			GL11.glScalef(f, f, f);
 			model.render();
 			GL11.glPopMatrix();
