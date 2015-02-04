@@ -87,7 +87,7 @@ public abstract class TransformerTank extends Transformer
 				if (!prevNitro)
 				{
 					TransformersMod.packetPipeline.sendToServer(new PacketVehicleNitro(player, true));
-					prevNitro = true;
+					TFMotionManager.prevNitro = true;
 				}
 
 				for (int i = 0; i < 4; ++i)
@@ -102,7 +102,7 @@ public abstract class TransformerTank extends Transformer
 				if (prevNitro)
 				{
 					TransformersMod.packetPipeline.sendToServer(new PacketVehicleNitro(player, false));
-					prevNitro = false;
+					TFMotionManager.prevNitro = false;
 				}
 			}
 
