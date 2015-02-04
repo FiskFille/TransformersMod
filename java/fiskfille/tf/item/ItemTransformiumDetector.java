@@ -21,19 +21,6 @@ public class ItemTransformiumDetector extends ItemBasic
 		super();
 	}
 	
-//	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World world, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
-//	{
-//		for (int x = 0; x < 20; ++x)
-//		{
-//			for (int z = 0; z < 20; ++z)
-//			{
-//				world.setBlock(p_77648_4_ + x, p_77648_5_, p_77648_6_ + z, TFBlocks.energonCube);
-//			}
-//		}
-//		
-//		return true;
-//	}
-	
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean hand)
 	{
 		int time = entity.ticksExisted;
@@ -59,7 +46,7 @@ public class ItemTransformiumDetector extends ItemBasic
 					{
 						if (time % 500 == 0)
 						{
-							energonFuel--;
+							--energonFuel;
 							tagCompound.setInteger("fuel", energonFuel);
 							if (energonFuel <= 0)
 							{
