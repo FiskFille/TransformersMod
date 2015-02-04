@@ -127,11 +127,11 @@ public abstract class TransformerCar extends Transformer
 
 				float decrement = (float) (1.0F - (increment * 0.5F));
 
-				if (f > 1.0F && forwardVelocity > 0.0F)
+				if (f > 0.5F && forwardVelocity > 0.0F)
 				{
 					player.rotationYaw += decrement;
 				}
-				if (f < -1.0F && forwardVelocity > 0.0F)
+				if (f < -0.5F && forwardVelocity > 0.0F)
 				{
 					player.rotationYaw -= decrement;
 				}
@@ -141,10 +141,6 @@ public abstract class TransformerCar extends Transformer
 				Vec3 forwardVec = TFMotionManager.getFrontCoords(player, 0, forwardVelocity);
 				player.motionX = (forwardVec.xCoord - player.posX);
 				player.motionZ = (forwardVec.zCoord - player.posZ);
-
-				//				Vec3 sideVec = getSideCoords(player, 0, horizontalVelocity > 0);
-				//				player.motionX = (sideVec.xCoord - player.posX);
-				//				player.motionZ = (sideVec.zCoord - player.posZ);
 			}
 
 			if (forwardVelocity <= 0) {forwardVelocity = 0;}
