@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.proxy.ClientProxy;
 
 public class TransformerVurp extends TransformerCar
 {
@@ -29,5 +31,11 @@ public class TransformerVurp extends TransformerCar
 	public Item getBoots()
 	{
 		return TFItems.vurpBoots;
+	}
+	
+	@Override
+	public Biped getModel()
+	{
+		return ClientProxy.getVurp();
 	}
 }

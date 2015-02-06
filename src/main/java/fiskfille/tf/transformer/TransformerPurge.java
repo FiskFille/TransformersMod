@@ -1,6 +1,8 @@
 package fiskfille.tf.transformer;
 
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.proxy.ClientProxy;
 import net.minecraft.item.Item;
 
 public class TransformerPurge extends TransformerTank
@@ -27,5 +29,11 @@ public class TransformerPurge extends TransformerTank
 	public Item getBoots()
 	{
 		return TFItems.purgeBoots;
+	}
+	
+	@Override
+	public Biped getModel()
+	{
+		return ClientProxy.getPurge();
 	}
 }
