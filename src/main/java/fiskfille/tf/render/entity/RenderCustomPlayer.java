@@ -19,16 +19,7 @@ public class RenderCustomPlayer extends RenderPlayer
 	@Override
 	public void renderFirstPersonArm(EntityPlayer player)
 	{
-		ItemStack currentArmour = player.getCurrentArmor(2);
-		
-		if(currentArmour != null)
-		{
-			if (!TFHelper.isTransformerArmor(player, currentArmour.getItem()))
-			{
-				super.renderFirstPersonArm(player);
-			}
-		}
-		else
+		if(!TFDataManager.isInVehicleMode(player))
 		{
 			super.renderFirstPersonArm(player);
 		}
