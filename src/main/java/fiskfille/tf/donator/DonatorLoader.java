@@ -1,12 +1,12 @@
 package fiskfille.tf.donator;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.regex.Pattern;
-
+import com.google.gson.Gson;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import fiskfille.tf.pastebin.PastebinFileReader;
+import org.apache.commons.io.IOUtils;
+
+import java.net.URL;
+import java.util.UUID;
 
 public class DonatorLoader extends Thread
 {
@@ -16,13 +16,8 @@ public class DonatorLoader extends Thread
 	{
 		try 
 		{
-			List<String> text = PastebinFileReader.readFile("vJ6XLKBZ");
-		
-			for (String line : text) 
-			{
-				String[] split = line.split(Pattern.quote(": "));
-				Donators.donators.put(UUID.fromString(split[0]), new Money(split[1]));
-			}
+			Donator[] donators = new Gson().fromJson(IOUtils.toString(new URL("http://pastebin.com/raw.php?i=yPpJaz7p")), Donator[].class);
+            for (Donator donator : donators) Donators.donators.put(UUID.fromString(donator.uuid), new Money(donator.money));
 			
 			Donators.doAchievements(side);
 		} 
