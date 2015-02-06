@@ -1,9 +1,10 @@
 # Fisk put your eclipsy things here
 
-TransformersMod.iml
-TransformersMod.ipr
-TransformersMod.iws
+*.iml
+*.ipr
+*.iws
 out/
 build/
 idea/
+.gradle/
 minecraft/
