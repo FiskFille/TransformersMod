@@ -61,14 +61,13 @@ public class CommonEventHandler
 	public void onHit(LivingAttackEvent event)
 	{
 		EntityLivingBase entityLiving = event.entityLiving;
-		
 		Entity cause = event.source.getEntity();
 		
-		if(cause instanceof EntityPlayer)
+		if (cause instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) cause;
 			
-			if(TFDataManager.isInVehicleMode(player))
+			if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile())
 			{
 				event.setCanceled(true);
 			}
