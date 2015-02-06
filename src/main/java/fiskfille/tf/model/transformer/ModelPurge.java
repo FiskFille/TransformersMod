@@ -464,8 +464,6 @@ public class ModelPurge extends ModelChildBase.Biped
 					
 					bipedRightArm.rotateAngleX = xRotation;
 					bipedLeftArm.rotateAngleX = xRotation;
-					
-					
 				}
 				
 				tread1.rotateAngleX = 0.2745329F + (xRotation * 1.25F);

@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
@@ -15,6 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -55,6 +57,24 @@ public class CommonEventHandler
 
 	private boolean hasFullAmmo;
 
+	@SubscribeEvent
+	public void onHit(LivingAttackEvent event)
+	{
+		EntityLivingBase entityLiving = event.entityLiving;
+		
+		Entity cause = event.source.getEntity();
+		
+		if(cause instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer) cause;
+			
+			if(TFDataManager.isInVehicleMode(player))
+			{
+				event.setCanceled(true);
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public void onSmelt(ItemSmeltedEvent event)
 	{
