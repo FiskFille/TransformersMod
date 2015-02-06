@@ -75,19 +75,12 @@ public class ClientEventHandler
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
 		}
-
-		//TODO?
-				//			if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 10)
-		//			{
-		//				if (jet)
-		//				{
-		//					GL11.glTranslatef(0, 0.002F, 0);
-		//				}
-		//				else
-		//				{
-		//					GL11.glTranslatef(0, 0.08F, 0);
-		//				}
-		//			}
+		
+		// This prevent the player from sinking into the ground when sneaking in vehicle mode
+		if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 20)
+		{
+			GL11.glTranslatef(0, 0.08F, 0);
+		}
 	}
 
 	@SubscribeEvent
