@@ -1,17 +1,16 @@
 package fiskfille.tf.transformer;
 
-import fiskfille.tf.TFHelper;
-import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.entity.EntityMissile;
-import fiskfille.tf.entity.EntityTankShell;
+import net.minecraft.item.Item;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.model.transformer.ModelSubwoofer;
 import fiskfille.tf.proxy.ClientProxy;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import fiskfille.tf.transformer.base.TransformerCar;
 
 public class TransformerSubwoofer extends TransformerCar
 {
+	private ModelSubwoofer model = new ModelSubwoofer();
+	
 	@Override
 	public Item getHelmet() 
 	{
@@ -39,6 +38,6 @@ public class TransformerSubwoofer extends TransformerCar
 	@Override
 	public Biped getModel()
 	{
-		return ClientProxy.getSubwoofer();
+		return model;
 	}
 }

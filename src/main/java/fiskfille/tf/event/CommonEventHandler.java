@@ -29,33 +29,26 @@ import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.data.TFPlayerData;
 import fiskfille.tf.donator.Donators;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.packet.PacketBroadcastState;
 import fiskfille.tf.packet.PacketTransformersAction;
 import fiskfille.tf.tick.TickHandler;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 import fiskfille.tf.updatechecker.Update;
 
 public class CommonEventHandler
 {
 	private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
-	private boolean loadedFromInternet;
-
-	public static int shootCooldown = 0;
-	public static int shotsLeft = 4;
-
-	private boolean reloading;
+	private boolean displayedUpdates;
 
 	private boolean prevVehicleMode; 
-
-	private boolean hasFullAmmo;
 
 	@SubscribeEvent
 	public void onHit(LivingAttackEvent event)
@@ -104,70 +97,6 @@ public class CommonEventHandler
 
 	@SubscribeEvent
 	public void onPlayerBreakBlock(BlockEvent.BreakEvent event) {if (TFDataManager.isInVehicleMode(event.getPlayer())) {event.setCanceled(true);}}
-
-	@SubscribeEvent
-	public void onPlayerInteract(PlayerInteractEvent event) 
-	{
-		EntityPlayer player = event.entityPlayer;
-
-		if (TFDataManager.isInVehicleMode(player)) 
-		{
-			Transformer transformer = TFHelper.getTransformer(player);
-
-			if(transformer != null)
-			{
-				if (transformer.canShoot(player))
-				{
-					Action action = event.action;
-
-					if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
-					{
-						if (shotsLeft > 0)
-						{
-							if (shootCooldown <= 0)
-							{
-								if (transformer.canShoot(player) && TFDataManager.isInVehicleMode(player))
-								{
-									Item shootItem = transformer.getShootItem();
-
-									boolean isCreative = player.capabilities.isCreativeMode;
-									boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
-
-									if (hasAmmo)
-									{
-										TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
-
-										if (!isCreative)
-										{
-											player.inventory.consumeInventoryItem(shootItem);
-										}
-									}
-								} 
-
-								shotsLeft--;
-
-								if (shotsLeft <= 0)
-								{
-									shootCooldown = 20;
-									reloading = true;
-								}
-							}
-						}
-						else
-						{
-							if (!reloading)
-							{
-								shootCooldown = 20;
-								reloading = true;
-							}
-						}
-					}
-
-					event.setCanceled(true);
-				}
-			}
-		}
-	}
 
 	@SubscribeEvent
 	public void startTracking(StartTracking event)
@@ -225,17 +154,17 @@ public class CommonEventHandler
 				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 0 : 20);
 				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 0 : 5);
 
-				if (!loadedFromInternet)
+				if (!displayedUpdates)
 				{
 					Update update = TransformersMod.latestUpdate;
 
-					if (update.isAvailable)
+					if (update.isAvailable())
 					{
-						player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Version " + update.version + " is now available!"));
+						player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Version " + update.getVersion() + " is now available!"));
 						player.addChatMessage(new ChatComponentText(""));
 						player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "" + EnumChatFormatting.BOLD + "What's New: "));
 
-						String[] updates = update.updateLog.split(Pattern.quote("(newline)"));
+						String[] updates = update.getUpdateLog().split(Pattern.quote("(newline)"));
 
 						for (String updatePart : updates)
 						{
@@ -262,7 +191,7 @@ public class CommonEventHandler
 						player.addStat(TFAchievements.donate, 1);
 					}
 
-					loadedFromInternet = true;
+					displayedUpdates = true;
 				}
 			}
 		}
@@ -364,107 +293,7 @@ public class CommonEventHandler
 					playersNotSunc.remove(player);
 				}
 			}
-			else
-			{
-				if (player == Minecraft.getMinecraft().thePlayer)
-				{
-					Transformer transformer = TFHelper.getTransformer(player);
-
-					if (shootCooldown > 0)
-					{
-						shootCooldown--;
-					}
-
-					if (transformer != null)
-					{
-						Item ammo = transformer.getShootItem();
-
-						if (ammo != null)
-						{
-							int maxAmmo = transformer.getShots();
-
-							int ammoCount; 
-
-							if (player.capabilities.isCreativeMode)
-							{
-								ammoCount = maxAmmo;
-							}
-							else
-							{
-								ammoCount = getAmountOf(ammo, player);
-							}
-
-							if (ammoCount > maxAmmo)
-							{
-								ammoCount = maxAmmo;
-							}
-
-							if (shotsLeft > ammoCount)
-							{
-								shotsLeft = ammoCount;
-							}
-
-							if (TFDataManager.isInVehicleMode(player))
-							{
-								if (reloading && shootCooldown <= 0)
-								{
-									shotsLeft = ammoCount;
-
-									reloading = false;
-								}
-							}
-							else
-							{
-								int shots = ammoCount;
-
-								if (shotsLeft > shots)
-								{
-									shotsLeft = shots;
-								}
-							}
-						}
-					}
-				}
-			}
 		}
-		//		if (event.entity instanceof EntityPlayer)
-		//		{
-		//			EntityPlayer player = (EntityPlayer)event.entity;
-		//			
-		//			if (TFPlayerData.getTransformationTimer(player) < 5 && TFHelper.isPlayerPurge(player) && Keyboard.isKeyDown(Keyboard.KEY_L) && !player.worldObj.isRemote)
-		//			{
-		//				EntitySnowball projectile = new EntitySnowball(player.worldObj, player);
-		//				projectile.setPosition(player.posX, player.posY + 0.25D, player.posZ);
-		//				player.worldObj.spawnEntityInWorld(projectile);
-		//			}
-		//			
-		//			int i = TFPlayerData.getTransformationTimer(player);
-		//			
-		//			if (!player.worldObj.isRemote)
-		//			{
-		//				player.addChatMessage(i + "");
-		//			}
-		//		}
-	}
-
-	private int getAmountOf(Item item, EntityPlayer player)
-	{
-		int amount = 0;
-
-		InventoryPlayer inventory = player.inventory;
-
-		for(ItemStack stack : inventory.mainInventory)
-		{
-			if (stack != null)
-			{
-				if (stack.getItem() == item)
-				{
-					amount += stack.stackSize;
-				}
-			}
-		}
-
-		return amount;
 	}
 
 	@SubscribeEvent

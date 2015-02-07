@@ -10,10 +10,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.packet.PacketVehicleNitro;
 import fiskfille.tf.proxy.ClientProxy;
 

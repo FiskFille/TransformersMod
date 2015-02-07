@@ -1,10 +1,10 @@
-package fiskfille.tf;
+package fiskfille.tf.helper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.item.armor.ITransformerArmor;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class TFHelper
 {

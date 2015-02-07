@@ -18,8 +18,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.misc.TFMotionManager;
 
 public class ItemFlamethrower extends ItemSword

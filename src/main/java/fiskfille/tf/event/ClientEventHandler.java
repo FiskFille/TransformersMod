@@ -16,14 +16,15 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.proxy.ClientProxy;
 import fiskfille.tf.render.entity.CustomEntityRenderer;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class ClientEventHandler
 {
@@ -77,7 +78,7 @@ public class ClientEventHandler
 			GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
 		}
 		
-		// This prevent the player from sinking into the ground when sneaking in vehicle mode
+		// This prevents the player from sinking into the ground when sneaking in vehicle mode
 		if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 20)
 		{
 			GL11.glTranslatef(0, 0.08F, 0);
@@ -102,9 +103,7 @@ public class ClientEventHandler
 		}
 
 		ModelBiped modelBipedMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, new String[]{"f", "modelBipedMain"});
-		ClientProxy.modelBipedMain = modelBipedMain;
-
-		//	TFHelper.getInstance().adjustPlayerVisibility(event.entityPlayer, modelBipedMain);
+		TFModelHelper.modelBipedMain = modelBipedMain;
 
 		ObfuscationReflectionHelper.setPrivateValue(RenderPlayer.class, event.renderer, modelBipedMain, new String[]{"f", "modelBipedMain"});
 	}

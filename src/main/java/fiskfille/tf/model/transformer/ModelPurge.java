@@ -5,8 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.item.TFItems;
 
 public class ModelPurge extends ModelChildBase.Biped

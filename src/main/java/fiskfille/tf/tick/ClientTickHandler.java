@@ -13,17 +13,17 @@ import net.minecraft.potion.Potion;
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.TFNitroParticleHandler;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.packet.PacketCloudtrapJetpack;
 import fiskfille.tf.render.entity.CustomEntityRenderer;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class ClientTickHandler
 {

@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.item.TFItems;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class ItemVurpArmor extends ItemArmor implements ITransformerArmor
 {
@@ -52,12 +52,7 @@ public class ItemVurpArmor extends ItemArmor implements ITransformerArmor
 
 		if (itemstack != null)
 		{
-			if (itemstack.getItem() instanceof ItemVurpArmor)
-			{
-				int type = ((ItemArmor)itemstack.getItem()).armorType;
-
-				armorModel = TransformersMod.proxy.getArmorModel("Vurp");
-			}
+			armorModel = getTransformer().getModel();
 
 			if (armorModel != null)
 			{

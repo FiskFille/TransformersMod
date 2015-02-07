@@ -22,6 +22,7 @@ import fiskfille.tf.packet.TFPackets;
 import fiskfille.tf.proxy.CommonProxy;
 import fiskfille.tf.recipe.TFRecipes;
 import fiskfille.tf.transformer.*;
+import fiskfille.tf.transformer.base.Transformer;
 import fiskfille.tf.updatechecker.Update;
 import fiskfille.tf.updatechecker.UpdateChecker;
 import net.minecraft.creativetab.CreativeTabs;

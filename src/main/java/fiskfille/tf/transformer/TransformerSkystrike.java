@@ -1,13 +1,18 @@
 package fiskfille.tf.transformer;
 
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.model.transformer.ModelPurge;
+import fiskfille.tf.model.transformer.ModelSkystrike;
 import fiskfille.tf.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.proxy.ClientProxy;
+import fiskfille.tf.transformer.base.TransformerJet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
 public class TransformerSkystrike extends TransformerJet
 {
+	private ModelSkystrike model = new ModelSkystrike();
+	
 	@Override
 	public Item getHelmet() 
 	{
@@ -35,7 +40,7 @@ public class TransformerSkystrike extends TransformerJet
 	@Override
 	public Biped getModel()
 	{
-		return ClientProxy.getSkystrike();
+		return model;
 	}
 	
 	@Override

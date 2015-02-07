@@ -15,15 +15,16 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.event.CommonEventHandler;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFShootManager;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class GuiOverlay extends Gui
 {
@@ -149,13 +150,13 @@ public class GuiOverlay extends Gui
 				{
 					int x = 80;
 
-					int j = 20 - CommonEventHandler.shootCooldown;
+					int j = 20 - TFShootManager.shootCooldown;
 
 					double d = (double)j * 2.5;
 
-					String shotsLeft = "" + CommonEventHandler.shotsLeft;
+					String shotsLeft = "" + TFShootManager.shotsLeft;
 					
-					if (CommonEventHandler.shotsLeft <= 0)
+					if (TFShootManager.shotsLeft <= 0)
 					{
 						shotsLeft = EnumChatFormatting.RED + shotsLeft;
 					}

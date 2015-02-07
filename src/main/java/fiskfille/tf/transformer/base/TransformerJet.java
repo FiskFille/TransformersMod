@@ -1,8 +1,9 @@
-package fiskfille.tf.transformer;
+package fiskfille.tf.transformer.base;
 
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +14,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.entity.EntityMissile;
+import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
@@ -121,7 +123,9 @@ public abstract class TransformerJet extends Transformer
 					{
 						EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
 
-						float yaw = ((ClientProxy.modelBipedMain.bipedHead.rotateAngleY - ClientProxy.modelBipedMain.bipedBody.rotateAngleY) / 100) * 10000;
+						ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
+					
+						float yaw = (modelBipedMain.bipedHead.rotateAngleY - modelBipedMain.bipedBody.rotateAngleY) * 100;
 						
 						ClientProxy.camRollField.set(entityRenderer, yaw);
 					}

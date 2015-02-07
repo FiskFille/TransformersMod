@@ -8,9 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class TFNitroParticleHandler 
 {

@@ -6,13 +6,13 @@ import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.packet.PacketHandleTransformation;
 import fiskfille.tf.packet.PacketSyncTransformationStates;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class TFDataManager 
 {

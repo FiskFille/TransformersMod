@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.item.TFItems;
-import fiskfille.tf.transformer.Transformer;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
 {
@@ -25,21 +25,21 @@ public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
 		this.setCreativeTab(TransformersMod.transformersTab);
 	}
 
-    /**
-     * Called to tick armor in the armor slot. Override to do something
-     *
-     * @param world
-     * @param player
-     * @param itemStack
-     */
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
-    {
-    	if (TFHelper.isPlayerTransformer(player))
-    	{
-    		player.addStat(TFAchievements.transformer, 1);
-    	}
-    }
-	
+	/**
+	 * Called to tick armor in the armor slot. Override to do something
+	 *
+	 * @param world
+	 * @param player
+	 * @param itemStack
+	 */
+	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
+	{
+		if (TFHelper.isPlayerTransformer(player))
+		{
+			player.addStat(TFAchievements.transformer, 1);
+		}
+	}
+
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
 		return TransformersMod.modid + ":textures/models/skystrike/skystrike.png";
@@ -52,12 +52,7 @@ public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
 
 		if (itemstack != null)
 		{
-			if (itemstack.getItem() instanceof ItemSkystrikeArmor)
-			{
-				int type = ((ItemArmor)itemstack.getItem()).armorType;
-
-				armorModel = TransformersMod.proxy.getArmorModel("Skystrike");
-			}
+			armorModel = getTransformer().getModel();
 
 			if (armorModel != null)
 			{
@@ -92,7 +87,7 @@ public class ItemSkystrikeArmor extends ItemArmor implements ITransformerArmor
 	{
 		itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
-	
+
 	@Override
 	public Transformer getTransformer() 
 	{

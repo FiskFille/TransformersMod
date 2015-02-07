@@ -5,21 +5,27 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.gui.GuiOverlay;
+import fiskfille.tf.helper.TFShootManager;
 import fiskfille.tf.tick.TickHandler;
 
 public class TFEvents 
 {
 	public static void registerEvents(Side side)
 	{
-		MinecraftForge.EVENT_BUS.register(new CommonEventHandler());
-		FMLCommonHandler.instance().bus().register(new CommonEventHandler());
+		registerEventHandler(new CommonEventHandler());
+		registerEventHandler(new TFShootManager());
 		
 		if (side.isClient())
 		{
-			FMLCommonHandler.instance().bus().register(new TickHandler());
-			MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-			FMLCommonHandler.instance().bus().register(new ClientEventHandler());
+			registerEventHandler(new TickHandler());
+			registerEventHandler(new ClientEventHandler());
 			MinecraftForge.EVENT_BUS.register(new GuiOverlay(Minecraft.getMinecraft()));
 		}
+	}
+	
+	private static void registerEventHandler(Object obj)
+	{
+		FMLCommonHandler.instance().bus().register(obj);
+		MinecraftForge.EVENT_BUS.register(obj);
 	}
 }

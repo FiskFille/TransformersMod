@@ -13,11 +13,6 @@ public class CommonProxy
 		
 	}
 
-	public ModelBiped getArmorModel(String string)
-	{
-		return null;
-	}
-
 	public void registerKeyBinds()
 	{
 		

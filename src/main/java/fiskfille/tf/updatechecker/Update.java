@@ -2,9 +2,9 @@ package fiskfille.tf.updatechecker;
 
 public class Update 
 {
-	public boolean isAvailable;
-	public String version;
-	public String updateLog;
+	private boolean isAvailable;
+	private String version;
+	private String updateLog;
 	
 	public Update(boolean isAvailable, String version, String update)
 	{
@@ -16,5 +16,20 @@ public class Update
 	public Update()
 	{
 		this.isAvailable = false;
+	}
+
+	public boolean isAvailable() 
+	{
+		return isAvailable;
+	}
+	
+	public String getVersion()
+	{
+		return version;
+	}
+	
+	public String getUpdateLog()
+	{
+		return updateLog;
 	}
 }

@@ -1,4 +1,4 @@
-package fiskfille.tf.transformer;
+package fiskfille.tf.transformer.base;
 
 import java.util.Random;
 

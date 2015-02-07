@@ -1,8 +1,9 @@
-package fiskfille.tf.transformer;
+package fiskfille.tf.transformer.base;
 
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -11,6 +12,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.entity.EntityMissile;
+import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
@@ -110,7 +112,9 @@ public abstract class TransformerCar extends Transformer
 
 			if (driftPressed && player.onGround && forwardVelocity > 0)
 			{
-				float f = ClientProxy.modelBipedMain.bipedHead.rotateAngleY - (ClientProxy.modelBipedMain.bipedBody.rotateAngleY - ClientProxy.modelBipedMain.bipedHead.rotateAngleY) / 3;
+				ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
+				
+				float f = modelBipedMain.bipedHead.rotateAngleY - (modelBipedMain.bipedBody.rotateAngleY - modelBipedMain.bipedHead.rotateAngleY) / 3;
 				forwardVelocity -= 0.03D;
 
 				Vec3 vec3 = TFMotionManager.getSideCoords(player, forwardVelocity, -(int)(f * 45)/*f > -0.25D && f < 0.25D ? 0 : (f > 0 ? -45 : 30)*/);

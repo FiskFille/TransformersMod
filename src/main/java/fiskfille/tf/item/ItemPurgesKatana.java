@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 
 import com.google.common.collect.Multimap;
 
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.misc.TFMotionManager;
 
 public class ItemPurgesKatana extends ItemSword

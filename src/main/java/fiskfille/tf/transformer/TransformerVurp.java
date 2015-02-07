@@ -1,14 +1,16 @@
 package fiskfille.tf.transformer;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.model.transformer.ModelVurp;
 import fiskfille.tf.proxy.ClientProxy;
+import fiskfille.tf.transformer.base.TransformerCar;
 
 public class TransformerVurp extends TransformerCar
 {
+	private ModelVurp model = new ModelVurp();
+	
 	@Override
 	public Item getHelmet() 
 	{
@@ -36,6 +38,6 @@ public class TransformerVurp extends TransformerCar
 	@Override
 	public Biped getModel()
 	{
-		return ClientProxy.getVurp();
+		return model;
 	}
 }

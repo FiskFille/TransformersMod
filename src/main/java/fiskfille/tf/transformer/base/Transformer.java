@@ -1,4 +1,4 @@
-package fiskfille.tf.transformer;
+package fiskfille.tf.transformer.base;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

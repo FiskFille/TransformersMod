@@ -42,39 +42,7 @@ import fiskfille.tf.tileentity.TileEntityDisplayPillar;
 
 public class ClientProxy extends CommonProxy
 {
-	private static ModelSkystrike modelSkystrike = new ModelSkystrike();
-	private static ModelPurge modelPurge = new ModelPurge();
-	private static ModelVurp modelVurp = new ModelVurp();
-	private static ModelSubwoofer modelSubwoofer = new ModelSubwoofer();
-	private static ModelCloudtrap modelCloudTrap = new ModelCloudtrap();
-	public static ModelBiped modelBipedMain = new ModelBiped();
-	
 	public static Field camRollField;
-	
-	public static ModelChildBase.Biped getVurp()
-	{
-		return modelVurp;
-	}
-	
-	public static ModelChildBase.Biped getSubwoofer()
-	{
-		return modelSubwoofer;
-	}
-	
-	public static ModelChildBase.Biped getSkystrike()
-	{
-		return modelSkystrike;
-	}
-
-	public static ModelChildBase.Biped getCloudtrap()
-	{
-		return modelCloudTrap;
-	}
-	
-	public static ModelChildBase.Biped getPurge()
-	{
-		return modelPurge;
-	}
 	
 	@Override
 	public void registerRenderInformation()
@@ -118,30 +86,5 @@ public class ClientProxy extends CommonProxy
 	public void registerKeyBinds()
 	{
 		TFKeyBinds.register();
-	}
-	
-	public ModelBiped getArmorModel(String string)
-	{
-		if (string.equalsIgnoreCase("Skystrike"))
-		{
-			return getSkystrike();
-		}
-		else if (string.equalsIgnoreCase("Purge"))
-		{
-			return getPurge();
-		}
-		else if (string.equalsIgnoreCase("Cloudtrap"))
-		{
-			return getCloudtrap();
-		}
-		else if (string.equalsIgnoreCase("Vurp"))
-		{
-			return getVurp();
-		}
-		else if (string.equalsIgnoreCase("Subwoofer"))
-		{
-			return getSubwoofer();
-		}
-		return null;
 	}
 }
