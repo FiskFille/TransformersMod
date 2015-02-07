@@ -1,15 +1,5 @@
 package fiskfille.tf.transformer.base;
 
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
@@ -22,6 +12,16 @@ import fiskfille.tf.misc.TFNitroParticleHandler;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.packet.PacketVehicleNitro;
 import fiskfille.tf.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
+
+import java.util.Random;
 
 public abstract class TransformerJet extends Transformer
 {
@@ -99,7 +99,7 @@ public abstract class TransformerJet extends Transformer
 			{
 				if (nitro > 0 && nitroPressed && moveForward)
 				{
-					--nitro;
+					if (!player.capabilities.isCreativeMode) --nitro;
 					if (!prevNitro)
 					{
 						TransformersMod.packetPipeline.sendToServer(new PacketVehicleNitro(player, true));
