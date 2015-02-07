@@ -32,12 +32,7 @@ public class GuiOverlay extends Gui
 	private RenderItem itemRenderer;
 	public static final ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/gui/mod_icons.png");
 	
-	private long lastTime;
-	private double lastX;
-	private double lastY;
-	private double lastZ;
-
-	private double speed;
+	public static double speed;
 
 	public GuiOverlay(Minecraft mc)
 	{
@@ -71,27 +66,7 @@ public class GuiOverlay extends Gui
 		
  		if (transformedPlayer != null && transformationTimer <= 20)
 		{
-			long time = System.currentTimeMillis();
-
-			long timeDiff = time - lastTime;
-
-			if (timeDiff >= 500)
-			{
-				double diffX = (player.posX - lastX);
-				double diffY = (player.posY - lastY);
-				double diffZ = (player.posZ - lastZ);
-
-				speed = (double) (Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ)) * ((((double)60) * 60) * 2) / 1000);
-
-				lastX = player.posX;
-				lastY = player.posY;
-				lastZ = player.posZ;
-
-				lastTime = time;
-			}
-
 			int nitro = transformedPlayer.getNitro();
-			//int speed = (int)(transformedPlayer.getVelocity() * 100);
 			
 			int i = transformationTimer * 10;
 
@@ -111,18 +86,12 @@ public class GuiOverlay extends Gui
 				drawTexturedModalRect(6 - i, 4, 0, 0, (int)(nitro * 1.25F), 10);
                 GL11.glColor4f(1F, 0F, 0F, 0.5F);
                 //Speed Bar
-				drawTexturedModalRect(6 - i, 17, 0, 0, (int)(speed * 1F) > 200 ? 200 : (int)(speed * 1F), 10);
+				drawTexturedModalRect(6 - i, 17, 0, 0, (int)(speed) > 200 ? 200 : (int)(speed), 10);
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 				drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, 5, 0xffffff);
 				drawCenteredString(mc.fontRenderer, (int)(TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - i, 18, 0xffffff);
 			}
-		}
-		else
-		{
-			lastX = player.posX;
-			lastY = player.posY;
-			lastZ = player.posZ;
 		}
 	}
 

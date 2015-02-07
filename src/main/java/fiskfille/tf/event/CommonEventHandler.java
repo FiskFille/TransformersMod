@@ -34,6 +34,7 @@ import fiskfille.tf.achievement.TFAchievements;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.data.TFPlayerData;
 import fiskfille.tf.donator.Donators;
+import fiskfille.tf.gui.GuiOverlay;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.misc.TFMotionManager;
@@ -48,6 +49,11 @@ public class CommonEventHandler
 	private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
 
 	private boolean displayedUpdates;
+
+	private long lastTime;
+	private double lastX;
+	private double lastY;
+	private double lastZ;
 
 	@SubscribeEvent
 	public void onHit(LivingAttackEvent event)
@@ -294,6 +300,34 @@ public class CommonEventHandler
 					playersNotSunc.remove(player);
 				}
 			}
+			else
+			{
+				long time = System.currentTimeMillis();
+
+				long timeDiff = time - lastTime;
+
+				if (timeDiff >= 500)
+				{
+					double diffX = (player.posX - lastX);
+					double diffY = (player.posY - lastY);
+					double diffZ = (player.posZ - lastZ);
+
+					GuiOverlay.speed = (double) (Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ)) * ((((double)60) * 60) * 2) / 1000);
+
+					lastX = player.posX;
+					lastY = player.posY;
+					lastZ = player.posZ;
+
+					lastTime = time;
+				}
+			}
+
+			if(!(TFDataManager.getTransformationTimer(player) <= 20))
+			{
+				lastX = player.posX;
+				lastY = player.posY;
+				lastZ = player.posZ;
+			}
 		}
 	}
 
@@ -309,7 +343,7 @@ public class CommonEventHandler
 			if (transformer != null)
 			{
 				float newDist = transformer.fall(player, event.distance);
-				
+
 				if(newDist <= 0)
 				{
 					event.setCanceled(true);
