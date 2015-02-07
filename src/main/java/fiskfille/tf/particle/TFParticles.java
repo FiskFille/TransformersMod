@@ -9,41 +9,44 @@ public class TFParticles
 	private static Minecraft mc = Minecraft.getMinecraft();
 	private static World theWorld = mc.theWorld;
 
-	public static EntityFX spawnParticle(String particleName, double par2, double par4, double par6, double par8, double par10, double par12)
+	public static EntityFX spawnParticle(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ)
 	{
 		if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null)
 		{
-			int var14 = mc.gameSettings.particleSetting;
+			if(theWorld.isRemote)
+			{
+				int particleSetting = mc.gameSettings.particleSetting;
 
-			if (var14 == 1 && theWorld.rand.nextInt(3) == 0)
-			{
-				var14 = 2;
-			}
-
-			double var15 = mc.renderViewEntity.posX - par2;
-			double var17 = mc.renderViewEntity.posY - par4;
-			double var19 = mc.renderViewEntity.posZ - par6;
-			EntityFX var21 = null;
-			double var22 = 16.0D;
-
-			if (var15 * var15 + var17 * var17 + var19 * var19 > var22 * var22)
-			{
-				return null;
-			}
-			else if (var14 > 1)
-			{
-				return null;
-			}
-			else
-			{
-				if (particleName.equals("flame"))
+				if (particleSetting == 1 && theWorld.rand.nextInt(3) == 0)
 				{
-					var21 = new EntityTFFlameFX(theWorld, par2, par4, par6, (float)par8, (float)par10, (float)par12);
+					particleSetting = 2;
 				}
 
+				double diffX = mc.renderViewEntity.posX - x;
+				double diffY = mc.renderViewEntity.posY - y;
+				double diffZ = mc.renderViewEntity.posZ - z;
+				
+				EntityFX particle = null;
+				double maxRenderDistance = 16.0D;
 
-				mc.effectRenderer.addEffect((EntityFX)var21);
-				return (EntityFX)var21;
+				if (diffX * diffX + diffY * diffY + diffZ * diffZ > maxRenderDistance * maxRenderDistance)
+				{
+					return null;
+				}
+				else if (particleSetting > 1)
+				{
+					return null;
+				}
+				else
+				{
+					if (particleName.equals("flame"))
+					{
+						particle = new EntityTFFlameFX(theWorld, x, y, z, (float)motionX, (float)motionY, (float)motionZ);
+					}
+
+					mc.effectRenderer.addEffect((EntityFX)particle);
+					return (EntityFX)particle;
+				}
 			}
 		}
 		
