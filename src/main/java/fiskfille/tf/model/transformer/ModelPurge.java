@@ -77,8 +77,9 @@ public class ModelPurge extends ModelChildBase.Biped
 
 	public ModelPurge()
 	{
-		super(128, 128);
-
+		textureWidth = 128;
+		textureHeight = 128;
+		
 		bipedBody = new ModelRenderer(this, 1000, 1000);
 		bipedHead = new ModelRenderer(this, 1000, 1000);
 		bipedHeadwear = new ModelRenderer(this, 1000, 1000);
