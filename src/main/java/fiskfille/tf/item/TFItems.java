@@ -32,7 +32,7 @@ public class TFItems
 	
 	public static Item skystrikesCrossbow;
 	public static Item purgesKatana;
-	public static Item vurpsRocketLauncher;
+	public static Item vurpsSniper;
 	public static Item flamethrower;
 	
 	public static Item skystrikeHelmet;
@@ -60,6 +60,7 @@ public class TFItems
 	public static Item energonCrystalPiece;
 	
 	public static Item tankShell;
+	public static Item miniMissile;
 	public static Item missile;
 	public static Item smallThruster;
 	
@@ -83,6 +84,7 @@ public class TFItems
 		jetThruster = new ItemBasic();
 		smallThruster = new ItemBasic();
 		flamethrower = new ItemFlamethrower(ToolMaterial.WOOD);
+		vurpsSniper = new ItemVurpsSniper(ToolMaterial.WOOD);
 		
 		skystrikeHelmet = new ItemSkystrikeArmor(0);
 		skystrikeChestplate = new ItemSkystrikeArmor(1);
@@ -106,7 +108,6 @@ public class TFItems
 		cloudtrapBoots = new ItemCloudtrapArmor(3);
 		skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);
 		purgesKatana = new ItemPurgesKatana(ToolMaterial.EMERALD);
-//		vurpsRocketLauncher = new ItemVurpsRocketLauncher();
 		
 		transformiumDetector = new ItemTransformiumDetector();
 		
@@ -115,6 +116,7 @@ public class TFItems
 		
 		tankShell = new ItemBasic();
 		missile = new ItemBasic().setFull3D();
+		miniMissile = new ItemBasic().setFull3D();
 		smallThruster = new ItemBasic();
 		
 		TRANSFORMERMATERIAL.customCraftingMaterial = transformium;
@@ -135,6 +137,7 @@ public class TFItems
 		TFItemRegistry.registerItem(smallThruster, "Small Thruster", modId);
 		TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector", modId);
 		TFItemRegistry.registerItem(flamethrower, "Flame Thrower", modId);
+		TFItemRegistry.registerItem(vurpsSniper, "Vurps Sniper", modId);
 		
 		TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow", modId);
 		TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);
@@ -164,5 +167,6 @@ public class TFItems
 		TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece", modId);
 		TFItemRegistry.registerItem(tankShell, "Tank Shell", modId);
 		TFItemRegistry.registerItem(missile, "Missile", modId);
+		TFItemRegistry.registerItem(miniMissile, "Mini Missile", modId);
 	}
 }

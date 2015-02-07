@@ -12,6 +12,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.event.PlayerTransformEvent;
+import fiskfille.tf.item.TFItems;
 import fiskfille.tf.packet.PacketTransformersAction;
 import fiskfille.tf.transformer.base.Transformer;
 
@@ -20,28 +21,27 @@ public class TFShootManager
 	public static int shootCooldown = 0;
 	public static int shotsLeft = 4;
 
-	private boolean reloading;
-	private boolean hasFullAmmo;
-	
+	public static boolean reloading;
+
 	@SubscribeEvent
 	public void onTransform(PlayerTransformEvent event)
 	{
 		EntityPlayer player = event.entityPlayer;
-		
+
 		if (event.entity.worldObj.isRemote)
 		{
 			if (player == Minecraft.getMinecraft().thePlayer)
 			{
 				Transformer transformer = TFHelper.getTransformer(player);
-				
+
 				if(transformer != null)
 				{
-					shotsLeft = getShotsLeft(player, transformer);
+					shotsLeft = getShotsLeft(player, transformer, transformer.getShootItem());
 				}
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event)
 	{
@@ -55,35 +55,46 @@ public class TFShootManager
 				{
 					Transformer transformer = TFHelper.getTransformer(player);
 
-					if (shootCooldown > 0)
-					{
-						shootCooldown--;
-					}
-
 					if (transformer != null)
 					{
-						Item ammo = transformer.getShootItem();
-
-						if (ammo != null)
+						if (shootCooldown > 0)
 						{
-							int ammoCount = getShotsLeft(player, transformer);
+							shootCooldown--;
+						}
 
-							if (TFDataManager.isInVehicleMode(player))
+						if(TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player)) //TODO
+						{
+							if (reloading && shootCooldown <= 0)
 							{
-								if (reloading && shootCooldown <= 0)
-								{
-									shotsLeft = ammoCount;
-
-									reloading = false;
-								}
+								shotsLeft = getShotsLeft(player, transformer, TFItems.miniMissile);
+								reloading = false;
 							}
-							else
-							{
-								int shots = ammoCount;
+						}
+						else
+						{
+							Item ammo = transformer.getShootItem();
 
-								if (shotsLeft > shots)
+							if (ammo != null)
+							{
+								int ammoCount = getShotsLeft(player, transformer, ammo);
+
+								if (TFDataManager.isInVehicleMode(player))
 								{
-									shotsLeft = shots;
+									if (reloading && shootCooldown <= 0)
+									{
+										shotsLeft = ammoCount;
+
+										reloading = false;
+									}
+								}
+								else
+								{
+									int shots = ammoCount;
+
+									if (shotsLeft > shots)
+									{
+										shotsLeft = shots;
+									}
 								}
 							}
 						}
@@ -93,9 +104,14 @@ public class TFShootManager
 		}
 	}
 
-	private int getShotsLeft(EntityPlayer player, Transformer transformer)
+	private int getShotsLeft(EntityPlayer player, Transformer transformer, Item shootItem)
 	{
 		int maxAmmo = transformer.getShots();
+
+		if(!TFDataManager.isInVehicleMode(player))
+		{
+			maxAmmo = 4;
+		}
 
 		int ammoCount; 
 
@@ -105,7 +121,7 @@ public class TFShootManager
 		}
 		else
 		{
-			ammoCount = getAmountOf(transformer.getShootItem(), player);
+			ammoCount = getAmountOf(shootItem, player);
 		}
 
 		if (ammoCount > maxAmmo)
@@ -117,6 +133,7 @@ public class TFShootManager
 		{
 			shotsLeft = ammoCount;
 		}
+
 		return ammoCount;
 	}
 
@@ -139,67 +156,64 @@ public class TFShootManager
 
 		return amount;
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent event) 
 	{
 		EntityPlayer player = event.entityPlayer;
 
-		if (TFDataManager.isInVehicleMode(player)) 
+		Transformer transformer = TFHelper.getTransformer(player);
+
+		if(transformer != null && TFDataManager.isInVehicleMode(player))
 		{
-			Transformer transformer = TFHelper.getTransformer(player);
-
-			if(transformer != null)
+			if (transformer.canShoot(player))
 			{
-				if (transformer.canShoot(player))
+				Action action = event.action;
+
+				if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 				{
-					Action action = event.action;
-
-					if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+					if (shotsLeft > 0)
 					{
-						if (shotsLeft > 0)
+						if (shootCooldown <= 0)
 						{
-							if (shootCooldown <= 0)
+							if (transformer.canShoot(player))
 							{
-								if (transformer.canShoot(player) && TFDataManager.isInVehicleMode(player))
+								Item shootItem = transformer.getShootItem();
+
+								boolean isCreative = player.capabilities.isCreativeMode;
+								boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
+
+								if (hasAmmo)
 								{
-									Item shootItem = transformer.getShootItem();
+									TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
 
-									boolean isCreative = player.capabilities.isCreativeMode;
-									boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
-
-									if (hasAmmo)
+									if (!isCreative)
 									{
-										TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
-
-										if (!isCreative)
-										{
-											player.inventory.consumeInventoryItem(shootItem);
-										}
+										player.inventory.consumeInventoryItem(shootItem);
 									}
-								} 
-
-								shotsLeft--;
-
-								if (shotsLeft <= 0)
-								{
-									shootCooldown = 20;
-									reloading = true;
 								}
 							}
-						}
-						else
-						{
-							if (!reloading)
+
+							shotsLeft--;
+
+							if (shotsLeft <= 0)
 							{
 								shootCooldown = 20;
 								reloading = true;
 							}
 						}
 					}
-
-					event.setCanceled(true);
+					else
+					{
+						if (!reloading)
+						{
+							shootCooldown = 20;
+							reloading = true;
+						}
+					}
 				}
+
+				event.setCanceled(true);
 			}
 		}
 	}

@@ -79,7 +79,7 @@ public abstract class TransformerTank extends Transformer
 			
 			if (nitro > 0 && nitroPressed && moveForward && player == Minecraft.getMinecraft().thePlayer)
 			{
-				--nitro;
+				if (!player.capabilities.isCreativeMode) --nitro;
 
 				if (!prevNitro)
 				{

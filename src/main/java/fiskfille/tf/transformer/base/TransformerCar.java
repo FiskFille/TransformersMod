@@ -165,7 +165,7 @@ public abstract class TransformerCar extends Transformer
 
 			if (nitro > 0 && nitroPressed && moveForward && player == mc.thePlayer && !inStealthMode)
 			{
-				--nitro;
+				if (!player.capabilities.isCreativeMode) --nitro;
 
 				if (!prevNitro)
 				{

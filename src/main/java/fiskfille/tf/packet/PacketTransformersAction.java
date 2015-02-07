@@ -87,8 +87,6 @@ public class PacketTransformersAction extends TransformersPacket
 	@Override
 	public void handleServerSide(EntityPlayer player)
 	{
-		TransformersMod.packetPipeline.sendToAll(this);
-		
 		EntityPlayer from = null;
 
 		for (World world : MinecraftServer.getServer().worldServers)
@@ -120,13 +118,16 @@ public class PacketTransformersAction extends TransformersPacket
 						if (hasAmmo)
 						{
 							World world = from.worldObj;
+							
+							TransformersMod.packetPipeline.sendToAll(this);
+							
 							Entity entity = transformer.getShootEntity(player);
 							entity.posY--;
 							world.spawnEntityInWorld(entity);
 
 							if (!isCreative)
 							{
-								player.inventory.consumeInventoryItem(TFItems.tankShell);
+								player.inventory.consumeInventoryItem(shootItem);
 							}
 						}
 					} 

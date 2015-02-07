@@ -11,7 +11,7 @@ public class TFKeyBinds
 	public static TFKeyBinding keyBindingTransform = new TFKeyBinding("Transform", Keyboard.KEY_C);
 	public static TFKeyBinding keyBindingNitro = new TFKeyBinding("Nitro Boost", Keyboard.KEY_X);
 	public static TFKeyBinding keyBindingBrake = new TFKeyBinding("Brake", Keyboard.KEY_Z);
-	public static TFKeyBinding keyBindingZoom = new TFKeyBinding("Tank Aim", Keyboard.KEY_B);
+	public static TFKeyBinding keyBindingZoom = new TFKeyBinding("Aim", Keyboard.KEY_B);
 	public static TFKeyBinding keyBindingStealthMode = new TFKeyBinding("Stealth Mode", Keyboard.KEY_V);
 	public static TFKeyBinding keyBindingVehicleFirstPerson = new TFKeyBinding("Vehicle First Person", Keyboard.KEY_G);
 

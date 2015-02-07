@@ -21,5 +21,7 @@ public class TFPackets
 		TransformersMod.packetPipeline.registerPacket(PacketBroadcastState.class);
 		
 		TransformersMod.packetPipeline.registerPacket(PacketVehicleNitro.class);
+		
+		TransformersMod.packetPipeline.registerPacket(PacketVurpSniperShoot.class);
 	}
 }

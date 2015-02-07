@@ -9,6 +9,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.entity.EntityMiniMissile;
 import fiskfille.tf.entity.EntityMissile;
 import fiskfille.tf.entity.EntityTankShell;
 import fiskfille.tf.item.TFItems;
@@ -20,18 +21,19 @@ import fiskfille.tf.model.transformer.ModelSubwoofer;
 import fiskfille.tf.model.transformer.ModelVurp;
 import fiskfille.tf.model.transformer.TFModelRegistry;
 import fiskfille.tf.render.entity.RenderCustomPlayer;
+import fiskfille.tf.render.entity.RenderMiniMissile;
 import fiskfille.tf.render.entity.RenderMissile;
 import fiskfille.tf.render.entity.RenderTankShell;
 import fiskfille.tf.render.item.RenderItemDisplayVehicle;
 import fiskfille.tf.render.item.RenderItemFlamethrower;
 import fiskfille.tf.render.item.RenderItemPurgesKatana;
 import fiskfille.tf.render.item.RenderItemSkystrikesCrossbow;
+import fiskfille.tf.render.item.RenderItemVurpsSniper;
 import fiskfille.tf.render.tileentity.RenderCrystal;
 import fiskfille.tf.render.tileentity.RenderDisplayPillar;
 import fiskfille.tf.tick.ClientTickHandler;
 import fiskfille.tf.tileentity.TileEntityCrystal;
 import fiskfille.tf.tileentity.TileEntityDisplayPillar;
-
 
 public class ClientProxy extends CommonProxy
 {
@@ -59,6 +61,7 @@ public class ClientProxy extends CommonProxy
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityTankShell.class, new RenderTankShell());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMiniMissile.class, new RenderMiniMissile());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
 		
@@ -67,13 +70,13 @@ public class ClientProxy extends CommonProxy
 		
 		MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
 		MinecraftForgeClient.registerItemRenderer(TFItems.flamethrower, new RenderItemFlamethrower());
+		MinecraftForgeClient.registerItemRenderer(TFItems.vurpsSniper, new RenderItemVurpsSniper());
 		
 		TFModelRegistry.registerModel(TransformersMod.transformerCloudtrap.getName(), new ModelCloudtrap());
 		TFModelRegistry.registerModel(TransformersMod.transformerPurge.getName(), new ModelPurge());
 		TFModelRegistry.registerModel(TransformersMod.transformerSkystrike.getName(), new ModelSkystrike());
 		TFModelRegistry.registerModel(TransformersMod.transformerSubwoofer.getName(), new ModelSubwoofer());
 		TFModelRegistry.registerModel(TransformersMod.transformerVurp.getName(), new ModelVurp());
-		
 	}
 	
 	@Override
