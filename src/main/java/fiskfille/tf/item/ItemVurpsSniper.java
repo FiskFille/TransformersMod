@@ -36,11 +36,6 @@ public class ItemVurpsSniper extends ItemSword
 					{
 						TransformersMod.packetPipeline.sendToServer(new PacketVurpSniperShoot(player));
 
-//						if (!isCreativeMode)
-//						{
-//							player.inventory.consumeInventoryItem(TFItems.miniMissile);
-//						}
-
 						TFShootManager.shotsLeft--;
 
 						if (TFShootManager.shotsLeft <= 0)

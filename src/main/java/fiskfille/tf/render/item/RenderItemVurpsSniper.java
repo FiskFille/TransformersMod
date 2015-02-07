@@ -58,7 +58,7 @@ public class RenderItemVurpsSniper implements IItemRenderer
 		else if (type == ItemRenderType.EQUIPPED)
 		{
 			GL11.glPushMatrix();
-			GL11.glTranslatef(0.6F, 0.4F, -0F);
+			GL11.glTranslatef(0.7F, 0.6F, -0F);
 			GL11.glRotatef(-135, 0, 0, 1);
 			GL11.glRotatef(0, 0, 0, 1);
 			GL11.glRotatef(95, 0, 1, 0);
