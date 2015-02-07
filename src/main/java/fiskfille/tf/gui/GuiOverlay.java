@@ -101,16 +101,21 @@ public class GuiOverlay extends Gui
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GL11.glColor4f(0F, 0F, 0F, 0.3F);
-				drawTexturedModalRect(5 - i, 17, 0, 0, 202, 12);
-				drawTexturedModalRect(5 - i, 30, 0, 0, 202, 12);
+				//Speed Outline
+				drawTexturedModalRect(5 - i, 3, 0, 0, 202, 12);
+				
+				//Nitro Outline
+				drawTexturedModalRect(5 - i, 16, 0, 0, 202, 12);
 				GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
-				drawTexturedModalRect(6 - i, 18, 0, 0, (int)(nitro * 1.25F), 10);
+				//Nitro Bar
+				drawTexturedModalRect(6 - i, 4, 0, 0, (int)(nitro * 1.25F), 10);
                 GL11.glColor4f(1F, 0F, 0F, 0.5F);
-				drawTexturedModalRect(6 - i, 31, 0, 0, (int)(speed * 1F) > 200 ? 200 : (int)(speed * 1F), 10);
+                //Speed Bar
+				drawTexturedModalRect(6 - i, 17, 0, 0, (int)(speed * 1F) > 200 ? 200 : (int)(speed * 1F), 10);
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-				drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, 19, 0xffffff);
-				drawCenteredString(mc.fontRenderer, (int)(TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - i, 32, 0xffffff);
+				drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, 5, 0xffffff);
+				drawCenteredString(mc.fontRenderer, (int)(TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - i, 18, 0xffffff);
 			}
 		}
 		else
@@ -161,14 +166,14 @@ public class GuiOverlay extends Gui
 						shotsLeft = EnumChatFormatting.RED + shotsLeft;
 					}
 					
-					drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, 5 - transformationOffsetX, 5, 0xffffff);
+					drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, 5 - transformationOffsetX, 32, 0xffffff);
 
 					GL11.glDisable(GL11.GL_TEXTURE_2D);
 					GL11.glEnable(GL11.GL_BLEND);
 					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 					GL11.glColor4f(0F, 0F, 0F, 0.15F);
 
-					int y = 3;
+					int y = 30;
 					drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 52, 12);
 					GL11.glColor4f(1F, 0F, 0F, 0.25F);
 					drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int)(d), 10);

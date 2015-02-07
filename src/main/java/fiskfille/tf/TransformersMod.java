@@ -88,7 +88,7 @@ public class TransformersMod
 	
 		proxy.registerRenderInformation();
 		proxy.registerKeyBinds();
-		proxy.registerTickHandler();
+		proxy.registerTickHandlers();
 		
 		for (Method method : Entity.class.getDeclaredMethods())
 		{

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FileDownloader 
 {
-	public static List<String> downloadFile(String urlString) throws MalformedURLException, IOException
+	public static List<String> downloadFileList(String urlString) throws MalformedURLException, IOException
 	{
 		List<String> text = new ArrayList<String>();
 		
@@ -22,6 +22,25 @@ public class FileDownloader
 		while ((currentLine = reader.readLine()) != null) 
 		{
 			text.add(currentLine);
+		}
+		
+		reader.close();
+		
+		return text;
+	}
+	
+	public static String downloadFile(String urlString) throws MalformedURLException, IOException
+	{
+		String text = "";
+		
+		URL url = new URL(urlString);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		
+		String currentLine;
+		
+		while ((currentLine = reader.readLine()) != null) 
+		{
+			text += currentLine + "\r\n";
 		}
 		
 		reader.close();

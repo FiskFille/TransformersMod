@@ -18,7 +18,7 @@ public class CommonProxy
 		
 	}
 
-	public void registerTickHandler() 
+	public void registerTickHandlers() 
 	{
 		
 	}

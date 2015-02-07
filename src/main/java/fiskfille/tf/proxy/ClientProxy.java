@@ -77,7 +77,7 @@ public class ClientProxy extends CommonProxy
 	}
 	
 	@Override
-	public void registerTickHandler()
+	public void registerTickHandlers()
 	{
 		tickHandler = new ClientTickHandler();
 	}

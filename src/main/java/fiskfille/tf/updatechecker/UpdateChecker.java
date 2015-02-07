@@ -15,7 +15,7 @@ public class UpdateChecker extends Thread
 
 		try 
 		{
-			List<String> text = PastebinFileReader.readFile("hBG80bPW");
+			List<String> text = PastebinFileReader.readPastebinAsList("hBG80bPW");
 
 			String version = text.get(0).split("\\:")[1];
 			Version newestVersion = new Version(version);
