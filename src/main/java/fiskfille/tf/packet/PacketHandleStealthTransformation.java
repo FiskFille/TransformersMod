@@ -62,7 +62,7 @@ public class PacketHandleStealthTransformation extends TransformersPacket
 			
 			from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5F, false);
 
-			playerData.stealthMode = mode;
+			playerData.stealthForce = mode;
 		}
 	}
 

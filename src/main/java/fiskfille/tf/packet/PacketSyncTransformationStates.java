@@ -69,8 +69,8 @@ public class PacketSyncTransformationStates extends TransformersPacket
 						UUID uuid = state.getKey();
 						if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
 						{
-							TFPlayerData.getData(currentPlayer).mode = state.getValue()[0];
-							TFPlayerData.getData(currentPlayer).stealthMode = state.getValue()[1];
+							TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
+							TFPlayerData.getData(currentPlayer).stealthForce = state.getValue()[1];
 							//TFDataManager.setTransformationTimer(currentPlayer, state.getValue() ? 0 : 10);
 						}
 					}

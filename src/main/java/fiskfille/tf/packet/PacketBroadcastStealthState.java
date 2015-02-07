@@ -49,7 +49,7 @@ public class PacketBroadcastStealthState extends TransformersPacket
 			EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
 			
 			TFPlayerData playerData = TFPlayerData.getData(lookupPlayer);
-			playerData.stealthMode = stealth;
+			playerData.stealthForce = stealth;
 			TFDataManager.setStealthModeTimer(lookupPlayer, stealth ? 0 : 5);
 		}
 	}
@@ -59,6 +59,6 @@ public class PacketBroadcastStealthState extends TransformersPacket
 	{
 		TransformersMod.packetPipeline.sendToDimension(this, player.dimension);
 		TFPlayerData playerData = TFPlayerData.getData(player);
-		playerData.stealthMode = stealth;
+		playerData.stealthForce = stealth;
 	}
 }

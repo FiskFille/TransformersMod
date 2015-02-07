@@ -41,7 +41,7 @@ public class TickHandler
 				TFDataManager.setInVehicleMode(player, false);
 				gameSettings.viewBobbing = prevViewBobbing;
 				player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
-				TFPlayerData.getData(player).stealthMode = false;
+				TFPlayerData.getData(player).stealthForce = false;
 			}
 			else if (!inVehicleMode && transformationTimer == 20)
 			{
@@ -49,7 +49,7 @@ public class TickHandler
 				prevViewBobbing = gameSettings.viewBobbing;
 				gameSettings.viewBobbing = false;
 				player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
-				TFPlayerData.getData(player).stealthMode = false;
+				TFPlayerData.getData(player).stealthForce = false;
 				TFMotionManager.resetPlayer(player);
 			}
 

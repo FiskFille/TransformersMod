@@ -49,7 +49,7 @@ public class PacketBroadcastTransformationState extends TransformersPacket
 			EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
 			
 			TFPlayerData playerData = TFPlayerData.getData(lookupPlayer);
-			playerData.mode = vehicle;
+			playerData.vehicle = vehicle;
 			TFDataManager.setTransformationTimer(lookupPlayer, vehicle ? 0 : 10);
 		}
 	}
@@ -59,6 +59,6 @@ public class PacketBroadcastTransformationState extends TransformersPacket
 	{
 		TransformersMod.packetPipeline.sendToDimension(this, player.dimension);
 		TFPlayerData playerData = TFPlayerData.getData(player);
-		playerData.mode = vehicle;
+		playerData.vehicle = vehicle;
 	}
 }

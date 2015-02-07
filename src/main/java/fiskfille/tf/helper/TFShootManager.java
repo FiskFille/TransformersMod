@@ -3,6 +3,7 @@ package fiskfille.tf.helper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.event.PlayerTransformEvent;
 import fiskfille.tf.packet.PacketTransformersAction;
 import fiskfille.tf.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
@@ -21,6 +22,22 @@ public class TFShootManager
 
 	private boolean reloading;
 	private boolean hasFullAmmo;
+	
+	@SubscribeEvent
+	public void onTransform(PlayerTransformEvent event)
+	{
+		EntityPlayer player = event.entityPlayer;
+		
+		if (event.entity.worldObj.isRemote)
+		{
+			if (player == Minecraft.getMinecraft().thePlayer)
+			{
+				Transformer transformer = TFHelper.getTransformer(player);
+				
+				shotsLeft = getShotsLeft(player, transformer);
+			}
+		}
+	}
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event)
@@ -46,28 +63,7 @@ public class TFShootManager
 
 						if (ammo != null)
 						{
-							int maxAmmo = transformer.getShots();
-
-							int ammoCount; 
-
-							if (player.capabilities.isCreativeMode)
-							{
-								ammoCount = maxAmmo;
-							}
-							else
-							{
-								ammoCount = getAmountOf(ammo, player);
-							}
-
-							if (ammoCount > maxAmmo)
-							{
-								ammoCount = maxAmmo;
-							}
-
-							if (shotsLeft > ammoCount)
-							{
-								shotsLeft = ammoCount;
-							}
+							int ammoCount = getShotsLeft(player, transformer);
 
 							if (TFDataManager.isInVehicleMode(player))
 							{
@@ -92,6 +88,33 @@ public class TFShootManager
 				}
 			}
 		}
+	}
+
+	private int getShotsLeft(EntityPlayer player, Transformer transformer)
+	{
+		int maxAmmo = transformer.getShots();
+
+		int ammoCount; 
+
+		if (player.capabilities.isCreativeMode)
+		{
+			ammoCount = maxAmmo;
+		}
+		else
+		{
+			ammoCount = getAmountOf(transformer.getShootItem(), player);
+		}
+
+		if (ammoCount > maxAmmo)
+		{
+			ammoCount = maxAmmo;
+		}
+
+		if (shotsLeft > ammoCount)
+		{
+			shotsLeft = ammoCount;
+		}
+		return ammoCount;
 	}
 
 	private int getAmountOf(Item item, EntityPlayer player)

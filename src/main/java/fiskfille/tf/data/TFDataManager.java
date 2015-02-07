@@ -6,8 +6,10 @@ import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.achievement.TFAchievements;
+import fiskfille.tf.event.PlayerTransformEvent;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.packet.PacketHandleTransformation;
@@ -23,13 +25,13 @@ public class TFDataManager
 	{
 		TFPlayerData data = TFPlayerData.getData(player);
 		
-		if (vehicleMode != data.mode)
+		if (vehicleMode != data.vehicle)
 		{
 			player.triggerAchievement(TFAchievements.transform);
 			
 			if(!vehicleMode)
 			{
-				data.stealthMode = false;
+				data.stealthForce = false;
 			}
 			
 			if (player.worldObj.isRemote)
@@ -41,13 +43,15 @@ public class TFDataManager
 				TransformersMod.packetPipeline.sendToDimension(new PacketHandleTransformation(player, vehicleMode), player.dimension);
 			}
 
-			data.mode = vehicleMode;
+			data.vehicle = vehicleMode;
+			
+			MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, vehicleMode, data.stealthForce));
 		}
 	}
 	
 	public static void setInStealthMode(EntityPlayer player, boolean stealthMode)
 	{
-		if (stealthMode != TFPlayerData.getData(player).stealthMode)
+		if (stealthMode != TFPlayerData.getData(player).stealthForce)
 		{
 			if (isInVehicleMode(player))
 			{
@@ -60,7 +64,7 @@ public class TFDataManager
 					TransformersMod.packetPipeline.sendToDimension(new PacketHandleStealthTransformation(player, stealthMode), player.dimension);
 				}
 
-				TFPlayerData.getData(player).stealthMode = stealthMode;
+				TFPlayerData.getData(player).stealthForce = stealthMode;
 			}
 		}
 	}
@@ -77,7 +81,7 @@ public class TFDataManager
 	
 	public static boolean isInVehicleMode(EntityPlayer player)
 	{
-		return TFPlayerData.getData(player).mode && TFHelper.isPlayerTransformer(player);
+		return TFPlayerData.getData(player).vehicle && TFHelper.isPlayerTransformer(player);
 	}
 
 	public static boolean isInStealthMode(EntityPlayer player)
@@ -86,7 +90,7 @@ public class TFDataManager
 
 		if (transformer != null)
 		{
-			return transformer.hasStealthForce(player) && isInVehicleMode(player) && TFPlayerData.getData(player).stealthMode;
+			return transformer.hasStealthForce(player) && isInVehicleMode(player) && TFPlayerData.getData(player).stealthForce;
 		}
 		
 		return false;
@@ -108,12 +112,12 @@ public class TFDataManager
 
 	public static void toggleVehicleMode(EntityPlayer player) 
 	{
-		setInVehicleMode(player, !TFPlayerData.getData(player).mode);
+		setInVehicleMode(player, !TFPlayerData.getData(player).vehicle);
 	}
 	
 	public static void toggleStealthMode(EntityPlayer player) 
 	{
-		setInStealthMode(player, !TFPlayerData.getData(player).stealthMode);
+		setInStealthMode(player, !TFPlayerData.getData(player).stealthForce);
 	}
 
 	public static void updateTransformationStatesFor(EntityPlayer player) 
@@ -130,7 +134,7 @@ public class TFDataManager
 
 				if (data != null)
 				{
-					states.put(cPlayer.getUniqueID(), new Boolean[]{data.mode, data.stealthMode});
+					states.put(cPlayer.getUniqueID(), new Boolean[]{data.vehicle, data.stealthForce});
 				}
 			}
 		}

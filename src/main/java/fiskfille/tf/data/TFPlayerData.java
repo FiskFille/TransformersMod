@@ -8,8 +8,8 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class TFPlayerData implements IExtendedEntityProperties
 {
-	public boolean mode;
-	public boolean stealthMode;
+	public boolean vehicle;
+	public boolean stealthForce;
 	
 	public static final String IDENTIFIER = "TFPLAYERDATA";
 	
@@ -21,15 +21,15 @@ public class TFPlayerData implements IExtendedEntityProperties
 	@Override
 	public void saveNBTData(NBTTagCompound compound) 
 	{
-		compound.setBoolean("mode", mode);
-		compound.setBoolean("stealth", stealthMode);
+		compound.setBoolean("mode", vehicle);
+		compound.setBoolean("stealth", stealthForce);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
-		mode = compound.getBoolean("mode");
-		stealthMode = compound.getBoolean("stealth");
+		vehicle = compound.getBoolean("mode");
+		stealthForce = compound.getBoolean("stealth");
 	}
 
 	@Override
