@@ -81,7 +81,7 @@ public class GuiOverlay extends Gui
 				double diffY = (player.posY - lastY);
 				double diffZ = (player.posZ - lastZ);
 
-				speed = (double) (Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ)) * ((((double)(timeDiff / 500) * 60) * 60) * 2) / 1000);
+				speed = (double) (Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ)) * ((((double)60) * 60) * 2) / 1000);
 
 				lastX = player.posX;
 				lastY = player.posY;
