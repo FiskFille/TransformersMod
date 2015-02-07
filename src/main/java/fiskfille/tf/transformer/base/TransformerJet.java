@@ -25,6 +25,11 @@ import fiskfille.tf.proxy.ClientProxy;
 
 public abstract class TransformerJet extends Transformer
 {
+	public TransformerJet(String name) 
+	{
+		super(name);
+	}
+
 	@Override
 	public float fall(EntityPlayer player, float distance)
 	{

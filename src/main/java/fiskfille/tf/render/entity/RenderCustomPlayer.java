@@ -1,23 +1,14 @@
 package fiskfille.tf.render.entity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.item.armor.ITransformerArmor;
 import fiskfille.tf.model.player.ModelBipedTF;
-import fiskfille.tf.model.transformer.ModelChildBase;
-import fiskfille.tf.transformer.base.Transformer;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer

@@ -19,10 +19,14 @@ import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.TFNitroParticleHandler;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.packet.PacketVehicleNitro;
-import fiskfille.tf.proxy.ClientProxy;
 
 public abstract class TransformerCar extends Transformer
 {	
+	public TransformerCar(String name)
+	{
+		super(name);
+	}
+
 	@Override
 	public float fall(EntityPlayer player, float distance)
 	{

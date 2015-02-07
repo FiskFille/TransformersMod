@@ -4,9 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import fiskfille.tf.block.TFBlocks;
-import fiskfille.tf.container.ContainerDisplayPillar;
-import fiskfille.tf.tileentity.TileEntityDisplayPillar;
 
 public class GuiHandlerTF implements IGuiHandler
 {

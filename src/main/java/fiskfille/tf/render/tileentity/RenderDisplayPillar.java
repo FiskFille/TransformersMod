@@ -10,11 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.item.armor.ItemCloudtrapArmor;
-import fiskfille.tf.item.armor.ItemPurgeArmor;
-import fiskfille.tf.item.armor.ItemSkystrikeArmor;
-import fiskfille.tf.item.armor.ItemSubwooferArmor;
-import fiskfille.tf.item.armor.ItemVurpArmor;
 import fiskfille.tf.model.tileentity.ModelDisplayPillar;
 import fiskfille.tf.model.transformer.vehicle.ModelCloudtrapVehicle;
 import fiskfille.tf.model.transformer.vehicle.ModelPurgeVehicle;

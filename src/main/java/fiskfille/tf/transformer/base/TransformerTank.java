@@ -19,16 +19,15 @@ import fiskfille.tf.packet.PacketVehicleNitro;
 
 public abstract class TransformerTank extends Transformer
 {
+	public TransformerTank(String name) 
+	{
+		super(name);
+	}
+
 	@Override
 	public String getShootSound()
 	{
 		return TransformersMod.modid + ":tankfire";
-	}
-	
-	@Override
-	public boolean canZoom(EntityPlayer player)
-	{
-		return true;
 	}
 	
 	@Override

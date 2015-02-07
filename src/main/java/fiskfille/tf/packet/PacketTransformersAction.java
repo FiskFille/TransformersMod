@@ -1,11 +1,7 @@
 package fiskfille.tf.packet;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.achievement.TFAchievements;
-import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.entity.EntityMissile;
-import fiskfille.tf.entity.EntityTankShell;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.transformer.base.Transformer;

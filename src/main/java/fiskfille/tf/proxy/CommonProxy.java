@@ -1,7 +1,5 @@
 package fiskfille.tf.proxy;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.entity.EntityLivingBase;
 import fiskfille.tf.tick.ClientTickHandler;
 
 public class CommonProxy

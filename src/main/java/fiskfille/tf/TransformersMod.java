@@ -1,5 +1,10 @@
 package fiskfille.tf;
 
+import java.lang.reflect.Method;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -21,15 +26,14 @@ import fiskfille.tf.packet.TFPacketPipeline;
 import fiskfille.tf.packet.TFPackets;
 import fiskfille.tf.proxy.CommonProxy;
 import fiskfille.tf.recipe.TFRecipes;
-import fiskfille.tf.transformer.*;
+import fiskfille.tf.transformer.TransformerCloudtrap;
+import fiskfille.tf.transformer.TransformerPurge;
+import fiskfille.tf.transformer.TransformerSkystrike;
+import fiskfille.tf.transformer.TransformerSubwoofer;
+import fiskfille.tf.transformer.TransformerVurp;
 import fiskfille.tf.transformer.base.Transformer;
 import fiskfille.tf.updatechecker.Update;
 import fiskfille.tf.updatechecker.UpdateChecker;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.common.config.Configuration;
-
-import java.lang.reflect.Method;
 
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.gui.TFGuiFactory")
 public class TransformersMod
@@ -40,7 +44,7 @@ public class TransformersMod
 	public static Configuration configFile;
 	
 	public static final String modid = "transformers";
-	public static final String version = "${version}";
+	public static final String version = "0.5.0";
 	
 	public static TFPacketPipeline packetPipeline;
 	
@@ -57,11 +61,11 @@ public class TransformersMod
 	
 	public static Update latestUpdate;
 	
-	public static Transformer transformerPurge = new TransformerPurge();
-	public static Transformer transformerSkystrike = new TransformerSkystrike();
-	public static Transformer transformerCloudtrap = new TransformerCloudtrap();
-	public static Transformer transformerVurp = new TransformerVurp();
-	public static Transformer transformerSubwoofer = new TransformerSubwoofer();
+	public static Transformer transformerPurge = new TransformerPurge("Purge");
+	public static Transformer transformerSkystrike = new TransformerSkystrike("Skystrike");
+	public static Transformer transformerCloudtrap = new TransformerCloudtrap("Cloudtrap");
+	public static Transformer transformerVurp = new TransformerVurp("Vurp");
+	public static Transformer transformerSubwoofer = new TransformerSubwoofer("Subwoofer");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)

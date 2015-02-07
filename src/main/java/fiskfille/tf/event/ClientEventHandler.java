@@ -22,7 +22,6 @@ import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
-import fiskfille.tf.proxy.ClientProxy;
 import fiskfille.tf.render.entity.CustomEntityRenderer;
 import fiskfille.tf.transformer.base.Transformer;
 

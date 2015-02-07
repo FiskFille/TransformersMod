@@ -18,7 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.event.CommonEventHandler;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFShootManager;
 import fiskfille.tf.item.TFItems;

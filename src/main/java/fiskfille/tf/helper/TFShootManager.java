@@ -1,11 +1,5 @@
 package fiskfille.tf.helper;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.event.PlayerTransformEvent;
-import fiskfille.tf.packet.PacketTransformersAction;
-import fiskfille.tf.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,6 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.event.PlayerTransformEvent;
+import fiskfille.tf.packet.PacketTransformersAction;
+import fiskfille.tf.transformer.base.Transformer;
 
 public class TFShootManager
 {
@@ -34,7 +34,10 @@ public class TFShootManager
 			{
 				Transformer transformer = TFHelper.getTransformer(player);
 				
-				shotsLeft = getShotsLeft(player, transformer);
+				if(transformer != null)
+				{
+					shotsLeft = getShotsLeft(player, transformer);
+				}
 			}
 		}
 	}

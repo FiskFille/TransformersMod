@@ -1,15 +1,19 @@
 package fiskfille.tf.transformer;
 
 import net.minecraft.item.Item;
+import cpw.mods.fml.common.FMLCommonHandler;
 import fiskfille.tf.item.TFItems;
 import fiskfille.tf.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.model.transformer.ModelPurge;
-import fiskfille.tf.proxy.ClientProxy;
+import fiskfille.tf.model.transformer.TFModelRegistry;
 import fiskfille.tf.transformer.base.TransformerTank;
 
 public class TransformerPurge extends TransformerTank
 {
-	private ModelPurge model = new ModelPurge();
+	public TransformerPurge(String name)
+	{
+		super(name);
+	}
 	
 	@Override
 	public Item getHelmet() 
@@ -38,6 +42,6 @@ public class TransformerPurge extends TransformerTank
 	@Override
 	public Biped getModel()
 	{
-		return model;
+		return TFModelRegistry.getModel(this);
 	}
 }

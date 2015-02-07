@@ -1,15 +1,19 @@
 package fiskfille.tf.transformer;
 
-import fiskfille.tf.item.TFItems;
-import fiskfille.tf.model.transformer.ModelCloudtrap;
-import fiskfille.tf.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.proxy.ClientProxy;
-import fiskfille.tf.transformer.base.TransformerJet;
 import net.minecraft.item.Item;
+import cpw.mods.fml.common.FMLCommonHandler;
+import fiskfille.tf.item.TFItems;
+import fiskfille.tf.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.model.transformer.ModelCloudtrap;
+import fiskfille.tf.model.transformer.TFModelRegistry;
+import fiskfille.tf.transformer.base.TransformerJet;
 
 public class TransformerCloudtrap extends TransformerJet 
 {
-	private ModelCloudtrap model = new ModelCloudtrap();
+	public TransformerCloudtrap(String name)
+	{
+		super(name);
+	}
 	
 	@Override
 	public Item getHelmet() 
@@ -36,14 +40,14 @@ public class TransformerCloudtrap extends TransformerJet
 	}
 	
 	@Override
-	public Biped getModel()
-	{
-		return model;
-	}
-	
-	@Override
 	public boolean hasJetpack() 
 	{
 		return true;
+	}
+
+	@Override
+	public Biped getModel() 
+	{
+		return TFModelRegistry.getModel(this);
 	}
 }

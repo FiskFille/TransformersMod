@@ -2,7 +2,6 @@ package fiskfille.tf.misc;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

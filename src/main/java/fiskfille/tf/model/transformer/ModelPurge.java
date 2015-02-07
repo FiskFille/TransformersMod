@@ -3,7 +3,6 @@ package fiskfille.tf.model.transformer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;

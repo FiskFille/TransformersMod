@@ -4,18 +4,28 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.model.player.ModelBipedTF;
-import fiskfille.tf.model.player.ModelCustomPlayer;
-import fiskfille.tf.model.transformer.ModelChildBase;
+import fiskfille.tf.model.transformer.ModelChildBase.Biped;
 
 public abstract class Transformer 
 {
+	private String name;
+	
 	public abstract Item getHelmet();
 	public abstract Item getChestplate();
 	public abstract Item getLeggings();
 	public abstract Item getBoots();
 	
-	public abstract ModelChildBase.Biped getModel();
+	public abstract Biped getModel();
+	
+	public Transformer(String name)
+	{
+		this.name = name;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
 	
 	public void transformationTick(EntityPlayer player, int timer)
 	{
