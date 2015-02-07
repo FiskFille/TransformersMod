@@ -85,58 +85,11 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerRenderInformation()
 	{
-		Field mainModelField = null;
-		Field modelBipedMainField = null;
-		
-		int i = 0;
-		for (Field curField : RendererLivingEntity.class.getDeclaredFields())
-		{
-			if (curField.getType() == ModelBase.class)
-			{
-				if (i++ == 0)
-				{
-					mainModelField = curField;
-					curField.setAccessible(true);
-				}
-			}
-		}
-
-
-		i = 0;
-		for (Field curField : RenderPlayer.class.getDeclaredFields())
-		{
-			if (curField.getType() == ModelBiped.class)
-			{
-				if (i++ == 0)
-				{
-					modelBipedMainField = curField;
-					curField.setAccessible(true);
-				}
-			}
-		}
-
 		RenderCustomPlayer renderCustomPlayer = new RenderCustomPlayer();
 		renderCustomPlayer.setRenderManager(RenderManager.instance);
 		RenderManager.instance.entityRenderMap.put(EntityPlayer.class, renderCustomPlayer);
 		
-		RenderPlayer playerRenderer = (RenderPlayer)RenderManager.instance.getEntityClassRenderObject(EntityPlayer.class);
-		ModelBipedTF newModel = new ModelBipedTF(0.0F);
-
-		try 
-		{
-			mainModelField.set((RendererLivingEntity)playerRenderer, (ModelBase)newModel);
-			modelBipedMainField.set(playerRenderer, (ModelBiped)newModel);
-		}
-		catch (IllegalArgumentException e) 
-		{
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		
-		i = 0;
+		int i = 0;
 		for (Field curField : EntityRenderer.class.getDeclaredFields())
 		{
 			if (curField.getType() == float.class)
@@ -153,7 +106,6 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
-		
 		
 		MinecraftForgeClient.registerItemRenderer(TFItems.purgesKatana, new RenderItemPurgesKatana());
 		MinecraftForgeClient.registerItemRenderer(TFItems.skystrikesCrossbow, new RenderItemSkystrikesCrossbow());

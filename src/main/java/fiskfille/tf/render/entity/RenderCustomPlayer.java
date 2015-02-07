@@ -1,6 +1,7 @@
 package fiskfille.tf.render.entity;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -14,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TFHelper;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.item.armor.ITransformerArmor;
+import fiskfille.tf.model.player.ModelBipedTF;
 import fiskfille.tf.model.transformer.ModelChildBase;
 import fiskfille.tf.transformer.Transformer;
 
@@ -23,6 +25,8 @@ public class RenderCustomPlayer extends RenderPlayer
 	public RenderCustomPlayer()
 	{
 		super();
+		this.mainModel = new ModelBipedTF(0.0F);
+        this.modelBipedMain = (ModelBiped)this.mainModel;
 	}
 
 	@Override
