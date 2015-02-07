@@ -40,11 +40,6 @@ public abstract class Transformer
 		return -1;
 	}
 	
-	public boolean shouldTakeFallDamage(EntityPlayer player)
-	{
-		return true;
-	}
-	
 	public boolean canJumpAsVehicle(EntityPlayer player)
 	{
 		return false;
@@ -105,5 +100,10 @@ public abstract class Transformer
 	
 	public void doNitroParticles(EntityPlayer player)
 	{
+	}
+	
+	public float fall(EntityPlayer player, float distance) 
+	{
+		return distance;
 	}
 }

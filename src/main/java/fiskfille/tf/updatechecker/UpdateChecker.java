@@ -33,7 +33,7 @@ public class UpdateChecker extends Thread
 		} 
 		catch (Exception e) 
 		{
-			System.err.println("[Transformers Mod] Failed to read mod version! Please notify FiskFille or gegy1000!");
+			System.err.println("[Transformers Mod] Failed to read mod version! Please report this on the GitHub issue tracker! https://github.com/FiskFille/TransformersMod/issues");
 			e.printStackTrace();
 		}
 		

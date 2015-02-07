@@ -26,9 +26,9 @@ import fiskfille.tf.proxy.ClientProxy;
 public abstract class TransformerJet extends Transformer
 {
 	@Override
-	public boolean shouldTakeFallDamage(EntityPlayer player)
+	public float fall(EntityPlayer player, float distance)
 	{
-		return false;
+		return 0;
 	}
 	
 	@Override

@@ -32,9 +32,9 @@ public abstract class TransformerTank extends Transformer
 	}
 	
 	@Override
-	public boolean shouldTakeFallDamage(EntityPlayer player)
+	public float fall(EntityPlayer player, float distance)
 	{
-		return !TFDataManager.isInVehicleMode(player);
+		return TFDataManager.isInVehicleMode(player) ? 0 : super.fall(player, distance);
 	}
 	
 	@Override

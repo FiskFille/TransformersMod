@@ -22,7 +22,13 @@ import fiskfille.tf.packet.PacketVehicleNitro;
 import fiskfille.tf.proxy.ClientProxy;
 
 public abstract class TransformerCar extends Transformer
-{
+{	
+	@Override
+	public float fall(EntityPlayer player, float distance)
+	{
+		return TFDataManager.isInVehicleMode(player) ? distance / 2 : super.fall(player, distance);
+	}
+	
 	@Override
 	public void transformationTick(EntityPlayer player, int timer)
 	{

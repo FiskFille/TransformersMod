@@ -46,27 +46,26 @@ import fiskfille.tf.updatechecker.Update;
 public class CommonEventHandler
 {
 	private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
-	private boolean displayedUpdates;
 
-	private boolean prevVehicleMode; 
+	private boolean displayedUpdates;
 
 	@SubscribeEvent
 	public void onHit(LivingAttackEvent event)
 	{
 		EntityLivingBase entityLiving = event.entityLiving;
 		Entity cause = event.source.getEntity();
-		
+
 		if (cause instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) cause;
-			
+
 			if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile())
 			{
 				event.setCanceled(true);
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onSmelt(ItemSmeltedEvent event)
 	{
@@ -75,16 +74,6 @@ public class CommonEventHandler
 			event.player.addStat(TFAchievements.transformium, 1);
 		}
 	}
-
-	//	@SubscribeEvent
-	//	public void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event)
-	//	{
-	//		if (event.player.worldObj.isRemote && event.player == Minecraft.getMinecraft().thePlayer)
-	//		{	
-	//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestTransformationState(event.player));
-	//			TransformersMod.packetPipeline.sendToServer(new PacketClientRequestStealthState(event.player));
-	//		}
-	//	}
 
 	@SubscribeEvent
 	public void onEntityLoad(EntityEvent.EntityConstructing event)
@@ -96,7 +85,13 @@ public class CommonEventHandler
 	}
 
 	@SubscribeEvent
-	public void onPlayerBreakBlock(BlockEvent.BreakEvent event) {if (TFDataManager.isInVehicleMode(event.getPlayer())) {event.setCanceled(true);}}
+	public void onPlayerBreakBlock(BlockEvent.BreakEvent event)
+	{
+		if (TFDataManager.isInVehicleMode(event.getPlayer()))
+		{
+			event.setCanceled(true);
+		}
+	}
 
 	@SubscribeEvent
 	public void startTracking(StartTracking event)
@@ -119,7 +114,13 @@ public class CommonEventHandler
 	}
 
 	@SubscribeEvent
-	public void onEntityInteract(EntityInteractEvent event) {if (TFDataManager.isInVehicleMode(event.entityPlayer)) {event.setCanceled(true);}}
+	public void onEntityInteract(EntityInteractEvent event) 
+	{
+		if (TFDataManager.isInVehicleMode(event.entityPlayer))
+		{
+			event.setCanceled(true);
+		}
+	}
 
 	@SubscribeEvent
 	public void formatName(NameFormat event)
@@ -307,15 +308,16 @@ public class CommonEventHandler
 
 			if (transformer != null)
 			{
-				if (!transformer.shouldTakeFallDamage(player))
+				float newDist = transformer.fall(player, event.distance);
+				
+				if(newDist <= 0)
 				{
 					event.setCanceled(true);
 				}
-				//TODO 
-				//				else if (TFHelper.isPlayerCar(player))
-				//				{
-				//					event.distance /= 2;
-				//				}
+				else
+				{
+					event.distance = newDist;
+				}
 			}
 		}
 	}
