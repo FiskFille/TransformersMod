@@ -9,12 +9,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
-import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.entity.EntityMissile;
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.TFNitroParticleHandler;
 import fiskfille.tf.misc.VehicleMotion;
@@ -47,7 +47,7 @@ public abstract class TransformerJet extends Transformer
 		Minecraft minecraft = Minecraft.getMinecraft();
 		
 		boolean moveForward = minecraft.gameSettings.keyBindForward.getIsKeyPressed();
-		boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || minecraft.gameSettings.keyBindSprint.getIsKeyPressed();
+		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || minecraft.gameSettings.keyBindSprint.getIsKeyPressed();
 		
 		VehicleMotion motion = TFMotionManager.getTransformerPlayer(player);
 		

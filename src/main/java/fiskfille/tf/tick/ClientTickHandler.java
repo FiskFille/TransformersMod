@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.Vec3;
 
 import org.lwjgl.input.Keyboard;
 
@@ -18,11 +17,11 @@ import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.TFNitroParticleHandler;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.packet.PacketCloudtrapJetpack;
-import fiskfille.tf.proxy.ClientProxy;
 import fiskfille.tf.render.entity.CustomEntityRenderer;
 import fiskfille.tf.transformer.Transformer;
 
@@ -68,7 +67,7 @@ public class ClientTickHandler
 				{
 					gameSettings.thirdPersonView = 2;
 				}
-				else if (ClientProxy.keyBindingVehicleFirstPerson.getIsKeyPressed())
+				else if (TFKeyBinds.keyBindingVehicleFirstPerson.getIsKeyPressed())
 				{
 					gameSettings.thirdPersonView = 0;
 				}
@@ -140,7 +139,7 @@ public class ClientTickHandler
 
 		int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
 		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
-		boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
+		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
 
 		if (nitro < 160 && !((nitroPressed && !TFDataManager.isInStealthMode(player)) && moveForward && inVehicleMode && transformationTimer < 10))
 		{
@@ -219,7 +218,7 @@ public class ClientTickHandler
 
 			float thirdPersonDistance = 4.0F - (2.0F - (float)TFDataManager.getTransformationTimer(player) / 10);
 
-			if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && ClientProxy.keyBindingZoom.getIsKeyPressed())
+			if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
 			{
 				thirdPersonDistance = transformer.getZoomAmount(player);
 			}

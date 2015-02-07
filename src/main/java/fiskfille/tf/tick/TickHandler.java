@@ -12,6 +12,7 @@ import fiskfille.tf.TFHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.data.TFPlayerData;
+import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.proxy.ClientProxy;
 import fiskfille.tf.transformer.Transformer;
@@ -29,7 +30,8 @@ public class TickHandler
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-		if (ClientProxy.keyBindingTransform.getIsKeyPressed() && Minecraft.getMinecraft().currentScreen == null && (TFHelper.isPlayerTransformer(player)))
+		
+		if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && Minecraft.getMinecraft().currentScreen == null && (TFHelper.isPlayerTransformer(player)))
 		{
 			GameSettings gameSettings = Minecraft.getMinecraft().gameSettings;
 			int transformationTimer = TFDataManager.getTransformationTimer(player);
@@ -68,7 +70,7 @@ public class TickHandler
 			}
 		}
 
-		if (ClientProxy.keyBindingStealthMode.getIsKeyPressed())
+		if (TFKeyBinds.keyBindingStealthMode.getIsKeyPressed())
 		{
 			Transformer transformer = TFHelper.getTransformer(player);
 			

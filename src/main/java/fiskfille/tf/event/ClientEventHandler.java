@@ -18,6 +18,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import fiskfille.tf.TFHelper;
 import fiskfille.tf.data.TFDataManager;
+import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
 import fiskfille.tf.proxy.ClientProxy;
@@ -157,7 +158,7 @@ public class ClientEventHandler
 
 		int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
 		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
-		boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
+		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
 
 		if (TFDataManager.isInVehicleMode(player))
 		{

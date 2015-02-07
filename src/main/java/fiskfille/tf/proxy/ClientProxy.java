@@ -19,6 +19,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.entity.EntityMissile;
 import fiskfille.tf.entity.EntityTankShell;
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.model.player.ModelBipedTF;
 import fiskfille.tf.model.transformer.ModelChildBase;
 import fiskfille.tf.model.transformer.ModelCloudtrap;
@@ -47,13 +48,6 @@ public class ClientProxy extends CommonProxy
 	private static ModelSubwoofer modelSubwoofer = new ModelSubwoofer();
 	private static ModelCloudtrap modelCloudTrap = new ModelCloudtrap();
 	public static ModelBiped modelBipedMain = new ModelBiped();
-	
-	public static KeyBinding keyBindingTransform = new KeyBinding("Transform", Keyboard.KEY_C, "Transformers");
-	public static KeyBinding keyBindingNitro = new KeyBinding("Nitro Boost", Keyboard.KEY_X, "Transformers");
-	public static KeyBinding keyBindingBrake = new KeyBinding("Brake", Keyboard.KEY_Z, "Transformers");
-	public static KeyBinding keyBindingZoom = new KeyBinding("Tank Aim", Keyboard.KEY_B, "Transformers");
-	public static KeyBinding keyBindingStealthMode = new KeyBinding("Stealth Mode", Keyboard.KEY_V, "Transformers");
-	public static KeyBinding keyBindingVehicleFirstPerson = new KeyBinding("Vehicle First Person", Keyboard.KEY_G, "Transformers");
 	
 	public static Field camRollField;
 	
@@ -123,12 +117,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerKeyBinds()
 	{
-		ClientRegistry.registerKeyBinding(ClientProxy.keyBindingBrake);
-		ClientRegistry.registerKeyBinding(ClientProxy.keyBindingNitro);
-		ClientRegistry.registerKeyBinding(ClientProxy.keyBindingTransform);
-		ClientRegistry.registerKeyBinding(ClientProxy.keyBindingStealthMode);
-		ClientRegistry.registerKeyBinding(ClientProxy.keyBindingZoom);
-		ClientRegistry.registerKeyBinding(ClientProxy.keyBindingVehicleFirstPerson);
+		TFKeyBinds.register();
 	}
 	
 	public ModelBiped getArmorModel(String string)

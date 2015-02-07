@@ -12,6 +12,7 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.entity.EntityMissile;
 import fiskfille.tf.item.TFItems;
+import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.TFNitroParticleHandler;
 import fiskfille.tf.misc.VehicleMotion;
@@ -55,8 +56,8 @@ public abstract class TransformerCar extends Transformer
 		boolean inStealthMode = TFDataManager.isInStealthMode(player);
 		boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
 		boolean moveSide = player.moveStrafing != 0;
-		boolean nitroPressed = ClientProxy.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
-		boolean driftPressed = ClientProxy.keyBindingBrake.getIsKeyPressed();
+		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+		boolean driftPressed = TFKeyBinds.keyBindingBrake.getIsKeyPressed();
 		int nitro = 0;
 		double forwardVelocity = 0;
 		double horizontalVelocity = 0;
