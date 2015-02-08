@@ -45,6 +45,7 @@ public class TFParticles
 					}
 
 					mc.effectRenderer.addEffect((EntityFX)particle);
+				
 					return (EntityFX)particle;
 				}
 			}

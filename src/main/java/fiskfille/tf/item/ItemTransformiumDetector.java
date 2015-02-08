@@ -102,17 +102,20 @@ public class ItemTransformiumDetector extends ItemBasic
 							}
 						}
 
-						if (Minecraft.getMinecraft().thePlayer == player)
+						if(player.worldObj.isRemote)
 						{
-							int d = tagCompound.getInteger("d");
-
-							if (d > 0)
+							if (Minecraft.getMinecraft().thePlayer == player)
 							{
-								if (time % (d * 3) == 0)
+								int d = tagCompound.getInteger("d");
+
+								if (d > 0)
 								{
-									for (int i = 0; i < 3; ++i)
+									if (time % (d * 3) == 0)
 									{
-										entity.playSound("note.harp", 1, 1.2F);
+										for (int i = 0; i < 3; ++i)
+										{
+											entity.playSound("note.harp", 1, 1.2F);
+										}
 									}
 								}
 							}
