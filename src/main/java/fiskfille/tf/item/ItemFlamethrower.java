@@ -99,7 +99,6 @@ public class ItemFlamethrower extends ItemSword
 					Random rand = new Random();
 					Block block = player.worldObj.getBlock((int)hurtVec.xCoord - 1, (int)hurtVec.yCoord, (int)hurtVec.zCoord);
 //					player.worldObj.spawnParticle("flame", hurtVec.xCoord + rand.nextFloat() - 0.5F, hurtVec.yCoord + rand.nextFloat() - 1.0F, hurtVec.zCoord + rand.nextFloat() - 0.5F, 0.0D, 0.0D, 0.0D);
-					TFParticles.spawnParticle("flame", hurtVec.xCoord, hurtVec.yCoord, hurtVec.zCoord, rand.nextFloat() / 5, rand.nextFloat() / 5, rand.nextFloat() / 5);
 					
 					if (!player.worldObj.isRemote)
 					{
@@ -107,6 +106,10 @@ public class ItemFlamethrower extends ItemSword
 						{
 							player.worldObj.setBlock((int)hurtVec.xCoord - 1, (int)hurtVec.yCoord, (int)hurtVec.zCoord, Blocks.fire);
 						}
+					}
+					else
+					{
+						TFParticles.spawnParticle("flame", hurtVec.xCoord, hurtVec.yCoord, hurtVec.zCoord, rand.nextFloat() / 5, rand.nextFloat() / 5, rand.nextFloat() / 5);
 					}
 				}
 				

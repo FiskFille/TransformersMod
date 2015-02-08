@@ -30,6 +30,7 @@ public class ItemTransformiumDetector extends ItemBasic
 			if (time > 0)
 			{
 				NBTTagCompound tagCompound = stack.getTagCompound();
+			
 				if (tagCompound == null)
 				{
 					tagCompound = new NBTTagCompound();
