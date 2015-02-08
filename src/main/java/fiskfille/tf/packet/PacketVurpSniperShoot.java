@@ -58,7 +58,7 @@ public class PacketVurpSniperShoot extends TransformersPacket
 			if (transformer instanceof TransformerVurp)
 			{
 				String shootSound = TransformersMod.modid + ":missile.shoot";
-
+				
 				from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
 			}
 		}
@@ -83,8 +83,9 @@ public class PacketVurpSniperShoot extends TransformersPacket
 						TransformersMod.packetPipeline.sendToAll(this);
 						
 						World world = player.worldObj;
-						Entity entity = new EntityMiniMissile(world, player, 3, TFConfig.allowMissileExplosions);
-						entity.posY--;
+						EntityMiniMissile entity = new EntityMiniMissile(world, player, 30, TFConfig.allowMissileExplosions);
+						entity.setDamage(0.01D);
+						--entity.posY;
 						world.spawnEntityInWorld(entity);
 
 						if (!isCreative)

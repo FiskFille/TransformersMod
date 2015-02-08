@@ -4,6 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -12,6 +15,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.data.TFPlayerData;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.item.TFItems;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.proxy.ClientProxy;
@@ -28,6 +32,7 @@ public class TickHandler
 	public void onKeyInput(KeyInputEvent event) 
 	{
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		ItemStack itemstack = player.getHeldItem();
 		
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 		
@@ -111,7 +116,10 @@ public class TickHandler
 			TransformersMod.proxy.tickHandler.handleTransformation(player);
 		}
 		
-		
+		if (TFDataManager.getZoomTimer(player) > 7)
+		{
+			player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
+		}
 	}
 
 	@SubscribeEvent

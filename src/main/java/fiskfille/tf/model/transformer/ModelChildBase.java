@@ -1,8 +1,8 @@
 package fiskfille.tf.model.transformer;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import fiskfille.tf.model.player.ModelBipedTF;
 
 public class ModelChildBase
 {
@@ -31,7 +31,7 @@ public class ModelChildBase
 		}
 	}
 	
-	public static class Biped extends ModelBiped
+	public static class Biped extends ModelBipedTF
 	{
 		public float pi = (float)Math.PI;
 		

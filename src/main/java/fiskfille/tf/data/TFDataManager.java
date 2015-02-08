@@ -20,6 +20,7 @@ public class TFDataManager
 {
 	public static Map<UUID, Integer> transformationTimerClient = new HashMap<UUID, Integer>();
 	public static Map<UUID, Integer> stealthModeTimerClient = new HashMap<UUID, Integer>();
+	public static Map<UUID, Integer> zoomTimerClient = new HashMap<UUID, Integer>();
 
 	public static void setInVehicleMode(EntityPlayer player, boolean vehicleMode)
 	{
@@ -29,7 +30,7 @@ public class TFDataManager
 		{
 			player.triggerAchievement(TFAchievements.transform);
 			
-			if(!vehicleMode)
+			if (!vehicleMode)
 			{
 				data.stealthForce = false;
 			}
@@ -79,6 +80,11 @@ public class TFDataManager
 		stealthModeTimerClient.put(player.getUniqueID(), timer);
 	}
 	
+	public static void setZoomTimer(EntityPlayer player, int timer)
+	{
+		zoomTimerClient.put(player.getUniqueID(), timer);
+	}
+	
 	public static boolean isInVehicleMode(EntityPlayer player)
 	{
 		return TFPlayerData.getData(player).vehicle && TFHelper.isPlayerTransformer(player);
@@ -106,6 +112,13 @@ public class TFDataManager
 	public static int getStealthModeTimer(EntityPlayer player)
 	{
 		Integer timer = stealthModeTimerClient.get(player.getUniqueID());
+		
+		return timer != null ? timer : 0;
+	}
+	
+	public static int getZoomTimer(EntityPlayer player)
+	{
+		Integer timer = zoomTimerClient.get(player.getUniqueID());
 		
 		return timer != null ? timer : 0;
 	}

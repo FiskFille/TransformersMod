@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
@@ -19,6 +20,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import fiskfille.tf.item.TFItems;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.VehicleMotion;
@@ -163,6 +165,15 @@ public class ClientEventHandler
 			if (nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
 			{
 				event.newfov = 1.3F;
+			}
+		}
+		else
+		{
+			ItemStack itemstack = player.getHeldItem();
+			
+			if (TFDataManager.getZoomTimer(player) > 0 && TFHelper.isPlayerVurp(player) && itemstack != null && itemstack.getItem() == TFItems.vurpsSniper && this.mc.gameSettings.thirdPersonView == 0)
+			{
+				event.newfov = 1.0F - (float)TFDataManager.getZoomTimer(player) / 10;
 			}
 		}
 	}

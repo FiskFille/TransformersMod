@@ -8,7 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
 import org.lwjgl.input.Keyboard;
 
@@ -17,6 +19,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.item.TFItems;
 import fiskfille.tf.keybinds.TFKeyBinds;
 import fiskfille.tf.misc.TFMotionManager;
 import fiskfille.tf.misc.TFNitroParticleHandler;
@@ -33,6 +36,7 @@ public class ClientTickHandler
 
 	public void onPlayerTick(EntityPlayer player)
 	{	
+		ItemStack itemstack = player.getHeldItem();
 		Transformer transformer = TFHelper.getTransformer(player);
 
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
@@ -52,7 +56,25 @@ public class ClientTickHandler
 		{
 			TFDataManager.setStealthModeTimer(player, stealthModeTimer - 1);
 		}
-
+		
+		if (TFHelper.isPlayerVurp(player) && itemstack != null && itemstack.getItem() == TFItems.vurpsSniper)
+		{
+			if (TFKeyBinds.keyBindingZoom.getIsKeyPressed())
+			{
+				if (TFDataManager.getZoomTimer(player) < 10)
+				{
+					TFDataManager.setZoomTimer(player, TFDataManager.getZoomTimer(player) + 1);
+				}
+			}
+			else
+			{
+				if (TFDataManager.getZoomTimer(player) > 0)
+				{
+					TFDataManager.setZoomTimer(player, TFDataManager.getZoomTimer(player) - 1);
+				}
+			}
+		}
+		
 		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
 		if (inVehicleMode && transformationTimer < 10)
