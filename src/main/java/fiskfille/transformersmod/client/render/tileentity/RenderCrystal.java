@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.transformersmod.client.model.tileentity.ModelCrystal;
-import fiskfille.transformersmod.tileentity.TileEntityCrystal;
+import fiskfille.transformersmod.common.tileentity.TileEntityCrystal;
  
 public class RenderCrystal extends TileEntitySpecialRenderer
 {

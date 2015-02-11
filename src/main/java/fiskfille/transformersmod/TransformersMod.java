@@ -13,25 +13,25 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import fiskfille.transformersmod.achievement.TFAchievements;
-import fiskfille.transformersmod.block.TFBlocks;
+import fiskfille.transformersmod.common.achievement.TFAchievements;
+import fiskfille.transformersmod.common.block.TFBlocks;
+import fiskfille.transformersmod.common.entity.TFEntities;
+import fiskfille.transformersmod.common.event.TFEvents;
+import fiskfille.transformersmod.common.item.TFItems;
+import fiskfille.transformersmod.common.packet.base.TFPacketManager;
+import fiskfille.transformersmod.common.packet.base.TFPacketPipeline;
+import fiskfille.transformersmod.common.proxy.CommonProxy;
+import fiskfille.transformersmod.common.recipe.TFRecipes;
+import fiskfille.transformersmod.common.tab.CreativeTabTransformers;
+import fiskfille.transformersmod.common.transformer.TransformerCloudtrap;
+import fiskfille.transformersmod.common.transformer.TransformerPurge;
+import fiskfille.transformersmod.common.transformer.TransformerSkystrike;
+import fiskfille.transformersmod.common.transformer.TransformerSubwoofer;
+import fiskfille.transformersmod.common.transformer.TransformerVurp;
+import fiskfille.transformersmod.common.transformer.base.Transformer;
+import fiskfille.transformersmod.common.worldgen.OreWorldGenerator;
 import fiskfille.transformersmod.config.TFConfig;
 import fiskfille.transformersmod.donator.Donators;
-import fiskfille.transformersmod.entity.TFEntities;
-import fiskfille.transformersmod.event.TFEvents;
-import fiskfille.transformersmod.generator.OreWorldGenerator;
-import fiskfille.transformersmod.item.TFItems;
-import fiskfille.transformersmod.packet.TFPacketPipeline;
-import fiskfille.transformersmod.packet.TFPackets;
-import fiskfille.transformersmod.proxy.CommonProxy;
-import fiskfille.transformersmod.recipe.TFRecipes;
-import fiskfille.transformersmod.tab.CreativeTabTransformers;
-import fiskfille.transformersmod.transformer.TransformerCloudtrap;
-import fiskfille.transformersmod.transformer.TransformerPurge;
-import fiskfille.transformersmod.transformer.TransformerSkystrike;
-import fiskfille.transformersmod.transformer.TransformerSubwoofer;
-import fiskfille.transformersmod.transformer.TransformerVurp;
-import fiskfille.transformersmod.transformer.base.Transformer;
 import fiskfille.transformersmod.update.Update;
 import fiskfille.transformersmod.update.UpdateChecker;
 
@@ -46,8 +46,6 @@ public class TransformersMod
 	public static final String modid = "transformers";
 	public static final String version = "0.5.0";
 	
-	public static TFPacketPipeline packetPipeline;
-	
 	@SidedProxy(clientSide = "fiskfille.transformersmod.proxy.ClientProxy", serverSide = "fiskfille.transformersmod.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
@@ -61,12 +59,6 @@ public class TransformersMod
 	
 	public static Update latestUpdate;
 	
-	public static Transformer transformerPurge = new TransformerPurge("Purge");
-	public static Transformer transformerSkystrike = new TransformerSkystrike("Skystrike");
-	public static Transformer transformerCloudtrap = new TransformerCloudtrap("Cloudtrap");
-	public static Transformer transformerVurp = new TransformerVurp("Vurp");
-	public static Transformer transformerSubwoofer = new TransformerSubwoofer("Subwoofer");
-	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -78,15 +70,11 @@ public class TransformersMod
 		configFile.load();
 		config.load(configFile);
 		configFile.save();
-		
-		TransformersAPI.registerTransformer(transformerCloudtrap);
-		TransformersAPI.registerTransformer(transformerPurge);
-		TransformersAPI.registerTransformer(transformerSkystrike);
-		TransformersAPI.registerTransformer(transformerSubwoofer);
-		TransformersAPI.registerTransformer(transformerVurp);
-		
+
 		items.register();
 		blocks.register();
+		
+		TransformerManager.register();
 		
 		TFAchievements.register();
 		
@@ -116,18 +104,18 @@ public class TransformersMod
 		}
 
 		TFEvents.registerEvents(event.getSide());
-		TFPackets.registerPackets();
+		TFPacketManager.registerPackets();
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		packetPipeline.initialize();
+		TFPacketManager.packetPipeline.initialize();
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		packetPipeline.postInitialize();
+		TFPacketManager.packetPipeline.postInitialize();
 	}
 }

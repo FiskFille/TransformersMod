@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fiskfille.transformersmod.client.model.transformer.ModelTransformer;
-import fiskfille.transformersmod.transformer.base.Transformer;
+import fiskfille.transformersmod.common.transformer.base.Transformer;
 
 public class TransformersAPI 
 {

@@ -4,9 +4,9 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
-import fiskfille.transformersmod.data.TFDataManager;
+import fiskfille.transformersmod.common.item.TFItems;
+import fiskfille.transformersmod.common.playerdata.TFDataManager;
 import fiskfille.transformersmod.helper.TFHelper;
-import fiskfille.transformersmod.item.TFItems;
 
 public class ModelPurge extends ModelTransformer.Biped
 {

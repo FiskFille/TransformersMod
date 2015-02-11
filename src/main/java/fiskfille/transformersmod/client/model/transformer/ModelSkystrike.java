@@ -3,7 +3,7 @@ package fiskfille.transformersmod.client.model.transformer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import fiskfille.transformersmod.data.TFDataManager;
+import fiskfille.transformersmod.common.playerdata.TFDataManager;
 
 public class ModelSkystrike extends ModelTransformer.Biped
 {

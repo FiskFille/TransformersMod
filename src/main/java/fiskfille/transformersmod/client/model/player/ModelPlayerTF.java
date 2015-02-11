@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.transformersmod.item.TFItems;
-import fiskfille.transformersmod.item.armor.ItemTransformerArmor;
+import fiskfille.transformersmod.common.item.TFItems;
+import fiskfille.transformersmod.common.item.armor.ItemTransformerArmor;
 
 @SideOnly(Side.CLIENT)
 public class ModelPlayerTF extends ModelBiped

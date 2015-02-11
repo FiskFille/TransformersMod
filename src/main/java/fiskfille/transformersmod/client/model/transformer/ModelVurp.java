@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import fiskfille.transformersmod.data.TFDataManager;
+import fiskfille.transformersmod.common.playerdata.TFDataManager;
 
 public class ModelVurp extends ModelTransformer.Biped
 {

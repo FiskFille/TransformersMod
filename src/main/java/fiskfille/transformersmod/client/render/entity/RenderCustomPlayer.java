@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.transformersmod.client.model.player.ModelPlayerTF;
-import fiskfille.transformersmod.data.TFDataManager;
+import fiskfille.transformersmod.common.playerdata.TFDataManager;
 import fiskfille.transformersmod.helper.TFHelper;
 
 @SideOnly(Side.CLIENT)

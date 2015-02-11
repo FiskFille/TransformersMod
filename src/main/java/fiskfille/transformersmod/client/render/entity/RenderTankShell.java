@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.transformersmod.TransformersMod;
 import fiskfille.transformersmod.client.model.ModelTankShell;
-import fiskfille.transformersmod.entity.EntityTankShell;
+import fiskfille.transformersmod.common.entity.EntityTankShell;
 
 @SideOnly(Side.CLIENT)
 public class RenderTankShell extends Render

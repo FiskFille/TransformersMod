@@ -16,7 +16,7 @@ import fiskfille.transformersmod.client.model.transformer.vehicle.ModelSkystrike
 import fiskfille.transformersmod.client.model.transformer.vehicle.ModelSubwooferVehicle;
 import fiskfille.transformersmod.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.transformersmod.client.model.transformer.vehicle.ModelVurpVehicle;
-import fiskfille.transformersmod.transformer.base.Transformer;
+import fiskfille.transformersmod.common.transformer.base.Transformer;
 
 public class RenderItemDisplayVehicle implements IItemRenderer
 {

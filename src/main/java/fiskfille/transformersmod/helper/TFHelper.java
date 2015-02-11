@@ -2,9 +2,9 @@ package fiskfille.transformersmod.helper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import fiskfille.transformersmod.item.TFItems;
-import fiskfille.transformersmod.item.armor.ItemTransformerArmor;
-import fiskfille.transformersmod.transformer.base.Transformer;
+import fiskfille.transformersmod.common.item.TFItems;
+import fiskfille.transformersmod.common.item.armor.ItemTransformerArmor;
+import fiskfille.transformersmod.common.transformer.base.Transformer;
 
 public class TFHelper
 {

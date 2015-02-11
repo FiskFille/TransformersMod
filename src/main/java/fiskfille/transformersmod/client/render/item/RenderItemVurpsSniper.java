@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.transformersmod.TransformersMod;
 import fiskfille.transformersmod.client.model.item.ModelVurpsSniper;
-import fiskfille.transformersmod.data.TFDataManager;
+import fiskfille.transformersmod.common.playerdata.TFDataManager;
 
 public class RenderItemVurpsSniper implements IItemRenderer
 {

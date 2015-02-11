@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import cpw.mods.fml.relauncher.Side;
-import fiskfille.transformersmod.achievement.TFAchievements;
+import fiskfille.transformersmod.common.achievement.TFAchievements;
 
 public class Donators
 {

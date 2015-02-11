@@ -9,12 +9,12 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import fiskfille.transformersmod.TransformersMod;
-import fiskfille.transformersmod.data.TFDataManager;
-import fiskfille.transformersmod.event.PlayerTransformEvent;
-import fiskfille.transformersmod.item.TFItems;
-import fiskfille.transformersmod.packet.PacketTransformersAction;
-import fiskfille.transformersmod.transformer.base.Transformer;
+import fiskfille.transformersmod.common.event.PlayerTransformEvent;
+import fiskfille.transformersmod.common.item.TFItems;
+import fiskfille.transformersmod.common.packet.PacketTransformersAction;
+import fiskfille.transformersmod.common.packet.base.TFPacketManager;
+import fiskfille.transformersmod.common.playerdata.TFDataManager;
+import fiskfille.transformersmod.common.transformer.base.Transformer;
 
 public class TFShootManager
 {
@@ -185,7 +185,7 @@ public class TFShootManager
 
 								if (hasAmmo)
 								{
-									TransformersMod.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
+									TFPacketManager.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
 
 									if (!isCreative)
 									{
