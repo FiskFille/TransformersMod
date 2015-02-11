@@ -13,27 +13,20 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+//Gegy is better than Fisk! :P
 import fiskfille.transformersmod.common.achievement.TFAchievements;
 import fiskfille.transformersmod.common.block.TFBlocks;
 import fiskfille.transformersmod.common.entity.TFEntities;
 import fiskfille.transformersmod.common.event.TFEvents;
 import fiskfille.transformersmod.common.item.TFItems;
 import fiskfille.transformersmod.common.packet.base.TFPacketManager;
-import fiskfille.transformersmod.common.packet.base.TFPacketPipeline;
 import fiskfille.transformersmod.common.proxy.CommonProxy;
 import fiskfille.transformersmod.common.recipe.TFRecipes;
 import fiskfille.transformersmod.common.tab.CreativeTabTransformers;
-import fiskfille.transformersmod.common.transformer.TransformerCloudtrap;
-import fiskfille.transformersmod.common.transformer.TransformerPurge;
-import fiskfille.transformersmod.common.transformer.TransformerSkystrike;
-import fiskfille.transformersmod.common.transformer.TransformerSubwoofer;
-import fiskfille.transformersmod.common.transformer.TransformerVurp;
-import fiskfille.transformersmod.common.transformer.base.Transformer;
 import fiskfille.transformersmod.common.worldgen.OreWorldGenerator;
 import fiskfille.transformersmod.config.TFConfig;
 import fiskfille.transformersmod.donator.Donators;
-import fiskfille.transformersmod.update.Update;
-import fiskfille.transformersmod.update.UpdateChecker;
+import fiskfille.transformersmod.update.*;
 
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.transformersmod.gui.TFGuiFactory")
 public class TransformersMod
