@@ -106,9 +106,7 @@ public class EntityMiniMissile extends EntityArrow implements IProjectile
 		this.posX += dX;
 		this.posZ += dZ;
 
-		//		this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
 		this.posY += 0.6D;
-		//	this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
 		this.setPosition(this.posX, this.posY, this.posZ);
 		this.yOffset = 0.0F;
 		this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
@@ -180,8 +178,6 @@ public class EntityMiniMissile extends EntityArrow implements IProjectile
 	 */
 	public void onUpdate()
 	{
-		//super.onUpdate();
-
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 		{
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -218,42 +214,43 @@ public class EntityMiniMissile extends EntityArrow implements IProjectile
 		else
 		{
 			++this.ticksInAir;
+			
 			for (int i = 0; i < 10; ++i)
 			{
 				Random rand = new Random();
 				worldObj.spawnParticle("smoke", posX + (rand.nextFloat() / 4), posY + (rand.nextFloat() / 4), posZ + (rand.nextFloat() / 4), 0, 0, 0);
-				//				worldObj.spawnParticle("flame", posX + (rand.nextFloat() / 4), posY + (rand.nextFloat() / 4), posZ + (rand.nextFloat() / 4), 0, 0, 0);
 			}
-			Vec3 vec31 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-			Vec3 vec3 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition movingobjectposition = this.worldObj.func_147447_a(vec31, vec3, false, true, false);
-			vec31 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-			vec3 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			
+			Vec3 vecPos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+			Vec3 movementVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			MovingObjectPosition movingobjectposition = this.worldObj.func_147447_a(vecPos, movementVec, false, true, false);
+			vecPos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+			movementVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
 			if (movingobjectposition != null)
 			{
-				vec3 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+				movementVec = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 			}
 
 			Entity entity = null;
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+			List entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
 			int i;
 			float gravity;
 
-			for (i = 0; i < list.size(); ++i)
+			for (i = 0; i < entities.size(); ++i)
 			{
-				Entity entity1 = (Entity)list.get(i);
+				Entity entity1 = (Entity)entities.get(i);
 
 				if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
 				{
 					gravity = 0.2F;
 					AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand((double)gravity, (double)gravity, (double)gravity);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
+					MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vecPos, movementVec);
 
 					if (movingobjectposition1 != null)
 					{
-						double d1 = vec31.distanceTo(movingobjectposition1.hitVec);
+						double d1 = vecPos.distanceTo(movingobjectposition1.hitVec);
 
 						if (d1 < d0 || d0 == 0.0D)
 						{

@@ -39,14 +39,14 @@ public class ItemSkystrikesCrossbow extends ItemSword
 		}
 	}
 
-	public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer player, int par4)
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
 	{
-		if (TFHelper.isPlayerSkystrike(player) && !par2World.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+		if (TFHelper.isPlayerSkystrike(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
 		{
-			boolean flag = par1ItemStack.hasTagCompound() ? par1ItemStack.getTagCompound().getBoolean("blueMode") : false;
-			par1ItemStack.getTagCompound().setBoolean("blueMode", !flag);
+			boolean flag = stack.hasTagCompound() ? stack.getTagCompound().getBoolean("blueMode") : false;
+			stack.getTagCompound().setBoolean("blueMode", !flag);
 			
-			par1ItemStack.damageItem(5, player);
+			stack.damageItem(5, player);
 			
 			if (!player.capabilities.isCreativeMode)
 			{
@@ -101,15 +101,15 @@ public class ItemSkystrikesCrossbow extends ItemSword
 					float f7 = f4 * f5;
 					float f8 = f3 * f5;
 					double d3 = i + 1;
-					Vec3 vec31 = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
+					Vec3 damageVec = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
 
 					for (int i1 = 0; i1 < 10; ++i1)
 					{
 						boolean flag = stack.hasTagCompound() ? stack.getTagCompound().getBoolean("blueMode") : false;
-						player.worldObj.spawnParticle("reddust", vec31.xCoord, vec31.yCoord - (isInVehichleMode ? 0.5D : 0.0D), vec31.zCoord, flag ? -1.0D : 0.0D, 0.0D, flag ? 1.0D : 0.0D);
+						player.worldObj.spawnParticle("reddust", damageVec.xCoord, damageVec.yCoord - (isInVehichleMode ? 0.5D : 0.0D), damageVec.zCoord, flag ? -1.0D : 0.0D, 0.0D, flag ? 1.0D : 0.0D);
 					}
 
-					List<Entity> list = getEntitiesNear(player.worldObj,  vec31.xCoord, vec31.yCoord, vec31.zCoord, 0.3F);
+					List<Entity> list = getEntitiesNear(player.worldObj,  damageVec.xCoord, damageVec.yCoord, damageVec.zCoord, 0.3F);
 
 					for (Entity entity : list)
 					{
@@ -126,22 +126,22 @@ public class ItemSkystrikesCrossbow extends ItemSword
 		}
 	}
 
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		return par1ItemStack;
+		return stack;
 	}
 
-	public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 72000;
 	}
 
-	public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
 		return EnumAction.bow;
 	}
 
-	public ItemStack onItemRightClick(ItemStack stack, World par2World, EntityPlayer player)
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
 		if (TFHelper.isPlayerSkystrike(player) && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
 		{
@@ -151,14 +151,14 @@ public class ItemSkystrikesCrossbow extends ItemSword
 		return stack;
 	}
 
-	public List<Entity> getEntitiesNear(World par0World, double par1, double par2, double par3, float par4)
+	public List<Entity> getEntitiesNear(World world, double x, double y, double z, float par4)
 	{
-		List<Entity> list = par0World.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(par1 - par4, par2 - par4, par3 - par4, par1 + par4, par2 + par4, par3 + par4), IEntitySelector.selectAnything);
+		List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
 		return list;
 	}
 
-	public void registerIcons(IIconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegister)
 	{
-		itemIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+		itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
 }

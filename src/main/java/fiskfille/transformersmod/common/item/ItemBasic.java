@@ -12,8 +12,8 @@ public class ItemBasic extends Item
 		this.setCreativeTab(TransformersMod.transformersTab);
 	}
 	
-	public void registerIcons(IIconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegister)
 	{
-		itemIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+		itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
 }

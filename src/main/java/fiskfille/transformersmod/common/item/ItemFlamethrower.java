@@ -19,6 +19,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import fiskfille.transformersmod.TransformersMod;
+import fiskfille.transformersmod.client.particle.TFParticleType;
 import fiskfille.transformersmod.client.particle.TFParticles;
 import fiskfille.transformersmod.common.motion.TFMotionManager;
 import fiskfille.transformersmod.helper.TFHelper;
@@ -32,7 +33,7 @@ public class ItemFlamethrower extends ItemSword
 		this.setMaxDamage(1500);
 	}
 
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int par4)
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
 	{
 		if (TFHelper.isPlayerCloudtrap(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
 		{
@@ -109,7 +110,7 @@ public class ItemFlamethrower extends ItemSword
 					}
 					else
 					{
-						TFParticles.spawnParticle("flame", hurtVec.xCoord, hurtVec.yCoord, hurtVec.zCoord, rand.nextFloat() / 5, rand.nextFloat() / 5, rand.nextFloat() / 5);
+						TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, hurtVec.xCoord, hurtVec.yCoord, hurtVec.zCoord, rand.nextFloat() / 5, rand.nextFloat() / 5, rand.nextFloat() / 5);
 					}
 				}
 				
@@ -130,7 +131,7 @@ public class ItemFlamethrower extends ItemSword
 		}
 	}
 
-	public ItemStack onEaten(ItemStack stack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
 		return stack;
 	}
@@ -155,15 +156,15 @@ public class ItemFlamethrower extends ItemSword
 		return stack;
 	}
 
-	public List<Entity> getEntitiesNear(World world, double par1, double par2, double par3, float par4)
+	public List<Entity> getEntitiesNear(World world, double x, double y, double z, float par4)
 	{
-		List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(par1 - par4, par2 - par4, par3 - par4, par1 + par4, par2 + par4, par3 + par4), IEntitySelector.selectAnything);
+		List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
 		
 		return list;
 	}
 
-	public void registerIcons(IIconRegister register)
+	public void registerIcons(IIconRegister iconRegister)
 	{
-		itemIcon = register.registerIcon(TransformersMod.modid + ":" + iconString);
+		itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
 	}
 }

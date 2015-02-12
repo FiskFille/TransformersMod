@@ -2,6 +2,7 @@ package fiskfille.transformersmod.client.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.world.World;
 
 public class TFParticles
@@ -9,7 +10,7 @@ public class TFParticles
 	private static Minecraft mc = Minecraft.getMinecraft();
 	private static World theWorld = mc.theWorld;
 
-	public static EntityFX spawnParticle(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ)
+	public static EntityFX spawnParticle(TFParticleType particleType, double x, double y, double z, float motionX, float motionY, float motionZ)
 	{
 		if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null)
 		{
@@ -25,7 +26,7 @@ public class TFParticles
 				double diffX = mc.renderViewEntity.posX - x;
 				double diffY = mc.renderViewEntity.posY - y;
 				double diffZ = mc.renderViewEntity.posZ - z;
-				
+
 				EntityFX particle = null;
 				double maxRenderDistance = 16.0D;
 
@@ -39,18 +40,15 @@ public class TFParticles
 				}
 				else
 				{
-					if (particleName.equals("flame"))
-					{
-						particle = new EntityTFFlameFX(theWorld, x, y, z, (float)motionX, (float)motionY, (float)motionZ);
-					}
+					particle = new EntityTFFlameFX(theWorld, x, y, z, motionX, motionY, motionZ);
 
-					mc.effectRenderer.addEffect((EntityFX)particle);
-				
+					mc.effectRenderer.addEffect(particle);
+
 					return (EntityFX)particle;
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

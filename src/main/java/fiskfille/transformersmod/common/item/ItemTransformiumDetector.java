@@ -20,103 +20,100 @@ public class ItemTransformiumDetector extends ItemBasic
 	{
 		super();
 	}
-	
+
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean hand)
 	{
 		int time = entity.ticksExisted;
 
-		//if (world.isRemote)
+		if (time > 0)
 		{
-			if (time > 0)
+			NBTTagCompound tagCompound = stack.getTagCompound();
+
+			if (tagCompound == null)
 			{
-				NBTTagCompound tagCompound = stack.getTagCompound();
-			
-				if (tagCompound == null)
+				tagCompound = new NBTTagCompound();
+				stack.setTagCompound(tagCompound);
+			}
+
+			int energonFuel = tagCompound.getInteger("fuel");
+
+			if (entity instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer) entity;
+
+				if (energonFuel > 0)
 				{
-					tagCompound = new NBTTagCompound();
-					stack.setTagCompound(tagCompound);
-				}
-
-				int energonFuel = tagCompound.getInteger("fuel");
-
-				if (entity instanceof EntityPlayer)
-				{
-					EntityPlayer player = (EntityPlayer) entity;
-
-					if (energonFuel > 0)
+					if (time % 500 == 0)
 					{
-						if (time % 500 == 0)
+						--energonFuel;
+						tagCompound.setInteger("fuel", energonFuel);
+						if (energonFuel <= 0)
 						{
-							--energonFuel;
-							tagCompound.setInteger("fuel", energonFuel);
-							if (energonFuel <= 0)
-							{
-								player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_fuel.message")));
-							}
+							player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_fuel.message")));
 						}
+					}
 
-						if (time % 5 == 0)
+					if (time % 5 == 0)
+					{
+						int posX = (int) entity.posX;
+						int posY = (int) entity.posY;
+						int posZ = (int) entity.posZ;
+						int startX = posX - 10;
+						int startY = posY - 10;
+						int startZ = posZ - 10;
+
+						int endX = posX + 10;
+						int endY = posY + 10;
+						int endZ = posZ + 10;
+
+						int smallestDist = 1000;
+
+						for (int x = startX; x < endX; x++) 
 						{
-							int posX = (int) entity.posX;
-							int posY = (int) entity.posY;
-							int posZ = (int) entity.posZ;
-							int startX = posX - 10;
-							int startY = posY - 10;
-							int startZ = posZ - 10;
-
-							int endX = posX + 10;
-							int endY = posY + 10;
-							int endZ = posZ + 10;
-
-							int smallestDist = 1000;
-
-							for (int x = startX; x < endX; x++) 
+							for (int y = startY; y < endY; y++) 
 							{
-								for (int y = startY; y < endY; y++) 
+								for (int z = startZ; z < endZ; z++) 
 								{
-									for (int z = startZ; z < endZ; z++) 
+									if (world.getBlock(x, y, z) == TFBlocks.transformiumOre)
 									{
-										if (world.getBlock(x, y, z) == TFBlocks.transformiumOre)
+										int xDiff = x - posX;
+										int yDiff = y - posY;
+										int zDiff = z - posZ;
+
+										int distance = (int) Math.sqrt((xDiff*xDiff) + (yDiff*yDiff) + (zDiff*zDiff));
+
+										if (distance < smallestDist)
 										{
-											int xDiff = x - posX;
-											int yDiff = y - posY;
-											int zDiff = z - posZ;
-
-											int distance = (int) Math.sqrt((xDiff*xDiff) + (yDiff*yDiff) + (zDiff*zDiff));
-
-											if (distance < smallestDist)
-											{
-												smallestDist = distance;
-											}
+											smallestDist = distance;
 										}
 									}
 								}
 							}
-
-							if (smallestDist != 1000)
-							{
-								tagCompound.setInteger("d", smallestDist);
-							}
-							else
-							{
-								tagCompound.setInteger("d", -1);
-							}
 						}
 
-						if(player.worldObj.isRemote)
+						if (smallestDist != 1000)
 						{
-							if (Minecraft.getMinecraft().thePlayer == player)
-							{
-								int d = tagCompound.getInteger("d");
+							tagCompound.setInteger("d", smallestDist);
+						}
+						else
+						{
+							tagCompound.setInteger("d", -1);
+						}
+					}
 
-								if (d > 0)
+					if(player.worldObj.isRemote)
+					{
+						if (Minecraft.getMinecraft().thePlayer == player)
+						{
+							int d = tagCompound.getInteger("d");
+
+							if (d > 0)
+							{
+								if (time % (d * 3) == 0)
 								{
-									if (time % (d * 3) == 0)
+									for (int i = 0; i < 3; ++i)
 									{
-										for (int i = 0; i < 3; ++i)
-										{
-											entity.playSound("note.harp", 1, 1.2F);
-										}
+										entity.playSound("note.harp", 1, 1.2F);
 									}
 								}
 							}
@@ -184,7 +181,7 @@ public class ItemTransformiumDetector extends ItemBasic
 	public void addInformation(ItemStack stack, EntityPlayer player, List informationList, boolean p_77624_4_) 
 	{
 		NBTTagCompound tagCompound = stack.getTagCompound();
-		
+
 		if (tagCompound != null)
 		{
 			informationList.add(StatCollector.translateToLocal("stats.fuel.name") + ": " + tagCompound.getInteger("fuel"));
