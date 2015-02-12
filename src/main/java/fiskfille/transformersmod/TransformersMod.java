@@ -39,7 +39,7 @@ public class TransformersMod
 	public static final String modid = "transformers";
 	public static final String version = "0.5.0";
 	
-	@SidedProxy(clientSide = "fiskfille.transformersmod.proxy.ClientProxy", serverSide = "fiskfille.transformersmod.proxy.CommonProxy")
+	@SidedProxy(clientSide = "fiskfille.transformersmod.common.proxy.ClientProxy", serverSide = "fiskfille.transformersmod.common.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	public TFConfig config = new TFConfig();
