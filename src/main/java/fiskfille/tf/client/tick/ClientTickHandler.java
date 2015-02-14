@@ -23,6 +23,7 @@ import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.packet.PacketCloudtrapJetpack;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
@@ -169,7 +170,7 @@ public class ClientTickHandler
 
 		TFMotionManager.setNitro(player, nitro);
 
-		if(transformer == null && inVehicleMode)
+		if(transformer == null && TFPlayerData.getData(player).vehicle)
 		{
 			TFDataManager.setInVehicleMode(player, false);
 		}

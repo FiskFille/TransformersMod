@@ -28,7 +28,7 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.donator.Donators;
 import fiskfille.tf.update.*;
 
-@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.transformersmod.gui.TFGuiFactory")
+@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
 {
 	@Instance(TransformersMod.modid)
@@ -39,7 +39,7 @@ public class TransformersMod
 	public static final String modid = "transformers";
 	public static final String version = "0.5.0";
 	
-	@SidedProxy(clientSide = "fiskfille.transformersmod.common.proxy.ClientProxy", serverSide = "fiskfille.transformersmod.common.proxy.CommonProxy")
+	@SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	public TFConfig config = new TFConfig();
