@@ -9,7 +9,7 @@ public class TFEntities
 	public static void registerEntities()
 	{
 //		EntityRegistry.registerModEntity(EntityLaser.class, "laser", 305, MainClass.modid, 1, 10, true);
-		registerEntity(EntityMiniMissile.class, "tf_tank_shell", 20, 10, true);
+		registerEntity(EntityTankShell.class, "tf_tank_shell", 20, 10, true);
 		registerEntity(EntityMissile.class, "tf_missile", 20, 10, true);
 		registerEntity(EntityMiniMissile.class, "tf_mini_missile", 20, 10, true);
 	}
