@@ -1,19 +1,11 @@
 package fiskfille.tf;
 
-import java.lang.reflect.Method;
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-//Gegy is better than Fisk! :P
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.TFEntities;
@@ -26,7 +18,15 @@ import fiskfille.tf.common.tab.CreativeTabTransformers;
 import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.donator.Donators;
-import fiskfille.tf.update.*;
+import fiskfille.tf.update.Update;
+import fiskfille.tf.update.UpdateChecker;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.common.config.Configuration;
+
+import java.lang.reflect.Method;
+
+//Gegy is better than Fisk! :P
 
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
@@ -98,17 +98,5 @@ public class TransformersMod
 
 		TFEvents.registerEvents(event.getSide());
 		TFPacketManager.registerPackets();
-	}
-	
-	@EventHandler
-	public void init(FMLInitializationEvent event)
-	{
-		TFPacketManager.packetPipeline.initialize();
-	}
-	
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-		TFPacketManager.packetPipeline.postInitialize();
 	}
 }

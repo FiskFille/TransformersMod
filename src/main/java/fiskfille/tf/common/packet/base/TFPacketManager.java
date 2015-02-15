@@ -1,6 +1,10 @@
 package fiskfille.tf.common.packet.base;
 
-import fiskfille.tf.TransformersMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.common.packet.PacketBroadcastState;
 import fiskfille.tf.common.packet.PacketBroadcastStealthState;
 import fiskfille.tf.common.packet.PacketBroadcastTransformationState;
@@ -14,21 +18,28 @@ import fiskfille.tf.common.packet.PacketVurpSniperShoot;
 
 public class TFPacketManager 
 {
-	public static TFPacketPipeline packetPipeline;
+	public static SimpleNetworkWrapper networkWrapper;
+    private static int packetId = 0;
 
 	public static void registerPackets()
 	{
-		packetPipeline = new TFPacketPipeline();
+		networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel("transformersMod");
 		
-		packetPipeline.registerPacket(PacketHandleTransformation.class);
-		packetPipeline.registerPacket(PacketHandleStealthTransformation.class);
-		packetPipeline.registerPacket(PacketSyncTransformationStates.class);
-		packetPipeline.registerPacket(PacketTransformersAction.class);
-		packetPipeline.registerPacket(PacketCloudtrapJetpack.class);
-		packetPipeline.registerPacket(PacketBroadcastStealthState.class);
-		packetPipeline.registerPacket(PacketBroadcastTransformationState.class);
-		packetPipeline.registerPacket(PacketBroadcastState.class);
-		packetPipeline.registerPacket(PacketVehicleNitro.class);
-		packetPipeline.registerPacket(PacketVurpSniperShoot.class);
+		registerPacket(PacketHandleTransformation.class, PacketHandleTransformation.class);
+		registerPacket(PacketHandleStealthTransformation.class, PacketHandleStealthTransformation.class);
+		registerPacket(PacketSyncTransformationStates.class, PacketSyncTransformationStates.class);
+		registerPacket(PacketTransformersAction.class, PacketTransformersAction.class);
+		registerPacket(PacketCloudtrapJetpack.class, PacketCloudtrapJetpack.class);
+		registerPacket(PacketBroadcastStealthState.class, PacketBroadcastStealthState.class);
+		registerPacket(PacketBroadcastTransformationState.class, PacketBroadcastTransformationState.class);
+		registerPacket(PacketBroadcastState.class, PacketBroadcastState.class);
+		registerPacket(PacketVehicleNitro.class, PacketVehicleNitro.class);
+		registerPacket(PacketVurpSniperShoot.class, PacketVurpSniperShoot.class);
 	}
+
+    private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)
+    {
+        networkWrapper.registerMessage(messageHandler, requestMessageType, packetId++, Side.CLIENT);
+        networkWrapper.registerMessage(messageHandler, requestMessageType, packetId++, Side.SERVER);
+    }
 }

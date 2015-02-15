@@ -35,7 +35,7 @@ public class ItemVurpsSniper extends ItemSword
 				{
 					if (TFShootManager.shootCooldown <= 0)
 					{
-						TFPacketManager.packetPipeline.sendToServer(new PacketVurpSniperShoot(player));
+						TFPacketManager.networkWrapper.sendToServer(new PacketVurpSniperShoot(player));
 
 						TFShootManager.shotsLeft--;
 

@@ -119,7 +119,7 @@ public class ClientTickHandler
 					{
 						if (prevJetpacking != jetpacking)
 						{
-							TFPacketManager.packetPipeline.sendToServer(new PacketCloudtrapJetpack(player, jetpacking));
+							TFPacketManager.networkWrapper.sendToServer(new PacketCloudtrapJetpack(player, jetpacking));
 							prevJetpacking = jetpacking;
 						}
 					}

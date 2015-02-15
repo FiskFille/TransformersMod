@@ -1,15 +1,13 @@
 package fiskfille.tf.common.packet;
 
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.particle.NitroParticleHandler;
+import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.packet.base.TFPacketManager;
-import fiskfille.tf.common.packet.base.TransformersPacket;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PacketVehicleNitro extends TransformersPacket
+public class PacketVehicleNitro extends AbstractPacket<PacketVehicleNitro>
 {
 	private int id;
 	private boolean nitroOn;
@@ -19,45 +17,37 @@ public class PacketVehicleNitro extends TransformersPacket
 		
 	}
 	
-	public PacketVehicleNitro(EntityPlayer player, boolean nitroOn)
+	public PacketVehicleNitro(EntityPlayer player, boolean n)
 	{
-		this.id = player.getEntityId();
-		this.nitroOn = nitroOn;
-	}
-	
-	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		buffer.writeInt(id);
-		buffer.writeBoolean(nitroOn);
+		id = player.getEntityId();
+		nitroOn = n;
 	}
 
-	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
-	{
-		id = buffer.readInt();
-		nitroOn = buffer.readBoolean();
-	}
+    public void handleClientSide(PacketVehicleNitro message, EntityPlayer player)
+    {
+        Entity entity = player.worldObj.getEntityByID(message.id);
 
-	@Override
-	public void handleClientSide(EntityPlayer player) 
-	{
-		Entity entity = player.worldObj.getEntityByID(id);
-		
-		if (entity instanceof EntityPlayer)
-		{
-			EntityPlayer fromPlayer = (EntityPlayer) entity;
-		
-			if (fromPlayer != player)
-			{
-				NitroParticleHandler.setNitro(fromPlayer, nitroOn);
-			}
-		}
-	}
+        if (entity instanceof EntityPlayer)
+        {
+            EntityPlayer fromPlayer = (EntityPlayer) entity;
+            if (fromPlayer != player) NitroParticleHandler.setNitro(fromPlayer, message.nitroOn);
+        }
+    }
 
-	@Override
-	public void handleServerSide(EntityPlayer player)
-	{
-		TFPacketManager.packetPipeline.sendToDimension(this, player.dimension);
-	}
+    public void handleServerSide(PacketVehicleNitro message, EntityPlayer player)
+    {
+        TFPacketManager.networkWrapper.sendToDimension(this, player.dimension);
+    }
+
+    public void fromBytes(ByteBuf buf)
+    {
+        id = buf.readInt();
+        nitroOn = buf.readBoolean();
+    }
+
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(id);
+        buf.writeBoolean(nitroOn);
+    }
 }

@@ -185,7 +185,7 @@ public class TFShootManager
 
 								if (hasAmmo)
 								{
-									TFPacketManager.packetPipeline.sendToServer(new PacketTransformersAction(player, action));
+									TFPacketManager.networkWrapper.sendToServer(new PacketTransformersAction(player, action));
 
 									if (!isCreative)
 									{

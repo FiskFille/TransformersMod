@@ -1,20 +1,18 @@
 package fiskfille.tf.common.packet;
 
-import fiskfille.tf.common.packet.base.TransformersPacket;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.ByteBufUtils;
-
-public class PacketSyncTransformationStates extends TransformersPacket
+public class PacketSyncTransformationStates extends AbstractPacket<PacketSyncTransformationStates>
 {
 	private Map<UUID, Boolean[]> states;
 
@@ -23,65 +21,57 @@ public class PacketSyncTransformationStates extends TransformersPacket
 
 	}
 
-	public PacketSyncTransformationStates(Map<UUID, Boolean[]> states)
+	public PacketSyncTransformationStates(Map<UUID, Boolean[]> s)
 	{
-		this.states = states;
+		states = s;
 	}
 
-	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		buffer.writeInt(states.size());
+    public void handleClientSide(PacketSyncTransformationStates message, EntityPlayer player)
+    {
+        if (message.states != null)
+        {
+            for (Object cPlayer : Minecraft.getMinecraft().theWorld.playerEntities)
+            {
+                if (cPlayer instanceof EntityPlayer)
+                {
+                    for (Entry<UUID, Boolean[]> state : message.states.entrySet())
+                    {
+                        EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
 
-		for (Entry<UUID, Boolean[]> entry : states.entrySet())
-		{
-			ByteBufUtils.writeUTF8String(buffer, entry.getKey().toString());
-			buffer.writeBoolean(entry.getValue()[0]);
-			buffer.writeBoolean(entry.getValue()[1]);
-		}
-	}
+                        UUID uuid = state.getKey();
+                        if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
+                        {
+                            TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
+                            TFPlayerData.getData(currentPlayer).stealthForce = state.getValue()[1];
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		states = new HashMap<UUID, Boolean[]>();
+    public void handleServerSide(PacketSyncTransformationStates message, EntityPlayer player)
+    {
 
-		int count = buffer.readInt();
+    }
 
-		for (int i = 0; i < count; i++) 
-		{
-			states.put(UUID.fromString(ByteBufUtils.readUTF8String(buffer)), new Boolean[]{buffer.readBoolean(), buffer.readBoolean()});
-		}
-	}
+    public void fromBytes(ByteBuf buf)
+    {
+        states = new HashMap<UUID, Boolean[]>();
+        int count = buf.readInt();
 
-	@Override
-	public void handleClientSide(EntityPlayer player)
-	{
-		if (states != null)
-		{
-			for (Object cPlayer : Minecraft.getMinecraft().theWorld.playerEntities) 
-			{
-				if (cPlayer instanceof EntityPlayer)
-				{
-					for (Entry<UUID, Boolean[]> state : states.entrySet()) 
-					{
-						EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
+        for (int i = 0; i < count; i++) states.put(UUID.fromString(ByteBufUtils.readUTF8String(buf)), new Boolean[]{buf.readBoolean(), buf.readBoolean()});
+    }
 
-						UUID uuid = state.getKey();
-						if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
-						{
-							TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
-							TFPlayerData.getData(currentPlayer).stealthForce = state.getValue()[1];
-							//TFDataManager.setTransformationTimer(currentPlayer, state.getValue() ? 0 : 10);
-						}
-					}
-				}
-			}
-		}
-	}
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(states.size());
 
-	@Override
-	public void handleServerSide(EntityPlayer player)
-	{
-	}
+        for (Entry<UUID, Boolean[]> entry : states.entrySet())
+        {
+            ByteBufUtils.writeUTF8String(buf, entry.getKey().toString());
+            buf.writeBoolean(entry.getValue()[0]);
+            buf.writeBoolean(entry.getValue()[1]);
+        }
+    }
 }

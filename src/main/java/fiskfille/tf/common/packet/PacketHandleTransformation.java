@@ -2,18 +2,17 @@ package fiskfille.tf.common.packet;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.packet.base.TFPacketManager;
-import fiskfille.tf.common.packet.base.TransformersPacket;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
-public class PacketHandleTransformation extends TransformersPacket
+public class PacketHandleTransformation extends AbstractPacket<PacketHandleTransformation>
 {
 	public int id;
 	private boolean transformed;
@@ -25,61 +24,49 @@ public class PacketHandleTransformation extends TransformersPacket
 
 	public PacketHandleTransformation(EntityPlayer player, boolean mode)
 	{
-		this.id = player.getEntityId();
-		this.transformed = mode;
+		id = player.getEntityId();
+		transformed = mode;
 	}
 
-	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		buffer.writeInt(id);
-		buffer.writeBoolean(transformed);
-	}
+    public void fromBytes(ByteBuf buf)
+    {
+        id = buf.readInt();
+        transformed = buf.readBoolean();
+    }
 
-	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		this.id = buffer.readInt();
-		this.transformed = buffer.readBoolean();
-	}
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(id);
+        buf.writeBoolean(transformed);
+    }
 
-	@Override
-	public void handleClientSide(EntityPlayer player)
-	{
-		EntityPlayer from = null;
+    public void handleClientSide(PacketHandleTransformation message, EntityPlayer player)
+    {
+        EntityPlayer from = null;
+        Entity entity = player.worldObj.getEntityByID(message.id);
 
-		Entity entity = player.worldObj.getEntityByID(id);
+        if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
-		if (entity instanceof EntityPlayer)
-		{
-			from = (EntityPlayer) entity;
-		}
+        if (from != null && from != Minecraft.getMinecraft().thePlayer)
+        {
+            TFPlayerData playerData = TFPlayerData.getData(from);
 
-		if (from != null && from != Minecraft.getMinecraft().thePlayer)
-		{
-			TFPlayerData playerData = TFPlayerData.getData(from);
+            MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, message.transformed, playerData.stealthForce));
+            playerData.stealthForce = false;
+            TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
 
-			MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, transformed, playerData.stealthForce));
-			
-			playerData.stealthForce = false;
+            String suffix = message.transformed ? "vehicle" : "robot";
+            from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
+            playerData.vehicle = message.transformed;
+        }
+    }
 
-			TFDataManager.setTransformationTimer(from, transformed ? 20 : 0);
-			String suffix = transformed ? "vehicle" : "robot";
-			
-			from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
-
-			playerData.vehicle = transformed;
-		}
-	}
-
-	@Override
-	public void handleServerSide(EntityPlayer player)
-	{
-		if (player != null)
-		{
-			TFDataManager.setInVehicleMode(player, transformed);
-			
-			TFPacketManager.packetPipeline.sendToDimension(new PacketBroadcastStealthState(player), player.dimension);
-		}
-	}
+    public void handleServerSide(PacketHandleTransformation message, EntityPlayer player)
+    {
+        if (player != null)
+        {
+            TFDataManager.setInVehicleMode(player, message.transformed);
+            TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastStealthState(player), player.dimension);
+        }
+    }
 }

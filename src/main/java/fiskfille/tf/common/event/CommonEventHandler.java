@@ -106,8 +106,8 @@ public class CommonEventHandler
 				{
 					EntityPlayer beingTracked = (EntityPlayer) event.target;
 					
-					TFPacketManager.packetPipeline.sendToDimension(new PacketBroadcastState(beingTracked), beingTracked.dimension);
-					TFPacketManager.packetPipeline.sendToDimension(new PacketBroadcastState(player), beingTracked.dimension);
+					TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(beingTracked), beingTracked.dimension);
+					TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), beingTracked.dimension);
 				}
 			}
 		}
@@ -149,7 +149,7 @@ public class CommonEventHandler
 			}
 			else
 			{
-				TFPacketManager.packetPipeline.sendToDimension(new PacketBroadcastState(player), player.dimension);
+				TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), player.dimension);
 				TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
 
 				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 0 : 20);

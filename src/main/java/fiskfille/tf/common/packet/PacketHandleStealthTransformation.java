@@ -1,21 +1,20 @@
 package fiskfille.tf.common.packet;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.packet.base.TransformersPacket;
+import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
-public class PacketHandleStealthTransformation extends TransformersPacket
+public class PacketHandleStealthTransformation extends AbstractPacket<PacketHandleStealthTransformation>
 {
 	public int id;
-	private boolean mode;
+	private boolean transformed;
 
 	public PacketHandleStealthTransformation()
 	{
@@ -24,68 +23,55 @@ public class PacketHandleStealthTransformation extends TransformersPacket
 
 	public PacketHandleStealthTransformation(EntityPlayer player, boolean mode)
 	{
-		this.id = player.getEntityId();
-		this.mode = mode;
+		id = player.getEntityId();
+		transformed = mode;
 	}
 
-	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		buffer.writeInt(id);
-		buffer.writeBoolean(mode);
-	}
+	public void handleClientSide(PacketHandleStealthTransformation message, EntityPlayer player)
+    {
+        EntityPlayer from = null;
+        Entity entity = player.worldObj.getEntityByID(message.id);
 
-	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) 
-	{
-		this.id = buffer.readInt();
-		this.mode = buffer.readBoolean();
-	}
+        if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
-	@Override
-	public void handleClientSide(EntityPlayer player)
-	{
-		EntityPlayer from = null;
+        if (from != null && from != Minecraft.getMinecraft().thePlayer)
+        {
+            TFPlayerData playerData = TFPlayerData.getData(from);
+            TFDataManager.setStealthModeTimer(from, message.transformed ? 5 : 0);
 
-		Entity entity = player.worldObj.getEntityByID(id);
-		
-		if (entity instanceof EntityPlayer)
-		{
-			from = (EntityPlayer) entity;
-		}
+            String suffix = message.transformed ? "vehicle" : "robot";
+            from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5f, false);
+            playerData.stealthForce = message.transformed;
+        }
+    }
 
-		if (from != null && from != Minecraft.getMinecraft().thePlayer)
-		{
-			TFPlayerData playerData = TFPlayerData.getData(from);
-			TFDataManager.setStealthModeTimer(from, mode ? 5 : 0);
+    public void handleServerSide(PacketHandleStealthTransformation message, EntityPlayer player)
+    {
+        EntityPlayer from = null;
 
-			String suffix = mode ? "vehicle" : "robot";
-			
-			from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5F, false);
+        for (World world : MinecraftServer.getServer().worldServers)
+        {
+            Entity entity = world.getEntityByID(message.id);
 
-			playerData.stealthForce = mode;
-		}
-	}
+            if (entity instanceof EntityPlayer)
+            {
+                from = (EntityPlayer) entity;
+                break;
+            }
+        }
 
-	@Override
-	public void handleServerSide(EntityPlayer player)
-	{
-		EntityPlayer from = null;
+        if (from != null) TFDataManager.setInStealthMode(player, message.transformed);
+    }
 
-		for (World world : MinecraftServer.getServer().worldServers)
-		{
-			Entity entity = world.getEntityByID(id);
-			
-			if (entity instanceof EntityPlayer)
-			{
-				from = (EntityPlayer) entity;
-				break;
-			}
-		}
+    public void fromBytes(ByteBuf buf)
+    {
+        id = buf.readInt();
+        transformed = buf.readBoolean();
+    }
 
-		if (from != null)
-		{
-			TFDataManager.setInStealthMode(player, mode);
-		}
-	}
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(id);
+        buf.writeBoolean(transformed);
+    }
 }

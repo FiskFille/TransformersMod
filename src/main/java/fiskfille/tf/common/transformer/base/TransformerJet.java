@@ -103,7 +103,7 @@ public abstract class TransformerJet extends Transformer
 					
 					if (!prevNitro)
 					{
-						TFPacketManager.packetPipeline.sendToServer(new PacketVehicleNitro(player, true));
+						TFPacketManager.networkWrapper.sendToServer(new PacketVehicleNitro(player, true));
 						TFMotionManager.prevNitro = true;
 					}
 
@@ -118,7 +118,7 @@ public abstract class TransformerJet extends Transformer
 				{
 					if (prevNitro)
 					{
-						TFPacketManager.packetPipeline.sendToServer(new PacketVehicleNitro(player, false));
+						TFPacketManager.networkWrapper.sendToServer(new PacketVehicleNitro(player, false));
 						TFMotionManager.prevNitro = false;
 					}
 				}

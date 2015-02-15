@@ -1,10 +1,5 @@
 package fiskfille.tf.common.playerdata;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
@@ -16,6 +11,10 @@ import fiskfille.tf.helper.TFHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class TFDataManager 
 {
@@ -38,11 +37,11 @@ public class TFDataManager
 			
 			if (player.worldObj.isRemote)
 			{
-				TFPacketManager.packetPipeline.sendToServer(new PacketHandleTransformation(player, vehicleMode));
+				TFPacketManager.networkWrapper.sendToServer(new PacketHandleTransformation(player, vehicleMode));
 			}
 			else
 			{
-				TFPacketManager.packetPipeline.sendToDimension(new PacketHandleTransformation(player, vehicleMode), player.dimension);
+				TFPacketManager.networkWrapper.sendToDimension(new PacketHandleTransformation(player, vehicleMode), player.dimension);
 			}
 
 			data.vehicle = vehicleMode;
@@ -59,11 +58,11 @@ public class TFDataManager
 			{
 				if (player.worldObj.isRemote)
 				{
-					TFPacketManager.packetPipeline.sendToServer(new PacketHandleStealthTransformation(player, stealthMode));
+					TFPacketManager.networkWrapper.sendToServer(new PacketHandleStealthTransformation(player, stealthMode));
 				}
 				else
 				{
-					TFPacketManager.packetPipeline.sendToDimension(new PacketHandleStealthTransformation(player, stealthMode), player.dimension);
+					TFPacketManager.networkWrapper.sendToDimension(new PacketHandleStealthTransformation(player, stealthMode), player.dimension);
 				}
 
 				TFPlayerData.getData(player).stealthForce = stealthMode;
@@ -153,6 +152,6 @@ public class TFDataManager
 			}
 		}
 
-		TFPacketManager.packetPipeline.sendTo(new PacketSyncTransformationStates(states), (EntityPlayerMP) player);
+		TFPacketManager.networkWrapper.sendTo(new PacketSyncTransformationStates(states), (EntityPlayerMP) player);
 	}
 }
