@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import fiskfille.tf.web.PastebinFileReader;
+import fiskfille.tf.pastebin.PastebinFileReader;
 
 public class DonatorLoader extends Thread
 {
