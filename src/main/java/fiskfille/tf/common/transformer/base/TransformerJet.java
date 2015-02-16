@@ -90,7 +90,7 @@ public abstract class TransformerJet extends Transformer
 
 			Vec3 vec3 = TFMotionManager.getFrontCoords(player, vel, true);
 			player.motionX = (vec3.xCoord - player.posX);
-			player.motionY = (vec3.yCoord - player.posY);
+			player.motionY = (vec3.yCoord - player.posY) - 0.1F;
 			player.motionZ = (vec3.zCoord - player.posZ);
 			if (vel <= 0.09F) {vel = 0.09F;}
 			if (vel > 1.41F) {vel = 1.41F;}
