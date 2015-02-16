@@ -16,7 +16,7 @@ public class RenderCustomPlayer extends RenderPlayer
 	public RenderCustomPlayer()
 	{
 		super();
-		this.mainModel = new ModelBipedTF(0.0F);
+		this.mainModel = new ModelBipedTF();
         this.modelBipedMain = (ModelBiped)this.mainModel;
 	}
 
