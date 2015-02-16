@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -56,7 +57,7 @@ public class PacketSyncTransformationStates implements IMessage
             {
                 if (message.states != null)
                 {
-                    for (Object cPlayer : Minecraft.getMinecraft().theWorld.playerEntities)
+                    for (Object cPlayer : TransformersMod.proxy.getWorld().playerEntities)
                     {
                         if (cPlayer instanceof EntityPlayer)
                         {

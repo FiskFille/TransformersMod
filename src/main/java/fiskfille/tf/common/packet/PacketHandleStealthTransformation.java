@@ -47,13 +47,13 @@ public class PacketHandleStealthTransformation implements IMessage
         {
             if (ctx.side.isClient())
             {
-                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
                 if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
-                if (from != null && from != Minecraft.getMinecraft().thePlayer)
+                if (from != null && from != TransformersMod.proxy.getPlayer())
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
                     TFDataManager.setStealthModeTimer(from, message.transformed ? 5 : 0);

@@ -48,7 +48,7 @@ public class PacketHandleTransformation implements IMessage
         {
             if (ctx.side.isClient())
             {
-                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 

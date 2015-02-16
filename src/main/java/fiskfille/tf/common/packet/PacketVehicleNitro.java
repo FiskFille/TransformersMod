@@ -3,6 +3,7 @@ package fiskfille.tf.common.packet;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import io.netty.buffer.ByteBuf;
@@ -44,7 +45,7 @@ public class PacketVehicleNitro implements IMessage
         {
             if (ctx.side.isClient())
             {
-                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
                 if (entity instanceof EntityPlayer)

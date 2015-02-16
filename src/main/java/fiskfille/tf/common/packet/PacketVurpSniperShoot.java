@@ -47,7 +47,7 @@ public class PacketVurpSniperShoot implements IMessage
         {
             if (ctx.side.isClient())
             {
-                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity fromEntity = player.worldObj.getEntityByID(message.id);
 
                 if (fromEntity instanceof EntityPlayer)

@@ -3,6 +3,7 @@ package fiskfille.tf.common.packet;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -67,7 +68,7 @@ public class PacketTransformersAction implements IMessage
         {
             if (ctx.side.isClient())
             {
-                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity fromEntity = player.worldObj.getEntityByID(message.id);
 
                 if (fromEntity instanceof EntityPlayer)
