@@ -49,8 +49,6 @@ item.skystrikes_energon_crossbow.name=Skystrike's Energon Crossbow
 item.purges_katana.name=Purge's Katana
 item.tank_shell.name=Tank Shell
 item.flame_thrower.name=Cloudtrap's Flamethrower
-item.vurps_sniper.name=Vurp's Sniper
-item.mini_missile.name=Mini Missile
 
 ------Blocks------
 tile.display_pillar.name=Display Pillar
@@ -65,8 +63,6 @@ itemGroup.Transformers=Transformers
 stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
 gui.display_pillar.name=Display Pillar
-
-misc.donate.thanks=Thank you for donating $
 
 --Stats--
 achievement.shoot_missile=Directed by Michael Bay!
