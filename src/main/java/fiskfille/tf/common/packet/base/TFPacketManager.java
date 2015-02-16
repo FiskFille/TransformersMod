@@ -25,16 +25,16 @@ public class TFPacketManager
 	{
 		networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel("transformersMod");
 		
-		registerPacket(PacketHandleTransformation.class, PacketHandleTransformation.class);
-		registerPacket(PacketHandleStealthTransformation.class, PacketHandleStealthTransformation.class);
-		registerPacket(PacketSyncTransformationStates.class, PacketSyncTransformationStates.class);
-		registerPacket(PacketTransformersAction.class, PacketTransformersAction.class);
-		registerPacket(PacketCloudtrapJetpack.class, PacketCloudtrapJetpack.class);
-		registerPacket(PacketBroadcastStealthState.class, PacketBroadcastStealthState.class);
-		registerPacket(PacketBroadcastTransformationState.class, PacketBroadcastTransformationState.class);
-		registerPacket(PacketBroadcastState.class, PacketBroadcastState.class);
-		registerPacket(PacketVehicleNitro.class, PacketVehicleNitro.class);
-		registerPacket(PacketVurpSniperShoot.class, PacketVurpSniperShoot.class);
+		registerPacket(PacketHandleTransformation.Handler.class, PacketHandleTransformation.class);
+		registerPacket(PacketHandleStealthTransformation.Handler.class, PacketHandleStealthTransformation.class);
+		registerPacket(PacketSyncTransformationStates.Handler.class, PacketSyncTransformationStates.class);
+		registerPacket(PacketTransformersAction.Handler.class, PacketTransformersAction.class);
+		registerPacket(PacketCloudtrapJetpack.Handler.class, PacketCloudtrapJetpack.class);
+		registerPacket(PacketBroadcastStealthState.Handler.class, PacketBroadcastStealthState.class);
+		registerPacket(PacketBroadcastTransformationState.Handler.class, PacketBroadcastTransformationState.class);
+		registerPacket(PacketBroadcastState.Handler.class, PacketBroadcastState.class);
+		registerPacket(PacketVehicleNitro.Handler.class, PacketVehicleNitro.class);
+		registerPacket(PacketVurpSniperShoot.Handler.class, PacketVurpSniperShoot.class);
 	}
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

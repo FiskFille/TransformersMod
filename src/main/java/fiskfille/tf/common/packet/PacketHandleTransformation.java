@@ -1,8 +1,10 @@
 package fiskfille.tf.common.packet;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.event.PlayerTransformEvent;
-import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
@@ -12,7 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
-public class PacketHandleTransformation extends AbstractPacket<PacketHandleTransformation>
+public class PacketHandleTransformation implements IMessage
 {
 	public int id;
 	private boolean transformed;
@@ -40,33 +42,42 @@ public class PacketHandleTransformation extends AbstractPacket<PacketHandleTrans
         buf.writeBoolean(transformed);
     }
 
-    public void handleClientSide(PacketHandleTransformation message, EntityPlayer player)
+    public static class Handler implements IMessageHandler<PacketHandleTransformation, IMessage>
     {
-        EntityPlayer from = null;
-        Entity entity = player.worldObj.getEntityByID(message.id);
-
-        if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
-
-        if (from != null && from != Minecraft.getMinecraft().thePlayer)
+        public IMessage onMessage(PacketHandleTransformation message, MessageContext ctx)
         {
-            TFPlayerData playerData = TFPlayerData.getData(from);
+            if (ctx.side.isClient())
+            {
+                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer from = null;
+                Entity entity = player.worldObj.getEntityByID(message.id);
 
-            MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, message.transformed, playerData.stealthForce));
-            playerData.stealthForce = false;
-            TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
+                if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
-            String suffix = message.transformed ? "vehicle" : "robot";
-            from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
-            playerData.vehicle = message.transformed;
-        }
-    }
+                if (from != null && from != Minecraft.getMinecraft().thePlayer)
+                {
+                    TFPlayerData playerData = TFPlayerData.getData(from);
 
-    public void handleServerSide(PacketHandleTransformation message, EntityPlayer player)
-    {
-        if (player != null)
-        {
-            TFDataManager.setInVehicleMode(player, message.transformed);
-            TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastStealthState(player), player.dimension);
+                    MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, message.transformed, playerData.stealthForce));
+                    playerData.stealthForce = false;
+                    TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
+
+                    String suffix = message.transformed ? "vehicle" : "robot";
+                    from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
+                    playerData.vehicle = message.transformed;
+                }
+            }
+            else
+            {
+                EntityPlayer player = ctx.getServerHandler().playerEntity;
+                if (player != null)
+                {
+                    TFDataManager.setInVehicleMode(player, message.transformed);
+                    TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastStealthState(player), player.dimension);
+                }
+            }
+
+            return null;
         }
     }
 }

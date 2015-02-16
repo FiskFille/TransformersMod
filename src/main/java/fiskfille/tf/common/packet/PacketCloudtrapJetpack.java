@@ -1,7 +1,9 @@
 package fiskfille.tf.common.packet;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.client.tick.ClientTickHandler;
-import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -10,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
-public class PacketCloudtrapJetpack extends AbstractPacket<PacketCloudtrapJetpack>
+public class PacketCloudtrapJetpack implements IMessage
 {
 	private int id;
 	private boolean jetpacking;
@@ -26,37 +28,6 @@ public class PacketCloudtrapJetpack extends AbstractPacket<PacketCloudtrapJetpac
 		jetpacking = j;
 	}
 
-    public void handleClientSide(PacketCloudtrapJetpack message, EntityPlayer player)
-    {
-        EntityPlayer from = null;
-        Entity entity = player.worldObj.getEntityByID(message.id);
-
-        if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
-
-        if (from != null && from != Minecraft.getMinecraft().thePlayer)
-        {
-            if (message.jetpacking) if (!ClientTickHandler.cloudtrapJetpacking.contains(from)) ClientTickHandler.cloudtrapJetpacking.add(from);
-            else ClientTickHandler.cloudtrapJetpacking.remove(from);
-        }
-    }
-
-    public void handleServerSide(PacketCloudtrapJetpack message, EntityPlayer player)
-    {
-        EntityPlayer from = null;
-
-        for (World world : MinecraftServer.getServer().worldServers)
-        {
-            Entity entity = world.getEntityByID(message.id);
-            if (entity instanceof EntityPlayer)
-            {
-                from = (EntityPlayer) entity;
-                break;
-            }
-        }
-
-        if (from != null) TFPacketManager.networkWrapper.sendToAll(this);
-    }
-
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
@@ -67,5 +38,44 @@ public class PacketCloudtrapJetpack extends AbstractPacket<PacketCloudtrapJetpac
     {
         buf.writeInt(id);
         buf.writeBoolean(jetpacking);
+    }
+
+    public static class Handler implements IMessageHandler<PacketCloudtrapJetpack, IMessage>
+    {
+        public IMessage onMessage(PacketCloudtrapJetpack message, MessageContext ctx)
+        {
+            if (ctx.side.isClient())
+            {
+                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer from = null;
+                Entity entity = player.worldObj.getEntityByID(message.id);
+
+                if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
+
+                if (from != null && from != Minecraft.getMinecraft().thePlayer)
+                {
+                    if (message.jetpacking) if (!ClientTickHandler.cloudtrapJetpacking.contains(from)) ClientTickHandler.cloudtrapJetpacking.add(from);
+                    else ClientTickHandler.cloudtrapJetpacking.remove(from);
+                }
+            }
+            else
+            {
+                EntityPlayer player = ctx.getServerHandler().playerEntity;
+                EntityPlayer from = null;
+
+                for (World world : MinecraftServer.getServer().worldServers)
+                {
+                    Entity entity = world.getEntityByID(message.id);
+                    if (entity instanceof EntityPlayer)
+                    {
+                        from = (EntityPlayer) entity;
+                        break;
+                    }
+                }
+
+                if (from != null) TFPacketManager.networkWrapper.sendToAll(new PacketCloudtrapJetpack(player, message.jetpacking));
+            }
+            return null;
+        }
     }
 }

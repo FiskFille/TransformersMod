@@ -1,13 +1,16 @@
 package fiskfille.tf.common.packet;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.client.particle.NitroParticleHandler;
-import fiskfille.tf.common.packet.base.AbstractPacket;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PacketVehicleNitro extends AbstractPacket<PacketVehicleNitro>
+public class PacketVehicleNitro implements IMessage
 {
 	private int id;
 	private boolean nitroOn;
@@ -23,22 +26,6 @@ public class PacketVehicleNitro extends AbstractPacket<PacketVehicleNitro>
 		nitroOn = n;
 	}
 
-    public void handleClientSide(PacketVehicleNitro message, EntityPlayer player)
-    {
-        Entity entity = player.worldObj.getEntityByID(message.id);
-
-        if (entity instanceof EntityPlayer)
-        {
-            EntityPlayer fromPlayer = (EntityPlayer) entity;
-            if (fromPlayer != player) NitroParticleHandler.setNitro(fromPlayer, message.nitroOn);
-        }
-    }
-
-    public void handleServerSide(PacketVehicleNitro message, EntityPlayer player)
-    {
-        TFPacketManager.networkWrapper.sendToDimension(this, player.dimension);
-    }
-
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
@@ -49,5 +36,30 @@ public class PacketVehicleNitro extends AbstractPacket<PacketVehicleNitro>
     {
         buf.writeInt(id);
         buf.writeBoolean(nitroOn);
+    }
+
+    public static class Handler implements IMessageHandler<PacketVehicleNitro, IMessage>
+    {
+        public IMessage onMessage(PacketVehicleNitro message, MessageContext ctx)
+        {
+            if (ctx.side.isClient())
+            {
+                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                Entity entity = player.worldObj.getEntityByID(message.id);
+
+                if (entity instanceof EntityPlayer)
+                {
+                    EntityPlayer fromPlayer = (EntityPlayer) entity;
+                    if (fromPlayer != player) NitroParticleHandler.setNitro(fromPlayer, message.nitroOn);
+                }
+            }
+            else
+            {
+                EntityPlayer player = ctx.getServerHandler().playerEntity;
+                TFPacketManager.networkWrapper.sendToDimension(new PacketVehicleNitro(player, message.nitroOn), player.dimension);
+            }
+
+            return null;
+        }
     }
 }

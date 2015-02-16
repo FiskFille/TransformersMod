@@ -1,7 +1,9 @@
 package fiskfille.tf.common.packet;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
-import fiskfille.tf.common.packet.base.AbstractPacket;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -12,7 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-public class PacketSyncTransformationStates extends AbstractPacket<PacketSyncTransformationStates>
+public class PacketSyncTransformationStates implements IMessage
 {
 	private Map<UUID, Boolean[]> states;
 
@@ -25,35 +27,6 @@ public class PacketSyncTransformationStates extends AbstractPacket<PacketSyncTra
 	{
 		states = s;
 	}
-
-    public void handleClientSide(PacketSyncTransformationStates message, EntityPlayer player)
-    {
-        if (message.states != null)
-        {
-            for (Object cPlayer : Minecraft.getMinecraft().theWorld.playerEntities)
-            {
-                if (cPlayer instanceof EntityPlayer)
-                {
-                    for (Entry<UUID, Boolean[]> state : message.states.entrySet())
-                    {
-                        EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
-
-                        UUID uuid = state.getKey();
-                        if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
-                        {
-                            TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
-                            TFPlayerData.getData(currentPlayer).stealthForce = state.getValue()[1];
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void handleServerSide(PacketSyncTransformationStates message, EntityPlayer player)
-    {
-
-    }
 
     public void fromBytes(ByteBuf buf)
     {
@@ -72,6 +45,38 @@ public class PacketSyncTransformationStates extends AbstractPacket<PacketSyncTra
             ByteBufUtils.writeUTF8String(buf, entry.getKey().toString());
             buf.writeBoolean(entry.getValue()[0]);
             buf.writeBoolean(entry.getValue()[1]);
+        }
+    }
+
+    public static class Handler implements IMessageHandler<PacketSyncTransformationStates, IMessage>
+    {
+        public IMessage onMessage(PacketSyncTransformationStates message, MessageContext ctx)
+        {
+            if (ctx.side.isClient())
+            {
+                if (message.states != null)
+                {
+                    for (Object cPlayer : Minecraft.getMinecraft().theWorld.playerEntities)
+                    {
+                        if (cPlayer instanceof EntityPlayer)
+                        {
+                            for (Entry<UUID, Boolean[]> state : message.states.entrySet())
+                            {
+                                EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
+
+                                UUID uuid = state.getKey();
+                                if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
+                                {
+                                    TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
+                                    TFPlayerData.getData(currentPlayer).stealthForce = state.getValue()[1];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }
