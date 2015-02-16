@@ -237,7 +237,7 @@ public class CommonEventHandler
 			{
 				if (player == Minecraft.getMinecraft().thePlayer)
 				{
-					if (!vehicleMode && yOffset == 0)
+					if (!vehicleMode)
 					{
 						float defaultEyeHeight = player.getDefaultEyeHeight();
 
