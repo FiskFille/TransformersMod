@@ -1,5 +1,6 @@
 package fiskfille.tf.common.event;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -105,7 +106,7 @@ public class CommonEventHandler
 				if (event.target instanceof EntityPlayer)
 				{
 					EntityPlayer beingTracked = (EntityPlayer) event.target;
-					
+
 					TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(beingTracked), beingTracked.dimension);
 					TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), beingTracked.dimension);
 				}
@@ -226,65 +227,55 @@ public class CommonEventHandler
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
 
-			//			if (!TFHelper.isPlayerJet(player))
-			//			{
-			//				boolean vehicleMode = TFDataManager.isInVehicleMode(player);
-			//
-			//				//if (vehicleMode != prevVehicleMode)
-			//				{
-			//					if (player == Minecraft.getMinecraft().thePlayer)
-			//					{
-			//						if (!vehicleMode)
-			//						{
-			//							float defaultEyeHeight = player.getDefaultEyeHeight();
-			//
-			//							if (player.eyeHeight != defaultEyeHeight)
-			//							{
-			//								player.eyeHeight = defaultEyeHeight;
-			//							}
-			//						}
-			//						else
-			//						{
-			//							player.eyeHeight = -0.9F;
-			//						}
-			//
-			//						//prevVehicleMode = vehicleMode;
-			//					}
-			//
-			//					try 
-			//					{
-			//						if (vehicleMode)
-			//						{
-			//							boolean tank = TFHelper.isPlayerTank(player);
-			//
-			//							if (tank)
-			//							{
-			//								MainClass.setSizeMethod.invoke(player, 0.8F, 0.6F);
-			//							}
-			//							else
-			//							{
-			//								MainClass.setSizeMethod.invoke(player, 0.6F, 0.4F);
-			//							}
-			//						}
-			//						else
-			//						{
-			//							MainClass.setSizeMethod.invoke(player, 0.6F, 1.8F);
-			//						}
-			//					} 
-			//					catch (IllegalAccessException e)
-			//					{
-			//						e.printStackTrace();
-			//					} 
-			//					catch (IllegalArgumentException e) 
-			//					{
-			//						e.printStackTrace();
-			//					} 
-			//					catch (InvocationTargetException e)
-			//					{
-			//						e.printStackTrace();
-			//					}
-			//				}
-			//			}
+			Transformer transformer = TFHelper.getTransformer(player);
+
+			float yOffset = transformer != null ? transformer.getCameraYOffset() : 0;
+
+			boolean vehicleMode = TFDataManager.isInVehicleMode(player);
+
+			if(player.worldObj.isRemote)
+			{
+				if (player == Minecraft.getMinecraft().thePlayer)
+				{
+					if (!vehicleMode && yOffset == 0)
+					{
+						float defaultEyeHeight = player.getDefaultEyeHeight();
+
+						if (player.eyeHeight != defaultEyeHeight)
+						{
+							player.eyeHeight = defaultEyeHeight;
+						}
+					}
+					else
+					{
+						player.eyeHeight = yOffset + 0.22F;
+					}
+				}
+			}
+
+			try 
+			{
+				if (vehicleMode && yOffset != 0)
+				{
+					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
+				}
+				else
+				{
+					TransformersMod.setSizeMethod.invoke(player, 0.6F, 1.8F);
+				}
+			} 
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			} 
+			catch (IllegalArgumentException e) 
+			{
+				e.printStackTrace();
+			} 
+			catch (InvocationTargetException e)
+			{
+				e.printStackTrace();
+			}
 
 			if (!event.entity.worldObj.isRemote)
 			{

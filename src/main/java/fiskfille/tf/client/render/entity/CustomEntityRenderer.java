@@ -42,11 +42,11 @@ public class CustomEntityRenderer extends EntityRenderer
 	@Override
 	public void updateCameraAndRender(float partialTick)
 	{
-//		super.updateCameraAndRender(partialTick);
+		//		super.updateCameraAndRender(partialTick);
 		hurtCameraEffect(partialTick);
 
 		EntityPlayer player = mc.thePlayer;
-		
+
 		if (player == null || player.isPlayerSleeping())
 		{
 			super.updateCameraAndRender(partialTick);
@@ -62,7 +62,7 @@ public class CustomEntityRenderer extends EntityRenderer
 			offsetForPlayer = 1.62F;
 			offsetY.put(player, 1.62F);
 		}
-		
+
 		player.yOffset -= offsetForPlayer;
 		super.updateCameraAndRender(partialTick);
 		player.yOffset = 1.62F;
@@ -72,30 +72,30 @@ public class CustomEntityRenderer extends EntityRenderer
 	@Override
 	public void getMouseOver(float partialTick)
 	{
-//		super.getMouseOver(partialTick);
-		if (mc.thePlayer == null || mc.thePlayer.isPlayerSleeping())
-		{
-			super.getMouseOver(partialTick);
-			return;
-		}
-
-		Float offsetY = this.offsetY.get(mc.thePlayer);
-		
-		if (offsetY == null)
-		{
-			offsetY = 1.62F;
-			this.offsetY.put(mc.thePlayer, 1.62F);
-		}
-
-		mc.thePlayer.posY += offsetY;
-		mc.thePlayer.prevPosY += offsetY;
-		mc.thePlayer.lastTickPosY += offsetY;
 		super.getMouseOver(partialTick);
-		mc.thePlayer.posY -= offsetY;
-		mc.thePlayer.prevPosY -= offsetY;
-		mc.thePlayer.lastTickPosY -= offsetY;
-
-		GL11.glRotatef(90, 1, 0, 0);
+		//		if (mc.thePlayer == null || mc.thePlayer.isPlayerSleeping())
+		//		{
+		//			super.getMouseOver(partialTick);
+		//			return;
+		//		}
+		//
+		//		Float offsetY = this.offsetY.get(mc.thePlayer);
+		//		
+		//		if (offsetY == null)
+		//		{
+		//			offsetY = 1.62F;
+		//			this.offsetY.put(mc.thePlayer, 1.62F);
+		//		}
+		//
+		//		mc.thePlayer.posY += offsetY;
+		//		mc.thePlayer.prevPosY += offsetY;
+		//		mc.thePlayer.lastTickPosY += offsetY;
+		//		super.getMouseOver(partialTick);
+		//		mc.thePlayer.posY -= offsetY;
+		//		mc.thePlayer.prevPosY -= offsetY;
+		//		mc.thePlayer.lastTickPosY -= offsetY;
+		//
+		//		GL11.glRotatef(90, 1, 0, 0);
 	}
 
 	public static void setOffsetY(EntityPlayer player, float f)

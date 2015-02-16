@@ -66,6 +66,7 @@ public class PacketSyncTransformationStates implements IMessage
                                 EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
 
                                 UUID uuid = state.getKey();
+                                
                                 if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
                                 {
                                     TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
