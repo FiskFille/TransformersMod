@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ModelSkystrike extends ModelTransformer.Biped
+public class ModelSkystrike extends ModelChildBase.Biped
 {
 	ModelRenderer upperLeg1;
 	ModelRenderer centerLeg1;

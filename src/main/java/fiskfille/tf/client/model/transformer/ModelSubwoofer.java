@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ModelSubwoofer extends ModelTransformer.Biped
+public class ModelSubwoofer extends ModelChildBase.Biped
 {
 	ModelRenderer head;
 	ModelRenderer helmetPiece1;

@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ModelVurp extends ModelTransformer.Biped
+public class ModelVurp extends ModelChildBase.Biped
 {
 	ModelRenderer leg1;
 	ModelRenderer foot1;

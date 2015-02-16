@@ -1,14 +1,14 @@
-package fiskfille.tf.render.entity;
+package fiskfille.tf.client.render.entity;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.player.ModelPlayerTF;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.data.TFDataManager;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.model.player.ModelPlayerTF;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer

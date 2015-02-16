@@ -1,10 +1,9 @@
 package fiskfille.tf;
 
+import fiskfille.tf.common.transformer.base.Transformer;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import fiskfille.tf.client.model.transformer.ModelTransformer;
-import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TransformersAPI 
 {

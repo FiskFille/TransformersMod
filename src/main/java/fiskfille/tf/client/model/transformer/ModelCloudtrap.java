@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ModelCloudtrap extends ModelTransformer.Biped
+public class ModelCloudtrap extends ModelChildBase.Biped
 {
     ModelRenderer upperLeg1;
     ModelRenderer backLeg1;

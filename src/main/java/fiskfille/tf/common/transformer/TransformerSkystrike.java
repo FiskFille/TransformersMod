@@ -2,10 +2,8 @@ package fiskfille.tf.common.transformer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import cpw.mods.fml.common.FMLCommonHandler;
-import fiskfille.tf.client.model.transformer.ModelSkystrike;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.ModelTransformer.Biped;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 

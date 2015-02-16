@@ -1,20 +1,16 @@
-package fiskfille.tf.model.player;
-
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
-import org.lwjgl.opengl.GL11;
+package fiskfille.tf.client.model.player;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.item.TFItems;
-import fiskfille.tf.item.armor.ITransformerArmor;
-import fiskfille.tf.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.ModelChildBase;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class ModelPlayerTF extends Biped
+public class ModelPlayerTF extends ModelChildBase.Biped
 {
 	public ModelPlayerTF()
 	{
@@ -30,11 +26,11 @@ public class ModelPlayerTF extends Biped
         	EntityPlayer player = (EntityPlayer)entity;
         	
         	ItemStack helm = player.getCurrentArmor(3);
-    		boolean wearingTransformerHelm = helm != null ? helm.getItem() instanceof ITransformerArmor : false;
+    		boolean wearingTransformerHelm = helm != null ? helm.getItem() instanceof ItemTransformerArmor : false;
     		ItemStack chest = player.getCurrentArmor(2);
-    		boolean wearingTransformerChest = chest != null ? chest.getItem() instanceof ITransformerArmor : false;
+    		boolean wearingTransformerChest = chest != null ? chest.getItem() instanceof ItemTransformerArmor : false;
     		ItemStack pants = player.getCurrentArmor(1);
-    		boolean wearingTransformerPants = pants != null ? pants.getItem() instanceof ITransformerArmor : false;
+    		boolean wearingTransformerPants = pants != null ? pants.getItem() instanceof ItemTransformerArmor : false;
             
             if (this.isChild)
             {

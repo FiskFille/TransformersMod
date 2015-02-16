@@ -1,6 +1,6 @@
 package fiskfille.tf.common.transformer.base;
 
-import fiskfille.tf.client.model.transformer.ModelTransformer.Biped;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

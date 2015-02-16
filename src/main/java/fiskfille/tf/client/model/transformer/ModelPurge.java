@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
-public class ModelPurge extends ModelTransformer.Biped
+public class ModelPurge extends ModelChildBase.Biped
 {
     public ModelRenderer leg2;
     public ModelRenderer foot2;

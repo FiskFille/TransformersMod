@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.client.model.transformer.ModelTransformer.Base;
-import fiskfille.tf.client.model.transformer.ModelTransformer.Biped;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.vehicle.ModelCloudtrapVehicle;
 import fiskfille.tf.client.model.transformer.vehicle.ModelPurgeVehicle;
 import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
