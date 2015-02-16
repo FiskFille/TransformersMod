@@ -108,7 +108,7 @@ public class TFShootManager
 	{
 		int maxAmmo = transformer.getShots();
 
-		if(!TFDataManager.isInVehicleMode(player))
+		if (!TFDataManager.isInVehicleMode(player))
 		{
 			maxAmmo = 4;
 		}
@@ -194,7 +194,7 @@ public class TFShootManager
 								}
 							}
 
-							shotsLeft--;
+							if (!player.capabilities.isCreativeMode) shotsLeft--;
 
 							if (shotsLeft <= 0)
 							{
