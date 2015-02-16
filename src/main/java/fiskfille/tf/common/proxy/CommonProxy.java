@@ -1,0 +1,23 @@
+package fiskfille.tf.common.proxy;
+
+import fiskfille.tf.client.tick.ClientTickHandler;
+
+public class CommonProxy
+{
+	public static ClientTickHandler tickHandler;
+	
+	public void registerRenderInformation()
+	{
+		
+	}
+
+	public void registerKeyBinds()
+	{
+		
+	}
+
+	public void registerTickHandlers() 
+	{
+		
+	}
+}
