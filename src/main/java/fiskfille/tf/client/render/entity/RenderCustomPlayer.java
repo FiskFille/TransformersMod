@@ -1,4 +1,4 @@
-package fiskfille.tf.client.render.entity;
+package fiskfille.tf.render.entity;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.player.ModelPlayerTF;
-import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.model.player.ModelPlayerTF;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer
@@ -16,7 +16,7 @@ public class RenderCustomPlayer extends RenderPlayer
 	public RenderCustomPlayer()
 	{
 		super();
-		this.mainModel = new ModelPlayerTF(0.0F);
+		this.mainModel = new ModelPlayerTF();
         this.modelBipedMain = (ModelBiped)this.mainModel;
 	}
 

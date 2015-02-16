@@ -31,7 +31,7 @@ public class ModelTransformer
 		}
 	}
 	
-	public static class Biped extends ModelPlayerTF
+	public static class Biped extends ModelBiped
 	{
 		public float pi = (float)Math.PI;
 		
@@ -53,6 +53,39 @@ public class ModelTransformer
 			child.rotateAngleY -= parent.rotateAngleY;
 			child.rotateAngleZ -= parent.rotateAngleZ;
 			parent.addChild(child);
+		}
+		
+		private void setRotation(ModelRenderer model, float x, float y, float z)
+		{
+			model.rotateAngleX = x;
+			model.rotateAngleY = y;
+			model.rotateAngleZ = z;
+		}
+		
+		public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
+		{
+			super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
+
+			if (entity instanceof EntityPlayer)
+			{
+				EntityPlayer player = (EntityPlayer)entity;
+				ItemStack itemstack = player.getHeldItem();
+				
+				if (TFDataManager.getTransformationTimer(player) == 20)
+				{
+					if (itemstack != null && itemstack.getItem() == TFItems.vurpsSniper)
+					{
+			    		this.setRotation(this.bipedRightArm, -1.3F, bipedHead.rotateAngleY - 0.45F, 0.0F);
+			    		this.setRotation(this.bipedLeftArm, -1.2F, bipedHead.rotateAngleY + 0.4F, 0.0F);
+			    		this.bipedLeftArm.setRotationPoint(3.0F, 3.0F, -2.5F);
+			    	}
+			    	else
+			    	{
+			    		this.bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
+			    		this.bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
+			    	}
+				}
+			}
 		}
 	}
 }
