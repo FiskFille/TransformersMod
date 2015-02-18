@@ -8,10 +8,15 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
+import net.minecraftforge.event.entity.item.ItemEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -174,6 +179,24 @@ public class ClientEventHandler
 			if (TFDataManager.getZoomTimer(player) > 0 && TFHelper.isPlayerVurp(player) && itemstack != null && itemstack.getItem() == TFItems.vurpsSniper && this.mc.gameSettings.thirdPersonView == 0)
 			{
 				event.newfov = 1.0F - (float)TFDataManager.getZoomTimer(player) / 10;
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onItemToolTip(ItemTooltipEvent event)
+	{
+		String s = "tooltip." + event.itemStack.getUnlocalizedName();
+		
+		if (!s.equals(StatCollector.translateToLocal(s)))
+		{
+			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+			{
+				event.toolTip.add(StatCollector.translateToLocal(s));
+			}
+			else
+			{
+				event.toolTip.add(EnumChatFormatting.BLUE + "Hold SHIFT for info.");
 			}
 		}
 	}

@@ -65,4 +65,10 @@ public class TransformerSkystrike extends TransformerJet
 			}
 		}
 	}
+	
+	@Override
+	public int getDisplayVehicleMetadata()
+	{
+		return 0;
+	}
 }

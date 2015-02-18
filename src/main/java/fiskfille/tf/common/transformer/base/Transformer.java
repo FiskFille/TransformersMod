@@ -116,4 +116,6 @@ public abstract class Transformer
 	{
 		return distance;
 	}
+	
+	public abstract int getDisplayVehicleMetadata();
 }

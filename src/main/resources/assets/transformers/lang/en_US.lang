@@ -40,7 +40,7 @@ item.cloudtrap_feet.name=Cloudtrap Feet
 
 ------Display Vehicles------
 item.display_skystrike.name=F-88 Fighter Jet
-item.display_purge.name=Tank
+item.display_purge.name=M5 Scout Tank
 item.display_vurp.name=2015 Chevrolet Corvette Z06
 item.display_subwoofer.name=2015 Acura NSX
 item.display_cloudtrap.name=T-50 Stealth Jet
@@ -86,9 +86,14 @@ achievement.transform.desc=Transform into a Vehicle!
 achievement.tf.donate=Generosity!
 achievement.tf.donate.desc=Donate!
 
---Message--
+------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!
 transformium_detector.insert_fuel.message=Inserted Fuel.
 transformium_detector.no_energon.message=You do not have any Energon Crystal Pieces!
 transformium_detector.no_fuel.message=You have run out of fuel for your Transformium Detector!
 stats.fuel.name=Fuel
+
+------Tooltip------
+tooltip.tile.transformium_seed=Converts matter into Transformium when detonated.
+tooltip.tile.transformium_stone=Matter converted to Transformium from seed detonation.
+tooltip.tile.energon_cube=Compressed form of Energon.
