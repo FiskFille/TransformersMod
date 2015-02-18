@@ -98,14 +98,14 @@ public class ItemFlamethrower extends ItemSword
 				for (int i1 = 0; i1 < 5; ++i1)
 				{
 					Random rand = new Random();
-					Block block = player.worldObj.getBlock((int)hurtVec.xCoord - 1, (int)hurtVec.yCoord, (int)hurtVec.zCoord);
+					Block block = player.worldObj.getBlock((int)hurtVec.xCoord, (int)hurtVec.yCoord, (int)hurtVec.zCoord);
 //					player.worldObj.spawnParticle("flame", hurtVec.xCoord + rand.nextFloat() - 0.5F, hurtVec.yCoord + rand.nextFloat() - 1.0F, hurtVec.zCoord + rand.nextFloat() - 0.5F, 0.0D, 0.0D, 0.0D);
 					
 					if (!player.worldObj.isRemote)
 					{
-						if (block == Blocks.air && player.worldObj.getBlock((int)hurtVec.xCoord - 1, (int)hurtVec.yCoord - 1, (int)hurtVec.zCoord).isOpaqueCube())
+						if (block == Blocks.air && player.worldObj.getBlock((int)hurtVec.xCoord, (int)hurtVec.yCoord - 1, (int)hurtVec.zCoord).isOpaqueCube())
 						{
-							player.worldObj.setBlock((int)hurtVec.xCoord - 1, (int)hurtVec.yCoord, (int)hurtVec.zCoord, Blocks.fire);
+							player.worldObj.setBlock((int)hurtVec.xCoord, (int)hurtVec.yCoord, (int)hurtVec.zCoord, Blocks.fire);
 						}
 					}
 					else

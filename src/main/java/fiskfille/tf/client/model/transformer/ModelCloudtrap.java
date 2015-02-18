@@ -174,7 +174,7 @@ public class ModelCloudtrap extends ModelChildBase.Biped
         backLegBeam1.addBox(-0.5F, -4.0F, -0.5F, 1, 4, 1);
         setRotateAngle(backLegBeam1, 0.2617993877991494F, 0.0F, 0.0F);
         upperWing2 = new ModelRenderer(this, 26, 33);
-        upperWing2.setRotationPoint(3.5F, 0.8F, 0.0F);
+        upperWing2.setRotationPoint(3.5F, -0.8F, 0.0F);
         upperWing2.addBox(0.0F, -1.2F, -1.0F, 8, 2, 2);
         setRotateAngle(upperWing2, 0.08726646259971647F, 0.0F, -0.20943951023931953F);
         lowerArmPanel1 = new ModelRenderer(this, 38, 20);
@@ -182,7 +182,7 @@ public class ModelCloudtrap extends ModelChildBase.Biped
         lowerArmPanel1.addBox(-1.0F, -2.0F, -1.5F, 1, 4, 3);
         setRotateAngle(lowerArmPanel1, -0.33161255787892263F, -0.0F, -0.10471975511965977F);
         upperWing1 = new ModelRenderer(this, 26, 33);
-        upperWing1.setRotationPoint(-3.5F, 0.8F, 0.0F);
+        upperWing1.setRotationPoint(-3.5F, -0.8F, 0.0F);
         upperWing1.addBox(-8.0F, -1.2F, -1.0F, 8, 2, 2);
         setRotateAngle(upperWing1, 0.08726646259971647F, 0.0F, 0.20943951023931953F);
         ear2 = new ModelRenderer(this, 16, 6);
