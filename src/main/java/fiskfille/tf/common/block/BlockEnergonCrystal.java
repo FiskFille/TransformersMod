@@ -32,7 +32,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 	public BlockEnergonCrystal()
 	{
 		super(Material.glass);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 	}
 
 	protected boolean canSilkHarvest()

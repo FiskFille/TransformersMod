@@ -13,7 +13,7 @@ public class BlockBasic extends Block
     public BlockBasic(Material material)
     {
         super(material);
-        this.setCreativeTab(TransformersMod.transformersTab);
+        this.setCreativeTab(TransformersMod.tabTransformers);
     }
     
     public Block setHarvestLvl(String tool, int level)

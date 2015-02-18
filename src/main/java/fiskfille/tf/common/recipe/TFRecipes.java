@@ -20,8 +20,9 @@ public class TFRecipes
 		
 		GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), new Object[] {"IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformium, 'R', Blocks.redstone_block, 'r', Items.redstone});
 		GameRegistry.addRecipe(new ItemStack(TFBlocks.energonCube, 1), new Object[] {"CCC", "CCC", "CCC", 'C', TFItems.energonCrystalPiece});
+		GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), new Object[] {"TET", "TNT", "DND", 'T', TFItems.transformium, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block});
 	}
-
+	
 	private static void addSmelting()
 	{
 		GameRegistry.addSmelting(TFBlocks.transformiumOre, new ItemStack(TFItems.transformium, 1), 5.0F);

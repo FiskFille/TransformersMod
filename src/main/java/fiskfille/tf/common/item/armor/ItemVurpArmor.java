@@ -10,7 +10,7 @@ public class ItemVurpArmor extends ItemTransformerArmor
 	public ItemVurpArmor(int armorPiece)
 	{
 		super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 	}
 
 	@Override

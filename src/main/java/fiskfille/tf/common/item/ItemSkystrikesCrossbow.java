@@ -24,7 +24,7 @@ public class ItemSkystrikesCrossbow extends ItemSword
 	public ItemSkystrikesCrossbow(ToolMaterial material)
 	{
 		super(material);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 		this.setMaxDamage(1500);
 	}
 	

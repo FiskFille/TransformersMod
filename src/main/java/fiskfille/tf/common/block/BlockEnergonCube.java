@@ -16,7 +16,7 @@ public class BlockEnergonCube extends BlockBasic //BlockIce
 	public BlockEnergonCube() 
 	{
 		super(Material.glass);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 	}
 	
 	protected boolean canSilkHarvest()

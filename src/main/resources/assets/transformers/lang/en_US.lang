@@ -13,6 +13,7 @@ item.tracks.name=Tracks
 item.turret.name=Turret
 item.wheel.name=Wheel
 item.missile.name=Missile
+item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
 
 ------Armor------
@@ -50,13 +51,14 @@ item.purges_katana.name=Purge's Katana
 item.tank_shell.name=Tank Shell
 item.flame_thrower.name=Cloudtrap's Flamethrower
 item.vurps_sniper.name=Vurp's Sniper
-item.mini_missile.name=Mini Missile
 
 ------Blocks------
 tile.display_pillar.name=Display Pillar
 tile.transformium_ore.name=Transformium Ore
 tile.energon_crystal.name=Energon Crystal
 tile.energon_cube.name=Energon Cube
+tile.transformium_stone.name=Transformium Stone
+tile.transformium_seed.name=Transformium Seed
 
 -----Tab------
 itemGroup.Transformers=Transformers
@@ -65,8 +67,6 @@ itemGroup.Transformers=Transformers
 stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
 gui.display_pillar.name=Display Pillar
-
-misc.donate.thanks=Thank you for donating $
 
 --Stats--
 achievement.shoot_missile=Directed by Michael Bay!

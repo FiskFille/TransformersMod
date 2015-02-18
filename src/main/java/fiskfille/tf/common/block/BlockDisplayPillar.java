@@ -26,7 +26,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 	public BlockDisplayPillar()
 	{
 		super(Material.rock);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 	}
 
 	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)

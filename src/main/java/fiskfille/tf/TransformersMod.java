@@ -46,7 +46,7 @@ public class TransformersMod
 	public TFItems items = new TFItems();
 	public TFBlocks blocks = new TFBlocks();
 	
-	public static CreativeTabs transformersTab = new CreativeTabTransformers();
+	public static CreativeTabs tabTransformers = new CreativeTabTransformers();
 	
 	public static Method setSizeMethod;
 	

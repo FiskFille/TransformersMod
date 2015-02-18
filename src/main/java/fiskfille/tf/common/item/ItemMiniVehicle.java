@@ -24,7 +24,7 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
 	{
 		super();
 		this.setMaxStackSize(1);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 		this.setHasSubtypes(true);
 	}
 	

@@ -9,7 +9,7 @@ public class ItemBasic extends Item
 	public ItemBasic()
 	{
 		super();
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 	}
 	
 	public void registerIcons(IIconRegister iconRegister)

@@ -17,7 +17,7 @@ public class ItemVurpsSniper extends ItemSword
 	public ItemVurpsSniper(ToolMaterial material)
 	{
 		super(material);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 		this.setMaxDamage(1500);
 	}
 

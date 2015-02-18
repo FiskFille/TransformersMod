@@ -22,7 +22,7 @@ public class ItemMetaBasic extends Item
 	{
 		super();
 		this.itemNames = itemNames;
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 		this.setHasSubtypes(true);
 	}
 	

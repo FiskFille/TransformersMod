@@ -22,7 +22,7 @@ public abstract class ItemTransformerArmor extends ItemArmor
 	public ItemTransformerArmor(ArmorMaterial material, int renderIndex, int armorPiece)
 	{
 		super(material, renderIndex, armorPiece);
-		this.setCreativeTab(TransformersMod.transformersTab);
+		this.setCreativeTab(TransformersMod.tabTransformers);
 	}
 
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
