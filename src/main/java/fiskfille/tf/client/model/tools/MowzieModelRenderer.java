@@ -1,4 +1,4 @@
-package fiskfille.tf.model.tools;
+package fiskfille.tf.client.model.tools;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
