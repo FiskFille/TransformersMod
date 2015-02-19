@@ -20,7 +20,7 @@ public class EntityTransformiumSeed extends Entity
 {
 	public int fuse;
 	public int maxFuse;
-	private EntityLivingBase tntPlacedBy;
+	private EntityLivingBase placedBye;
 
 	public EntityTransformiumSeed(World world)
 	{
@@ -41,7 +41,7 @@ public class EntityTransformiumSeed extends Entity
 		this.prevPosX = x;
 		this.prevPosY = y;
 		this.prevPosZ = z;
-		this.tntPlacedBy = entity;
+		this.placedBye = entity;
 	}
 
 	protected void entityInit() {}
@@ -77,7 +77,11 @@ public class EntityTransformiumSeed extends Entity
 		this.worldObj.playSoundAtEntity(this, "note.pling", 1, 0.0F + (float)ticksExisted / 50);
 		this.worldObj.playSoundAtEntity(this, "note.bassattack", 1, 0.0F + (float)ticksExisted / 50);
 
-
+		for (int j = 0; j < 5; ++j)
+		{
+			worldObj.spawnParticle("flame", posX, posY, posZ, 0.0D, -0.5D, 0.0D);
+		}
+		
 		if (this.ticksExisted > 100)
 		{
 			if (this.fuse++ >= 40)
@@ -176,8 +180,8 @@ public class EntityTransformiumSeed extends Entity
 		return 0.0F;
 	}
 
-	public EntityLivingBase getTntPlacedBy()
+	public EntityLivingBase getSeedPlacedBy()
 	{
-		return this.tntPlacedBy;
+		return this.placedBye;
 	}
 }
