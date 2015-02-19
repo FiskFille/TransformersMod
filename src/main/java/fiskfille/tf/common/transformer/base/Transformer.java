@@ -45,7 +45,12 @@ public abstract class Transformer
 		return 0.1F;
 	}
 	
-	public float getCameraYOffset()
+	public float getCameraYOffset(EntityPlayer player)
+	{
+		return -1;
+	}
+	
+	public float getVehicleCameraYOffset(EntityPlayer player)
 	{
 		return -1;
 	}

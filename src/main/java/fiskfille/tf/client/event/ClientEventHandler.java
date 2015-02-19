@@ -75,7 +75,7 @@ public class ClientEventHandler
 
 		if (transformer != null)
 		{
-			cameraYOffset = transformer.getCameraYOffset();
+			cameraYOffset = transformer.getCameraYOffset(player);
 		}
 		
 		if (isClientPlayer && cameraYOffset != 0)
@@ -102,7 +102,7 @@ public class ClientEventHandler
 
 		if (transformer != null)
 		{
-			if (isClientPlayer && transformer.getCameraYOffset() != 0)
+			if (isClientPlayer && transformer.getCameraYOffset(player) != 0)
 			{
 				GL11.glPopMatrix();
 			}
@@ -129,7 +129,7 @@ public class ClientEventHandler
 
 				if (transformer != null)
 				{
-					if (transformer.getCameraYOffset() != 0)
+					if (transformer.getCameraYOffset(player) != 0)
 					{
 						if (renderer == null)
 						{

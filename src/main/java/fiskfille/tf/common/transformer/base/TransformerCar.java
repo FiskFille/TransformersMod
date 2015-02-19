@@ -55,7 +55,7 @@ public abstract class TransformerCar extends Transformer
 	}
 
 	@Override
-	public float getCameraYOffset()
+	public float getCameraYOffset(EntityPlayer player)
 	{
 		return -1.1F;
 	}

@@ -37,7 +37,7 @@ public abstract class TransformerJet extends Transformer
 	}
 	
 	@Override
-	public float getCameraYOffset()
+	public float getCameraYOffset(EntityPlayer player)
 	{
 		return 0;
 	}

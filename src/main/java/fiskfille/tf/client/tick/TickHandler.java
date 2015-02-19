@@ -129,7 +129,7 @@ public class TickHandler
 			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent event)
 	{

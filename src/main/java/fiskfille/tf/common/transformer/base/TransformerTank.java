@@ -24,6 +24,16 @@ public abstract class TransformerTank extends Transformer
 	{
 		super(name);
 	}
+	
+	public boolean canZoom(EntityPlayer player)
+	{
+		return true;
+	}
+	
+	public float getVehicleCameraYOffset(EntityPlayer player)
+	{
+		return -0.9F;
+	}
 
 	@Override
 	public String getShootSound()

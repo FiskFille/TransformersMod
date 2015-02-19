@@ -178,9 +178,16 @@ public class ClientTickHandler
 
 	private float getCameraOffset(EntityPlayer player, Transformer transformer) 
 	{
-		if (transformer != null && TFDataManager.getTransformationTimer(player) > 10)
+		if (transformer != null)
 		{
-			return transformer.getCameraYOffset();
+			if (TFDataManager.getTransformationTimer(player) > 10)
+			{
+				return transformer.getCameraYOffset(player);
+			}
+			else
+			{
+				return transformer.getVehicleCameraYOffset(player);
+			}
 		}
 		else
 		{

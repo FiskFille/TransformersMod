@@ -229,7 +229,7 @@ public class CommonEventHandler
 
 			Transformer transformer = TFHelper.getTransformer(player);
 
-			float yOffset = transformer != null ? transformer.getCameraYOffset() : 0;
+			float yOffset = transformer != null ? transformer.getCameraYOffset(player) : 0;
 
 			boolean vehicleMode = TFDataManager.isInVehicleMode(player);
 

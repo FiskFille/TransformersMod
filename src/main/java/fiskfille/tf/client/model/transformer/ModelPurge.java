@@ -416,6 +416,7 @@ public class ModelPurge extends ModelChildBase.Biped
 		this.upperArm2.rotationPointX = -1;
 		this.hipPanel1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 		this.hipPanel2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+		this.vehicleTurret.rotationPointZ = -1;
 		
 		if (entity instanceof EntityPlayer)
 		{
