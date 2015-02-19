@@ -90,45 +90,54 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
 			{
 				setNBTData(itemstack);
 			}
-			
-			if (!player.worldObj.isRemote)
+
+			if (getArmorFromNBT(itemstack)[0] != null)
 			{
-				if (getArmorFromNBT(itemstack)[0] != null)
+				if (!player.worldObj.isRemote)
 				{
 					if (player.getCurrentArmor(3) != null)
 					{
 						player.entityDropItem(player.getCurrentArmor(3), 0);
 					}
-
-					player.setCurrentItemOrArmor(4, getArmorFromNBT(itemstack)[0]);
 				}
-				if (getArmorFromNBT(itemstack)[1] != null)
+
+				player.setCurrentItemOrArmor(4, getArmorFromNBT(itemstack)[0]);
+			}
+			if (getArmorFromNBT(itemstack)[1] != null)
+			{
+				if (!player.worldObj.isRemote)
 				{
 					if (player.getCurrentArmor(2) != null)
 					{
 						player.entityDropItem(player.getCurrentArmor(2), 0);
 					}
-
-					player.setCurrentItemOrArmor(3, getArmorFromNBT(itemstack)[1]);
 				}
-				if (getArmorFromNBT(itemstack)[2] != null)
+
+				player.setCurrentItemOrArmor(3, getArmorFromNBT(itemstack)[1]);
+			}
+			if (getArmorFromNBT(itemstack)[2] != null)
+			{
+				if (!player.worldObj.isRemote)
 				{
 					if (player.getCurrentArmor(1) != null)
 					{
 						player.entityDropItem(player.getCurrentArmor(1), 0);
 					}
-
-					player.setCurrentItemOrArmor(2, getArmorFromNBT(itemstack)[2]);
 				}
-				if (getArmorFromNBT(itemstack)[3] != null)
+
+				player.setCurrentItemOrArmor(2, getArmorFromNBT(itemstack)[2]);
+			}
+			if (getArmorFromNBT(itemstack)[3] != null)
+			{    			
+				if (!player.worldObj.isRemote)
 				{
 					if (player.getCurrentArmor(0) != null)
 					{
 						player.entityDropItem(player.getCurrentArmor(0), 0);
 					}
-
-					player.setCurrentItemOrArmor(1, getArmorFromNBT(itemstack)[3]);
 				}
+
+				player.setCurrentItemOrArmor(1, getArmorFromNBT(itemstack)[3]);
 			}
 
 			player.setCurrentItemOrArmor(0, null);

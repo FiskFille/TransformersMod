@@ -1,0 +1,9 @@
+{
+	"transform_robot": {"category": "master","sounds": [{"name": "transform_robot","stream": false}]},
+	"transform_vehicle": {"category": "master","sounds": [{"name": "transform_vehicle","stream": false}]},
+	"car1": {"category": "master","sounds": [{"name": "car1","stream": false}]},
+	"car2": {"category": "master","sounds": [{"name": "car2","stream": false}]},
+	"car3": {"category": "master","sounds": [{"name": "car3","stream": false}]},
+	"car4": {"category": "master","sounds": [{"name": "car4","stream": false}]},
+	"car5": {"category": "master","sounds": [{"name": "car5","stream": false}]}
+}

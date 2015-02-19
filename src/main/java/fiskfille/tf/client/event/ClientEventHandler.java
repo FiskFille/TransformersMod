@@ -181,6 +181,11 @@ public class ClientEventHandler
 				event.newfov = 1.0F - (float)TFDataManager.getZoomTimer(player) / 10;
 			}
 		}
+		
+		if (TFDataManager.getTransformationTimer(player) < 20 && !(nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player)))
+		{
+			event.newfov = 1.0F;
+		}
 	}
 	
 	@SubscribeEvent

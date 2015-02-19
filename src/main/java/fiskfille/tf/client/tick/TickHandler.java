@@ -1,5 +1,13 @@
 package fiskfille.tf.client.tick;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -11,14 +19,8 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.common.transformer.base.TransformerCar;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 
 public class TickHandler
 {
@@ -34,11 +36,11 @@ public class TickHandler
 		ItemStack itemstack = player.getHeldItem();
 		
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+		int transformationTimer = TFDataManager.getTransformationTimer(player);
 		
 		if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && Minecraft.getMinecraft().currentScreen == null && (TFHelper.isPlayerTransformer(player)) && player.ridingEntity == null)
 		{
 			GameSettings gameSettings = Minecraft.getMinecraft().gameSettings;
-			int transformationTimer = TFDataManager.getTransformationTimer(player);
 			
 			if (inVehicleMode && transformationTimer == 0)
 			{
@@ -104,6 +106,8 @@ public class TickHandler
 	{
 		++time;
 		EntityPlayer player = event.player;
+		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+		int transformationTimer = TFDataManager.getTransformationTimer(player);
 
 		if (player.worldObj.isRemote)
 		{
@@ -118,6 +122,11 @@ public class TickHandler
 		if (TFDataManager.getZoomTimer(player) > 7)
 		{
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
+		}
+		
+		if (inVehicleMode && transformationTimer == 0 && TFHelper.getTransformer(player) instanceof TransformerCar && !TFPlayerData.getData(player).stealthForce)
+		{
+			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
 		}
 	}
 

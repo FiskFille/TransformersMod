@@ -73,11 +73,11 @@ public class EntityTransformiumSeed extends Entity
 		{
 			this.motionY = 0D;
 		}
-		
+
 		this.worldObj.playSoundAtEntity(this, "note.pling", 1, 0.0F + (float)ticksExisted / 50);
 		this.worldObj.playSoundAtEntity(this, "note.bassattack", 1, 0.0F + (float)ticksExisted / 50);
-		
-		
+
+
 		if (this.ticksExisted > 100)
 		{
 			if (this.fuse++ >= 40)
@@ -108,7 +108,7 @@ public class EntityTransformiumSeed extends Entity
 					double x = (int)vec31.xCoord;
 					int y = 256;
 					double z = (int)vec31.zCoord;
-					
+
 					while (worldObj.getBlock((int)x, y, (int)z) == Blocks.air)
 					{
 						--y;
@@ -118,7 +118,7 @@ public class EntityTransformiumSeed extends Entity
 					{
 						worldObj.spawnParticle("smoke", x + rand.nextFloat() - 0.5F / 2, y + 1.2F, z + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
 						worldObj.spawnParticle("flame", x + rand.nextFloat() - 0.5F / 2, y + 1.2F, z + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
-						
+
 						if (worldObj.getBlock((int)x, y - j, (int)z) != TFBlocks.transformiumStone && !worldObj.isAirBlock((int)x, y - j, (int)z) && worldObj.getBlock((int)x, y - j, (int)z) != Blocks.bedrock)
 						{
 							worldObj.setBlock((int)x, y - j, (int)z, TFBlocks.transformiumStone);

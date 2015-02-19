@@ -1,0 +1,38 @@
+------Miscellaneous------
+item.transformium.name=Transformium
+item.energon_crystal_piece.name=Energon Crystal Piece
+item.standard_engine.name=Standard Engine
+item.jet_thruster.name=Jet Thruster
+item.f-88_jet_wing.name=F-88 Jet Wing
+item.f-88_jet_cockpit.name=F-88 Jet Cockpit
+item.tracks.name=Tracks
+item.turret.name=Turret
+item.wheel.name=Wheel
+
+------Armor------
+item.skystrike_head.name=Skystrike Head
+item.skystrike_torso.name=Skystrike Torso
+item.skystrike_legs.name=Skystrike Legs
+item.skystrike_feet.name=Skystrike Feet
+item.purge_head.name=Purge Head
+item.purge_torso.name=Purge Torso
+item.purge_legs.name=Purge Legs
+item.purge_feet.name=Purge Feet
+item.vurp_head.name=Vurp Head
+item.vurp_torso.name=Vurp Torso
+item.vurp_legs.name=Vurp Legs
+item.vurp_feet.name=Vurp Feet
+item.subwoofer_head.name=Subwoofer Head
+item.subwoofer_torso.name=Subwoofer Torso
+item.subwoofer_legs.name=Subwoofer Legs
+item.subwoofer_feet.name=Subwoofer Feet
+
+------Weapons------
+item.skystrikes_energon_crossbow.name=Skystrike's Energon Crossbow
+item.purges_katana.name=Purge's Katana
+
+------Blocks------
+tile.display_pillar.name=Display Pillar
+tile.transformium_ore.name=Transformium Ore
+tile.energon_crystal.name=Energon Crystal
+tile.

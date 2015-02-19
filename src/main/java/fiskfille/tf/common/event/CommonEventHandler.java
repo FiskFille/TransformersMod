@@ -253,29 +253,30 @@ public class CommonEventHandler
 				}
 			}
 
-			try 
-			{
-				if (vehicleMode && yOffset != 0)
-				{
-					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
-				}
-				else
-				{
-					TransformersMod.setSizeMethod.invoke(player, 0.6F, 1.8F);
-				}
-			} 
-			catch (IllegalAccessException e)
-			{
-				e.printStackTrace();
-			} 
-			catch (IllegalArgumentException e) 
-			{
-				e.printStackTrace();
-			} 
-			catch (InvocationTargetException e)
-			{
-				e.printStackTrace();
-			}
+			// TODO: Re-implement player resizing for version 0.6
+//			try 
+//			{
+//				if (vehicleMode && yOffset != 0)
+//				{
+//					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
+//				}
+//				else
+//				{
+//					TransformersMod.setSizeMethod.invoke(player, 0.6F, 1.8F);
+//				}
+//			} 
+//			catch (IllegalAccessException e)
+//			{
+//				e.printStackTrace();
+//			} 
+//			catch (IllegalArgumentException e) 
+//			{
+//				e.printStackTrace();
+//			} 
+//			catch (InvocationTargetException e)
+//			{
+//				e.printStackTrace();
+//			}
 
 			if (!event.entity.worldObj.isRemote)
 			{
