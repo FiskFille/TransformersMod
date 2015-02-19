@@ -423,8 +423,20 @@ public class ModelPurge extends MowzieModelBase
 		this.hipPanel1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 		this.hipPanel2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 		this.vehicleTurret.rotationPointZ = -1;
-		
-		if (entity instanceof EntityPlayer)
+//        head.rotationPointY -= 5;
+//        upperArm1.rotationPointX -= 5;
+//        upperArm2.rotationPointX += 5;
+//        upperArm1.rotationPointY -= 5;
+//        upperArm2.rotationPointY -= 5;
+//
+//        float globalSpeed = 1;
+//        float globalDegree = 1;
+
+//        bob(waist, 1F * globalSpeed, 2F * globalDegree, false, par1, par2);
+//        walk(leg1, 1F * globalSpeed, 1F * globalDegree, false, 0, 0, par1, par2);
+//        walk(leg2, 1F * globalSpeed, 1F * globalDegree, true, 0, 0, par1, par2);
+
+        if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 			
