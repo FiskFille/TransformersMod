@@ -18,7 +18,6 @@ public class TransformerManager
 	
 	public static void register()
 	{
-		new ModelSkystrikeVehicle();
 		TransformersAPI.registerTransformer(transformerSkystrike);
 		TransformersAPI.registerTransformer(transformerPurge);
 		TransformersAPI.registerTransformer(transformerVurp);

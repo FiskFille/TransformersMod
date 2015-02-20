@@ -31,8 +31,9 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 
 	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
 	{
-		ItemStack itemstack = metadata != 0 ? new ItemStack(TFItems.displayVehicle, 1, metadata - 1) : null;
-
+		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+		ItemStack itemstack = tileEntityDisplayPillar.getDisplayItem();
+		
 		if (itemstack != null)
 		{
 			float f = this.rand.nextFloat() * 0.8F + 0.1F;

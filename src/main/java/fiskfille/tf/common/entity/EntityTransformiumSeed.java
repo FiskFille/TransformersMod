@@ -91,7 +91,6 @@ public class EntityTransformiumSeed extends Entity
 			}
 			else
 			{
-				worldObj.playSoundAtEntity(this, "random.explode", 1, 1);
 				for (int i = 0; i < 360; ++i)
 				{
 					float f = 1.0F;
