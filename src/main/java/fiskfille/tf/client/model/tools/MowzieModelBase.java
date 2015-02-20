@@ -179,6 +179,28 @@ public class MowzieModelBase extends ModelChildBase.Biped
     }
 
     /**
+     * Rotates a box side to side (rotateAngleY).
+     * <p/>
+     * Note: Just keep f and f1 from the setRotationAngles() method.
+     *
+     * @param box    is the ModelRenderer to be animated;
+     * @param speed  is how fast the animation runs;
+     * @param degree is how far the box will rotate;
+     * @param invert will invert the rotation;
+     * @param offset will offset the timing of the animation;
+     * @param weight will make the animation favor one direction
+     *               more based on how fast the mob is moving;
+     * @param f      is the walked distance;
+     * @param f1     is the walk speed.
+     */
+    public void swing(MowzieModelRenderer box, float speed, float degree, boolean invert, float offset, float weight, float f, float f1)
+    {
+        int inverted = 1;
+        if (invert) inverted = -1;
+        box.rotateAngleY += MathHelper.cos(f * speed + offset) * degree * inverted * f1 + weight * f1;
+    }
+
+    /**
      * Moves a box up and down (rotationPointY). Useful for bodies.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.

@@ -1,13 +1,12 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelPurge extends MowzieModelBase
 {
@@ -295,7 +294,7 @@ public class ModelPurge extends MowzieModelBase
         this.lowerLeg1.addChild(this.foot1);
         this.chest.addChild(this.chestSlab2);
         this.turretRear.addChild(this.missileLauncher);
-        this.stomach.addChild(this.backKibble);
+        this.chest.addChild(this.backKibble);
         this.turret.addChild(this.turretRear);
         this.lowerLeg1.addChild(this.footCylinder1);
         this.head.addChild(this.helmetTop);
@@ -314,12 +313,12 @@ public class ModelPurge extends MowzieModelBase
         this.upperArm1.addChild(this.shoulderPad1);
         this.head.addChild(this.horn2);
         this.hipSlab2.addChild(this.hipPanel2);
-        this.bipedHead.addChild(head);
+        this.chest.addChild(head);
 		this.bipedBody.addChild(waist);
-		this.bipedRightArm.addChild(upperArm1);
-		this.bipedLeftArm.addChild(upperArm2);
-		this.bipedRightLeg.addChild(upperLeg1);
-		this.bipedLeftLeg.addChild(upperLeg2);
+		this.chest.addChild(upperArm1);
+		this.chest.addChild(upperArm2);
+		this.waist.addChild(upperLeg1);
+		this.waist.addChild(upperLeg2);
 		
 
 		this.vehicleTread2 = new MowzieModelRenderer(this, 0, 64);
@@ -429,24 +428,72 @@ public class ModelPurge extends MowzieModelBase
 		this.upperLeg2.rotationPointY = 0;
 		this.upperArm1.rotationPointX = 1;
 		this.upperArm2.rotationPointX = -1;
-		this.hipPanel1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-		this.hipPanel2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+//		this.hipPanel1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+//		this.hipPanel2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 		this.vehicleTurret.rotationPointZ = -1;
-//        head.rotationPointY -= 5;
-//        upperArm1.rotationPointX -= 5;
-//        upperArm2.rotationPointX += 5;
-//        upperArm1.rotationPointY -= 5;
-//        upperArm2.rotationPointY -= 5;
-//
-//        float globalSpeed = 1;
-//        float globalDegree = 1;
+        head.rotationPointY -= 5;
+        upperArm1.rotationPointX -= 5;
+        upperArm2.rotationPointX += 5;
+        upperArm1.rotationPointY -= 5;
+        upperArm2.rotationPointY -= 5;
+        backKibble.rotationPointY += 5;
 
-//        bob(waist, 1F * globalSpeed, 2F * globalDegree, false, par1, par2);
-//        walk(leg1, 1F * globalSpeed, 1F * globalDegree, false, 0, 0, par1, par2);
-//        walk(leg2, 1F * globalSpeed, 1F * globalDegree, true, 0, 0, par1, par2);
+        //New pose!
+        upperLeg1.rotateAngleY += 0.2;
+        upperLeg2.rotateAngleY -= 0.2;
+        upperLeg1.rotateAngleX -= 0.4;
+        upperLeg2.rotateAngleX -= 0.4;
+        lowerLeg1.rotateAngleX += 0.6;
+        lowerLeg2.rotateAngleX += 0.6;
+        foot1.rotateAngleX -= 0.3;
+        foot2.rotateAngleX -= 0.3;
+        waist.rotationPointY += 1;
+        waist.rotateAngleX += 0.1;
+        head.rotateAngleX += 0.1;
+
+        //Walk animation
+        float globalSpeed = 1;
+        float globalDegree = 0.8F;
+
+        if (entity instanceof EntityPlayer) {
+            if (entity.isSneaking()) {
+                waist.rotateAngleX -= 0.5F;
+                waist.rotationPointZ -= 6F;
+                waist.rotationPointY -= 3F;
+                globalDegree = 1.5F;
+                globalSpeed = 1.5F;
+            }
+        }
+
+        faceTarget(head, 1, par4, par5);
+
+        bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
+        waist.rotationPointY += 1.2 * par2;
+        walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2, par1, par2);
+        walk(chest, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2, par1, par2);
+        walk(head, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2, par1, par2);
+        swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
+        swing(chest, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
+        swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
+        head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
+
+        swing(upperLeg1, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
+        swing(upperLeg2, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
+        walk(upperLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
+        walk(upperLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
+        walk(lowerLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F, 0.6F, par1, par2);
+        walk(lowerLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F, 0.6F, par1, par2);
+
+        walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2, par1, par2);
+        walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2, par1, par2);
+        walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F, -0.3F * par2, par1, par2);
+        walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F, -0.3F * par2, par1, par2);
+
+        flap(hipPanel1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
+        flap(hipPanel2, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
 
         if (entity instanceof EntityPlayer)
-		{
+        {
 			EntityPlayer player = (EntityPlayer)entity;
 			
 			if (TFDataManager.getTransformationTimer(player) == 0)
