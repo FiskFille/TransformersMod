@@ -43,8 +43,8 @@ public class TFRecipes
 		GameRegistry.addRecipe(new ItemStack(TFItems.standardEngine, 1), new Object[] {"PRP", "BIB", 'P', Blocks.piston, 'R', Items.redstone, 'I', Items.iron_ingot, 'B', Blocks.iron_block});
 		GameRegistry.addRecipe(new ItemStack(TFItems.jetTurbine, 1), new Object[] {"IIB", " JR", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone});
 		GameRegistry.addRecipe(new ItemStack(TFItems.jetThruster, 1), new Object[] {"IIB", "xRJ", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone, 'x', Blocks.redstone_block});
-		GameRegistry.addRecipe(new ItemStack(TFItems.f88JetWing, 1), new Object[] {"II ", "TII", 'I', Items.iron_ingot, 'T', TFItems.transformium});
-		GameRegistry.addRecipe(new ItemStack(TFItems.f88JetCockpit, 1), new Object[] {"GII", 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 4)});
+		GameRegistry.addRecipe(new ItemStack(TFItems.ahd2JetWing, 1), new Object[] {"II ", "TII", 'I', Items.iron_ingot, 'T', TFItems.transformium});
+		GameRegistry.addRecipe(new ItemStack(TFItems.ahd2JetCockpit, 1), new Object[] {"GII", 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 4)});
 		GameRegistry.addRecipe(new ItemStack(TFItems.t50JetWing, 1), new Object[] {"II ", "TII", " TI" , 'I', Items.iron_ingot, 'T', TFItems.transformium});
 		GameRegistry.addRecipe(new ItemStack(TFItems.t50JetCockpit, 1), new Object[] {"GIT", 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 5)});
 		GameRegistry.addRecipe(new ItemStack(TFItems.tankTracks, 1), new Object[] {"LLL", "I I", "LLL", 'I', Items.iron_ingot, 'L', Items.leather});
@@ -69,7 +69,7 @@ public class TFRecipes
 	private static void addArmorRecipes()
 	{
 		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeHelmet, 1), new Object[] {"I*I", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 0), 'I', Items.iron_ingot});
-		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeChestplate, 1), new Object[] {"WCW", "r*r", " w ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 1), 'C', TFItems.f88JetCockpit, 'W', TFItems.f88JetWing, 'r', new ItemStack(Items.dye, 1, 1), 'w', new ItemStack(Items.dye, 1, 15)});
+		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeChestplate, 1), new Object[] {"WCW", "r*r", " w ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 1), 'C', TFItems.ahd2JetCockpit, 'W', TFItems.ahd2JetWing, 'r', new ItemStack(Items.dye, 1, 1), 'w', new ItemStack(Items.dye, 1, 15)});
 		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeLeggings, 1), new Object[] {"w*w", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 2), 'w', new ItemStack(Items.dye, 1, 15)});
 		GameRegistry.addRecipe(new ItemStack(TFItems.skystrikeBoots, 1), new Object[] {"b*b", "T T", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 3), 'T', TFItems.jetTurbine, 'b', new ItemStack(Items.dye, 1, 0)});
 		

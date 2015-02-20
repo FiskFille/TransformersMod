@@ -26,8 +26,8 @@ public class TFItems
 	public static Item standardEngine;
 	public static Item jetTurbine;
 	public static Item jetThruster;
-	public static Item f88JetWing;
-	public static Item f88JetCockpit;
+	public static Item ahd2JetWing;
+	public static Item ahd2JetCockpit;
 	public static Item t50JetWing;
 	public static Item t50JetCockpit;
 	public static Item tankTracks;
@@ -78,8 +78,8 @@ public class TFItems
 		transformiumArmorMolds = new ItemMetaBasic("Transformium Head Mold", "Transformium Torso Mold", "Transformium Legs Mold", "Transformium Feet Mold");
 		standardEngine = new ItemBasic();
 		jetTurbine = new ItemBasic();
-		f88JetWing = new ItemBasic();
-		f88JetCockpit = new ItemBasic();
+		ahd2JetWing = new ItemBasic();
+		ahd2JetCockpit = new ItemBasic();
 		tankTracks = new ItemBasic();
 		tankTurret = new ItemBasic();
 		carWheel = new ItemBasic();
@@ -130,8 +130,8 @@ public class TFItems
 		TFItemRegistry.registerItem(transformiumArmorMolds, "Transformium Armor Molds", modId);
 		TFItemRegistry.registerItem(standardEngine, "Standard Engine", modId);
 		TFItemRegistry.registerItem(jetTurbine, "Jet Turbine", modId);
-		TFItemRegistry.registerItem(f88JetWing, "F-88 Jet Wing", modId);
-		TFItemRegistry.registerItem(f88JetCockpit, "F-88 Jet Cockpit", modId);
+		TFItemRegistry.registerItem(ahd2JetWing, "AHD-2 Jet Wing", modId);
+		TFItemRegistry.registerItem(ahd2JetCockpit, "AHD-2 Jet Cockpit", modId);
 		TFItemRegistry.registerItem(t50JetWing, "T-50 Jet Wing", modId);
 		TFItemRegistry.registerItem(t50JetCockpit, "T-50 Jet Cockpit", modId);
 		TFItemRegistry.registerItem(tankTracks, "Tracks", modId);

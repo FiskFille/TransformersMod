@@ -1,5 +1,6 @@
 package fiskfille.tf;
 
+import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
@@ -17,6 +18,7 @@ public class TransformerManager
 	
 	public static void register()
 	{
+		new ModelSkystrikeVehicle();
 		TransformersAPI.registerTransformer(transformerSkystrike);
 		TransformersAPI.registerTransformer(transformerPurge);
 		TransformersAPI.registerTransformer(transformerVurp);

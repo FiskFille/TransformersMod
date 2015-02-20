@@ -5,8 +5,8 @@ item.standard_engine.name=Standard Engine
 item.jet_turbine.name=Jet Turbine
 item.jet_thruster.name=Jet Thruster
 item.small_thruster.name=Small Thruster
-item.f-88_jet_wing.name=F-88 Jet Wing
-item.f-88_jet_cockpit.name=F-88 Jet Cockpit
+item.ahd-2_jet_wing.name=AHD-2 Jet Wing
+item.ahd-2_jet_cockpit.name=AHD-2 Jet Cockpit
 item.t-50_jet_wing.name=T-50 Jet Wing
 item.t-50_jet_cockpit.name=T-50 Jet Cockpit
 item.tracks.name=Tracks
@@ -39,7 +39,7 @@ item.cloudtrap_legs.name=Cloudtrap Legs
 item.cloudtrap_feet.name=Cloudtrap Feet
 
 ------Display Vehicles------
-item.display_skystrike.name=F-88 Fighter Jet
+item.display_skystrike.name=AHD-2 Lamphyrade Dropship
 item.display_purge.name=M5 Scout Tank
 item.display_vurp.name=2015 Chevrolet Corvette Z06
 item.display_subwoofer.name=2015 Acura NSX
