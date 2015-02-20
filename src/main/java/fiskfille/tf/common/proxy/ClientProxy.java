@@ -13,6 +13,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.client.render.entity.RenderCustomPlayer;
+import fiskfille.tf.client.render.entity.RenderFlamethrowerFire;
 import fiskfille.tf.client.render.entity.RenderMiniMissile;
 import fiskfille.tf.client.render.entity.RenderMissile;
 import fiskfille.tf.client.render.entity.RenderTankShell;
@@ -26,6 +27,7 @@ import fiskfille.tf.client.render.tileentity.RenderCrystal;
 import fiskfille.tf.client.render.tileentity.RenderDisplayPillar;
 import fiskfille.tf.client.render.tileentity.RenderTransformiumSeed;
 import fiskfille.tf.client.tick.ClientTickHandler;
+import fiskfille.tf.common.entity.EntityFlamethrowerFire;
 import fiskfille.tf.common.entity.EntityMiniMissile;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.entity.EntityTankShell;
@@ -69,6 +71,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniMissile.class, new RenderMiniMissile());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTransformiumSeed.class, new RenderTransformiumSeedEntity());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFlamethrowerFire.class, new RenderFlamethrowerFire());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
