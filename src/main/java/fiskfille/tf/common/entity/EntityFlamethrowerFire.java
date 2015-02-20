@@ -49,7 +49,11 @@ public class EntityFlamethrowerFire extends EntityThrowable
 			for (int i = 0; i < 5; ++i)
 			{
 				float f = (rand.nextFloat() / 5);
-				TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, posX + f, posY + 0.15F + f, posZ + f, 0, 0, 0);
+				
+				if(worldObj.isRemote)
+				{
+					TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, posX + f, posY + 0.15F + f, posZ + f, 0, 0, 0);
+				}
 			}
 			
 			if (ticksExisted > 7)
