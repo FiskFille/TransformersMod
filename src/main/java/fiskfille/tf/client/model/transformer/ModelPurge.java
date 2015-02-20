@@ -491,6 +491,7 @@ public class ModelPurge extends MowzieModelBase
 
         flap(hipPanel1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
         flap(hipPanel2, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
+        walk(gun, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
 
         if (entity instanceof EntityPlayer)
         {
