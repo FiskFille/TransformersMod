@@ -486,12 +486,24 @@ public class ModelPurge extends MowzieModelBase
 
         walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2, par1, par2);
         walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2, par1, par2);
-        walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F, -0.3F * par2, par1, par2);
-        walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F, -0.3F * par2, par1, par2);
+        walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F, -0.5F * par2, par1, par2);
+        walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F, -0.5F * par2, par1, par2);
 
         flap(hipPanel1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
         flap(hipPanel2, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
         walk(gun, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
+
+        //Idle animation
+        walk(stomach, 0.08F, 0.1F, true, 1, 0, entity.ticksExisted, 1F);
+        walk(chest, 0.08F, 0.15F, false, 1, 0, entity.ticksExisted, 1F);
+        walk(head, 0.08F, 0.05F, true, 1, 0, entity.ticksExisted, 1F);
+        walk(upperArm1, 0.08F, 0.05F, true, 1, 0, entity.ticksExisted, 1F);
+        walk(upperArm2, 0.08F, 0.05F, true, 1, 0, entity.ticksExisted, 1F);
+
+        flap(upperArm1, 0.08F, 0.05F, true, 1, 0, entity.ticksExisted, 1F);
+        flap(upperArm2, 0.08F, 0.05F, false, 1, 0, entity.ticksExisted, 1F);
+        walk(lowerArm1, 0.08F, 0.1F, true, 1, 0, entity.ticksExisted, 1F);
+        walk(lowerArm2, 0.08F, 0.1F, true, 1, 0, entity.ticksExisted, 1F);
 
         if (entity instanceof EntityPlayer)
         {
