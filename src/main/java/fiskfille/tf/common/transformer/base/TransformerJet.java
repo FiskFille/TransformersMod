@@ -43,6 +43,12 @@ public abstract class TransformerJet extends Transformer
 	}
 	
 	@Override
+	public float getVehicleCameraYOffset(EntityPlayer player)
+	{
+		return 0;
+	}
+	
+	@Override
 	public float getThirdPersonDistance(EntityPlayer player) 
 	{
 		return 4.0F;
