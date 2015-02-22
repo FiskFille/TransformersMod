@@ -563,8 +563,10 @@ public class ModelPurge extends MowzieModelBase
 				}
 				else //If not on ground
 				{
-					float upwardPose = (float) (1/(1 + Math.exp(-40 * (entity.motionY + 0.2))));
-					float downwardPose = (float) (1/(1 + Math.exp(40 * (entity.motionY + 0.2))));
+					float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
+					float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
+
+					waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 
 					stomach.rotateAngleX += 0.2 * upwardPose;
 					chest.rotateAngleX -= 0.4 * upwardPose;
@@ -580,6 +582,10 @@ public class ModelPurge extends MowzieModelBase
 					lowerLeg1.rotateAngleX += 0.3 * upwardPose;
 					lowerLeg2.rotateAngleX += 1.5 * upwardPose;
 
+					walk(upperLeg1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
+					walk(upperLeg2, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
+					walk(lowerLeg1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
+					walk(lowerLeg2, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
 					waist.rotateAngleX -= 0.2 * downwardPose;
 					stomach.rotateAngleX += 0.3 * downwardPose;
 					chest.rotateAngleX += 0.3 * downwardPose;
