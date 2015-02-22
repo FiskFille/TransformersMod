@@ -474,6 +474,12 @@ public class ModelPurge extends MowzieModelBase
 			{
 				faceTarget(head, 1, par4, par5);
 			}
+
+			int backwardInverter = 1;
+			if (((EntityPlayer)entity).moveForward < 0)
+			{
+				backwardInverter = -1;
+			}
 			
 			if(wearingHead && wearingLegs && wearingChest)
 			{
@@ -493,11 +499,11 @@ public class ModelPurge extends MowzieModelBase
 				
 				bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
 				waist.rotationPointY += 1.2 * par2;
-				walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2, par1, par2);
-				walk(chest, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2, par1, par2);
+				walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+				walk(chest, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
 				swing(chest, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
 				swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
-				walk(head, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2, par1, par2);
+				walk(head, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
 
 				swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
 				head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
@@ -506,12 +512,12 @@ public class ModelPurge extends MowzieModelBase
 				swing(upperLeg2, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
 				walk(upperLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
 				walk(upperLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
-				walk(lowerLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F, 0.6F, par1, par2);
-				walk(lowerLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F, 0.6F, par1, par2);
-				walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2, par1, par2);
-				walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2, par1, par2);
-				walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F, -0.5F * par2, par1, par2);
-				walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F, -0.5F * par2, par1, par2);
+				walk(lowerLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
+				walk(lowerLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
+				walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+				walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+				walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+				walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
 
 				flap(hipPanel1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
 				flap(hipPanel2, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
