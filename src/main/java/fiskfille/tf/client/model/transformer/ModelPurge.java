@@ -479,6 +479,7 @@ public class ModelPurge extends MowzieModelBase
 			if (((EntityPlayer)entity).moveForward < 0)
 			{
 				backwardInverter = -1;
+				globalDegree = 0.5F;
 			}
 			
 			if(wearingHead && wearingLegs && wearingChest)
@@ -536,6 +537,29 @@ public class ModelPurge extends MowzieModelBase
 				flap(upperArm2, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
 				walk(lowerArm1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 				walk(lowerArm2, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+
+				if (entity.isSneaking())
+				{
+					waist.rotationPointY += 3;
+					stomach.rotateAngleX += 0.5;
+					head.rotateAngleX -= 0.5;
+					upperLeg1.rotateAngleX -= 0.7;
+					upperLeg2.rotateAngleX -= 0.7;
+					upperLeg1.rotateAngleY += 0.2;
+					upperLeg2.rotateAngleY -= 0.2;
+					lowerLeg1.rotateAngleX += 1.1;
+					lowerLeg2.rotateAngleX += 1.1;
+					foot1.rotateAngleX -= 0.5;
+					foot2.rotateAngleX -= 0.5;
+					foot1.rotationPointY += 2;
+					foot2.rotationPointY += 2;
+					upperArm1.rotateAngleX -= 0.5;
+					upperArm2.rotateAngleX -= 0.5;
+					upperArm1.rotateAngleZ += 0.5;
+					upperArm2.rotateAngleZ -= 0.5;
+					lowerArm1.rotateAngleZ -= 0.5;
+					lowerArm2.rotateAngleZ += 0.5;
+				}
 			}
 			else
 			{
