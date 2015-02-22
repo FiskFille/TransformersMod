@@ -29,7 +29,7 @@ public class RenderCustomPlayer extends RenderPlayer
 		{
 			if (currentArmor != null)
 			{
-				if (TFHelper.isTransformerArmor(player, currentArmor.getItem()))
+				if (TFHelper.isTransformerArmor(currentArmor.getItem()))
 				{
 //					ITransformerArmor transformerArmor = (ITransformerArmor)currentArmor.getItem();
 //					Transformer transformer = transformerArmor.getTransformer();

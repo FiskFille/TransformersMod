@@ -26,43 +26,4 @@ public class ItemPurgeArmor extends ItemTransformerArmor
 	{
 		return TransformerManager.transformerPurge;
 	}
-	
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemstack, int armorSlot) 
-	{
-		ModelBiped armorModel = null;
-
-		if (itemstack != null)
-		{
-			armorModel = getTransformer().getModel();
-
-			if (armorModel != null)
-			{
-				armorModel.isSneak = entityLiving.isSneaking();
-				armorModel.isRiding = entityLiving.isRiding();
-				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null ? 1 : 0;
-				
-				if (entityLiving instanceof EntityPlayer)
-				{
-					EntityPlayer player = (EntityPlayer)entityLiving;
-					ItemStack itemstack1 = player.getHeldItem();
-					armorModel.aimedBow = player.getItemInUseDuration() > 0 && itemstack1 != null && itemstack1.getItemUseAction() == EnumAction.bow;
-					armorModel.heldItemRight = player.getItemInUseDuration() > 0 && itemstack1 != null && itemstack1.getItemUseAction() == EnumAction.block ? 3 : (entityLiving.getEquipmentInSlot(0) != null ? 1 : 0);
-					
-					armorModel.bipedHead.isHidden = !TFHelper.isPlayerPurge(player);
-					armorModel.bipedHeadwear.isHidden = !TFHelper.isPlayerPurge(player);
-					armorModel.bipedBody.isHidden = !TFHelper.isPlayerPurge(player);
-					armorModel.bipedRightArm.isHidden = !TFHelper.isPlayerPurge(player);
-					armorModel.bipedLeftArm.isHidden = !TFHelper.isPlayerPurge(player);
-					armorModel.bipedRightLeg.isHidden = !TFHelper.isPlayerPurge(player);
-					armorModel.bipedLeftLeg.isHidden = !TFHelper.isPlayerPurge(player);
-				}
-
-				return armorModel;
-			}
-		}
-
-		return null;
-	}
 }

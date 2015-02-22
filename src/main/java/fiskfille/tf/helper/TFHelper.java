@@ -5,6 +5,7 @@ import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class TFHelper
 {
@@ -38,7 +39,7 @@ public class TFHelper
 		return player != null ? player.getCurrentArmor(0) != null && player.getCurrentArmor(1) != null && player.getCurrentArmor(2) != null && player.getCurrentArmor(3) != null : false;
 	}
 	
-	public static boolean isTransformerArmor(EntityPlayer player, Item item)
+	public static boolean isTransformerArmor(Item item)
 	{
 		return item instanceof ItemTransformerArmor;
 	}
@@ -63,5 +64,19 @@ public class TFHelper
 	public static Transformer getTransformer(EntityPlayer player)
 	{
 		return isPlayerTransformer(player) ? ((ItemTransformerArmor)(player.getCurrentArmor(3).getItem())).getTransformer() : null;
+	}
+
+	public static Transformer getTransformerFromArmor(EntityPlayer player, int slot) 
+	{
+		ItemStack currentArmorStack = player.getCurrentArmor(slot);
+		
+		if(currentArmorStack != null)
+		{
+			Item currentArmor = currentArmorStack.getItem();			
+			
+			return isTransformerArmor(currentArmor) ? ((ItemTransformerArmor)currentArmor).getTransformer() : null;
+		}
+		
+		return null;
 	}
 }
