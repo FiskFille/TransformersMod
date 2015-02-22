@@ -872,6 +872,8 @@ public class ModelSkystrike extends ModelChildBase.Biped
 				int t = TFDataManager.getTransformationTimer(player);
 				float f = (float)(20 - t) / 2;
 
+				upperamrR.rotateAngleX = 1;
+				
 				bipedHead.offsetY = 0F;
 				bipedBody.offsetY = 0F;
 				bipedRightArm.offsetY = 0F;
