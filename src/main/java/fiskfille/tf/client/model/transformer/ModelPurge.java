@@ -3,9 +3,7 @@ package fiskfille.tf.client.model.transformer;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.armor.ItemPurgeArmor;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -457,8 +455,10 @@ public class ModelPurge extends MowzieModelBase
         float globalSpeed = 1;
         float globalDegree = 0.8F;
 
-        if (entity instanceof EntityPlayer) {
-            if (entity.isSneaking()) {
+        if (entity instanceof EntityPlayer) 
+        {
+            if (entity.isSneaking()) 
+            {
                 waist.rotateAngleX -= 0.5F;
                 waist.rotationPointZ -= 6F;
                 waist.rotationPointY -= 3F;
@@ -574,10 +574,6 @@ public class ModelPurge extends MowzieModelBase
 					tread1.offsetY = 0F;
 				}
 			}
-			
-			boolean wearingHead = player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem() instanceof ItemPurgeArmor;
-			boolean wearingChest = player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem() instanceof ItemPurgeArmor;
-			boolean wearingLegs = player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem() instanceof ItemPurgeArmor;
 		}
 	}
 }

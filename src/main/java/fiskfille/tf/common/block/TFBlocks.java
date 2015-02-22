@@ -25,7 +25,6 @@ public class TFBlocks
 		transformiumStone = new BlockTransformiumStone().setHarvestLvl("pickaxe", 2).setHardness(2.5F).setResistance(10.0F);
 		transformiumSeed = new BlockTransformiumSeed().setResistance(1000000.0F);
 		
-		
 		TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore");
 		TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class);
 		TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class);

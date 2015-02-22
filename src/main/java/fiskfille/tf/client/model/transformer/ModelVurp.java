@@ -545,7 +545,7 @@ public class ModelVurp extends ModelChildBase.Biped
 		stealthForceBase.render(f5);
 	}
 
-	public void setRotation(ModelRenderer model, float x, float y, float z)
+	private void setRotation(ModelRenderer model, float x, float y, float z)
 	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;

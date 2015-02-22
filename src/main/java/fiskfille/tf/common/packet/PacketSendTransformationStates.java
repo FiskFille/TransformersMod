@@ -15,16 +15,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-public class PacketSyncTransformationStates implements IMessage
+public class PacketSendTransformationStates implements IMessage
 {
 	private Map<UUID, Boolean[]> states;
 
-	public PacketSyncTransformationStates()
+	public PacketSendTransformationStates()
 	{
 
 	}
 
-	public PacketSyncTransformationStates(Map<UUID, Boolean[]> s)
+	public PacketSendTransformationStates(Map<UUID, Boolean[]> s)
 	{
 		states = s;
 	}
@@ -49,9 +49,9 @@ public class PacketSyncTransformationStates implements IMessage
         }
     }
 
-    public static class Handler implements IMessageHandler<PacketSyncTransformationStates, IMessage>
+    public static class Handler implements IMessageHandler<PacketSendTransformationStates, IMessage>
     {
-        public IMessage onMessage(PacketSyncTransformationStates message, MessageContext ctx)
+        public IMessage onMessage(PacketSendTransformationStates message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
