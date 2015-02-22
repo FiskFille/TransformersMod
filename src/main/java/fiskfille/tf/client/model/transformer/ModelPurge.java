@@ -484,84 +484,117 @@ public class ModelPurge extends MowzieModelBase
 			
 			if(wearingHead && wearingLegs && wearingChest)
 			{
-				//New pose!
-				upperLeg1.rotateAngleY += 0.2;
-				upperLeg2.rotateAngleY -= 0.2;
-				upperLeg1.rotateAngleX -= 0.4;
-				upperLeg2.rotateAngleX -= 0.4;
-				lowerLeg1.rotateAngleX += 0.6;
-				lowerLeg2.rotateAngleX += 0.6;
-				foot1.rotateAngleX -= 0.3;
-				foot2.rotateAngleX -= 0.3;
-
-				waist.rotateAngleX += 0.1;
-
-				head.rotateAngleX += 0.1;
-				
-				bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
-				waist.rotationPointY += 1.2 * par2;
-				walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-				walk(chest, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-				swing(chest, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
-				swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
-				walk(head, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
-
-				swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
-				head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
-
-				swing(upperLeg1, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
-				swing(upperLeg2, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
-				walk(upperLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
-				walk(upperLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
-				walk(lowerLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
-				walk(lowerLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
-				walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-				walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-				walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
-				walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
-
-				flap(hipPanel1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
-				flap(hipPanel2, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
-				walk(gun, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
-
-				//Idle animation
-				int ticksExisted = entity.ticksExisted;
-
-				walk(stomach, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-				walk(chest, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
-				walk(head, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-				walk(upperArm1, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-				walk(upperArm2, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-
-				flap(upperArm1, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-				flap(upperArm2, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
-				walk(lowerArm1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-				walk(lowerArm2, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-
-				if (entity.isSneaking())
-				{
-					waist.rotationPointY += 3;
-					stomach.rotateAngleX += 0.5;
-					head.rotateAngleX -= 0.5;
-					upperLeg1.rotateAngleX -= 0.7;
-					upperLeg2.rotateAngleX -= 0.7;
+				if(entity.onGround) {
+					//New pose!
 					upperLeg1.rotateAngleY += 0.2;
 					upperLeg2.rotateAngleY -= 0.2;
-					lowerLeg1.rotateAngleX += 1.1;
-					lowerLeg2.rotateAngleX += 1.1;
-					foot1.rotateAngleX -= 0.5;
-					foot2.rotateAngleX -= 0.5;
-					foot1.rotationPointY += 2;
-					foot2.rotationPointY += 2;
-					upperArm1.rotateAngleX -= 0.5;
-					upperArm2.rotateAngleX -= 0.5;
-					upperArm1.rotateAngleZ += 0.5;
-					upperArm2.rotateAngleZ -= 0.5;
-					lowerArm1.rotateAngleZ -= 0.5;
-					lowerArm2.rotateAngleZ += 0.5;
+					upperLeg1.rotateAngleX -= 0.4;
+					upperLeg2.rotateAngleX -= 0.4;
+					lowerLeg1.rotateAngleX += 0.6;
+					lowerLeg2.rotateAngleX += 0.6;
+					foot1.rotateAngleX -= 0.3;
+					foot2.rotateAngleX -= 0.3;
+
+					waist.rotateAngleX += 0.1;
+
+					head.rotateAngleX += 0.1;
+
+					bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
+					waist.rotationPointY += 1.2 * par2;
+					walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+					walk(chest, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+					swing(chest, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
+					swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
+					walk(head, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
+
+					swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
+					head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
+
+					swing(upperLeg1, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
+					swing(upperLeg2, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
+					walk(upperLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
+					walk(upperLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
+					walk(lowerLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
+					walk(lowerLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
+					walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+					walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+					walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+					walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+
+					flap(hipPanel1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
+					flap(hipPanel2, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
+					walk(gun, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
+
+					//Idle animation
+					int ticksExisted = entity.ticksExisted;
+
+					walk(stomach, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+					walk(chest, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+					walk(head, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					walk(upperArm1, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					walk(upperArm2, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+
+					flap(upperArm1, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					flap(upperArm2, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
+					walk(lowerArm1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+					walk(lowerArm2, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+
+					if (entity.isSneaking()) {
+						waist.rotationPointY += 3;
+						stomach.rotateAngleX += 0.5;
+						head.rotateAngleX -= 0.5;
+						upperLeg1.rotateAngleX -= 0.7;
+						upperLeg2.rotateAngleX -= 0.7;
+						upperLeg1.rotateAngleY += 0.2;
+						upperLeg2.rotateAngleY -= 0.2;
+						lowerLeg1.rotateAngleX += 1.1;
+						lowerLeg2.rotateAngleX += 1.1;
+						foot1.rotateAngleX -= 0.5;
+						foot2.rotateAngleX -= 0.5;
+						foot1.rotationPointY += 2;
+						foot2.rotationPointY += 2;
+						upperArm1.rotateAngleX -= 0.5;
+						upperArm2.rotateAngleX -= 0.5;
+						upperArm1.rotateAngleZ += 0.5;
+						upperArm2.rotateAngleZ -= 0.5;
+						lowerArm1.rotateAngleZ -= 0.5;
+						lowerArm2.rotateAngleZ += 0.5;
+					}
+				}
+				else //If not on ground
+				{
+					float upwardPose = (float) (1/(1 + Math.exp(-40 * (entity.motionY + 0.2))));
+					float downwardPose = (float) (1/(1 + Math.exp(40 * (entity.motionY + 0.2))));
+
+					stomach.rotateAngleX += 0.2 * upwardPose;
+					chest.rotateAngleX -= 0.4 * upwardPose;
+					head.rotateAngleX += 0.6 * upwardPose;
+					upperArm1.rotateAngleX += 0.1 * upwardPose;
+					upperArm2.rotateAngleX += 0.1 * upwardPose;
+					upperArm1.rotateAngleZ -= 0.1 * upwardPose;
+					upperArm2.rotateAngleZ += 0.1 * upwardPose;
+					lowerArm1.rotateAngleX += 0.2 * upwardPose;
+					lowerArm2.rotateAngleX += 0.2 * upwardPose;
+					upperLeg1.rotateAngleX += 0.2 * upwardPose;
+					upperLeg2.rotateAngleX -= 1 * upwardPose;
+					lowerLeg1.rotateAngleX += 0.3 * upwardPose;
+					lowerLeg2.rotateAngleX += 1.5 * upwardPose;
+
+					waist.rotateAngleX -= 0.2 * downwardPose;
+					stomach.rotateAngleX += 0.3 * downwardPose;
+					chest.rotateAngleX += 0.3 * downwardPose;
+					head.rotateAngleX += 0.3 * downwardPose;
+					upperLeg1.rotateAngleX -= 1.2 * downwardPose;
+					upperLeg2.rotateAngleX -= 0.2 * downwardPose;
+					lowerLeg1.rotateAngleX += 2 * downwardPose;
+					lowerLeg2.rotateAngleX += 0.5 * downwardPose;
+					upperArm1.rotateAngleZ += 1 * downwardPose;
+					upperArm2.rotateAngleZ -= 1 * downwardPose;
+					lowerArm1.rotateAngleX -= 1 * downwardPose;
+					lowerArm2.rotateAngleX -= 1 * downwardPose;
 				}
 			}
-			else
+			else //If not fully suited
 			{
 				this.upperArm2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperArm1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
