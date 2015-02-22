@@ -73,7 +73,7 @@ public class PacketHandleTransformation implements IMessage
                 if (player != null)
                 {
                     TFDataManager.setInVehicleMode(player, message.transformed);
-                    TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastStealthState(player), player.dimension);
+                    TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), player.dimension);
                 }
             }
 

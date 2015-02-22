@@ -6,12 +6,10 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.common.packet.PacketBroadcastState;
-import fiskfille.tf.common.packet.PacketBroadcastStealthState;
-import fiskfille.tf.common.packet.PacketBroadcastTransformationState;
 import fiskfille.tf.common.packet.PacketCloudtrapJetpack;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.common.packet.PacketHandleTransformation;
-import fiskfille.tf.common.packet.PacketSyncTransformationStates;
+import fiskfille.tf.common.packet.PacketUpdateTransformationStates;
 import fiskfille.tf.common.packet.PacketTransformersAction;
 import fiskfille.tf.common.packet.PacketVehicleNitro;
 import fiskfille.tf.common.packet.PacketVurpSniperShoot;
@@ -27,11 +25,9 @@ public class TFPacketManager
 		
 		registerPacket(PacketHandleTransformation.Handler.class, PacketHandleTransformation.class);
 		registerPacket(PacketHandleStealthTransformation.Handler.class, PacketHandleStealthTransformation.class);
-		registerPacket(PacketSyncTransformationStates.Handler.class, PacketSyncTransformationStates.class);
+		registerPacket(PacketUpdateTransformationStates.Handler.class, PacketUpdateTransformationStates.class);
 		registerPacket(PacketTransformersAction.Handler.class, PacketTransformersAction.class);
 		registerPacket(PacketCloudtrapJetpack.Handler.class, PacketCloudtrapJetpack.class);
-		registerPacket(PacketBroadcastStealthState.Handler.class, PacketBroadcastStealthState.class);
-		registerPacket(PacketBroadcastTransformationState.Handler.class, PacketBroadcastTransformationState.class);
 		registerPacket(PacketBroadcastState.Handler.class, PacketBroadcastState.class);
 		registerPacket(PacketVehicleNitro.Handler.class, PacketVehicleNitro.class);
 		registerPacket(PacketVurpSniperShoot.Handler.class, PacketVurpSniperShoot.class);
