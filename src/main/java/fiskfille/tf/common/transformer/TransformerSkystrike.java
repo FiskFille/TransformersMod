@@ -71,4 +71,16 @@ public class TransformerSkystrike extends TransformerJet
 	{
 		return 0;
 	}
+
+    @Override
+    public float getCameraYOffset(EntityPlayer player)
+    {
+        return -0.7f;
+    }
+
+    @Override
+    public float getMotionYOffset()
+    {
+        return 0.6f;
+    }
 }

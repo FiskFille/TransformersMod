@@ -60,7 +60,7 @@ public class ModelChildBase
             parent.addChild(child);
         }
 
-        private void setRotation(ModelRenderer model, float x, float y, float z)
+        protected void setRotation(ModelRenderer model, float x, float y, float z)
         {
             model.rotateAngleX = x;
             model.rotateAngleY = y;

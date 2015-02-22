@@ -1,7 +1,5 @@
 package fiskfille.tf.common.transformer.base;
 
-import java.util.Random;
-
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.entity.EntityMissile;
@@ -23,6 +21,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
 
+import java.util.Random;
+
 public abstract class TransformerJet extends Transformer
 {
 	public TransformerJet(String name) 
@@ -38,6 +38,12 @@ public abstract class TransformerJet extends Transformer
 	
 	@Override
 	public float getCameraYOffset(EntityPlayer player)
+	{
+		return 0;
+	}
+	
+	@Override
+	public float getVehicleCameraYOffset(EntityPlayer player)
 	{
 		return 0;
 	}
@@ -90,7 +96,7 @@ public abstract class TransformerJet extends Transformer
 
 			Vec3 vec3 = TFMotionManager.getFrontCoords(player, vel, true);
 			player.motionX = (vec3.xCoord - player.posX);
-			player.motionY = (vec3.yCoord - player.posY) - 0.1F;
+			player.motionY = (vec3.yCoord - player.posY) + getMotionYOffset();
 			player.motionZ = (vec3.zCoord - player.posZ);
 			if (vel <= 0.09F) {vel = 0.09F;}
 			if (vel > 1.41F) {vel = 1.41F;}
@@ -179,4 +185,9 @@ public abstract class TransformerJet extends Transformer
 			player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.1F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
 		}
 	}
+
+    public float getMotionYOffset()
+    {
+        return -0.1f;
+    }
 }
