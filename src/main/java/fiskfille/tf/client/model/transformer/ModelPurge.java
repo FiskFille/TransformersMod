@@ -436,6 +436,9 @@ public class ModelPurge extends MowzieModelBase
 			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerPurge;
 			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerPurge;
 
+			float globalSpeed = 1;
+			float globalDegree = 0.8F;
+			
 			this.upperLeg1.rotationPointY = 0;
 			this.upperLeg2.rotationPointY = 0;
 
@@ -444,8 +447,6 @@ public class ModelPurge extends MowzieModelBase
 			this.vehicleTurret.rotationPointZ = -1;
 
 			//Walk animation
-			float globalSpeed = 1;
-			float globalDegree = 0.8F;
 
 			upperArm1.rotationPointX -= 5;
 			upperArm2.rotationPointX += 5;
@@ -456,7 +457,25 @@ public class ModelPurge extends MowzieModelBase
 			waist.rotationPointY += 1;
 			head.rotationPointY -= 5;
 			
-			if(wearingChest && wearingHead && wearingLegs)
+			head.showModel = wearingHead;
+			upperLeg1.showModel = wearingLegs;
+			upperLeg2.showModel = wearingLegs;
+			
+			if (entity.isSneaking())
+			{
+				waist.rotateAngleX -= 0.5F;
+				waist.rotationPointZ -= 6F;
+				waist.rotationPointY -= 3F;
+				globalDegree = 1.5F;
+				globalSpeed = 1.5F;
+			}
+			
+			if(wearingHead)
+			{
+				faceTarget(head, 1, par4, par5);
+			}
+			
+			if(wearingHead && wearingLegs && wearingChest)
 			{
 				//New pose!
 				upperLeg1.rotateAngleY += 0.2;
@@ -472,17 +491,6 @@ public class ModelPurge extends MowzieModelBase
 
 				head.rotateAngleX += 0.1;
 				
-				if (entity.isSneaking())
-				{
-					waist.rotateAngleX -= 0.5F;
-					waist.rotationPointZ -= 6F;
-					waist.rotationPointY -= 3F;
-					globalDegree = 1.5F;
-					globalSpeed = 1.5F;
-				}
-
-				faceTarget(head, 1, par4, par5);
-
 				bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
 				waist.rotationPointY += 1.2 * par2;
 				walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2, par1, par2);
@@ -531,7 +539,7 @@ public class ModelPurge extends MowzieModelBase
 				this.upperLeg1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperLeg2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 			}
-
+			
 			if (TFDataManager.getTransformationTimer(player) == 0)
 			{
 				float xRotation = par5 / (180F / (float)Math.PI);
