@@ -1,5 +1,6 @@
 package fiskfille.tf.common.playerdata;
 
+import fiskfille.tf.client.model.tools.ControlledAnimation;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 public class TFDataManager 
 {
+	public ControlledAnimation transformAnim;
 	public static Map<UUID, Integer> transformationTimerClient = new HashMap<UUID, Integer>();
 	public static Map<UUID, Integer> stealthModeTimerClient = new HashMap<UUID, Integer>();
 	public static Map<UUID, Integer> zoomTimerClient = new HashMap<UUID, Integer>();

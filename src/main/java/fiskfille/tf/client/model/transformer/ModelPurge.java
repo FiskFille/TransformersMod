@@ -539,10 +539,41 @@ public class ModelPurge extends MowzieModelBase
 				this.upperLeg1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperLeg2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 			}
-			
-			if (TFDataManager.getTransformationTimer(player) == 0)
+
+            float transformProgress = (float)(20 - TFDataManager.getTransformationTimer(player)) / 20;
+            float transformProgressSin = MathHelper.sin(1.57079632679F * transformProgress) * MathHelper.sin(1.57079632679F * transformProgress);
+
+            head.rotateAngleX += Math.PI * transformProgressSin;
+            waist.rotateAngleX += Math.PI/2 * transformProgressSin;
+            bipedBody.rotateAngleY = (float) (Math.PI * transformProgressSin);
+            waist.rotationPointY += 5 * transformProgressSin;
+            bipedBody.rotationPointZ = -12 * transformProgressSin;
+            tread1.rotateAngleX -= Math.PI * transformProgressSin;
+            tread2.rotateAngleX -= Math.PI * transformProgressSin;
+            tread1.rotationPointZ -= 7 * transformProgressSin;
+            tread2.rotationPointZ -= 7 * transformProgressSin;
+            shoulderPad1.rotateAngleX += Math.PI/2 * transformProgressSin;
+            shoulderPad2.rotateAngleX += Math.PI/2 * transformProgressSin;
+            shoulderPad1.rotationPointY -= 5 * transformProgressSin;
+            shoulderPad2.rotationPointY -= 5 * transformProgressSin;
+            upperArm1.rotationPointY += 5 * transformProgressSin;
+            upperArm2.rotationPointY += 5 * transformProgressSin;
+            backKibble.rotationPointZ -= 2 * transformProgressSin;
+            tread1.rotationPointZ += 2 * transformProgressSin;
+            tread2.rotationPointZ += 2 * transformProgressSin;
+            turret.rotationPointZ += 2 * transformProgressSin;
+            turret.rotateAngleX += 0.5 * transformProgressSin;
+            gun.rotateAngleX -= 0.5 * transformProgressSin;
+            upperLeg1.rotateAngleX -= Math.PI * transformProgressSin;
+            upperLeg2.rotateAngleX -= Math.PI * transformProgressSin;
+            lowerLeg1.rotateAngleX += Math.PI * transformProgressSin;
+            lowerLeg2.rotateAngleX += Math.PI * transformProgressSin;
+            hipPanel1.rotateAngleZ -= Math.PI/2 * transformProgressSin;
+            hipPanel2.rotateAngleZ += Math.PI/2 * transformProgressSin;
+
+            if (TFDataManager.getTransformationTimer(player) == 0)
 			{
-				float xRotation = par5 / (180F / (float)Math.PI);
+				/*float xRotation = par5 / (180F / (float)Math.PI);
 				this.vehicleGun.rotateAngleX = par5 < 0 ? xRotation : 0;
 				this.vehicleTurret.rotateAngleY = par4 / (180F / (float)Math.PI);
 
@@ -551,12 +582,13 @@ public class ModelPurge extends MowzieModelBase
 				bipedRightArm.offsetY = 256F;
 				bipedLeftArm.offsetY = 256F;
 				bipedRightLeg.offsetY = 256F;
-				bipedLeftLeg.offsetY = 256F;
+				bipedLeftLeg.offsetY = 256F;*/
+                bipedBody.offsetY = 256F;
 				vehicleBody.offsetY = 0F;
 			}
 			else
 			{
-				int t = TFDataManager.getTransformationTimer(player);
+				/*int t = TFDataManager.getTransformationTimer(player);
 				float f = (float)(20 - t) / 2;
 				float armPosY = (((float)(20 - t) / 2)) * 2.0F;
 				float xRotation = (float)((t * (Math.PI / 40)) - Math.PI / 2);
@@ -591,7 +623,8 @@ public class ModelPurge extends MowzieModelBase
 				bipedRightArm.offsetY = 0F;
 				bipedLeftArm.offsetY = 0F;
 				bipedRightLeg.offsetY = 0F;
-				bipedLeftLeg.offsetY = 0F;
+				bipedLeftLeg.offsetY = 0F;*/
+                bipedBody.offsetY = 0F;
 				vehicleBody.offsetY = 256F;
 
 				if (wearingChest && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.purgesKatana)

@@ -1,18 +1,5 @@
 package fiskfille.tf.client.tick;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-
-import org.lwjgl.input.Keyboard;
-
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
@@ -27,6 +14,18 @@ import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Keyboard;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ClientTickHandler
 {
@@ -42,7 +41,8 @@ public class ClientTickHandler
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
-		float offsetY = getCameraOffset(player, transformer) + (float)transformationTimer / 20;
+		//float offsetY = getCameraOffset(player, transformer) + (float)transformationTimer / 20;
+		float offsetY = getCameraOffset(player, transformer) + (float) (-0.1 * Math.pow(MathHelper.sin(1.57079632679F * ((20 - TFDataManager.getTransformationTimer(player)) / 20)), 2));
 
 		CustomEntityRenderer.setOffsetY(player, offsetY);
 
@@ -256,7 +256,7 @@ public class ClientTickHandler
 				thirdPersonDistance = transformer.getThirdPersonDistance(player);
 			}
 
-			ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
+			ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[]{"thirdPersonDistance", "E", "field_78490_B"});
 		}
 		catch (Exception e) {}
 	}
