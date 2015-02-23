@@ -482,7 +482,7 @@ public class ModelPurge extends MowzieModelBase
 				globalDegree = 0.5F;
 			}
 			
-			if(wearingChest && wearingLegs && wearingHead)
+			if(wearingHead && wearingLegs && wearingChest)
 			{
 				if(entity.onGround) {
 					//New pose!
