@@ -484,7 +484,8 @@ public class ModelPurge extends MowzieModelBase
 			
 			if(wearingHead && wearingLegs && wearingChest)
 			{
-				if(entity.onGround) {
+				if(entity.onGround || player.capabilities.isFlying)
+				{
 					//New pose!
 					upperLeg1.rotateAngleY += 0.2;
 					upperLeg2.rotateAngleY -= 0.2;
