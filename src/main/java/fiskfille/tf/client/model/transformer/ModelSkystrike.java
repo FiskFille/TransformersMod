@@ -8,6 +8,7 @@ import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 
 public class ModelSkystrike extends MowzieModelBase 
 {
@@ -951,7 +952,9 @@ public class ModelSkystrike extends MowzieModelBase
 					bipedLeftLeg.offsetY = 256F;
 					waist.offsetY = 256F;
 					vehicleBody.offsetY = 0F;
-				} else {
+				}
+				else 
+				{
 					int t = TFDataManager.getTransformationTimer(player);
 					float f = (float) (20 - t) / 2;
 
@@ -964,6 +967,14 @@ public class ModelSkystrike extends MowzieModelBase
 					waist.offsetY = 0F;
 					vehicleBody.offsetY = 256F;
 				}
+			}
+			else
+			{
+				this.upperarmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+				this.upperarmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+				
+				this.upperlegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
+				this.upperlegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
 			}
 		}
 	}

@@ -51,7 +51,7 @@ public class GuiOverlay extends Gui
 		int height = event.resolution.getScaledHeight();
 		EntityPlayer player = mc.thePlayer;
 
-		if (event.type == ElementType.JUMPBAR || event.type == ElementType.HOTBAR)
+		if (event.type == ElementType.HOTBAR)
 		{
 			renderNitroAndSpeed(event, width, height, player);
 			renderKatanaDash(event, width, height, player);
