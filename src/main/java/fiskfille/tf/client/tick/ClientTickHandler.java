@@ -41,8 +41,8 @@ public class ClientTickHandler
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
-		//float offsetY = getCameraOffset(player, transformer) + (float)transformationTimer / 20;
-		float offsetY = getCameraOffset(player, transformer) + (float) (-0.1 * Math.pow(MathHelper.sin(1.57079632679F * ((20 - TFDataManager.getTransformationTimer(player)) / 20)), 2));
+		float offsetY = getCameraOffset(player, transformer) + (float)transformationTimer / 20;
+		//float offsetY = getCameraOffset(player, transformer) + (float) (-0.1 * Math.pow(MathHelper.sin(1.57079632679F * ((20 - TFDataManager.getTransformationTimer(player)) / 20)), 2));
 
 		CustomEntityRenderer.setOffsetY(player, offsetY);
 

@@ -484,7 +484,8 @@ public class ModelPurge extends MowzieModelBase
 			
 			if(wearingHead && wearingLegs && wearingChest)
 			{
-				if(entity.onGround) {
+				if(entity.onGround || player.capabilities.isFlying)
+				{
 					//New pose!
 					upperLeg1.rotateAngleY += 0.2;
 					upperLeg2.rotateAngleY -= 0.2;
@@ -642,9 +643,12 @@ public class ModelPurge extends MowzieModelBase
 
             if (TFDataManager.getTransformationTimer(player) == 0)
 			{
-				/*float xRotation = par5 / (180F / (float)Math.PI);
+            	float xRotation = par5 / (180F / (float)Math.PI);
+            	
 				this.vehicleGun.rotateAngleX = par5 < 0 ? xRotation : 0;
 				this.vehicleTurret.rotateAngleY = par4 / (180F / (float)Math.PI);
+            	
+				/*float xRotation = par5 / (180F / (float)Math.PI);
 
 				bipedHead.offsetY = 256F;
 				bipedBody.offsetY = 256F;
