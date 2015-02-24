@@ -911,8 +911,33 @@ public class ModelSkystrike extends MowzieModelBase
 			if (wearingHead) 
 			{
 				faceTarget(headbase, 1, par4, par5);
+				
+				if(wearingChest)
+				{
+					headbase.rotationPointY += 2;
+					headbase.rotationPointX += 1;
+					headbase.rotationPointZ -= 1.5F;
+				}
+				else
+				{
+					headbase.rotationPointX += 0F;
+					headbase.rotationPointZ -= 2.5F;
+					headbase.rotationPointY += 0.5F;
+				}
 			}
-
+			
+			if(!wearingChest && wearingLegs)
+			{
+				upperlegR.rotationPointX -= 1;
+				upperlegL.rotationPointX -= 1;
+				
+				upperlegR.rotationPointZ -= 1;
+				upperlegL.rotationPointZ -= 1;
+				
+				upperlegR.rotationPointY += 10;
+				upperlegL.rotationPointY += 10;
+			}
+			
 			int backwardInverter = 1;
 			
 			if (((EntityPlayer) entity).moveForward < 0)
