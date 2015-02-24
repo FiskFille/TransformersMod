@@ -412,7 +412,35 @@ public class ModelPurge extends MowzieModelBase
 	{
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		this.vehicleBody.render(f5);
+		
+		if (entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)entity;
+
+			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerPurge;
+			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerPurge;
+			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerPurge;
+			
+			if(wearingLegs && wearingHead && !wearingChest)
+			{
+				head.render(f5);
+				upperLeg1.render(f5);
+				upperLeg2.render(f5);
+			}
+			else if(wearingHead && !wearingChest)
+			{
+				head.render(f5);
+			}
+			else if(wearingLegs && !wearingChest)
+			{
+				upperLeg1.render(f5);
+				upperLeg2.render(f5);
+			}
+			else
+			{
+				vehicleBody.render(f5);
+			}
+		}
 	}
 
 	private void setRotation(MowzieModelRenderer model, float x, float y, float z)
@@ -439,8 +467,12 @@ public class ModelPurge extends MowzieModelBase
 			float globalSpeed = 1;
 			float globalDegree = 0.8F;
 			
-			this.upperLeg1.rotationPointY = 0;
-			this.upperLeg2.rotationPointY = 0;
+			
+			if(wearingChest || wearingHead && !wearingLegs)
+			{
+				this.upperLeg1.rotationPointY = 0;
+				this.upperLeg2.rotationPointY = 0;
+			}
 
 			this.upperArm1.rotationPointX = 1;
 			this.upperArm2.rotationPointX = -1;
@@ -455,7 +487,11 @@ public class ModelPurge extends MowzieModelBase
 			backKibble.rotationPointY += 5;
 			
 			waist.rotationPointY += 1;
-			head.rotationPointY -= 5;
+		
+			if(wearingChest || wearingLegs && !wearingHead)
+			{
+				head.rotationPointY -= 5;
+			}
 			
 			head.showModel = wearingHead;
 			upperLeg1.showModel = wearingLegs;
