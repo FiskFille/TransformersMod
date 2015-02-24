@@ -42,10 +42,4 @@ public class TransformerPurge extends TransformerTank
 	{
 		return TFModelRegistry.getModel(this);
 	}
-	
-	@Override
-	public int getDisplayVehicleMetadata()
-	{
-		return 1;
-	}
 }

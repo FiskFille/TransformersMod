@@ -9,7 +9,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ModelSkystrike extends MowzieModelBase {
+public class ModelSkystrike extends MowzieModelBase 
+{
 	public MowzieModelRenderer waist;
 	public MowzieModelRenderer lowertorso;
 	public MowzieModelRenderer chestcenter;
@@ -142,7 +143,8 @@ public class ModelSkystrike extends MowzieModelBase {
 	public ModelRenderer shape78;
 	public ModelRenderer vehicleBody;
 
-	public ModelSkystrike() {
+	public ModelSkystrike()
+	{
 		this.textureWidth = 128;
 		this.textureHeight = 128;
 
@@ -864,23 +866,29 @@ public class ModelSkystrike extends MowzieModelBase {
 			upperlegL.showModel = wearingLegs;
 			upperlegR.showModel = wearingLegs;
 
-			if (entity.isSneaking()) {
+			if (entity.isSneaking())
+			{
 				globalDegree = 1.5F;
 				globalSpeed = 1.5F;
 			}
 
-			if (wearingHead) {
+			if (wearingHead) 
+			{
 				faceTarget(headbase, 1, par4, par5);
 			}
 
 			int backwardInverter = 1;
-			if (((EntityPlayer) entity).moveForward < 0) {
+			
+			if (((EntityPlayer) entity).moveForward < 0)
+			{
 				backwardInverter = -1;
 				globalDegree = 0.5F;
 			}
 
-			if (wearingHead && wearingLegs && wearingChest) {
-				if (entity.onGround) {
+			if (wearingHead && wearingLegs && wearingChest)
+			{
+				if (entity.onGround || player.capabilities.isFlying)
+				{
 					bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
 					waist.rotationPointY += 2 * par2;
 					walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
@@ -928,7 +936,8 @@ public class ModelSkystrike extends MowzieModelBase {
 
 				int timer = TFDataManager.getTransformationTimer(player);
 
-				if (timer == 0) {
+				if (timer == 0)
+				{
 					this.vehicleBody.rotateAngleX = par5 / (180F / (float) Math.PI);
 					this.vehicleBody.rotateAngleZ = -(this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY));
 

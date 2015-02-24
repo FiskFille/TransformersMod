@@ -42,10 +42,4 @@ public class TransformerVurp extends TransformerCar
 	{
 		return TFModelRegistry.getModel(this);
 	}
-	
-	@Override
-	public int getDisplayVehicleMetadata()
-	{
-		return 2;
-	}
 }

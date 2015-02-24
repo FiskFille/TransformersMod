@@ -50,9 +50,11 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
 
 	public void setNBTData(ItemStack itemstack)
 	{
+		int transformerIndex = 0;
+		
 		for (Transformer transformer : TransformersAPI.getTransformers())
 		{
-			if (transformer.getDisplayVehicleMetadata() == itemstack.getItemDamage())
+			if (transformerIndex == itemstack.getItemDamage())
 			{
 				ItemStack head = new ItemStack(transformer.getHelmet());
 				ItemStack chest = new ItemStack(transformer.getChestplate());
@@ -74,6 +76,8 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
 
 				itemstack.getTagCompound().setTag("Items", itemsList);
 			}
+			
+			transformerIndex++;
 		}
 	}
 
@@ -175,9 +179,12 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
 
 	public void getSubItems(Item item, CreativeTabs tab, List subItems)
 	{
+		int i = 0;
+		
 		for (Transformer transformer : TransformersAPI.getTransformers())
 		{
-			subItems.add(new ItemStack(this, 1, transformer.getDisplayVehicleMetadata()));
+			subItems.add(new ItemStack(this, 1, i));
+			i++;
 		}
 	}
 }

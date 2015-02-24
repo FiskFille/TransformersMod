@@ -49,10 +49,4 @@ public class TransformerCloudtrap extends TransformerJet
 	{
 		return TFModelRegistry.getModel(this);
 	}
-	
-	@Override
-	public int getDisplayVehicleMetadata()
-	{
-		return 4;
-	}
 }

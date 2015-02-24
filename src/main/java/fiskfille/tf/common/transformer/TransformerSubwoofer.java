@@ -42,10 +42,4 @@ public class TransformerSubwoofer extends TransformerCar
 	{
 		return TFModelRegistry.getModel(this);
 	}
-	
-	@Override
-	public int getDisplayVehicleMetadata()
-	{
-		return 3;
-	}
 }
