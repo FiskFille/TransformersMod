@@ -36,7 +36,10 @@ public class TFShootManager
 
 				if(transformer != null)
 				{
-					shotsLeft = getShotsLeft(player, transformer, transformer.getShootItem());
+					if(shotsLeft == transformer.getShots())
+					{
+						shotsLeft = getShotsLeft(player, transformer, transformer.getShootItem());
+					}
 				}
 			}
 		}
