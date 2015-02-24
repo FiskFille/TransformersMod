@@ -467,7 +467,6 @@ public class ModelPurge extends MowzieModelBase
 			float globalSpeed = 1;
 			float globalDegree = 0.8F;
 			
-			
 			if(wearingChest || wearingHead && !wearingLegs)
 			{
 				this.upperLeg1.rotationPointY = 0;
@@ -479,7 +478,6 @@ public class ModelPurge extends MowzieModelBase
 			this.vehicleTurret.rotationPointZ = -1;
 
 			//Walk animation
-
 			upperArm1.rotationPointX -= 5;
 			upperArm2.rotationPointX += 5;
 			upperArm1.rotationPointY -= 5;

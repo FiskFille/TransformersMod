@@ -3,6 +3,7 @@ package fiskfille.tf.client.model.transformer;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.model.ModelRenderer;
@@ -837,23 +838,55 @@ public class ModelSkystrike extends MowzieModelBase
 		setInitPose();
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) 
+	{
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		this.vehicleBody.render(f5);
-		this.waist.render(f5);
+		
+		if (entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)entity;
+
+			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSkystrike;
+			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
+			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
+			
+			if(wearingLegs && wearingHead && !wearingChest)
+			{
+				headbase.render(f5);
+				upperlegR.render(f5);
+				upperlegL.render(f5);
+			}
+			else if(wearingHead && !wearingChest)
+			{
+				headbase.render(f5);
+			}
+			else if(wearingLegs && !wearingChest)
+			{
+				upperlegR.render(f5);
+				upperlegL.render(f5);
+			}
+			else
+			{
+				this.vehicleBody.render(f5);
+				this.waist.render(f5);
+			}
+		}
 	}
 
-	public void setRotation(MowzieModelRenderer model, float x, float y, float z) {
+	public void setRotation(MowzieModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
-	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity) {
+	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity) 
+	{
 		super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
 
-		if (entity instanceof EntityPlayer) {
+		if (entity instanceof EntityPlayer)
+		{
 			EntityPlayer player = (EntityPlayer) entity;
 
 			setToInitPose();
