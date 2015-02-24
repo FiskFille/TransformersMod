@@ -24,28 +24,6 @@ public class TFShootManager
 	public static boolean reloading;
 
 	@SubscribeEvent
-	public void onTransform(PlayerTransformEvent event)
-	{
-		EntityPlayer player = event.entityPlayer;
-
-		if (event.entity.worldObj.isRemote)
-		{
-			if (player == Minecraft.getMinecraft().thePlayer)
-			{
-				Transformer transformer = TFHelper.getTransformer(player);
-
-				if(transformer != null)
-				{
-					if(shotsLeft == transformer.getShots())
-					{
-						shotsLeft = getShotsLeft(player, transformer, transformer.getShootItem());
-					}
-				}
-			}
-		}
-	}
-
-	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event)
 	{
 		if (event.entity instanceof EntityPlayer)

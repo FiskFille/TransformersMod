@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -28,6 +29,8 @@ public class TickHandler
 	public static boolean hasDisplayedEasterEggMessage = false;
 
 	public static boolean prevViewBobbing;
+	
+	private double prevMove;
 	
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) 
@@ -124,9 +127,19 @@ public class TickHandler
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
 		}
 		
+		IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+		
 		if (inVehicleMode && transformationTimer == 0 && TFHelper.getTransformer(player) instanceof TransformerCar && !TFPlayerData.getData(player).stealthForce)
 		{
-			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
+			prevMove = entityAttribute.getAttributeValue();
+			entityAttribute.setBaseValue(0.0D);
+		}
+		else
+		{
+			if(prevMove != 0)
+			{
+				entityAttribute.setBaseValue(prevMove);
+			}
 		}
 	}
 	
