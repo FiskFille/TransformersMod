@@ -6,6 +6,7 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -851,25 +852,28 @@ public class ModelSkystrike extends MowzieModelBase
 			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
 			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
 			
-			if(wearingLegs && wearingHead && !wearingChest)
+			if(!(!wearingChest && !wearingHead && !wearingLegs))
 			{
-				headbase.render(f5);
-				upperlegR.render(f5);
-				upperlegL.render(f5);
-			}
-			else if(wearingHead && !wearingChest)
-			{
-				headbase.render(f5);
-			}
-			else if(wearingLegs && !wearingChest)
-			{
-				upperlegR.render(f5);
-				upperlegL.render(f5);
-			}
-			else
-			{
-				this.vehicleBody.render(f5);
-				this.waist.render(f5);
+				if(wearingLegs && wearingHead && !wearingChest)
+				{
+					headbase.render(f5);
+					upperlegR.render(f5);
+					upperlegL.render(f5);
+				}
+				else if(wearingHead && !wearingChest)
+				{
+					headbase.render(f5);
+				}
+				else if(wearingLegs && !wearingChest)
+				{
+					upperlegR.render(f5);
+					upperlegL.render(f5);
+				}
+				else
+				{
+					this.vehicleBody.render(f5);
+					this.waist.render(f5);
+				}
 			}
 		}
 	}
@@ -895,144 +899,147 @@ public class ModelSkystrike extends MowzieModelBase
 			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
 			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
 
-			float globalSpeed = 1;
-			float globalDegree = 0.8F;
-
-			headbase.showModel = wearingHead;
-			upperlegL.showModel = wearingLegs;
-			upperlegR.showModel = wearingLegs;
-
-			if (entity.isSneaking())
+			if(!(!wearingChest && !wearingHead && !wearingLegs))
 			{
-				globalDegree = 1.5F;
-				globalSpeed = 1.5F;
-			}
+				float globalSpeed = 1;
+				float globalDegree = 0.8F;
 
-			if (wearingHead) 
-			{
-				faceTarget(headbase, 1, par4, par5);
-				
-				if(wearingChest)
+				headbase.showModel = wearingHead;
+				upperlegL.showModel = wearingLegs;
+				upperlegR.showModel = wearingLegs;
+
+				if (entity.isSneaking())
 				{
-					headbase.rotationPointY += 2;
-					headbase.rotationPointX += 1;
-					headbase.rotationPointZ -= 1.5F;
+					globalDegree = 1.5F;
+					globalSpeed = 1.5F;
+				}
+
+				if (wearingHead) 
+				{
+					faceTarget(headbase, 1, par4, par5);
+					
+					if(wearingChest)
+					{
+						headbase.rotationPointY += 2;
+						headbase.rotationPointX += 1;
+						headbase.rotationPointZ -= 1.5F;
+					}
+					else
+					{
+						headbase.rotationPointX += 0F;
+						headbase.rotationPointZ -= 2.5F;
+						headbase.rotationPointY += 0.5F;
+					}
+				}
+				
+				if(!wearingChest && wearingLegs)
+				{
+					upperlegR.rotationPointX -= 1;
+					upperlegL.rotationPointX -= 1;
+					
+					upperlegR.rotationPointZ -= 1;
+					upperlegL.rotationPointZ -= 1;
+					
+					upperlegR.rotationPointY += 10;
+					upperlegL.rotationPointY += 10;
+				}
+				
+				int backwardInverter = 1;
+				
+				if (((EntityPlayer) entity).moveForward < 0)
+				{
+					backwardInverter = -1;
+					globalDegree = 0.5F;
+				}
+
+				if (wearingHead && wearingLegs && wearingChest)
+				{
+					if (entity.onGround || player.capabilities.isFlying)
+					{
+						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
+						waist.rotationPointY += 2 * par2;
+						walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+						walk(chestcenter, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+						swing(chestcenter, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0, 0, par1, par2);
+						swing(waist, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
+						walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
+						swing(headbase, 0.5F * globalSpeed, -0.4F * globalDegree, false, 0, 0, par1, par2);
+//						headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
+
+						swing(upperlegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
+						swing(upperlegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
+
+						walk(upperlegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
+						walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F* backwardInverter, 0F, par1, par2);
+						walk(lowerlegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
+						walk(feetbaseL, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0.5F* backwardInverter, 0.3F, par1, par2);
+
+						walk(upperlegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
+						walk(middlelegR, 0.5F * globalSpeed, 1F * globalDegree, false, 1F* backwardInverter, 0F, par1, par2);
+						walk(lowerlegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
+						walk(feetbaseR, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0.5F* backwardInverter, 0.3F, par1, par2);
+
+						walk(shoulderL, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+						walk(shoulderR, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+						walk(lowerarmL1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+						walk(lowerarmR1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+
+						//Idle animation
+						int ticksExisted = entity.ticksExisted;
+
+						/*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+						walk(upperlegL, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
+						walk(upperlegR, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
+						walk(chestcenter, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+						walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						walk(upperarmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						walk(upperarmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+
+						flap(shoulderL, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
+						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
+						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
+					}
+
+					int timer = TFDataManager.getTransformationTimer(player);
+
+					if (timer == 0)
+					{
+						this.vehicleBody.rotateAngleX = par5 / (180F / (float) Math.PI);
+						this.vehicleBody.rotateAngleZ = -(this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY));
+
+						bipedHead.offsetY = 256F;
+						bipedBody.offsetY = 256F;
+						bipedRightArm.offsetY = 256F;
+						bipedLeftArm.offsetY = 256F;
+						bipedRightLeg.offsetY = 256F;
+						bipedLeftLeg.offsetY = 256F;
+						waist.offsetY = 256F;
+						vehicleBody.offsetY = 0F;
+					}
+					else 
+					{
+						int t = TFDataManager.getTransformationTimer(player);
+						float f = (float) (20 - t) / 2;
+
+						bipedHead.offsetY = 0F;
+						bipedBody.offsetY = 0F;
+						bipedRightArm.offsetY = 0F;
+						bipedLeftArm.offsetY = 0F;
+						bipedRightLeg.offsetY = 0F;
+						bipedLeftLeg.offsetY = 0F;
+						waist.offsetY = 0F;
+						vehicleBody.offsetY = 256F;
+					}
 				}
 				else
 				{
-					headbase.rotationPointX += 0F;
-					headbase.rotationPointZ -= 2.5F;
-					headbase.rotationPointY += 0.5F;
+					this.upperarmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+					this.upperarmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+					
+					this.upperlegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
+					this.upperlegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
 				}
-			}
-			
-			if(!wearingChest && wearingLegs)
-			{
-				upperlegR.rotationPointX -= 1;
-				upperlegL.rotationPointX -= 1;
-				
-				upperlegR.rotationPointZ -= 1;
-				upperlegL.rotationPointZ -= 1;
-				
-				upperlegR.rotationPointY += 10;
-				upperlegL.rotationPointY += 10;
-			}
-			
-			int backwardInverter = 1;
-			
-			if (((EntityPlayer) entity).moveForward < 0)
-			{
-				backwardInverter = -1;
-				globalDegree = 0.5F;
-			}
-
-			if (wearingHead && wearingLegs && wearingChest)
-			{
-				if (entity.onGround || player.capabilities.isFlying)
-				{
-					bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
-					waist.rotationPointY += 2 * par2;
-					walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-					walk(chestcenter, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-					swing(chestcenter, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0, 0, par1, par2);
-					swing(waist, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
-					walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
-					swing(headbase, 0.5F * globalSpeed, -0.4F * globalDegree, false, 0, 0, par1, par2);
-//					headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
-
-					swing(upperlegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
-					swing(upperlegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
-
-					walk(upperlegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
-					walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F* backwardInverter, 0F, par1, par2);
-					walk(lowerlegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
-					walk(feetbaseL, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0.5F* backwardInverter, 0.3F, par1, par2);
-
-					walk(upperlegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
-					walk(middlelegR, 0.5F * globalSpeed, 1F * globalDegree, false, 1F* backwardInverter, 0F, par1, par2);
-					walk(lowerlegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
-					walk(feetbaseR, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0.5F* backwardInverter, 0.3F, par1, par2);
-
-					walk(shoulderL, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-					walk(shoulderR, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-					walk(lowerarmL1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
-					walk(lowerarmR1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
-
-					//Idle animation
-					int ticksExisted = entity.ticksExisted;
-
-					/*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-					walk(upperlegL, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-					walk(upperlegR, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-					walk(chestcenter, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
-					walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-					walk(upperarmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-					walk(upperarmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-
-					flap(shoulderL, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
-					flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
-					walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
-					walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
-				}
-
-				int timer = TFDataManager.getTransformationTimer(player);
-
-				if (timer == 0)
-				{
-					this.vehicleBody.rotateAngleX = par5 / (180F / (float) Math.PI);
-					this.vehicleBody.rotateAngleZ = -(this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY));
-
-					bipedHead.offsetY = 256F;
-					bipedBody.offsetY = 256F;
-					bipedRightArm.offsetY = 256F;
-					bipedLeftArm.offsetY = 256F;
-					bipedRightLeg.offsetY = 256F;
-					bipedLeftLeg.offsetY = 256F;
-					waist.offsetY = 256F;
-					vehicleBody.offsetY = 0F;
-				}
-				else 
-				{
-					int t = TFDataManager.getTransformationTimer(player);
-					float f = (float) (20 - t) / 2;
-
-					bipedHead.offsetY = 0F;
-					bipedBody.offsetY = 0F;
-					bipedRightArm.offsetY = 0F;
-					bipedLeftArm.offsetY = 0F;
-					bipedRightLeg.offsetY = 0F;
-					bipedLeftLeg.offsetY = 0F;
-					waist.offsetY = 0F;
-					vehicleBody.offsetY = 256F;
-				}
-			}
-			else
-			{
-				this.upperarmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-				this.upperarmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
-				
-				this.upperlegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
-				this.upperlegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
 			}
 		}
 	}
