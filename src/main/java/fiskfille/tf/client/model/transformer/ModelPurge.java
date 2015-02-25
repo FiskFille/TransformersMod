@@ -9,6 +9,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelPurge extends MowzieModelBase
 {

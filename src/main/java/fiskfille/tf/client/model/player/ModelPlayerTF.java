@@ -27,10 +27,8 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 
 		this.bipedHead.rotationPointY = TFModelHelper.headOffsetY;
 		this.bipedHeadwear.rotationPointY = TFModelHelper.headOffsetY;
-		
 		this.bipedHead.rotationPointX = TFModelHelper.headOffsetX;
 		this.bipedHeadwear.rotationPointX = TFModelHelper.headOffsetX;
-		
 		this.bipedHead.rotationPointZ = TFModelHelper.headOffsetZ;
 		this.bipedHeadwear.rotationPointZ = TFModelHelper.headOffsetZ;
 		
@@ -75,5 +73,8 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 			}
 		}
 
+		TFModelHelper.headOffsetX = 0;
+		TFModelHelper.headOffsetY = 0;
+		TFModelHelper.headOffsetZ = 0;
 	}
 }
