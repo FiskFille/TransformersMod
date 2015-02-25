@@ -105,6 +105,11 @@ public class CustomEntityRenderer extends EntityRenderer
 
 	public static float getOffsetY(EntityPlayer entityPlayer)
 	{
-		return offsetY.get(entityPlayer);
+		if(offsetY != null)
+		{
+			return offsetY.get(entityPlayer);
+		}
+		
+		return 0;
 	}
 }
