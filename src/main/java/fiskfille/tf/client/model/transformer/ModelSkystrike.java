@@ -1029,6 +1029,36 @@ public class ModelSkystrike extends MowzieModelBase
 						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
 					}
+					else
+					{
+						float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
+						float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
+
+						waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+
+						chestcenter.rotateAngleX += 0.2 * upwardPose;
+						chest1.rotateAngleX -= 0.4 * upwardPose;
+						headbase.rotateAngleX += 0.6 * upwardPose;
+						
+						upperarmR.rotateAngleX += 0.1 * upwardPose;
+						upperarmL.rotateAngleX += 0.1 * upwardPose;
+						upperarmR.rotateAngleZ -= 0.1 * upwardPose;
+						upperarmL.rotateAngleZ += 0.1 * upwardPose;
+						lowerarmR1.rotateAngleX += 0.2 * upwardPose;
+						lowerarmL1.rotateAngleX += 0.2 * upwardPose;
+						
+						upperlegR.rotateAngleX += 0.2 * upwardPose;
+						upperlegL.rotateAngleX += 0.2 * upwardPose;
+						lowerlegR.rotateAngleX += 0.5 * upwardPose;
+						lowerlegL.rotateAngleX += 0.5 * upwardPose;
+
+						waist.rotateAngleX -= 0.2 * downwardPose;
+						
+						upperarmR.rotateAngleZ += 1 * downwardPose;
+						upperarmL.rotateAngleZ -= 1 * downwardPose;
+						lowerarmR1.rotateAngleX -= 1 * downwardPose;
+						lowerarmL1.rotateAngleX -= 1 * downwardPose;
+					}
 
 					int timer = TFDataManager.getTransformationTimer(player);
 
