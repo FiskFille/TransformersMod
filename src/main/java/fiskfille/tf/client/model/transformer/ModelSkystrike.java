@@ -23,10 +23,10 @@ public class ModelSkystrike extends MowzieModelBase
 	public MowzieModelRenderer buttflapL;
 	public MowzieModelRenderer buttflapR;
 	public MowzieModelRenderer crotchBack;
-	public MowzieModelRenderer upperlegR;
-	public MowzieModelRenderer upperlegL;
+	public MowzieModelRenderer upperLegR;
+	public MowzieModelRenderer upperLegL;
 	public MowzieModelRenderer middlelegR;
-	public MowzieModelRenderer lowerlegR;
+	public MowzieModelRenderer lowerLegR;
 	public MowzieModelRenderer legarmorR;
 	public MowzieModelRenderer feetconnectorR;
 	public MowzieModelRenderer wheelconnectorR;
@@ -37,7 +37,7 @@ public class ModelSkystrike extends MowzieModelBase
 	public MowzieModelRenderer toeR1;
 	public MowzieModelRenderer toeR2;
 	public MowzieModelRenderer middlelegL;
-	public MowzieModelRenderer lowerlegL;
+	public MowzieModelRenderer lowerLegL;
 	public MowzieModelRenderer legarmorL;
 	public MowzieModelRenderer feetconnectorL;
 	public MowzieModelRenderer wheelconnectorL;
@@ -80,18 +80,18 @@ public class ModelSkystrike extends MowzieModelBase
 	public MowzieModelRenderer headintakeL1;
 	public MowzieModelRenderer wingL1;
 	public MowzieModelRenderer intakeL;
-	public MowzieModelRenderer upperarmL;
+	public MowzieModelRenderer upperArmL;
 	public MowzieModelRenderer wingL2;
-	public MowzieModelRenderer lowerarmL1;
+	public MowzieModelRenderer lowerArmL1;
 	public MowzieModelRenderer lowerarmL2;
 	public MowzieModelRenderer lowerarmL3;
 	public MowzieModelRenderer lowerarmL4;
 	public MowzieModelRenderer fistL;
 	public MowzieModelRenderer wingR1;
 	public MowzieModelRenderer intakeR1;
-	public MowzieModelRenderer upperarmR;
+	public MowzieModelRenderer upperArmR;
 	public MowzieModelRenderer wingR2;
-	public MowzieModelRenderer lowerarmR1;
+	public MowzieModelRenderer lowerArmR1;
 	public MowzieModelRenderer lowerarmR4;
 	public MowzieModelRenderer lowerarmR3;
 	public MowzieModelRenderer lowerarmR2;
@@ -209,10 +209,10 @@ public class ModelSkystrike extends MowzieModelBase
 		this.energyDOWN.setRotationPoint(0.0F, 7.1F, 3.0F);
 		this.energyDOWN.addBox(-2.0F, -0.4F, -6.0F, 4, 2, 4, 0.0F);
 		this.setRotation(energyDOWN, -1.0018189906447452F, 0.0F, 0.0F);
-		this.lowerarmL1 = new MowzieModelRenderer(this, 40, 87);
-		this.lowerarmL1.setRotationPoint(0.0F, 3.0F, 0.0F);
-		this.lowerarmL1.addBox(-1.0F, 1.0F, -1.0F, 2, 4, 2, 0.0F);
-		this.setRotation(lowerarmL1, -0.19198621771937624F, 0.06981317007977318F, 0.05235987755982988F);
+		this.lowerArmL1 = new MowzieModelRenderer(this, 40, 87);
+		this.lowerArmL1.setRotationPoint(0.0F, 3.0F, 0.0F);
+		this.lowerArmL1.addBox(-1.0F, 1.0F, -1.0F, 2, 4, 2, 0.0F);
+		this.setRotation(lowerArmL1, -0.19198621771937624F, 0.06981317007977318F, 0.05235987755982988F);
 		this.upperchestR = new MowzieModelRenderer(this, 12, 76);
 		this.upperchestR.mirror = true;
 		this.upperchestR.setRotationPoint(-4.0F, 0.0F, 0.0F);
@@ -299,11 +299,11 @@ public class ModelSkystrike extends MowzieModelBase
 		this.middlelegL.setRotationPoint(1.4F, 2.5F, 0.9F);
 		this.middlelegL.addBox(-1.0F, -0.1F, 0.5F, 2, 2, 4, 0.0F);
 		this.setRotation(middlelegL, -0.08831366015091306F, -0.06981317007977318F, 0.0F);
-		this.upperarmL = new MowzieModelRenderer(this, 46, 68);
-		this.upperarmL.mirror = true;
-		this.upperarmL.setRotationPoint(2.5F, 0.6F, -0.5F);
-		this.upperarmL.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
-		this.setRotation(upperarmL, 0.017453292519943295F, 0.017453292519943295F, -0.05235987755982988F);
+		this.upperArmL = new MowzieModelRenderer(this, 46, 68);
+		this.upperArmL.mirror = true;
+		this.upperArmL.setRotationPoint(2.5F, 0.6F, -0.5F);
+		this.upperArmL.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
+		this.setRotation(upperArmL, 0.017453292519943295F, 0.017453292519943295F, -0.05235987755982988F);
 		this.upperchestM = new MowzieModelRenderer(this, 8, 87);
 		this.upperchestM.setRotationPoint(0.0F, 0.0F, 0.0F);
 		this.upperchestM.addBox(-1.5F, 0.0F, -4.0F, 3, 2, 4, 0.0F);
@@ -404,14 +404,14 @@ public class ModelSkystrike extends MowzieModelBase
 		this.buttflapR.setRotationPoint(-1.0F, -1.0F, 2.0F);
 		this.buttflapR.addBox(-2.6F, 0.0F, -0.7F, 3, 4, 1, 0.0F);
 		this.setRotation(buttflapR, 0.17453292519943295F, -0.12217304763960307F, 0.15707963267948966F);
-		this.lowerlegR = new MowzieModelRenderer(this, 63, 58);
-		this.lowerlegR.setRotationPoint(0.0F, -0.9F, 5.0F);
-		this.lowerlegR.addBox(-1.7F, -0.2F, -1.1F, 3, 7, 3, 0.0F);
-		this.setRotation(lowerlegR, -0.1780235837034216F, 0.0F, 0.0F);
-		this.upperarmR = new MowzieModelRenderer(this, 46, 68);
-		this.upperarmR.setRotationPoint(-2.5F, 0.6F, -0.5F);
-		this.upperarmR.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
-		this.setRotation(upperarmR, 0.017453292519943295F, -0.017453292519943295F, 0.05235987755982988F);
+		this.lowerLegR = new MowzieModelRenderer(this, 63, 58);
+		this.lowerLegR.setRotationPoint(0.0F, -0.9F, 5.0F);
+		this.lowerLegR.addBox(-1.7F, -0.2F, -1.1F, 3, 7, 3, 0.0F);
+		this.setRotation(lowerLegR, -0.1780235837034216F, 0.0F, 0.0F);
+		this.upperArmR = new MowzieModelRenderer(this, 46, 68);
+		this.upperArmR.setRotationPoint(-2.5F, 0.6F, -0.5F);
+		this.upperArmR.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
+		this.setRotation(upperArmR, 0.017453292519943295F, -0.017453292519943295F, 0.05235987755982988F);
 		this.legarmorR = new MowzieModelRenderer(this, 73, 73);
 		this.legarmorR.mirror = true;
 		this.legarmorR.setRotationPoint(0.0F, 0.0F, 2.0F);
@@ -429,29 +429,29 @@ public class ModelSkystrike extends MowzieModelBase
 		this.wheelconnectorR.setRotationPoint(0.0F, 0.0F, 0.0F);
 		this.wheelconnectorR.addBox(-1.7F, 0.0F, 0.0F, 3, 1, 4, 0.0F);
 		this.setRotation(wheelconnectorR, 0.03490658503988659F, 0.0F, 0.0F);
-		this.lowerarmR1 = new MowzieModelRenderer(this, 40, 87);
-		this.lowerarmR1.mirror = true;
-		this.lowerarmR1.setRotationPoint(0.0F, 3.0F, 0.0F);
-		this.lowerarmR1.addBox(-1.0F, 1.0F, -1.0F, 2, 4, 2, 0.0F);
-		this.setRotation(lowerarmR1, -0.19198621771937624F, -0.05235987755982988F, -0.06981317007977318F);
-		this.upperlegL = new MowzieModelRenderer(this, 63, 49);
-		this.upperlegL.mirror = true;
-		this.upperlegL.setRotationPoint(2.0F, 0.5F, 1.1F);
-		this.upperlegL.addBox(0.0F, -1.0F, -1.5F, 3, 6, 3, 0.0F);
-		this.setRotation(upperlegL, -0.6457718232379019F, 0.0F, -0.08726646259971647F);
-		this.lowerlegL = new MowzieModelRenderer(this, 63, 58);
-		this.lowerlegL.mirror = true;
-		this.lowerlegL.setRotationPoint(0.0F, -0.9F, 5.0F);
-		this.lowerlegL.addBox(-1.3F, -0.2F, -1.1F, 3, 7, 3, 0.0F);
-		this.setRotation(lowerlegL, -0.1780235837034216F, 0.0F, 0.0F);
+		this.lowerArmR1 = new MowzieModelRenderer(this, 40, 87);
+		this.lowerArmR1.mirror = true;
+		this.lowerArmR1.setRotationPoint(0.0F, 3.0F, 0.0F);
+		this.lowerArmR1.addBox(-1.0F, 1.0F, -1.0F, 2, 4, 2, 0.0F);
+		this.setRotation(lowerArmR1, -0.19198621771937624F, -0.05235987755982988F, -0.06981317007977318F);
+		this.upperLegL = new MowzieModelRenderer(this, 63, 49);
+		this.upperLegL.mirror = true;
+		this.upperLegL.setRotationPoint(2.0F, 0.5F, 1.1F);
+		this.upperLegL.addBox(0.0F, -1.0F, -1.5F, 3, 6, 3, 0.0F);
+		this.setRotation(upperLegL, -0.6457718232379019F, 0.0F, -0.08726646259971647F);
+		this.lowerLegL = new MowzieModelRenderer(this, 63, 58);
+		this.lowerLegL.mirror = true;
+		this.lowerLegL.setRotationPoint(0.0F, -0.9F, 5.0F);
+		this.lowerLegL.addBox(-1.3F, -0.2F, -1.1F, 3, 7, 3, 0.0F);
+		this.setRotation(lowerLegL, -0.1780235837034216F, 0.0F, 0.0F);
 		this.chestcenter = new MowzieModelRenderer(this, 0, 0);
 		this.chestcenter.setRotationPoint(0.0F, -3.0F, 2.0F);
 		this.chestcenter.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
 		this.setRotation(chestcenter, -0.10646508437165408F, 0.0F, 0.0F);
-		this.upperlegR = new MowzieModelRenderer(this, 63, 49);
-		this.upperlegR.setRotationPoint(0.0F, 0.5F, 1.1F);
-		this.upperlegR.addBox(-3.0F, -1.0F, -1.5F, 3, 6, 3, 0.0F);
-		this.setRotation(upperlegR, -0.6457718232379019F, 0.0F, 0.08726646259971647F);
+		this.upperLegR = new MowzieModelRenderer(this, 63, 49);
+		this.upperLegR.setRotationPoint(0.0F, 0.5F, 1.1F);
+		this.upperLegR.addBox(-3.0F, -1.0F, -1.5F, 3, 6, 3, 0.0F);
+		this.setRotation(upperLegR, -0.6457718232379019F, 0.0F, 0.08726646259971647F);
 		this.intakeL = new MowzieModelRenderer(this, 36, 68);
 		this.intakeL.mirror = true;
 		this.intakeL.setRotationPoint(4.0F, -3.0F, -0.5F);
@@ -506,7 +506,7 @@ public class ModelSkystrike extends MowzieModelBase
 		this.setRotation(wheelL, 0.5864306286700948F, 0.0F, 0.0F);
 		this.neck.addChild(this.headbase);
 		this.shoulderR.addChild(this.wingR1);
-		this.middlelegR.addChild(this.lowerlegR);
+		this.middlelegR.addChild(this.lowerLegR);
 		this.chestcenter.addChild(this.chest1);
 		this.chest1.addChild(this.lowerchestR);
 		this.wingR1.addChild(this.wingR2);
@@ -514,17 +514,17 @@ public class ModelSkystrike extends MowzieModelBase
 		this.feetconnectorL.addChild(this.wheelconnectorL);
 		this.headbase.addChild(this.headhelmet2);
 		this.headbase.addChild(this.headhelmet1);
-		this.lowerarmR1.addChild(this.lowerarmR2);
+		this.lowerArmR1.addChild(this.lowerarmR2);
 		this.wingL1.addChild(this.wingL2);
 		this.chest1.addChild(this.cockpit1);
 		this.feetconnectorR.addChild(this.feetbaseR);
-		this.upperlegL.addChild(this.middlelegL);
-		this.shoulderL.addChild(this.upperarmL);
+		this.upperLegL.addChild(this.middlelegL);
+		this.shoulderL.addChild(this.upperArmL);
 		this.chest1.addChild(this.upperchestL);
 		this.chest1.addChild(this.collarL);
 		this.chest1.addChild(this.shoulderL);
 		this.headbase.addChild(this.headintakeL1);
-		this.middlelegL.addChild(this.lowerlegL);
+		this.middlelegL.addChild(this.lowerLegL);
 		this.waist.addChild(this.lowertorso);
 		this.legarmorR.addChild(this.feetconnectorR);
 		this.bodywingL1.addChild(this.bodywingL2);
@@ -535,23 +535,23 @@ public class ModelSkystrike extends MowzieModelBase
 		this.feetbaseR.addChild(this.toeR1);
 		this.waist.addChild(this.rearwaist);
 		this.chest1.addChild(this.lowerchestM);
-		this.lowerarmL1.addChild(this.lowerarmL2);
-		this.lowerlegL.addChild(this.legarmorL);
+		this.lowerArmL1.addChild(this.lowerarmL2);
+		this.lowerLegL.addChild(this.legarmorL);
 		this.headbase.addChild(this.headnose);
 		this.lowertorso.addChild(this.crotchBack);
 		this.chest1.addChild(this.LowerchestL);
 		this.feetbaseL.addChild(this.toeL2);
-		this.lowerarmL1.addChild(this.lowerarmL3);
+		this.lowerArmL1.addChild(this.lowerarmL3);
 		this.feetbaseL.addChild(this.feetpartL2);
 		this.headbase.addChild(this.headwingL);
 		this.lowertorso.addChild(this.buttflapR);
 		this.headbase.addChild(this.headwingR);
 		this.bodywingR1.addChild(this.bodywingR2);
-		this.upperarmR.addChild(this.lowerarmR1);
+		this.upperArmR.addChild(this.lowerArmR1);
 		this.chest1.addChild(this.energyDOWN);
 		this.shoulderR.addChild(this.intakeR1);
 		this.feetbaseR.addChild(this.feetpartR1);
-		this.lowerlegR.addChild(this.legarmorR);
+		this.lowerLegR.addChild(this.legarmorR);
 		this.shoulderL.addChild(this.intakeL);
 		this.feetbaseR.addChild(this.toeR2);
 		this.feetconnectorR.addChild(this.wheelconnectorR);
@@ -564,13 +564,13 @@ public class ModelSkystrike extends MowzieModelBase
 		this.headbase.addChild(this.headintakeL2);
 		this.feetconnectorL.addChild(this.feetbaseL);
 		this.headbase.addChild(this.headintakeR2);
-		this.crotch1.addChild(this.upperlegL);
+		this.crotch1.addChild(this.upperLegL);
 		this.chest1.addChild(this.upperchestR);
 		this.feetbaseL.addChild(this.toeL1);
-		this.lowerarmR1.addChild(this.lowerarmR4);
+		this.lowerArmR1.addChild(this.lowerarmR4);
 		this.lowertorso.addChild(this.buttflapL);
-		this.crotch1.addChild(this.upperlegR);
-		this.upperlegR.addChild(this.middlelegR);
+		this.crotch1.addChild(this.upperLegR);
+		this.upperLegR.addChild(this.middlelegR);
 		this.chest1.addChild(this.bodywingR1);
 		this.headbase.addChild(this.headintakeR1);
 		this.wheelconnectorR.addChild(this.wheelR);
@@ -579,12 +579,12 @@ public class ModelSkystrike extends MowzieModelBase
 		this.chest1.addChild(this.cockpit2);
 		this.lowertorso.addChild(this.crotchfront);
 		this.legarmorL.addChild(this.feetconnectorL);
-		this.lowerarmL1.addChild(this.lowerarmL4);
-		this.upperarmL.addChild(this.lowerarmL1);
+		this.lowerArmL1.addChild(this.lowerarmL4);
+		this.upperArmL.addChild(this.lowerArmL1);
 		this.lowerarmL2.addChild(this.fistL);
 		this.lowertorso.addChild(this.crotch1);
-		this.shoulderR.addChild(this.upperarmR);
-		this.lowerarmR1.addChild(this.lowerarmR3);
+		this.shoulderR.addChild(this.upperArmR);
+		this.lowerArmR1.addChild(this.lowerarmR3);
 
 
 		this.shape59 = new MowzieModelRenderer(this, 75, 55);
@@ -835,7 +835,7 @@ public class ModelSkystrike extends MowzieModelBase
 		this.addChildTo(shape140, vehicleBody);
 		this.addChildTo(shape141, vehicleBody);
 
-		parts = new MowzieModelRenderer[]{waist, lowertorso, chestcenter, rearwaist, crotch1, crotchfront, buttflapL, buttflapR, crotchBack, upperlegR, upperlegL, middlelegR, lowerlegR, legarmorR, feetconnectorR, wheelconnectorR, feetbaseR, wheelR, feetpartR1, feetpartR2, toeR1, toeR2, middlelegL, lowerlegL, legarmorL, feetconnectorL, wheelconnectorL, feetbaseL, wheelL, toeL1, toeL2, feetpartL2, feetpartL1, chest1, bodywingR1, bodywingL1, neck, upperchestR, cockpit1, cockpit2, lowerchestR, LowerchestL, upperchestL, upperchestM, lowerchestM, energyUP, energyDOWN, collarR, collarL, collarM, shoulderL, shoulderR, bodywingR2, bodywingL2, headbase, headnose, headhelmet1, headwingR, headhelmet2, headwingL, headintakeR1, headintakeL2, headintakeR2, headintakeL1, wingL1, intakeL, upperarmL, wingL2, lowerarmL1, lowerarmL2, lowerarmL3, lowerarmL4, fistL, wingR1, intakeR1, upperarmR, wingR2, lowerarmR1, lowerarmR4, lowerarmR3, lowerarmR2, fistR};
+		parts = new MowzieModelRenderer[]{waist, lowertorso, chestcenter, rearwaist, crotch1, crotchfront, buttflapL, buttflapR, crotchBack, upperLegR, upperLegL, middlelegR, lowerLegR, legarmorR, feetconnectorR, wheelconnectorR, feetbaseR, wheelR, feetpartR1, feetpartR2, toeR1, toeR2, middlelegL, lowerLegL, legarmorL, feetconnectorL, wheelconnectorL, feetbaseL, wheelL, toeL1, toeL2, feetpartL2, feetpartL1, chest1, bodywingR1, bodywingL1, neck, upperchestR, cockpit1, cockpit2, lowerchestR, LowerchestL, upperchestL, upperchestM, lowerchestM, energyUP, energyDOWN, collarR, collarL, collarM, shoulderL, shoulderR, bodywingR2, bodywingL2, headbase, headnose, headhelmet1, headwingR, headhelmet2, headwingL, headintakeR1, headintakeL2, headintakeR2, headintakeL1, wingL1, intakeL, upperArmL, wingL2, lowerArmL1, lowerarmL2, lowerarmL3, lowerarmL4, fistL, wingR1, intakeR1, upperArmR, wingR2, lowerArmR1, lowerarmR4, lowerarmR3, lowerarmR2, fistR};
 		setInitPose();
 	}
 
@@ -857,8 +857,8 @@ public class ModelSkystrike extends MowzieModelBase
 				if(wearingLegs && wearingHead && !wearingChest)
 				{
 					headbase.render(f5);
-					upperlegR.render(f5);
-					upperlegL.render(f5);
+					upperLegR.render(f5);
+					upperLegL.render(f5);
 				}
 				else if(wearingHead && !wearingChest)
 				{
@@ -866,8 +866,8 @@ public class ModelSkystrike extends MowzieModelBase
 				}
 				else if(wearingLegs && !wearingChest)
 				{
-					upperlegR.render(f5);
-					upperlegL.render(f5);
+					upperLegR.render(f5);
+					upperLegL.render(f5);
 				}
 				else
 				{
@@ -911,8 +911,8 @@ public class ModelSkystrike extends MowzieModelBase
 				float globalDegree = 0.8F;
 
 				headbase.showModel = wearingHead;
-				upperlegL.showModel = wearingLegs;
-				upperlegR.showModel = wearingLegs;
+				upperLegL.showModel = wearingLegs;
+				upperLegR.showModel = wearingLegs;
 
 				if (entity.isSneaking())
 				{
@@ -963,14 +963,14 @@ public class ModelSkystrike extends MowzieModelBase
 
 				if(!wearingChest && wearingLegs)
 				{
-					upperlegR.rotationPointX -= 1;
-					upperlegL.rotationPointX -= 1;
+					upperLegR.rotationPointX -= 1;
+					upperLegL.rotationPointX -= 1;
 
-					upperlegR.rotationPointZ -= 1;
-					upperlegL.rotationPointZ -= 1;
+					upperLegR.rotationPointZ -= 1;
+					upperLegL.rotationPointZ -= 1;
 
-					upperlegR.rotationPointY += 10;
-					upperlegL.rotationPointY += 10;
+					upperLegR.rotationPointY += 10;
+					upperLegL.rotationPointY += 10;
 				}
 
 				if(!wearingLegs && wearingChest)
@@ -1001,23 +1001,23 @@ public class ModelSkystrike extends MowzieModelBase
 						swing(headbase, 0.5F * globalSpeed, -0.4F * globalDegree, false, 0, 0, par1, par2);
 						//						headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
 
-						swing(upperlegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
-						swing(upperlegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
+						swing(upperLegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
+						swing(upperLegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
 
-						walk(upperlegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
+						walk(upperLegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
 						walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F* backwardInverter, 0F, par1, par2);
-						walk(lowerlegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
+						walk(lowerLegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
 						walk(feetbaseL, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0.5F* backwardInverter, 0.3F, par1, par2);
 
-						walk(upperlegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
+						walk(upperLegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
 						walk(middlelegR, 0.5F * globalSpeed, 1F * globalDegree, false, 1F* backwardInverter, 0F, par1, par2);
-						walk(lowerlegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
+						walk(lowerLegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
 						walk(feetbaseR, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0.5F* backwardInverter, 0.3F, par1, par2);
 
 						walk(shoulderL, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
 						walk(shoulderR, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-						walk(lowerarmL1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
-						walk(lowerarmR1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+						walk(lowerArmL1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+						walk(lowerArmR1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
 
 						//Idle animation
 						int ticksExisted = entity.ticksExisted;
@@ -1048,24 +1048,24 @@ public class ModelSkystrike extends MowzieModelBase
 						chest1.rotateAngleX -= 0.4 * upwardPose;
 						headbase.rotateAngleX += 0.6 * upwardPose;
 
-						upperarmR.rotateAngleX += 0.1 * upwardPose;
-						upperarmL.rotateAngleX += 0.1 * upwardPose;
-						upperarmR.rotateAngleZ -= 0.1 * upwardPose;
-						upperarmL.rotateAngleZ += 0.1 * upwardPose;
-						lowerarmR1.rotateAngleX += 0.2 * upwardPose;
-						lowerarmL1.rotateAngleX += 0.2 * upwardPose;
+						upperArmR.rotateAngleX += 0.1 * upwardPose;
+						upperArmL.rotateAngleX += 0.1 * upwardPose;
+						upperArmR.rotateAngleZ -= 0.1 * upwardPose;
+						upperArmL.rotateAngleZ += 0.1 * upwardPose;
+						lowerArmR1.rotateAngleX += 0.2 * upwardPose;
+						lowerArmL1.rotateAngleX += 0.2 * upwardPose;
 
-						upperlegR.rotateAngleX += 0.2 * upwardPose;
-						upperlegL.rotateAngleX += 0.2 * upwardPose;
-						lowerlegR.rotateAngleX += 0.5 * upwardPose;
-						lowerlegL.rotateAngleX += 0.5 * upwardPose;
+						upperLegR.rotateAngleX += 0.2 * upwardPose;
+						upperLegL.rotateAngleX += 0.2 * upwardPose;
+						lowerLegR.rotateAngleX += 0.5 * upwardPose;
+						lowerLegL.rotateAngleX += 0.5 * upwardPose;
 
 						waist.rotateAngleX += speed * downwardPose;
 
-						upperarmR.rotateAngleZ += 1 * downwardPose;
-						upperarmL.rotateAngleZ -= 1 * downwardPose;
-						lowerarmR1.rotateAngleX -= 1 * downwardPose;
-						lowerarmL1.rotateAngleX -= 1 * downwardPose;
+						upperArmR.rotateAngleZ += 1 * downwardPose;
+						upperArmL.rotateAngleZ -= 1 * downwardPose;
+						lowerArmR1.rotateAngleX -= 1 * downwardPose;
+						lowerArmL1.rotateAngleX -= 1 * downwardPose;
 					}
 
 					int timer = TFDataManager.getTransformationTimer(player);
@@ -1087,8 +1087,32 @@ public class ModelSkystrike extends MowzieModelBase
 					else 
 					{
 						int t = TFDataManager.getTransformationTimer(player);
+						//t = 1;
 						float f = (float) (20 - t) / 2;
-
+						
+						this.waist.rotateAngleX += (f * 0.15F);
+						
+						this.shoulderR.rotateAngleX += f * -0.15F;
+						this.shoulderL.rotateAngleX += f * -0.15F;
+						
+						this.shoulderR.rotateAngleZ += f * 0.15F;
+						this.shoulderL.rotateAngleZ += f * -0.15F;
+						
+						this.lowerArmL1.rotateAngleZ += f * -0.5F;
+						this.lowerArmR1.rotateAngleZ += f * 0.5F;
+						
+						this.upperLegR.rotateAngleX += (f * -0.3F);
+						this.upperLegL.rotateAngleX += (f * -0.3F);
+				
+						this.wingR1.rotationPointZ += f * 0.5F;
+						this.wingL1.rotationPointZ += f * 0.5F;
+						
+						this.wingR1.rotateAngleY += f * 0.2F;
+						this.wingL1.rotateAngleY += -f * 0.2F;
+						
+//						this.lowerArmL1.rotateAngleZ = f * 0.05F;
+//						this.lowerArmR1.rotateAngleZ = f * -0.05F;
+						
 						bipedHead.offsetY = 0F;
 						bipedBody.offsetY = 0F;
 						bipedRightArm.offsetY = 0F;
@@ -1101,11 +1125,11 @@ public class ModelSkystrike extends MowzieModelBase
 				}
 				else
 				{
-					this.upperarmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-					this.upperarmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+					this.upperArmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+					this.upperArmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
-					this.upperlegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
-					this.upperlegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
+					this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
+					this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
 				}
 			}
 		}
