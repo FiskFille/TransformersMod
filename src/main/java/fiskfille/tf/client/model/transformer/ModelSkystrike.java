@@ -933,7 +933,27 @@ public class ModelSkystrike extends MowzieModelBase
 				}
 				else
 				{
+					if(wearingChest)
+					{
+						if(wearingLegs)
+						{
+							TFModelHelper.headOffsetY = -3.1F;
+							TFModelHelper.headOffsetZ = 2F;
+						}
+						else
+						{
+							TFModelHelper.headOffsetY = -0.6F;
+							TFModelHelper.headOffsetZ = 0F;
+						}
+						
+					}
+					else
+					{
+						TFModelHelper.headOffsetY = 0F;
+						TFModelHelper.headOffsetZ = 0F;
+					}
 				}
+				
 				
 				if(!wearingChest && wearingLegs)
 				{

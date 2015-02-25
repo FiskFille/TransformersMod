@@ -25,6 +25,15 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 		
 		this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, f5, entity);
 
+		this.bipedHead.rotationPointY = TFModelHelper.headOffsetY;
+		this.bipedHeadwear.rotationPointY = TFModelHelper.headOffsetY;
+		
+		this.bipedHead.rotationPointX = TFModelHelper.headOffsetX;
+		this.bipedHeadwear.rotationPointX = TFModelHelper.headOffsetX;
+		
+		this.bipedHead.rotationPointZ = TFModelHelper.headOffsetZ;
+		this.bipedHeadwear.rotationPointZ = TFModelHelper.headOffsetZ;
+		
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
