@@ -1034,6 +1034,8 @@ public class ModelSkystrike extends MowzieModelBase
 						float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
 						float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
 
+						double speed = Math.sqrt((player.motionX * player.motionX) + (player.motionZ * player.motionZ));
+						
 						waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 
 						chestcenter.rotateAngleX += 0.2 * upwardPose;
@@ -1052,7 +1054,7 @@ public class ModelSkystrike extends MowzieModelBase
 						lowerlegR.rotateAngleX += 0.5 * upwardPose;
 						lowerlegL.rotateAngleX += 0.5 * upwardPose;
 
-						waist.rotateAngleX -= 0.2 * downwardPose;
+						waist.rotateAngleX += speed * downwardPose;
 						
 						upperarmR.rotateAngleZ += 1 * downwardPose;
 						upperarmL.rotateAngleZ -= 1 * downwardPose;
