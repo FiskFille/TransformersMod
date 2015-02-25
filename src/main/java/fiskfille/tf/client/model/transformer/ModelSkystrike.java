@@ -702,9 +702,13 @@ public class ModelSkystrike extends MowzieModelBase
 		this.shape64.mirror = true;
 		this.shape64.setRotationPoint(-1.3F, 14.7F, 5.6F);
 		this.shape64.addBox(-2.5F, -1.0F, -0.1F, 2, 8, 1, 0.0F);
+		this.shape140 = new MowzieModelRenderer(this, 0, 0);
+		this.shape140.setRotationPoint(-3.0F, -6.0F, -15.0F);
+		this.shape140.addBox(-5.0F, 0.0F, 0.0F, 6, 1, 5, 0.0F);
+		this.setRotation(shape140, 0.03490658503988659F, 0.15707963267948966F, 0.7853981633974483F);
 		this.shape141 = new MowzieModelRenderer(this, 0, 0);
 		this.shape141.mirror = true;
-		this.shape141.setRotationPoint(3.0F, -6.0F, 15.0F);
+		this.shape141.setRotationPoint(3.0F, -6.0F, -15.0F);
 		this.shape141.addBox(-1.0F, 0.0F, 0.0F, 6, 1, 5, 0.0F);
 		this.setRotation(shape141, 0.03490658503988659F, -0.15707963267948966F, -0.7853981633974483F);
 		this.shape6 = new MowzieModelRenderer(this, 0, 76);
@@ -716,10 +720,6 @@ public class ModelSkystrike extends MowzieModelBase
 		this.shape67.setRotationPoint(0.5F, 9.5F, 3.9F);
 		this.shape67.addBox(-2.0F, 2.6F, -27.0F, 1, 1, 6, 0.0F);
 		this.setRotation(shape67, 1.5707963267948966F, 0.0F, 0.0F);
-		this.shape140 = new MowzieModelRenderer(this, 0, 0);
-		this.shape140.setRotationPoint(-3.0F, -6.0F, 15.0F);
-		this.shape140.addBox(-5.0F, 0.0F, 0.0F, 6, 1, 5, 0.0F);
-		this.setRotation(shape140, 0.03490658503988659F, 0.15707963267948966F, 0.7853981633974483F);
 		this.shape133 = new MowzieModelRenderer(this, 19, 15);
 		this.shape133.setRotationPoint(-2.0F, -2.2F, -15.0F);
 		this.shape133.addBox(0.0F, 0.0F, 0.0F, 4, 5, 21, 0.0F);
