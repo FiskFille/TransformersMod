@@ -960,7 +960,6 @@ public class ModelSkystrike extends MowzieModelBase
 					}
 				}
 
-
 				if(!wearingChest && wearingLegs)
 				{
 					upperLegR.rotationPointX -= 1;
@@ -1142,6 +1141,28 @@ public class ModelSkystrike extends MowzieModelBase
 			        {
 			            this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
 			        }
+			        
+					if (this.onGround > -9990.0F)
+					{
+						float f6 = this.onGround;
+						this.waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float)Math.PI * 2.0F) * 0.2F;
+						this.upperArmR.rotationPointZ = MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmR.rotationPointX = -MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmL.rotationPointZ = -MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmL.rotationPointX = MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmR.rotateAngleY += this.waist.rotateAngleY;
+						this.upperArmL.rotateAngleY += this.waist.rotateAngleY;
+						this.upperArmL.rotateAngleX += this.waist.rotateAngleY;
+						f6 = 1.0F - this.onGround;
+						f6 *= f6;
+						f6 *= f6;
+						f6 = 1.0F - f6;
+						float f7 = MathHelper.sin(f6 * (float)Math.PI);
+						float f8 = MathHelper.sin(this.onGround * (float)Math.PI) * -(this.headbase.rotateAngleX - 0.7F) * 0.75F;
+						this.upperArmR.rotateAngleX = (float)((double)this.upperArmR.rotateAngleX - ((double)f7 * 1.2D + (double)f8));
+						this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
+						this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float)Math.PI) * -0.4F;
+					}
 				}
 			}
 		}

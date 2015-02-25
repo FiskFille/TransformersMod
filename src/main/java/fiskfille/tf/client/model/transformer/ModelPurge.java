@@ -521,7 +521,7 @@ public class ModelPurge extends MowzieModelBase
 			}
 
 			boolean fullSuit = wearingHead && wearingLegs && wearingChest;
-			
+
 			if(fullSuit)
 			{
 				if(entity.onGround || player.capabilities.isFlying)
@@ -613,14 +613,14 @@ public class ModelPurge extends MowzieModelBase
 					stomach.rotateAngleX += 0.2 * upwardPose;
 					chest.rotateAngleX -= 0.4 * upwardPose;
 					head.rotateAngleX += 0.6 * upwardPose;
-					
+
 					upperArmR.rotateAngleX += 0.1 * upwardPose;
 					upperArmL.rotateAngleX += 0.1 * upwardPose;
 					upperArmR.rotateAngleZ -= 0.1 * upwardPose;
 					upperArmL.rotateAngleZ += 0.1 * upwardPose;
 					lowerArm1.rotateAngleX += 0.2 * upwardPose;
 					lowerArm2.rotateAngleX += 0.2 * upwardPose;
-					
+
 					upperLegR.rotateAngleX += 0.2 * upwardPose;
 					upperLegL.rotateAngleX -= 1 * upwardPose;
 					lowerLeg1.rotateAngleX += 0.3 * upwardPose;
@@ -651,16 +651,38 @@ public class ModelPurge extends MowzieModelBase
 
 				this.upperLegR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperLegL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
-		
-		        if (this.heldItemLeft != 0)
-		        {
-		            this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
-		        }
 
-		        if (this.heldItemRight != 0)
-		        {
-		            this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
-		        }
+				if (this.heldItemLeft != 0)
+				{
+					this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
+				}
+
+				if (this.heldItemRight != 0)
+				{
+					this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
+				}
+				
+				if (this.onGround > -9990.0F)
+				{
+					float f6 = this.onGround;
+					this.waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float)Math.PI * 2.0F) * 0.2F;
+					this.upperArmR.rotationPointZ = MathHelper.sin(this.waist.rotateAngleY) * 4.5F;
+					this.upperArmR.rotationPointX = -MathHelper.cos(this.waist.rotateAngleY) * 4.5F;
+					this.upperArmL.rotationPointZ = -MathHelper.sin(this.waist.rotateAngleY) * 4.5F;
+					this.upperArmL.rotationPointX = MathHelper.cos(this.waist.rotateAngleY) * 4.5F;
+					this.upperArmR.rotateAngleY += this.waist.rotateAngleY;
+					this.upperArmL.rotateAngleY += this.waist.rotateAngleY;
+					this.upperArmL.rotateAngleX += this.waist.rotateAngleY;
+					f6 = 1.0F - this.onGround;
+					f6 *= f6;
+					f6 *= f6;
+					f6 = 1.0F - f6;
+					float f7 = MathHelper.sin(f6 * (float)Math.PI);
+					float f8 = MathHelper.sin(this.onGround * (float)Math.PI) * -(this.head.rotateAngleX - 0.7F) * 0.75F;
+					this.upperArmR.rotateAngleX = (float)((double)this.upperArmR.rotateAngleX - ((double)f7 * 1.2D + (double)f8));
+					this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
+					this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float)Math.PI) * -0.4F;
+				}
 			}
 
 			float transformProgress = (float)(20 - TFDataManager.getTransformationTimer(player)) / 20;
