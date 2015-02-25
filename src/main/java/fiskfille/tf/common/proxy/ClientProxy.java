@@ -36,6 +36,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ClientProxy extends CommonProxy
 {

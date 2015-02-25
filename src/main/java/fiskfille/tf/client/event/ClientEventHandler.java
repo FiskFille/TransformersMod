@@ -108,10 +108,10 @@ public class ClientEventHandler
 			}
 		}
 
-		ModelBiped modelBipedMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, new String[]{"f", "modelBipedMain"});
-		TFModelHelper.modelBipedMain = modelBipedMain;
-
-		ObfuscationReflectionHelper.setPrivateValue(RenderPlayer.class, event.renderer, modelBipedMain, new String[]{"f", "modelBipedMain"});
+//		ModelBiped modelBipedMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, new String[]{"f", "modelBipedMain"});
+//		TFModelHelper.modelBipedMain = modelBipedMain;
+//
+//		ObfuscationReflectionHelper.setPrivateValue(RenderPlayer.class, event.renderer, modelBipedMain, new String[]{"f", "modelBipedMain"});
 	}
 
 	@SubscribeEvent

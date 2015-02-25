@@ -931,6 +931,9 @@ public class ModelSkystrike extends MowzieModelBase
 						headbase.rotationPointY += 0.5F;
 					}
 				}
+				else
+				{
+				}
 				
 				if(!wearingChest && wearingLegs)
 				{
@@ -942,6 +945,12 @@ public class ModelSkystrike extends MowzieModelBase
 					
 					upperlegR.rotationPointY += 10;
 					upperlegL.rotationPointY += 10;
+				}
+				
+				if(!wearingLegs && wearingChest)
+				{
+					waist.rotationPointY += 2.5F;
+					waist.rotationPointZ -= 2.5F;
 				}
 				
 				int backwardInverter = 1;
