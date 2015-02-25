@@ -106,7 +106,7 @@ public class ModelSkystrike extends MowzieModelBase
 	public ModelRenderer shape139;
 	public ModelRenderer shape140;
 	public ModelRenderer shape141;
-	public ModelRenderer shape1;
+	public ModelRenderer vehicleBody;
 	public ModelRenderer shape2;
 	public ModelRenderer shape3;
 	public ModelRenderer shape4;
@@ -143,7 +143,6 @@ public class ModelSkystrike extends MowzieModelBase
 	public ModelRenderer shape75;
 	public ModelRenderer shape77;
 	public ModelRenderer shape78;
-	public ModelRenderer vehicleBody;
 
 	public ModelSkystrike()
 	{
@@ -756,9 +755,9 @@ public class ModelSkystrike extends MowzieModelBase
 		this.shape15.setRotationPoint(-2.0F, 0.0F, 0.0F);
 		this.shape15.addBox(0.0F, 0.2F, -3.3F, 4, 2, 3, 0.0F);
 		this.setRotation(shape15, 0.9826203688728075F, 0.0F, 0.0F);
-		this.shape1 = new MowzieModelRenderer(this, 0, 64);
-		this.shape1.setRotationPoint(0.0F, -5.0F, -2.0F);
-		this.shape1.addBox(-4.0F, 0.0F, 0.0F, 8, 5, 7, 0.0F);
+		this.vehicleBody = new MowzieModelRenderer(this, 0, 64);
+		this.vehicleBody.setRotationPoint(0.0F, -5.0F, -2.0F);
+		this.vehicleBody.addBox(-4.0F, 0.0F, 0.0F, 8, 5, 7, 0.0F);
 		this.shape11 = new MowzieModelRenderer(this, 0, 90);
 		this.shape11.mirror = true;
 		this.shape11.setRotationPoint(4.0F, 7.0F, 3.0F);
@@ -783,9 +782,9 @@ public class ModelSkystrike extends MowzieModelBase
 		this.shape130.setRotationPoint(0.0F, 8.5F, 2.0F);
 		this.shape130.addBox(-7.5F, -7.0F, 0.0F, 15, 1, 7, 0.0F);
 		this.shape56.addChild(this.shape59);
-		this.shape1.addChild(this.shape16);
-		this.shape1.addChild(this.shape8);
-		this.shape1.addChild(this.shape12);
+		this.vehicleBody.addChild(this.shape16);
+		this.vehicleBody.addChild(this.shape8);
+		this.vehicleBody.addChild(this.shape12);
 		this.shape68.addChild(this.shape75);
 		this.shape40.addChild(this.shape41);
 		this.shape68.addChild(this.shape78);
@@ -793,31 +792,27 @@ public class ModelSkystrike extends MowzieModelBase
 		this.shape30.addChild(this.shape31);
 		this.shape56.addChild(this.shape66);
 		this.shape68.addChild(this.shape77);
-		this.shape1.addChild(this.shape10);
-		this.shape1.addChild(this.shape13);
+		this.vehicleBody.addChild(this.shape10);
+		this.vehicleBody.addChild(this.shape13);
 		this.shape30.addChild(this.shape32);
 		this.shape40.addChild(this.shape49);
 		this.shape68.addChild(this.shape70);
 		this.shape68.addChild(this.shape69);
 		this.shape40.addChild(this.shape44);
 		this.shape40.addChild(this.shape43);
-		this.shape1.addChild(this.shape2);
+		this.vehicleBody.addChild(this.shape2);
 		this.shape56.addChild(this.shape64);
-		this.shape1.addChild(this.shape6);
+		this.vehicleBody.addChild(this.shape6);
 		this.shape56.addChild(this.shape67);
-		this.shape1.addChild(this.shape7);
+		this.vehicleBody.addChild(this.shape7);
 		this.shape30.addChild(this.shape33);
-		this.shape1.addChild(this.shape3);
-		this.shape1.addChild(this.shape15);
-		this.shape1.addChild(this.shape11);
-		this.shape1.addChild(this.shape14);
+		this.vehicleBody.addChild(this.shape3);
+		this.vehicleBody.addChild(this.shape15);
+		this.vehicleBody.addChild(this.shape11);
+		this.vehicleBody.addChild(this.shape14);
 		this.shape56.addChild(this.shape58);
-		this.shape1.addChild(this.shape4);
-		this.shape1.addChild(this.shape130);
-		this.vehicleBody = new ModelRenderer(this, 0, 0);
-		this.vehicleBody.addBox(-4.0F, 0.0F, -2.0F, 0, 0, 0);
-		this.vehicleBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.addChildTo(shape1, vehicleBody);
+		this.vehicleBody.addChild(this.shape4);
+		this.vehicleBody.addChild(this.shape130);
 		this.addChildTo(shape30, vehicleBody);
 		this.addChildTo(shape56, vehicleBody);
 		this.addChildTo(shape40, vehicleBody);
