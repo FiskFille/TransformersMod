@@ -1040,7 +1040,7 @@ public class ModelSkystrike extends MowzieModelBase
 						float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
 						float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
 
-						double speed = Math.sqrt((player.motionX * player.motionX) + (player.motionZ * player.motionZ));
+						double speed = Math.sqrt((player.motionX * player.motionX) + (player.motionZ * player.motionZ)) * 1.2D;
 
 						waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 
@@ -1092,6 +1092,8 @@ public class ModelSkystrike extends MowzieModelBase
 						
 						this.waist.rotateAngleX += (f * 0.15F);
 						
+						this.headbase.rotateAngleX += (f * -0.15F);
+						
 						this.shoulderR.rotateAngleX += f * -0.15F;
 						this.shoulderL.rotateAngleX += f * -0.15F;
 						
@@ -1130,6 +1132,16 @@ public class ModelSkystrike extends MowzieModelBase
 
 					this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
 					this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
+				
+			        if (this.heldItemLeft != 0)
+			        {
+			            this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
+			        }
+
+			        if (this.heldItemRight != 0)
+			        {
+			            this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
+			        }
 				}
 			}
 		}

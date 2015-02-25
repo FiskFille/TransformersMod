@@ -12,7 +12,7 @@ import fiskfille.tf.helper.TFHelper;
 
 public class ModelPurge extends MowzieModelBase
 {
-	public MowzieModelRenderer upperLeg1;
+	public MowzieModelRenderer upperLegR;
 	public MowzieModelRenderer upperLegPanel1;
 	public MowzieModelRenderer lowerLeg1;
 	public MowzieModelRenderer lowerLegPanel1;
@@ -36,11 +36,11 @@ public class ModelPurge extends MowzieModelBase
 	public MowzieModelRenderer missileLauncher;
 	public MowzieModelRenderer hipPanel1;
 	public MowzieModelRenderer hipPanel2;
-	public MowzieModelRenderer upperArm2;
+	public MowzieModelRenderer upperArmL;
 	public MowzieModelRenderer shoulderPad2;
 	public MowzieModelRenderer lowerArm2;
 	public MowzieModelRenderer lowerArmPanel2;
-	public MowzieModelRenderer upperArm1;
+	public MowzieModelRenderer upperArmR;
 	public MowzieModelRenderer shoulderPad1;
 	public MowzieModelRenderer lowerArm1;
 	public MowzieModelRenderer lowerArmPanel1;
@@ -52,7 +52,7 @@ public class ModelPurge extends MowzieModelBase
 	public MowzieModelRenderer horn1;
 	public MowzieModelRenderer horn2;
 	public MowzieModelRenderer centerHorn;
-	public MowzieModelRenderer upperLeg2;
+	public MowzieModelRenderer upperLegL;
 	public MowzieModelRenderer upperLegPanel2;
 	public MowzieModelRenderer lowerLeg2;
 	public MowzieModelRenderer lowerLegPanel2;
@@ -97,10 +97,10 @@ public class ModelPurge extends MowzieModelBase
 		this.head = new MowzieModelRenderer(this, 0, 0);
 		this.head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		this.head.addBox(-2.0F, -4.0F, -2.0F, 4, 4, 4, 0.0F);
-		this.upperLeg2 = new MowzieModelRenderer(this, 0, 16);
-		this.upperLeg2.setRotationPoint(1.9F, 12.0F, 0.0F);
-		this.upperLeg2.addBox(-1.0F, 0.0F, -1.5F, 2, 5, 3, 0.0F);
-		this.setRotation(upperLeg2, 0.0F, -0.0F, -0.05235987755982988F);
+		this.upperLegL = new MowzieModelRenderer(this, 0, 16);
+		this.upperLegL.setRotationPoint(1.9F, 12.0F, 0.0F);
+		this.upperLegL.addBox(-1.0F, 0.0F, -1.5F, 2, 5, 3, 0.0F);
+		this.setRotation(upperLegL, 0.0F, -0.0F, -0.05235987755982988F);
 		this.turret = new MowzieModelRenderer(this, 21, 64);
 		this.turret.setRotationPoint(0.0F, -8.0F, 2.0F);
 		this.turret.addBox(-3.0F, -3.0F, -3.0F, 6, 4, 7, 0.0F);
@@ -132,11 +132,11 @@ public class ModelPurge extends MowzieModelBase
 		this.lowerLegPanel2.setRotationPoint(0.0F, 5.0F, -1.5F);
 		this.lowerLegPanel2.addBox(-1.5F, -4.0F, -0.5F, 3, 4, 1, 0.0F);
 		this.setRotation(lowerLegPanel2, 0.008726646259971648F, -0.17453292519943295F, 0.0F);
-		this.upperArm2 = new MowzieModelRenderer(this, 36, 21);
-		this.upperArm2.mirror = true;
-		this.upperArm2.setRotationPoint(4.0F, 1.0F, 0.0F);
-		this.upperArm2.addBox(0.0F, -1.0F, -1.5F, 2, 6, 3, 0.0F);
-		this.setRotation(upperArm2, 0.0F, -0.0F, -0.13962633907794952F);
+		this.upperArmL = new MowzieModelRenderer(this, 36, 21);
+		this.upperArmL.mirror = true;
+		this.upperArmL.setRotationPoint(4.0F, 1.0F, 0.0F);
+		this.upperArmL.addBox(0.0F, -1.0F, -1.5F, 2, 6, 3, 0.0F);
+		this.setRotation(upperArmL, 0.0F, -0.0F, -0.13962633907794952F);
 		this.gun = new MowzieModelRenderer(this, 38, 69);
 		this.gun.setRotationPoint(0.0F, -1.1F, -3.0F);
 		this.gun.addBox(-1.0F, -1.0F, -9.0F, 2, 2, 11, 0.0F);
@@ -163,10 +163,10 @@ public class ModelPurge extends MowzieModelBase
 		this.upperLegPanel2.setRotationPoint(0.0F, 5.5F, -1.5F);
 		this.upperLegPanel2.addBox(-1.5F, -5.0F, -0.5F, 3, 5, 1, 0.0F);
 		this.setRotation(upperLegPanel2, 0.008726646259971648F, -0.17453292519943295F, 0.0F);
-		this.upperLeg1 = new MowzieModelRenderer(this, 0, 16);
-		this.upperLeg1.setRotationPoint(-1.9F, 12.0F, 0.0F);
-		this.upperLeg1.addBox(-1.0F, 0.0F, -1.5F, 2, 5, 3, 0.0F);
-		this.setRotation(upperLeg1, 0.0F, -0.0F, 0.05235987755982988F);
+		this.upperLegR = new MowzieModelRenderer(this, 0, 16);
+		this.upperLegR.setRotationPoint(-1.9F, 12.0F, 0.0F);
+		this.upperLegR.addBox(-1.0F, 0.0F, -1.5F, 2, 5, 3, 0.0F);
+		this.setRotation(upperLegR, 0.0F, -0.0F, 0.05235987755982988F);
 		this.turretSights = new MowzieModelRenderer(this, 40, 65);
 		this.turretSights.setRotationPoint(0.0F, 0.0F, -2.0F);
 		this.turretSights.addBox(-4.5F, -2.5F, 1.0F, 9, 2, 3, 0.0F);
@@ -199,10 +199,10 @@ public class ModelPurge extends MowzieModelBase
 		this.backKibble.setRotationPoint(0.0F, -1.0F, 0.0F);
 		this.backKibble.addBox(-3.0F, -6.0F, -0.5F, 6, 6, 5, 0.0F);
 		this.setRotation(backKibble, -0.3490658503988659F, -0.0F, 0.0F);
-		this.upperArm1 = new MowzieModelRenderer(this, 36, 21);
-		this.upperArm1.setRotationPoint(-4.0F, 1.0F, 0.0F);
-		this.upperArm1.addBox(-2.0F, -1.0F, -1.5F, 2, 6, 3, 0.0F);
-		this.setRotation(upperArm1, 0.0F, 0.0F, 0.13962634015954636F);
+		this.upperArmR = new MowzieModelRenderer(this, 36, 21);
+		this.upperArmR.setRotationPoint(-4.0F, 1.0F, 0.0F);
+		this.upperArmR.addBox(-2.0F, -1.0F, -1.5F, 2, 6, 3, 0.0F);
+		this.setRotation(upperArmR, 0.0F, 0.0F, 0.13962634015954636F);
 		this.turretRear = new MowzieModelRenderer(this, 46, 90);
 		this.turretRear.setRotationPoint(0.0F, 0.0F, 0.0F);
 		this.turretRear.addBox(-2.5F, -2.3F, 3.0F, 5, 3, 4, 0.0F);
@@ -275,7 +275,7 @@ public class ModelPurge extends MowzieModelBase
 		this.hipPanel2.setRotationPoint(3.3F, 1.3F, 0.0F);
 		this.hipPanel2.addBox(-0.5F, -1.0F, -1.5F, 1, 6, 3, 0.0F);
 		this.setRotation(hipPanel2, 0.0F, -0.0F, -0.03490658503988659F);
-		this.upperArm2.addChild(this.shoulderPad2);
+		this.upperArmL.addChild(this.shoulderPad2);
 		this.backKibble.addChild(this.turret);
 		this.head.addChild(this.helmetBack);
 		this.head.addChild(this.centerHorn);
@@ -287,12 +287,12 @@ public class ModelPurge extends MowzieModelBase
 		this.turret.addChild(this.turretFront);
 		this.head.addChild(this.helmetLeft);
 		this.head.addChild(this.horn1);
-		this.upperArm1.addChild(this.lowerArm1);
-		this.upperLeg2.addChild(this.upperLegPanel2);
+		this.upperArmR.addChild(this.lowerArm1);
+		this.upperLegL.addChild(this.upperLegPanel2);
 		this.turret.addChild(this.turretSights);
 		this.backKibble.addChild(this.tread2);
 		this.stomach.addChild(this.chest);
-		this.upperLeg2.addChild(this.lowerLeg2);
+		this.upperLegL.addChild(this.lowerLeg2);
 		this.lowerLeg1.addChild(this.foot1);
 		this.chest.addChild(this.chestSlab2);
 		this.turretRear.addChild(this.missileLauncher);
@@ -301,26 +301,26 @@ public class ModelPurge extends MowzieModelBase
 		this.lowerLeg1.addChild(this.footCylinder1);
 		this.head.addChild(this.helmetTop);
 		this.lowerLeg2.addChild(this.foot2);
-		this.upperLeg1.addChild(this.lowerLeg1);
+		this.upperLegR.addChild(this.lowerLeg1);
 		this.lowerArm1.addChild(this.lowerArmPanel1);
 		this.lowerLeg1.addChild(this.lowerLegPanel1);
 		this.waist.addChild(this.hipSlab2);
 		this.lowerArm2.addChild(this.lowerArmPanel2);
 		this.waist.addChild(this.stomach);
-		this.upperArm2.addChild(this.lowerArm2);
+		this.upperArmL.addChild(this.lowerArm2);
 		this.waist.addChild(this.hipSlab1);
-		this.upperLeg1.addChild(this.upperLegPanel1);
+		this.upperLegR.addChild(this.upperLegPanel1);
 		this.hipSlab1.addChild(this.hipPanel1);
 		this.head.addChild(this.helmetRight);
-		this.upperArm1.addChild(this.shoulderPad1);
+		this.upperArmR.addChild(this.shoulderPad1);
 		this.head.addChild(this.horn2);
 		this.hipSlab2.addChild(this.hipPanel2);
 		this.chest.addChild(head);
 		this.bipedBody.addChild(waist);
-		this.chest.addChild(upperArm1);
-		this.chest.addChild(upperArm2);
-		this.waist.addChild(upperLeg1);
-		this.waist.addChild(upperLeg2);
+		this.chest.addChild(upperArmR);
+		this.chest.addChild(upperArmL);
+		this.waist.addChild(upperLegR);
+		this.waist.addChild(upperLegL);
 
 
 		this.vehicleTread2 = new MowzieModelRenderer(this, 0, 64);
@@ -404,7 +404,7 @@ public class ModelPurge extends MowzieModelBase
 		this.vehicleBody.addChild(this.vehicleTrackcover1);
 		this.vehicleTurret.addChild(this.vehicleGun);
 
-		parts = new MowzieModelRenderer[]{upperLeg2, lowerLeg2, foot2, footCylinder2, lowerLegPanel2, upperLegPanel2, upperLeg1, lowerLeg1, foot1, footCylinder1, lowerLegPanel1, upperLegPanel1, waist, stomach, hipSlab1, hipSlab2, chest, backKibble, chestSlab1, chestSlab2, tread1, tread2, turret, gun, turretFront, turretSights, turretRear, missileLauncher, hipPanel1, hipPanel2, upperArm2, shoulderPad2, lowerArm2, lowerArmPanel2, upperArm1, shoulderPad1, lowerArm1, lowerArmPanel1, head, helmetRight, helmetLeft, helmetTop, helmetBack, horn1, horn2, centerHorn};
+		parts = new MowzieModelRenderer[]{upperLegL, lowerLeg2, foot2, footCylinder2, lowerLegPanel2, upperLegPanel2, upperLegR, lowerLeg1, foot1, footCylinder1, lowerLegPanel1, upperLegPanel1, waist, stomach, hipSlab1, hipSlab2, chest, backKibble, chestSlab1, chestSlab2, tread1, tread2, turret, gun, turretFront, turretSights, turretRear, missileLauncher, hipPanel1, hipPanel2, upperArmL, shoulderPad2, lowerArm2, lowerArmPanel2, upperArmR, shoulderPad1, lowerArm1, lowerArmPanel1, head, helmetRight, helmetLeft, helmetTop, helmetBack, horn1, horn2, centerHorn};
 		setInitPose();
 	}
 
@@ -424,8 +424,8 @@ public class ModelPurge extends MowzieModelBase
 			if(wearingLegs && wearingHead && !wearingChest)
 			{
 				head.render(f5);
-				upperLeg1.render(f5);
-				upperLeg2.render(f5);
+				upperLegR.render(f5);
+				upperLegL.render(f5);
 			}
 			else if(wearingHead && !wearingChest)
 			{
@@ -433,8 +433,8 @@ public class ModelPurge extends MowzieModelBase
 			}
 			else if(wearingLegs && !wearingChest)
 			{
-				upperLeg1.render(f5);
-				upperLeg2.render(f5);
+				upperLegR.render(f5);
+				upperLegL.render(f5);
 			}
 			else
 			{
@@ -471,19 +471,19 @@ public class ModelPurge extends MowzieModelBase
 
 			if(wearingChest || wearingHead && !wearingLegs)
 			{
-				this.upperLeg1.rotationPointY = 0;
-				this.upperLeg2.rotationPointY = 0;
+				this.upperLegR.rotationPointY = 0;
+				this.upperLegL.rotationPointY = 0;
 			}
 
-			this.upperArm1.rotationPointX = 1;
-			this.upperArm2.rotationPointX = -1;
+			this.upperArmR.rotationPointX = 1;
+			this.upperArmL.rotationPointX = -1;
 			this.vehicleTurret.rotationPointZ = -1;
 
 			//Walk animation
-			upperArm1.rotationPointX -= 5;
-			upperArm2.rotationPointX += 5;
-			upperArm1.rotationPointY -= 5;
-			upperArm2.rotationPointY -= 5;
+			upperArmR.rotationPointX -= 5;
+			upperArmL.rotationPointX += 5;
+			upperArmR.rotationPointY -= 5;
+			upperArmL.rotationPointY -= 5;
 			backKibble.rotationPointY += 5;
 
 			waist.rotationPointY += 1;
@@ -494,8 +494,8 @@ public class ModelPurge extends MowzieModelBase
 			}
 
 			head.showModel = wearingHead;
-			upperLeg1.showModel = wearingLegs;
-			upperLeg2.showModel = wearingLegs;
+			upperLegR.showModel = wearingLegs;
+			upperLegL.showModel = wearingLegs;
 
 			boolean sneaking = entity.isSneaking();
 
@@ -527,10 +527,10 @@ public class ModelPurge extends MowzieModelBase
 				if(entity.onGround || player.capabilities.isFlying)
 				{
 					//New pose!
-					upperLeg1.rotateAngleY += 0.2;
-					upperLeg2.rotateAngleY -= 0.2;
-					upperLeg1.rotateAngleX -= 0.4;
-					upperLeg2.rotateAngleX -= 0.4;
+					upperLegR.rotateAngleY += 0.2;
+					upperLegL.rotateAngleY -= 0.2;
+					upperLegR.rotateAngleX -= 0.4;
+					upperLegL.rotateAngleX -= 0.4;
 					lowerLeg1.rotateAngleX += 0.6;
 					lowerLeg2.rotateAngleX += 0.6;
 					foot1.rotateAngleX -= 0.3;
@@ -551,14 +551,14 @@ public class ModelPurge extends MowzieModelBase
 					swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
 					head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
 
-					swing(upperLeg1, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
-					swing(upperLeg2, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
-					walk(upperLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
-					walk(upperLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
+					swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
+					swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
+					walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
+					walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
 					walk(lowerLeg1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
 					walk(lowerLeg2, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
-					walk(upperArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-					walk(upperArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+					walk(upperArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+					walk(upperArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
 					walk(lowerArm1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
 					walk(lowerArm2, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
 
@@ -572,11 +572,11 @@ public class ModelPurge extends MowzieModelBase
 					walk(stomach, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 					walk(chest, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
 					walk(head, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-					walk(upperArm1, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-					walk(upperArm2, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
 
-					flap(upperArm1, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-					flap(upperArm2, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
+					flap(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
 					walk(lowerArm1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 					walk(lowerArm2, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 
@@ -585,20 +585,20 @@ public class ModelPurge extends MowzieModelBase
 						waist.rotationPointY += 3;
 						stomach.rotateAngleX += 0.5;
 						head.rotateAngleX -= 0.5;
-						upperLeg1.rotateAngleX -= 0.7;
-						upperLeg2.rotateAngleX -= 0.7;
-						upperLeg1.rotateAngleY += 0.2;
-						upperLeg2.rotateAngleY -= 0.2;
+						upperLegR.rotateAngleX -= 0.7;
+						upperLegL.rotateAngleX -= 0.7;
+						upperLegR.rotateAngleY += 0.2;
+						upperLegL.rotateAngleY -= 0.2;
 						lowerLeg1.rotateAngleX += 1.1;
 						lowerLeg2.rotateAngleX += 1.1;
 						foot1.rotateAngleX -= 0.5;
 						foot2.rotateAngleX -= 0.5;
 						foot1.rotationPointY += 2;
 						foot2.rotationPointY += 2;
-						upperArm1.rotateAngleX -= 0.5;
-						upperArm2.rotateAngleX -= 0.5;
-						upperArm1.rotateAngleZ += 0.5;
-						upperArm2.rotateAngleZ -= 0.5;
+						upperArmR.rotateAngleX -= 0.5;
+						upperArmL.rotateAngleX -= 0.5;
+						upperArmR.rotateAngleZ += 0.5;
+						upperArmL.rotateAngleZ -= 0.5;
 						lowerArm1.rotateAngleZ -= 0.5;
 						lowerArm2.rotateAngleZ += 0.5;
 					}
@@ -614,43 +614,53 @@ public class ModelPurge extends MowzieModelBase
 					chest.rotateAngleX -= 0.4 * upwardPose;
 					head.rotateAngleX += 0.6 * upwardPose;
 					
-					upperArm1.rotateAngleX += 0.1 * upwardPose;
-					upperArm2.rotateAngleX += 0.1 * upwardPose;
-					upperArm1.rotateAngleZ -= 0.1 * upwardPose;
-					upperArm2.rotateAngleZ += 0.1 * upwardPose;
+					upperArmR.rotateAngleX += 0.1 * upwardPose;
+					upperArmL.rotateAngleX += 0.1 * upwardPose;
+					upperArmR.rotateAngleZ -= 0.1 * upwardPose;
+					upperArmL.rotateAngleZ += 0.1 * upwardPose;
 					lowerArm1.rotateAngleX += 0.2 * upwardPose;
 					lowerArm2.rotateAngleX += 0.2 * upwardPose;
 					
-					upperLeg1.rotateAngleX += 0.2 * upwardPose;
-					upperLeg2.rotateAngleX -= 1 * upwardPose;
+					upperLegR.rotateAngleX += 0.2 * upwardPose;
+					upperLegL.rotateAngleX -= 1 * upwardPose;
 					lowerLeg1.rotateAngleX += 0.3 * upwardPose;
 					lowerLeg2.rotateAngleX += 1.5 * upwardPose;
 
-					walk(upperLeg1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
-					walk(upperLeg2, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
+					walk(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
+					walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
 					walk(lowerLeg1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
 					walk(lowerLeg2, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
 					waist.rotateAngleX -= 0.2 * downwardPose;
 					stomach.rotateAngleX += 0.3 * downwardPose;
 					chest.rotateAngleX += 0.3 * downwardPose;
 					head.rotateAngleX += 0.3 * downwardPose;
-					upperLeg1.rotateAngleX -= 1.2 * downwardPose;
-					upperLeg2.rotateAngleX -= 0.2 * downwardPose;
+					upperLegR.rotateAngleX -= 1.2 * downwardPose;
+					upperLegL.rotateAngleX -= 0.2 * downwardPose;
 					lowerLeg1.rotateAngleX += 2 * downwardPose;
 					lowerLeg2.rotateAngleX += 0.5 * downwardPose;
-					upperArm1.rotateAngleZ += 1 * downwardPose;
-					upperArm2.rotateAngleZ -= 1 * downwardPose;
+					upperArmR.rotateAngleZ += 1 * downwardPose;
+					upperArmL.rotateAngleZ -= 1 * downwardPose;
 					lowerArm1.rotateAngleX -= 1 * downwardPose;
 					lowerArm2.rotateAngleX -= 1 * downwardPose;
 				}
 			}
 			else //If not fully suited
 			{
-				this.upperArm2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-				this.upperArm1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+				this.upperArmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+				this.upperArmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
-				this.upperLeg1.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-				this.upperLeg2.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+				this.upperLegR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+				this.upperLegL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+		
+		        if (this.heldItemLeft != 0)
+		        {
+		            this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
+		        }
+
+		        if (this.heldItemRight != 0)
+		        {
+		            this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
+		        }
 			}
 
 			float transformProgress = (float)(20 - TFDataManager.getTransformationTimer(player)) / 20;
@@ -669,16 +679,16 @@ public class ModelPurge extends MowzieModelBase
 			shoulderPad2.rotateAngleX += Math.PI/2 * transformProgressSin;
 			shoulderPad1.rotationPointY -= 5 * transformProgressSin;
 			shoulderPad2.rotationPointY -= 5 * transformProgressSin;
-			upperArm1.rotationPointY += 5 * transformProgressSin;
-			upperArm2.rotationPointY += 5 * transformProgressSin;
+			upperArmR.rotationPointY += 5 * transformProgressSin;
+			upperArmL.rotationPointY += 5 * transformProgressSin;
 			backKibble.rotationPointZ -= 2 * transformProgressSin;
 			tread1.rotationPointZ += 2 * transformProgressSin;
 			tread2.rotationPointZ += 2 * transformProgressSin;
 			turret.rotationPointZ += 2 * transformProgressSin;
 			turret.rotateAngleX += 0.5 * transformProgressSin;
 			gun.rotateAngleX -= 0.5 * transformProgressSin;
-			upperLeg1.rotateAngleX -= Math.PI * transformProgressSin;
-			upperLeg2.rotateAngleX -= Math.PI * transformProgressSin;
+			upperLegR.rotateAngleX -= Math.PI * transformProgressSin;
+			upperLegL.rotateAngleX -= Math.PI * transformProgressSin;
 			lowerLeg1.rotateAngleX += Math.PI * transformProgressSin;
 			lowerLeg2.rotateAngleX += Math.PI * transformProgressSin;
 			hipPanel1.rotateAngleZ -= Math.PI/2 * transformProgressSin;
