@@ -1,15 +1,16 @@
 package fiskfille.tf.client.model.player;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.transformer.ModelChildBase;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.transformer.ModelChildBase;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.helper.TFModelHelper;
 
 @SideOnly(Side.CLIENT)
 public class ModelPlayerTF extends ModelChildBase.Biped

@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelDisplayPillar;
 import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;

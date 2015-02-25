@@ -1,14 +1,13 @@
 package fiskfille.tf.client.model.transformer;
 
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.playerdata.TFDataManager;
 
 public class ModelChildBase
 {

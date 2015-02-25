@@ -1,8 +1,8 @@
 package fiskfille.tf.client.model.tools;
 
+import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.util.MathHelper;
 
 /**
  * This is a timer that can be used to easily animate models between poses. You

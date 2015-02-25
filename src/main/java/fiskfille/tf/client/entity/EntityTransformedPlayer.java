@@ -1,12 +1,11 @@
 package fiskfille.tf.client.entity;
 
-import fiskfille.tf.common.playerdata.TFDataManager;
-import scala.annotation.tailrec;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import fiskfille.tf.common.playerdata.TFDataManager;
 
 public class EntityTransformedPlayer extends EntityLivingBase
 {

@@ -1,9 +1,5 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.model.ModelRenderer;
 
 public class ModelSkystrikeVehicle extends ModelVehicleBase

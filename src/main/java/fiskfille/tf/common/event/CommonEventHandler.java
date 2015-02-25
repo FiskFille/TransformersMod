@@ -1,6 +1,5 @@
 package fiskfille.tf.common.event;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;

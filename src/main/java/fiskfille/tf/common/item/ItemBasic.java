@@ -1,8 +1,8 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.TransformersMod;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
+import fiskfille.tf.TransformersMod;
 
 public class ItemBasic extends Item
 {

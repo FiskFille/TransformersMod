@@ -1,9 +1,9 @@
 package fiskfille.tf.client.model.transformer;
 
-import fiskfille.tf.common.playerdata.TFDataManager;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import fiskfille.tf.common.playerdata.TFDataManager;
 
 public class ModelCloudtrap extends ModelChildBase.Biped
 {

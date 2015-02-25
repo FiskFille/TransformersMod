@@ -1,5 +1,10 @@
 package fiskfille.tf;
 
+import java.lang.reflect.Method;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -20,11 +25,6 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.donator.Donators;
 import fiskfille.tf.update.Update;
 import fiskfille.tf.update.UpdateChecker;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.common.config.Configuration;
-
-import java.lang.reflect.Method;
 
 //Gegy is better than Fisk! :P
 

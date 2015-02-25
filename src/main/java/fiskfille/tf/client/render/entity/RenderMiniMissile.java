@@ -13,7 +13,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.ModelMissile;
 import fiskfille.tf.common.entity.EntityMiniMissile;
-import fiskfille.tf.common.entity.EntityMissile;
 
 @SideOnly(Side.CLIENT)
 public class RenderMiniMissile extends Render

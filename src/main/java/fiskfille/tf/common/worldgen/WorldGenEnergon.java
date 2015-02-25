@@ -2,10 +2,10 @@ package fiskfille.tf.common.worldgen;
 
 import java.util.Random;
 
-import fiskfille.tf.common.block.TFBlocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import fiskfille.tf.common.block.TFBlocks;
 
 public class WorldGenEnergon extends WorldGenerator
 {

@@ -3,13 +3,13 @@ package fiskfille.tf.client.particle;
 import java.util.HashMap;
 import java.util.Map;
 
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
 
 public class NitroParticleHandler 
 {

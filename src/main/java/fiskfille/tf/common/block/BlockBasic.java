@@ -2,11 +2,11 @@ package fiskfille.tf.common.block;
 
 import java.util.Random;
 
-import fiskfille.tf.TransformersMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
+import fiskfille.tf.TransformersMod;
 
 public class BlockBasic extends Block
 {

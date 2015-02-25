@@ -7,9 +7,6 @@ import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
 import java.util.Random;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -24,6 +21,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.tileentity.TileEntityCrystal;
 
 public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider
 {

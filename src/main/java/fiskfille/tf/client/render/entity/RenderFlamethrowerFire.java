@@ -3,12 +3,7 @@ package fiskfille.tf.client.render.entity;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.entity.EntityFlamethrowerFire;
-import fiskfille.tf.common.entity.EntityTransformiumSeed;
 
 public class RenderFlamethrowerFire extends Render
 {	

@@ -1,9 +1,9 @@
 package fiskfille.tf.common.container;
 
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
 public class ContainerDisplayPillar extends ContainerBasic
 {

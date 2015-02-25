@@ -1,6 +1,12 @@
 package fiskfille.tf.common.playerdata;
 
-import fiskfille.tf.client.model.tools.ControlledAnimation;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
@@ -9,13 +15,6 @@ import fiskfille.tf.common.packet.PacketUpdateTransformationStates;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class TFDataManager 
 {

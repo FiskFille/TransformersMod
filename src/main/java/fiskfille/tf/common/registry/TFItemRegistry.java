@@ -1,7 +1,5 @@
 package fiskfille.tf.common.registry;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;

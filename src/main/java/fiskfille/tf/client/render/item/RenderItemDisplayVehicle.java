@@ -10,12 +10,7 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.vehicle.ModelCloudtrapVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelPurgeVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelSubwooferVehicle;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
-import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class RenderItemDisplayVehicle implements IItemRenderer

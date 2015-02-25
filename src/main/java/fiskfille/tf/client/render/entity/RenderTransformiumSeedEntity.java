@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
-import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 
 public class RenderTransformiumSeedEntity extends Render

@@ -2,8 +2,6 @@ package fiskfille.tf.common.item;
 
 import java.util.List;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -18,6 +16,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.helper.TFHelper;
 
 public class ItemSkystrikesCrossbow extends ItemSword
 {

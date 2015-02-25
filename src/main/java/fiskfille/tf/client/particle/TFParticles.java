@@ -2,7 +2,6 @@ package fiskfille.tf.client.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.world.World;
 
 public class TFParticles

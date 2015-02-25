@@ -1,10 +1,10 @@
 package fiskfille.tf.common.transformer.base;
 
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.common.playerdata.TFDataManager;
 
 public abstract class Transformer 
 {

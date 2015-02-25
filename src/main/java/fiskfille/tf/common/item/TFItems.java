@@ -1,8 +1,9 @@
 package fiskfille.tf.common.item;
 
-import java.util.ArrayList;
-
-import fiskfille.tf.TransformersAPI;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
 import fiskfille.tf.common.item.armor.ItemPurgeArmor;
@@ -10,11 +11,6 @@ import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
 import fiskfille.tf.common.item.armor.ItemSubwooferArmor;
 import fiskfille.tf.common.item.armor.ItemVurpArmor;
 import fiskfille.tf.common.registry.TFItemRegistry;
-import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.common.util.EnumHelper;
 
 public class TFItems
 {

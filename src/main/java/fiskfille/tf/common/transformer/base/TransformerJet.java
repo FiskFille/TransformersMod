@@ -1,5 +1,15 @@
 package fiskfille.tf.common.transformer.base;
 
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.entity.EntityMissile;
@@ -12,16 +22,6 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
-
-import java.util.Random;
 
 public abstract class TransformerJet extends Transformer
 {

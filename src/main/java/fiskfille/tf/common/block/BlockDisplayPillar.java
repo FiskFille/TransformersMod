@@ -2,10 +2,6 @@ package fiskfille.tf.common.block;
 
 import java.util.Random;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.item.ItemMiniVehicle;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -18,6 +14,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.item.ItemMiniVehicle;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
 public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvider
 {
