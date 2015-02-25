@@ -27,6 +27,10 @@ public abstract class Transformer
 		return name;
 	}
 	
+	public void robotTick(EntityPlayer player)
+	{
+	}
+	
 	public void transformationTick(EntityPlayer player, int timer)
 	{
 	}

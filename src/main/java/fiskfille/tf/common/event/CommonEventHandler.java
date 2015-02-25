@@ -233,6 +233,18 @@ public class CommonEventHandler
 
 			boolean vehicleMode = TFDataManager.isInVehicleMode(player);
 
+			if(transformer != null)
+			{
+				if(vehicleMode)
+				{
+					transformer.vehicleTick(player);
+				}
+				else
+				{
+					transformer.robotTick(player);
+				}
+			}
+			
 			if(player.worldObj.isRemote)
 			{
 				if (player == Minecraft.getMinecraft().thePlayer)

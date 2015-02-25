@@ -5,6 +5,8 @@ import net.minecraft.item.Item;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 
 public class TransformerSkystrike extends TransformerJet
@@ -51,9 +53,9 @@ public class TransformerSkystrike extends TransformerJet
 	}
 	
 	@Override
-	public void vehicleTick(EntityPlayer player)
+	public void robotTick(EntityPlayer player)
 	{
-		if (!player.capabilities.isFlying)
+		if (!player.capabilities.isFlying && !(TFDataManager.getTransformationTimer(player) < 10))
 		{
 			if (player.motionY < 0.0D)
 			{
@@ -64,5 +66,10 @@ public class TransformerSkystrike extends TransformerJet
 				player.motionY += 0.02D;
 			}
 		}
+	}
+	
+	@Override
+	public void vehicleTick(EntityPlayer player)
+	{
 	}
 }
