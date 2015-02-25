@@ -1029,7 +1029,7 @@ public class ModelSkystrike extends MowzieModelBase
 						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
 					}
-					else
+					else// if(!player.isWet())
 					{
 						float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
 						float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
@@ -1053,7 +1053,7 @@ public class ModelSkystrike extends MowzieModelBase
 						upperlegL.rotateAngleX += 0.2 * upwardPose;
 						lowerlegR.rotateAngleX += 0.5 * upwardPose;
 						lowerlegL.rotateAngleX += 0.5 * upwardPose;
-
+						
 						waist.rotateAngleX += speed * downwardPose;
 						
 						upperarmR.rotateAngleZ += 1 * downwardPose;
@@ -1061,7 +1061,7 @@ public class ModelSkystrike extends MowzieModelBase
 						lowerarmR1.rotateAngleX -= 1 * downwardPose;
 						lowerarmL1.rotateAngleX -= 1 * downwardPose;
 					}
-
+					
 					int timer = TFDataManager.getTransformationTimer(player);
 
 					if (timer == 0)
