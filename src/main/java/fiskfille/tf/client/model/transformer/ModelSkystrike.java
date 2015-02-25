@@ -1080,7 +1080,6 @@ public class ModelSkystrike extends MowzieModelBase
 					else 
 					{
 						int t = TFDataManager.getTransformationTimer(player);
-						//t = 1;
 						float f = (float) (20 - t) / 2;
 						
 						this.waist.rotateAngleX += (f * 0.15F);
@@ -1102,8 +1101,18 @@ public class ModelSkystrike extends MowzieModelBase
 						this.wingR1.rotationPointZ += f * 0.5F;
 						this.wingL1.rotationPointZ += f * 0.5F;
 						
+						this.wingR1.rotationPointY += f * 0.5F;
+						this.wingL1.rotationPointY += f * 0.5F;
+						
+						this.wingR1.rotateAngleX += f * 0.1F;
+						this.wingL1.rotateAngleX += f * 0.1F;
+						
 						this.wingR1.rotateAngleY += f * 0.2F;
 						this.wingL1.rotateAngleY += -f * 0.2F;
+						
+						this.cockpit1.rotateAngleZ += f * 0.33F;
+						this.cockpit1.rotationPointY += f * 0.1F;
+						this.cockpit1.rotationPointZ += f * -0.2F;
 						
 //						this.lowerArmL1.rotateAngleZ = f * 0.05F;
 //						this.lowerArmR1.rotateAngleZ = f * -0.05F;
