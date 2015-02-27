@@ -980,6 +980,13 @@ public class ModelSkystrike extends MowzieModelBase
 					globalDegree = 0.5F;
 				}
 
+				boolean sneaking = player.isSneaking();
+				if (sneaking)
+				{
+					globalDegree = 1.5F;
+					globalSpeed = 1.3F;
+				}
+				
 				if (wearingHead && wearingLegs && wearingChest)
 				{
 					if (entity.onGround || player.capabilities.isFlying)
@@ -1000,12 +1007,12 @@ public class ModelSkystrike extends MowzieModelBase
 						walk(upperLegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
 						walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F* backwardInverter, 0F, par1, par2);
 						walk(lowerLegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
-						walk(feetbaseL, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0.5F* backwardInverter, 0.3F, par1, par2);
+						walk(feetbaseL, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0.5F* backwardInverter, 0.3F, par1, par2);
 
 						walk(upperLegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
 						walk(middlelegR, 0.5F * globalSpeed, 1F * globalDegree, false, 1F* backwardInverter, 0F, par1, par2);
 						walk(lowerLegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
-						walk(feetbaseR, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0.5F* backwardInverter, 0.3F, par1, par2);
+						walk(feetbaseR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0.5F* backwardInverter, 0.3F, par1, par2);
 
 						walk(shoulderL, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
 						walk(shoulderR, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
@@ -1027,6 +1034,56 @@ public class ModelSkystrike extends MowzieModelBase
 						flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
 						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
+						
+						if (sneaking) 
+						{
+							waist.rotateAngleX += 0.5F;
+							waist.rotationPointZ -= 6F;
+							waist.rotationPointY += 0.2F;
+							
+							headbase.rotateAngleX -= 0.5;
+							upperLegR.rotateAngleX -= 0.7;
+							upperLegL.rotateAngleX -= 0.7;
+							upperLegR.rotateAngleY += 0.2;
+							upperLegL.rotateAngleY -= 0.2;
+							lowerLegR.rotateAngleX -= 0.1;
+							lowerLegL.rotateAngleX -= 0.1;
+							feetbaseL.rotateAngleX += 0.5F;
+							feetbaseR.rotateAngleX += 0.5F;
+							feetbaseR.rotationPointY += 2;
+							feetbaseL.rotationPointY += 2;
+							upperArmR.rotateAngleX -= 0.5;
+							upperArmL.rotateAngleX -= 0.5;
+							upperArmR.rotateAngleZ += 0.5;
+							upperArmL.rotateAngleZ -= 0.5;
+							lowerArmR1.rotateAngleZ -= 0.5;
+							lowerArmL1.rotateAngleZ += 0.5;
+							
+//							waist.rotateAngleX += 0.4F;
+//							waist.rotationPointY += 1F;
+//							headbase.rotateAngleX -= 0.4F;
+//							
+//							upperArmL.rotateAngleZ -= 0.3F;
+//							upperArmL.rotateAngleX -= 0.2F;
+//							
+//							upperArmR.rotateAngleZ += 0.3F;
+//							upperArmR.rotateAngleX -= 0.2F;
+//							
+//							lowerArmL1.rotateAngleX -= 0.5F;
+//							lowerArmL1.rotateAngleZ += 0.4F;
+//							
+//							lowerArmR1.rotateAngleX -= 0.5F;
+//							lowerArmR1.rotateAngleZ -= 0.4F;
+//							
+//							upperLegL.rotateAngleX -= 0.7F;
+//							upperLegR.rotateAngleX -= 0.7F;
+//							
+//							upperLegL.rotateAngleY -= 0.3F;
+//							upperLegR.rotateAngleY += 0.3F;
+//							
+//							feetbaseL.rotateAngleX += 0.5F;
+//							feetbaseR.rotateAngleX += 0.5F;
+						}
 					}
 					else// if(!player.isWet())
 					{
