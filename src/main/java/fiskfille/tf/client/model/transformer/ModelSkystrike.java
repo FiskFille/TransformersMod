@@ -1004,6 +1004,9 @@ public class ModelSkystrike extends MowzieModelBase
 						swing(upperLegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
 						swing(upperLegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
 
+						walk(buttflapL, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0F, 0.2F, par1, par2);
+						walk(buttflapR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0F, 0.2F, par1, par2);
+						
 						walk(upperLegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
 						walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F* backwardInverter, 0F, par1, par2);
 						walk(lowerLegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
@@ -1058,31 +1061,6 @@ public class ModelSkystrike extends MowzieModelBase
 							upperArmL.rotateAngleZ -= 0.5;
 							lowerArmR1.rotateAngleZ -= 0.5;
 							lowerArmL1.rotateAngleZ += 0.5;
-							
-//							waist.rotateAngleX += 0.4F;
-//							waist.rotationPointY += 1F;
-//							headbase.rotateAngleX -= 0.4F;
-//							
-//							upperArmL.rotateAngleZ -= 0.3F;
-//							upperArmL.rotateAngleX -= 0.2F;
-//							
-//							upperArmR.rotateAngleZ += 0.3F;
-//							upperArmR.rotateAngleX -= 0.2F;
-//							
-//							lowerArmL1.rotateAngleX -= 0.5F;
-//							lowerArmL1.rotateAngleZ += 0.4F;
-//							
-//							lowerArmR1.rotateAngleX -= 0.5F;
-//							lowerArmR1.rotateAngleZ -= 0.4F;
-//							
-//							upperLegL.rotateAngleX -= 0.7F;
-//							upperLegR.rotateAngleX -= 0.7F;
-//							
-//							upperLegL.rotateAngleY -= 0.3F;
-//							upperLegR.rotateAngleY += 0.3F;
-//							
-//							feetbaseL.rotateAngleX += 0.5F;
-//							feetbaseR.rotateAngleX += 0.5F;
 						}
 					}
 					else// if(!player.isWet())
@@ -1111,6 +1089,8 @@ public class ModelSkystrike extends MowzieModelBase
 						lowerLegL.rotateAngleX += 0.5 * upwardPose;
 
 						waist.rotateAngleX += speed * downwardPose;
+						buttflapL.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+						buttflapR.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
 
 						upperArmR.rotateAngleZ += 1 * downwardPose;
 						upperArmL.rotateAngleZ -= 1 * downwardPose;
