@@ -838,8 +838,44 @@ public class ModelSkystrike extends MowzieModelBase
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
-		this.vehicleBody.render(f5);
-		this.waist.render(f5);
+		if (entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)entity;
+
+			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSkystrike;
+			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
+			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
+
+			if(!(!wearingChest && !wearingHead && !wearingLegs))
+			{
+				if(wearingLegs && wearingHead && !wearingChest)
+				{
+					headbase.render(f5);
+					upperLegR.render(f5);
+					upperLegL.render(f5);
+				}
+				else if(wearingHead && !wearingChest)
+				{
+					headbase.render(f5);
+				}
+				else if(wearingLegs && !wearingChest)
+				{
+					upperLegR.render(f5);
+					upperLegL.render(f5);
+				}
+				else
+				{
+					if(TFDataManager.getTransformationTimer(player) == 0)
+					{
+						this.vehicleBody.render(f5);
+					}
+					else
+					{
+						this.waist.render(f5);
+					}
+				}
+			}
+		}
 	}
 
 	public void setRotation(MowzieModelRenderer model, float x, float y, float z)
@@ -881,6 +917,41 @@ public class ModelSkystrike extends MowzieModelBase
 				if (wearingHead) 
 				{
 					faceTarget(headbase, 1, par4, par5);
+
+					if(wearingChest)
+					{
+						headbase.rotationPointY += 2;
+						headbase.rotationPointX += 1;
+						headbase.rotationPointZ -= 1.5F;
+					}
+					else
+					{
+						headbase.rotationPointX += 0F;
+						headbase.rotationPointZ -= 2.5F;
+						headbase.rotationPointY += 0.5F;
+					}
+				}
+				else
+				{
+					if(wearingChest)
+					{
+						if(wearingLegs)
+						{
+							TFModelHelper.headOffsetY = -3.1F;
+							TFModelHelper.headOffsetZ = 2F;
+						}
+						else
+						{
+							TFModelHelper.headOffsetY = -0.6F;
+							TFModelHelper.headOffsetZ = 0F;
+						}
+
+					}
+					else
+					{
+						TFModelHelper.headOffsetY = 0F;
+						TFModelHelper.headOffsetZ = 0F;
+					}
 				}
 
 				if(!wearingChest && wearingLegs)
@@ -915,7 +986,7 @@ public class ModelSkystrike extends MowzieModelBase
 					globalDegree = 1.5F;
 					globalSpeed = 1.3F;
 				}
-
+				
 				if (wearingHead && wearingLegs && wearingChest)
 				{
 					if (entity.onGround || player.capabilities.isFlying)
@@ -935,7 +1006,7 @@ public class ModelSkystrike extends MowzieModelBase
 
 						walk(buttflapL, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0F, 0.2F, par1, par2);
 						walk(buttflapR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0F, 0.2F, par1, par2);
-
+						
 						walk(upperLegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
 						walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F* backwardInverter, 0F, par1, par2);
 						walk(lowerLegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
@@ -966,9 +1037,65 @@ public class ModelSkystrike extends MowzieModelBase
 						flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
 						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
+						
+						if (sneaking) 
+						{
+							waist.rotateAngleX += 0.5F;
+							waist.rotationPointZ -= 6F;
+							waist.rotationPointY += 0.2F;
+							
+							headbase.rotateAngleX -= 0.5;
+							upperLegR.rotateAngleX -= 0.7;
+							upperLegL.rotateAngleX -= 0.7;
+							upperLegR.rotateAngleY += 0.2;
+							upperLegL.rotateAngleY -= 0.2;
+							lowerLegR.rotateAngleX -= 0.1;
+							lowerLegL.rotateAngleX -= 0.1;
+							feetbaseL.rotateAngleX += 0.5F;
+							feetbaseR.rotateAngleX += 0.5F;
+							feetbaseR.rotationPointY += 2;
+							feetbaseL.rotationPointY += 2;
+							upperArmR.rotateAngleX -= 0.5;
+							upperArmL.rotateAngleX -= 0.5;
+							upperArmR.rotateAngleZ += 0.5;
+							upperArmL.rotateAngleZ -= 0.5;
+							lowerArmR1.rotateAngleZ -= 0.5;
+							lowerArmL1.rotateAngleZ += 0.5;
+						}
 					}
 					else// if(!player.isWet())
 					{
+						float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
+						float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
+
+						double speed = Math.sqrt((player.motionX * player.motionX) + (player.motionZ * player.motionZ)) * 1.2D;
+
+						waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+
+						chestcenter.rotateAngleX += 0.2 * upwardPose;
+						chest1.rotateAngleX -= 0.4 * upwardPose;
+						headbase.rotateAngleX += 0.6 * upwardPose;
+
+						upperArmR.rotateAngleX += 0.1 * upwardPose;
+						upperArmL.rotateAngleX += 0.1 * upwardPose;
+						upperArmR.rotateAngleZ -= 0.1 * upwardPose;
+						upperArmL.rotateAngleZ += 0.1 * upwardPose;
+						lowerArmR1.rotateAngleX += 0.2 * upwardPose;
+						lowerArmL1.rotateAngleX += 0.2 * upwardPose;
+
+						upperLegR.rotateAngleX += 0.2 * upwardPose;
+						upperLegL.rotateAngleX += 0.2 * upwardPose;
+						lowerLegR.rotateAngleX += 0.5 * upwardPose;
+						lowerLegL.rotateAngleX += 0.5 * upwardPose;
+
+						waist.rotateAngleX += speed * downwardPose;
+						buttflapL.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+						buttflapR.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+
+						upperArmR.rotateAngleZ += 1 * downwardPose;
+						upperArmL.rotateAngleZ -= 1 * downwardPose;
+						lowerArmR1.rotateAngleX -= 1 * downwardPose;
+						lowerArmL1.rotateAngleX -= 1 * downwardPose;
 					}
 
 					int timer = TFDataManager.getTransformationTimer(player);
@@ -991,7 +1118,42 @@ public class ModelSkystrike extends MowzieModelBase
 					{
 						int t = TFDataManager.getTransformationTimer(player);
 						float f = (float) (20 - t) / 2;
-
+						
+						this.waist.rotateAngleX += (f * 0.15F);
+						
+						this.headbase.rotateAngleX += (f * -0.15F);
+						
+						this.shoulderR.rotateAngleX += f * -0.15F;
+						this.shoulderL.rotateAngleX += f * -0.15F;
+						
+						this.shoulderR.rotateAngleZ += f * 0.15F;
+						this.shoulderL.rotateAngleZ += f * -0.15F;
+						
+						this.lowerArmL1.rotateAngleZ += f * -0.5F;
+						this.lowerArmR1.rotateAngleZ += f * 0.5F;
+						
+						this.upperLegR.rotateAngleX += (f * -0.3F);
+						this.upperLegL.rotateAngleX += (f * -0.3F);
+				
+						this.wingR1.rotationPointZ += f * 0.5F;
+						this.wingL1.rotationPointZ += f * 0.5F;
+						
+						this.wingR1.rotationPointY += f * 0.5F;
+						this.wingL1.rotationPointY += f * 0.5F;
+						
+						this.wingR1.rotateAngleX += f * 0.1F;
+						this.wingL1.rotateAngleX += f * 0.1F;
+						
+						this.wingR1.rotateAngleY += f * 0.2F;
+						this.wingL1.rotateAngleY += -f * 0.2F;
+						
+						this.cockpit1.rotateAngleZ += f * 0.33F;
+						this.cockpit1.rotationPointY += f * 0.1F;
+						this.cockpit1.rotationPointZ += f * -0.2F;
+						
+//						this.lowerArmL1.rotateAngleZ = f * 0.05F;
+//						this.lowerArmR1.rotateAngleZ = f * -0.05F;
+						
 						bipedHead.offsetY = 0F;
 						bipedBody.offsetY = 0F;
 						bipedRightArm.offsetY = 0F;
@@ -1000,6 +1162,46 @@ public class ModelSkystrike extends MowzieModelBase
 						bipedLeftLeg.offsetY = 0F;
 						waist.offsetY = 0F;
 						vehicleBody.offsetY = 256F;
+					}
+				}
+				else
+				{
+					this.upperArmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+					this.upperArmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+
+					this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
+					this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
+				
+			        if (this.heldItemLeft != 0)
+			        {
+			            this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
+			        }
+
+			        if (this.heldItemRight != 0)
+			        {
+			            this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
+			        }
+			        
+					if (this.onGround > -9990.0F)
+					{
+						float f6 = this.onGround;
+						this.waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float)Math.PI * 2.0F) * 0.2F;
+						this.upperArmR.rotationPointZ = MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmR.rotationPointX = -MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmL.rotationPointZ = -MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmL.rotationPointX = MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
+						this.upperArmR.rotateAngleY += this.waist.rotateAngleY;
+						this.upperArmL.rotateAngleY += this.waist.rotateAngleY;
+						this.upperArmL.rotateAngleX += this.waist.rotateAngleY;
+						f6 = 1.0F - this.onGround;
+						f6 *= f6;
+						f6 *= f6;
+						f6 = 1.0F - f6;
+						float f7 = MathHelper.sin(f6 * (float)Math.PI);
+						float f8 = MathHelper.sin(this.onGround * (float)Math.PI) * -(this.headbase.rotateAngleX - 0.7F) * 0.75F;
+						this.upperArmR.rotateAngleX = (float)((double)this.upperArmR.rotateAngleX - ((double)f7 * 1.2D + (double)f8));
+						this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
+						this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float)Math.PI) * -0.4F;
 					}
 				}
 			}
