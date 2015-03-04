@@ -1114,6 +1114,7 @@ public class ModelSkystrike extends MowzieModelBase
 						int t = TFDataManager.getTransformationTimer(player);
 						float f = (float) (20 - t) / 2;
 
+						this.waist.rotationPointY -= (f * 0.8F);
 						this.waist.rotateAngleX += (f * 0.15F);
 
 						this.headbase.rotateAngleX += (f * -0.15F);
