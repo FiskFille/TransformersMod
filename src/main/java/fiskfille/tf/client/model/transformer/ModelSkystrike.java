@@ -1078,7 +1078,7 @@ public class ModelSkystrike extends MowzieModelBase
 
 						chestcenter.rotateAngleX -= 0.2 * upwardPose;
 						//chest1.rotateAngleX -= 0.4 * upwardPose;
-						headbase.rotateAngleX -= 0.4 * upwardPose;
+						headbase.rotateAngleX -= 0.2 * upwardPose;
 
 						upperArmR.rotateAngleX += 0.1 * upwardPose;
 						upperArmL.rotateAngleX += 0.1 * upwardPose;
@@ -1100,7 +1100,8 @@ public class ModelSkystrike extends MowzieModelBase
 						upperArmL.rotateAngleZ -= 1 * downwardPose;
 						lowerArmR1.rotateAngleX -= 1 * downwardPose;
 						lowerArmL1.rotateAngleX -= 1 * downwardPose;
-						headbase.rotateAngleX += 0.4 * downwardPose;
+						headbase.rotateAngleX += 0.2 * downwardPose;
+						headbase.rotateAngleX -= (speed * downwardPose) * 0.3F;
 					}
 
 					int timer = TFDataManager.getTransformationTimer(player);
