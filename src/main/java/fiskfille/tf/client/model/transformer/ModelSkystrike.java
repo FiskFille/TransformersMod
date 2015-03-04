@@ -906,13 +906,7 @@ public class ModelSkystrike extends MowzieModelBase
 				{
 					faceTarget(headbase, 1, par4, par5);
 
-					if(wearingChest)
-					{
-						headbase.rotationPointY += 2;
-						headbase.rotationPointX += 1;
-						headbase.rotationPointZ -= 1.5F;
-					}
-					else
+					if(!wearingChest)
 					{
 						headbase.rotationPointX += 0F;
 						headbase.rotationPointZ -= 2.5F;
@@ -977,10 +971,6 @@ public class ModelSkystrike extends MowzieModelBase
 
 				if (wearingHead && wearingLegs && wearingChest)
 				{
-					headbase.rotationPointX -= 1;
-					headbase.rotationPointZ += 1;
-					headbase.rotationPointY -= 1;
-
 					if (entity.onGround || player.capabilities.isFlying)
 					{
 						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
@@ -1018,18 +1008,16 @@ public class ModelSkystrike extends MowzieModelBase
 						//Idle animation
 						int ticksExisted = entity.ticksExisted;
 
-						/*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-						walk(upperlegL, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-						walk(upperlegR, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-						walk(chestcenter, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
-						walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-						walk(upperarmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-						walk(upperarmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						walk(stomach, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						walk(chestcenter, 0.06F, 0.1F, false, 1, 0, ticksExisted, 1F);
+						walk(headbase, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						walk(upperArmL, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
+						walk(upperArmR, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
 
 						flap(shoulderL, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
 						flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
 						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
-						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
+						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
 
 						if (sneaking)
 						{
