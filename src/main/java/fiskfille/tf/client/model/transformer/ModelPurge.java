@@ -536,11 +536,14 @@ public class ModelPurge extends MowzieModelBase
 				if (this.onGround > -9990.0F)
 				{
 					float hitTick = this.onGround;
-					float chestRotateY = MathHelper.sin(MathHelper.sqrt_float(hitTick) * (float)Math.PI * 2.0F) * 0.2F;
-					this.chest.rotateAngleY += chestRotateY;
-					this.head.rotateAngleY -= chestRotateY;
-					this.upperArmR.rotateAngleX += chestRotateY * 5;
-					this.upperArmR.rotateAngleZ += chestRotateY * 5;
+					stomach.rotateAngleY += 20*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F) -0.99126524);
+					chest.rotateAngleY += 20*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-0.99126524);
+					head.rotateAngleY += -40*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-0.99126524);
+					upperArmR.rotateAngleZ += -2*(hitTick)*(Math.pow(hitTick, 5) - 0.99126524);
+					upperArmR.rotateAngleX += 40*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-0.99126524);
+					lowerArm1.rotateAngleX += 50*(hitTick)*(hitTick-0.5)*(hitTick-0.5)*(hitTick-0.99126524);
+					upperArmL.rotateAngleX -= 40*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-0.99126524);
+					lowerArm2.rotateAngleX += 25*(hitTick)*(Math.pow(hitTick, 0.1) - 0.99126524);
 				}
 				
 				if(entity.onGround || player.capabilities.isFlying)
