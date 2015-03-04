@@ -1047,24 +1047,20 @@ public class ModelSkystrike extends MowzieModelBase
 						
 						if (sneaking)
 						{
-							waist.rotationPointY -= 1 * par2;
-							waist.rotateAngleX += 0.5F;
+							waist.rotationPointY -= par2;
+							waist.rotateAngleX += 0.3F;
 							waist.rotationPointZ -= 3F;
-							waist.rotationPointY += 0.2F;
+							waist.rotationPointY += 0.5F;
 
-							headbase.rotateAngleX -= 0.5;
-							upperLegR.rotateAngleX -= 0.5;
-							upperLegL.rotateAngleX -= 0.5;
-							upperLegR.rotateAngleY -= 0.0;
-							upperLegL.rotateAngleY += 0.0;
+							headbase.rotateAngleX -= 0.3;
+							upperLegR.rotateAngleX -= 0.3;
+							upperLegL.rotateAngleX -= 0.3;
 							middlelegR.rotateAngleX += 0.6;
 							middlelegL.rotateAngleX += 0.6;
 							lowerLegR.rotateAngleX -= 0.5;
 							lowerlegL.rotateAngleX -= 0.5;
-							feetbaseL.rotateAngleX -= 0F;
-							feetbaseR.rotateAngleX -= 0F;
-							upperArmR.rotateAngleX -= 0.5;
-							upperArmL.rotateAngleX -= 0.5;
+							upperArmR.rotateAngleX -= 0.3;
+							upperArmL.rotateAngleX -= 0.3;
 							upperArmR.rotateAngleZ += 0.5;
 							upperArmL.rotateAngleZ -= 0.5;
 							lowerArmR1.rotateAngleZ -= 0.5;
