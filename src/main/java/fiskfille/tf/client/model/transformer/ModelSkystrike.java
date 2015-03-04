@@ -894,10 +894,6 @@ public class ModelSkystrike extends MowzieModelBase
 
 			setToInitPose();
 
-			headbase.rotationPointX -= 1;
-			headbase.rotationPointZ += 1;
-			headbase.rotationPointY -= 1;
-
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSkystrike;
 			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
 			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
@@ -992,6 +988,10 @@ public class ModelSkystrike extends MowzieModelBase
 
 				if (wearingHead && wearingLegs && wearingChest)
 				{
+					headbase.rotationPointX -= 1;
+					headbase.rotationPointZ += 1;
+					headbase.rotationPointY -= 1;
+
 					if (entity.onGround || player.capabilities.isFlying)
 					{
 						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
