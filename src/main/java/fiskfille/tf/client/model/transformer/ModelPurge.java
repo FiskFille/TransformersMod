@@ -524,6 +524,16 @@ public class ModelPurge extends MowzieModelBase
 
 			if(fullSuit)
 			{
+				if (this.onGround > -9990.0F)
+				{
+					float hitTick = this.onGround;
+					float chestRotateY = MathHelper.sin(MathHelper.sqrt_float(hitTick) * (float)Math.PI * 2.0F) * 0.2F;
+					this.chest.rotateAngleY += chestRotateY;
+					this.head.rotateAngleY -= chestRotateY;
+					this.upperArmR.rotateAngleX += chestRotateY * 5;
+					this.upperArmR.rotateAngleZ += chestRotateY * 5;
+				}
+				
 				if(entity.onGround || player.capabilities.isFlying)
 				{
 					//New pose!
