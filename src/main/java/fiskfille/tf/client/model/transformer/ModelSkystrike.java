@@ -975,12 +975,15 @@ public class ModelSkystrike extends MowzieModelBase
 					globalSpeed = 1.3F;
 				}
 
-				if (wearingHead && wearingLegs && wearingChest)
+				if(wearingHead && wearingChest)
 				{
 					headbase.rotationPointX -= 1;
 					headbase.rotationPointZ += 1;
 					headbase.rotationPointY -= 1;
-
+				}
+				
+				if (wearingHead && wearingLegs && wearingChest)
+				{
 					if (entity.onGround || player.capabilities.isFlying)
 					{
 						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
