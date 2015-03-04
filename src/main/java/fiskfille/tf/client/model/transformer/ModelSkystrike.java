@@ -968,6 +968,15 @@ public class ModelSkystrike extends MowzieModelBase
 					globalDegree = 0.5F;
 				}
 
+				if (this.heldItemLeft != 0)
+				{
+					this.upperArmL.rotateAngleX -= 0.2F;
+				}
+				if (this.heldItemRight != 0)
+				{
+					this.upperArmR.rotateAngleX -= 0.2F;
+				}
+				
 				boolean sneaking = player.isSneaking();
 				if (sneaking)
 				{
@@ -1173,21 +1182,11 @@ public class ModelSkystrike extends MowzieModelBase
 				}
 				else
 				{
-					this.upperArmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-					this.upperArmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+					this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+					this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
 					this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
 					this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
-
-					if (this.heldItemLeft != 0)
-					{
-						this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
-					}
-
-					if (this.heldItemRight != 0)
-					{
-						this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
-					}
 
 					if (this.onGround > -9990.0F)
 					{

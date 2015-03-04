@@ -522,6 +522,15 @@ public class ModelPurge extends MowzieModelBase
 
 			boolean fullSuit = wearingHead && wearingLegs && wearingChest;
 
+			if (this.heldItemLeft != 0)
+			{
+				this.upperArmL.rotateAngleX -= 0.2F;
+			}
+			if (this.heldItemRight != 0)
+			{
+				this.upperArmR.rotateAngleX -= 0.2F;
+			}
+			
 			if(fullSuit)
 			{
 				if (this.onGround > -9990.0F)
@@ -656,22 +665,12 @@ public class ModelPurge extends MowzieModelBase
 			}
 			else //If not fully suited
 			{
-				this.upperArmL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-				this.upperArmR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+				this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+				this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
 				this.upperLegR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperLegL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
-				if (this.heldItemLeft != 0)
-				{
-					this.upperArmL.rotateAngleX = this.upperArmL.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemLeft;
-				}
-
-				if (this.heldItemRight != 0)
-				{
-					this.upperArmR.rotateAngleX = this.upperArmR.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
-				}
-				
 				if (this.onGround > -9990.0F)
 				{
 					float f6 = this.onGround;
