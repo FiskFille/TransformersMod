@@ -36,10 +36,4 @@ public class TransformerVurp extends TransformerCar
 	{
 		return TFItems.vurpBoots;
 	}
-	
-	@Override
-	public Biped getModel()
-	{
-		return TFModelRegistry.getModel(this);
-	}
 }

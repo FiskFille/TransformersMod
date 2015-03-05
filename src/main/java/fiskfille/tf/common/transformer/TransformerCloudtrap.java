@@ -42,10 +42,4 @@ public class TransformerCloudtrap extends TransformerJet
 	{
 		return true;
 	}
-
-	@Override
-	public Biped getModel() 
-	{
-		return TFModelRegistry.getModel(this);
-	}
 }

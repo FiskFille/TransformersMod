@@ -40,16 +40,14 @@ public class ClientTickHandler
 		Transformer transformer = TFHelper.getTransformer(player);
 
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
-
 		int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
 		if (stealthModeTimer < 5 && !TFDataManager.isInStealthMode(player))
 		{
 			TFDataManager.setStealthModeTimer(player, stealthModeTimer + 1);
 		}
-		if (stealthModeTimer > 0 && TFDataManager.isInStealthMode(player))
+		else if (stealthModeTimer > 0 && TFDataManager.isInStealthMode(player))
 		{
 			TFDataManager.setStealthModeTimer(player, stealthModeTimer - 1);
 		}
@@ -78,11 +76,11 @@ public class ClientTickHandler
 		{
 			player.setSprinting(false);
 
-			if (player == Minecraft.getMinecraft().thePlayer)
+			if (player == mc.thePlayer)
 			{
 				GameSettings gameSettings = mc.gameSettings;
 
-				if (Keyboard.isKeyDown(Keyboard.KEY_R) && Minecraft.getMinecraft().currentScreen == null)
+				if (Keyboard.isKeyDown(Keyboard.KEY_R) && mc.currentScreen == null)
 				{
 					gameSettings.thirdPersonView = 2;
 				}
@@ -157,8 +155,8 @@ public class ClientTickHandler
 		}
 
 		int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
-		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
-		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
+		boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
+		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
 
 		if ((nitro < 160 && (player.capabilities.isCreativeMode || !((nitroPressed && !TFDataManager.isInStealthMode(player)) && moveForward && inVehicleMode && transformationTimer < 10))))
 		{
@@ -219,9 +217,9 @@ public class ClientTickHandler
 
 			if (transformationTimer == 19)
 			{
-				if (Minecraft.getMinecraft().thePlayer == player)
+				if (mc.thePlayer == player)
 				{
-					Minecraft.getMinecraft().gameSettings.thirdPersonView = TFConfig.firstPersonAfterTransformation ? 0 : Minecraft.getMinecraft().gameSettings.thirdPersonView;
+					mc.gameSettings.thirdPersonView = TFConfig.firstPersonAfterTransformation ? 0 : mc.gameSettings.thirdPersonView;
 				}
 			}
 		}
@@ -238,7 +236,7 @@ public class ClientTickHandler
 		}
 	}
 
-	public void onClientTickEnd()
+	public void onTickEnd()
 	{
 		EntityPlayer player = mc.thePlayer;
 
@@ -262,7 +260,7 @@ public class ClientTickHandler
 		catch (Exception e) {}
 	}
 
-	public void onClientTickStart()
+	public void onTickStart()
 	{
 
 	}

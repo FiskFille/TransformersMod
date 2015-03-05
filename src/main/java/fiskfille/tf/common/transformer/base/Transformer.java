@@ -3,6 +3,7 @@ package fiskfille.tf.common.transformer.base;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.common.playerdata.TFDataManager;
 
@@ -15,7 +16,10 @@ public abstract class Transformer
 	public abstract Item getLeggings();
 	public abstract Item getBoots();
 	
-	public abstract Biped getModel();
+	public Biped getModel()
+	{
+		return TFModelRegistry.getModel(this);
+	}
 	
 	public Transformer(String name)
 	{

@@ -36,10 +36,4 @@ public class TransformerPurge extends TransformerTank
 	{
 		return TFItems.purgeBoots;
 	}
-	
-	@Override
-	public Biped getModel()
-	{
-		return TFModelRegistry.getModel(this);
-	}
 }

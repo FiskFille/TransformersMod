@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.event.entity.minecart.MinecartCollisionEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -26,24 +27,25 @@ import fiskfille.tf.helper.TFHelper;
 public class TickHandler
 {
 	public static int time = 0;
-	public static boolean hasDisplayedEasterEggMessage = false;
 
 	public static boolean prevViewBobbing;
 	
 	private double prevMove;
 	
+	private Minecraft mc = Minecraft.getMinecraft();
+	
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) 
 	{
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer player = mc.thePlayer;
 		ItemStack itemstack = player.getHeldItem();
 		
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
 		
-		if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && Minecraft.getMinecraft().currentScreen == null && (TFHelper.isPlayerTransformer(player)) && player.ridingEntity == null)
+		if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && (TFHelper.isPlayerTransformer(player)) && player.ridingEntity == null)
 		{
-			GameSettings gameSettings = Minecraft.getMinecraft().gameSettings;
+			GameSettings gameSettings = mc.gameSettings;
 			
 			if (inVehicleMode && transformationTimer == 0)
 			{
@@ -62,7 +64,7 @@ public class TickHandler
 				TFMotionManager.resetPlayer(player);
 			}
 
-			EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+			EntityRenderer entityRenderer = mc.entityRenderer;
 
 			try
 			{
@@ -85,7 +87,7 @@ public class TickHandler
 			
 			if (transformer != null)
 			{
-				if (inVehicleMode && Minecraft.getMinecraft().currentScreen == null && transformer.hasStealthForce(player))
+				if (inVehicleMode && mc.currentScreen == null && transformer.hasStealthForce(player))
 				{
 					int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 					
@@ -126,19 +128,22 @@ public class TickHandler
 		{
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
 		}
-		
-		IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-		
-		if (inVehicleMode && transformationTimer == 0 && TFHelper.getTransformer(player) instanceof TransformerCar && !TFPlayerData.getData(player).stealthForce)
+
+		if(inVehicleMode && transformationTimer == 0)
 		{
-			prevMove = entityAttribute.getAttributeValue();
-			entityAttribute.setBaseValue(0.0D);
-		}
-		else
-		{
-			if(prevMove != 0)
+			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+			
+			if (TFHelper.getTransformer(player) instanceof TransformerCar && !TFPlayerData.getData(player).stealthForce)
 			{
-				entityAttribute.setBaseValue(prevMove);
+				prevMove = entityAttribute.getAttributeValue();
+				entityAttribute.setBaseValue(0.0D);
+			}
+			else
+			{
+				if(prevMove != 0)
+				{
+					entityAttribute.setBaseValue(prevMove);
+				}
 			}
 		}
 	}
@@ -150,12 +155,12 @@ public class TickHandler
 		{
 		case START:
 		{
-			TransformersMod.proxy.tickHandler.onClientTickStart();
+			TransformersMod.proxy.tickHandler.onTickStart();
 			break;
 		}
 		case END:
 		{
-			TransformersMod.proxy.tickHandler.onClientTickEnd();
+			TransformersMod.proxy.tickHandler.onTickEnd();
 			break;
 		}
 		}		

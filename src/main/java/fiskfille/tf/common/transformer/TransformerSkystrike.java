@@ -40,12 +40,6 @@ public class TransformerSkystrike extends TransformerJet
 	}
 	
 	@Override
-	public Biped getModel()
-	{
-		return TFModelRegistry.getModel(this);
-	}
-	
-	@Override
 	public void onJump(EntityPlayer player)
 	{
 		player.motionY += 0.205D;
@@ -65,10 +59,5 @@ public class TransformerSkystrike extends TransformerJet
 				player.motionY += 0.02D;
 			}
 		}
-	}
-	
-	@Override
-	public void vehicleTick(EntityPlayer player)
-	{
 	}
 }

@@ -36,10 +36,4 @@ public class TransformerSubwoofer extends TransformerCar
 	{
 		return TFItems.subwooferBoots;
 	}
-	
-	@Override
-	public Biped getModel()
-	{
-		return TFModelRegistry.getModel(this);
-	}
 }
