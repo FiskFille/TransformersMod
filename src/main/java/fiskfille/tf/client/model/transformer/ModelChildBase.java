@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelChildBase
 {
@@ -66,6 +67,13 @@ public class ModelChildBase
             model.rotateAngleY = y;
             model.rotateAngleZ = z;
         }
+        
+        protected void setPos(ModelRenderer model, float x, float y, float z)
+        {
+            model.rotationPointX = x;
+            model.rotationPointY = y;
+            model.rotationPointZ = z;
+        }
 
         public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
         {
@@ -75,7 +83,7 @@ public class ModelChildBase
             {
                 EntityPlayer player = (EntityPlayer)entity;
                 ItemStack itemstack = player.getHeldItem();
-
+                
                 if (TFDataManager.getTransformationTimer(player) == 20)
                 {
                     if (itemstack != null && itemstack.getItem() == TFItems.vurpsSniper)

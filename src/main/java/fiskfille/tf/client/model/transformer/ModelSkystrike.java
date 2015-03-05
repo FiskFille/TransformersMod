@@ -988,7 +988,7 @@ public class ModelSkystrike extends MowzieModelBase
 				{
 					headbase.rotationPointX -= 1;
 					headbase.rotationPointZ += 1;
-					headbase.rotationPointY -= 1;
+					headbase.rotationPointY -= 1.8F;
 				}
 				
 				if (wearingHead && wearingLegs && wearingChest)
