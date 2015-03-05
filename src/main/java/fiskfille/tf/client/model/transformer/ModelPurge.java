@@ -530,14 +530,14 @@ public class ModelPurge extends MowzieModelBase
 			{
 				this.upperArmR.rotateAngleX -= 0.2F;
 			}
-			
+
 			if(fullSuit)
 			{
 				if (this.onGround > -9990.0F)
 				{
 					float hitTick = this.onGround;
 					double max = 0.99126524;
-					
+
 					stomach.rotateAngleY += 20*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F) -max);
 					chest.rotateAngleY += 20*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-max);
 					head.rotateAngleY += -40*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-max);
@@ -547,7 +547,7 @@ public class ModelPurge extends MowzieModelBase
 					upperArmL.rotateAngleX -= 40*(hitTick)*(hitTick-0.4)*(Math.pow(hitTick, 0.3F)-max);
 					lowerArm2.rotateAngleX += 25*(hitTick)*(Math.pow(hitTick, 0.1) - max);
 				}
-				
+
 				if(entity.onGround || player.capabilities.isFlying)
 				{
 					//New pose!
@@ -676,6 +676,43 @@ public class ModelPurge extends MowzieModelBase
 				this.upperLegR.rotateAngleX = (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperLegL.rotateAngleX = (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
+				if (this.isRiding)
+				{
+					this.upperArmR.rotateAngleX += -((float)Math.PI / 5F);
+					this.upperArmL.rotateAngleX += -((float)Math.PI / 5F);
+					this.upperLegR.rotateAngleX = -((float)Math.PI * 2F / 5F);
+					this.upperLegL.rotateAngleX = -((float)Math.PI * 2F / 5F);
+					this.upperLegR.rotateAngleY = ((float)Math.PI / 10F);
+					this.upperLegL.rotateAngleY = -((float)Math.PI / 10F);
+				}
+
+		        if (this.isSneak)
+		        {
+		            this.waist.rotateAngleX += 0.4F;
+		            this.waist.rotationPointZ += 4F;
+		            this.upperArmR.rotateAngleX -= 0.4F;
+		            this.upperArmL.rotateAngleX -= 0.4F;
+		            
+		            if(wearingChest)
+		            {
+		                this.head.rotateAngleX -= 0.4F;
+			            this.upperLegR.rotateAngleX -= 0.4F;
+			            this.upperLegL.rotateAngleX -= 0.4F;
+		            }
+		            else
+		            {
+		            	this.upperLegL.rotationPointZ += 5F;
+		            	this.upperLegL.rotationPointY -= 0.8F;
+		            	this.upperLegR.rotationPointZ += 5F;
+		            	this.upperLegR.rotationPointY -= 0.8F;
+		            }
+		        }
+		        else
+		        {
+		        	this.waist.rotationPointY -= 0.8F;
+		            this.waist.rotateAngleX = 0.0F;
+		        }
+				
 				if (this.onGround > -9990.0F)
 				{
 					float f6 = this.onGround;

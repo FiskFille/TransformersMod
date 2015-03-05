@@ -1188,6 +1188,43 @@ public class ModelSkystrike extends MowzieModelBase
 					this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
 					this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
 
+					if (this.isRiding)
+					{
+						this.upperArmR.rotateAngleX += -((float)Math.PI / 5F);
+						this.upperArmL.rotateAngleX += -((float)Math.PI / 5F);
+						this.upperLegR.rotateAngleX = -((float)Math.PI * 2F / 5F);
+						this.upperLegL.rotateAngleX = -((float)Math.PI * 2F / 5F);
+						this.upperLegR.rotateAngleY = ((float)Math.PI / 10F);
+						this.upperLegL.rotateAngleY = -((float)Math.PI / 10F);
+					}
+
+			        if (this.isSneak)
+			        {
+			            this.waist.rotateAngleX += 0.4F;
+			            this.waist.rotationPointZ += 4F;
+			            this.waist.rotationPointY -= 2F;
+			            this.upperArmR.rotateAngleX -= 0.4F;
+			            this.upperArmL.rotateAngleX -= 0.4F;
+			            
+			            if(wearingChest)
+			            {
+			                this.headbase.rotateAngleX -= 0.4F;
+				            this.upperLegR.rotateAngleX -= 0.4F;
+				            this.upperLegL.rotateAngleX -= 0.4F;
+			            }
+			            else
+			            {
+			            	this.upperLegL.rotationPointZ += 5F;
+			            	this.upperLegL.rotationPointY -= 0.8F;
+			            	this.upperLegR.rotationPointZ += 5F;
+			            	this.upperLegR.rotationPointY -= 0.8F;
+			            }
+			        }
+			        else
+			        {
+			            this.waist.rotateAngleX = 0.0F;
+			        }
+					
 					if (this.onGround > -9990.0F)
 					{
 						float f6 = this.onGround;
