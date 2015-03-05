@@ -10,7 +10,7 @@ import fiskfille.tf.common.packet.PacketCloudtrapJetpack;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.common.packet.PacketHandleTransformation;
 import fiskfille.tf.common.packet.PacketTransformersAction;
-import fiskfille.tf.common.packet.PacketUpdateTransformationStates;
+import fiskfille.tf.common.packet.PacketSyncStates;
 import fiskfille.tf.common.packet.PacketVehicleNitro;
 import fiskfille.tf.common.packet.PacketVurpSniperShoot;
 
@@ -25,7 +25,7 @@ public class TFPacketManager
 		
 		registerPacket(PacketHandleTransformation.Handler.class, PacketHandleTransformation.class);
 		registerPacket(PacketHandleStealthTransformation.Handler.class, PacketHandleStealthTransformation.class);
-		registerPacket(PacketUpdateTransformationStates.Handler.class, PacketUpdateTransformationStates.class);
+		registerPacket(PacketSyncStates.Handler.class, PacketSyncStates.class);
 		registerPacket(PacketTransformersAction.Handler.class, PacketTransformersAction.class);
 		registerPacket(PacketCloudtrapJetpack.Handler.class, PacketCloudtrapJetpack.class);
 		registerPacket(PacketBroadcastState.Handler.class, PacketBroadcastState.class);

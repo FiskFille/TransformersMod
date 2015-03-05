@@ -11,7 +11,7 @@ import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.common.packet.PacketHandleTransformation;
-import fiskfille.tf.common.packet.PacketUpdateTransformationStates;
+import fiskfille.tf.common.packet.PacketSyncStates;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
@@ -152,6 +152,6 @@ public class TFDataManager
 			}
 		}
 
-		TFPacketManager.networkWrapper.sendTo(new PacketUpdateTransformationStates(states), (EntityPlayerMP) player);
+		TFPacketManager.networkWrapper.sendTo(new PacketSyncStates(states), (EntityPlayerMP) player);
 	}
 }

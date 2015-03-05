@@ -15,16 +15,16 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketUpdateTransformationStates implements IMessage
+public class PacketSyncStates implements IMessage
 {
 	private Map<UUID, Boolean[]> states;
 
-	public PacketUpdateTransformationStates()
+	public PacketSyncStates()
 	{
 
 	}
 
-	public PacketUpdateTransformationStates(Map<UUID, Boolean[]> s)
+	public PacketSyncStates(Map<UUID, Boolean[]> s)
 	{
 		states = s;
 	}
@@ -49,9 +49,9 @@ public class PacketUpdateTransformationStates implements IMessage
         }
     }
 
-    public static class Handler implements IMessageHandler<PacketUpdateTransformationStates, IMessage>
+    public static class Handler implements IMessageHandler<PacketSyncStates, IMessage>
     {
-        public IMessage onMessage(PacketUpdateTransformationStates message, MessageContext ctx)
+        public IMessage onMessage(PacketSyncStates message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -69,8 +69,10 @@ public class PacketUpdateTransformationStates implements IMessage
                                 
                                 if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
                                 {
-                                    TFPlayerData.getData(currentPlayer).vehicle = state.getValue()[0];
-                                    TFPlayerData.getData(currentPlayer).stealthForce = state.getValue()[1];
+                                    TFPlayerData data = TFPlayerData.getData(currentPlayer);
+                                    
+									data.vehicle = state.getValue()[0];
+                                    data.stealthForce = state.getValue()[1];
                                 }
                             }
                         }
