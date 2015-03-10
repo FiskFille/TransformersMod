@@ -282,7 +282,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			else
 			{
 				f2 = 0.375F;
-				GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
+				GL11.glTranslatef(0.2F, 0.1F, -0.15F);
 				GL11.glScalef(f2, f2, f2);
 				GL11.glRotatef(60.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
