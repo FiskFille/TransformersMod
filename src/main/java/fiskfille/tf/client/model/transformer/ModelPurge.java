@@ -322,7 +322,6 @@ public class ModelPurge extends MowzieModelBase
 		this.waist.addChild(upperLegR);
 		this.waist.addChild(upperLegL);
 
-
 		this.vehicleTread2 = new MowzieModelRenderer(this, 0, 64);
 		this.vehicleTread2.setRotationPoint(4.1F, 0.0F, 4.0F);
 		this.vehicleTread2.addBox(0.0F, -1.5F, -13.0F, 2, 3, 17, 0.0F);
