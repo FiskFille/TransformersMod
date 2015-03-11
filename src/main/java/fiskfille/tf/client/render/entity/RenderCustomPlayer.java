@@ -27,12 +27,14 @@ import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.player.ModelPlayerTF;
+import fiskfille.tf.client.model.transformer.ModelCloudtrap;
 import fiskfille.tf.client.model.transformer.ModelPurge;
 import fiskfille.tf.client.model.transformer.ModelSkystrike;
 import fiskfille.tf.client.model.transformer.ModelSubwoofer;
 import fiskfille.tf.client.model.transformer.ModelVurp;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
@@ -226,7 +228,7 @@ public class RenderCustomPlayer extends RenderPlayer
 				subwoofer.upperArm1.postRender(0.0625F);
 				subwoofer.lowerArm1.postRender(0.0625F);
 				
-				GL11.glTranslatef(0F, -0.1F, 0.05F);
+				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
 			else if(transformer instanceof TransformerVurp)
 			{
@@ -235,7 +237,15 @@ public class RenderCustomPlayer extends RenderPlayer
 				vurp.upperArm1.postRender(0.0625F);
 				vurp.lowerArm1.postRender(0.0625F);
 				
-				GL11.glTranslatef(0F, -0.1F, 0.05F);
+				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
+			}
+			else if(transformer instanceof TransformerCloudtrap)
+			{
+				ModelCloudtrap cloudtrap = (ModelCloudtrap) TFModelRegistry.getModel(transformer);
+				modelBipedMain.bipedRightArm.postRender(0.0625F);
+				cloudtrap.lowerArm1.postRender(0.0625F);
+				
+				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
 			else
 			{

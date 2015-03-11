@@ -24,7 +24,7 @@ public class ModelCloudtrap extends ModelChildBase.Biped
     ModelRenderer upperWing1;
     ModelRenderer outerWing1;
     ModelRenderer innerWing1;
-    ModelRenderer lowerArm1;
+    public ModelRenderer lowerArm1;
     ModelRenderer lowerArmPanel1;
     ModelRenderer upperWing2;
     ModelRenderer outerWing2;
