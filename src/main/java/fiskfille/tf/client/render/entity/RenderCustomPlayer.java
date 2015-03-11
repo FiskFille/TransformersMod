@@ -5,6 +5,7 @@ import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
@@ -201,32 +202,33 @@ public class RenderCustomPlayer extends RenderPlayer
 			if(transformer instanceof TransformerPurge) //TODO some sort of api for this
 			{
 				ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
-				purge.waist.postRender(0.0625F);
-				purge.stomach.postRender(0.0625F);
-				purge.chest.postRender(0.0625F);
-				purge.upperArmR.postRender(0.0625F);
-				purge.lowerArm1.postRender(0.0625F);
+				purge.lowerArm1.postRenderParentChain(0.0625F);
 				GL11.glTranslatef(0.05F, 0F, 0.1F);
 			}
 			else if(transformer instanceof TransformerSkystrike)
 			{
 				ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
-				skystrike.waist.postRender(0.0625F);
-				skystrike.stomach.postRender(0.0625F);
-				skystrike.chestcenter.postRender(0.0625F);
-				skystrike.chest1.postRender(0.0625F);
-				skystrike.shoulderR.postRender(0.0625F);
-				skystrike.upperArmR.postRender(0.0625F);
-				skystrike.lowerArmR1.postRender(0.0625F);
+//				skystrike.waist.postRender(0.0625F);
+//				skystrike.stomach.postRender(0.0625F);
+//				skystrike.chestcenter.postRender(0.0625F);
+//				skystrike.chest1.postRender(0.0625F);
+//				skystrike.shoulderR.postRender(0.0625F);
+//				skystrike.upperArmR.postRender(0.0625F);
+//				skystrike.lowerArmR1.postRender(0.0625F);
+				
+				skystrike.lowerArmR1.postRenderParentChain(0.0625F);
 				
 				GL11.glTranslatef(0F, 0.1F, 0.15F);
 			}
 			else if(transformer instanceof TransformerSubwoofer)
 			{
 				ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
+//				modelBipedMain.bipedRightArm.postRender(0.0625F);
+//				subwoofer.upperArm1.postRender(0.0625F);
+//				subwoofer.lowerArm1.postRender(0.0625F);
+				
 				modelBipedMain.bipedRightArm.postRender(0.0625F);
-				subwoofer.upperArm1.postRender(0.0625F);
-				subwoofer.lowerArm1.postRender(0.0625F);
+				subwoofer.lowerArm1.postRenderParentChain(0.0625F);
 				
 				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
@@ -234,8 +236,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			{
 				ModelVurp vurp = (ModelVurp) TFModelRegistry.getModel(transformer);
 				modelBipedMain.bipedRightArm.postRender(0.0625F);
-				vurp.upperArm1.postRender(0.0625F);
-				vurp.lowerArm1.postRender(0.0625F);
+				vurp.lowerArm1.postRenderParentChain(0.0625F);
 				
 				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
@@ -361,7 +362,7 @@ public class RenderCustomPlayer extends RenderPlayer
 		
 		net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Post(player, this, partialTicks));
 	}
-
+	
 	@Override
 	public void renderFirstPersonArm(EntityPlayer player)
 	{
