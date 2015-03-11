@@ -5,8 +5,9 @@ import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.TransformerCar;
+import fiskfille.tf.common.transformer.base.TransformerTruck;
 
-public class TransformerSubwoofer extends TransformerCar
+public class TransformerSubwoofer extends TransformerTruck
 {
 	public TransformerSubwoofer() 
 	{
