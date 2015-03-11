@@ -50,6 +50,7 @@ public class ModelChildBase
             child.rotateAngleX -= parent.rotateAngleX;
             child.rotateAngleY -= parent.rotateAngleY;
             child.rotateAngleZ -= parent.rotateAngleZ;
+            
             parent.addChild(child);
         }
 

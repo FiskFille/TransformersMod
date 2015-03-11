@@ -223,12 +223,8 @@ public class RenderCustomPlayer extends RenderPlayer
 			else if(transformer instanceof TransformerSubwoofer)
 			{
 				ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
-//				modelBipedMain.bipedRightArm.postRender(0.0625F);
-//				subwoofer.upperArm1.postRender(0.0625F);
-//				subwoofer.lowerArm1.postRender(0.0625F);
 				
-				modelBipedMain.bipedRightArm.postRender(0.0625F);
-				subwoofer.lowerArm1.postRenderParentChain(0.0625F);
+				subwoofer.lowerarmR1.postRenderParentChain(0.0625F);
 				
 				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}

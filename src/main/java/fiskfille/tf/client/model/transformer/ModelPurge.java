@@ -453,8 +453,6 @@ public class ModelPurge extends MowzieModelBase
 	{
 		super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
 
-		//ModelBiped
-
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
