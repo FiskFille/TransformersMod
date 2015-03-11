@@ -42,8 +42,8 @@ public class ModelSubwoofer extends ModelChildBase.Biped
 	ModelRenderer lowerLegPanel2;
 	ModelRenderer foot2;
 	ModelRenderer backWheel2;
-	ModelRenderer upperArm1;
-	ModelRenderer lowerArm1;
+	public ModelRenderer upperArm1;
+	public ModelRenderer lowerArm1;
 	ModelRenderer lowerArmPanel1;
 	ModelRenderer shoulder1;
 	ModelRenderer frontWheel1;

@@ -2,10 +2,6 @@ package fiskfille.tf.client.render.entity;
 
 import java.util.UUID;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.authlib.GameProfile;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -22,20 +18,27 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringUtils;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+
+import org.lwjgl.opengl.GL11;
+
+import com.mojang.authlib.GameProfile;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.player.ModelPlayerTF;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.ModelPurge;
 import fiskfille.tf.client.model.transformer.ModelSkystrike;
+import fiskfille.tf.client.model.transformer.ModelSubwoofer;
+import fiskfille.tf.client.model.transformer.ModelVurp;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.TransformerSubwoofer;
+import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer
@@ -49,6 +52,8 @@ public class RenderCustomPlayer extends RenderPlayer
 
 	protected void renderEquippedItems(AbstractClientPlayer player, float partialTicks)
 	{
+		//super.renderEquippedItems(player, partialTicks);
+		
 		net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre event = new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre(player, this, partialTicks);
 	
 		if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
@@ -199,7 +204,7 @@ public class RenderCustomPlayer extends RenderPlayer
 				purge.chest.postRender(0.0625F);
 				purge.upperArmR.postRender(0.0625F);
 				purge.lowerArm1.postRender(0.0625F);
-				GL11.glTranslatef(0F, 0F, 0.1F);
+				GL11.glTranslatef(0.05F, 0F, 0.1F);
 			}
 			else if(transformer instanceof TransformerSkystrike)
 			{
@@ -214,9 +219,28 @@ public class RenderCustomPlayer extends RenderPlayer
 				
 				GL11.glTranslatef(0F, 0.1F, 0.15F);
 			}
+			else if(transformer instanceof TransformerSubwoofer)
+			{
+				ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
+				modelBipedMain.bipedRightArm.postRender(0.0625F);
+				subwoofer.upperArm1.postRender(0.0625F);
+				subwoofer.lowerArm1.postRender(0.0625F);
+				
+				GL11.glTranslatef(0F, -0.1F, 0.05F);
+			}
+			else if(transformer instanceof TransformerVurp)
+			{
+				ModelVurp vurp = (ModelVurp) TFModelRegistry.getModel(transformer);
+				modelBipedMain.bipedRightArm.postRender(0.0625F);
+				vurp.upperArm1.postRender(0.0625F);
+				vurp.lowerArm1.postRender(0.0625F);
+				
+				GL11.glTranslatef(0F, -0.1F, 0.05F);
+			}
 			else
 			{
-				modelBipedMain.bipedRightArm.postRender(0.0625F);
+				modelBipedMain.bipedRightArm.postRender(0.0625F); 
+				GL11.glTranslatef(0F, 0.1F, -0.05F);
 			}
 			
 			GL11.glTranslatef(-0.0625F, 0.4375F, 0.0625F);
@@ -250,7 +274,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			else if (heldItem == Items.bow)
 			{
 				f2 = 0.625F;
-				GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
+				GL11.glTranslatef(-0.01F, 0.05F, 0.4F);
 				GL11.glRotatef(-20.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glScalef(f2, -f2, f2);
 				GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
@@ -260,6 +284,13 @@ public class RenderCustomPlayer extends RenderPlayer
 			{
 				f2 = 0.625F;
 
+				if(customRenderer != null)
+				{
+					GL11.glTranslatef(0, -0.1F, 0);
+				}
+				
+				GL11.glTranslatef(0F, -0.1F, -0.05F);
+				
 				if (heldItem.shouldRotateAroundWhenRendering())
 				{
 					GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);

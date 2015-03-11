@@ -29,9 +29,9 @@ public class ModelVurp extends ModelChildBase.Biped
 	ModelRenderer chestPanel1;
 	ModelRenderer chestPanel2;
 	ModelRenderer chestPanel3;
-	ModelRenderer upperArm1;
+	public ModelRenderer upperArm1;
 	ModelRenderer frontWheel1;
-	ModelRenderer lowerArm1;
+	public ModelRenderer lowerArm1;
 	ModelRenderer armPanel1;
 	ModelRenderer upperArm2;
 	ModelRenderer lowerArm2;
