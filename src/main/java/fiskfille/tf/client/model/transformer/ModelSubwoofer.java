@@ -916,6 +916,23 @@ public class ModelSubwoofer extends MowzieModelBase
 			{
 				
 			}
+			
+			for (MowzieModelRenderer modelRenderer : new MowzieModelRenderer[] {vehicleBase})
+			{
+				float f1 = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
+				if (modelRenderer.rotateAngleY < f1) {modelRenderer.rotateAngleY += 0.05F;}
+				if (modelRenderer.rotateAngleY > f1) {modelRenderer.rotateAngleY -= 0.05F;}
+				modelRenderer.rotateAngleY = f1;
+
+				if (player == Minecraft.getMinecraft().thePlayer)
+				{
+					modelRenderer.rotateAngleX = -(float)player.motionY - 0.0784000015258789F;
+				}
+				else
+				{
+					modelRenderer.rotateAngleX = -(float)(player.posY - player.prevPosY) * 1.5F;
+				}
+			}
 		}
 	}
 }
