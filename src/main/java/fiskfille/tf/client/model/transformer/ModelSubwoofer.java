@@ -862,6 +862,8 @@ public class ModelSubwoofer extends MowzieModelBase
 					upperLegL.rotateAngleX -= 0.3;
 					lowerlegR1.rotateAngleX += 0.4;
 					lowerlegL1.rotateAngleX += 0.4;
+					lowerarmL1.rotateAngleX -= 0.1;
+					lowerarmR1.rotateAngleX -= 0.1;
 					head.rotateAngleX += 0.1;
 
 					bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
@@ -907,12 +909,85 @@ public class ModelSubwoofer extends MowzieModelBase
 				{
 					float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
 					float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
+					
+					waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+
+					stomach.rotateAngleX += 0.2 * upwardPose;
+					chestmain1.rotateAngleX -= 0.4 * upwardPose;
+					head.rotateAngleX += 0.6 * upwardPose;
+
+					upperarmR.rotateAngleX += 0.1 * upwardPose;
+					upperarmL.rotateAngleX += 0.1 * upwardPose;
+					upperarmR.rotateAngleZ -= 0.1 * upwardPose;
+					upperarmL.rotateAngleZ += 0.1 * upwardPose;
+					lowerarmR1.rotateAngleX += 0.2 * upwardPose;
+					lowerarmL1.rotateAngleX += 0.2 * upwardPose;
+
+					upperLegR.rotateAngleX += 0.2 * upwardPose;
+					upperLegL.rotateAngleX -= 1 * upwardPose;
+					lowerlegR1.rotateAngleX += 0.3 * upwardPose;
+					lowerlegL1.rotateAngleX += 1.5 * upwardPose;
+
+					walk(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
+					walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
+					walk(lowerlegR1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
+					walk(lowerlegL1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
+					waist.rotateAngleX -= 0.2 * downwardPose;
+					stomach.rotateAngleX += 0.3 * downwardPose;
+					chestmain1.rotateAngleX += 0.3 * downwardPose;
+					head.rotateAngleX += 0.3 * downwardPose;
+					upperLegR.rotateAngleX -= 1.2 * downwardPose;
+					upperLegL.rotateAngleX -= 0.2 * downwardPose;
+					lowerlegR1.rotateAngleX += 2 * downwardPose;
+					lowerlegL1.rotateAngleX += 0.5 * downwardPose;
+					upperarmR.rotateAngleZ += 1 * downwardPose;
+					upperarmL.rotateAngleZ -= 1 * downwardPose;
+					lowerarmR1.rotateAngleX -= 1 * downwardPose;
+					lowerarmL1.rotateAngleX -= 1 * downwardPose;
 				}
+				
+				int t = TFDataManager.getTransformationTimer(player);
+				float f = (float) (20 - t);
+				
+				waist.rotationPointY += f * 0.65F;
+				waist.rotateAngleY += f * 0.165F;
+				crotch1.rotateAngleY -= f * 0.165F;
+				crotch2.rotateAngleY -= f * 0.165F;
+				stomach.rotateAngleY -= f * 0.165F;
+				chestwheel1.rotationPointX -= f * 0.05F;
+				chestwheel2.rotationPointX += f * 0.05F;
+				chestmain1.rotationPointY += f * 0.2F;
+				head.rotateAngleX += f * 0.1F;
+				head.rotationPointY += f * 0.1F;
+				head.rotationPointZ += f * 0.2F;
+				upperLegL.rotateAngleX += f * 0.09F;
+				upperLegR.rotateAngleX += f * 0.09F;
+				upperLegL.rotateAngleZ -= f * 0.1F;
+				upperLegR.rotateAngleZ += f * 0.1F;
+//				upperLegL.rotateAngleY -= f * 0.1F;
+//				upperLegR.rotateAngleY += f * 0.1F;
+				shoulderbaseL.rotateAngleY += f * 0.1F;
+				shoulderbaseR.rotateAngleY -= f * 0.1F;
+				shoulderbaseL.rotationPointZ += f * 0.5F;
+				shoulderbaseR.rotationPointZ += f * 0.5F;
+				lowerarmL1.rotateAngleX += f * 0.1F;
+				lowerarmL1.rotateAngleY -= f * 0.1F;
+				lowerarmR1.rotateAngleX += f * 0.1F;
+				lowerarmR1.rotateAngleY += f * 0.1F;
+				dish1.rotateAngleZ -= f * 0.08F;
+				dish1.rotationPointY -= f * 0.1F;
 			}
 			else
 			{
 				
 			}
+			
+			float wheelSpinSpeed = par1 * 0.8F;
+			
+			vehicleFrontWheel1.rotateAngleX = wheelSpinSpeed;
+			vehicleFrontWheel2.rotateAngleX = wheelSpinSpeed;
+			vehicleRearWheel1.rotateAngleX = wheelSpinSpeed;
+			vehicleRearWheel2.rotateAngleX = wheelSpinSpeed;
 			
 			for (MowzieModelRenderer modelRenderer : new MowzieModelRenderer[] {vehicleBase})
 			{
