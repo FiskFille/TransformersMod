@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraftforge.event.entity.minecart.MinecartCollisionEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -22,6 +21,7 @@ import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.common.transformer.base.TransformerCar;
+import fiskfille.tf.common.transformer.base.TransformerTruck;
 import fiskfille.tf.helper.TFHelper;
 
 public class TickHandler
@@ -133,7 +133,9 @@ public class TickHandler
 		{
 			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			
-			if (TFHelper.getTransformer(player) instanceof TransformerCar && !TFPlayerData.getData(player).stealthForce)
+			Transformer transformer = TFHelper.getTransformer(player);
+			//TODO Some sort of API?
+			if ((transformer instanceof TransformerCar || transformer instanceof TransformerTruck) && !TFPlayerData.getData(player).stealthForce)
 			{
 				prevMove = entityAttribute.getAttributeValue();
 				entityAttribute.setBaseValue(0.0D);
