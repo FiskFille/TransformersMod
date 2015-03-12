@@ -854,17 +854,14 @@ public class ModelSubwoofer extends MowzieModelBase
 			{
 				if(entity.onGround || player.capabilities.isFlying)
 				{
+					waist.rotationPointY -= 2;
+					
 					upperLegR.rotateAngleY += 0.2;
 					upperLegL.rotateAngleY -= 0.2;
-					upperLegR.rotateAngleX -= 0.8;
-					upperLegL.rotateAngleX -= 0.8;
-					lowerlegR1.rotateAngleX += 0.6;
-					lowerlegL1.rotateAngleX += 0.6;
-//					foot1.rotateAngleX -= 0.3;
-//					foot2.rotateAngleX -= 0.3;
-
-					waist.rotateAngleX += 0.1;
-
+					upperLegR.rotateAngleX -= 0.3;
+					upperLegL.rotateAngleX -= 0.3;
+					lowerlegR1.rotateAngleX += 0.4;
+					lowerlegL1.rotateAngleX += 0.4;
 					head.rotateAngleX += 0.1;
 
 					bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
