@@ -730,6 +730,7 @@ public class ModelPurge extends MowzieModelBase
 					this.upperArmR.rotateAngleX = (float)((double)this.upperArmR.rotateAngleX - ((double)f7 * 1.2D + (double)f8));
 					this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
 					this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float)Math.PI) * -0.4F;
+					this.upperArmR.rotateAngleZ += 0.15F;
 				}
 			}
 
