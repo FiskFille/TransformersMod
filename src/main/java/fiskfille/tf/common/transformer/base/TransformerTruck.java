@@ -92,6 +92,11 @@ public abstract class TransformerTruck extends Transformer
 				
 				increment -= forwardVelocity;
 				increment = increment / 10;
+				
+				if(forwardVelocity < 0.5D)
+				{
+					increment += 0.05D;
+				}
 			}
 
 			if (moveForward && forwardVelocity <= 1.0D)

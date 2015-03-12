@@ -91,7 +91,23 @@ public abstract class TransformerCar extends Transformer
 			}
 			else
 			{
-				increment = ((nitroPressed && nitro > 0 ? 5.5D : 0.74D) - forwardVelocity) / 10 + 0.001D;
+				if(nitroPressed && nitro > 0)
+				{
+					increment = 5.5D;
+				}
+				else
+				{
+					increment = 0.74D;
+				}
+				
+				increment -= forwardVelocity;
+				increment = increment / 10;
+				increment += 0.001D;
+				
+				if(forwardVelocity < 0.5D)
+				{
+					increment += 0.05D;
+				}
 			}
 
 			if (moveForward && forwardVelocity <= 1.0D)
