@@ -79,8 +79,8 @@ public class RenderItemSkystrikesCrossbow implements IItemRenderer
 			GL11.glRotatef(180, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(-45, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(5, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-10, 1.0F, 0.0F, 0.0F);
-			GL11.glTranslatef(0.15F, 0.5F, -0.6F);
+			GL11.glRotatef(-90, 1.0F, 0.0F, 0.0F);
+			GL11.glTranslatef(0F, 0.85F, -0F);
 			
 			float f = 1.0F;
 			GL11.glScalef(f, f, f);
