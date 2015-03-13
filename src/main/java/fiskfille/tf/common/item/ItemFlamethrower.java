@@ -164,7 +164,6 @@ public class ItemFlamethrower extends ItemSword
 	public List<Entity> getEntitiesNear(World world, double x, double y, double z, float par4)
 	{
 		List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
-
 		return list;
 	}
 

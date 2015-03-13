@@ -33,7 +33,8 @@ public class TFItems
 	public static Item skystrikesCrossbow;
 	public static Item purgesKatana;
 	public static Item vurpsSniper;
-	public static Item flamethrower;
+	public static Item cloudtrapsFlamethrower;
+	public static Item subwoofersBassBlaster;
 	
 	public static Item skystrikeHelmet;
 	public static Item skystrikeChestplate;
@@ -83,8 +84,12 @@ public class TFItems
 		t50JetWing = new ItemBasic();
 		jetThruster = new ItemBasic();
 		smallThruster = new ItemBasic();
-		flamethrower = new ItemFlamethrower(ToolMaterial.WOOD);
+		
+		skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);
+		purgesKatana = new ItemPurgesKatana(ToolMaterial.EMERALD);
 		vurpsSniper = new ItemVurpsSniper(ToolMaterial.WOOD);
+		cloudtrapsFlamethrower = new ItemFlamethrower(ToolMaterial.WOOD);
+		subwoofersBassBlaster = new ItemBassBlaster(ToolMaterial.WOOD);
 		
 		skystrikeHelmet = new ItemSkystrikeArmor(0);
 		skystrikeChestplate = new ItemSkystrikeArmor(1);
@@ -106,8 +111,6 @@ public class TFItems
 		cloudtrapChestplate = new ItemCloudtrapArmor(1);
 		cloudtrapLeggings = new ItemCloudtrapArmor(2);
 		cloudtrapBoots = new ItemCloudtrapArmor(3);
-		skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);
-		purgesKatana = new ItemPurgesKatana(ToolMaterial.EMERALD);
 		
 		transformiumDetector = new ItemTransformiumDetector();
 		
@@ -136,11 +139,12 @@ public class TFItems
 		TFItemRegistry.registerItem(jetThruster, "Jet Thruster", modId);
 		TFItemRegistry.registerItem(smallThruster, "Small Thruster", modId);
 		TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector", modId);
-		TFItemRegistry.registerItem(flamethrower, "Flame Thrower", modId);
-		TFItemRegistry.registerItem(vurpsSniper, "Vurps Sniper", modId);
 		
 		TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow", modId);
 		TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);
+		TFItemRegistry.registerItem(vurpsSniper, "Vurp's Sniper", modId);
+		TFItemRegistry.registerItem(subwoofersBassBlaster, "Subwoofer's Bass Blaster", modId);
+		TFItemRegistry.registerItem(cloudtrapsFlamethrower, "Flame Thrower", modId);
 		
 		TFItemRegistry.registerItem(skystrikeHelmet, "Skystrike Head", modId);
 		TFItemRegistry.registerItem(skystrikeChestplate, "Skystrike Torso", modId);

@@ -1,4 +1,4 @@
-------Miscellaneous------
+------Items------
 item.transformium.name=Transformium
 item.energon_crystal_piece.name=Energon Crystal Piece
 item.standard_engine.name=Standard Engine
@@ -13,6 +13,7 @@ item.tracks.name=Tracks
 item.turret.name=Turret
 item.wheel.name=Wheel
 item.missile.name=Missile
+item.tank_shell.name=Tank Shell
 item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
 
@@ -48,9 +49,9 @@ item.display_cloudtrap.name=T-50 Stealth Jet
 ------Weapons------
 item.skystrikes_energon_crossbow.name=Skystrike's Energon Crossbow
 item.purges_katana.name=Purge's Katana
-item.tank_shell.name=Tank Shell
-item.flame_thrower.name=Cloudtrap's Flamethrower
 item.vurps_sniper.name=Vurp's Sniper
+item.subwoofers_bass_blaster.name=Subwoofer's Bass Blaster
+item.flame_thrower.name=Cloudtrap's Flamethrower
 
 ------Blocks------
 tile.display_pillar.name=Display Pillar
@@ -85,6 +86,9 @@ achievement.transform.desc=Transform into a Vehicle!
 
 achievement.tf.donate=Generosity!
 achievement.tf.donate.desc=Donate!
+
+------Miscellaneous------
+misc.donate.thanks=Thanks for donating $
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!

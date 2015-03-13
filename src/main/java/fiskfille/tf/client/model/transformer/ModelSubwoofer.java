@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
@@ -452,7 +453,7 @@ public class ModelSubwoofer extends MowzieModelBase
 		this.legL3.addBox(-1.1F, -2.7F, -3.2F, 2, 1, 3, 0.0F);
 		this.setRotateAngle(legL3, 0.4468042885105484F, 0.012217304763960306F, -0.041887902047863905F);
 
-		this.waist.addChild(this.crotchbuttonR); //TODO addChildTo?
+		this.waist.addChild(this.crotchbuttonR); //TODO (addChildTo? -Gegs) Nope, not needed. Tabula's done that stuff for us, so we don't have to worry about that. -Fisk
 		this.chestmain1.addChild(this.shoulderbaseR);
 		this.shoulderplateL1.addChild(this.shoulderplate2);
 		this.lowerarmL1.addChild(this.fistL);
@@ -901,7 +902,7 @@ public class ModelSubwoofer extends MowzieModelBase
 					walk(lowerarmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 					walk(lowerarmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 
-					if (player.isSneaking()) 
+					if (player.isSneaking()) // TODO: Sneak Animation
 					{
 					}
 				}
@@ -983,7 +984,6 @@ public class ModelSubwoofer extends MowzieModelBase
 			}
 			
 			float wheelSpinSpeed = par1 * 0.8F;
-			
 			vehicleFrontWheel1.rotateAngleX = wheelSpinSpeed;
 			vehicleFrontWheel2.rotateAngleX = wheelSpinSpeed;
 			vehicleRearWheel1.rotateAngleX = wheelSpinSpeed;
@@ -1004,6 +1004,13 @@ public class ModelSubwoofer extends MowzieModelBase
 				{
 					modelRenderer.rotateAngleX = -(float)(player.posY - player.prevPosY) * 1.5F;
 				}
+			}
+			
+			if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.subwoofersBassBlaster)
+			{
+				setRotateAngle(shoulderbaseR, bipedHead.rotateAngleX - pi / 2, 0.0F, 0.0F);
+				setRotateAngle(upperarmR, 0.0F, 0.0F, bipedHead.rotateAngleY);
+				setRotateAngle(lowerarmR1, 0.0F, 0.0F, 0.0F);
 			}
 		}
 	}
