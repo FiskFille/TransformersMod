@@ -30,6 +30,16 @@ public class EntityBassCharge extends EntityThrowable
         this.setSize(1.0F, 1.0F);
     }
     
+    public void onUpdate()
+    {
+    	super.onUpdate();
+    	
+    	if(ticksExisted > 5)
+    	{
+    		this.setDead();
+    	}
+    }
+    
 	protected float getGravityVelocity()
 	{
 		return 0.0F;

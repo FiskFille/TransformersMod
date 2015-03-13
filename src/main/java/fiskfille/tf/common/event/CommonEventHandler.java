@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -24,8 +26,10 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiOverlay;
+import fiskfille.tf.client.tick.ClientTickHandler;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.item.TFItems;
@@ -34,6 +38,8 @@ import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.common.transformer.base.TransformerCar;
+import fiskfille.tf.common.transformer.base.TransformerTruck;
 import fiskfille.tf.donator.Donators;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.update.Update;
@@ -243,7 +249,7 @@ public class CommonEventHandler
 					transformer.robotTick(player);
 				}
 			}
-			
+
 			if(player.worldObj.isRemote)
 			{
 				if (player == Minecraft.getMinecraft().thePlayer)
@@ -265,29 +271,29 @@ public class CommonEventHandler
 			}
 
 			// TODO: Re-implement player resizing for version 0.6
-//			try 
-//			{
-//				if (vehicleMode && yOffset != 0)
-//				{
-//					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
-//				}
-//				else
-//				{
-//					TransformersMod.setSizeMethod.invoke(player, 0.6F, 1.8F);
-//				}
-//			} 
-//			catch (IllegalAccessException e)
-//			{
-//				e.printStackTrace();
-//			} 
-//			catch (IllegalArgumentException e) 
-//			{
-//				e.printStackTrace();
-//			} 
-//			catch (InvocationTargetException e)
-//			{
-//				e.printStackTrace();
-//			}
+			//			try 
+			//			{
+			//				if (vehicleMode && yOffset != 0)
+			//				{
+			//					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
+			//				}
+			//				else
+			//				{
+			//					TransformersMod.setSizeMethod.invoke(player, 0.6F, 1.8F);
+			//				}
+			//			} 
+			//			catch (IllegalAccessException e)
+			//			{
+			//				e.printStackTrace();
+			//			} 
+			//			catch (IllegalArgumentException e) 
+			//			{
+			//				e.printStackTrace();
+			//			} 
+			//			catch (InvocationTargetException e)
+			//			{
+			//				e.printStackTrace();
+			//			}
 
 			if (!event.entity.worldObj.isRemote)
 			{

@@ -27,7 +27,7 @@ public class ItemVurpsSniper extends ItemSword
 		
 		if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player) && (player.inventory.hasItem(TFItems.miniMissile) || isCreativeMode))
 		{
-			stack.damageItem(2, player);
+			stack.damageItem(1, player);
 
 			if (world.isRemote)
 			{

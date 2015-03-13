@@ -34,7 +34,7 @@ public class ItemBassBlaster extends ItemSword
 	{
 		if (TFHelper.isPlayerSubwoofer(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
 		{
-			stack.damageItem(5, player);
+			stack.damageItem(1, player);
 
 			if (!player.capabilities.isCreativeMode)
 			{

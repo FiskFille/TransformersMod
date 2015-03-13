@@ -15,6 +15,8 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
@@ -29,24 +31,41 @@ public class TickHandler
 	public static int time = 0;
 
 	public static boolean prevViewBobbing;
-	
+
 	private double prevMove;
-	
+
 	private Minecraft mc = Minecraft.getMinecraft();
-	
+
+	//	@SubscribeEvent
+	//	public void onTransform(PlayerTransformEvent event)
+	//	{
+	//		EntityPlayer player = event.entityPlayer;
+	//
+	//		if(!event.transformed)
+	//		{
+	//			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+	//
+	//			Transformer transformer = TFHelper.getTransformer(player);
+	//			if(prevMove != 0)
+	//			{
+	//				entityAttribute.setBaseValue(prevMove);
+	//			}
+	//		}
+	//	}
+
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) 
 	{
 		EntityPlayer player = mc.thePlayer;
 		ItemStack itemstack = player.getHeldItem();
-		
+
 		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 		int transformationTimer = TFDataManager.getTransformationTimer(player);
-		
+
 		if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && (TFHelper.isPlayerTransformer(player)) && player.ridingEntity == null)
 		{
 			GameSettings gameSettings = mc.gameSettings;
-			
+
 			if (inVehicleMode && transformationTimer == 0)
 			{
 				TFDataManager.setInVehicleMode(player, false);
@@ -84,13 +103,13 @@ public class TickHandler
 		if (TFKeyBinds.keyBindingStealthMode.getIsKeyPressed())
 		{
 			Transformer transformer = TFHelper.getTransformer(player);
-			
+
 			if (transformer != null)
 			{
 				if (inVehicleMode && mc.currentScreen == null && transformer.hasStealthForce(player))
 				{
 					int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
-					
+
 					if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
 					{
 						TFDataManager.setInStealthMode(player, false);
@@ -120,36 +139,41 @@ public class TickHandler
 			{
 				TransformersMod.proxy.tickHandler.onPlayerTick(player);
 			}
-			
+
 			TransformersMod.proxy.tickHandler.handleTransformation(player);
 		}
-		
+
 		if (TFDataManager.getZoomTimer(player) > 7)
 		{
-			player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
+			ItemStack heldItem = player.getHeldItem();
+			
+			if(heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper)
+			{
+				player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
+			}
 		}
 
-		if(inVehicleMode && transformationTimer == 0)
-		{
-			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-			
-			Transformer transformer = TFHelper.getTransformer(player);
-			//TODO Some sort of API?
-			if ((transformer instanceof TransformerCar || transformer instanceof TransformerTruck) && !TFPlayerData.getData(player).stealthForce)
-			{
-				prevMove = entityAttribute.getAttributeValue();
-				entityAttribute.setBaseValue(0.0D);
-			}
-			else
-			{
-				if(prevMove != 0)
-				{
-					entityAttribute.setBaseValue(prevMove);
-				}
-			}
-		}
+		//		if(inVehicleMode && transformationTimer == 0)
+		//		{
+		//			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+		//			
+		//			Transformer transformer = TFHelper.getTransformer(player);
+		//			//TODO Some sort of API?
+		//			if ((transformer instanceof TransformerCar || transformer instanceof TransformerTruck) && !TFPlayerData.getData(player).stealthForce)
+		//			{
+		//				prevMove = entityAttribute.getAttributeValue();
+		//				entityAttribute.setBaseValue(0.0D);
+		//			}
+		//			else
+		//			{
+		//				if(prevMove != 0)
+		//				{
+		//					entityAttribute.setBaseValue(prevMove);
+		//				}
+		//			}
+		//		}
 	}
-	
+
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent event)
 	{

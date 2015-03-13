@@ -31,7 +31,7 @@ public class ItemFlamethrower extends ItemSword
 	{
 		if (TFHelper.isPlayerCloudtrap(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
 		{
-			stack.damageItem(5, player);
+			stack.damageItem(1, player);
 
 			if (!player.capabilities.isCreativeMode)
 			{
