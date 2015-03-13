@@ -1006,11 +1006,11 @@ public class ModelSubwoofer extends MowzieModelBase
 				}
 			}
 			
-			if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.subwoofersBassBlaster)
+			if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.subwoofersBassBlaster && TFDataManager.getTransformationTimer(player) == 20)
 			{
-				setRotateAngle(shoulderbaseR, bipedHead.rotateAngleX - pi / 2, 0.0F, 0.0F);
-				setRotateAngle(upperarmR, 0.0F, 0.0F, bipedHead.rotateAngleY);
-				setRotateAngle(lowerarmR1, 0.0F, 0.0F, 0.0F);
+				setRotateAngle(shoulderbaseR, 0.0F, 0.0F, 0.0F);
+				setRotateAngle(upperarmR, 0.0F, 0.0F, 0.2F);
+				setRotateAngle(lowerarmR1, bipedHead.rotateAngleX - pi / 2, bipedHead.rotateAngleY, 0.0F);
 			}
 		}
 	}
