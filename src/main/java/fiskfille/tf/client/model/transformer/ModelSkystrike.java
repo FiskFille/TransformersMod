@@ -1,8 +1,10 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
@@ -993,7 +995,23 @@ public class ModelSkystrike extends MowzieModelBase
 				
 				if (wearingHead && wearingLegs && wearingChest)
 				{
-					if (entity.onGround || player.capabilities.isFlying)
+					boolean playerOnGround = entity.onGround;
+
+					boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
+				
+					if(otherPlayer)
+					{
+						int x = (int) Math.floor(player.posX);
+						int y = (int) (player.posY - player.getYOffset());
+						int z = (int) Math.floor(player.posZ);
+
+						if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y, z) == Blocks.air)
+						{
+							playerOnGround = true;
+						}
+					}
+					
+					if (playerOnGround || player.capabilities.isFlying)
 					{
 						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
 						waist.rotationPointY += 1 * par2;
@@ -1078,8 +1096,15 @@ public class ModelSkystrike extends MowzieModelBase
 					}
 					else// if(!player.isWet())
 					{
-						float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
-						float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
+						double motionY = entity.motionY;
+						
+						if(otherPlayer)
+						{
+							motionY = entity.posY - entity.prevPosY;
+						}
+						
+						float upwardPose = (float) (1/(1 + Math.exp(-20 * (motionY + 0.2))));
+						float downwardPose = (float) (1/(1 + Math.exp(10 * (motionY + 0.2))));
 
 						double speed = Math.sqrt((player.motionX * player.motionX) + (player.motionZ * player.motionZ)) * 1.2D;
 

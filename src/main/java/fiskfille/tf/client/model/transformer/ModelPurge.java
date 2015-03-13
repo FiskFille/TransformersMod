@@ -1,7 +1,9 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
@@ -545,7 +547,23 @@ public class ModelPurge extends MowzieModelBase
 					lowerArm2.rotateAngleX += 25*(hitTick)*(Math.pow(hitTick, 0.1) - max);
 				}
 
-				if(entity.onGround || player.capabilities.isFlying)
+				boolean playerOnGround = entity.onGround;
+
+				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
+			
+				if(otherPlayer)
+				{
+					int x = (int) Math.floor(player.posX);
+					int y = (int) (player.posY - player.getYOffset());
+					int z = (int) Math.floor(player.posZ);
+
+					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y, z) == Blocks.air)
+					{
+						playerOnGround = true;
+					}
+				}
+				
+				if (playerOnGround || player.capabilities.isFlying)
 				{
 					//New pose!
 					upperLegR.rotateAngleY += 0.2;
@@ -626,8 +644,15 @@ public class ModelPurge extends MowzieModelBase
 				}
 				else //If not on ground
 				{
-					float upwardPose = (float) (1/(1 + Math.exp(-20 * (entity.motionY + 0.2))));
-					float downwardPose = (float) (1/(1 + Math.exp(10 * (entity.motionY + 0.2))));
+					double motionY = entity.motionY;
+					
+					if(otherPlayer)
+					{
+						motionY = entity.posY - entity.prevPosY;
+					}
+					
+					float upwardPose = (float) (1/(1 + Math.exp(-20 * (motionY + 0.2))));
+					float downwardPose = (float) (1/(1 + Math.exp(10 * (motionY + 0.2))));
 
 					waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 
