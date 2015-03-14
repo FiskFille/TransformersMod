@@ -5,19 +5,24 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.entity.EntityMissile;
+import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.packet.PacketVehicleNitro;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
 public abstract class TransformerCar extends Transformer
@@ -36,9 +41,31 @@ public abstract class TransformerCar extends Transformer
 	@Override
 	public void transformationTick(EntityPlayer player, int timer)
 	{
-		if (timer >= 14 && TFDataManager.isInVehicleMode(player))
+		boolean vehicle = TFDataManager.isInVehicleMode(player);
+		
+		if (timer >= 14 && vehicle)
 		{
 			player.motionY += 0.12D;
+		}
+		
+		if(vehicle && timer == 0)
+		{
+			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+
+			Transformer transformer = TFHelper.getTransformer(player);
+			
+			if (!TFPlayerData.getData(player).stealthForce)
+			{
+				CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
+				entityAttribute.setBaseValue(0.0D);
+			}
+			else
+			{
+				if(CommonEventHandler.prevMove != 0)
+				{
+					entityAttribute.setBaseValue(CommonEventHandler.prevMove);
+				}
+			}
 		}
 	}
 

@@ -32,26 +32,7 @@ public class TickHandler
 
 	public static boolean prevViewBobbing;
 
-	private double prevMove;
-
 	private Minecraft mc = Minecraft.getMinecraft();
-
-	//	@SubscribeEvent
-	//	public void onTransform(PlayerTransformEvent event)
-	//	{
-	//		EntityPlayer player = event.entityPlayer;
-	//
-	//		if(!event.transformed)
-	//		{
-	//			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-	//
-	//			Transformer transformer = TFHelper.getTransformer(player);
-	//			if(prevMove != 0)
-	//			{
-	//				entityAttribute.setBaseValue(prevMove);
-	//			}
-	//		}
-	//	}
 
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) 
@@ -152,26 +133,6 @@ public class TickHandler
 				player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
 			}
 		}
-
-		//		if(inVehicleMode && transformationTimer == 0)
-		//		{
-		//			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-		//			
-		//			Transformer transformer = TFHelper.getTransformer(player);
-		//			//TODO Some sort of API?
-		//			if ((transformer instanceof TransformerCar || transformer instanceof TransformerTruck) && !TFPlayerData.getData(player).stealthForce)
-		//			{
-		//				prevMove = entityAttribute.getAttributeValue();
-		//				entityAttribute.setBaseValue(0.0D);
-		//			}
-		//			else
-		//			{
-		//				if(prevMove != 0)
-		//				{
-		//					entityAttribute.setBaseValue(prevMove);
-		//				}
-		//			}
-		//		}
 	}
 
 	@SubscribeEvent

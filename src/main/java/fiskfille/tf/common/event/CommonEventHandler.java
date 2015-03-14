@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -36,6 +38,8 @@ import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.common.transformer.base.TransformerCar;
+import fiskfille.tf.common.transformer.base.TransformerTruck;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.donator.Donators;
 import fiskfille.tf.helper.TFHelper;
@@ -43,6 +47,8 @@ import fiskfille.tf.update.Update;
 
 public class CommonEventHandler
 {
+	public static double prevMove;
+
 	private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
 
 	private boolean displayedUpdates;
@@ -51,6 +57,24 @@ public class CommonEventHandler
 	private double lastX;
 	private double lastY;
 	private double lastZ;
+
+	@SubscribeEvent
+	public void onTransform(PlayerTransformEvent event)
+	{
+		EntityPlayer player = event.entityPlayer;
+
+		if(!event.transformed)
+		{
+			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+
+			Transformer transformer = TFHelper.getTransformer(player);
+
+			if(prevMove != 0)
+			{
+				entityAttribute.setBaseValue(prevMove);
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onHit(LivingAttackEvent event)
