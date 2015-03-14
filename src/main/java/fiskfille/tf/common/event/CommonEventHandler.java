@@ -143,7 +143,7 @@ public class CommonEventHandler
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			player.addStat(TFAchievements.transformers, 1);
+			player.addStat(TFAchievements.transformersMod, 1);
 
 			if (!world.isRemote)
 			{
