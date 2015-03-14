@@ -54,17 +54,17 @@ public class PacketHandleTransformation implements IMessage
 
                 if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
-                if (from != null && from != Minecraft.getMinecraft().thePlayer)
+                if (from != null && from != player)
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
-
-                    MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, message.transformed, playerData.stealthForce));
+                    
+                    MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, message.transformed, playerData.stealthForce));
                     playerData.stealthForce = false;
+                    playerData.vehicle = message.transformed;
                     TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
-
+                    
                     String suffix = message.transformed ? "vehicle" : "robot";
                     from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
-                    playerData.vehicle = message.transformed;
                 }
             }
             else
@@ -73,7 +73,7 @@ public class PacketHandleTransformation implements IMessage
                 if (player != null)
                 {
                     TFDataManager.setInVehicleMode(player, message.transformed);
-                    TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), player.dimension);
+                    TFPacketManager.networkWrapper.sendToDimension(message, player.dimension);
                 }
             }
 

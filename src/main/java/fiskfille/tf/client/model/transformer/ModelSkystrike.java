@@ -998,7 +998,7 @@ public class ModelSkystrike extends MowzieModelBase
 					boolean playerOnGround = entity.onGround;
 
 					boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
-				
+					
 					if(otherPlayer)
 					{
 						int x = (int) Math.floor(player.posX);
@@ -1145,12 +1145,6 @@ public class ModelSkystrike extends MowzieModelBase
 						this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
 						this.mainbody1.rotateAngleZ = -(this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY));
 
-						bipedHead.offsetY = 256F;
-						bipedBody.offsetY = 256F;
-						bipedRightArm.offsetY = 256F;
-						bipedLeftArm.offsetY = 256F;
-						bipedRightLeg.offsetY = 256F;
-						bipedLeftLeg.offsetY = 256F;
 						waist.offsetY = 256F;
 						mainbody1.offsetY = 0F;
 					}
@@ -1195,12 +1189,6 @@ public class ModelSkystrike extends MowzieModelBase
 //						this.lowerarmL1.rotateAngleZ = f * 0.05F;
 //						this.lowerarmR1.rotateAngleZ = f * -0.05F;
 
-						bipedHead.offsetY = 0F;
-						bipedBody.offsetY = 0F;
-						bipedRightArm.offsetY = 0F;
-						bipedLeftArm.offsetY = 0F;
-						bipedRightLeg.offsetY = 0F;
-						bipedLeftLeg.offsetY = 0F;
 						waist.offsetY = 0F;
 						mainbody1.offsetY = 256F;
 					}

@@ -58,7 +58,7 @@ public class PacketBroadcastState implements IMessage
 
                     TFPlayerData playerData = TFPlayerData.getData(lookupPlayer);
                     playerData.vehicle = message.vehicle;
-                    TFDataManager.setTransformationTimer(lookupPlayer, message.vehicle ? 0 : 10);
+                    TFDataManager.setTransformationTimer(lookupPlayer, message.vehicle ? 0 : 20);
                     playerData.stealthForce = message.stealth;
                     TFDataManager.setStealthModeTimer(lookupPlayer, message.stealth ? 0 : 5);
                 }
