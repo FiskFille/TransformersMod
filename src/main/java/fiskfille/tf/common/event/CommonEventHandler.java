@@ -1,14 +1,14 @@
 package fiskfille.tf.common.event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -26,10 +26,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiOverlay;
-import fiskfille.tf.client.tick.ClientTickHandler;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.item.TFItems;
@@ -38,8 +36,7 @@ import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.common.transformer.base.TransformerCar;
-import fiskfille.tf.common.transformer.base.TransformerTruck;
+import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.donator.Donators;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.update.Update;
@@ -161,7 +158,7 @@ public class CommonEventHandler
 				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 0 : 20);
 				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 0 : 5);
 
-				if (!displayedUpdates)
+				if (!displayedUpdates && TFConfig.checkForUpdates)
 				{
 					Update update = TransformersMod.latestUpdate;
 
@@ -269,7 +266,6 @@ public class CommonEventHandler
 					}
 				}
 			}
-
 			// TODO: Re-implement player resizing for version 0.6
 			//			try 
 			//			{
@@ -295,7 +291,7 @@ public class CommonEventHandler
 			//				e.printStackTrace();
 			//			}
 
-			if (!event.entity.worldObj.isRemote)
+			if (!player.worldObj.isRemote)
 			{
 				if (playersNotSunc.size() > 0 && playersNotSunc.contains(player))
 				{

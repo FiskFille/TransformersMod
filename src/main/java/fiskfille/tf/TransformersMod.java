@@ -55,15 +55,18 @@ public class TransformersMod
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UpdateChecker updateChecker = new UpdateChecker();
-		updateChecker.handleUpdates();
-		Donators.loadDonators();
-	
 		configFile = new Configuration(event.getSuggestedConfigurationFile());
 		configFile.load();
 		config.load(configFile);
 		configFile.save();
-
+		
+		if(TFConfig.checkForUpdates)
+		{
+			UpdateChecker updateChecker = new UpdateChecker();
+			updateChecker.handleUpdates();
+			Donators.loadDonators();
+		}
+	
 		items.register();
 		blocks.register();
 		

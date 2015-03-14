@@ -10,6 +10,7 @@ public class TFConfig
 	public static boolean rollWithJet;
 	public static boolean allowTankShellExplosions;
 	public static boolean useMiles;
+	public static boolean checkForUpdates;
 	
 	private Configuration config;
 	
@@ -17,6 +18,7 @@ public class TFConfig
 	{
 		this.config = config;
 		
+		checkForUpdates = getBoolean("Check For Updates", true, "If false, the Transformers Mod will not check for updates.");
 		firstPersonAfterTransformation = getBoolean("First-person Switch", false, "If true, you will switch to first-person mode after transforming from vehicle to robot mode.");
 		purgeDashTop = getBoolean("Purge Dash Bar At Top Of Screen", false, "If true, the purge dash bar will appear at the top of the screen instead of in the middle.");
 		allowMissileExplosions = getBoolean("Allow Missile Explosions", true, "If false, missiles won't damage the terrain.");
