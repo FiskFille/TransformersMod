@@ -1,10 +1,18 @@
 package fiskfille.tf.client.model.transformer;
 
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ReportedException;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
@@ -547,21 +555,21 @@ public class ModelPurge extends MowzieModelBase
 					lowerArm2.rotateAngleX += 25*(hitTick)*(Math.pow(hitTick, 0.1) - max);
 				}
 
-				boolean playerOnGround = entity.onGround;
+				boolean playerOnGround = onGround(player);
 
-				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
-
-				if(otherPlayer)
-				{
-					int x = (int) Math.floor(player.posX);
-					int y = (int) (player.posY - player.getYOffset());
-					int z = (int) Math.floor(player.posZ);
-
-					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
-					{
-						playerOnGround = true;
-					}
-				}
+				//				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
+				//
+				//				if(otherPlayer)
+				//				{
+				//					int x = (int) Math.floor(player.posX);
+				//					int y = (int) (player.posY - player.getYOffset());
+				//					int z = (int) Math.floor(player.posZ);
+				//
+				//					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
+				//					{
+				//						playerOnGround = true;
+				//					}
+				//				}
 
 				if (playerOnGround || player.capabilities.isFlying)
 				{

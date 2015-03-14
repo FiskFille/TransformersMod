@@ -855,21 +855,7 @@ public class ModelSubwoofer extends MowzieModelBase
 
 			if(wearingChest && wearingHead && wearingLegs)
 			{
-				boolean playerOnGround = entity.onGround;
-
-				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
-
-				if(otherPlayer)
-				{
-					int x = (int) Math.floor(player.posX);
-					int y = (int) (player.posY - player.getYOffset());
-					int z = (int) Math.floor(player.posZ);
-
-					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
-					{
-						playerOnGround = true;
-					}
-				}
+				boolean playerOnGround = onGround(player);
 
 				if(playerOnGround || player.capabilities.isFlying)
 				{
