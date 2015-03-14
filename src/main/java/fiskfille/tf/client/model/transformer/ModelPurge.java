@@ -550,19 +550,19 @@ public class ModelPurge extends MowzieModelBase
 				boolean playerOnGround = entity.onGround;
 
 				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
-			
+
 				if(otherPlayer)
 				{
 					int x = (int) Math.floor(player.posX);
 					int y = (int) (player.posY - player.getYOffset());
 					int z = (int) Math.floor(player.posZ);
 
-					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y, z) == Blocks.air)
+					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
 					{
 						playerOnGround = true;
 					}
 				}
-				
+
 				if (playerOnGround || player.capabilities.isFlying)
 				{
 					//New pose!
@@ -644,15 +644,9 @@ public class ModelPurge extends MowzieModelBase
 				}
 				else //If not on ground
 				{
-					double motionY = entity.motionY;
-					
-					if(otherPlayer)
-					{
-						motionY = entity.posY - entity.prevPosY;
-					}
-					
-					float upwardPose = (float) (1/(1 + Math.exp(-20 * (motionY + 0.2))));
-					float downwardPose = (float) (1/(1 + Math.exp(10 * (motionY + 0.2))));
+					double motionY = entity.posY - entity.prevPosY;
+					float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
+					float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
 
 					waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 
@@ -708,33 +702,33 @@ public class ModelPurge extends MowzieModelBase
 					this.upperLegL.rotateAngleY = -((float)Math.PI / 10F);
 				}
 
-		        if (this.isSneak)
-		        {
-		            this.waist.rotateAngleX += 0.4F;
-		            this.waist.rotationPointZ += 4F;
-		            this.upperArmR.rotateAngleX -= 0.4F;
-		            this.upperArmL.rotateAngleX -= 0.4F;
-		            
-		            if(wearingChest)
-		            {
-		                this.head.rotateAngleX -= 0.4F;
-			            this.upperLegR.rotateAngleX -= 0.4F;
-			            this.upperLegL.rotateAngleX -= 0.4F;
-		            }
-		            else
-		            {
-		            	this.upperLegL.rotationPointZ += 5F;
-		            	this.upperLegL.rotationPointY -= 0.8F;
-		            	this.upperLegR.rotationPointZ += 5F;
-		            	this.upperLegR.rotationPointY -= 0.8F;
-		            }
-		        }
-		        else
-		        {
-		        	this.waist.rotationPointY -= 0.8F;
-		            this.waist.rotateAngleX = 0.0F;
-		        }
-				
+				if (this.isSneak)
+				{
+					this.waist.rotateAngleX += 0.4F;
+					this.waist.rotationPointZ += 4F;
+					this.upperArmR.rotateAngleX -= 0.4F;
+					this.upperArmL.rotateAngleX -= 0.4F;
+
+					if(wearingChest)
+					{
+						this.head.rotateAngleX -= 0.4F;
+						this.upperLegR.rotateAngleX -= 0.4F;
+						this.upperLegL.rotateAngleX -= 0.4F;
+					}
+					else
+					{
+						this.upperLegL.rotationPointZ += 5F;
+						this.upperLegL.rotationPointY -= 0.8F;
+						this.upperLegR.rotationPointZ += 5F;
+						this.upperLegR.rotationPointY -= 0.8F;
+					}
+				}
+				else
+				{
+					this.waist.rotationPointY -= 0.8F;
+					this.waist.rotateAngleX = 0.0F;
+				}
+
 				if (this.onGround > -9990.0F)
 				{
 					float f6 = this.onGround;

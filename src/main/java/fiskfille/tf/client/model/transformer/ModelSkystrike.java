@@ -1005,7 +1005,7 @@ public class ModelSkystrike extends MowzieModelBase
 						int y = (int) (player.posY - player.getYOffset());
 						int z = (int) Math.floor(player.posZ);
 
-						if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y, z) == Blocks.air)
+						if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
 						{
 							playerOnGround = true;
 						}
@@ -1096,17 +1096,14 @@ public class ModelSkystrike extends MowzieModelBase
 					}
 					else// if(!player.isWet())
 					{
-						double motionY = entity.motionY;
+						double motionX = entity.posX - entity.prevPosX;
+						double motionZ = entity.posZ - entity.prevPosZ;
 						
-						if(otherPlayer)
-						{
-							motionY = entity.posY - entity.prevPosY;
-						}
+						double motionY = entity.posY - entity.prevPosY;
+						float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
+						float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
 						
-						float upwardPose = (float) (1/(1 + Math.exp(-20 * (motionY + 0.2))));
-						float downwardPose = (float) (1/(1 + Math.exp(10 * (motionY + 0.2))));
-
-						double speed = Math.sqrt((player.motionX * player.motionX) + (player.motionZ * player.motionZ)) * 1.2D;
+						double speed = Math.sqrt((motionX * motionX) + (motionZ * motionZ)) * 1.2D;
 
 						waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 

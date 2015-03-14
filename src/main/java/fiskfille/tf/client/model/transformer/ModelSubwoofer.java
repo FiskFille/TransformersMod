@@ -858,14 +858,14 @@ public class ModelSubwoofer extends MowzieModelBase
 				boolean playerOnGround = entity.onGround;
 
 				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
-			
+
 				if(otherPlayer)
 				{
 					int x = (int) Math.floor(player.posX);
 					int y = (int) (player.posY - player.getYOffset());
 					int z = (int) Math.floor(player.posZ);
 
-					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y, z) == Blocks.air)
+					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
 					{
 						playerOnGround = true;
 					}
@@ -926,15 +926,10 @@ public class ModelSubwoofer extends MowzieModelBase
 				}
 				else //If not on ground
 				{
-					double motionY = entity.motionY;
-					
-					if(otherPlayer)
-					{
-						motionY = entity.posY - entity.prevPosY;
-					}
-					
-					float upwardPose = (float) (1/(1 + Math.exp(-20 * (motionY + 0.2))));
-					float downwardPose = (float) (1/(1 + Math.exp(10 * (motionY + 0.2))));
+					double motionY = entity.posY - entity.prevPosY;
+
+					float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
+					float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
 
 					waist.rotateAngleX += 0.2 * par2 * backwardInverter;
 
