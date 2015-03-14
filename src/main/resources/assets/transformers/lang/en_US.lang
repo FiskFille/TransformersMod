@@ -69,23 +69,35 @@ stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
 gui.display_pillar.name=Display Pillar
 
---Stats--
-achievement.shoot_missile=Directed by Michael Bay!
-achievement.shoot_missile.desc=Shoot a Missile!
-achievement.transformium=Transformium!
-achievement.transformium.desc=Smelt some Transformium Ore!
+------Achievements------
+achievement.shoot_missile=Directed by Michael Bay
+achievement.shoot_missile.desc=Shoot a Missile
 
-achievement.transformers_mod=Transformers Mod!
-achievement.transformers_mod.desc=Play with the Transformers Mod!
+achievement.transformium=Transformium
+achievement.transformium.desc=Smelt some Transformium Ore
 
-achievement.transformer=Transformer!
-achievement.transformer.desc=Wear a Transformer Suit!
+achievement.transformers_mod=Transformers Mod
+achievement.transformers_mod.desc=Play with the Transformers Mod
 
-achievement.transform=Robots in Disguise!
-achievement.transform.desc=Transform into a Vehicle!
+achievement.transformer=Transformer
+achievement.transformer.desc=Wear a Transformer Suit
 
-achievement.tf.donate=Generosity!
-achievement.tf.donate.desc=Donate!
+achievement.transform=Robots in Disguise
+achievement.transform.desc=Transform into a Vehicle
+
+achievement.tf.donate=Generosity
+achievement.tf.donate.desc=Donate
+
+achievement.tf.tracks=On the right Track
+achievement.tf.tracks.desc=Craft tracks using 6 leather and 2 iron
+
+achievement.tf.purge=Heavy Metal
+achievement.tf.purge.desc=Wear the full Purge set
+
+achievement.tf.detonateSeed=Extinction
+achievement.tf.detonateSeed.desc=Detonate a Transformium Seed
+
+
 
 ------Miscellaneous------
 misc.donate.thanks=Thanks for donating $
