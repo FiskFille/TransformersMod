@@ -125,6 +125,7 @@ public class TFItems
 		
 		TRANSFORMERMATERIAL.customCraftingMaterial = transformium;
 		TANKMATERIAL.customCraftingMaterial = transformium;
+		SUBWOOFERMATERIAL.customCraftingMaterial = transformium;
 		
 		TFItemRegistry.registerItem(transformium, "Transformium", modId);
 		TFItemRegistry.registerItem(transformiumArmorMolds, "Transformium Armor Molds", modId);
