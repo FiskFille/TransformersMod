@@ -574,21 +574,7 @@ public class ModelPurge extends MowzieModelBase
 
 				boolean playerOnGround = onGround(player);
 
-				//				boolean otherPlayer = player != Minecraft.getMinecraft().thePlayer;
-				//
-				//				if(otherPlayer)
-				//				{
-				//					int x = (int) Math.floor(player.posX);
-				//					int y = (int) (player.posY - player.getYOffset());
-				//					int z = (int) Math.floor(player.posZ);
-				//
-				//					if (player.worldObj.getBlock(x, y - 1, z) != Blocks.air)
-				//					{
-				//						playerOnGround = true;
-				//					}
-				//				}
-
-				if (playerOnGround || player.capabilities.isFlying)
+				if (playerOnGround || isFlying(player, playerOnGround))
 				{
 					//New pose!
 					upperLegR.rotateAngleY += 0.2;

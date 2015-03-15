@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -288,7 +289,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
     }
     
     /**
-     * Checks whether specified player is on ground
+     * Checks whether specified entity is on the ground.
      */
     public boolean onGround(Entity entity)
 	{
@@ -314,4 +315,19 @@ public class MowzieModelBase extends ModelChildBase.Biped
     		return entity.onGround;
     	}
 	}
+    
+    /**
+     * Checks whether specified player is flying.
+     */
+    public boolean isFlying(EntityPlayer player, boolean onGround)
+    {
+    	if(player != Minecraft.getMinecraft().thePlayer)
+    	{
+            return !onGround; //TODO Complete this
+    	}
+    	else
+    	{
+    		return player.capabilities.isFlying;
+    	}
+    }
 }

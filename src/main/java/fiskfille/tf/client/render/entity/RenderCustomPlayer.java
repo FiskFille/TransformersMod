@@ -144,10 +144,55 @@ public class RenderCustomPlayer extends RenderPlayer
 		hasCape = event.renderCape && hasCape;
 		float f4;
 
+		Transformer transformer = TFHelper.getTransformerFromArmor(player, 2);
+		
 		if (hasCape && !player.isInvisible() && !player.getHideCape())
 		{
 			this.bindTexture(player.getLocationCape());
 			GL11.glPushMatrix();
+			
+			if(transformer instanceof TransformerPurge) //TODO some sort of api for this
+			{
+				ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
+				purge.lowerArm1.postRenderParentChain(0.0625F);
+				GL11.glTranslatef(0.05F, 0F, 0.1F);
+			}
+			else if(transformer instanceof TransformerSkystrike)
+			{
+				ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
+//				skystrike.waist.postRender(0.0625F);
+//				skystrike.stomach.postRender(0.0625F);
+//				skystrike.chestcenter.postRender(0.0625F);
+//				skystrike.chest1.postRender(0.0625F);
+//				skystrike.shoulderR.postRender(0.0625F);
+//				skystrike.upperArmR.postRender(0.0625F);
+//				skystrike.lowerArmR1.postRender(0.0625F);
+				
+				skystrike.chest1.postRenderParentChain(0.0625F);
+				
+				GL11.glTranslatef(0F, 0.2F, 0.25F);
+			}
+			else if(transformer instanceof TransformerSubwoofer)
+			{
+				ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
+				
+				subwoofer.chestmain3.postRenderParentChain(0.0625F);
+				
+				GL11.glTranslatef(0.18F, 0F, -0.01F);
+			}
+			else if(transformer instanceof TransformerVurp)
+			{
+				modelBipedMain.bipedBody.postRender(0.0625F);
+			}
+			else if(transformer instanceof TransformerCloudtrap)
+			{
+				modelBipedMain.bipedBody.postRender(0.0625F);
+			}
+			else
+			{
+				modelBipedMain.bipedBody.postRender(0.0625F); 
+			}
+			
 			GL11.glTranslatef(0.0F, 0.0F, 0.125F);
 			double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * (double)partialTicks - (player.prevPosX + (player.posX - player.prevPosX) * (double)partialTicks);
 			double d4 = player.field_71096_bN + (player.field_71095_bQ - player.field_71096_bN) * (double)partialTicks - (player.prevPosY + (player.posY - player.prevPosY) * (double)partialTicks);
@@ -197,8 +242,6 @@ public class RenderCustomPlayer extends RenderPlayer
 		{
 			GL11.glPushMatrix();
 
-			Transformer transformer = TFHelper.getTransformerFromArmor(player, 2);
-		
 			if(transformer instanceof TransformerPurge) //TODO some sort of api for this
 			{
 				ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
