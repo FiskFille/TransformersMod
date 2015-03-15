@@ -881,10 +881,10 @@ public class ModelSubwoofer extends MowzieModelBase
 
 					upperLegR.rotateAngleY += 0.2;
 					upperLegL.rotateAngleY -= 0.2;
-					upperLegR.rotateAngleX -= 0.3;
-					upperLegL.rotateAngleX -= 0.3;
-					lowerlegR1.rotateAngleX += 0.4;
-					lowerlegL1.rotateAngleX += 0.4;
+					upperLegR.rotateAngleX -= 0.1;
+					upperLegL.rotateAngleX -= 0.1;
+					lowerlegR1.rotateAngleX += 0.1;
+					lowerlegL1.rotateAngleX += 0.1;
 					lowerarmL1.rotateAngleX -= 0.1;
 					lowerarmR1.rotateAngleX -= 0.1;
 					head.rotateAngleX += 0.1;
@@ -1004,12 +1004,16 @@ public class ModelSubwoofer extends MowzieModelBase
 			}
 			else //If not fully suited
 			{
+				waist.rotationPointY += 1;
 				this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
 
+				this.lowerarmL1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
+				this.lowerarmR1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 4;
+				
 				this.upperLegR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
 				this.upperLegL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
-
+				
 				if (this.isRiding)
 				{
 					this.upperArmR.rotateAngleX += -((float)Math.PI / 5F);

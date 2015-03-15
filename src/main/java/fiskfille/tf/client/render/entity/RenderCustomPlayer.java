@@ -4,11 +4,15 @@ import java.util.UUID;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -20,6 +24,8 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.lwjgl.opengl.GL11;
 
@@ -55,8 +61,6 @@ public class RenderCustomPlayer extends RenderPlayer
 
 	protected void renderEquippedItems(AbstractClientPlayer player, float partialTicks)
 	{
-		//super.renderEquippedItems(player, partialTicks);
-		
 		net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre event = new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre(player, this, partialTicks);
 	
 		if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
@@ -65,20 +69,22 @@ public class RenderCustomPlayer extends RenderPlayer
 		
 		super.renderArrowsStuckInEntity(player, partialTicks);
 		
-		ItemStack itemstack = player.inventory.armorItemInSlot(3);
+		ItemStack helmetStack = player.inventory.armorItemInSlot(3);
 
-		if (itemstack != null && event.renderHelmet)
+		if (helmetStack != null && event.renderHelmet)
 		{
 			GL11.glPushMatrix();
 			this.modelBipedMain.bipedHead.postRender(0.0625F);
 			float scale;
 
-			if (itemstack.getItem() instanceof ItemBlock)
+			Item helmet = helmetStack.getItem();
+			
+			if (helmet instanceof ItemBlock)
 			{
-				net.minecraftforge.client.IItemRenderer customRenderer = net.minecraftforge.client.MinecraftForgeClient.getItemRenderer(itemstack, net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED);
-				boolean is3D = (customRenderer != null && customRenderer.shouldUseRenderHelper(net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED, itemstack, net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D));
+				net.minecraftforge.client.IItemRenderer customRenderer = net.minecraftforge.client.MinecraftForgeClient.getItemRenderer(helmetStack, net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED);
+				boolean is3D = (customRenderer != null && customRenderer.shouldUseRenderHelper(net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED, helmetStack, net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D));
 
-				if (is3D || RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemstack.getItem()).getRenderType()))
+				if (is3D || RenderBlocks.renderItemIn3d(Block.getBlockFromItem(helmet).getRenderType()))
 				{
 					scale = 0.625F;
 					GL11.glTranslatef(0.0F, -0.25F, 0.0F);
@@ -86,17 +92,17 @@ public class RenderCustomPlayer extends RenderPlayer
 					GL11.glScalef(scale, -scale, -scale);
 				}
 
-				this.renderManager.itemRenderer.renderItem(player, itemstack, 0);
+				this.renderManager.itemRenderer.renderItem(player, helmetStack, 0);
 			}
-			else if (itemstack.getItem() == Items.skull)
+			else if (helmet == Items.skull)
 			{
 				scale = 1.0625F;
 				GL11.glScalef(scale, -scale, -scale);
 				GameProfile gameprofile = null;
 
-				if (itemstack.hasTagCompound())
+				if (helmetStack.hasTagCompound())
 				{
-					NBTTagCompound itemTag = itemstack.getTagCompound();
+					NBTTagCompound itemTag = helmetStack.getTagCompound();
 
 					if (itemTag.hasKey("SkullOwner", 10))
 					{
@@ -108,7 +114,7 @@ public class RenderCustomPlayer extends RenderPlayer
 					}
 				}
 
-				TileEntitySkullRenderer.field_147536_b.func_152674_a(-0.5F, 0.0F, -0.5F, 1, 180.0F, itemstack.getItemDamage(), gameprofile);
+				TileEntitySkullRenderer.field_147536_b.func_152674_a(-0.5F, 0.0F, -0.5F, 1, 180.0F, helmetStack.getItemDamage(), gameprofile);
 			}
 
 			GL11.glPopMatrix();
