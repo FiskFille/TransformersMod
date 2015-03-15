@@ -4,14 +4,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelSubwoofer extends MowzieModelBase
 {
@@ -810,8 +812,14 @@ public class ModelSubwoofer extends MowzieModelBase
 			float globalSpeed = 1;
 			float globalDegree = 0.8F;
 
+			this.head.rotationPointX += TFModelHelper.headOffsetX;
+			this.head.rotationPointY += TFModelHelper.headOffsetY;
+			this.head.rotationPointZ += TFModelHelper.headOffsetZ;
+			
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSubwoofer;
-			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSubwoofer;
+			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);
+			
+			boolean wearingChest = transformerChest instanceof TransformerSubwoofer;
 			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSubwoofer;
 
 			head.showModel = wearingHead;
@@ -821,6 +829,13 @@ public class ModelSubwoofer extends MowzieModelBase
 			if(!wearingChest && wearingHead)
 			{
 				head.rotationPointY += 4;
+				
+				if(transformerChest instanceof TransformerSkystrike)
+				{
+					head.rotationPointY -= 1;
+				}
+				
+				head.rotationPointZ += 1;
 			}
 
 			if(wearingHead)
@@ -832,6 +847,8 @@ public class ModelSubwoofer extends MowzieModelBase
 			{
 				upperLegL.rotationPointY += 11;
 				upperLegR.rotationPointY += 11;
+				upperLegL.rotateAngleX += 0.2F;
+				upperLegR.rotateAngleX += 0.2F;
 			}
 
 			int backwardInverter = 1;

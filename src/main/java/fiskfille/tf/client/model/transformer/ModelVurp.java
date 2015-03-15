@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelVurp extends ModelChildBase.Biped
 {
@@ -628,6 +629,15 @@ public class ModelVurp extends ModelChildBase.Biped
 			{
 				int t = TFDataManager.getTransformationTimer(player);
 				float f = (float)(20 - t) / 2;
+				
+				this.bipedHead.rotationPointX = TFModelHelper.headOffsetX;
+				this.bipedHead.rotationPointY = TFModelHelper.headOffsetY;
+				this.bipedHead.rotationPointZ = TFModelHelper.headOffsetZ;
+				
+				if(bipedHead.rotationPointY != 0)
+				{
+					bipedHead.rotationPointY -= 1;
+				}
 				
 				vehicleBody.rotateAngleX = 0;
 				bipedBody.rotationPointY = f * 2.5F;

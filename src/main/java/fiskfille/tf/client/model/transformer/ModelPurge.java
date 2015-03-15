@@ -2,6 +2,7 @@ package fiskfille.tf.client.model.transformer;
 
 import java.util.List;
 
+import sun.awt.windows.WWindowPeer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,10 @@ import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelPurge extends MowzieModelBase
 {
@@ -469,8 +473,13 @@ public class ModelPurge extends MowzieModelBase
 
 			setToInitPose();
 
+			this.head.rotationPointX += TFModelHelper.headOffsetX;
+			this.head.rotationPointY += TFModelHelper.headOffsetY;
+			this.head.rotationPointZ += TFModelHelper.headOffsetZ;
+			
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerPurge;
-			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerPurge;
+			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);
+			boolean wearingChest = transformerChest instanceof TransformerPurge;
 			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerPurge;
 
 			float globalSpeed = 1;
@@ -480,6 +489,14 @@ public class ModelPurge extends MowzieModelBase
 			{
 				this.upperLegR.rotationPointY = 0;
 				this.upperLegL.rotationPointY = 0;
+			}
+			
+			if(!wearingChest && wearingHead)
+			{
+				if(transformerChest instanceof TransformerSkystrike)
+				{
+					head.rotationPointY -= 1;
+				}
 			}
 
 			this.upperArmR.rotationPointX = 1;

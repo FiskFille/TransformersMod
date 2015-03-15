@@ -44,6 +44,13 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 			ItemStack pants = player.getCurrentArmor(1);
 			boolean wearingTransformerPants = pants != null ? pants.getItem() instanceof ItemTransformerArmor : false;
 
+			if(!wearingTransformerChest && !wearingTransformerHelm && !wearingTransformerPants)
+			{
+				TFModelHelper.headOffsetX = 0;
+				TFModelHelper.headOffsetY = 0;
+				TFModelHelper.headOffsetZ = 0;
+			}
+			
 			if (this.isChild)
 			{
 				float f6 = 2.0F;
@@ -73,9 +80,5 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 				if (!wearingTransformerHelm) {this.bipedHeadwear.render(f5);}
 			}
 		}
-
-		TFModelHelper.headOffsetX = 0;
-		TFModelHelper.headOffsetY = 0;
-		TFModelHelper.headOffsetZ = 0;
 	}
 }
