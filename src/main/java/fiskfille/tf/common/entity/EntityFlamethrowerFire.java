@@ -36,7 +36,7 @@ public class EntityFlamethrowerFire extends EntityThrowable
 
 	protected float func_70182_d()
 	{
-		return 2.0F;
+		return 1.0F;
 	}
 
 	public void onUpdate()
