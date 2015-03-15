@@ -9,6 +9,7 @@ import fiskfille.tf.common.packet.PacketBroadcastState;
 import fiskfille.tf.common.packet.PacketCloudtrapJetpack;
 import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
 import fiskfille.tf.common.packet.PacketHandleTransformation;
+import fiskfille.tf.common.packet.PacketSendFlying;
 import fiskfille.tf.common.packet.PacketTransformersAction;
 import fiskfille.tf.common.packet.PacketSyncStates;
 import fiskfille.tf.common.packet.PacketVehicleNitro;
@@ -31,6 +32,7 @@ public class TFPacketManager
 		registerPacket(PacketBroadcastState.Handler.class, PacketBroadcastState.class);
 		registerPacket(PacketVehicleNitro.Handler.class, PacketVehicleNitro.class);
 		registerPacket(PacketVurpSniperShoot.Handler.class, PacketVurpSniperShoot.class);
+		registerPacket(PacketSendFlying.Handler.class, PacketSendFlying.class);
 	}
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

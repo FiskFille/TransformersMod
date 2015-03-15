@@ -574,7 +574,7 @@ public class ModelPurge extends MowzieModelBase
 
 				boolean playerOnGround = onGround(player);
 
-				if (playerOnGround || isFlying(player, playerOnGround))
+				if (playerOnGround || player.capabilities.isFlying)
 				{
 					//New pose!
 					upperLegR.rotateAngleY += 0.2;

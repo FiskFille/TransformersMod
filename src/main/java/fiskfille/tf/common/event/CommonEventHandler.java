@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -28,18 +29,18 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.packet.PacketBroadcastState;
+import fiskfille.tf.common.packet.PacketSendFlying;
 import fiskfille.tf.common.packet.base.TFPacketManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.common.transformer.base.TransformerCar;
-import fiskfille.tf.common.transformer.base.TransformerTruck;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.donator.Donators;
 import fiskfille.tf.helper.TFHelper;
@@ -57,6 +58,8 @@ public class CommonEventHandler
 	private double lastX;
 	private double lastY;
 	private double lastZ;
+
+	private Map<EntityPlayer, Boolean> prevFlying = new HashMap<EntityPlayer, Boolean>();
 
 	@SubscribeEvent
 	public void onTransform(PlayerTransformEvent event)
@@ -133,8 +136,15 @@ public class CommonEventHandler
 				{
 					EntityPlayer beingTracked = (EntityPlayer) event.target;
 
-					TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(beingTracked), beingTracked.dimension);
-					TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), beingTracked.dimension);
+					EntityPlayerMP playerMP = (EntityPlayerMP) player;
+					EntityPlayerMP beingTrackedMP = (EntityPlayerMP) beingTracked;
+					
+					TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(player), beingTrackedMP);
+					TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(beingTracked), playerMP);
+				
+					boolean isFlying = player.capabilities.isFlying;
+					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(beingTracked, isFlying), playerMP);
+					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(player, isFlying), beingTrackedMP);
 				}
 			}
 		}
@@ -290,6 +300,28 @@ public class CommonEventHandler
 					}
 				}
 			}
+			else
+			{
+				if(player.capabilities != null)
+				{
+					Boolean isFlying = prevFlying.get(player);
+
+					if(isFlying != null)
+					{
+						if(isFlying != player.capabilities.isFlying)
+						{
+							TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, isFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+
+							prevFlying.put(player, player.capabilities.isFlying);
+						}
+					}
+					else
+					{
+						prevFlying.put(player, player.capabilities.isFlying);
+					}
+				}
+			}
+
 			// TODO: Re-implement player resizing for version 0.6
 			//			try 
 			//			{

@@ -997,7 +997,7 @@ public class ModelSkystrike extends MowzieModelBase
 				{
 					boolean playerOnGround = onGround(player);
 					
-					if (playerOnGround || isFlying(player, playerOnGround))
+					if (playerOnGround || player.capabilities.isFlying)
 					{
 						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
 						waist.rotationPointY += 1 * par2;

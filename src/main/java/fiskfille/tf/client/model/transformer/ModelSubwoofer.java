@@ -875,7 +875,7 @@ public class ModelSubwoofer extends MowzieModelBase
 			{
 				boolean playerOnGround = onGround(player);
 
-				if(playerOnGround || isFlying(player, playerOnGround))
+				if(playerOnGround || player.capabilities.isFlying)
 				{
 					waist.rotationPointY -= 2;
 
