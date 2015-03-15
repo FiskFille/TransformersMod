@@ -154,20 +154,12 @@ public class RenderCustomPlayer extends RenderPlayer
 			if(transformer instanceof TransformerPurge) //TODO some sort of api for this
 			{
 				ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
-				purge.lowerArm1.postRenderParentChain(0.0625F);
-				GL11.glTranslatef(0.05F, 0F, 0.1F);
+				purge.chest.postRenderParentChain(0.0625F);
+				GL11.glTranslatef(0F, -0.2F, 0.1F);
 			}
 			else if(transformer instanceof TransformerSkystrike)
 			{
 				ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
-//				skystrike.waist.postRender(0.0625F);
-//				skystrike.stomach.postRender(0.0625F);
-//				skystrike.chestcenter.postRender(0.0625F);
-//				skystrike.chest1.postRender(0.0625F);
-//				skystrike.shoulderR.postRender(0.0625F);
-//				skystrike.upperArmR.postRender(0.0625F);
-//				skystrike.lowerArmR1.postRender(0.0625F);
-				
 				skystrike.chest1.postRenderParentChain(0.0625F);
 				
 				GL11.glTranslatef(0F, 0.2F, 0.25F);
@@ -251,14 +243,6 @@ public class RenderCustomPlayer extends RenderPlayer
 			else if(transformer instanceof TransformerSkystrike)
 			{
 				ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
-//				skystrike.waist.postRender(0.0625F);
-//				skystrike.stomach.postRender(0.0625F);
-//				skystrike.chestcenter.postRender(0.0625F);
-//				skystrike.chest1.postRender(0.0625F);
-//				skystrike.shoulderR.postRender(0.0625F);
-//				skystrike.upperArmR.postRender(0.0625F);
-//				skystrike.lowerArmR1.postRender(0.0625F);
-				
 				skystrike.lowerArmR1.postRenderParentChain(0.0625F);
 				
 				GL11.glTranslatef(0F, 0.1F, 0.15F);
