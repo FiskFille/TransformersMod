@@ -10,6 +10,7 @@ import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
@@ -904,6 +905,8 @@ public class ModelSkystrike extends MowzieModelBase
 					globalSpeed = 1.5F;
 				}
 
+				ModelOffset offsets = TFModelHelper.getOffsets(player);
+				
 				if (wearingHead)
 				{
 					faceTarget(headbase, 1, par4, par5);
@@ -927,20 +930,20 @@ public class ModelSkystrike extends MowzieModelBase
 					{
 						if(wearingLegs)
 						{
-							TFModelHelper.headOffsetY = -3.1F;
-							TFModelHelper.headOffsetZ = 2F;
+							offsets.headOffsetY = -3.1F;
+							offsets.headOffsetZ = 2F;
 						}
 						else
 						{
-							TFModelHelper.headOffsetY = -0.6F;
-							TFModelHelper.headOffsetZ = 0F;
+							offsets.headOffsetY = -0.6F;
+							offsets.headOffsetZ = 0F;
 						}
 
 					}
 					else
 					{
-						TFModelHelper.headOffsetY = 0F;
-						TFModelHelper.headOffsetZ = 0F;
+						offsets.headOffsetY = 0F;
+						offsets.headOffsetZ = 0F;
 					}
 				}
 

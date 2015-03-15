@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.transformer.ModelChildBase;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
 
 @SideOnly(Side.CLIENT)
@@ -26,17 +27,19 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 		
 		this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, f5, entity);
 
-		this.bipedHead.rotationPointY = TFModelHelper.headOffsetY;
-		this.bipedHeadwear.rotationPointY = TFModelHelper.headOffsetY;
-		this.bipedHead.rotationPointX = TFModelHelper.headOffsetX;
-		this.bipedHeadwear.rotationPointX = TFModelHelper.headOffsetX;
-		this.bipedHead.rotationPointZ = TFModelHelper.headOffsetZ;
-		this.bipedHeadwear.rotationPointZ = TFModelHelper.headOffsetZ;
-		
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 
+			ModelOffset offsets = TFModelHelper.getOffsets(player);
+			
+			this.bipedHead.rotationPointY = offsets.headOffsetY;
+			this.bipedHeadwear.rotationPointY = offsets.headOffsetY;
+			this.bipedHead.rotationPointX = offsets.headOffsetX;
+			this.bipedHeadwear.rotationPointX = offsets.headOffsetX;
+			this.bipedHead.rotationPointZ = offsets.headOffsetZ;
+			this.bipedHeadwear.rotationPointZ = offsets.headOffsetZ;
+			
 			ItemStack helm = player.getCurrentArmor(3);
 			boolean wearingTransformerHelm = helm != null ? helm.getItem() instanceof ItemTransformerArmor : false;
 			ItemStack chest = player.getCurrentArmor(2);
@@ -46,9 +49,9 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 
 			if(!wearingTransformerChest && !wearingTransformerHelm && !wearingTransformerPants)
 			{
-				TFModelHelper.headOffsetX = 0;
-				TFModelHelper.headOffsetY = 0;
-				TFModelHelper.headOffsetZ = 0;
+				offsets.headOffsetX = 0;
+				offsets.headOffsetY = 0;
+				offsets.headOffsetZ = 0;
 			}
 			
 			if (this.isChild)

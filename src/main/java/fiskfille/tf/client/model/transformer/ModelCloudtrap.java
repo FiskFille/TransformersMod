@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelCloudtrap extends ModelChildBase.Biped
@@ -420,9 +421,10 @@ public class ModelCloudtrap extends ModelChildBase.Biped
 			{
 				float f = (float)(20 - timer) / 2;
 			
-				this.bipedHead.rotationPointX = TFModelHelper.headOffsetX;
-				this.bipedHead.rotationPointY = TFModelHelper.headOffsetY;
-				this.bipedHead.rotationPointZ = TFModelHelper.headOffsetZ;
+				ModelOffset offsets = TFModelHelper.getOffsets(player);
+				this.bipedHead.rotationPointX = offsets.headOffsetX;
+				this.bipedHead.rotationPointY = offsets.headOffsetY;
+				this.bipedHead.rotationPointZ = offsets.headOffsetZ;
 				
 				if(bipedHead.rotationPointY != 0)
 				{

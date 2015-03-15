@@ -13,6 +13,7 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
@@ -813,9 +814,10 @@ public class ModelSubwoofer extends MowzieModelBase
 			float globalSpeed = 1;
 			float globalDegree = 0.8F;
 
-			this.head.rotationPointX += TFModelHelper.headOffsetX;
-			this.head.rotationPointY += TFModelHelper.headOffsetY;
-			this.head.rotationPointZ += TFModelHelper.headOffsetZ;
+			ModelOffset offsets = TFModelHelper.getOffsets(player);
+			this.bipedHead.rotationPointX += offsets.headOffsetX;
+			this.bipedHead.rotationPointY += offsets.headOffsetY;
+			this.bipedHead.rotationPointZ += offsets.headOffsetZ;
 			
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSubwoofer;
 			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);

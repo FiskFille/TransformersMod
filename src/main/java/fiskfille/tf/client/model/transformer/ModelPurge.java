@@ -21,6 +21,7 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
@@ -473,9 +474,11 @@ public class ModelPurge extends MowzieModelBase
 
 			setToInitPose();
 
-			this.head.rotationPointX += TFModelHelper.headOffsetX;
-			this.head.rotationPointY += TFModelHelper.headOffsetY;
-			this.head.rotationPointZ += TFModelHelper.headOffsetZ;
+			ModelOffset offsets = TFModelHelper.getOffsets(player);
+			
+			this.head.rotationPointX += offsets.headOffsetX;
+			this.head.rotationPointY += offsets.headOffsetY;
+			this.head.rotationPointZ += offsets.headOffsetZ;
 			
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerPurge;
 			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);
