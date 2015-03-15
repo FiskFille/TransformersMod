@@ -143,8 +143,8 @@ public class CommonEventHandler
 					TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(beingTracked), playerMP);
 				
 					boolean isFlying = player.capabilities.isFlying;
-					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(beingTracked, isFlying), playerMP);
-					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(player, isFlying), beingTrackedMP);
+					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(beingTracked, !isFlying), playerMP);
+					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(player, !isFlying), beingTrackedMP);
 				}
 			}
 		}
@@ -306,18 +306,21 @@ public class CommonEventHandler
 				{
 					Boolean isFlying = prevFlying.get(player);
 
+					boolean capabilitiesFlying = player.capabilities.isFlying;
+					
 					if(isFlying != null)
 					{
-						if(isFlying != player.capabilities.isFlying)
+						if(isFlying != capabilitiesFlying)
 						{
-							TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, isFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+							TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
 
-							prevFlying.put(player, player.capabilities.isFlying);
+							prevFlying.put(player, capabilitiesFlying);
 						}
 					}
 					else
 					{
-						prevFlying.put(player, player.capabilities.isFlying);
+						TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+						prevFlying.put(player, capabilitiesFlying);
 					}
 				}
 			}

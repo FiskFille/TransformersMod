@@ -26,7 +26,7 @@ public class PacketSendFlying implements IMessage
 	public PacketSendFlying(EntityPlayer player, boolean f)
 	{
 		id = player.getEntityId();
-		flying = !f;
+		flying = f;
 	}
 
     public void fromBytes(ByteBuf buf)
