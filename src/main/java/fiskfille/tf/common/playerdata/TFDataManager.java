@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,7 +42,7 @@ public class TFDataManager
 			}
 			else
 			{
-				TFPacketManager.networkWrapper.sendToDimension(new PacketHandleTransformation(player, vehicleMode), player.dimension);
+				TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleTransformation(player, vehicleMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
 			}
 
 			data.vehicle = vehicleMode;
@@ -62,7 +63,7 @@ public class TFDataManager
 				}
 				else
 				{
-					TFPacketManager.networkWrapper.sendToDimension(new PacketHandleStealthTransformation(player, stealthMode), player.dimension);
+					TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleStealthTransformation(player, stealthMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
 				}
 
 				TFPlayerData.getData(player).stealthForce = stealthMode;
