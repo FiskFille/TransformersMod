@@ -182,7 +182,7 @@ public abstract class TransformerJet extends Transformer
 		{
 			Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1, true);
 			Random rand = new Random();
-			player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.1F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
+			player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord + 1.5F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
 		}
 	}
 

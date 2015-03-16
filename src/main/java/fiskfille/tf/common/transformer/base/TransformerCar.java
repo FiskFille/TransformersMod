@@ -284,14 +284,14 @@ public abstract class TransformerCar extends Transformer
 		{
 			Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1.3, false);
 			Random rand = new Random();
-			player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 0.6F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+			player.worldObj.spawnParticle("smoke", side.xCoord, player.posY, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
 		}
 
 		for (int i = 0; i < 10; ++i)
 		{
 			Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1.3, false);
 			Random rand = new Random();
-			player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 0.6F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
+			player.worldObj.spawnParticle("smoke", side.xCoord, player.posY, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
 		}
 	}
 }
