@@ -42,7 +42,7 @@ public class TFDataManager
 			}
 			else
 			{
-				TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleTransformation(player, vehicleMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+				TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleTransformation(player, vehicleMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
 			}
 
 			data.vehicle = vehicleMode;
@@ -63,7 +63,7 @@ public class TFDataManager
 				}
 				else
 				{
-					TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleStealthTransformation(player, stealthMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+					TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleStealthTransformation(player, stealthMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
 				}
 
 				TFPlayerData.getData(player).stealthForce = stealthMode;

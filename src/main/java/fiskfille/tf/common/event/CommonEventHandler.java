@@ -315,14 +315,14 @@ public class CommonEventHandler
 					{
 						if(isFlying != capabilitiesFlying)
 						{
-							TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+							TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
 
 							prevFlying.put(player, capabilitiesFlying);
 						}
 					}
 					else
 					{
-						TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+						TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
 						prevFlying.put(player, capabilitiesFlying);
 					}
 				}
