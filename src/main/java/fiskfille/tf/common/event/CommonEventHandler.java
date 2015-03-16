@@ -185,11 +185,15 @@ public class CommonEventHandler
 			}
 			else
 			{
-				//TFPacketManager.networkWrapper.sendToAllAround(new PacketBroadcastState(player), player.dimension);
-				TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
-
-				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 0 : 20);
+				boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+				
+				TFDataManager.setTransformationTimer(player, inVehicleMode ? 0 : 20);
 				TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 0 : 5);
+				
+				if(!inVehicleMode)
+				{
+					TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
+				}
 
 				if (!displayedUpdates && TFConfig.checkForUpdates)
 				{
