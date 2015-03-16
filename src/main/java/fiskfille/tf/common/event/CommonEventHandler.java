@@ -142,9 +142,8 @@ public class CommonEventHandler
 					TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(player), beingTrackedMP);
 					TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(beingTracked), playerMP);
 				
-					boolean isFlying = player.capabilities.isFlying;
-					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(beingTracked, !isFlying), playerMP);
-					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(player, !isFlying), beingTrackedMP);
+					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(beingTracked, beingTracked.capabilities.isFlying), playerMP);
+					TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(player, player.capabilities.isFlying), beingTrackedMP);
 				}
 			}
 		}
