@@ -185,7 +185,7 @@ public class CommonEventHandler
 			}
 			else
 			{
-				TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), player.dimension);
+				//TFPacketManager.networkWrapper.sendToAllAround(new PacketBroadcastState(player), player.dimension);
 				TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
 
 				TFDataManager.setTransformationTimer(player, TFDataManager.isInVehicleMode(player) ? 0 : 20);
