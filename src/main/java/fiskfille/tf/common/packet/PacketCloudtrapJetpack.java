@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -29,54 +30,43 @@ public class PacketCloudtrapJetpack implements IMessage
 		jetpacking = j;
 	}
 
-    public void fromBytes(ByteBuf buf)
-    {
-        id = buf.readInt();
-        jetpacking = buf.readBoolean();
-    }
+	public void fromBytes(ByteBuf buf)
+	{
+		id = buf.readInt();
+		jetpacking = buf.readBoolean();
+	}
 
-    public void toBytes(ByteBuf buf)
-    {
-        buf.writeInt(id);
-        buf.writeBoolean(jetpacking);
-    }
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(id);
+		buf.writeBoolean(jetpacking);
+	}
 
-    public static class Handler implements IMessageHandler<PacketCloudtrapJetpack, IMessage>
-    {
-        public IMessage onMessage(PacketCloudtrapJetpack message, MessageContext ctx)
-        {
-            if (ctx.side.isClient())
-            {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
-                EntityPlayer from = null;
-                Entity entity = player.worldObj.getEntityByID(message.id);
+	public static class Handler implements IMessageHandler<PacketCloudtrapJetpack, IMessage>
+	{
+		public IMessage onMessage(PacketCloudtrapJetpack message, MessageContext ctx)
+		{
+			if (ctx.side.isClient())
+			{
+				EntityPlayer player = TransformersMod.proxy.getPlayer();
+				EntityPlayer from = null;
+				Entity entity = player.worldObj.getEntityByID(message.id);
 
-                if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
+				if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
-                if (from != null && from != Minecraft.getMinecraft().thePlayer)
-                {
-                    if (message.jetpacking) if (!ClientTickHandler.cloudtrapJetpacking.contains(from)) ClientTickHandler.cloudtrapJetpacking.add(from);
-                    else ClientTickHandler.cloudtrapJetpacking.remove(from);
-                }
-            }
-            else
-            {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
-                EntityPlayer from = null;
+				if (from != null && from != player)
+				{
+					ClientTickHandler.cloudtrapJetpacking.put(from, message.jetpacking);
+				}
+			}
+			else
+			{
+				EntityPlayer player = ctx.getServerHandler().playerEntity;
 
-                for (World world : MinecraftServer.getServer().worldServers)
-                {
-                    Entity entity = world.getEntityByID(message.id);
-                    if (entity instanceof EntityPlayer)
-                    {
-                        from = (EntityPlayer) entity;
-                        break;
-                    }
-                }
+				TFPacketManager.networkWrapper.sendToAllAround(new PacketCloudtrapJetpack(player, message.jetpacking), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64));
+			}
 
-                if (from != null) TFPacketManager.networkWrapper.sendToAll(new PacketCloudtrapJetpack(player, message.jetpacking));
-            }
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

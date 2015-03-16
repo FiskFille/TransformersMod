@@ -1,7 +1,7 @@
 package fiskfille.tf.client.tick;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -30,7 +30,7 @@ import fiskfille.tf.helper.TFHelper;
 
 public class ClientTickHandler
 {
-	public static List<EntityPlayer> cloudtrapJetpacking = new ArrayList<EntityPlayer>();
+	public static Map<EntityPlayer, Boolean> cloudtrapJetpacking = new HashMap<EntityPlayer, Boolean>();
 	private Minecraft mc = Minecraft.getMinecraft();
 	private boolean prevJetpacking;
 
@@ -118,12 +118,12 @@ public class ClientTickHandler
 					}
 					else
 					{
-						for (EntityPlayer cPlayer : cloudtrapJetpacking)
+						if(cloudtrapJetpacking.get(player))
 						{
 							for (int i = 0; i < 20; ++i)
 							{
 								Random rand = new Random();
-								cPlayer.worldObj.spawnParticle("flame", cPlayer.posX, cPlayer.posY, cPlayer.posZ, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
+								player.worldObj.spawnParticle("flame", player.posX, player.posY, player.posZ, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
 							}
 						}
 					}
