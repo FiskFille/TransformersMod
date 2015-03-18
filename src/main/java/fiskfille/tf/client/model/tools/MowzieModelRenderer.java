@@ -1,5 +1,7 @@
 package fiskfille.tf.client.model.tools;
 
+import java.util.ArrayList;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import cpw.mods.fml.relauncher.Side;
@@ -26,6 +28,16 @@ public class MowzieModelRenderer extends ModelRenderer
     public MowzieModelRenderer(ModelBase modelBase, int x, int y)
     {
         super(modelBase, x, y);
+
+        if(modelBase instanceof MowzieModelBase)
+        {
+        	MowzieModelBase mowzieModelBase = (MowzieModelBase) modelBase;
+        	
+			if(mowzieModelBase.parts == null)
+        		mowzieModelBase.parts = new ArrayList<MowzieModelRenderer>();
+        	
+        	mowzieModelBase.parts.add(this);
+        }
     }
 
     public MowzieModelRenderer(ModelBase modelBase)

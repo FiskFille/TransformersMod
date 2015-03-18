@@ -4,557 +4,884 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.TransformerSubwoofer;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
-public class ModelVurp extends ModelChildBase.Biped
+public class ModelVurp extends MowzieModelBase
 {
-	MowzieModelRenderer leg1;
-	MowzieModelRenderer foot1;
-	MowzieModelRenderer backWheel1;
-	MowzieModelRenderer upperLegPanel1;
-	MowzieModelRenderer lowerLegPanel1;
-	MowzieModelRenderer leg2;
-	MowzieModelRenderer foot2;
-	MowzieModelRenderer backWheel2;
-	MowzieModelRenderer upperLegPanel2;
-	MowzieModelRenderer lowerLegPanel2;
-	MowzieModelRenderer hipSlab1;
-	MowzieModelRenderer hipSlab2;
-	MowzieModelRenderer windShield;
-	MowzieModelRenderer chest;
-	MowzieModelRenderer frontCar1;
-	MowzieModelRenderer frontCar2;
-	MowzieModelRenderer torso;
-	MowzieModelRenderer waist;
-	MowzieModelRenderer chestPanel1;
-	MowzieModelRenderer chestPanel2;
-	MowzieModelRenderer chestPanel3;
-	public MowzieModelRenderer upperArm1;
-	MowzieModelRenderer frontWheel1;
-	public MowzieModelRenderer lowerArm1;
-	MowzieModelRenderer armPanel1;
-	MowzieModelRenderer upperArm2;
-	MowzieModelRenderer lowerArm2;
-	MowzieModelRenderer armPanel2;
-	MowzieModelRenderer frontWheel2;
-	MowzieModelRenderer head;
-	MowzieModelRenderer ear1;
-	MowzieModelRenderer ear2;
-	MowzieModelRenderer mask;
+	public ModelRenderer vehicleBase;
+	public ModelRenderer vehicleWaist1;
+	public ModelRenderer vehicleWaist2;
+	public ModelRenderer vehicleWaistConnector1;
+	public ModelRenderer vehicleTorsoconnector1;
+	public ModelRenderer vehicleUpperlegR1;
+	public ModelRenderer vehicleUpperlegL1;
+	public ModelRenderer vehicleRplate1;
+	public ModelRenderer vehicleLplate1;
+	public ModelRenderer vehicleRearplate;
+	public ModelRenderer vehicleUpperlegR2;
+	public ModelRenderer vehicleKneeR1;
+	public ModelRenderer vehicleLowerlegR1;
+	public ModelRenderer vehiclelowerlegR7;
+	public ModelRenderer vehicleLowerlegR4;
+	public ModelRenderer vehicleLowerlegR5;
+	public ModelRenderer vehicleWheelBackR;
+	public ModelRenderer vehicleupperlegL2;
+	public ModelRenderer vehiclekneeL2;
+	public ModelRenderer vehiclelowerlegL1;
+	public ModelRenderer vehiclelowerlegL7;
+	public ModelRenderer vehiclelowerlegL4;
+	public ModelRenderer vehiclelowerlegL5;
+	public ModelRenderer vehicleWheelbackL;
+	public ModelRenderer vehicletorsobase;
+	public ModelRenderer vehiclehood1;
+	public ModelRenderer vehiclefrontR1;
+	public ModelRenderer vehiclefrontL1;
+	public ModelRenderer vehiclebackplate1;
+	public ModelRenderer vehiclebackplate2;
+	public ModelRenderer vehiclewheelR;
+	public ModelRenderer vehiclewheelL;
+	public ModelRenderer vehiclearmbaseR1;
+	public ModelRenderer vehiclearmbaseL1;
+	public ModelRenderer vehiclewindow1;
+	public ModelRenderer vehiclebaseplate;
+	public ModelRenderer vehiclehood2;
+	public ModelRenderer vehiclehood3;
+	public ModelRenderer vehiclehood4;
+	public ModelRenderer vehiclefrontR2;
+	public ModelRenderer vehiclefrontL2;
+	public ModelRenderer vehicleupperarmR1;
+	public ModelRenderer vehicleshoulderL1;
+	public ModelRenderer vehiclelowerarmR1;
+	public ModelRenderer vehiclelowerarmR2;
+	public ModelRenderer vehicleUpperarmL1;
+	public ModelRenderer vehicleshoulderL1_1;
+	public ModelRenderer vehicleLowerarmL1;
+	public ModelRenderer vehicleLowerarmL2;
+	public ModelRenderer vehicleWindow2;
+	public ModelRenderer vehiclerear1;
+	public ModelRenderer vehicleRear2;
 
-	MowzieModelRenderer vehicleFrontWheel1;
-	MowzieModelRenderer vehicleFrontWheel2;
-	MowzieModelRenderer vehicleBackWheel1;
-	MowzieModelRenderer vehicleBackWheel2;
-	MowzieModelRenderer vehicleBumper1;
-	MowzieModelRenderer vehicleBumper2;
-	MowzieModelRenderer vehicleRoof;
-	MowzieModelRenderer vehicleBody;
-	MowzieModelRenderer vehicleHood;
-	MowzieModelRenderer vehicleBackWindShield;
-	MowzieModelRenderer vehicleWindShield;
-	MowzieModelRenderer vehicleSpoiler;
-	MowzieModelRenderer vehicleDoor1;
-	MowzieModelRenderer vehicleDoor2;
-	
-	public MowzieModelRenderer stealthForceBase;
-	public MowzieModelRenderer stealthForceBackWheelCover1;
-	public MowzieModelRenderer stealthForceBackWheelCover2;
-	public MowzieModelRenderer stealthForceBackWindShield;
-	public MowzieModelRenderer stealthForceRoof;
-	public MowzieModelRenderer stealthForceBumper1;
-	public MowzieModelRenderer stealthForceBumper2;
-	public MowzieModelRenderer stealthForceWindShield;
-	public MowzieModelRenderer stealthForceSpoiler;
-	public MowzieModelRenderer stealthForceDoor1;
-	public MowzieModelRenderer stealthForceDoor2;
-	public MowzieModelRenderer stealthForceFrontWheelCover1;
-	public MowzieModelRenderer stealthForceFrontWheelCover2;
-	public MowzieModelRenderer stealthForceFrontGun;
-	public MowzieModelRenderer stealthForceHood;
-	public MowzieModelRenderer stealthForceGun1;
-	public MowzieModelRenderer stealthForceGun2;
-	public MowzieModelRenderer stealthForceBackWheel1;
-	public MowzieModelRenderer stealthForceBackWheel2;
-	public MowzieModelRenderer stealthForceFrontWheel1;
-	public MowzieModelRenderer stealthForceFrontWheel2;
-	public MowzieModelRenderer stealthForceHoodGun2;
-	public MowzieModelRenderer stealthForceHoodGun1;
+	public MowzieModelRenderer waist;
+	public MowzieModelRenderer waist1;
+	public MowzieModelRenderer waist2;
+	public MowzieModelRenderer waistconnector1;
+	public MowzieModelRenderer waist3;
+	public MowzieModelRenderer torsoconnector1;
+	public MowzieModelRenderer upperLegR;
+	public MowzieModelRenderer upperLegL;
+	public MowzieModelRenderer upperlegR2;
+	public MowzieModelRenderer kneeR1;
+	public MowzieModelRenderer lowerLegR;
+	public MowzieModelRenderer lowerlegR7;
+	public MowzieModelRenderer lowerlegR2;
+	public MowzieModelRenderer lowerlegR4;
+	public MowzieModelRenderer lowerlegR5;
+	public MowzieModelRenderer lowerlegR6;
+	public MowzieModelRenderer footbaseR;
+	public MowzieModelRenderer lowerlegR3;
+	public MowzieModelRenderer footR1;
+	public MowzieModelRenderer footR3;
+	public MowzieModelRenderer footR2;
+	public MowzieModelRenderer upperlegL2;
+	public MowzieModelRenderer kneeL1;
+	public MowzieModelRenderer lowerLegL;
+	public MowzieModelRenderer lowerlegL7;
+	public MowzieModelRenderer lowerlegL2;
+	public MowzieModelRenderer lowerlegL4;
+	public MowzieModelRenderer lowerlegL5;
+	public MowzieModelRenderer lowerlegL6;
+	public MowzieModelRenderer footbaseL;
+	public MowzieModelRenderer lowerlegL3;
+	public MowzieModelRenderer footL1;
+	public MowzieModelRenderer footL3;
+	public MowzieModelRenderer footL2;
+	public MowzieModelRenderer torsobase;
+	public MowzieModelRenderer ribs1;
+	public MowzieModelRenderer ribs2;
+	public MowzieModelRenderer connector1;
+	public MowzieModelRenderer connector2;
+	public MowzieModelRenderer fronttorso1;
+	public MowzieModelRenderer hood1;
+	public MowzieModelRenderer frontR1;
+	public MowzieModelRenderer torsodetail1;
+	public MowzieModelRenderer frontL1;
+	public MowzieModelRenderer torsodetail2;
+	public MowzieModelRenderer torsodetail3;
+	public MowzieModelRenderer torsodetail4;
+	public MowzieModelRenderer backplate1;
+	public MowzieModelRenderer backplate2;
+	public MowzieModelRenderer neck1;
+	public MowzieModelRenderer shoulderpadR;
+	public MowzieModelRenderer shoulderpadL;
+	public MowzieModelRenderer armbaseR1;
+	public MowzieModelRenderer armbaseL1;
+	public MowzieModelRenderer hood2;
+	public MowzieModelRenderer hood3;
+	public MowzieModelRenderer hood4;
+	public MowzieModelRenderer frontR2;
+	public MowzieModelRenderer frontL2;
+	public MowzieModelRenderer head;
+	public MowzieModelRenderer visor1;
+	public MowzieModelRenderer headback1;
+	public MowzieModelRenderer visor2;
+	public MowzieModelRenderer headback2;
+	public MowzieModelRenderer visor3;
+	public MowzieModelRenderer visor4;
+	public MowzieModelRenderer headback3;
+	public MowzieModelRenderer upperArmR;
+	public MowzieModelRenderer shoulderR1;
+	public MowzieModelRenderer lowerArmR;
+	public MowzieModelRenderer upperarmR2;
+	public MowzieModelRenderer fistR;
+	public MowzieModelRenderer lowerarmR2;
+	public MowzieModelRenderer upperArmL;
+	public MowzieModelRenderer shoulderL1;
+	public MowzieModelRenderer upperarmL2;
+	public MowzieModelRenderer lowerArmL;
+	public MowzieModelRenderer fistL;
+	public MowzieModelRenderer lowerarmL2;
 
 	public ModelVurp()
 	{
-		textureWidth = 64;
-		textureHeight = 128;
+		this.textureWidth = 128;
+		this.textureHeight = 128;
 
-		bipedBody = new MowzieModelRenderer(this, 1000, 1000);
-		bipedHead = new MowzieModelRenderer(this, 1000, 1000);
-		bipedHeadwear = new MowzieModelRenderer(this, 1000, 1000);
-		bipedRightLeg = new MowzieModelRenderer(this, 1000, 1000);
-		bipedLeftLeg = new MowzieModelRenderer(this, 1000, 1000);
-		bipedRightArm = new MowzieModelRenderer(this, 1000, 1000);
-		bipedLeftArm = new MowzieModelRenderer(this, 1000, 1000);
+		this.waist1 = new MowzieModelRenderer(this, 0, 64);
+		this.waist1.mirror = true;
+		this.waist1.setRotationPoint(0.0F, 0.0F, -2.0F);
+		this.waist1.addBox(0.0F, 0.0F, 0.0F, 3, 2, 1);
+		this.setRotateAngle(waist1, 0.0F, -0.12217304763960307F, -0.19198621771937624F);
+		this.fistL = new MowzieModelRenderer(this, 72, 64);
+		this.fistL.mirror = true;
+		this.fistL.setRotationPoint(0.0F, 3.8F, -0.5F);
+		this.fistL.addBox(-1.2F, -0.5F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(fistL, 0.0F, 0.0F, 0.12217304763960307F);
+		this.lowerlegL4 = new MowzieModelRenderer(this, 8, 83);
+		this.lowerlegL4.setRotationPoint(-0.3F, 4.0F, 0.5F);
+		this.lowerlegL4.addBox(-0.6F, -2.0F, -2.0F, 1, 3, 2);
+		this.setRotateAngle(lowerlegL4, 0.19198621771937624F, -0.2792526803190927F, 0.0F);
+		this.torsoconnector1 = new MowzieModelRenderer(this, 35, 60);
+		this.torsoconnector1.setRotationPoint(0.0F, 0.1F, -0.4F);
+		this.torsoconnector1.addBox(-1.0F, -4.0F, -1.0F, 2, 4, 2);
+		this.setRotateAngle(torsoconnector1, 0.0F, 0.7853981633974483F, 0.0F);
+		this.lowerlegR7 = new MowzieModelRenderer(this, 14, 85);
+		this.lowerlegR7.setRotationPoint(0.0F, -0.2F, -1.0F);
+		this.lowerlegR7.addBox(-2.5F, 0.0F, -1.0F, 3, 2, 1);
+		this.setRotateAngle(lowerlegR7, 0.4363323129985824F, 0.017453292519943295F, 0.0F);
+		this.shoulderL1 = new MowzieModelRenderer(this, 78, 60);
+		this.shoulderL1.mirror = true;
+		this.shoulderL1.setRotationPoint(2.3F, -0.2F, 0.4F);
+		this.shoulderL1.addBox(-1.0F, -1.5F, -1.5F, 1, 3, 3);
+		this.setRotateAngle(shoulderL1, 0.017453292519943295F, 0.05235987755982988F, -0.20943951023931953F);
+		this.torsodetail2 = new MowzieModelRenderer(this, 45, 78);
+		this.torsodetail2.setRotationPoint(2.0F, 0.0F, 1.0F);
+		this.torsodetail2.addBox(-1.5F, -1.0F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(torsodetail2, 0.13962634015954636F, -0.03490658503988659F, 0.15707963267948966F);
+		this.shoulderpadR = new MowzieModelRenderer(this, 55, 68);
+		this.shoulderpadR.setRotationPoint(-2.0F, -3.0F, 1.0F);
+		this.shoulderpadR.addBox(-0.2F, -2.0F, -1.0F, 1, 2, 2);
+		this.setRotateAngle(shoulderpadR, -0.20943951023931953F, 0.0F, -1.064650843716541F);
+		this.frontL1 = new MowzieModelRenderer(this, 35, 77);
+		this.frontL1.mirror = true;
+		this.frontL1.setRotationPoint(1.8F, -2.1F, 1.4F);
+		this.frontL1.addBox(-0.5F, -1.0F, -4.0F, 2, 2, 3);
+		this.setRotateAngle(frontL1, 0.5410520681182421F, -0.03490658503988659F, -0.20943951023931953F);
+		this.lowerlegL3 = new MowzieModelRenderer(this, 0, 85);
+		this.lowerlegL3.mirror = true;
+		this.lowerlegL3.setRotationPoint(0.0F, 4.0F, 0.0F);
+		this.lowerlegL3.addBox(0.0F, 0.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(lowerlegL3, 0.0F, -0.296705972839036F, 0.0F);
+		this.footL1 = new MowzieModelRenderer(this, 5, 92);
+		this.footL1.mirror = true;
+		this.footL1.setRotationPoint(0.0F, 3.0F, 0.0F);
+		this.footL1.addBox(-1.5F, -0.5F, -2.0F, 3, 1, 3);
+		this.setRotateAngle(footL1, 0.3839724354387525F, 0.0F, 0.0F);
+		this.upperArmR = new MowzieModelRenderer(this, 74, 60);
+		this.upperArmR.setRotationPoint(-1.5F, 0.0F, 1.0F);
+		this.upperArmR.addBox(0.0F, 0.8F, -0.5F, 1, 3, 1);
+		this.setRotateAngle(upperArmR, 0.22689280275926282F, 0.0F, 0.0F);
+		this.backplate1 = new MowzieModelRenderer(this, 51, 74);
+		this.backplate1.setRotationPoint(0.0F, -3.0F, 3.0F);
+		this.backplate1.addBox(0.0F, -1.0F, 0.0F, 3, 5, 1);
+		this.setRotateAngle(backplate1, 0.017453292519943295F, 0.12217304763960307F, -0.10471975511965977F);
+		this.lowerlegR2 = new MowzieModelRenderer(this, 10, 75);
+		this.lowerlegR2.setRotationPoint(0.5F, 0.0F, 0.0F);
+		this.lowerlegR2.addBox(0.0F, 0.0F, 0.0F, 1, 6, 2);
+		this.setRotateAngle(lowerlegR2, -0.33161255787892263F, 0.0F, -0.03490658503988659F);
+		this.upperlegR2 = new MowzieModelRenderer(this, 6, 72);
+		this.upperlegR2.setRotationPoint(-2.0F, -0.5F, -0.5F);
+		this.upperlegR2.addBox(0.0F, 0.0F, 0.0F, 1, 4, 1);
+		this.setRotateAngle(upperlegR2, 0.0F, 0.05235987755982988F, -0.03490658503988659F);
+		this.upperLegL = new MowzieModelRenderer(this, 0, 71);
+		this.upperLegL.setRotationPoint(1.0F, 2.0F, 0.0F);
+		this.upperLegL.addBox(0.0F, -1.0F, -1.0F, 1, 4, 2);
+		this.setRotateAngle(upperLegL, -0.148352986419518F, 0.017453292519943295F, -0.12217304763960307F);
+		this.fronttorso1 = new MowzieModelRenderer(this, 35, 73);
+		this.fronttorso1.setRotationPoint(-2.0F, -2.0F, -0.5F);
+		this.fronttorso1.addBox(0.0F, 0.0F, 0.0F, 4, 2, 2);
+		this.setRotateAngle(fronttorso1, -1.1519173063162573F, 0.0F, 0.0F);
+		this.upperLegR = new MowzieModelRenderer(this, 0, 71);
+		this.upperLegR.setRotationPoint(-1.0F, 2.0F, 0.0F);
+		this.upperLegR.addBox(-1.0F, -1.0F, -1.0F, 1, 4, 2);
+		this.setRotateAngle(upperLegR, -0.148352986419518F, -0.017453292519943295F, 0.12217304763960307F);
+		this.kneeR1 = new MowzieModelRenderer(this, 10, 71);
+		this.kneeR1.setRotationPoint(0.0F, 2.7F, 0.0F);
+		this.kneeR1.addBox(-2.0F, 0.0F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(kneeR1, 0.148352986419518F, 0.017453292519943295F, -0.12217304763960307F);
+		this.shoulderR1 = new MowzieModelRenderer(this, 78, 60);
+		this.shoulderR1.setRotationPoint(-2.3F, -0.2F, 0.4F);
+		this.shoulderR1.addBox(0.0F, -1.5F, -1.5F, 1, 3, 3);
+		this.setRotateAngle(shoulderR1, 0.017453292519943295F, -0.05235987755982988F, 0.20943951023931953F);
+		this.footR1 = new MowzieModelRenderer(this, 5, 92);
+		this.footR1.setRotationPoint(0.0F, 3.0F, 0.0F);
+		this.footR1.addBox(-1.5F, -0.5F, -2.0F, 3, 1, 3);
+		this.setRotateAngle(footR1, 0.3839724354387525F, 0.0F, 0.0F);
+		this.ribs1 = new MowzieModelRenderer(this, 35, 82);
+		this.ribs1.setRotationPoint(0.0F, -1.8F, 0.0F);
+		this.ribs1.addBox(-1.0F, 0.0F, -2.0F, 2, 1, 4);
+		this.setRotateAngle(ribs1, 0.0F, 0.7853981633974483F, 0.0F);
+		this.headback2 = new MowzieModelRenderer(this, 40, 98);
+		this.headback2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.headback2.addBox(0.0F, 0.0F, -2.0F, 1, 1, 3);
+		this.setRotateAngle(headback2, 0.10471975511965977F, -0.08726646259971647F, 0.12217304763960307F);
+		this.armbaseL1 = new MowzieModelRenderer(this, 64, 60);
+		this.armbaseL1.mirror = true;
+		this.armbaseL1.setRotationPoint(3.0F, -2.0F, 1.0F);
+		this.armbaseL1.addBox(-0.3F, -1.0F, -1.0F, 2, 2, 3);
+		this.setRotateAngle(armbaseL1, 0.0F, -0.10471975511965977F, -0.17453292519943295F);
+		this.armbaseR1 = new MowzieModelRenderer(this, 64, 60);
+		this.armbaseR1.setRotationPoint(-3.0F, -2.0F, 1.0F);
+		this.armbaseR1.addBox(-1.7F, -1.0F, -1.0F, 2, 2, 3);
+		this.setRotateAngle(armbaseR1, 0.0F, 0.10471975511965977F, 0.17453292519943295F);
+		this.lowerarmL2 = new MowzieModelRenderer(this, 74, 68);
+		this.lowerarmL2.mirror = true;
+		this.lowerarmL2.setRotationPoint(0.9F, 0.8F, -1.6F);
+		this.lowerarmL2.addBox(-1.0F, 0.0F, -2.0F, 1, 3, 2);
+		this.setRotateAngle(lowerarmL2, 0.0F, 1.117010721276371F, 0.0F);
+		this.ribs2 = new MowzieModelRenderer(this, 47, 80);
+		this.ribs2.setRotationPoint(0.0F, -3.5F, 0.0F);
+		this.ribs2.addBox(-0.9F, 0.0F, -3.0F, 2, 1, 6);
+		this.setRotateAngle(ribs2, 0.0F, 0.7853981633974483F, 0.0F);
+		this.lowerlegR6 = new MowzieModelRenderer(this, 15, 82);
+		this.lowerlegR6.setRotationPoint(1.0F, 0.0F, 2.0F);
+		this.lowerlegR6.addBox(-2.0F, 0.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(lowerlegR6, -0.45378560551852565F, 0.0F, 0.0F);
+		this.lowerLegL = new MowzieModelRenderer(this, 0, 77);
+		this.lowerLegL.mirror = true;
+		this.lowerLegL.setRotationPoint(1.0F, 0.4F, -1.0F);
+		this.lowerLegL.addBox(-1.5F, 0.0F, 0.0F, 3, 6, 2);
+		this.setRotateAngle(lowerLegL, 0.24434609527920614F, 0.0F, 0.0F);
+		this.lowerlegR5 = new MowzieModelRenderer(this, 16, 75);
+		this.lowerlegR5.setRotationPoint(-0.5F, 0.0F, 0.0F);
+		this.lowerlegR5.addBox(-1.0F, 0.0F, 0.0F, 1, 6, 1);
+		this.setRotateAngle(lowerlegR5, -0.17453292519943295F, 0.05235987755982988F, 0.0F);
+		this.lowerlegR3 = new MowzieModelRenderer(this, 0, 85);
+		this.lowerlegR3.setRotationPoint(0.0F, 4.0F, 0.0F);
+		this.lowerlegR3.addBox(-2.0F, 0.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(lowerlegR3, 0.0F, 0.296705972839036F, -0.0F);
+		this.waist = new MowzieModelRenderer(this, 0, 60);
+		this.waist.setRotationPoint(0.0F, 11.1F, 1.0F);
+		this.waist.addBox(-2.0F, 0.0F, -1.0F, 4, 1, 3);
+		this.lowerArmR = new MowzieModelRenderer(this, 64, 65);
+		this.lowerArmR.mirror = true;
+		this.lowerArmR.setRotationPoint(0.0F, 3.3F, -0.6F);
+		this.lowerArmR.addBox(-0.9F, -0.2F, -1.6F, 2, 4, 3);
+		this.setRotateAngle(lowerArmR, -0.5235987755982988F, -0.06981317007977318F, -0.12217304763960307F);
+		this.waist3 = new MowzieModelRenderer(this, 12, 64);
+		this.waist3.setRotationPoint(0.0F, -0.2F, -0.5F);
+		this.waist3.addBox(-3.0F, 0.0F, 0.0F, 6, 2, 2);
+		this.setRotateAngle(waist3, -0.24434609527920614F, 0.0F, 0.0F);
+		this.fistR = new MowzieModelRenderer(this, 72, 64);
+		this.fistR.setRotationPoint(0.0F, 3.8F, -0.5F);
+		this.fistR.addBox(-0.8F, -0.5F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(fistR, 0.0F, 0.0F, -0.12217304763960307F);
+		this.visor1 = new MowzieModelRenderer(this, 43, 90);
+		this.visor1.setRotationPoint(-1.0F, -2.9F, -1.0F);
+		this.visor1.addBox(0.0F, 0.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(visor1, -0.17453292519943295F, 0.0F, 0.0F);
+		this.footL2 = new MowzieModelRenderer(this, 0, 96);
+		this.footL2.mirror = true;
+		this.footL2.setRotationPoint(-1.5F, 0.0F, -2.0F);
+		this.footL2.addBox(0.0F, -0.5F, -1.0F, 3, 1, 4);
+		this.setRotateAngle(footL2, -0.33161255787892263F, 0.0F, 0.0F);
+		this.backplate2 = new MowzieModelRenderer(this, 51, 74);
+		this.backplate2.mirror = true;
+		this.backplate2.setRotationPoint(0.0F, -3.0F, 3.0F);
+		this.backplate2.addBox(-3.0F, -1.0F, 0.0F, 3, 5, 1);
+		this.setRotateAngle(backplate2, 0.017453292519943295F, -0.12217304763960307F, 0.12217304763960307F);
+		this.neck1 = new MowzieModelRenderer(this, 35, 90);
+		this.neck1.setRotationPoint(0.0F, -1.7F, -0.5F);
+		this.neck1.addBox(-1.0F, -2.0F, 0.0F, 2, 1, 2);
+		this.visor4 = new MowzieModelRenderer(this, 45, 96);
+		this.visor4.setRotationPoint(3.0F, 1.0F, 0.0F);
+		this.visor4.addBox(-1.0F, 0.0F, -2.0F, 1, 1, 2);
+		this.setRotateAngle(visor4, 0.10471975511965977F, 0.2792526803190927F, 0.0F);
+		this.footR2 = new MowzieModelRenderer(this, 0, 96);
+		this.footR2.setRotationPoint(1.5F, 0.0F, -2.0F);
+		this.footR2.addBox(-3.0F, -0.5F, -1.0F, 3, 1, 4);
+		this.setRotateAngle(footR2, -0.33161255787892263F, 0.0F, 0.0F);
+		this.headback3 = new MowzieModelRenderer(this, 40, 98);
+		this.headback3.setRotationPoint(3.0F, 0.0F, 0.0F);
+		this.headback3.addBox(-1.0F, 0.0F, -2.0F, 1, 1, 3);
+		this.setRotateAngle(headback3, 0.10471975511965977F, 0.08726646259971647F, -0.12217304763960307F);
+		this.waistconnector1 = new MowzieModelRenderer(this, 4, 64);
+		this.waistconnector1.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.waistconnector1.addBox(-1.0F, -0.1F, -2.3F, 2, 3, 4);
+		this.setRotateAngle(waistconnector1, 0.008726646259971648F, 0.0F, 0.0F);
+		this.headback1 = new MowzieModelRenderer(this, 35, 97);
+		this.headback1.setRotationPoint(-1.5F, -3.0F, 1.0F);
+		this.headback1.addBox(0.0F, 0.0F, 0.0F, 3, 3, 1);
+		this.setRotateAngle(headback1, -0.10471975511965977F, 0.0F, 0.0F);
+		this.footbaseR = new MowzieModelRenderer(this, 0, 91);
+		this.footbaseR.setRotationPoint(0.0F, 4.0F, 0.7F);
+		this.footbaseR.addBox(-1.0F, 1.0F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(footbaseR, -0.24434609527920614F, 0.0F, 0.0F);
+		this.upperArmL = new MowzieModelRenderer(this, 74, 60);
+		this.upperArmL.mirror = true;
+		this.upperArmL.setRotationPoint(0.5F, 0.0F, 1.0F);
+		this.upperArmL.addBox(0.0F, 0.8F, -0.5F, 1, 3, 1);
+		this.setRotateAngle(upperArmL, 0.22689280275926282F, 0.0F, 0.0F);
+		this.lowerarmR2 = new MowzieModelRenderer(this, 74, 68);
+		this.lowerarmR2.setRotationPoint(-0.9F, 0.8F, -1.6F);
+		this.lowerarmR2.addBox(0.0F, 0.0F, -2.0F, 1, 3, 2);
+		this.setRotateAngle(lowerarmR2, 0.0F, -1.117010721276371F, 0.0F);
+		this.footL3 = new MowzieModelRenderer(this, 0, 101);
+		this.footL3.mirror = true;
+		this.footL3.setRotationPoint(0.0F, 3.4F, 0.4F);
+		this.footL3.addBox(-1.0F, -1.2F, -2.0F, 2, 2, 4);
+		this.setRotateAngle(footL3, 0.0F, -0.008726646259971648F, 0.0F);
+		this.lowerlegL6 = new MowzieModelRenderer(this, 15, 82);
+		this.lowerlegL6.mirror = true;
+		this.lowerlegL6.setRotationPoint(-1.0F, 0.0F, 2.0F);
+		this.lowerlegL6.addBox(0.0F, 0.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(lowerlegL6, -0.45378560551852565F, 0.0F, 0.0F);
+		this.frontR2 = new MowzieModelRenderer(this, 48, 70);
+		this.frontR2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.frontR2.addBox(-1.5F, -2.0F, -3.7F, 2, 1, 3);
+		this.setRotateAngle(frontR2, 0.24434609527920614F, 0.0F, -0.017453292519943295F);
+		this.visor2 = new MowzieModelRenderer(this, 44, 93);
+		this.visor2.setRotationPoint(0.5F, 0.1F, 0.0F);
+		this.visor2.addBox(0.0F, 0.0F, -2.0F, 2, 1, 2);
+		this.setRotateAngle(visor2, 0.10471975511965977F, 0.0F, 0.0F);
+		this.shoulderpadL = new MowzieModelRenderer(this, 55, 68);
+		this.shoulderpadL.mirror = true;
+		this.shoulderpadL.setRotationPoint(2.0F, -3.0F, 1.0F);
+		this.shoulderpadL.addBox(-0.8F, -2.0F, -1.0F, 1, 2, 2);
+		this.setRotateAngle(shoulderpadL, -0.20943951023931953F, 0.0F, 1.064650843716541F);
+		this.waist2 = new MowzieModelRenderer(this, 0, 64);
+		this.waist2.setRotationPoint(0.0F, 0.0F, -2.0F);
+		this.waist2.addBox(-3.0F, 0.0F, 0.0F, 3, 2, 1);
+		this.setRotateAngle(waist2, 0.0F, 0.12217304763960307F, 0.19198621771937624F);
+		this.kneeL1 = new MowzieModelRenderer(this, 10, 71);
+		this.kneeL1.setRotationPoint(0.0F, 2.7F, 0.0F);
+		this.kneeL1.addBox(0.0F, 0.0F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(kneeL1, 0.148352986419518F, -0.017453292519943295F, 0.12217304763960307F);
+		this.visor3 = new MowzieModelRenderer(this, 45, 96);
+		this.visor3.setRotationPoint(0.0F, 1.0F, 0.0F);
+		this.visor3.addBox(0.0F, 0.0F, -2.0F, 1, 1, 2);
+		this.setRotateAngle(visor3, 0.10471975511965977F, -0.2792526803190927F, 0.0F);
+		this.lowerlegL7 = new MowzieModelRenderer(this, 14, 85);
+		this.lowerlegL7.mirror = true;
+		this.lowerlegL7.setRotationPoint(0.0F, -0.2F, -1.0F);
+		this.lowerlegL7.addBox(-0.5F, 0.0F, -1.0F, 3, 2, 1);
+		this.setRotateAngle(lowerlegL7, 0.4363323129985824F, -0.017453292519943295F, 0.0F);
+		this.hood4 = new MowzieModelRenderer(this, 51, 65);
+		this.hood4.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.hood4.addBox(-1.5F, -0.1F, -1.4F, 3, 2, 1);
+		this.setRotateAngle(hood4, 0.8656833089891874F, 0.0F, 0.0F);
+		this.hood3 = new MowzieModelRenderer(this, 47, 65);
+		this.hood3.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.hood3.addBox(-1.8F, -3.3F, -1.0F, 1, 4, 1);
+		this.setRotateAngle(hood3, 0.0F, -0.0017453292519943296F, -0.19198621771937624F);
+		this.connector2 = new MowzieModelRenderer(this, 43, 61);
+		this.connector2.mirror = true;
+		this.connector2.setRotationPoint(1.5F, 0.0F, 2.0F);
+		this.connector2.addBox(-1.0F, -0.1F, -0.5F, 1, 4, 1);
+		this.setRotateAngle(connector2, -0.13962634015954636F, 0.0F, 0.13962634015954636F);
+		this.hood2 = new MowzieModelRenderer(this, 47, 65);
+		this.hood2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.hood2.addBox(0.8F, -3.3F, -1.0F, 1, 4, 1);
+		this.setRotateAngle(hood2, 0.0F, 0.0017453292519943296F, 0.19198621771937624F);
+		this.frontR1 = new MowzieModelRenderer(this, 35, 77);
+		this.frontR1.setRotationPoint(-1.8F, -2.1F, 1.4F);
+		this.frontR1.addBox(-1.5F, -1.0F, -4.0F, 2, 2, 3);
+		this.setRotateAngle(frontR1, 0.5410520681182421F, 0.03490658503988659F, 0.20943951023931953F);
+		this.lowerlegL2 = new MowzieModelRenderer(this, 10, 75);
+		this.lowerlegL2.mirror = true;
+		this.lowerlegL2.setRotationPoint(-0.5F, 0.0F, 0.0F);
+		this.lowerlegL2.addBox(-1.0F, 0.0F, 0.0F, 1, 6, 2);
+		this.setRotateAngle(lowerlegL2, -0.33161255787892263F, 0.0F, 0.03490658503988659F);
+		this.upperarmL2 = new MowzieModelRenderer(this, 74, 60);
+		this.upperarmL2.setRotationPoint(0.0F, -0.6F, -1.3F);
+		this.upperarmL2.addBox(0.0F, 0.8F, -0.5F, 1, 3, 1);
+		this.torsobase = new MowzieModelRenderer(this, 35, 66);
+		this.torsobase.setRotationPoint(0.0F, -4.0F, 0.0F);
+		this.torsobase.addBox(-2.0F, -3.0F, -0.7F, 4, 3, 4);
+		this.setRotateAngle(torsobase, 0.0F, -0.7853981633974483F, 0.0F);
+		this.torsodetail1 = new MowzieModelRenderer(this, 45, 78);
+		this.torsodetail1.setRotationPoint(-2.0F, 0.0F, 1.0F);
+		this.torsodetail1.addBox(-0.5F, -1.0F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(torsodetail1, 0.13962634015954636F, 0.03490658503988659F, -0.15707963267948966F);
+		this.lowerlegL5 = new MowzieModelRenderer(this, 16, 75);
+		this.lowerlegL5.mirror = true;
+		this.lowerlegL5.setRotationPoint(0.5F, 0.0F, 0.0F);
+		this.lowerlegL5.addBox(0.0F, 0.0F, 0.0F, 1, 6, 1);
+		this.setRotateAngle(lowerlegL5, -0.17453292519943295F, -0.05235987755982988F, 0.0F);
+		this.upperarmR2 = new MowzieModelRenderer(this, 74, 60);
+		this.upperarmR2.mirror = true;
+		this.upperarmR2.setRotationPoint(0.0F, -0.6F, -1.3F);
+		this.upperarmR2.addBox(0.0F, 0.8F, -0.5F, 1, 3, 1);
+		this.hood1 = new MowzieModelRenderer(this, 47, 60);
+		this.hood1.setRotationPoint(0.0F, -0.5F, -1.8F);
+		this.hood1.addBox(-1.5F, -3.0F, -1.0F, 3, 4, 1);
+		this.setRotateAngle(hood1, -0.5061454830783556F, 0.0F, 0.0F);
+		this.lowerArmL = new MowzieModelRenderer(this, 64, 65);
+		this.lowerArmL.setRotationPoint(1.0F, 3.3F, -0.6F);
+		this.lowerArmL.addBox(-1.1F, -0.2F, -1.6F, 2, 4, 3);
+		this.setRotateAngle(lowerArmL, -0.5235987755982988F, 0.06981317007977318F, 0.12217304763960307F);
+		this.upperlegL2 = new MowzieModelRenderer(this, 6, 72);
+		this.upperlegL2.setRotationPoint(2.0F, -0.5F, -0.5F);
+		this.upperlegL2.addBox(-1.0F, 0.0F, 0.0F, 1, 4, 1);
+		this.setRotateAngle(upperlegL2, 0.0F, -0.05235987755982988F, 0.03490658503988659F);
+		this.lowerlegR4 = new MowzieModelRenderer(this, 8, 83);
+		this.lowerlegR4.setRotationPoint(0.3F, 4.0F, 0.5F);
+		this.lowerlegR4.addBox(-0.4F, -2.0F, -2.0F, 1, 3, 2);
+		this.setRotateAngle(lowerlegR4, 0.19198621771937624F, 0.2792526803190927F, 0.0F);
+		this.head = new MowzieModelRenderer(this, 35, 93);
+		this.head.setRotationPoint(0.0F, -1.9F, 0.6F);
+		this.head.addBox(-1.5F, -1.0F, -1.5F, 3, 1, 3);
+		this.frontL2 = new MowzieModelRenderer(this, 48, 70);
+		this.frontL2.mirror = true;
+		this.frontL2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.frontL2.addBox(-0.5F, -2.0F, -3.7F, 2, 1, 3);
+		this.setRotateAngle(frontL2, 0.24434609527920614F, 0.0F, 0.017453292519943295F);
+		this.footR3 = new MowzieModelRenderer(this, 0, 101);
+		this.footR3.setRotationPoint(0.0F, 3.4F, 0.4F);
+		this.footR3.addBox(-1.0F, -1.2F, -2.0F, 2, 2, 4);
+		this.setRotateAngle(footR3, 0.0F, 0.008726646259971648F, 0.0F);
+		this.connector1 = new MowzieModelRenderer(this, 43, 61);
+		this.connector1.setRotationPoint(-1.5F, 0.0F, 2.0F);
+		this.connector1.addBox(0.0F, -0.1F, -0.5F, 1, 4, 1);
+		this.setRotateAngle(connector1, -0.13962634015954636F, 0.0F, -0.13962634015954636F);
+		this.torsodetail3 = new MowzieModelRenderer(this, 55, 61);
+		this.torsodetail3.setRotationPoint(-2.0F, -2.0F, 1.0F);
+		this.torsodetail3.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.setRotateAngle(torsodetail3, 0.0F, 0.13962634015954636F, 0.33161255787892263F);
+		this.footbaseL = new MowzieModelRenderer(this, 0, 91);
+		this.footbaseL.mirror = true;
+		this.footbaseL.setRotationPoint(0.0F, 4.0F, 0.7F);
+		this.footbaseL.addBox(-1.0F, 1.0F, -1.0F, 2, 2, 2);
+		this.setRotateAngle(footbaseL, -0.24434609527920614F, 0.0F, 0.0F);
+		this.torsodetail4 = new MowzieModelRenderer(this, 55, 61);
+		this.torsodetail4.setRotationPoint(2.0F, -2.0F, 1.0F);
+		this.torsodetail4.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.setRotateAngle(torsodetail4, 0.0F, -0.13962634015954636F, -0.33161255787892263F);
+		this.lowerLegR = new MowzieModelRenderer(this, 0, 77);
+		this.lowerLegR.setRotationPoint(-1.0F, 0.4F, -1.0F);
+		this.lowerLegR.addBox(-1.5F, 0.0F, 0.0F, 3, 6, 2);
+		this.setRotateAngle(lowerLegR, 0.24434609527920614F, 0.0F, 0.0F);
 
-		leg1 = new MowzieModelRenderer(this, 0, 16);
-		leg1.addBox(-1F, -12F, -1.5F, 2, 12, 3);
-		leg1.setRotationPoint(-2.5F, 24F, 0F);
-		leg1.setTextureSize(64, 128);
-		leg1.mirror = true;
-		setRotation(leg1, 0F, 0F, 0.0523599F);
-		foot1 = new MowzieModelRenderer(this, 2, 33);
-		foot1.addBox(-1.5F, -0.5F, -5F, 3, 1, 6);
-		foot1.setRotationPoint(-2.5F, 22.5F, 1F);
-		foot1.setTextureSize(64, 128);
-		foot1.mirror = true;
-		setRotation(foot1, 0.2443461F, 0F, 0F);
-		backWheel1 = new MowzieModelRenderer(this, 0, 40);
-		backWheel1.addBox(-1F, -1F, -1F, 1, 2, 2);
-		backWheel1.setRotationPoint(-3.5F, 22.5F, 0F);
-		backWheel1.setTextureSize(64, 128);
-		backWheel1.mirror = true;
-		setRotation(backWheel1, 0F, 0F, 0F);
-		upperLegPanel1 = new MowzieModelRenderer(this, 0, 31);
-		upperLegPanel1.addBox(-1.5F, -3F, -1F, 3, 4, 1);
-		upperLegPanel1.setRotationPoint(-2.1F, 15F, -1.2F);
-		upperLegPanel1.setTextureSize(64, 128);
-		upperLegPanel1.mirror = true;
-		setRotation(upperLegPanel1, 0F, 0.1919862F, 0.0523599F);
-		lowerLegPanel1 = new MowzieModelRenderer(this, 10, 16);
-		lowerLegPanel1.addBox(-1.5F, -5F, -1F, 3, 6, 1);
-		lowerLegPanel1.setRotationPoint(-2.5F, 21F, -1F);
-		lowerLegPanel1.setTextureSize(64, 128);
-		lowerLegPanel1.mirror = true;
-		setRotation(lowerLegPanel1, 0.2443461F, 0.0872665F, 0.0523599F);
-		leg2 = new MowzieModelRenderer(this, 0, 16);
-		leg2.addBox(-1F, -12F, -1.5F, 2, 12, 3);
-		leg2.setRotationPoint(2.5F, 24F, 0F);
-		leg2.setTextureSize(64, 128);
-		leg2.mirror = true;
-		setRotation(leg2, 0F, 0F, -0.0523599F);
-		foot2 = new MowzieModelRenderer(this, 2, 33);
-		foot2.addBox(-1.5F, -0.5F, -5F, 3, 1, 6);
-		foot2.setRotationPoint(2.5F, 22.5F, 1F);
-		foot2.setTextureSize(64, 128);
-		foot2.mirror = true;
-		setRotation(foot2, 0.2443461F, 0F, 0F);
-		backWheel2 = new MowzieModelRenderer(this, 0, 40);
-		backWheel2.addBox(0F, -1F, -1F, 1, 2, 2);
-		backWheel2.setRotationPoint(3.5F, 22.5F, 0F);
-		backWheel2.setTextureSize(64, 128);
-		backWheel2.mirror = true;
-		setRotation(backWheel2, 0F, 0F, 0F);
-		upperLegPanel2 = new MowzieModelRenderer(this, 0, 31);
-		upperLegPanel2.addBox(-1.5F, -3F, -1F, 3, 4, 1);
-		upperLegPanel2.setRotationPoint(2.1F, 15F, -1.2F);
-		upperLegPanel2.setTextureSize(64, 128);
-		upperLegPanel2.mirror = true;
-		setRotation(upperLegPanel2, 0F, -0.1919862F, -0.0523599F);
-		lowerLegPanel2 = new MowzieModelRenderer(this, 10, 16);
-		lowerLegPanel2.addBox(-1.5F, -5F, -1F, 3, 6, 1);
-		lowerLegPanel2.setRotationPoint(2.5F, 21F, -1F);
-		lowerLegPanel2.setTextureSize(64, 128);
-		lowerLegPanel2.mirror = true;
-		setRotation(lowerLegPanel2, 0.2443461F, -0.0872665F, -0.0523599F);
-		hipSlab1 = new MowzieModelRenderer(this, 18, 16);
-		hipSlab1.addBox(-0.5F, -4F, -2F, 1, 4, 4);
-		hipSlab1.setRotationPoint(0F, 12.7F, 0F);
-		hipSlab1.setTextureSize(64, 128);
-		hipSlab1.mirror = true;
-		setRotation(hipSlab1, 0F, 0F, -0.7853982F);
-		hipSlab2 = new MowzieModelRenderer(this, 18, 16);
-		hipSlab2.addBox(-0.5F, -4F, -2F, 1, 4, 4);
-		hipSlab2.setRotationPoint(0F, 12.7F, 0F);
-		hipSlab2.setTextureSize(64, 128);
-		hipSlab2.mirror = true;
-		setRotation(hipSlab2, 0F, 0F, 0.7853982F);
-		windShield = new MowzieModelRenderer(this, 36, 33);
-		windShield.addBox(-2.5F, 0F, 0F, 5, 3, 1);
-		windShield.setRotationPoint(0F, 0F, 2F);
-		windShield.setTextureSize(64, 128);
-		windShield.mirror = true;
-		setRotation(windShield, 0F, 0F, 0F);
-		chest = new MowzieModelRenderer(this, 18, 24);
-		chest.addBox(-4F, -5F, -2F, 8, 5, 4);
-		chest.setRotationPoint(0F, 5F, 0F);
-		chest.setTextureSize(64, 128);
-		chest.mirror = true;
-		setRotation(chest, 0F, 0F, 0F);
-		frontCar1 = new MowzieModelRenderer(this, 28, 18);
-		frontCar1.addBox(-3F, -2F, -3F, 3, 2, 2);
-		frontCar1.setRotationPoint(-0.5F, 2.5F, 0F);
-		frontCar1.setTextureSize(64, 128);
-		frontCar1.mirror = true;
-		setRotation(frontCar1, 0F, 0.2443461F, 0.0872665F);
-		frontCar2 = new MowzieModelRenderer(this, 28, 18);
-		frontCar2.mirror = true;
-		frontCar2.addBox(0F, -2F, -3F, 3, 2, 2);
-		frontCar2.setRotationPoint(0.5F, 2.5F, 0F);
-		frontCar2.setTextureSize(64, 128);
-		setRotation(frontCar2, 0F, -0.2443461F, -0.0872665F);
-		frontCar2.mirror = true;
-		torso = new MowzieModelRenderer(this, 28, 10);
-		torso.addBox(-2.5F, -5F, -1.5F, 5, 5, 3);
-		torso.setRotationPoint(0F, 9F, 0F);
-		torso.setTextureSize(64, 128);
-		torso.mirror = true;
-		setRotation(torso, 0F, 0F, 0F);
-		waist = new MowzieModelRenderer(this, 18, 33);
-		waist.addBox(-3F, -3F, -1.5F, 6, 3, 3);
-		waist.setRotationPoint(0F, 12F, 0F);
-		waist.setTextureSize(64, 128);
-		waist.mirror = true;
-		setRotation(waist, 0F, 0F, 0F);
-		chestPanel1 = new MowzieModelRenderer(this, 10, 23);
-		chestPanel1.addBox(-1F, -4F, -1.5F, 2, 4, 1);
-		chestPanel1.setRotationPoint(-1F, 7.5F, -0.5F);
-		chestPanel1.setTextureSize(64, 128);
-		chestPanel1.mirror = true;
-		setRotation(chestPanel1, 0.2443461F, 0.1396263F, -0.3141593F);
-		chestPanel2 = new MowzieModelRenderer(this, 10, 23);
-		chestPanel2.addBox(-1F, -4F, -1.5F, 2, 4, 1);
-		chestPanel2.setRotationPoint(1F, 7.5F, -0.5F);
-		chestPanel2.setTextureSize(64, 128);
-		chestPanel2.mirror = true;
-		setRotation(chestPanel2, 0.2443461F, -0.1396263F, 0.3141593F);
-		chestPanel3 = new MowzieModelRenderer(this, 20, 10);
-		chestPanel3.addBox(-1F, -1.5F, -2F, 2, 4, 2);
-		chestPanel3.setRotationPoint(0F, 2.1F, -0.9F);
-		chestPanel3.setTextureSize(64, 128);
-		chestPanel3.mirror = true;
-		setRotation(chestPanel3, 0.1047198F, 0F, 0F);
-		upperArm1 = new MowzieModelRenderer(this, 52, 11);
-		upperArm1.addBox(-2.5F, -1F, -1.5F, 3, 5, 3);
-		upperArm1.setRotationPoint(-4F, 2F, 0F);
-		upperArm1.setTextureSize(64, 128);
-		upperArm1.mirror = true;
-		setRotation(upperArm1, 0.0872665F, 0F, 0.1745329F);
-		frontWheel1 = new MowzieModelRenderer(this, 0, 40);
-		frontWheel1.addBox(-1F, -1F, -1F, 1, 2, 2);
-		frontWheel1.setRotationPoint(-4F, 0.5F, 0F);
-		frontWheel1.setTextureSize(64, 128);
-		frontWheel1.mirror = true;
-		setRotation(frontWheel1, 0.0872665F, 0F, 0.8901179F);
-		lowerArm1 = new MowzieModelRenderer(this, 42, 18);
-		lowerArm1.addBox(-1F, -4F, -1F, 2, 11, 2);
-		lowerArm1.setRotationPoint(-5.7F, 5F, 0.5F);
-		lowerArm1.setTextureSize(64, 128);
-		lowerArm1.mirror = true;
-		setRotation(lowerArm1, -0.2443461F, 0F, 0.1396263F);
-		armPanel1 = new MowzieModelRenderer(this, 44, 11);
-		armPanel1.addBox(-1F, -2F, -1.5F, 1, 4, 3);
-		armPanel1.setRotationPoint(-7F, 8.5F, -0.3F);
-		armPanel1.setTextureSize(64, 128);
-		armPanel1.mirror = true;
-		setRotation(armPanel1, -0.2617994F, 0F, 0.0872665F);
-		upperArm2 = new MowzieModelRenderer(this, 52, 11);
-		upperArm2.addBox(-0.5F, -1F, -1.5F, 3, 5, 3);
-		upperArm2.setRotationPoint(4F, 2F, 0F);
-		upperArm2.setTextureSize(64, 128);
-		upperArm2.mirror = true;
-		setRotation(upperArm2, 0.0872665F, 0F, -0.1745329F);
-		lowerArm2 = new MowzieModelRenderer(this, 42, 18);
-		lowerArm2.addBox(-1F, -4F, -1F, 2, 11, 2);
-		lowerArm2.setRotationPoint(5.7F, 5F, 0.5F);
-		lowerArm2.setTextureSize(64, 128);
-		lowerArm2.mirror = true;
-		setRotation(lowerArm2, -0.2443461F, 0F, -0.1396263F);
-		armPanel2 = new MowzieModelRenderer(this, 44, 11);
-		armPanel2.addBox(0F, -2F, -1.5F, 1, 4, 3);
-		armPanel2.setRotationPoint(7F, 8.5F, -0.3F);
-		armPanel2.setTextureSize(64, 128);
-		armPanel2.mirror = true;
-		setRotation(armPanel2, -0.2617994F, 0F, -0.0872665F);
-		frontWheel2 = new MowzieModelRenderer(this, 0, 40);
-		frontWheel2.addBox(0F, -1F, -1F, 1, 2, 2);
-		frontWheel2.setRotationPoint(4F, 0.5F, 0F);
-		frontWheel2.setTextureSize(64, 128);
-		frontWheel2.mirror = true;
-		setRotation(frontWheel2, 0.0872665F, 0F, -0.8901179F);
-		head = new MowzieModelRenderer(this, 0, 0);
-		head.addBox(-2F, -4F, -1.5F, 4, 4, 3);
-		head.setRotationPoint(0F, 0F, 0F);
-		head.setTextureSize(64, 128);
-		head.mirror = true;
-		setRotation(head, 0F, 0F, 0F);
-		ear1 = new MowzieModelRenderer(this, 8, 7);
-		ear1.addBox(-1F, -3F, -1F, 1, 4, 2);
-		ear1.setRotationPoint(-1.2F, -1F, -1F);
-		ear1.setTextureSize(64, 128);
-		ear1.mirror = true;
-		setRotation(ear1, -0.418879F, -0.1745329F, 0F);
-		ear2 = new MowzieModelRenderer(this, 8, 7);
-		ear2.addBox(0F, -3F, -1F, 1, 4, 2);
-		ear2.setRotationPoint(1.2F, -1F, -1F);
-		ear2.setTextureSize(64, 128);
-		ear2.mirror = true;
-		setRotation(ear2, -0.418879F, 0.1745329F, 0F);
-		mask = new MowzieModelRenderer(this, 0, 7);
-		mask.addBox(-1.5F, -2F, -1F, 3, 4, 1);
-		mask.setRotationPoint(0F, -2F, -1.5F);
-		mask.setTextureSize(64, 128);
-		mask.mirror = true;
-		setRotation(mask, -0.1745329F, 0F, 0F);
+		this.footbaseR.addChild(this.footR3);
+		this.torsobase.addChild(this.connector1);
+		this.torsobase.addChild(this.torsodetail3);
+		this.lowerLegL.addChild(this.footbaseL);
+		this.torsobase.addChild(this.torsodetail4);
+		this.kneeR1.addChild(this.lowerLegR);
+		this.waist.addChild(this.waist1);
+		this.lowerArmL.addChild(this.fistL);
+		this.lowerLegL.addChild(this.lowerlegL4);
+		this.waist.addChild(this.torsoconnector1);
+		this.armbaseL1.addChild(this.shoulderL1);
+		this.torsobase.addChild(this.torsodetail2);
+		this.torsobase.addChild(this.shoulderpadR);
+		this.torsobase.addChild(this.frontL1);
+		this.lowerlegL2.addChild(this.lowerlegL3);
+		this.footbaseL.addChild(this.footL1);
+		this.armbaseR1.addChild(this.upperArmR);
+		this.torsobase.addChild(this.backplate1);
+		this.lowerLegR.addChild(this.lowerlegR2);
+		this.upperLegR.addChild(this.upperlegR2);
+		this.waistconnector1.addChild(this.upperLegL);
+		this.torsobase.addChild(this.fronttorso1);
+		this.waistconnector1.addChild(this.upperLegR);
+		this.upperLegR.addChild(this.kneeR1);
+		this.armbaseR1.addChild(this.shoulderR1);
+		this.footbaseR.addChild(this.footR1);
+		this.lowerLegR.addChild(this.footbaseR);
+		this.torsoconnector1.addChild(this.ribs1);
+		this.headback1.addChild(this.headback2);
+		this.torsobase.addChild(this.armbaseL1);
+		this.torsobase.addChild(this.armbaseR1);
+		this.lowerArmL.addChild(this.lowerarmL2);
+		this.torsoconnector1.addChild(this.ribs2);
+		this.lowerLegR.addChild(this.lowerlegR6);
+		this.kneeL1.addChild(this.lowerLegL);
+		this.lowerLegR.addChild(this.lowerlegR5);
+		this.lowerlegR2.addChild(this.lowerlegR3);
+		this.upperArmR.addChild(this.lowerArmR);
+		this.waist.addChild(this.waist3);
+		this.lowerArmR.addChild(this.fistR);
+		this.head.addChild(this.visor1);
+		this.footL1.addChild(this.footL2);
+		this.torsobase.addChild(this.backplate2);
+		this.torsobase.addChild(this.neck1);
+		this.headback1.addChild(this.visor4);
+		this.footR1.addChild(this.footR2);
+		this.headback1.addChild(this.headback3);
+		this.waist.addChild(this.waistconnector1);
+		this.head.addChild(this.headback1);
+		this.armbaseL1.addChild(this.upperArmL);
+		this.lowerArmR.addChild(this.lowerarmR2);
+		this.footbaseL.addChild(this.footL3);
+		this.lowerLegL.addChild(this.lowerlegL6);
+		this.frontR1.addChild(this.frontR2);
+		this.torsobase.addChild(this.shoulderpadL);
+		this.hood1.addChild(this.hood2);
+		this.torsobase.addChild(this.frontR1);
+		this.upperArmL.addChild(this.upperarmL2);
+		this.lowerLegL.addChild(this.lowerlegL2);
+		this.torsoconnector1.addChild(this.torsobase);
+		this.torsobase.addChild(this.torsodetail1);
+		this.lowerLegL.addChild(this.lowerlegL5);
+		this.upperArmR.addChild(this.upperarmR2);
+		this.upperArmL.addChild(this.lowerArmL);
+		this.torsobase.addChild(this.hood1);
+		this.lowerLegR.addChild(this.lowerlegR4);
+		this.upperLegL.addChild(this.upperlegL2);
+		this.frontL1.addChild(this.frontL2);
+		this.neck1.addChild(this.head);
+		this.headback1.addChild(this.visor2);
+		this.waist.addChild(this.waist2);
+		this.upperLegL.addChild(this.kneeL1);
+		this.headback1.addChild(this.visor3);
+		this.kneeL1.addChild(this.lowerlegL7);
+		this.hood1.addChild(this.hood4);
+		this.hood1.addChild(this.hood3);
+		this.torsobase.addChild(this.connector2);
+		
+		this.setInitPose();
+		
+	//	this.parts = new MowzieModelRenderer[]{armbaseL1, armbaseR1, backplate1, backplate2};
+		
+		this.vehiclebackplate2 = new ModelRenderer(this, 51, 74);
+		this.vehiclebackplate2.mirror = true;
+		this.vehiclebackplate2.setRotationPoint(-2.3F, -1.8F, 1.8F);
+		this.vehiclebackplate2.addBox(-3.0F, -2.0F, 0.0F, 3, 5, 1);
+		this.setRotateAngle(vehiclebackplate2, 1.5882496193148399F, 0.017453292519943295F, -1.5707963267948966F);
+		this.vehicleWaistConnector1 = new ModelRenderer(this, 4, 64);
+		this.vehicleWaistConnector1.setRotationPoint(0.0F, 2.0F, -1.0F);
+		this.vehicleWaistConnector1.addBox(-1.0F, -0.1F, -2.3F, 2, 3, 4);
+		this.setRotateAngle(vehicleWaistConnector1, 1.5707963267948966F, 0.0F, 0.0F);
+		this.vehiclewindow1 = new ModelRenderer(this, 0, 7);
+		this.vehiclewindow1.setRotationPoint(0.0F, -1.9F, -1.2F);
+		this.vehiclewindow1.addBox(-2.5F, -0.2F, 0.0F, 5, 2, 3);
+		this.setRotateAngle(vehiclewindow1, 0.33161255787892263F, 0.0F, 0.0F);
+		this.vehicleLowerlegR1 = new ModelRenderer(this, 0, 77);
+		this.vehicleLowerlegR1.setRotationPoint(-0.8F, 2.0F, 1.5F);
+		this.vehicleLowerlegR1.addBox(-1.5F, 0.0F, 0.0F, 3, 6, 2);
+		this.setRotateAngle(vehicleLowerlegR1, 3.141592653589793F, 0.0F, -0.017453292519943295F);
+		this.vehiclelowerlegL1 = new ModelRenderer(this, 0, 77);
+		this.vehiclelowerlegL1.mirror = true;
+		this.vehiclelowerlegL1.setRotationPoint(0.8F, 2.0F, 1.5F);
+		this.vehiclelowerlegL1.addBox(-1.5F, 0.0F, 0.0F, 3, 6, 2);
+		this.setRotateAngle(vehiclelowerlegL1, 3.141592653589793F, 0.0F, 0.017453292519943295F);
+		this.vehicleLowerarmL1 = new ModelRenderer(this, 64, 65);
+		this.vehicleLowerarmL1.setRotationPoint(0.0F, 3.3F, 0.4F);
+		this.vehicleLowerarmL1.addBox(-1.1F, -0.2F, -1.6F, 2, 4, 3);
+		this.setRotateAngle(vehicleLowerarmL1, -3.141592653589793F, 0.0F, 0.0F);
+		this.vehiclewheelR = new ModelRenderer(this, 55, 68);
+		this.vehiclewheelR.setRotationPoint(-2.7F, 0.3F, -2.0F);
+		this.vehiclewheelR.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.vehiclefrontL2 = new ModelRenderer(this, 48, 70);
+		this.vehiclefrontL2.mirror = true;
+		this.vehiclefrontL2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.vehiclefrontL2.addBox(-0.5F, -2.0F, -3.7F, 2, 1, 3);
+		this.setRotateAngle(vehiclefrontL2, 0.24434609527920614F, 0.0F, 0.017453292519943295F);
+		this.vehicleWaist2 = new ModelRenderer(this, 0, 64);
+		this.vehicleWaist2.setRotationPoint(0.0F, 7.0F, 1.5F);
+		this.vehicleWaist2.addBox(-3.0F, 0.0F, 0.0F, 3, 2, 1);
+		this.setRotateAngle(vehicleWaist2, -1.5707963267948966F, 0.0F, -3.211405823669566F);
+		this.vehicleupperarmR1 = new ModelRenderer(this, 74, 60);
+		this.vehicleupperarmR1.setRotationPoint(-1.5F, 0.0F, 1.0F);
+		this.vehicleupperarmR1.addBox(0.0F, 0.8F, -0.5F, 1, 3, 1);
+		this.setRotateAngle(vehicleupperarmR1, 1.5707963267948966F, 0.0F, 0.0F);
+		this.vehiclehood3 = new ModelRenderer(this, 47, 65);
+		this.vehiclehood3.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.vehiclehood3.addBox(-1.8F, -3.3F, -1.0F, 1, 4, 1);
+		this.setRotateAngle(vehiclehood3, -0.005235987755982988F, 0.003490658503988659F, -0.22165681500327983F);
+		this.vehicleTorsoconnector1 = new ModelRenderer(this, 35, 60);
+		this.vehicleTorsoconnector1.setRotationPoint(0.0F, 0.1F, -0.4F);
+		this.vehicleTorsoconnector1.addBox(-1.2F, -4.0F, -0.8F, 2, 4, 2);
+		this.setRotateAngle(vehicleTorsoconnector1, 0.0F, 0.7853981633974483F, 0.0F);
+		this.vehiclelowerlegL5 = new ModelRenderer(this, 16, 75);
+		this.vehiclelowerlegL5.mirror = true;
+		this.vehiclelowerlegL5.setRotationPoint(1.4F, 0.0F, 0.0F);
+		this.vehiclelowerlegL5.addBox(-1.0F, 0.0F, 0.0F, 1, 6, 1);
+		this.setRotateAngle(vehiclelowerlegL5, -0.15707963267948966F, 0.06981317007977318F, 0.05235987755982988F);
+		this.vehiclehood2 = new ModelRenderer(this, 47, 65);
+		this.vehiclehood2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.vehiclehood2.addBox(0.8F, -3.3F, -1.0F, 1, 4, 1);
+		this.setRotateAngle(vehiclehood2, -0.005235987755982988F, 0.003490658503988659F, 0.22165681500327983F);
+		this.vehicleLowerlegR5 = new ModelRenderer(this, 16, 75);
+		this.vehicleLowerlegR5.setRotationPoint(-1.4F, 0.0F, 0.0F);
+		this.vehicleLowerlegR5.addBox(0.0F, 0.0F, 0.0F, 1, 6, 1);
+		this.setRotateAngle(vehicleLowerlegR5, -0.15707963267948966F, -0.06981317007977318F, -0.05235987755982988F);
+		this.vehiclelowerlegL4 = new ModelRenderer(this, 8, 83);
+		this.vehiclelowerlegL4.setRotationPoint(-0.3F, 2.5F, 0.9F);
+		this.vehiclelowerlegL4.addBox(-0.5F, -2.0F, -2.0F, 1, 3, 2);
+		this.setRotateAngle(vehiclelowerlegL4, 0.15707963267948966F, -0.10471975511965977F, 0.08726646259971647F);
+		this.vehiclehood4 = new ModelRenderer(this, 51, 65);
+		this.vehiclehood4.setRotationPoint(0.0F, -0.2F, 0.0F);
+		this.vehiclehood4.addBox(-1.5F, -0.7F, -1.4F, 3, 2, 1);
+		this.setRotateAngle(vehiclehood4, 1.3526301702956054F, 0.0F, 0.0F);
+		this.vehicleWindow2 = new ModelRenderer(this, 0, 24);
+		this.vehicleWindow2.setRotationPoint(0.0F, -0.2F, 3.0F);
+		this.vehicleWindow2.addBox(-2.5F, 0.0F, 0.0F, 5, 1, 2);
+		this.setRotateAngle(vehicleWindow2, -0.20943951023931953F, 0.0F, 0.0F);
+		this.vehiclelowerlegR7 = new ModelRenderer(this, 14, 85);
+		this.vehiclelowerlegR7.setRotationPoint(0.5F, 1.0F, 1.6F);
+		this.vehiclelowerlegR7.addBox(-2.4F, -0.5F, -1.0F, 3, 2, 1);
+		this.setRotateAngle(vehiclelowerlegR7, 0.6108652381980153F, -0.05235987755982988F, 0.0F);
+		this.vehiclelowerarmR2 = new ModelRenderer(this, 74, 68);
+		this.vehiclelowerarmR2.setRotationPoint(-1.5F, 3.5F, 0.0F);
+		this.vehiclelowerarmR2.addBox(0.0F, -3.0F, -1.9F, 1, 3, 2);
+		this.setRotateAngle(vehiclelowerarmR2, 0.03490658503988659F, -0.2617993877991494F, -0.10122909661567112F);
+		this.vehicleRplate1 = new ModelRenderer(this, 0, 17);
+		this.vehicleRplate1.setRotationPoint(0.0F, 0.4F, 0.3F);
+		this.vehicleRplate1.addBox(-3.4F, -0.9F, -5.2F, 3, 1, 6);
+		this.setRotateAngle(vehicleRplate1, 0.061086523819801536F, 0.05235987755982988F, -0.017453292519943295F);
+		this.vehiclefrontL1 = new ModelRenderer(this, 35, 77);
+		this.vehiclefrontL1.mirror = true;
+		this.vehiclefrontL1.setRotationPoint(1.8F, -0.1F, -0.9F);
+		this.vehiclefrontL1.addBox(-0.5F, -1.0F, -4.0F, 2, 2, 3);
+		this.vehiclebaseplate = new ModelRenderer(this, 13, 0);
+		this.vehiclebaseplate.setRotationPoint(-2.5F, 0.1F, -4.5F);
+		this.vehiclebaseplate.addBox(0.0F, 0.0F, 0.0F, 5, 1, 13);
+		this.vehiclebackplate1 = new ModelRenderer(this, 51, 74);
+		this.vehiclebackplate1.setRotationPoint(2.3F, -1.8F, 1.8F);
+		this.vehiclebackplate1.addBox(0.0F, -2.0F, 0.0F, 3, 5, 1);
+		this.setRotateAngle(vehiclebackplate1, 1.5882496193148399F, -0.017453292519943295F, 1.5707963267948966F);
+		this.vehicleLplate1 = new ModelRenderer(this, 0, 17);
+		this.vehicleLplate1.mirror = true;
+		this.vehicleLplate1.setRotationPoint(0.0F, 0.4F, 0.3F);
+		this.vehicleLplate1.addBox(0.4F, -0.9F, -5.2F, 3, 1, 6);
+		this.setRotateAngle(vehicleLplate1, 0.061086523819801536F, -0.05235987755982988F, 0.017453292519943295F);
+		this.vehiclelowerarmR1 = new ModelRenderer(this, 64, 65);
+		this.vehiclelowerarmR1.mirror = true;
+		this.vehiclelowerarmR1.setRotationPoint(1.0F, 3.3F, 0.4F);
+		this.vehiclelowerarmR1.addBox(-0.9F, -0.2F, -1.6F, 2, 4, 3);
+		this.setRotateAngle(vehiclelowerarmR1, -3.141592653589793F, 0.0F, 0.0F);
+		this.vehiclerear1 = new ModelRenderer(this, 0, 0);
+		this.vehiclerear1.setRotationPoint(0.0F, 0.3F, 4.0F);
+		this.vehiclerear1.addBox(-2.5F, 0.1F, 0.0F, 5, 2, 5);
+		this.setRotateAngle(vehiclerear1, -0.3141592653589793F, 0.0F, 0.0F);
+		this.vehiclearmbaseR1 = new ModelRenderer(this, 64, 60);
+		this.vehiclearmbaseR1.setRotationPoint(-1.0F, -0.4F, 1.0F);
+		this.vehiclearmbaseR1.addBox(-2.0F, -1.0F, -1.0F, 2, 2, 3);
+		this.vehicleWaist1 = new ModelRenderer(this, 0, 64);
+		this.vehicleWaist1.mirror = true;
+		this.vehicleWaist1.setRotationPoint(0.0F, 7.0F, 1.5F);
+		this.vehicleWaist1.addBox(0.0F, 0.0F, 0.0F, 3, 2, 1);
+		this.setRotateAngle(vehicleWaist1, -1.5707963267948966F, 0.0F, 3.211405823669566F);
+		this.vehiclelowerlegL7 = new ModelRenderer(this, 14, 85);
+		this.vehiclelowerlegL7.mirror = true;
+		this.vehiclelowerlegL7.setRotationPoint(-0.5F, 1.0F, 1.6F);
+		this.vehiclelowerlegL7.addBox(-0.6F, -0.5F, -1.0F, 3, 2, 1);
+		this.setRotateAngle(vehiclelowerlegL7, 0.6108652381980153F, 0.05235987755982988F, 0.0F);
+		this.vehicleshoulderL1_1 = new ModelRenderer(this, 78, 60);
+		this.vehicleshoulderL1_1.mirror = true;
+		this.vehicleshoulderL1_1.setRotationPoint(2.3F, 0.0F, -1.6F);
+		this.vehicleshoulderL1_1.addBox(-1.0F, -1.4F, -1.5F, 1, 3, 3);
+		this.setRotateAngle(vehicleshoulderL1_1, -0.019198621771937624F, 0.0F, 0.0F);
+		this.vehicleshoulderL1 = new ModelRenderer(this, 78, 60);
+		this.vehicleshoulderL1.setRotationPoint(-2.3F, 0.0F, -1.6F);
+		this.vehicleshoulderL1.addBox(0.0F, -1.4F, -1.5F, 1, 3, 3);
+		this.setRotateAngle(vehicleshoulderL1, -0.019198621771937624F, 0.0F, 0.0F);
+		this.vehiclefrontR1 = new ModelRenderer(this, 35, 77);
+		this.vehiclefrontR1.setRotationPoint(-1.8F, -0.1F, -0.9F);
+		this.vehiclefrontR1.addBox(-1.5F, -1.0F, -4.0F, 2, 2, 3);
+		this.vehicleUpperlegR2 = new ModelRenderer(this, 6, 72);
+		this.vehicleUpperlegR2.setRotationPoint(-2.0F, -0.5F, -0.5F);
+		this.vehicleUpperlegR2.addBox(0.0F, 0.0F, 0.0F, 1, 4, 1);
+		this.setRotateAngle(vehicleUpperlegR2, 0.0F, 0.05235987755982988F, -0.03490658503988659F);
+		this.vehicleupperlegL2 = new ModelRenderer(this, 6, 72);
+		this.vehicleupperlegL2.setRotationPoint(2.0F, -0.5F, -0.5F);
+		this.vehicleupperlegL2.addBox(-1.0F, 0.0F, 0.0F, 1, 4, 1);
+		this.setRotateAngle(vehicleupperlegL2, 0.0F, -0.05235987755982988F, 0.03490658503988659F);
+		this.vehiclekneeL2 = new ModelRenderer(this, 10, 71);
+		this.vehiclekneeL2.setRotationPoint(0.0F, 2.7F, 0.0F);
+		this.vehiclekneeL2.addBox(0.0F, 0.0F, -1.0F, 2, 2, 2);
+		this.vehicleUpperlegR1 = new ModelRenderer(this, 0, 71);
+		this.vehicleUpperlegR1.setRotationPoint(-1.0F, 1.0F, 0.0F);
+		this.vehicleUpperlegR1.addBox(-1.0F, -1.0F, -1.0F, 1, 4, 2);
+		this.setRotateAngle(vehicleUpperlegR1, -1.5707963267948966F, 0.0F, 0.0F);
+		this.vehiclefrontR2 = new ModelRenderer(this, 48, 70);
+		this.vehiclefrontR2.setRotationPoint(0.0F, 0.0F, 0.0F);
+		this.vehiclefrontR2.addBox(-1.5F, -2.0F, -3.7F, 2, 1, 3);
+		this.setRotateAngle(vehiclefrontR2, 0.24434609527920614F, 0.0F, -0.017453292519943295F);
+		this.vehicleKneeR1 = new ModelRenderer(this, 10, 71);
+		this.vehicleKneeR1.setRotationPoint(0.0F, 2.7F, 0.0F);
+		this.vehicleKneeR1.addBox(-2.0F, 0.0F, -1.0F, 2, 2, 2);
+		this.vehicleUpperarmL1 = new ModelRenderer(this, 74, 60);
+		this.vehicleUpperarmL1.mirror = true;
+		this.vehicleUpperarmL1.setRotationPoint(0.5F, 0.0F, 1.0F);
+		this.vehicleUpperarmL1.addBox(0.0F, 0.8F, -0.5F, 1, 3, 1);
+		this.setRotateAngle(vehicleUpperarmL1, 1.5707963267948966F, 0.0F, 0.0F);
+		this.vehicleLowerarmL2 = new ModelRenderer(this, 74, 68);
+		this.vehicleLowerarmL2.mirror = true;
+		this.vehicleLowerarmL2.setRotationPoint(1.5F, 3.5F, 0.0F);
+		this.vehicleLowerarmL2.addBox(-1.0F, -3.0F, -1.9F, 1, 3, 2);
+		this.setRotateAngle(vehicleLowerarmL2, 0.03490658503988659F, 0.2617993877991494F, 0.10122909661567112F);
+		this.vehicleWheelBackR = new ModelRenderer(this, 15, 82);
+		this.vehicleWheelBackR.setRotationPoint(-1.0F, 3.0F, 2.2F);
+		this.vehicleWheelBackR.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(vehicleWheelBackR, 0.0F, 0, 0.0F);
+		this.vehicleLowerlegR4 = new ModelRenderer(this, 8, 83);
+		this.vehicleLowerlegR4.setRotationPoint(0.3F, 2.5F, 0.9F);
+		this.vehicleLowerlegR4.addBox(-0.5F, -2.0F, -2.0F, 1, 3, 2);
+		this.setRotateAngle(vehicleLowerlegR4, 0.15707963267948966F, 0.10471975511965977F, -0.08726646259971647F);
+		this.vehicleUpperlegL1 = new ModelRenderer(this, 0, 71);
+		this.vehicleUpperlegL1.setRotationPoint(1.0F, 1.0F, 0.0F);
+		this.vehicleUpperlegL1.addBox(0.0F, -1.0F, -1.0F, 1, 4, 2);
+		this.setRotateAngle(vehicleUpperlegL1, -1.5707963267948966F, 0.0F, 0.0F);
+		this.vehicleRear2 = new ModelRenderer(this, 0, 27);
+		this.vehicleRear2.setRotationPoint(0.0F, 0.0F, 2.0F);
+		this.vehicleRear2.addBox(-2.5F, 0.0F, 0.0F, 5, 1, 2);
+		this.setRotateAngle(vehicleRear2, -0.19198621771937624F, 0.0F, 0.0F);
+		this.vehicleRearplate = new ModelRenderer(this, 0, 12);
+		this.vehicleRearplate.setRotationPoint(0.0F, 0.6F, -1.1F);
+		this.vehicleRearplate.addBox(-1.5F, -1.0F, -4.0F, 3, 1, 4);
+		this.vehicleBase = new ModelRenderer(this, 0, 60);
+		this.vehicleBase.setRotationPoint(0.0F, 22.3F, 1.0F);
+		this.vehicleBase.addBox(-2.0F, 0.0F, -1.0F, 4, 1, 3);
+		this.setRotateAngle(vehicleBase, 1.5707963267948966F, 0.0F, 0.0F);
+		this.vehiclehood1 = new ModelRenderer(this, 47, 60);
+		this.vehiclehood1.setRotationPoint(0.0F, -0.5F, -3.8F);
+		this.vehiclehood1.addBox(-1.5F, -3.0F, -1.0F, 3, 4, 1);
+		this.setRotateAngle(vehiclehood1, -1.3439035240356336F, 0.0F, 0.0F);
+		this.vehicleWheelbackL = new ModelRenderer(this, 15, 82);
+		this.vehicleWheelbackL.mirror = true;
+		this.vehicleWheelbackL.setRotationPoint(1.0F, 3.0F, 2.3F);
+		this.vehicleWheelbackL.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 1);
+		this.setRotateAngle(vehicleWheelbackL, 0.0F, 0, 0.0F);
+		this.vehiclewheelL = new ModelRenderer(this, 55, 68);
+		this.vehiclewheelL.mirror = true;
+		this.vehiclewheelL.setRotationPoint(2.6F, 0.3F, -2.0F);
+		this.vehiclewheelL.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.vehiclearmbaseL1 = new ModelRenderer(this, 64, 60);
+		this.vehiclearmbaseL1.mirror = true;
+		this.vehiclearmbaseL1.setRotationPoint(1.0F, -0.4F, 1.0F);
+		this.vehiclearmbaseL1.addBox(0.0F, -1.0F, -1.0F, 2, 2, 3);
+		this.vehicletorsobase = new ModelRenderer(this, 35, 66);
+		this.vehicletorsobase.setRotationPoint(0.0F, -4.0F, 0.0F);
+		this.vehicletorsobase.addBox(-2.0F, -2.0F, -1.3F, 4, 3, 4);
+		this.setRotateAngle(vehicletorsobase, -1.5707963267948966F, -0.7853981633974483F, 0.0F);
 
-		this.addChildTo(waist, bipedBody);
-		this.addChildTo(hipSlab1, waist);
-		this.addChildTo(hipSlab2, waist);
-		this.addChildTo(torso, waist);
-		this.addChildTo(chestPanel1, torso);
-		this.addChildTo(chestPanel2, torso);
-		this.addChildTo(chest, torso);
-		this.addChildTo(chestPanel3, chest);
-		this.addChildTo(frontCar1, chest);
-		this.addChildTo(frontCar2, chest);
-		this.addChildTo(windShield, chest);
-		this.addChildTo(frontWheel1, chest);
-		this.addChildTo(frontWheel2, chest);
-		this.addChildTo(head, bipedHead);
-		this.addChildTo(mask, head);
-		this.addChildTo(ear1, mask);
-		this.addChildTo(ear2, mask);
-		this.addChildTo(upperArm1, bipedRightArm);
-		this.addChildTo(lowerArm1, upperArm1);
-		this.addChildTo(armPanel1, lowerArm1);
-		this.addChildTo(upperArm2, bipedLeftArm);
-		this.addChildTo(lowerArm2, upperArm2);
-		this.addChildTo(armPanel2, lowerArm2);
-		this.addChildTo(leg1, bipedRightLeg);
-		this.addChildTo(upperLegPanel1, leg1);
-		this.addChildTo(lowerLegPanel1, leg1);
-		this.addChildTo(foot1, leg1);
-		this.addChildTo(backWheel1, leg1);
-		this.addChildTo(leg2, bipedLeftLeg);
-		this.addChildTo(upperLegPanel2, leg2);
-		this.addChildTo(lowerLegPanel2, leg2);
-		this.addChildTo(foot2, leg2);
-		this.addChildTo(backWheel2, leg2);
-		
-		vehicleFrontWheel1 = new MowzieModelRenderer(this, 0, 64);
-		vehicleFrontWheel1.addBox(-1F, -1F, -1F, 1, 2, 2);
-		vehicleFrontWheel1.setRotationPoint(-2.3F, 23F, -4.5F);
-		vehicleFrontWheel1.setTextureSize(64, 128);
-		vehicleFrontWheel1.mirror = true;
-		setRotation(vehicleFrontWheel1, 0F, 0F, 0F);
-		vehicleFrontWheel2 = new MowzieModelRenderer(this, 0, 64);
-		vehicleFrontWheel2.addBox(0F, -1F, -1F, 1, 2, 2);
-		vehicleFrontWheel2.setRotationPoint(2.3F, 23F, -4.5F);
-		vehicleFrontWheel2.setTextureSize(64, 128);
-		vehicleFrontWheel2.mirror = true;
-		setRotation(vehicleFrontWheel2, 0F, 0F, 0F);
-		vehicleBackWheel1 = new MowzieModelRenderer(this, 0, 64);
-		vehicleBackWheel1.addBox(-1F, -1F, -1F, 1, 2, 2);
-		vehicleBackWheel1.setRotationPoint(-2.3F, 23F, 4F);
-		vehicleBackWheel1.setTextureSize(64, 128);
-		vehicleBackWheel1.mirror = true;
-		setRotation(vehicleBackWheel1, 0F, 0F, 0F);
-		vehicleBackWheel2 = new MowzieModelRenderer(this, 0, 64);
-		vehicleBackWheel2.addBox(0F, -1F, -1F, 1, 2, 2);
-		vehicleBackWheel2.setRotationPoint(2.3F, 23F, 4F);
-		vehicleBackWheel2.setTextureSize(64, 128);
-		vehicleBackWheel2.mirror = true;
-		setRotation(vehicleBackWheel2, 0F, 0F, 0F);
-		vehicleBumper1 = new MowzieModelRenderer(this, 0, 68);
-		vehicleBumper1.addBox(-2.5F, -1.5F, -2F, 3, 2, 2);
-		vehicleBumper1.setRotationPoint(0F, 23F, -5F);
-		vehicleBumper1.setTextureSize(64, 128);
-		vehicleBumper1.mirror = true;
-		setRotation(vehicleBumper1, 0F, 0.2443461F, 0F);
-		vehicleBumper2 = new MowzieModelRenderer(this, 0, 68);
-		vehicleBumper2.mirror = true;
-		vehicleBumper2.addBox(-0.5F, -1.5F, -2F, 3, 2, 2);
-		vehicleBumper2.setRotationPoint(0F, 23F, -5F);
-		vehicleBumper2.setTextureSize(64, 128);
-		setRotation(vehicleBumper2, 0F, -0.2443461F, 0F);
-		vehicleBumper2.mirror = true;
-		vehicleRoof = new MowzieModelRenderer(this, 0, 78);
-		vehicleRoof.addBox(-2.5F, -0.5F, 0F, 5, 1, 2);
-		vehicleRoof.setRotationPoint(0F, 20.7F, -0.5F);
-		vehicleRoof.setTextureSize(64, 128);
-		vehicleRoof.mirror = true;
-		setRotation(vehicleRoof, 0F, 0F, 0F);
-		vehicleBody = new MowzieModelRenderer(this, 0, 64);
-		vehicleBody.addBox(-3F, -1F, 0F, 6, 2, 12);
-		vehicleBody.setRotationPoint(0F, 22.5F, -6.2F);
-		vehicleBody.setTextureSize(64, 128);
-		vehicleBody.mirror = true;
-		setRotation(vehicleBody, 0F, 0F, 0F);
-		vehicleHood = new MowzieModelRenderer(this, 0, 81);
-		vehicleHood.addBox(-2F, -1F, -2F, 4, 1, 3);
-		vehicleHood.setRotationPoint(0F, 22.3F, -3.7F);
-		vehicleHood.setTextureSize(64, 128);
-		vehicleHood.mirror = true;
-		setRotation(vehicleHood, 0F, 0F, 0F);
-		vehicleBackWindShield = new MowzieModelRenderer(this, 14, 78);
-		vehicleBackWindShield.addBox(-2.5F, -0.5F, 0F, 5, 1, 3);
-		vehicleBackWindShield.setRotationPoint(0F, 20.7F, 1.3F);
-		vehicleBackWindShield.setTextureSize(64, 128);
-		vehicleBackWindShield.mirror = true;
-		setRotation(vehicleBackWindShield, -0.3839724F, 0F, 0F);
-		vehicleWindShield = new MowzieModelRenderer(this, 14, 82);
-		vehicleWindShield.addBox(-2.5F, -1F, 0F, 5, 1, 3);
-		vehicleWindShield.setRotationPoint(0F, 22.4F, -2.7F);
-		vehicleWindShield.setTextureSize(64, 128);
-		vehicleWindShield.mirror = true;
-		setRotation(vehicleWindShield, 0.4537856F, 0F, 0F);
-		vehicleSpoiler = new MowzieModelRenderer(this, 24, 64);
-		vehicleSpoiler.addBox(-2.5F, -1F, -1.5F, 5, 1, 3);
-		vehicleSpoiler.setRotationPoint(0F, 22F, 4.8F);
-		vehicleSpoiler.setTextureSize(64, 128);
-		vehicleSpoiler.mirror = true;
-		setRotation(vehicleSpoiler, 0.1919862F, 0F, 0F);
-		vehicleDoor1 = new MowzieModelRenderer(this, 24, 68);
-		vehicleDoor1.addBox(-1F, -1F, -1.5F, 1, 1, 3);
-		vehicleDoor1.setRotationPoint(-1.8F, 21.7F, 0.5F);
-		vehicleDoor1.setTextureSize(64, 128);
-		vehicleDoor1.mirror = true;
-		setRotation(vehicleDoor1, 0F, 0F, 0.2268928F);
-		vehicleDoor2 = new MowzieModelRenderer(this, 24, 68);
-		vehicleDoor2.addBox(0F, -1F, -1.5F, 1, 1, 3);
-		vehicleDoor2.setRotationPoint(1.8F, 21.7F, 0.5F);
-		vehicleDoor2.setTextureSize(64, 128);
-		vehicleDoor2.mirror = true;
-		setRotation(vehicleDoor2, 0F, 0F, -0.2268928F);
-		
-		this.addChildTo(vehicleFrontWheel1, vehicleBody);
-		this.addChildTo(vehicleFrontWheel2, vehicleBody);
-		this.addChildTo(vehicleBackWheel1, vehicleBody);
-		this.addChildTo(vehicleBackWheel2, vehicleBody);
-		this.addChildTo(vehicleBumper1, vehicleBody);
-		this.addChildTo(vehicleBumper2, vehicleBody);
-		this.addChildTo(vehicleRoof, vehicleBody);
-		this.addChildTo(vehicleHood, vehicleBody);
-		this.addChildTo(vehicleBackWindShield, vehicleBody);
-		this.addChildTo(vehicleWindShield, vehicleBody);
-		this.addChildTo(vehicleSpoiler, vehicleBody);
-		this.addChildTo(vehicleDoor1, vehicleBody);
-		this.addChildTo(vehicleDoor2, vehicleBody);
-		
-		
-		this.stealthForceHoodGun1 = new MowzieModelRenderer(this, 42, 66);
-		this.stealthForceHoodGun1.setRotationPoint(-1.0F, 0.0F, -2.9F);
-		this.stealthForceHoodGun1.addBox(-0.5F, -0.5F, -1.0F, 1, 1, 1, 0.0F);
-		this.setRotation(stealthForceHoodGun1, 0.13962634015954636F, 0.0F, 0.0F);
-		this.stealthForceBackWindShield = new MowzieModelRenderer(this, 14, 78);
-		this.stealthForceBackWindShield.setRotationPoint(0.0F, -1.8F, 7.5F);
-		this.stealthForceBackWindShield.addBox(-2.5F, -0.5F, 0.0F, 5, 1, 3, 0.0F);
-		this.setRotation(stealthForceBackWindShield, -0.3839724354387525F, -0.0F, 0.0F);
-		this.stealthForceBackWheel2 = new MowzieModelRenderer(this, 0, 64);
-		this.stealthForceBackWheel2.setRotationPoint(0.3F, 0.5F, 0.2F);
-		this.stealthForceBackWheel2.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
-		this.stealthForceRoof = new MowzieModelRenderer(this, 0, 78);
-		this.stealthForceRoof.setRotationPoint(0.0F, -1.8F, 5.7F);
-		this.stealthForceRoof.addBox(-2.5F, -0.5F, 0.0F, 5, 1, 2, 0.0F);
-		this.stealthForceBase = new MowzieModelRenderer(this, 0, 64);
-		this.stealthForceBase.setRotationPoint(0.0F, 22.5F, -6.2F);
-		this.stealthForceBase.addBox(-3.0F, -1.0F, 0.0F, 6, 2, 12, 0.0F);
-		this.stealthForceBackWheelCover2 = new MowzieModelRenderer(this, 38, 68);
-		this.stealthForceBackWheelCover2.setRotationPoint(3.0F, 0.0F, 10.0F);
-		this.stealthForceBackWheelCover2.addBox(0.0F, -1.0F, -2.0F, 1, 2, 4, 0.0F);
-		this.stealthForceGun2 = new MowzieModelRenderer(this, 40, 64);
-		this.stealthForceGun2.setRotationPoint(3.0F, -1.3F, 5.2F);
-		this.stealthForceGun2.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-		this.stealthForceSpoiler = new MowzieModelRenderer(this, 24, 64);
-		this.stealthForceSpoiler.setRotationPoint(0.0F, -0.5F, 11.0F);
-		this.stealthForceSpoiler.addBox(-2.5F, -1.0F, -1.5F, 5, 1, 3, 0.0F);
-		this.setRotation(stealthForceSpoiler, 0.19198621771937624F, -0.0F, 0.0F);
-		this.stealthForceBumper2 = new MowzieModelRenderer(this, 0, 68);
-		this.stealthForceBumper2.mirror = true;
-		this.stealthForceBumper2.setRotationPoint(1.0F, 0.5F, 1.2F);
-		this.stealthForceBumper2.addBox(-0.5F, -1.5F, -2.0F, 3, 2, 2, 0.0F);
-		this.setRotation(stealthForceBumper2, 0.0F, -0.24434609527920614F, 0.0F);
-		this.stealthForceWindShield = new MowzieModelRenderer(this, 14, 82);
-		this.stealthForceWindShield.setRotationPoint(0.0F, -0.1F, 3.4F);
-		this.stealthForceWindShield.addBox(-2.5F, -1.0F, 0.0F, 5, 1, 3, 0.0F);
-		this.setRotation(stealthForceWindShield, 0.45378560551852565F, -0.0F, 0.0F);
-		this.stealthForceDoor2 = new MowzieModelRenderer(this, 24, 68);
-		this.stealthForceDoor2.setRotationPoint(1.8F, -0.7F, 6.7F);
-		this.stealthForceDoor2.addBox(0.0F, -1.0F, -1.5F, 1, 1, 3, 0.0F);
-		this.setRotation(stealthForceDoor2, 0.0F, -0.0F, -0.22689280275926282F);
-		this.stealthForceHood = new MowzieModelRenderer(this, 0, 81);
-		this.stealthForceHood.setRotationPoint(0.0F, -0.7F, 3.5F);
-		this.stealthForceHood.addBox(-2.0F, -0.5F, -3.0F, 4, 1, 3, 0.0F);
-		this.setRotation(stealthForceHood, -0.13962634015954636F, 0.0F, 0.0F);
-		this.stealthForceGun1 = new MowzieModelRenderer(this, 40, 64);
-		this.stealthForceGun1.setRotationPoint(-3.0F, -1.3F, 5.2F);
-		this.stealthForceGun1.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-		this.stealthForceFrontWheel2 = new MowzieModelRenderer(this, 0, 64);
-		this.stealthForceFrontWheel2.setRotationPoint(0.3F, 0.5F, 0.2F);
-		this.stealthForceFrontWheel2.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
-		this.stealthForceBackWheelCover1 = new MowzieModelRenderer(this, 38, 68);
-		this.stealthForceBackWheelCover1.setRotationPoint(-3.0F, 0.0F, 10.0F);
-		this.stealthForceBackWheelCover1.addBox(-1.0F, -1.0F, -2.0F, 1, 2, 4, 0.0F);
-		this.stealthForceDoor1 = new MowzieModelRenderer(this, 24, 68);
-		this.stealthForceDoor1.setRotationPoint(-1.8F, -0.7F, 6.7F);
-		this.stealthForceDoor1.addBox(-1.0F, -1.0F, -1.5F, 1, 1, 3, 0.0F);
-		this.setRotation(stealthForceDoor1, 0.0F, -0.0F, 0.22689280275926282F);
-		this.stealthForceHoodGun2 = new MowzieModelRenderer(this, 42, 66);
-		this.stealthForceHoodGun2.setRotationPoint(1.0F, 0.0F, -2.9F);
-		this.stealthForceHoodGun2.addBox(-0.5F, -0.5F, -1.0F, 1, 1, 1, 0.0F);
-		this.setRotation(stealthForceHoodGun2, 0.13962634015954636F, 0.0F, 0.0F);
-		this.stealthForceFrontWheelCover2 = new MowzieModelRenderer(this, 28, 68);
-		this.stealthForceFrontWheelCover2.setRotationPoint(3.0F, 0.0F, 1.5F);
-		this.stealthForceFrontWheelCover2.addBox(0.0F, -1.0F, -1.5F, 1, 2, 4, 0.0F);
-		this.stealthForceBackWheel1 = new MowzieModelRenderer(this, 0, 64);
-		this.stealthForceBackWheel1.setRotationPoint(-0.3F, 0.5F, 0.2F);
-		this.stealthForceBackWheel1.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
-		this.stealthForceBumper1 = new MowzieModelRenderer(this, 0, 68);
-		this.stealthForceBumper1.setRotationPoint(-1.0F, 0.5F, 1.2F);
-		this.stealthForceBumper1.addBox(-2.5F, -1.5F, -2.0F, 3, 2, 2, 0.0F);
-		this.setRotation(stealthForceBumper1, 0.0F, 0.24434609527920614F, 0.0F);
-		this.stealthForceFrontWheelCover1 = new MowzieModelRenderer(this, 28, 68);
-		this.stealthForceFrontWheelCover1.setRotationPoint(-3.0F, 0.0F, 1.5F);
-		this.stealthForceFrontWheelCover1.addBox(-1.0F, -1.0F, -1.5F, 1, 2, 4, 0.0F);
-		this.stealthForceFrontGun = new MowzieModelRenderer(this, 41, 65);
-		this.stealthForceFrontGun.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.stealthForceFrontGun.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-		this.stealthForceFrontWheel1 = new MowzieModelRenderer(this, 0, 64);
-		this.stealthForceFrontWheel1.setRotationPoint(-0.3F, 0.5F, 0.2F);
-		this.stealthForceFrontWheel1.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
-		this.stealthForceHood.addChild(this.stealthForceHoodGun1);
-		this.stealthForceBase.addChild(this.stealthForceBackWindShield);
-		this.stealthForceBackWheelCover2.addChild(this.stealthForceBackWheel2);
-		this.stealthForceBase.addChild(this.stealthForceRoof);
-		this.stealthForceBase.addChild(this.stealthForceBackWheelCover2);
-		this.stealthForceBase.addChild(this.stealthForceGun2);
-		this.stealthForceBase.addChild(this.stealthForceSpoiler);
-		this.stealthForceBase.addChild(this.stealthForceBumper2);
-		this.stealthForceBase.addChild(this.stealthForceWindShield);
-		this.stealthForceBase.addChild(this.stealthForceDoor2);
-		this.stealthForceBase.addChild(this.stealthForceHood);
-		this.stealthForceBase.addChild(this.stealthForceGun1);
-		this.stealthForceFrontWheelCover2.addChild(this.stealthForceFrontWheel2);
-		this.stealthForceBase.addChild(this.stealthForceBackWheelCover1);
-		this.stealthForceBase.addChild(this.stealthForceDoor1);
-		this.stealthForceHood.addChild(this.stealthForceHoodGun2);
-		this.stealthForceBase.addChild(this.stealthForceFrontWheelCover2);
-		this.stealthForceBackWheelCover1.addChild(this.stealthForceBackWheel1);
-		this.stealthForceBase.addChild(this.stealthForceBumper1);
-		this.stealthForceBase.addChild(this.stealthForceFrontWheelCover1);
-		this.stealthForceBase.addChild(this.stealthForceFrontGun);
-		this.stealthForceFrontWheelCover1.addChild(this.stealthForceFrontWheel1);
-		
-		
-		
-		adjustPos();
+		this.vehicleWaistConnector1.addChild(this.vehicleRearplate);
+		this.vehicletorsobase.addChild(this.vehiclehood1);
+		this.vehiclelowerlegL1.addChild(this.vehicleWheelbackL);
+		this.vehicletorsobase.addChild(this.vehiclewheelL);
+		this.vehicletorsobase.addChild(this.vehiclearmbaseL1);
+		this.vehicleTorsoconnector1.addChild(this.vehicletorsobase);
+		this.vehicletorsobase.addChild(this.vehiclebackplate2);
+		this.vehicleBase.addChild(this.vehicleWaistConnector1);
+		this.vehicletorsobase.addChild(this.vehiclewindow1);
+		this.vehicleKneeR1.addChild(this.vehicleLowerlegR1);
+		this.vehiclekneeL2.addChild(this.vehiclelowerlegL1);
+		this.vehicleUpperarmL1.addChild(this.vehicleLowerarmL1);
+		this.vehicletorsobase.addChild(this.vehiclewheelR);
+		this.vehiclefrontL1.addChild(this.vehiclefrontL2);
+		this.vehicleBase.addChild(this.vehicleWaist2);
+		this.vehiclearmbaseR1.addChild(this.vehicleupperarmR1);
+		this.vehiclehood1.addChild(this.vehiclehood3);
+		this.vehicleBase.addChild(this.vehicleTorsoconnector1);
+		this.vehiclelowerlegL1.addChild(this.vehiclelowerlegL5);
+		this.vehiclehood1.addChild(this.vehiclehood2);
+		this.vehicleLowerlegR1.addChild(this.vehicleLowerlegR5);
+		this.vehiclelowerlegL1.addChild(this.vehiclelowerlegL4);
+		this.vehiclehood1.addChild(this.vehiclehood4);
+		this.vehiclewindow1.addChild(this.vehicleWindow2);
+		this.vehicleKneeR1.addChild(this.vehiclelowerlegR7);
+		this.vehiclelowerarmR1.addChild(this.vehiclelowerarmR2);
+		this.vehicleWaistConnector1.addChild(this.vehicleRplate1);
+		this.vehicletorsobase.addChild(this.vehiclefrontL1);
+		this.vehicletorsobase.addChild(this.vehiclebaseplate);
+		this.vehicletorsobase.addChild(this.vehiclebackplate1);
+		this.vehicleWaistConnector1.addChild(this.vehicleLplate1);
+		this.vehicleWindow2.addChild(this.vehiclerear1);
+		this.vehicleBase.addChild(this.vehicleWaist1);
+		this.vehicletorsobase.addChild(this.vehiclearmbaseR1);
+		this.vehiclekneeL2.addChild(this.vehiclelowerlegL7);
+		this.vehiclearmbaseL1.addChild(this.vehicleshoulderL1_1);
+		this.vehiclearmbaseR1.addChild(this.vehicleshoulderL1);
+		this.vehicletorsobase.addChild(this.vehiclefrontR1);
+		this.vehicleUpperlegR1.addChild(this.vehicleUpperlegR2);
+		this.vehicleUpperlegL1.addChild(this.vehicleupperlegL2);
+		this.vehicleUpperlegL1.addChild(this.vehiclekneeL2);
+		this.vehicleWaistConnector1.addChild(this.vehicleUpperlegR1);
+		this.vehiclefrontR1.addChild(this.vehiclefrontR2);
+		this.vehicleUpperlegR1.addChild(this.vehicleKneeR1);
+		this.vehiclearmbaseL1.addChild(this.vehicleUpperarmL1);
+		this.vehicleWaistConnector1.addChild(this.vehicleUpperlegL1);
+		this.vehicleWindow2.addChild(this.vehicleRear2);
+		this.vehicleLowerlegR1.addChild(this.vehicleLowerlegR4);
+		this.vehicleLowerlegR1.addChild(this.vehicleWheelBackR);
+		this.vehicleLowerarmL1.addChild(this.vehicleLowerarmL2);
 	}
 
+	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		vehicleBody.render(f5);
-		stealthForceBase.render(f5);
+	{ 
+		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+
+		if(entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer) entity;
+
+			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerVurp;
+			boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerVurp;
+			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerVurp;
+
+			if(TFDataManager.getTransformationTimer(player) == 0)
+			{
+				this.vehicleBase.render(f5);
+			}
+			else
+			{
+				if(!wearingChest)
+				{
+					if(wearingHead)
+					{
+						head.render(f5);
+					}
+
+					if(wearingLegs)
+					{
+						upperLegL.render(f5);
+						upperLegR.render(f5);
+					}
+				}
+				else
+				{
+					waist.render(f5);
+				}
+			}
+		}
 	}
 
-	public void setRotation(ModelRenderer model, float x, float y, float z)
-	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
-
+	@Override
 	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
 	{
 		super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
@@ -563,153 +890,276 @@ public class ModelVurp extends ModelChildBase.Biped
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 
-			if (TFDataManager.getTransformationTimer(player) == 0)
-			{
-				for (MowzieModelRenderer modelRenderer : new MowzieModelRenderer[] {stealthForceBase, vehicleBody})
-				{
-					float f1 = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
-					if (modelRenderer.rotateAngleY < f1) {modelRenderer.rotateAngleY += 0.05F;}
-					if (modelRenderer.rotateAngleY > f1) {modelRenderer.rotateAngleY -= 0.05F;}
-					modelRenderer.rotateAngleY = f1;
+			setToInitPose();
 
-					if (player == Minecraft.getMinecraft().thePlayer)
+			float globalSpeed = 1;
+			float globalDegree = 0.8F;
+
+			ModelOffset offsets = TFModelHelper.getOffsets(player);
+			this.bipedHead.rotationPointX += offsets.headOffsetX;
+			this.bipedHead.rotationPointY += offsets.headOffsetY;
+			this.bipedHead.rotationPointZ += offsets.headOffsetZ;
+			
+			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerVurp;
+			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);
+			
+			boolean wearingChest = transformerChest instanceof TransformerVurp;
+			boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerVurp;
+
+			head.showModel = wearingHead;
+			upperLegR.showModel = wearingLegs;
+			upperLegL.showModel = wearingLegs;
+
+			if(!wearingChest && wearingHead)
+			{
+				head.rotationPointY += 4;
+				
+				if(transformerChest instanceof TransformerSkystrike)
+				{
+					head.rotationPointY -= 1;
+				}
+				
+				head.rotationPointZ += 1;
+			}
+
+			if(wearingHead)
+			{
+				faceTarget(head, 1, par4, par5);
+			}
+
+			if(!wearingChest && wearingLegs)
+			{
+				upperLegL.rotationPointY += 11;
+				upperLegR.rotationPointY += 11;
+				upperLegL.rotateAngleX += 0.2F;
+				upperLegR.rotateAngleX += 0.2F;
+			}
+
+			int backwardInverter = 1;
+
+			float moveForward = player.moveForward;
+
+			if (moveForward < 0)
+			{
+				backwardInverter = -1;
+				globalDegree = 0.5F;
+			}
+
+			if (this.heldItemLeft != 0)
+			{
+				this.upperArmL.rotateAngleX -= 0.2F;
+			}
+			if (this.heldItemRight != 0)
+			{
+				this.upperArmR.rotateAngleX -= 0.2F;
+			}
+
+			if(wearingChest && wearingHead && wearingLegs)
+			{
+				boolean playerOnGround = onGround(player);
+
+				if(playerOnGround || player.capabilities.isFlying)
+				{
+					waist.rotationPointY -= 2;
+
+					upperLegR.rotateAngleY += 0.2;
+					upperLegL.rotateAngleY -= 0.2;
+					upperLegR.rotateAngleX -= 0.1;
+					upperLegL.rotateAngleX -= 0.1;
+					lowerLegL.rotateAngleX += 0.1;
+					lowerLegR.rotateAngleX += 0.1;
+					lowerArmL.rotateAngleX -= 0.1;
+					lowerArmR.rotateAngleX -= 0.1;
+					head.rotateAngleX += 0.1;
+
+					bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
+					waist.rotationPointY += (1 * par2) + 3;
+					walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+					walk(torsobase, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+					swing(torsobase, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
+					swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
+					walk(head, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
+
+					swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
+					head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
+
+					swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
+					swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
+					walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
+					walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
+					walk(lowerLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
+					walk(lowerLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
+					walk(upperArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+					walk(upperArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+					walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+					walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+
+					int ticksExisted = entity.ticksExisted;
+
+					walk(fronttorso1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+					walk(torsobase, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+					walk(head, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+
+					flap(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+					flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
+					walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+					walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+
+					if (player.isSneaking()) // TODO: Sneak Animation
 					{
-						modelRenderer.rotateAngleX = -(float)player.motionY - 0.0784000015258789F;
+					}
+				}
+				else //If not on ground
+				{
+					double motionY = entity.posY - entity.prevPosY;
+
+					float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
+					float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
+
+					waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+
+					fronttorso1.rotateAngleX += 0.2 * upwardPose;
+					torsobase.rotateAngleX -= 0.4 * upwardPose;
+					head.rotateAngleX += 0.6 * upwardPose;
+
+					upperArmR.rotateAngleX += 0.1 * upwardPose;
+					upperArmL.rotateAngleX += 0.1 * upwardPose;
+					upperArmR.rotateAngleZ -= 0.1 * upwardPose;
+					upperArmL.rotateAngleZ += 0.1 * upwardPose;
+					lowerArmR.rotateAngleX += 0.2 * upwardPose;
+					lowerArmL.rotateAngleX += 0.2 * upwardPose;
+
+					upperLegR.rotateAngleX += 0.2 * upwardPose;
+					upperLegL.rotateAngleX -= 1 * upwardPose;
+					lowerLegR.rotateAngleX += 0.3 * upwardPose;
+					lowerLegL.rotateAngleX += 1.5 * upwardPose;
+
+					walk(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
+					walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
+					walk(lowerLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
+					walk(lowerLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
+					waist.rotateAngleX -= 0.2 * downwardPose;
+					fronttorso1.rotateAngleX += 0.3 * downwardPose;
+					torsobase.rotateAngleX += 0.3 * downwardPose;
+					head.rotateAngleX += 0.3 * downwardPose;
+					upperLegR.rotateAngleX -= 1.2 * downwardPose;
+					upperLegL.rotateAngleX -= 0.2 * downwardPose;
+					lowerLegR.rotateAngleX += 2 * downwardPose;
+					lowerLegL.rotateAngleX += 0.5 * downwardPose;
+					upperArmR.rotateAngleZ += 1 * downwardPose;
+					upperArmL.rotateAngleZ -= 1 * downwardPose;
+					lowerArmR.rotateAngleX -= 1 * downwardPose;
+					lowerArmL.rotateAngleX -= 1 * downwardPose;
+				}
+
+				int t = TFDataManager.getTransformationTimer(player);
+				float f = (float) (20 - t);
+			}
+			else //If not fully suited
+			{
+				waist.rotationPointY += 1;
+				this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+				this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+
+				this.lowerArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
+				this.lowerArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 4;
+				
+				this.upperLegR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+				this.upperLegL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2;
+
+				if (this.isRiding)
+				{
+					this.upperArmR.rotateAngleX += -((float)Math.PI / 5F);
+					this.upperArmL.rotateAngleX += -((float)Math.PI / 5F);
+					this.upperLegR.rotateAngleX = -((float)Math.PI * 2F / 5F);
+					this.upperLegL.rotateAngleX = -((float)Math.PI * 2F / 5F);
+					this.upperLegR.rotateAngleY = ((float)Math.PI / 10F);
+					this.upperLegL.rotateAngleY = -((float)Math.PI / 10F);
+				}
+
+				if (this.isSneak)
+				{
+					this.waist.rotateAngleX += 0.4F;
+					this.waist.rotationPointZ += 4F;
+					this.upperArmR.rotateAngleX -= 0.4F;
+					this.upperArmL.rotateAngleX -= 0.4F;
+
+					if(wearingChest)
+					{
+						this.head.rotateAngleX -= 0.4F;
+						this.upperLegR.rotateAngleX -= 0.4F;
+						this.upperLegL.rotateAngleX -= 0.4F;
 					}
 					else
 					{
-						modelRenderer.rotateAngleX = -(float)(player.posY - player.prevPosY) * 1.5F;
+						this.upperLegL.rotationPointZ += 5F;
+						this.upperLegL.rotationPointY -= 0.8F;
+						this.upperLegR.rotationPointZ += 5F;
+						this.upperLegR.rotationPointY -= 0.8F;
 					}
-				}
-				
-				if (TFDataManager.getStealthModeTimer(player) == 5)
-				{
-					vehicleFrontWheel1.rotateAngleX = par1;
-					vehicleFrontWheel2.rotateAngleX = par1;
-					vehicleBackWheel1.rotateAngleX = par1;
-					vehicleBackWheel2.rotateAngleX = par1;
-					vehicleBody.offsetY = 0F;
-					stealthForceBase.offsetY = 256F;
 				}
 				else
 				{
-					int t = TFDataManager.getStealthModeTimer(player) * 2;
-					float f = (10 - t);
+					this.waist.rotationPointY -= 0.8F;
+					this.waist.rotateAngleX = 0.0F;
+				}
 
-					stealthForceBackWheelCover1.rotationPointX = -2 - (f / 10);
-					stealthForceBackWheelCover2.rotationPointX = 2 + (f / 10);
-					stealthForceFrontWheelCover1.rotationPointX = -2 - (f / 10);
-					stealthForceFrontWheelCover2.rotationPointX = 2 + (f / 10);
-					stealthForceBumper1.rotationPointX = -(f / 10);
-					stealthForceBumper2.rotationPointX = (f / 10);
-					stealthForceFrontGun.rotationPointZ = 2 - (f / 10) * 2;
-					stealthForceHood.rotateAngleX = -0.13962634015954636F * (f / 10);
-					stealthForceHoodGun1.rotationPointY = -(f / 10) + 1;
-					stealthForceHoodGun2.rotationPointY = -(f / 10) + 1;
-					stealthForceGun1.rotationPointX = -2 - (f / 10);
-					stealthForceGun2.rotationPointX = 2 + (f / 10);
-					stealthForceGun1.rotationPointY = -(f / 10) - 0.3F;
-					stealthForceGun2.rotationPointY = -(f / 10) - 0.3F;
-					
-					stealthForceFrontWheel1.rotateAngleX = par1;
-					stealthForceFrontWheel2.rotateAngleX = par1;
-					stealthForceBackWheel1.rotateAngleX = par1;
-					stealthForceBackWheel2.rotateAngleX = par1;
-					stealthForceBase.offsetY = 0F;
-					vehicleBody.offsetY = 256F;
+				if (this.onGround > -9990.0F)
+				{
+					float f6 = this.onGround;
+					this.waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float)Math.PI * 2.0F) * 0.2F;
+					this.upperArmR.rotateAngleY += this.waist.rotateAngleY;
+					this.upperArmL.rotateAngleY += this.waist.rotateAngleY;
+					this.upperArmL.rotateAngleX += this.waist.rotateAngleY;
+					f6 = 1.0F - this.onGround;
+					f6 *= f6;
+					f6 *= f6;
+					f6 = 1.0F - f6;
+					float f7 = MathHelper.sin(f6 * (float)Math.PI);
+					float f8 = MathHelper.sin(this.onGround * (float)Math.PI) * -(this.head.rotateAngleX - 0.7F) * 0.75F;
+					this.upperArmR.rotateAngleX = (float)((double)this.upperArmR.rotateAngleX - ((double)f7 * 1.2D + (double)f8));
+					this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
+					this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float)Math.PI) * -0.4F;
+					this.upperArmR.rotateAngleZ += 0.15F;
 				}
-				
-				bipedHead.offsetY = 256F;
-				bipedBody.offsetY = 256F;
-				bipedRightArm.offsetY = 256F;
-				bipedLeftArm.offsetY = 256F;
-				bipedRightLeg.offsetY = 256F;
-				bipedLeftLeg.offsetY = 256F;
 			}
-			else
+
+			float wheelSpinSpeed = par1 * 0.8F;
+			vehicleWheelBackR.rotateAngleY = wheelSpinSpeed;
+			vehicleWheelbackL.rotateAngleY = wheelSpinSpeed;
+			vehiclewheelL.rotateAngleX = wheelSpinSpeed;
+			vehiclewheelR.rotateAngleX = wheelSpinSpeed;
+
+			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleBase})
 			{
-				int t = TFDataManager.getTransformationTimer(player);
-				float f = (float)(20 - t) / 2;
+				float f1 = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
+				if (modelRenderer.rotateAngleY < f1) {modelRenderer.rotateAngleY += 0.05F;}
+				if (modelRenderer.rotateAngleY > f1) {modelRenderer.rotateAngleY -= 0.05F;}
+				modelRenderer.rotateAngleY = f1;
+
+				modelRenderer.rotateAngleX = 1.65F;
 				
-				ModelOffset offsets = TFModelHelper.getOffsets(player);
-				this.bipedHead.rotationPointX = offsets.headOffsetX;
-				this.bipedHead.rotationPointY = offsets.headOffsetY;
-				this.bipedHead.rotationPointZ = offsets.headOffsetZ;
-				
-				if(bipedHead.rotationPointY != 0)
+				if (player == Minecraft.getMinecraft().thePlayer)
 				{
-					bipedHead.rotationPointY -= 1;
+					modelRenderer.rotateAngleX += -(float)player.motionY - 0.0784000015258789F;
 				}
-				
-				vehicleBody.rotateAngleX = 0;
-				bipedBody.rotationPointY = f * 2.5F;
-				bipedBody.rotationPointZ = f / 10 * -7.5F;
-				bipedRightArm.rotationPointZ = f / 10 * -5F;
-				bipedLeftArm.rotationPointZ = f / 10 * -5F;
-				chest.rotationPointZ = -3.0F / 10 * f;
-				chest.rotateAngleX = -pi / 2 / 10 * f;
-				bipedRightArm.rotationPointY = f * 2;
-				bipedLeftArm.rotationPointY = f * 2;
-				bipedRightArm.rotationPointX = f / 3.5F - 5;
-				bipedLeftArm.rotationPointX = -f / 3.5F + 5;
-				bipedRightLeg.rotateAngleZ = f * pi / 10;
-				bipedLeftLeg.rotateAngleZ = f * pi / 10;
-				bipedRightLeg.rotationPointX = -f / 7.5F;
-				bipedLeftLeg.rotationPointX = -f / 7.5F;
-				
-				if (t < 20)
+				else
 				{
-					bipedRightLeg.rotateAngleX = f * pi / 2 / 10;
-					bipedLeftLeg.rotateAngleX = f * pi / 2 / 10;
-					bipedRightLeg.rotationPointY = f * 1.3F + 12;
-					bipedLeftLeg.rotationPointY = f * 1.3F + 12;
-					bipedRightLeg.rotationPointZ = -f / 2;
-					bipedLeftLeg.rotationPointZ = -f / 2;
-					bipedBody.rotateAngleX = pi / 2 / 10 * f;
-					bipedHead.rotationPointY = f * 2.5F;
-					bipedRightArm.rotateAngleX = f / 10 * 1.5F;
-					bipedLeftArm.rotateAngleX = f / 10 * 1.5F;
+					modelRenderer.rotateAngleX += -(float)(player.posY - player.prevPosY) * 1.5F;
 				}
-				
-				bipedHead.offsetY = 0F;
-				bipedBody.offsetY = 0F;
-				bipedRightArm.offsetY = 0F;
-				bipedLeftArm.offsetY = 0F;
-				bipedRightLeg.offsetY = 0F;
-				bipedLeftLeg.offsetY = 0F;
-				vehicleBody.offsetY = 256F;
-				stealthForceBase.offsetY = 256F;
 			}
 		}
 	}
 
-	public void adjustPos()
+	/**
+	 * This is a helper function from Tabula to set the rotation of model parts
+	 */
+	 public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) 
 	{
-		// Body
-		chest.rotationPointY = -4F;
-		frontCar1.rotationPointY = -2.5F;
-		frontCar2.rotationPointY = -2.5F;
-		chestPanel1.rotationPointY = -1.5F;
-		chestPanel2.rotationPointY = -1.5F;
-		chestPanel3.rotationPointY = -3F;
-		windShield.rotationPointY = -5F;
-		frontWheel1.rotationPointY = -4.5F;
-		frontWheel2.rotationPointY = -4.5F;
-
-		// Arms
-		upperArm1.rotationPointX = 1F;
-		lowerArm1.setRotationPoint(-1F, 3.5F, 0);
-		armPanel1.setRotationPoint(-1F, 3.75F, 0F);
-		setRotation(armPanel1, 0F, 0F, -0.0872665F);
-		upperArm2.rotationPointX = -1F;
-		lowerArm2.setRotationPoint(1F, 3.5F, 0);
-		armPanel2.setRotationPoint(1F, 3.75F, 0F);
-		setRotation(armPanel2, 0F, 0F, 0.0872665F);
-
-		// Legs
-		leg1.rotationPointY = 12F;
-		leg2.rotationPointY = 12F;
-		upperLegPanel1.rotationPointX = 0F;
-		upperLegPanel2.rotationPointX = 0F;
+		modelRenderer.rotateAngleX = x;
+		modelRenderer.rotateAngleY = y;
+		modelRenderer.rotateAngleZ = z;
 	}
 }

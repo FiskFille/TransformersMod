@@ -18,7 +18,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
 	/**
 	 * Store every MowzieModelRenderer in this array
 	 */
-	protected MowzieModelRenderer[] parts;
+	protected List<MowzieModelRenderer> parts;
 
 	/**
 	 * Saves the initial rotate angles and initial rotation points.
@@ -26,8 +26,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
 	 */
 	protected void setInitPose()
 	{
-		for (int i = 0; i < this.parts.length; i++)
-			this.parts[i].setInitValuesToCurrentPose();
+		for (int i = 0; i < this.parts.size(); i++)
+			this.parts.get(i).setInitValuesToCurrentPose();
 	}
 
 	/**
@@ -38,8 +38,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
 	 */
 	protected void setToInitPose()
 	{
-		for (int i = 0; i < this.parts.length; i++)
-			this.parts[i].setCurrentPoseToInitValues();
+		for (int i = 0; i < this.parts.size(); i++)
+			this.parts.get(i).setCurrentPoseToInitValues();
 	}
 
 	/**

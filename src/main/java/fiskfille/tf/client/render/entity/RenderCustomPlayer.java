@@ -62,13 +62,13 @@ public class RenderCustomPlayer extends RenderPlayer
 	protected void renderEquippedItems(AbstractClientPlayer player, float partialTicks)
 	{
 		net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre event = new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Pre(player, this, partialTicks);
-	
+
 		if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
-		
+
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		
+
 		super.renderArrowsStuckInEntity(player, partialTicks);
-		
+
 		ItemStack helmetStack = player.inventory.armorItemInSlot(3);
 
 		if (helmetStack != null && event.renderHelmet)
@@ -78,7 +78,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			float scale;
 
 			Item helmet = helmetStack.getItem();
-			
+
 			if (helmet instanceof ItemBlock)
 			{
 				net.minecraftforge.client.IItemRenderer customRenderer = net.minecraftforge.client.MinecraftForgeClient.getItemRenderer(helmetStack, net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED);
@@ -123,7 +123,7 @@ public class RenderCustomPlayer extends RenderPlayer
 		float f2;
 
 		boolean hasSkin = player.func_152123_o();
-		
+
 		if (player.getCommandSenderName().equals("deadmau5") && hasSkin)
 		{
 			this.bindTexture(player.getLocationSkin());
@@ -151,12 +151,12 @@ public class RenderCustomPlayer extends RenderPlayer
 		float f4;
 
 		Transformer transformer = TFHelper.getTransformerFromArmor(player, 2);
-		
+
 		if (hasCape && !player.isInvisible() && !player.getHideCape())
 		{
 			this.bindTexture(player.getLocationCape());
 			GL11.glPushMatrix();
-			
+
 			if(transformer instanceof TransformerPurge) //TODO some sort of api for this
 			{
 				ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
@@ -167,20 +167,23 @@ public class RenderCustomPlayer extends RenderPlayer
 			{
 				ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
 				skystrike.chest1.postRenderParentChain(0.0625F);
-				
+
 				GL11.glTranslatef(0F, 0.2F, 0.25F);
 			}
 			else if(transformer instanceof TransformerSubwoofer)
 			{
 				ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
-				
+
 				subwoofer.chestmain3.postRenderParentChain(0.0625F);
-				
+
 				GL11.glTranslatef(0.18F, 0F, -0.01F);
 			}
 			else if(transformer instanceof TransformerVurp)
 			{
-				modelBipedMain.bipedBody.postRender(0.0625F);
+				ModelVurp vurp = (ModelVurp) TFModelRegistry.getModel(transformer);
+
+				vurp.torsobase.postRenderParentChain(0.0625F);
+				GL11.glTranslatef(0F, -0.2F, 0.1F);
 			}
 			else if(transformer instanceof TransformerCloudtrap)
 			{
@@ -190,7 +193,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			{
 				modelBipedMain.bipedBody.postRender(0.0625F); 
 			}
-			
+
 			GL11.glTranslatef(0.0F, 0.0F, 0.125F);
 			double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * (double)partialTicks - (player.prevPosX + (player.posX - player.prevPosX) * (double)partialTicks);
 			double d4 = player.field_71096_bN + (player.field_71095_bQ - player.field_71096_bN) * (double)partialTicks - (player.prevPosY + (player.posY - player.prevPosY) * (double)partialTicks);
@@ -250,23 +253,22 @@ public class RenderCustomPlayer extends RenderPlayer
 			{
 				ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
 				skystrike.lowerArmR1.postRenderParentChain(0.0625F);
-				
+
 				GL11.glTranslatef(0F, 0.1F, 0.15F);
 			}
 			else if(transformer instanceof TransformerSubwoofer)
 			{
 				ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
-				
+
 				subwoofer.lowerarmR1.postRenderParentChain(0.0625F);
-				
+
 				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
 			else if(transformer instanceof TransformerVurp)
 			{
 				ModelVurp vurp = (ModelVurp) TFModelRegistry.getModel(transformer);
-				modelBipedMain.bipedRightArm.postRender(0.0625F);
-				vurp.lowerArm1.postRenderParentChain(0.0625F);
-				
+				vurp.lowerArmR.postRenderParentChain(0.0625F);
+
 				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
 			else if(transformer instanceof TransformerCloudtrap)
@@ -274,7 +276,7 @@ public class RenderCustomPlayer extends RenderPlayer
 				ModelCloudtrap cloudtrap = (ModelCloudtrap) TFModelRegistry.getModel(transformer);
 				modelBipedMain.bipedRightArm.postRender(0.0625F);
 				cloudtrap.lowerArm1.postRender(0.0625F);
-				
+
 				GL11.glTranslatef(0.05F, -0.1F, 0.05F);
 			}
 			else
@@ -282,7 +284,7 @@ public class RenderCustomPlayer extends RenderPlayer
 				modelBipedMain.bipedRightArm.postRender(0.0625F); 
 				GL11.glTranslatef(0F, 0.1F, -0.05F);
 			}
-			
+
 			GL11.glTranslatef(-0.0625F, 0.4375F, 0.0625F);
 
 			if (player.fishEntity != null)
@@ -301,7 +303,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			boolean is3D = (customRenderer != null && customRenderer.shouldUseRenderHelper(net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED, heldItemStack, net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D));
 
 			Item heldItem = heldItemStack.getItem();
-			
+
 			if (is3D || heldItem instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(heldItem).getRenderType()))
 			{
 				f2 = 0.5F;
@@ -328,9 +330,9 @@ public class RenderCustomPlayer extends RenderPlayer
 				{
 					GL11.glTranslatef(0, -0.1F, 0);
 				}
-				
+
 				GL11.glTranslatef(0F, -0.1F, -0.05F);
-				
+
 				if (heldItem.shouldRotateAroundWhenRendering())
 				{
 					GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
@@ -363,7 +365,7 @@ public class RenderCustomPlayer extends RenderPlayer
 			float f3;
 			int k;
 			float f12;
-			
+
 			if (heldItem.requiresMultipleRenderPasses())
 			{
 				for (k = 0; k < heldItem.getRenderPasses(heldItemStack.getItemDamage()); ++k)
@@ -388,10 +390,10 @@ public class RenderCustomPlayer extends RenderPlayer
 
 			GL11.glPopMatrix();
 		}
-		
+
 		net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Post(player, this, partialTicks));
 	}
-	
+
 	@Override
 	public void renderFirstPersonArm(EntityPlayer player)
 	{
