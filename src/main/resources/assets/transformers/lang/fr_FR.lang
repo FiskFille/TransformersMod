@@ -18,26 +18,26 @@ item.mini_missile.name=Missiles Miniature
 item.transformium_detector.name=Détecteur Transformium
 
 ------Armor------
-item.skystrike_head.name=Skystrike Head
-item.skystrike_torso.name=Skystrike Torso
-item.skystrike_legs.name=Skystrike Legs
-item.skystrike_feet.name=Skystrike Feet
-item.purge_head.name=Purge Head
-item.purge_torso.name=Purge Torso
-item.purge_legs.name=Purge Legs
-item.purge_feet.name=Purge Feet
-item.vurp_head.name=Vurp Head
-item.vurp_torso.name=Vurp Torso
-item.vurp_legs.name=Vurp Legs
-item.vurp_feet.name=Vurp Feet
-item.subwoofer_head.name=Subwoofer Head
-item.subwoofer_torso.name=Subwoofer Torso
-item.subwoofer_legs.name=Subwoofer Legs
-item.subwoofer_feet.name=Subwoofer Feet
-item.cloudtrap_head.name=Cloudtrap Head
-item.cloudtrap_torso.name=Cloudtrap Torso
-item.cloudtrap_legs.name=Cloudtrap Legs
-item.cloudtrap_feet.name=Cloudtrap Feet
+item.skystrike_head.name=Tête Skystrike
+item.skystrike_torso.name=Torse Skystrike
+item.skystrike_legs.name=Jambes Skystrike
+item.skystrike_feet.name=Pieds Skystrike
+item.purge_head.name=Tête Purge
+item.purge_torso.name=Torse Purge
+item.purge_legs.name=Jambes Purge
+item.purge_feet.name=Pieds Purge
+item.vurp_head.name=Tête Vurp
+item.vurp_torso.name=Torse Vurp
+item.vurp_legs.name=Jambes Vurp
+item.vurp_feet.name=Pieds Vurp
+item.subwoofer_head.name=Tête Subwoofer
+item.subwoofer_torso.name=Torse Subwoofer
+item.subwoofer_legs.name=Jambes Subwoofer
+item.subwoofer_feet.name=Pieds Subwoofer
+item.cloudtrap_head.name=Tête Cloudtrap
+item.cloudtrap_torso.name=Torse Cloudtrap
+item.cloudtrap_legs.name=Jambes Cloudtrap
+item.cloudtrap_feet.name=Pieds Cloudtrap
 
 ------Display Vehicles------
 item.display_skystrike.name=AHD-2 Lamphyrade Dropship
