@@ -1,6 +1,7 @@
 package fiskfille.tf.client.model.transformer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -1128,9 +1129,11 @@ public class ModelSkystrike extends MowzieModelBase
 
 					if (timer == 0)
 					{
+						ModelBiped modelBiped = TFModelHelper.modelBipedMain;
+						
 						this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
-						this.mainbody1.rotateAngleZ = -(this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY));
-
+						this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
+						
 						waist.offsetY = 256F;
 						mainbody1.offsetY = 0F;
 					}
