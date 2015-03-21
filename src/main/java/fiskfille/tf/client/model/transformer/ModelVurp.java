@@ -44,15 +44,15 @@ public class ModelVurp extends MowzieModelBase
 	public ModelRenderer vehiclelowerlegL7;
 	public ModelRenderer vehiclelowerlegL4;
 	public ModelRenderer vehiclelowerlegL5;
-	public ModelRenderer vehicleWheelbackL;
+	public ModelRenderer vehicleWheelBackL;
 	public ModelRenderer vehicletorsobase;
 	public ModelRenderer vehiclehood1;
 	public ModelRenderer vehiclefrontR1;
 	public ModelRenderer vehiclefrontL1;
 	public ModelRenderer vehiclebackplate1;
 	public ModelRenderer vehiclebackplate2;
-	public ModelRenderer vehiclewheelR;
-	public ModelRenderer vehiclewheelL;
+	public ModelRenderer vehicleWheelR;
+	public ModelRenderer vehicleWheelL;
 	public ModelRenderer vehiclearmbaseR1;
 	public ModelRenderer vehiclearmbaseL1;
 	public ModelRenderer vehiclewindow1;
@@ -603,9 +603,6 @@ public class ModelVurp extends MowzieModelBase
 		this.vehicleLowerarmL1.setRotationPoint(0.0F, 3.3F, 0.4F);
 		this.vehicleLowerarmL1.addBox(-1.1F, -0.2F, -1.6F, 2, 4, 3);
 		this.setRotateAngle(vehicleLowerarmL1, -3.141592653589793F, 0.0F, 0.0F);
-		this.vehiclewheelR = new ModelRenderer(this, 55, 68);
-		this.vehiclewheelR.setRotationPoint(-2.7F, 0.3F, -2.0F);
-		this.vehiclewheelR.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2);
 		this.vehiclefrontL2 = new ModelRenderer(this, 48, 70);
 		this.vehiclefrontL2.mirror = true;
 		this.vehiclefrontL2.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -746,10 +743,6 @@ public class ModelVurp extends MowzieModelBase
 		this.vehicleLowerarmL2.setRotationPoint(1.5F, 3.5F, 0.0F);
 		this.vehicleLowerarmL2.addBox(-1.0F, -3.0F, -1.9F, 1, 3, 2);
 		this.setRotateAngle(vehicleLowerarmL2, 0.03490658503988659F, 0.2617993877991494F, 0.10122909661567112F);
-		this.vehicleWheelBackR = new ModelRenderer(this, 15, 82);
-		this.vehicleWheelBackR.setRotationPoint(-1.0F, 3.0F, 2.2F);
-		this.vehicleWheelBackR.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 1);
-		this.setRotateAngle(vehicleWheelBackR, 0.0F, 0, 0.0F);
 		this.vehicleLowerlegR4 = new ModelRenderer(this, 8, 83);
 		this.vehicleLowerlegR4.setRotationPoint(0.3F, 2.5F, 0.9F);
 		this.vehicleLowerlegR4.addBox(-0.5F, -2.0F, -2.0F, 1, 3, 2);
@@ -773,15 +766,23 @@ public class ModelVurp extends MowzieModelBase
 		this.vehiclehood1.setRotationPoint(0.0F, -0.5F, -3.8F);
 		this.vehiclehood1.addBox(-1.5F, -3.0F, -1.0F, 3, 4, 1);
 		this.setRotateAngle(vehiclehood1, -1.3439035240356336F, 0.0F, 0.0F);
-		this.vehicleWheelbackL = new ModelRenderer(this, 15, 82);
-		this.vehicleWheelbackL.mirror = true;
-		this.vehicleWheelbackL.setRotationPoint(1.0F, 3.0F, 2.3F);
-		this.vehicleWheelbackL.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 1);
-		this.setRotateAngle(vehicleWheelbackL, 0.0F, 0, 0.0F);
-		this.vehiclewheelL = new ModelRenderer(this, 55, 68);
-		this.vehiclewheelL.mirror = true;
-		this.vehiclewheelL.setRotationPoint(2.6F, 0.3F, -2.0F);
-		this.vehiclewheelL.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
+		
+		
+		this.vehicleWheelBackR = new ModelRenderer(this, 55, 68);
+		this.vehicleWheelBackR.setRotationPoint(-1F, 3F, 2.2F);
+		this.vehicleWheelBackR.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.vehicleWheelBackL = new ModelRenderer(this, 55, 68);
+		this.vehicleWheelBackL.mirror = true;
+		this.vehicleWheelBackL.setRotationPoint(1.0F, 3.0F, 2.3F);
+		this.vehicleWheelBackL.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.vehicleWheelL = new ModelRenderer(this, 55, 68);
+		this.vehicleWheelL.mirror = true;
+		this.vehicleWheelL.setRotationPoint(2.6F, 0.3F, -2.0F);
+		this.vehicleWheelL.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
+		this.vehicleWheelR = new ModelRenderer(this, 55, 68);
+		this.vehicleWheelR.setRotationPoint(-2.7F, 0.3F, -2.0F);
+		this.vehicleWheelR.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2);
+		
 		this.vehiclearmbaseL1 = new ModelRenderer(this, 64, 60);
 		this.vehiclearmbaseL1.mirror = true;
 		this.vehiclearmbaseL1.setRotationPoint(1.0F, -0.4F, 1.0F);
@@ -793,8 +794,8 @@ public class ModelVurp extends MowzieModelBase
 
 		this.vehicleWaistConnector1.addChild(this.vehicleRearplate);
 		this.vehicletorsobase.addChild(this.vehiclehood1);
-		this.vehiclelowerlegL1.addChild(this.vehicleWheelbackL);
-		this.vehicletorsobase.addChild(this.vehiclewheelL);
+		this.vehiclelowerlegL1.addChild(this.vehicleWheelBackL);
+		this.vehicletorsobase.addChild(this.vehicleWheelL);
 		this.vehicletorsobase.addChild(this.vehiclearmbaseL1);
 		this.vehicleTorsoconnector1.addChild(this.vehicletorsobase);
 		this.vehicletorsobase.addChild(this.vehiclebackplate2);
@@ -803,7 +804,7 @@ public class ModelVurp extends MowzieModelBase
 		this.vehicleKneeR1.addChild(this.vehicleLowerlegR1);
 		this.vehiclekneeL2.addChild(this.vehiclelowerlegL1);
 		this.vehicleUpperarmL1.addChild(this.vehicleLowerarmL1);
-		this.vehicletorsobase.addChild(this.vehiclewheelR);
+		this.vehicletorsobase.addChild(this.vehicleWheelR);
 		this.vehiclefrontL1.addChild(this.vehiclefrontL2);
 		this.vehicleBase.addChild(this.vehicleWaist2);
 		this.vehiclearmbaseR1.addChild(this.vehicleupperarmR1);
@@ -1164,10 +1165,10 @@ public class ModelVurp extends MowzieModelBase
 			}
 
 			float wheelSpinSpeed = par1 * 0.8F;
-			vehicleWheelBackR.rotateAngleY = wheelSpinSpeed;
-			vehicleWheelbackL.rotateAngleY = wheelSpinSpeed;
-			vehiclewheelL.rotateAngleX = wheelSpinSpeed;
-			vehiclewheelR.rotateAngleX = wheelSpinSpeed;
+			vehicleWheelBackR.rotateAngleX = wheelSpinSpeed;
+			vehicleWheelBackL.rotateAngleX = wheelSpinSpeed;
+			vehicleWheelL.rotateAngleX = wheelSpinSpeed;
+			vehicleWheelR.rotateAngleX = wheelSpinSpeed;
 
 			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleBase})
 			{
