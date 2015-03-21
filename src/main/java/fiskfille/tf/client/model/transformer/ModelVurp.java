@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
@@ -897,20 +898,20 @@ public class ModelVurp extends MowzieModelBase
 			ModelOffset offsets = TFModelHelper.getOffsets(player);
 
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerVurp;
-		
+
 			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);
 			boolean wearingChest = transformerChest instanceof TransformerVurp;
-			
+
 			Transformer transformerLegs = TFHelper.getTransformerFromArmor(player, 1);
 			boolean wearingLegs = transformerLegs instanceof TransformerVurp;
 
 			head.showModel = wearingHead;
 			upperLegR.showModel = wearingLegs;
 			upperLegL.showModel = wearingLegs;
-			
+
 			float globalSpeed = 1;
 			float globalDegree = 0.8F;
-			
+
 			this.head.rotationPointX += offsets.headOffsetX;
 			this.head.rotationPointY += offsets.headOffsetY;
 			this.head.rotationPointZ += offsets.headOffsetZ;
@@ -919,7 +920,7 @@ public class ModelVurp extends MowzieModelBase
 			{
 				faceTarget(head, 1, par4, par5);
 			}
-			
+
 			if(!wearingChest)
 			{
 				head.rotationPointY += 2;
@@ -929,24 +930,24 @@ public class ModelVurp extends MowzieModelBase
 			else
 			{
 				head.rotationPointY -= 3.5F;
-				
+
 				offsets.headOffsetY = 3.5F;
-				
+
 				if(!wearingLegs)
 				{
 					waist.rotationPointY -= 1F;
 					waist.rotationPointZ -= 1F;
-					
+
 					offsets.headOffsetY -= 1F;
 					head.rotationPointY += 1F;
-					
+
 					if(transformerLegs instanceof TransformerSkystrike)
 					{
 						waist.rotationPointY -= 3;
 					}
 				}
 			}
-			
+
 			if(transformerChest instanceof TransformerSkystrike)
 			{
 				head.rotationPointY -= 1;
@@ -971,6 +972,9 @@ public class ModelVurp extends MowzieModelBase
 			{
 				this.upperArmR.rotateAngleX -= 0.2F;
 			}
+
+			ItemStack heldItemStack = player.getHeldItem();
+			boolean holdingSniper = heldItemStack != null && heldItemStack.getItem() instanceof ItemVurpsSniper;
 
 			if(wearingChest && wearingHead && wearingLegs)
 			{
@@ -1072,6 +1076,21 @@ public class ModelVurp extends MowzieModelBase
 					lowerArmL.rotateAngleX -= 1 * downwardPose;
 				}
 
+				if(holdingSniper)
+				{
+					armbaseR1.rotateAngleX += head.rotateAngleX;
+					upperArmR.rotateAngleX -= 0.25F;
+					upperArmR.rotateAngleY -= 0.25F;
+					lowerArmR.rotateAngleX -= 0.25F;
+					lowerArmR.rotateAngleY -= 0.5F;
+					
+					armbaseL1.rotateAngleX += head.rotateAngleX;
+					upperArmL.rotateAngleX -= 0.25F;
+					upperArmL.rotateAngleY += 0.25F;
+					lowerArmL.rotateAngleX -= 0.5F;
+					lowerArmL.rotateAngleY += 0.8F;
+				}
+
 				int t = TFDataManager.getTransformationTimer(player);
 				float f = (float) (20 - t);
 			}
@@ -1167,7 +1186,7 @@ public class ModelVurp extends MowzieModelBase
 				{
 					modelRenderer.rotateAngleX += -(float)(player.posY - player.prevPosY) * 1.5F;
 				}
-				
+
 				modelRenderer.rotateAngleX -= 0.1F;
 			}
 		}
