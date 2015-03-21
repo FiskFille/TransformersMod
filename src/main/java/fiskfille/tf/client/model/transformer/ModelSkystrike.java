@@ -907,22 +907,21 @@ public class ModelSkystrike extends MowzieModelBase
 				}
 
 				ModelOffset offsets = TFModelHelper.getOffsets(player);
-				
+
+				this.headbase.rotationPointX += offsets.headOffsetX;
+				this.headbase.rotationPointY += offsets.headOffsetY;
+				this.headbase.rotationPointZ += offsets.headOffsetZ;
+
 				if (wearingHead)
 				{
 					faceTarget(headbase, 1, par4, par5);
 
-					if(wearingChest)
+					headbase.rotationPointY += 3.5F;
+					headbase.rotationPointZ -= 1.5F;
+					
+					if(!wearingChest)
 					{
-						headbase.rotationPointY += 2;
-						headbase.rotationPointX += 1;
-						headbase.rotationPointZ -= 1.5F;
-					}
-					else
-					{
-						headbase.rotationPointX += 0F;
-						headbase.rotationPointZ -= 2.5F;
-						headbase.rotationPointY += 0.5F;
+						headbase.rotationPointZ -= 4F;
 					}
 				}
 				else
@@ -937,14 +936,8 @@ public class ModelSkystrike extends MowzieModelBase
 						else
 						{
 							offsets.headOffsetY = -0.6F;
-							offsets.headOffsetZ = 0F;
+							offsets.headOffsetZ = 0.2F;
 						}
-
-					}
-					else
-					{
-						offsets.headOffsetY = 0F;
-						offsets.headOffsetZ = 0F;
 					}
 				}
 
@@ -982,25 +975,19 @@ public class ModelSkystrike extends MowzieModelBase
 				{
 					this.upperArmR.rotateAngleX -= 0.2F;
 				}
-				
+
 				boolean sneaking = player.isSneaking();
+
 				if (sneaking)
 				{
 					globalDegree = 1.5F;
 					globalSpeed = 1.3F;
 				}
 
-				if(wearingHead && wearingChest)
-				{
-					headbase.rotationPointX -= 1;
-					headbase.rotationPointZ += 1;
-					headbase.rotationPointY -= 1.8F;
-				}
-				
 				if (wearingHead && wearingLegs && wearingChest)
 				{
 					boolean playerOnGround = onGround(player);
-					
+
 					if (playerOnGround || player.capabilities.isFlying)
 					{
 						bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
@@ -1037,7 +1024,7 @@ public class ModelSkystrike extends MowzieModelBase
 
 						//Idle animation
 						int ticksExisted = entity.ticksExisted;
-						
+
 						walk(stomach, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
 						walk(chest1, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
 						walk(headbase, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
@@ -1048,7 +1035,7 @@ public class ModelSkystrike extends MowzieModelBase
 						flap(upperArmL, 0.08F, 0.04F, false, 1, 0, ticksExisted, 1F);
 						walk(lowerArmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(lowerArmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-					
+
 						/*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(upperlegL, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
 						walk(upperlegR, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
@@ -1061,7 +1048,7 @@ public class ModelSkystrike extends MowzieModelBase
 						flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
 						walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
 						walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
-						
+
 						if (sneaking)
 						{
 							waist.rotationPointY -= par2;
@@ -1088,11 +1075,11 @@ public class ModelSkystrike extends MowzieModelBase
 					{
 						double motionX = entity.posX - entity.prevPosX;
 						double motionZ = entity.posZ - entity.prevPosZ;
-						
+
 						double motionY = entity.posY - entity.prevPosY;
 						float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
 						float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
-						
+
 						double speed = Math.sqrt((motionX * motionX) + (motionZ * motionZ)) * 1.2D;
 
 						waist.rotateAngleX += 0.2 * par2 * backwardInverter;
@@ -1130,10 +1117,10 @@ public class ModelSkystrike extends MowzieModelBase
 					if (timer == 0)
 					{
 						ModelBiped modelBiped = TFModelHelper.modelBipedMain;
-						
+
 						this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
 						this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
-						
+
 						waist.offsetY = 256F;
 						mainbody1.offsetY = 0F;
 					}
@@ -1175,8 +1162,8 @@ public class ModelSkystrike extends MowzieModelBase
 						this.cockpit1.rotationPointY += f * 0.1F;
 						this.cockpit1.rotationPointZ += f * -0.2F;
 
-//						this.lowerarmL1.rotateAngleZ = f * 0.05F;
-//						this.lowerarmR1.rotateAngleZ = f * -0.05F;
+						//						this.lowerarmL1.rotateAngleZ = f * 0.05F;
+						//						this.lowerarmR1.rotateAngleZ = f * -0.05F;
 
 						waist.offsetY = 0F;
 						mainbody1.offsetY = 256F;
@@ -1189,10 +1176,10 @@ public class ModelSkystrike extends MowzieModelBase
 
 					this.lowerArmL1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
 					this.lowerArmR1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 4;
-					
+
 					this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
 					this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2) / 2) - 0.65F;
-					
+
 					if (this.isRiding)
 					{
 						this.upperArmR.rotateAngleX += -((float)Math.PI / 5F);
@@ -1203,33 +1190,33 @@ public class ModelSkystrike extends MowzieModelBase
 						this.upperLegL.rotateAngleY = -((float)Math.PI / 10F);
 					}
 
-			        if (this.isSneak)
-			        {
-			            this.waist.rotateAngleX += 0.4F;
-			            this.waist.rotationPointZ += 4F;
-			            this.waist.rotationPointY -= 2F;
-			            this.upperArmR.rotateAngleX -= 0.4F;
-			            this.upperArmL.rotateAngleX -= 0.4F;
-			            
-			            if(wearingChest)
-			            {
-			                this.headbase.rotateAngleX -= 0.4F;
-				            this.upperLegR.rotateAngleX -= 0.4F;
-				            this.upperLegL.rotateAngleX -= 0.4F;
-			            }
-			            else
-			            {
-			            	this.upperLegL.rotationPointZ += 5F;
-			            	this.upperLegL.rotationPointY -= 0.8F;
-			            	this.upperLegR.rotationPointZ += 5F;
-			            	this.upperLegR.rotationPointY -= 0.8F;
-			            }
-			        }
-			        else
-			        {
-			            this.waist.rotateAngleX = 0.0F;
-			        }
-					
+					if (this.isSneak)
+					{
+						this.waist.rotateAngleX += 0.4F;
+						this.waist.rotationPointZ += 4F;
+						this.waist.rotationPointY -= 2F;
+						this.upperArmR.rotateAngleX -= 0.4F;
+						this.upperArmL.rotateAngleX -= 0.4F;
+
+						if(wearingChest)
+						{
+							this.headbase.rotateAngleX -= 0.4F;
+							this.upperLegR.rotateAngleX -= 0.4F;
+							this.upperLegL.rotateAngleX -= 0.4F;
+						}
+						else
+						{
+							this.upperLegL.rotationPointZ += 5F;
+							this.upperLegL.rotationPointY -= 0.8F;
+							this.upperLegR.rotationPointZ += 5F;
+							this.upperLegR.rotationPointY -= 0.8F;
+						}
+					}
+					else
+					{
+						this.waist.rotateAngleX = 0.0F;
+					}
+
 					if (this.onGround > -9990.0F)
 					{
 						float f6 = this.onGround;

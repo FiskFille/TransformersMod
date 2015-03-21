@@ -815,9 +815,9 @@ public class ModelSubwoofer extends MowzieModelBase
 			float globalDegree = 0.8F;
 
 			ModelOffset offsets = TFModelHelper.getOffsets(player);
-			this.bipedHead.rotationPointX += offsets.headOffsetX;
-			this.bipedHead.rotationPointY += offsets.headOffsetY;
-			this.bipedHead.rotationPointZ += offsets.headOffsetZ;
+			this.head.rotationPointX += offsets.headOffsetX;
+			this.head.rotationPointY += offsets.headOffsetY;
+			this.head.rotationPointZ += offsets.headOffsetZ;
 			
 			boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSubwoofer;
 			Transformer transformerChest = TFHelper.getTransformerFromArmor(player, 2);
@@ -959,6 +959,7 @@ public class ModelSubwoofer extends MowzieModelBase
 					walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
 					walk(lowerlegR1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
 					walk(lowerlegL1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
+				
 					waist.rotateAngleX -= 0.2 * downwardPose;
 					stomach.rotateAngleX += 0.3 * downwardPose;
 					chestmain1.rotateAngleX += 0.3 * downwardPose;

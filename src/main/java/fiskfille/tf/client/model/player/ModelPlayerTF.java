@@ -41,13 +41,13 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 			this.bipedHeadwear.rotationPointZ = offsets.headOffsetZ;
 			
 			ItemStack helm = player.getCurrentArmor(3);
-			boolean wearingTransformerHelm = helm != null ? helm.getItem() instanceof ItemTransformerArmor : false;
+			boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
 			ItemStack chest = player.getCurrentArmor(2);
-			boolean wearingTransformerChest = chest != null ? chest.getItem() instanceof ItemTransformerArmor : false;
+			boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
 			ItemStack pants = player.getCurrentArmor(1);
-			boolean wearingTransformerPants = pants != null ? pants.getItem() instanceof ItemTransformerArmor : false;
+			boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
 
-			if(!wearingTransformerChest && !wearingTransformerHelm && !wearingTransformerPants)
+			if(!wearingTransformerChest)
 			{
 				offsets.headOffsetX = 0;
 				offsets.headOffsetY = 0;

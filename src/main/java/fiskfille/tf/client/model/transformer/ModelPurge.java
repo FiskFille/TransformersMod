@@ -626,6 +626,8 @@ public class ModelPurge extends MowzieModelBase
 					if (sneaking) 
 					{
 						waist.rotationPointY += 3;
+						waist.rotationPointZ += 3;
+						waist.rotateAngleX += 0.5;
 						stomach.rotateAngleX += 0.5;
 						head.rotateAngleX -= 0.5;
 						upperLegR.rotateAngleX -= 0.7;
