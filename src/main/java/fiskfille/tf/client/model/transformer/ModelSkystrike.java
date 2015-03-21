@@ -912,53 +912,42 @@ public class ModelSkystrike extends MowzieModelBase
 				this.headbase.rotationPointY += offsets.headOffsetY;
 				this.headbase.rotationPointZ += offsets.headOffsetZ;
 
-				if (wearingHead)
+				if(wearingHead)
 				{
 					faceTarget(headbase, 1, par4, par5);
-
-					headbase.rotationPointY += 3.5F;
-					headbase.rotationPointZ -= 1.5F;
+				}
+				
+				if(!wearingChest)
+				{
+					upperLegL.rotationPointY += 10;
+					upperLegR.rotationPointY += 10;
+					upperLegL.rotationPointX -= 1;
+					upperLegR.rotationPointX -= 1;
+					upperLegR.rotationPointZ -= 1;
+					upperLegL.rotationPointZ -= 1;
 					
-					if(!wearingChest)
-					{
-						headbase.rotationPointZ -= 4F;
-					}
+					headbase.rotationPointZ -= 2F;
+					headbase.rotationPointY += 1F;
 				}
 				else
 				{
-					if(wearingChest)
+					offsets.headOffsetY = -4F;
+					offsets.headOffsetZ = 2.5F;
+					
+					headbase.rotationPointY += 4F;
+					headbase.rotationPointZ -= 2.5F;
+					
+					if(!wearingLegs)
 					{
-						if(wearingLegs)
-						{
-							offsets.headOffsetY = -3.1F;
-							offsets.headOffsetZ = 2F;
-						}
-						else
-						{
-							offsets.headOffsetY = -0.6F;
-							offsets.headOffsetZ = 0.2F;
-						}
+						waist.rotationPointY += 2.5F;
+						waist.rotationPointZ -= 2.5F;
+						offsets.headOffsetY += 2.5F;
+						offsets.headOffsetZ -= 2.5F;
+						headbase.rotationPointY -= 2.5F;
+						headbase.rotationPointZ += 2.5F;
 					}
 				}
-
-				if(!wearingChest && wearingLegs)
-				{
-					upperLegR.rotationPointX -= 1;
-					upperLegL.rotationPointX -= 1;
-
-					upperLegR.rotationPointZ -= 1;
-					upperLegL.rotationPointZ -= 1;
-
-					upperLegR.rotationPointY += 10;
-					upperLegL.rotationPointY += 10;
-				}
-
-				if(!wearingLegs && wearingChest)
-				{
-					waist.rotationPointY += 2.5F;
-					waist.rotationPointZ -= 2.5F;
-				}
-
+				
 				int backwardInverter = 1;
 
 				if (((EntityPlayer) entity).moveForward < 0)

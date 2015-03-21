@@ -904,65 +904,53 @@ public class ModelVurp extends MowzieModelBase
 			Transformer transformerLegs = TFHelper.getTransformerFromArmor(player, 1);
 			boolean wearingLegs = transformerLegs instanceof TransformerVurp;
 
+			head.showModel = wearingHead;
+			upperLegR.showModel = wearingLegs;
+			upperLegL.showModel = wearingLegs;
+			
 			float globalSpeed = 1;
 			float globalDegree = 0.8F;
-			
-			if(transformerChest instanceof TransformerSkystrike)
-			{
-				head.rotationPointY -= 1;
-			}
-			
-			if (!wearingChest)
-			{
-				head.rotationPointY += 3.5F;
-			}
 			
 			this.head.rotationPointX += offsets.headOffsetX;
 			this.head.rotationPointY += offsets.headOffsetY;
 			this.head.rotationPointZ += offsets.headOffsetZ;
 
-			if(!wearingHead && wearingChest)
-			{
-				offsets.headOffsetY = 3.5F;
-				offsets.headOffsetZ = 1F;
-			}
-
-			head.showModel = wearingHead;
-			upperLegR.showModel = wearingLegs;
-			upperLegL.showModel = wearingLegs;
-
 			if(wearingHead)
 			{
-				head.rotationPointY -= 7F;
-				head.rotationPointZ -= 1F;
-				
-				if(!wearingChest)
-				{
-					head.rotationPointY += 5.5F;
-				}
-				else
-				{
-					head.rotationPointY += 3.5F;
-				}
-
 				faceTarget(head, 1, par4, par5);
 			}
-
-			if(wearingChest)
+			
+			if(!wearingChest)
 			{
-				waist.rotationPointZ -= 1;
+				head.rotationPointY += 2;
+				upperLegL.rotationPointY += 10;
+				upperLegR.rotationPointY += 10;
+			}
+			else
+			{
+				head.rotationPointY -= 3.5F;
+				
+				offsets.headOffsetY = 3.5F;
+				
+				if(!wearingLegs)
+				{
+					waist.rotationPointY -= 1F;
+					waist.rotationPointZ -= 1F;
+					
+					offsets.headOffsetY -= 1F;
+					head.rotationPointY += 1F;
+					
+					if(transformerLegs instanceof TransformerSkystrike)
+					{
+						waist.rotationPointY -= 3;
+					}
+				}
 			}
 			
-			if(!wearingChest && wearingLegs)
+			if(transformerChest instanceof TransformerSkystrike)
 			{
-				upperLegL.rotationPointY += 11;
-				upperLegR.rotationPointY += 11;
-				upperLegL.rotateAngleX += 0.2F;
-				upperLegR.rotateAngleX += 0.2F;
-			}
-			else if(wearingChest && transformerLegs instanceof TransformerSkystrike)
-			{
-				waist.rotationPointY -= 4;
+				head.rotationPointY -= 1;
+				head.rotationPointZ -= 1;
 			}
 
 			int backwardInverter = 1;
@@ -990,7 +978,7 @@ public class ModelVurp extends MowzieModelBase
 
 				if(playerOnGround || player.capabilities.isFlying)
 				{
-					waist.rotationPointY -= 2;
+					waist.rotationPointY -= 3F;
 
 					upperLegR.rotateAngleY += 0.2;
 					upperLegL.rotateAngleY -= 0.2;
