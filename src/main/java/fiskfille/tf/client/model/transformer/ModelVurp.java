@@ -932,6 +932,8 @@ public class ModelVurp extends MowzieModelBase
                 head.rotationPointY -= 3.5F;
                 
                 offsets.headOffsetY = 3.5F;
+               
+                offsets.timesModified++;
                 
                 if (!wearingLegs)
                 {
