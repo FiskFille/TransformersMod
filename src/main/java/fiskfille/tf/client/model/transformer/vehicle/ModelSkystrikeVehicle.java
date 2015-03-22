@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelSkystrikeVehicle extends ModelVehicleBase
 {
-	public ModelRenderer shape131;
+    public ModelRenderer shape131;
     public ModelRenderer shape132;
     public ModelRenderer shape133;
     public ModelRenderer shape134;
@@ -51,13 +51,13 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
     public ModelRenderer shape75;
     public ModelRenderer shape77;
     public ModelRenderer shape78;
-	public ModelRenderer vehicleBody;
-	
-	public ModelSkystrikeVehicle()
-	{
-		textureWidth = 128;
-		textureHeight = 128;
-		
+    public ModelRenderer vehicleBody;
+    
+    public ModelSkystrikeVehicle()
+    {
+        textureWidth = 128;
+        textureHeight = 128;
+        
         this.shape59 = new ModelRenderer(this, 75, 55);
         this.shape59.mirror = true;
         this.shape59.setRotationPoint(-4.5F, 13.5F, 3.9F);
@@ -286,98 +286,96 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape56.addChild(this.shape58);
         this.shape1.addChild(this.shape4);
         this.shape1.addChild(this.shape130);
-		vehicleBody = new ModelRenderer(this, 0, 0);
-	    vehicleBody.addBox(-4.0F, 0.0F, -2.0F, 0, 0, 0);
-	    vehicleBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-		
-//	    try
-//	    {
-//		    for (Field field : getClass().getDeclaredFields())
-//		    {
-//		        field.setAccessible(true);
-//		        Object value = field.get(this);
-//		        
-//		        if (value != null && value instanceof ModelRenderer)
-//		        {
-//		        	ModelRenderer modelRenderer = (ModelRenderer)value;
-//		        	this.addChildTo(modelRenderer, vehichleBody);
-//		        }
-//		    }
-//	    }
-//	    catch (Exception e)
-//	    {
-//	    	e.printStackTrace();
-//	    }
-	    
-	    
-//	    this.addChildTo(shape1, vehichleBody);
-//	    this.addChildTo(shape2, vehichleBody);
-//	    this.addChildTo(shape3, vehichleBody);
-//	    this.addChildTo(shape4, vehichleBody);
-//	    this.addChildTo(shape6, vehichleBody);
-//	    this.addChildTo(shape7, vehichleBody);
-//	    this.addChildTo(shape8, vehichleBody);
-//	    this.addChildTo(shape10, vehichleBody);
-//	    this.addChildTo(shape11, vehichleBody);
-//	    this.addChildTo(shape12, vehichleBody);
-//	    this.addChildTo(shape13, vehichleBody);
-//	    this.addChildTo(shape14, vehichleBody);
-//	    this.addChildTo(shape15, vehichleBody);
-//	    this.addChildTo(shape16, vehichleBody);
-//	    this.addChildTo(shape30, vehichleBody);
-//	    this.addChildTo(shape31, vehichleBody);
-//	    this.addChildTo(shape32, vehichleBody);
-//	    this.addChildTo(shape33, vehichleBody);
-//	    this.addChildTo(shape35, vehichleBody);
-//	    this.addChildTo(shape40, vehichleBody);
-//	    this.addChildTo(shape41, vehichleBody);
-//	    this.addChildTo(shape43, vehichleBody);
-//	    this.addChildTo(shape44, vehichleBody);
-//	    this.addChildTo(shape49, vehichleBody);
-//	    this.addChildTo(shape56, vehichleBody);
-//	    this.addChildTo(shape58, vehichleBody);
-//	    this.addChildTo(shape59, vehichleBody);
-//	    this.addChildTo(shape64, vehichleBody);
-//	    this.addChildTo(shape66, vehichleBody);
-//	    this.addChildTo(shape67, vehichleBody);
-//	    this.addChildTo(shape68, vehichleBody);
-//	    this.addChildTo(shape69, vehichleBody);
-//	    this.addChildTo(shape70, vehichleBody);
-//	    this.addChildTo(shape75, vehichleBody);
-//	    this.addChildTo(shape77, vehichleBody);
-//	    this.addChildTo(shape78, vehichleBody);
-	    
-	    
-	    this.addChildTo(shape1, vehicleBody);
-	    this.addChildTo(shape30, vehicleBody);
-	    this.addChildTo(shape56, vehicleBody);
-	    this.addChildTo(shape40, vehicleBody);
-	    this.addChildTo(shape68, vehicleBody);
-	    this.addChildTo(shape130, vehicleBody);
-	    this.addChildTo(shape131, vehicleBody);
-	    this.addChildTo(shape132, vehicleBody);
-	    this.addChildTo(shape133, vehicleBody);
-	    this.addChildTo(shape134, vehicleBody);
-	    this.addChildTo(shape136, vehicleBody);
-	    this.addChildTo(shape137, vehicleBody);
-	    this.addChildTo(shape138, vehicleBody);
-	    this.addChildTo(shape139, vehicleBody);
-	    this.addChildTo(shape140, vehicleBody);
-	    this.addChildTo(shape141, vehicleBody);
-		
-		vehicleBody.offsetY = 1.2F;
-	}
-	
-	public void render()
-	{
-		vehicleBody.render(0.0625F);
-		vehicleBody.offsetY = 1.2F;
-	}
-	
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
+        vehicleBody = new ModelRenderer(this, 0, 0);
+        vehicleBody.addBox(-4.0F, 0.0F, -2.0F, 0, 0, 0);
+        vehicleBody.setRotationPoint(0.0F, 0.0F, 0.0F);
+        
+        // try
+        // {
+        // for (Field field : getClass().getDeclaredFields())
+        // {
+        // field.setAccessible(true);
+        // Object value = field.get(this);
+        //
+        // if (value != null && value instanceof ModelRenderer)
+        // {
+        // ModelRenderer modelRenderer = (ModelRenderer)value;
+        // this.addChildTo(modelRenderer, vehichleBody);
+        // }
+        // }
+        // }
+        // catch (Exception e)
+        // {
+        // e.printStackTrace();
+        // }
+        
+        // this.addChildTo(shape1, vehichleBody);
+        // this.addChildTo(shape2, vehichleBody);
+        // this.addChildTo(shape3, vehichleBody);
+        // this.addChildTo(shape4, vehichleBody);
+        // this.addChildTo(shape6, vehichleBody);
+        // this.addChildTo(shape7, vehichleBody);
+        // this.addChildTo(shape8, vehichleBody);
+        // this.addChildTo(shape10, vehichleBody);
+        // this.addChildTo(shape11, vehichleBody);
+        // this.addChildTo(shape12, vehichleBody);
+        // this.addChildTo(shape13, vehichleBody);
+        // this.addChildTo(shape14, vehichleBody);
+        // this.addChildTo(shape15, vehichleBody);
+        // this.addChildTo(shape16, vehichleBody);
+        // this.addChildTo(shape30, vehichleBody);
+        // this.addChildTo(shape31, vehichleBody);
+        // this.addChildTo(shape32, vehichleBody);
+        // this.addChildTo(shape33, vehichleBody);
+        // this.addChildTo(shape35, vehichleBody);
+        // this.addChildTo(shape40, vehichleBody);
+        // this.addChildTo(shape41, vehichleBody);
+        // this.addChildTo(shape43, vehichleBody);
+        // this.addChildTo(shape44, vehichleBody);
+        // this.addChildTo(shape49, vehichleBody);
+        // this.addChildTo(shape56, vehichleBody);
+        // this.addChildTo(shape58, vehichleBody);
+        // this.addChildTo(shape59, vehichleBody);
+        // this.addChildTo(shape64, vehichleBody);
+        // this.addChildTo(shape66, vehichleBody);
+        // this.addChildTo(shape67, vehichleBody);
+        // this.addChildTo(shape68, vehichleBody);
+        // this.addChildTo(shape69, vehichleBody);
+        // this.addChildTo(shape70, vehichleBody);
+        // this.addChildTo(shape75, vehichleBody);
+        // this.addChildTo(shape77, vehichleBody);
+        // this.addChildTo(shape78, vehichleBody);
+        
+        this.addChildTo(shape1, vehicleBody);
+        this.addChildTo(shape30, vehicleBody);
+        this.addChildTo(shape56, vehicleBody);
+        this.addChildTo(shape40, vehicleBody);
+        this.addChildTo(shape68, vehicleBody);
+        this.addChildTo(shape130, vehicleBody);
+        this.addChildTo(shape131, vehicleBody);
+        this.addChildTo(shape132, vehicleBody);
+        this.addChildTo(shape133, vehicleBody);
+        this.addChildTo(shape134, vehicleBody);
+        this.addChildTo(shape136, vehicleBody);
+        this.addChildTo(shape137, vehicleBody);
+        this.addChildTo(shape138, vehicleBody);
+        this.addChildTo(shape139, vehicleBody);
+        this.addChildTo(shape140, vehicleBody);
+        this.addChildTo(shape141, vehicleBody);
+        
+        vehicleBody.offsetY = 1.2F;
+    }
+    
+    public void render()
+    {
+        vehicleBody.render(0.0625F);
+        vehicleBody.offsetY = 1.2F;
+    }
+    
+    private void setRotation(ModelRenderer model, float x, float y, float z)
+    {
+        model.rotateAngleX = x;
+        model.rotateAngleY = y;
+        model.rotateAngleZ = z;
+    }
 }

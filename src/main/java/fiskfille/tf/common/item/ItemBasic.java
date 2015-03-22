@@ -6,14 +6,14 @@ import fiskfille.tf.TransformersMod;
 
 public class ItemBasic extends Item
 {
-	public ItemBasic()
-	{
-		super();
-		this.setCreativeTab(TransformersMod.tabTransformers);
-	}
-	
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
-	}
+    public ItemBasic()
+    {
+        super();
+        this.setCreativeTab(TransformersMod.tabTransformers);
+    }
+    
+    public void registerIcons(IIconRegister iconRegister)
+    {
+        itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+    }
 }

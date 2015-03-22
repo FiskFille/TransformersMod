@@ -22,7 +22,7 @@ public class ModelBassBlaster extends ModelBase
     public ModelRenderer cable2;
     public ModelRenderer lowerflap2;
     public ModelRenderer upperflap2;
-
+    
     public ModelBassBlaster()
     {
         this.textureWidth = 64;
@@ -104,8 +104,8 @@ public class ModelBassBlaster extends ModelBase
     }
     
     public void render()
-    { 
-    	float f5 = 0.0625f;
+    {
+        float f5 = 0.0625f;
         this.weaponbase.render(f5);
     }
     

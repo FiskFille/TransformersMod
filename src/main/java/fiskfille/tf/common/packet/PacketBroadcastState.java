@@ -13,36 +13,36 @@ import fiskfille.tf.common.playerdata.TFPlayerData;
 
 public class PacketBroadcastState implements IMessage
 {
-	private int id;
-	private boolean stealth;
-	private boolean vehicle;
-	
-	public PacketBroadcastState()
-	{
-		
-	}
-	
-	public PacketBroadcastState(EntityPlayer player)
-	{
-		id = player.getEntityId();
-		stealth = TFDataManager.isInStealthMode(player);
-		vehicle = TFDataManager.isInVehicleMode(player);
-	}
-
+    private int id;
+    private boolean stealth;
+    private boolean vehicle;
+    
+    public PacketBroadcastState()
+    {
+        
+    }
+    
+    public PacketBroadcastState(EntityPlayer player)
+    {
+        id = player.getEntityId();
+        stealth = TFDataManager.isInStealthMode(player);
+        vehicle = TFDataManager.isInVehicleMode(player);
+    }
+    
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         stealth = buf.readBoolean();
         vehicle = buf.readBoolean();
     }
-
+    
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
         buf.writeBoolean(stealth);
         buf.writeBoolean(vehicle);
     }
-
+    
     public static class Handler implements IMessageHandler<PacketBroadcastState, IMessage>
     {
         public IMessage onMessage(PacketBroadcastState message, MessageContext ctx)
@@ -51,11 +51,11 @@ public class PacketBroadcastState implements IMessage
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity lookupEntity = player.worldObj.getEntityByID(message.id);
-
+                
                 if (lookupEntity instanceof EntityPlayer && player != lookupEntity)
                 {
                     EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
-
+                    
                     TFPlayerData playerData = TFPlayerData.getData(lookupPlayer);
                     playerData.vehicle = message.vehicle;
                     TFDataManager.setTransformationTimer(lookupPlayer, message.vehicle ? 0 : 20);
@@ -71,7 +71,7 @@ public class PacketBroadcastState implements IMessage
                 playerData.vehicle = message.vehicle;
                 playerData.stealthForce = message.stealth;
             }
-
+            
             return null;
         }
     }

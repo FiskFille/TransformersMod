@@ -18,8 +18,8 @@ public class BlockBasic extends Block
     
     public Block setHarvestLvl(String tool, int level)
     {
-    	this.setHarvestLevel(tool, level);
-    	return this;
+        this.setHarvestLevel(tool, level);
+        return this;
     }
     
     public Item getItemDropped(int p_149650_1_, Random rand, int p_149650_3_)
@@ -30,6 +30,6 @@ public class BlockBasic extends Block
     @Override
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-    	blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
+        blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
     }
 }

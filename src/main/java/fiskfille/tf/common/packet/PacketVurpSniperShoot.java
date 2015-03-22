@@ -18,28 +18,28 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketVurpSniperShoot implements IMessage
 {
-	public int id;
-
-	public PacketVurpSniperShoot()
-	{
-
-	}
-
-	public PacketVurpSniperShoot(EntityPlayer player)
-	{
-		id = player.getEntityId();
-	}
-
+    public int id;
+    
+    public PacketVurpSniperShoot()
+    {
+        
+    }
+    
+    public PacketVurpSniperShoot(EntityPlayer player)
+    {
+        id = player.getEntityId();
+    }
+    
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
     }
-
+    
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
     }
-
+    
     public static class Handler implements IMessageHandler<PacketVurpSniperShoot, IMessage>
     {
         public IMessage onMessage(PacketVurpSniperShoot message, MessageContext ctx)
@@ -48,16 +48,16 @@ public class PacketVurpSniperShoot implements IMessage
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity fromEntity = player.worldObj.getEntityByID(message.id);
-
+                
                 if (fromEntity instanceof EntityPlayer)
                 {
                     EntityPlayer from = (EntityPlayer) fromEntity;
                     Transformer transformer = TFHelper.getTransformer(player);
-
+                    
                     if (transformer instanceof TransformerVurp)
                     {
                         String shootSound = TransformersMod.modid + ":missile.shoot";
-                        from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
+                        from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
                     }
                 }
             }
@@ -67,24 +67,24 @@ public class PacketVurpSniperShoot implements IMessage
                 if (player != null)
                 {
                     Transformer transformer = TFHelper.getTransformer(player);
-
+                    
                     if (transformer != null)
                     {
                         if (transformer instanceof TransformerVurp)
                         {
                             boolean isCreative = player.capabilities.isCreativeMode;
                             boolean hasAmmo = isCreative || player.inventory.hasItem(TFItems.miniMissile);
-
+                            
                             if (hasAmmo)
                             {
                                 TFPacketManager.networkWrapper.sendToAll(new PacketVurpSniperShoot(player));
-
+                                
                                 World world = player.worldObj;
                                 EntityMiniMissile entity = new EntityMiniMissile(world, player, 30, TFConfig.allowMissileExplosions);
                                 entity.setDamage(0.01D);
                                 --entity.posY;
                                 world.spawnEntityInWorld(entity);
-
+                                
                                 if (!isCreative)
                                 {
                                     player.inventory.consumeInventoryItem(TFItems.miniMissile);
@@ -94,7 +94,7 @@ public class PacketVurpSniperShoot implements IMessage
                     }
                 }
             }
-
+            
             return null;
         }
     }
