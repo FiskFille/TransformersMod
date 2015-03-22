@@ -25,7 +25,9 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ClientEventHandler
 {
@@ -94,6 +96,12 @@ public class ClientEventHandler
         Transformer transformer = TFHelper.getTransformer(player);
         
         boolean isClientPlayer = mc.thePlayer == player;
+        
+        ModelOffset offsets = TFModelHelper.getOffsets(player);
+        
+        offsets.headOffsetX = 0;
+        offsets.headOffsetY = 0;
+        offsets.headOffsetZ = 0;
         
         if (transformer != null)
         {
