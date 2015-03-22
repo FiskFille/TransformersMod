@@ -22,13 +22,13 @@ public class ModelPurgeVehicle extends ModelVehicleBase
     public ModelRenderer vehicleGun;
     public ModelRenderer vehicleTurretRear;
     public ModelRenderer vehicleMissileLauncher;
-    
-    public ModelPurgeVehicle()
-    {
-        textureWidth = 128;
-        textureHeight = 128;
-        
-        this.vehicleTread2 = new ModelRenderer(this, 0, 64);
+	
+	public ModelPurgeVehicle()
+	{
+		textureWidth = 128;
+		textureHeight = 128;
+		
+		this.vehicleTread2 = new ModelRenderer(this, 0, 64);
         this.vehicleTread2.setRotationPoint(4.1F, 0.0F, 4.0F);
         this.vehicleTread2.addBox(0.0F, -1.5F, -13.0F, 2, 3, 17, 0.0F);
         this.vehicleBack2 = new ModelRenderer(this, 23, 102);
@@ -108,17 +108,17 @@ public class ModelPurgeVehicle extends ModelVehicleBase
         this.vehicleBody.addChild(this.vehicleBack1);
         this.vehicleBody.addChild(this.vehicleTrackcover1);
         this.vehicleTurret.addChild(this.vehicleGun);
-    }
-    
-    public void render()
-    {
-        this.vehicleBody.render(0.0625F);
-    }
-    
-    private void setRotation(ModelRenderer model, float x, float y, float z)
-    {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
-    }
+	}
+	
+	public void render()
+	{
+		this.vehicleBody.render(0.0625F);
+	}
+	
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 }

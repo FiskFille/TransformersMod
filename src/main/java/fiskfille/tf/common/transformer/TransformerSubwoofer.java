@@ -9,32 +9,32 @@ import fiskfille.tf.common.transformer.base.TransformerTruck;
 
 public class TransformerSubwoofer extends TransformerTruck
 {
-    public TransformerSubwoofer()
-    {
-        super("Subwoofer");
-    }
-    
-    @Override
-    public Item getHelmet()
-    {
-        return TFItems.subwooferHelmet;
-    }
-    
-    @Override
-    public Item getChestplate()
-    {
-        return TFItems.subwooferChestplate;
-    }
-    
-    @Override
-    public Item getLeggings()
-    {
-        return TFItems.subwooferLeggings;
-    }
-    
-    @Override
-    public Item getBoots()
-    {
-        return TFItems.subwooferBoots;
-    }
+	public TransformerSubwoofer() 
+	{
+		super("Subwoofer");
+	}
+
+	@Override
+	public Item getHelmet() 
+	{
+		return TFItems.subwooferHelmet;
+	}
+
+	@Override
+	public Item getChestplate() 
+	{
+		return TFItems.subwooferChestplate;
+	}
+
+	@Override
+	public Item getLeggings()
+	{
+		return TFItems.subwooferLeggings;
+	}
+
+	@Override
+	public Item getBoots()
+	{
+		return TFItems.subwooferBoots;
+	}
 }

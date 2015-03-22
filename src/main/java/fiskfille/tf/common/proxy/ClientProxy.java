@@ -42,71 +42,72 @@ import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
 public class ClientProxy extends CommonProxy
 {
-    public static Field camRollField;
-    
-    @Override
-    public World getWorld()
-    {
-        return Minecraft.getMinecraft().theWorld;
-    }
-    
-    @Override
-    public void registerRenderInformation()
-    {
-        RenderCustomPlayer renderCustomPlayer = new RenderCustomPlayer();
-        renderCustomPlayer.setRenderManager(RenderManager.instance);
-        RenderManager.instance.entityRenderMap.put(EntityPlayer.class, renderCustomPlayer);
-        
-        int i = 0;
-        for (Field curField : EntityRenderer.class.getDeclaredFields())
-        {
-            if (curField.getType() == float.class)
-            {
-                if (++i == 15)
-                {
-                    camRollField = curField;
-                    curField.setAccessible(true);
-                }
-            }
-        }
-        
-        RenderingRegistry.registerEntityRenderingHandler(EntityTankShell.class, new RenderTankShell());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMiniMissile.class, new RenderMiniMissile());
-        RenderingRegistry.registerEntityRenderingHandler(EntityTransformiumSeed.class, new RenderTransformiumSeedEntity());
-        RenderingRegistry.registerEntityRenderingHandler(EntityFlamethrowerFire.class, new RenderFlamethrowerFire());
-        RenderingRegistry.registerEntityRenderingHandler(EntityBassCharge.class, new RenderBassCharge());
-        
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransformiumSeed.class, new RenderTransformiumSeed());
-        
-        MinecraftForgeClient.registerItemRenderer(TFItems.skystrikesCrossbow, new RenderItemSkystrikesCrossbow());
-        MinecraftForgeClient.registerItemRenderer(TFItems.purgesKatana, new RenderItemPurgesKatana());
-        MinecraftForgeClient.registerItemRenderer(TFItems.vurpsSniper, new RenderItemVurpsSniper());
-        MinecraftForgeClient.registerItemRenderer(TFItems.subwoofersBassBlaster, new RenderItemBassBlaster());
-        MinecraftForgeClient.registerItemRenderer(TFItems.cloudtrapsFlamethrower, new RenderItemFlamethrower());
-        
-        MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
-        
-        TFModelRegistry.registerModels();
-    }
-    
-    @Override
-    public void registerTickHandlers()
-    {
-        tickHandler = new ClientTickHandler();
-    }
-    
-    @Override
-    public EntityPlayer getPlayer()
-    {
-        return Minecraft.getMinecraft().thePlayer;
-    }
-    
-    @Override
-    public void registerKeyBinds()
-    {
-        TFKeyBinds.register();
-    }
+	public static Field camRollField;
+	
+	@Override
+	public World getWorld()
+	{
+		return Minecraft.getMinecraft().theWorld;
+	}
+	
+	@Override
+	public void registerRenderInformation()
+	{
+		RenderCustomPlayer renderCustomPlayer = new RenderCustomPlayer();
+		renderCustomPlayer.setRenderManager(RenderManager.instance);
+		RenderManager.instance.entityRenderMap.put(EntityPlayer.class, renderCustomPlayer);
+		
+		int i = 0;
+		for (Field curField : EntityRenderer.class.getDeclaredFields())
+		{
+			if (curField.getType() == float.class)
+			{
+				if (++i == 15)
+				{
+					camRollField = curField;
+					curField.setAccessible(true);
+				}
+			}
+		}
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityTankShell.class, new RenderTankShell());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMiniMissile.class, new RenderMiniMissile());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTransformiumSeed.class, new RenderTransformiumSeedEntity());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFlamethrowerFire.class, new RenderFlamethrowerFire());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBassCharge.class, new RenderBassCharge());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransformiumSeed.class, new RenderTransformiumSeed());
+		
+		MinecraftForgeClient.registerItemRenderer(TFItems.skystrikesCrossbow, new RenderItemSkystrikesCrossbow());
+		MinecraftForgeClient.registerItemRenderer(TFItems.purgesKatana, new RenderItemPurgesKatana());
+		MinecraftForgeClient.registerItemRenderer(TFItems.vurpsSniper, new RenderItemVurpsSniper());
+		MinecraftForgeClient.registerItemRenderer(TFItems.subwoofersBassBlaster, new RenderItemBassBlaster());
+		MinecraftForgeClient.registerItemRenderer(TFItems.cloudtrapsFlamethrower, new RenderItemFlamethrower());
+		
+		MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
+		
+		
+		TFModelRegistry.registerModels();
+	}
+	
+	@Override
+	public void registerTickHandlers()
+	{
+		tickHandler = new ClientTickHandler();
+	}
+	
+	@Override
+	public EntityPlayer getPlayer()
+	{
+		return Minecraft.getMinecraft().thePlayer;
+	}
+	
+	@Override
+	public void registerKeyBinds()
+	{
+		TFKeyBinds.register();
+	}
 }

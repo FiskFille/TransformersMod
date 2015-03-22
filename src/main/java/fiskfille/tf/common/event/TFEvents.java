@@ -9,24 +9,24 @@ import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.helper.TFShootManager;
 
-public class TFEvents
+public class TFEvents 
 {
-    public static void registerEvents(Side side)
-    {
-        registerEventHandler(new CommonEventHandler());
-        registerEventHandler(new TFShootManager());
-        
-        if (side.isClient())
-        {
-            registerEventHandler(new TickHandler());
-            registerEventHandler(new ClientEventHandler());
-            MinecraftForge.EVENT_BUS.register(new GuiOverlay(Minecraft.getMinecraft()));
-        }
-    }
-    
-    private static void registerEventHandler(Object obj)
-    {
-        FMLCommonHandler.instance().bus().register(obj);
-        MinecraftForge.EVENT_BUS.register(obj);
-    }
+	public static void registerEvents(Side side)
+	{
+		registerEventHandler(new CommonEventHandler());
+		registerEventHandler(new TFShootManager());
+		
+		if (side.isClient())
+		{
+			registerEventHandler(new TickHandler());
+			registerEventHandler(new ClientEventHandler());
+			MinecraftForge.EVENT_BUS.register(new GuiOverlay(Minecraft.getMinecraft()));
+		}
+	}
+	
+	private static void registerEventHandler(Object obj)
+	{
+		FMLCommonHandler.instance().bus().register(obj);
+		MinecraftForge.EVENT_BUS.register(obj);
+	}
 }

@@ -7,24 +7,24 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
 public class ContainerDisplayPillar extends ContainerBasic
 {
-    private TileEntityDisplayPillar pillar;
+	private TileEntityDisplayPillar pillar;
     
     public ContainerDisplayPillar(InventoryPlayer inventory, TileEntityDisplayPillar tileEntity)
     {
-        this.pillar = tileEntity;
-        
-        this.addPlayerInventory(inventory, 0);
+    	this.pillar = tileEntity;
+
+    	this.addPlayerInventory(inventory, 0);
     }
     
     public boolean canInteractWith(EntityPlayer player)
     {
-        return true;
+    	return true;
     }
     
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack itemstack = null;
-        
+
         return itemstack;
     }
 }

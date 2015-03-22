@@ -14,20 +14,20 @@ public class ModelChildBase
 {
     public static class Base extends ModelBase
     {
-        public float pi = (float) Math.PI;
-        
+        public float pi = (float)Math.PI;
+
         protected void addChildTo(ModelRenderer child, ModelRenderer parent)
         {
             child.rotationPointX -= parent.rotationPointX;
             child.rotationPointY -= parent.rotationPointY;
             child.rotationPointZ -= parent.rotationPointZ;
-            
+
             child.rotateAngleX -= parent.rotateAngleX;
             child.rotateAngleY -= parent.rotateAngleY;
             child.rotateAngleZ -= parent.rotateAngleZ;
             parent.addChild(child);
         }
-        
+
         protected void addChildToWithoutPoint(ModelRenderer child, ModelRenderer parent)
         {
             child.rotateAngleX -= parent.rotateAngleX;
@@ -36,24 +36,24 @@ public class ModelChildBase
             parent.addChild(child);
         }
     }
-    
+
     public static class Biped extends ModelBiped
     {
-        public float pi = (float) Math.PI;
-        
+        public float pi = (float)Math.PI;
+
         protected void addChildTo(ModelRenderer child, ModelRenderer parent)
         {
             child.rotationPointX -= parent.rotationPointX;
             child.rotationPointY -= parent.rotationPointY;
             child.rotationPointZ -= parent.rotationPointZ;
-            
+
             child.rotateAngleX -= parent.rotateAngleX;
             child.rotateAngleY -= parent.rotateAngleY;
             child.rotateAngleZ -= parent.rotateAngleZ;
             
             parent.addChild(child);
         }
-        
+
         protected void addChildToWithoutPoint(ModelRenderer child, ModelRenderer parent)
         {
             child.rotateAngleX -= parent.rotateAngleX;
@@ -61,7 +61,7 @@ public class ModelChildBase
             child.rotateAngleZ -= parent.rotateAngleZ;
             parent.addChild(child);
         }
-        
+
         protected void setRotation(ModelRenderer model, float x, float y, float z)
         {
             model.rotateAngleX = x;
@@ -75,14 +75,14 @@ public class ModelChildBase
             model.rotationPointY = y;
             model.rotationPointZ = z;
         }
-        
+
         public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
         {
             super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
-            
+
             if (entity instanceof EntityPlayer)
             {
-                EntityPlayer player = (EntityPlayer) entity;
+                EntityPlayer player = (EntityPlayer)entity;
                 ItemStack itemstack = player.getHeldItem();
                 
                 if (TFDataManager.getTransformationTimer(player) == 20)
