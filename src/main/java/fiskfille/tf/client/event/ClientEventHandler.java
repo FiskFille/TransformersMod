@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -49,7 +50,9 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onRenderPlayerSpecialsPre(RenderPlayerEvent.Specials.Pre event)
     {
-        if (TFDataManager.getTransformationTimer(event.entityPlayer) < 10)
+        EntityPlayer player = event.entityPlayer;
+        
+        if (TFDataManager.getTransformationTimer(player) < 10)
         {
             event.setCanceled(true);
         }
@@ -96,12 +99,6 @@ public class ClientEventHandler
         Transformer transformer = TFHelper.getTransformer(player);
         
         boolean isClientPlayer = mc.thePlayer == player;
-        
-        ModelOffset offsets = TFModelHelper.getOffsets(player);
-        
-        offsets.headOffsetX = 0;
-        offsets.headOffsetY = 0;
-        offsets.headOffsetZ = 0;
         
         if (transformer != null)
         {

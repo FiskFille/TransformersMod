@@ -10,6 +10,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -47,7 +49,9 @@ import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer
@@ -57,6 +61,25 @@ public class RenderCustomPlayer extends RenderPlayer
         super();
         this.mainModel = new ModelPlayerTF();
         this.modelBipedMain = (ModelBiped) this.mainModel;
+    }
+    
+    /**
+     * Queries whether should render the specified pass or not.
+     */
+    protected int shouldRenderPass(AbstractClientPlayer player, int armorIndex, float p_77032_3_)
+    {
+        int shouldRenderPass = super.shouldRenderPass(player, armorIndex, p_77032_3_);
+        
+        if(armorIndex == 3)
+        {
+            ModelOffset offsets = TFModelHelper.getOffsets(player);
+            
+            offsets.headOffsetX = 0;
+            offsets.headOffsetY = 0;
+            offsets.headOffsetZ = 0;
+        }
+        
+        return shouldRenderPass;
     }
     
     protected void renderEquippedItems(AbstractClientPlayer player, float partialTicks)
