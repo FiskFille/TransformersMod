@@ -9,18 +9,18 @@ import fiskfille.tf.common.block.TFBlocks;
 
 public class WorldGenEnergon extends WorldGenerator
 {
-	public boolean generate(World world, Random random, int chunkX, int chunkZ, int randPosY)
-	{
-		Random randomGenerator = random;
-
-		for (int i = 0; i < 100; i++)
-		{
-			int randPosX = chunkX + randomGenerator.nextInt(8);
-			int randPosZ = chunkZ + randomGenerator.nextInt(8);
-
-			new WorldGenMinable(TFBlocks.energonCrystal, 1).generate(world, random, randPosX, randPosY, randPosZ);
-		}
-
-		return true;
-	}
+    public boolean generate(World world, Random random, int chunkX, int chunkZ, int randPosY)
+    {
+        Random randomGenerator = random;
+        
+        for (int i = 0; i < 100; i++)
+        {
+            int randPosX = chunkX + randomGenerator.nextInt(8);
+            int randPosZ = chunkZ + randomGenerator.nextInt(8);
+            
+            new WorldGenMinable(TFBlocks.energonCrystal, 1).generate(world, random, randPosX, randPosY, randPosZ);
+        }
+        
+        return true;
+    }
 }

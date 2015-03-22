@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelVurpVehicle extends ModelVehicleBase 
+public class ModelVurpVehicle extends ModelVehicleBase
 {
     public ModelRenderer vehicleBase;
     public ModelRenderer vehicleWaist1;
@@ -58,8 +58,8 @@ public class ModelVurpVehicle extends ModelVehicleBase
     public ModelRenderer vehicleWindow2;
     public ModelRenderer vehiclerear1;
     public ModelRenderer vehicleRear2;
-
-    public ModelVurpVehicle() 
+    
+    public ModelVurpVehicle()
     {
         this.textureWidth = 128;
         this.textureHeight = 128;
@@ -277,7 +277,7 @@ public class ModelVurpVehicle extends ModelVehicleBase
         this.vehicletorsobase.setRotationPoint(0.0F, -4.0F, 0.0F);
         this.vehicletorsobase.addBox(-2.0F, -2.0F, -1.3F, 4, 3, 4);
         this.setRotateAngle(vehicletorsobase, -1.5707963267948966F, -0.7853981633974483F, 0.0F);
-     
+        
         this.vehicleWaistConnector1.addChild(this.vehicleRearplate);
         this.vehicletorsobase.addChild(this.vehiclehood1);
         this.vehiclelowerlegL1.addChild(this.vehiclewheelbackL);
@@ -329,23 +329,23 @@ public class ModelVurpVehicle extends ModelVehicleBase
         this.vehicleLowerlegR1.addChild(this.vehicleWheelBackR);
         this.vehicleLowerarmL1.addChild(this.vehicleLowerarmL2);
     }
-
+    
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    { 
+    {
         this.vehicleBase.render(f5);
     }
     
     @Override
     public void render()
-    { 
+    {
         this.vehicleBase.render(0.0625F);
     }
-
+    
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) 
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

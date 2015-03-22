@@ -31,75 +31,75 @@ import fiskfille.tf.update.UpdateChecker;
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
 {
-	@Instance(TransformersMod.modid)
-	public static TransformersMod instance;
-	
-	public static Configuration configFile;
-	
-	public static final String modid = "transformers";
-	public static final String version = "0.5.0";
-	
-	@SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
-	public static CommonProxy proxy;
-
-	public TFConfig config = new TFConfig();
-	public TFItems items = new TFItems();
-	public TFBlocks blocks = new TFBlocks();
-	
-	public static CreativeTabs tabTransformers = new CreativeTabTransformers();
-	
-	public static Method setSizeMethod;
-	
-	public static Update latestUpdate;
-	
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event)
-	{
-		configFile = new Configuration(event.getSuggestedConfigurationFile());
-		configFile.load();
-		config.load(configFile);
-		configFile.save();
-		
-		if(TFConfig.checkForUpdates)
-		{
-			UpdateChecker updateChecker = new UpdateChecker();
-			updateChecker.handleUpdates();
-			Donators.loadDonators();
-		}
-	
-		items.register();
-		blocks.register();
-		
-		TransformerManager.register();
-		
-		TFAchievements.register();
-		
-		TFRecipes.registerRecipes();
-		
-		TFEntities.registerEntities();
-		
-		GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
-	
-		proxy.registerRenderInformation();
-		proxy.registerKeyBinds();
-		proxy.registerTickHandlers();
-		
-		for (Method method : Entity.class.getDeclaredMethods())
-		{
-			Class<?>[] parameters = method.getParameterTypes();
-			
-			if (parameters.length == 2)
-			{
-				if (parameters[0] == float.class && parameters[1] == float.class)
-				{
-					method.setAccessible(true);
-					setSizeMethod = method;
-					break;
-				}
-			}
-		}
-
-		TFEvents.registerEvents(event.getSide());
-		TFPacketManager.registerPackets();
-	}
+    @Instance(TransformersMod.modid)
+    public static TransformersMod instance;
+    
+    public static Configuration configFile;
+    
+    public static final String modid = "transformers";
+    public static final String version = "0.5.0";
+    
+    @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
+    public static CommonProxy proxy;
+    
+    public TFConfig config = new TFConfig();
+    public TFItems items = new TFItems();
+    public TFBlocks blocks = new TFBlocks();
+    
+    public static CreativeTabs tabTransformers = new CreativeTabTransformers();
+    
+    public static Method setSizeMethod;
+    
+    public static Update latestUpdate;
+    
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event)
+    {
+        configFile = new Configuration(event.getSuggestedConfigurationFile());
+        configFile.load();
+        config.load(configFile);
+        configFile.save();
+        
+        if (TFConfig.checkForUpdates)
+        {
+            UpdateChecker updateChecker = new UpdateChecker();
+            updateChecker.handleUpdates();
+            Donators.loadDonators();
+        }
+        
+        items.register();
+        blocks.register();
+        
+        TransformerManager.register();
+        
+        TFAchievements.register();
+        
+        TFRecipes.registerRecipes();
+        
+        TFEntities.registerEntities();
+        
+        GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
+        
+        proxy.registerRenderInformation();
+        proxy.registerKeyBinds();
+        proxy.registerTickHandlers();
+        
+        for (Method method : Entity.class.getDeclaredMethods())
+        {
+            Class<?>[] parameters = method.getParameterTypes();
+            
+            if (parameters.length == 2)
+            {
+                if (parameters[0] == float.class && parameters[1] == float.class)
+                {
+                    method.setAccessible(true);
+                    setSizeMethod = method;
+                    break;
+                }
+            }
+        }
+        
+        TFEvents.registerEvents(event.getSide());
+        TFPacketManager.registerPackets();
+    }
 }

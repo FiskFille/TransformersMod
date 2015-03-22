@@ -14,32 +14,32 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketHandleStealthTransformation implements IMessage
 {
-	public int id;
-	private boolean transformed;
-
-	public PacketHandleStealthTransformation()
-	{
-
-	}
-
-	public PacketHandleStealthTransformation(EntityPlayer player, boolean mode)
-	{
-		id = player.getEntityId();
-		transformed = mode;
-	}
-
+    public int id;
+    private boolean transformed;
+    
+    public PacketHandleStealthTransformation()
+    {
+        
+    }
+    
+    public PacketHandleStealthTransformation(EntityPlayer player, boolean mode)
+    {
+        id = player.getEntityId();
+        transformed = mode;
+    }
+    
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         transformed = buf.readBoolean();
     }
-
+    
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
         buf.writeBoolean(transformed);
     }
-
+    
     public static class Handler implements IMessageHandler<PacketHandleStealthTransformation, IMessage>
     {
         public IMessage onMessage(PacketHandleStealthTransformation message, MessageContext ctx)
@@ -49,16 +49,17 @@ public class PacketHandleStealthTransformation implements IMessage
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
-
-                if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
-
+                
+                if (entity instanceof EntityPlayer)
+                    from = (EntityPlayer) entity;
+                
                 if (from != null && from != TransformersMod.proxy.getPlayer())
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
                     TFDataManager.setStealthModeTimer(from, message.transformed ? 5 : 0);
-
+                    
                     String suffix = message.transformed ? "vehicle" : "robot";
-                    from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5f, false);
+                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5f, false);
                     playerData.stealthForce = message.transformed;
                 }
             }
@@ -66,21 +67,22 @@ public class PacketHandleStealthTransformation implements IMessage
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
                 EntityPlayer from = null;
-
+                
                 for (World world : MinecraftServer.getServer().worldServers)
                 {
                     Entity entity = world.getEntityByID(message.id);
-
+                    
                     if (entity instanceof EntityPlayer)
                     {
                         from = (EntityPlayer) entity;
                         break;
                     }
                 }
-
-                if (from != null) TFDataManager.setInStealthMode(player, message.transformed);
+                
+                if (from != null)
+                    TFDataManager.setInStealthMode(player, message.transformed);
             }
-
+            
             return null;
         }
     }

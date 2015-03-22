@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
  * ModelMissile - gegy1000
  * Created using Tabula 4.0.0
  */
-public class ModelMissile extends ModelBase 
+public class ModelMissile extends ModelBase
 {
     public ModelRenderer Centre;
     public ModelRenderer BottomLeft;
@@ -21,8 +21,8 @@ public class ModelMissile extends ModelBase
     public ModelRenderer Nosecone2;
     public ModelRenderer Diagonal1;
     public ModelRenderer Diagonal2;
-
-    public ModelMissile() 
+    
+    public ModelMissile()
     {
         this.textureWidth = 64;
         this.textureHeight = 32;
@@ -64,10 +64,10 @@ public class ModelMissile extends ModelBase
         this.TopLeft.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 5);
         this.setRotateAngle(TopLeft, 0.17453292519943295F, 0.17453292519943295F, 0.7853981633974483F);
     }
-
+    
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) 
-    { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    {
         GL11.glPushMatrix();
         GL11.glTranslatef(this.Nosecone2.offsetX, this.Nosecone2.offsetY, this.Nosecone2.offsetZ);
         GL11.glTranslatef(this.Nosecone2.rotationPointX * f5, this.Nosecone2.rotationPointY * f5, this.Nosecone2.rotationPointZ * f5);
@@ -118,11 +118,11 @@ public class ModelMissile extends ModelBase
         this.TopLeft.render(f5);
         GL11.glPopMatrix();
     }
-
+    
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) 
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
