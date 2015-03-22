@@ -26,7 +26,9 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ClientEventHandler
 {
