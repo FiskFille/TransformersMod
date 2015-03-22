@@ -1094,6 +1094,12 @@ public class ModelVurp extends MowzieModelBase
 
 				int t = TFDataManager.getTransformationTimer(player);
 				float f = (float) (20 - t);
+				
+				this.waist.rotationPointY += f * 0.9F;
+				this.armbaseL1.rotateAngleX -= f * 0.08F;
+				this.armbaseR1.rotateAngleX -= f * 0.08F;
+				this.lowerArmL.rotateAngleZ += f * 0.1F;
+				this.lowerArmR.rotateAngleZ -= f * 0.1F;
 			}
 			else //If not fully suited
 			{
@@ -1172,10 +1178,7 @@ public class ModelVurp extends MowzieModelBase
 
 			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleBase})
 			{
-				float f1 = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
-				if (modelRenderer.rotateAngleY < f1) {modelRenderer.rotateAngleY += 0.05F;}
-				if (modelRenderer.rotateAngleY > f1) {modelRenderer.rotateAngleY -= 0.05F;}
-				modelRenderer.rotateAngleY = f1;
+				modelRenderer.rotateAngleY = bipedBody.rotateAngleY;
 
 				modelRenderer.rotateAngleX = 1.65F;
 
