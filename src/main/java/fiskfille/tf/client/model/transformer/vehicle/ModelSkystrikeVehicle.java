@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelSkystrikeVehicle extends ModelVehicleBase
 {
-    public ModelRenderer shape131;
+	public ModelRenderer shape131;
     public ModelRenderer shape132;
     public ModelRenderer shape133;
     public ModelRenderer shape134;
@@ -51,13 +51,13 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
     public ModelRenderer shape75;
     public ModelRenderer shape77;
     public ModelRenderer shape78;
-    public ModelRenderer vehicleBody;
-
-    public ModelSkystrikeVehicle()
-    {
-        textureWidth = 128;
-        textureHeight = 128;
-
+	public ModelRenderer vehicleBody;
+	
+	public ModelSkystrikeVehicle()
+	{
+		textureWidth = 128;
+		textureHeight = 128;
+		
         this.shape59 = new ModelRenderer(this, 75, 55);
         this.shape59.mirror = true;
         this.shape59.setRotationPoint(-4.5F, 13.5F, 3.9F);
@@ -111,8 +111,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape31.mirror = true;
         this.shape31.setRotationPoint(10.0F, 6.0F, -1.8F);
         this.shape31.addBox(-7.0F, -1.0F, 0.0F, 8, 1, 4, 0.0F);
-        this.setRotation(shape31, -1.5707963267948966F, -0.07853981633974483F,
-                0.5061454830783556F);
+        this.setRotation(shape31, -1.5707963267948966F, -0.07853981633974483F, 0.5061454830783556F);
         this.shape66 = new ModelRenderer(this, 73, 76);
         this.shape66.mirror = true;
         this.shape66.setRotationPoint(0.5F, 9.5F, 3.9F);
@@ -137,13 +136,11 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape32 = new ModelRenderer(this, 36, 65);
         this.shape32.setRotationPoint(11.0F, 11.6F, -1.5F);
         this.shape32.addBox(-9.0F, -1.0F, -0.4F, 6, 1, 2, 0.0F);
-        this.setRotation(shape32, -1.5707963267948966F, -0.07853981633974483F,
-                0.5061454830783556F);
+        this.setRotation(shape32, -1.5707963267948966F, -0.07853981633974483F, 0.5061454830783556F);
         this.shape49 = new ModelRenderer(this, 36, 60);
         this.shape49.setRotationPoint(-10.0F, 6.0F, -1.8F);
         this.shape49.addBox(-1.0F, -1.0F, 0.0F, 8, 1, 4, 0.0F);
-        this.setRotation(shape49, -1.5707963267948966F, 0.07853981633974483F,
-                -0.5061454830783556F);
+        this.setRotation(shape49, -1.5707963267948966F, 0.07853981633974483F, -0.5061454830783556F);
         this.shape138 = new ModelRenderer(this, 55, 0);
         this.shape138.mirror = true;
         this.shape138.setRotationPoint(-4.0F, -3.0F, 7.0F);
@@ -160,13 +157,11 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape131 = new ModelRenderer(this, 0, 28);
         this.shape131.setRotationPoint(-3.5F, -3.5F, -4.0F);
         this.shape131.addBox(0.0F, 0.6F, -11.0F, 3, 5, 13, 0.0F);
-        this.setRotation(shape131, 0.06981317007977318F, -0.13962634015954636F,
-                0.0F);
+        this.setRotation(shape131, 0.06981317007977318F, -0.13962634015954636F, 0.0F);
         this.shape44 = new ModelRenderer(this, 36, 65);
         this.shape44.setRotationPoint(-11.0F, 11.6F, -1.5F);
         this.shape44.addBox(3.0F, -1.0F, -0.4F, 6, 1, 2, 0.0F);
-        this.setRotation(shape44, -1.5707963267948966F, 0.07853981633974483F,
-                -0.5061454830783556F);
+        this.setRotation(shape44, -1.5707963267948966F, 0.07853981633974483F, -0.5061454830783556F);
         this.shape43 = new ModelRenderer(this, 36, 76);
         this.shape43.setRotationPoint(-2.0F, 1.0F, -2.0F);
         this.shape43.addBox(-2.0F, 0.0F, 0.0F, 1, 7, 4, 0.0F);
@@ -184,8 +179,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape141.mirror = true;
         this.shape141.setRotationPoint(3.0F, -6.0F, 15.0F);
         this.shape141.addBox(-1.0F, 0.0F, 0.0F, 6, 1, 5, 0.0F);
-        this.setRotation(shape141, 0.03490658503988659F, -0.15707963267948966F,
-                -0.7853981633974483F);
+        this.setRotation(shape141, 0.03490658503988659F, -0.15707963267948966F, -0.7853981633974483F);
         this.shape6 = new ModelRenderer(this, 0, 76);
         this.shape6.setRotationPoint(-2.0F, 3.5F, -5.6F);
         this.shape6.addBox(0.0F, 0.3F, 0.0F, 4, 6, 2, 0.0F);
@@ -198,8 +192,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape140 = new ModelRenderer(this, 0, 0);
         this.shape140.setRotationPoint(-3.0F, -6.0F, 15.0F);
         this.shape140.addBox(-5.0F, 0.0F, 0.0F, 6, 1, 5, 0.0F);
-        this.setRotation(shape140, 0.03490658503988659F, 0.15707963267948966F,
-                0.7853981633974483F);
+        this.setRotation(shape140, 0.03490658503988659F, 0.15707963267948966F, 0.7853981633974483F);
         this.shape133 = new ModelRenderer(this, 19, 15);
         this.shape133.setRotationPoint(-2.0F, -2.2F, -15.0F);
         this.shape133.addBox(0.0F, 0.0F, 0.0F, 4, 5, 21, 0.0F);
@@ -207,8 +200,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape132.mirror = true;
         this.shape132.setRotationPoint(3.5F, -3.5F, -4.0F);
         this.shape132.addBox(-3.0F, 0.6F, -11.0F, 3, 5, 13, 0.0F);
-        this.setRotation(shape132, 0.06981317007977318F, 0.13962634015954636F,
-                0.0F);
+        this.setRotation(shape132, 0.06981317007977318F, 0.13962634015954636F, 0.0F);
         this.shape7 = new ModelRenderer(this, 12, 76);
         this.shape7.mirror = true;
         this.shape7.setRotationPoint(-4.0F, 0.0F, 0.0F);
@@ -294,96 +286,98 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
         this.shape56.addChild(this.shape58);
         this.shape1.addChild(this.shape4);
         this.shape1.addChild(this.shape130);
-        vehicleBody = new ModelRenderer(this, 0, 0);
-        vehicleBody.addBox(-4.0F, 0.0F, -2.0F, 0, 0, 0);
-        vehicleBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-
-        // try
-        // {
-        // for (Field field : getClass().getDeclaredFields())
-        // {
-        // field.setAccessible(true);
-        // Object value = field.get(this);
-        //
-        // if (value != null && value instanceof ModelRenderer)
-        // {
-        // ModelRenderer modelRenderer = (ModelRenderer)value;
-        // this.addChildTo(modelRenderer, vehichleBody);
-        // }
-        // }
-        // }
-        // catch (Exception e)
-        // {
-        // e.printStackTrace();
-        // }
-
-        // this.addChildTo(shape1, vehichleBody);
-        // this.addChildTo(shape2, vehichleBody);
-        // this.addChildTo(shape3, vehichleBody);
-        // this.addChildTo(shape4, vehichleBody);
-        // this.addChildTo(shape6, vehichleBody);
-        // this.addChildTo(shape7, vehichleBody);
-        // this.addChildTo(shape8, vehichleBody);
-        // this.addChildTo(shape10, vehichleBody);
-        // this.addChildTo(shape11, vehichleBody);
-        // this.addChildTo(shape12, vehichleBody);
-        // this.addChildTo(shape13, vehichleBody);
-        // this.addChildTo(shape14, vehichleBody);
-        // this.addChildTo(shape15, vehichleBody);
-        // this.addChildTo(shape16, vehichleBody);
-        // this.addChildTo(shape30, vehichleBody);
-        // this.addChildTo(shape31, vehichleBody);
-        // this.addChildTo(shape32, vehichleBody);
-        // this.addChildTo(shape33, vehichleBody);
-        // this.addChildTo(shape35, vehichleBody);
-        // this.addChildTo(shape40, vehichleBody);
-        // this.addChildTo(shape41, vehichleBody);
-        // this.addChildTo(shape43, vehichleBody);
-        // this.addChildTo(shape44, vehichleBody);
-        // this.addChildTo(shape49, vehichleBody);
-        // this.addChildTo(shape56, vehichleBody);
-        // this.addChildTo(shape58, vehichleBody);
-        // this.addChildTo(shape59, vehichleBody);
-        // this.addChildTo(shape64, vehichleBody);
-        // this.addChildTo(shape66, vehichleBody);
-        // this.addChildTo(shape67, vehichleBody);
-        // this.addChildTo(shape68, vehichleBody);
-        // this.addChildTo(shape69, vehichleBody);
-        // this.addChildTo(shape70, vehichleBody);
-        // this.addChildTo(shape75, vehichleBody);
-        // this.addChildTo(shape77, vehichleBody);
-        // this.addChildTo(shape78, vehichleBody);
-
-        this.addChildTo(shape1, vehicleBody);
-        this.addChildTo(shape30, vehicleBody);
-        this.addChildTo(shape56, vehicleBody);
-        this.addChildTo(shape40, vehicleBody);
-        this.addChildTo(shape68, vehicleBody);
-        this.addChildTo(shape130, vehicleBody);
-        this.addChildTo(shape131, vehicleBody);
-        this.addChildTo(shape132, vehicleBody);
-        this.addChildTo(shape133, vehicleBody);
-        this.addChildTo(shape134, vehicleBody);
-        this.addChildTo(shape136, vehicleBody);
-        this.addChildTo(shape137, vehicleBody);
-        this.addChildTo(shape138, vehicleBody);
-        this.addChildTo(shape139, vehicleBody);
-        this.addChildTo(shape140, vehicleBody);
-        this.addChildTo(shape141, vehicleBody);
-
-        vehicleBody.offsetY = 1.2F;
-    }
-
-    public void render()
-    {
-        vehicleBody.render(0.0625F);
-        vehicleBody.offsetY = 1.2F;
-    }
-
-    private void setRotation(ModelRenderer model, float x, float y, float z)
-    {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
-    }
+		vehicleBody = new ModelRenderer(this, 0, 0);
+	    vehicleBody.addBox(-4.0F, 0.0F, -2.0F, 0, 0, 0);
+	    vehicleBody.setRotationPoint(0.0F, 0.0F, 0.0F);
+		
+//	    try
+//	    {
+//		    for (Field field : getClass().getDeclaredFields())
+//		    {
+//		        field.setAccessible(true);
+//		        Object value = field.get(this);
+//		        
+//		        if (value != null && value instanceof ModelRenderer)
+//		        {
+//		        	ModelRenderer modelRenderer = (ModelRenderer)value;
+//		        	this.addChildTo(modelRenderer, vehichleBody);
+//		        }
+//		    }
+//	    }
+//	    catch (Exception e)
+//	    {
+//	    	e.printStackTrace();
+//	    }
+	    
+	    
+//	    this.addChildTo(shape1, vehichleBody);
+//	    this.addChildTo(shape2, vehichleBody);
+//	    this.addChildTo(shape3, vehichleBody);
+//	    this.addChildTo(shape4, vehichleBody);
+//	    this.addChildTo(shape6, vehichleBody);
+//	    this.addChildTo(shape7, vehichleBody);
+//	    this.addChildTo(shape8, vehichleBody);
+//	    this.addChildTo(shape10, vehichleBody);
+//	    this.addChildTo(shape11, vehichleBody);
+//	    this.addChildTo(shape12, vehichleBody);
+//	    this.addChildTo(shape13, vehichleBody);
+//	    this.addChildTo(shape14, vehichleBody);
+//	    this.addChildTo(shape15, vehichleBody);
+//	    this.addChildTo(shape16, vehichleBody);
+//	    this.addChildTo(shape30, vehichleBody);
+//	    this.addChildTo(shape31, vehichleBody);
+//	    this.addChildTo(shape32, vehichleBody);
+//	    this.addChildTo(shape33, vehichleBody);
+//	    this.addChildTo(shape35, vehichleBody);
+//	    this.addChildTo(shape40, vehichleBody);
+//	    this.addChildTo(shape41, vehichleBody);
+//	    this.addChildTo(shape43, vehichleBody);
+//	    this.addChildTo(shape44, vehichleBody);
+//	    this.addChildTo(shape49, vehichleBody);
+//	    this.addChildTo(shape56, vehichleBody);
+//	    this.addChildTo(shape58, vehichleBody);
+//	    this.addChildTo(shape59, vehichleBody);
+//	    this.addChildTo(shape64, vehichleBody);
+//	    this.addChildTo(shape66, vehichleBody);
+//	    this.addChildTo(shape67, vehichleBody);
+//	    this.addChildTo(shape68, vehichleBody);
+//	    this.addChildTo(shape69, vehichleBody);
+//	    this.addChildTo(shape70, vehichleBody);
+//	    this.addChildTo(shape75, vehichleBody);
+//	    this.addChildTo(shape77, vehichleBody);
+//	    this.addChildTo(shape78, vehichleBody);
+	    
+	    
+	    this.addChildTo(shape1, vehicleBody);
+	    this.addChildTo(shape30, vehicleBody);
+	    this.addChildTo(shape56, vehicleBody);
+	    this.addChildTo(shape40, vehicleBody);
+	    this.addChildTo(shape68, vehicleBody);
+	    this.addChildTo(shape130, vehicleBody);
+	    this.addChildTo(shape131, vehicleBody);
+	    this.addChildTo(shape132, vehicleBody);
+	    this.addChildTo(shape133, vehicleBody);
+	    this.addChildTo(shape134, vehicleBody);
+	    this.addChildTo(shape136, vehicleBody);
+	    this.addChildTo(shape137, vehicleBody);
+	    this.addChildTo(shape138, vehicleBody);
+	    this.addChildTo(shape139, vehicleBody);
+	    this.addChildTo(shape140, vehicleBody);
+	    this.addChildTo(shape141, vehicleBody);
+		
+		vehicleBody.offsetY = 1.2F;
+	}
+	
+	public void render()
+	{
+		vehicleBody.render(0.0625F);
+		vehicleBody.offsetY = 1.2F;
+	}
+	
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 }

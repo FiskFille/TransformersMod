@@ -26,262 +26,229 @@ import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
 public abstract class TransformerTruck extends Transformer
-{
-    public TransformerTruck(String name)
-    {
-        super(name);
-    }
+{	
+	public TransformerTruck(String name)
+	{
+		super(name);
+	}
 
-    @Override
-    public float fall(EntityPlayer player, float distance)
-    {
-        return TFDataManager.isInVehicleMode(player) ? distance / 4 : super
-                .fall(player, distance);
-    }
+	@Override
+	public float fall(EntityPlayer player, float distance)
+	{
+		return TFDataManager.isInVehicleMode(player) ? distance / 4 : super.fall(player, distance);
+	}
 
-    @Override
-    public boolean hasStealthForce(EntityPlayer player)
-    {
-        return true;
-    }
+	@Override
+	public boolean hasStealthForce(EntityPlayer player)
+	{
+		return true;
+	}
 
-    @Override
-    public boolean canJumpAsVehicle(EntityPlayer player)
-    {
-        return TFDataManager.isInStealthMode(player);
-    }
+	@Override
+	public boolean canJumpAsVehicle(EntityPlayer player)
+	{
+		return TFDataManager.isInStealthMode(player);
+	}
 
-    @Override
-    public float getCameraYOffset(EntityPlayer player)
-    {
-        return -1F;
-    }
+	@Override
+	public float getCameraYOffset(EntityPlayer player)
+	{
+		return -1F;
+	}
 
-    @Override
-    public void updateMovement(EntityPlayer player)
-    {
-        Minecraft mc = Minecraft.getMinecraft();
+	@Override
+	public void updateMovement(EntityPlayer player)
+	{
+		Minecraft mc = Minecraft.getMinecraft();
 
-        boolean inStealthMode = TFDataManager.isInStealthMode(player);
-        boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean moveSide = player.moveStrafing != 0;
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed()
-                || mc.gameSettings.keyBindSprint.getIsKeyPressed();
-        int nitro = 0;
-        double forwardVelocity = 0;
-        double horizontalVelocity = 0;
+		boolean inStealthMode = TFDataManager.isInStealthMode(player);
+		boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
+		boolean moveSide = player.moveStrafing != 0;
+		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+		int nitro = 0;
+		double forwardVelocity = 0;
+		double horizontalVelocity = 0;
 
-        player.stepHeight = 1.0F;
+		player.stepHeight = 1.0F;
 
-        VehicleMotion transformedPlayer = TFMotionManager
-                .getTransformerPlayer(player);
+		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
-        if (transformedPlayer != null)
-        {
-            nitro = transformedPlayer.getNitro();
-            forwardVelocity = transformedPlayer.getForwardVelocity();
-            horizontalVelocity = transformedPlayer.getHorizontalVelocity();
-            double increment;
+		if (transformedPlayer != null)
+		{
+			nitro = transformedPlayer.getNitro();
+			forwardVelocity = transformedPlayer.getForwardVelocity();
+			horizontalVelocity = transformedPlayer.getHorizontalVelocity();
+			double increment;
 
-            if (inStealthMode)
-            {
-                increment = (0.2D - forwardVelocity) / 10;
-            }
-            else
-            {
-                if (nitroPressed && nitro > 0)
-                {
-                    increment = 0.68D;
-                }
-                else
-                {
-                    increment = 0.45D;
-                }
+			if (inStealthMode)
+			{
+				increment = (0.2D - forwardVelocity) / 10;
+			}
+			else
+			{
+				if(nitroPressed && nitro > 0)
+				{
+					increment = 0.68D;
+				}
+				else
+				{
+					increment = 0.45D;
+				}
+				
+				increment -= forwardVelocity;
+				increment = increment / 10;
+				
+				if(forwardVelocity < 0.5D)
+				{
+					increment += 0.05D;
+				}
+			}
 
-                increment -= forwardVelocity;
-                increment = increment / 10;
+			if (moveForward && forwardVelocity <= 1.0D)
+			{
+				forwardVelocity += increment * 0.5F;
+			}
+			else if (forwardVelocity > 0.02D)
+			{
+				forwardVelocity -= 0.02D;
+			}
+			else if (forwardVelocity <= 0.02D)
+			{
+				forwardVelocity = 0;
+			}
 
-                if (forwardVelocity < 0.5D)
-                {
-                    increment += 0.05D;
-                }
-            }
+			if (moveSide && horizontalVelocity <= 1.0D && inStealthMode)
+			{
+				horizontalVelocity += increment * 0.5F;
+			}
+			else if (horizontalVelocity > 0.02D)
+			{
+				horizontalVelocity-= 0.02D;
+			}
+			else if (horizontalVelocity <= 0.02D)
+			{
+				horizontalVelocity = 0;
+			}
 
-            if (moveForward && forwardVelocity <= 1.0D)
-            {
-                forwardVelocity += increment * 0.5F;
-            }
-            else if (forwardVelocity > 0.02D)
-            {
-                forwardVelocity -= 0.02D;
-            }
-            else if (forwardVelocity <= 0.02D)
-            {
-                forwardVelocity = 0;
-            }
+			Vec3 forwardVec = TFMotionManager.getFrontCoords(player, 0, forwardVelocity);
+			player.motionX = (forwardVec.xCoord - player.posX);
+			player.motionZ = (forwardVec.zCoord - player.posZ);
 
-            if (moveSide && horizontalVelocity <= 1.0D && inStealthMode)
-            {
-                horizontalVelocity += increment * 0.5F;
-            }
-            else if (horizontalVelocity > 0.02D)
-            {
-                horizontalVelocity -= 0.02D;
-            }
-            else if (horizontalVelocity <= 0.02D)
-            {
-                horizontalVelocity = 0;
-            }
+			if (forwardVelocity <= 0) {forwardVelocity = 0;}
+			if (forwardVelocity > 1) {forwardVelocity = 1;}
 
-            Vec3 forwardVec = TFMotionManager.getFrontCoords(player, 0,
-                    forwardVelocity);
-            player.motionX = (forwardVec.xCoord - player.posX);
-            player.motionZ = (forwardVec.zCoord - player.posZ);
+			boolean prevNitro = TFMotionManager.prevNitro;
 
-            if (forwardVelocity <= 0)
-            {
-                forwardVelocity = 0;
-            }
-            if (forwardVelocity > 1)
-            {
-                forwardVelocity = 1;
-            }
+			if (nitro > 0 && nitroPressed && moveForward && player == mc.thePlayer && !inStealthMode)
+			{
+				if (!player.capabilities.isCreativeMode) --nitro;
 
-            boolean prevNitro = TFMotionManager.prevNitro;
+				if (!prevNitro)
+				{
+					TFPacketManager.networkWrapper.sendToServer(new PacketVehicleNitro(player, true));
+					TFMotionManager.prevNitro = true;
+				}
 
-            if (nitro > 0 && nitroPressed && moveForward
-                    && player == mc.thePlayer && !inStealthMode)
-            {
-                if (!player.capabilities.isCreativeMode)
-                    --nitro;
+				for (int i = 0; i < 4; ++i)
+				{
+					Vec3 side = TFMotionManager.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
+					Random rand = new Random();
+					player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 1.6F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+				}
 
-                if (!prevNitro)
-                {
-                    TFPacketManager.networkWrapper
-                            .sendToServer(new PacketVehicleNitro(player, true));
-                    TFMotionManager.prevNitro = true;
-                }
+				for (int i = 0; i < 10; ++i)
+				{
+					Vec3 side = TFMotionManager.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
+					Random rand = new Random();
+					player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 1.6F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
+				}
+			}
+			else
+			{
+				if (prevNitro)
+				{
+					TFPacketManager.networkWrapper.sendToServer(new PacketVehicleNitro(player, false));
+					TFMotionManager.prevNitro = false;
+				}
+			}
 
-                for (int i = 0; i < 4; ++i)
-                {
-                    Vec3 side = TFMotionManager.getBackSideCoords(player,
-                            0.15F, i < 2, -0.9, false);
-                    Random rand = new Random();
-                    player.worldObj.spawnParticle("smoke", side.xCoord,
-                            player.posY - 1.6F, side.zCoord,
-                            rand.nextFloat() / 20, rand.nextFloat() / 20,
-                            rand.nextFloat() / 20);
-                }
+			transformedPlayer.setNitro(nitro);
+			transformedPlayer.setForwardVelocity(forwardVelocity);
+			transformedPlayer.setHorizontalVelocity(horizontalVelocity);
 
-                for (int i = 0; i < 10; ++i)
-                {
-                    Vec3 side = TFMotionManager.getBackSideCoords(player,
-                            0.15F, i < 2, -0.9, false);
-                    Random rand = new Random();
-                    player.worldObj.spawnParticle("smoke", side.xCoord,
-                            player.posY - 1.6F, side.zCoord,
-                            rand.nextFloat() / 10,
-                            rand.nextFloat() / 10 + 0.05F,
-                            rand.nextFloat() / 10);
-                }
-            }
-            else
-            {
-                if (prevNitro)
-                {
-                    TFPacketManager.networkWrapper
-                            .sendToServer(new PacketVehicleNitro(player, false));
-                    TFMotionManager.prevNitro = false;
-                }
-            }
+			if (player.isInWater())
+			{
+				player.motionY = -0.1F;
+			}
+		}
+	}
 
-            transformedPlayer.setNitro(nitro);
-            transformedPlayer.setForwardVelocity(forwardVelocity);
-            transformedPlayer.setHorizontalVelocity(horizontalVelocity);
+	@Override
+	public boolean canShoot(EntityPlayer player)
+	{
+		return TFDataManager.getStealthModeTimer(player) < 5;
+	}
 
-            if (player.isInWater())
-            {
-                player.motionY = -0.1F;
-            }
-        }
-    }
+	@Override
+	public Item getShootItem()
+	{
+		return TFItems.missile;
+	}
 
-    @Override
-    public boolean canShoot(EntityPlayer player)
-    {
-        return TFDataManager.getStealthModeTimer(player) < 5;
-    }
+	@Override
+	public Entity getShootEntity(EntityPlayer player)
+	{
+		EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+		entityMissile.posY--;
 
-    @Override
-    public Item getShootItem()
-    {
-        return TFItems.missile;
-    }
+		return entityMissile;
+	}
 
-    @Override
-    public Entity getShootEntity(EntityPlayer player)
-    {
-        EntityMissile entityMissile = new EntityMissile(player.worldObj,
-                player, 3, TFConfig.allowMissileExplosions,
-                TFDataManager.isInStealthMode(player));
-        entityMissile.posY--;
+	@Override
+	public int getShots()
+	{
+		return 8;
+	}
 
-        return entityMissile;
-    }
+	@Override
+	public void doNitroParticles(EntityPlayer player)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1.3, false);
+			Random rand = new Random();
+			player.worldObj.spawnParticle("smoke", side.xCoord, player.posY, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+		}
 
-    @Override
-    public int getShots()
-    {
-        return 8;
-    }
+		for (int i = 0; i < 10; ++i)
+		{
+			Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1.3, false);
+			Random rand = new Random();
+			player.worldObj.spawnParticle("smoke", side.xCoord, player.posY, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
+		}
+	}
+	
+	@Override
+	public void transformationTick(EntityPlayer player, int timer)
+	{
+		if(TFDataManager.isInVehicleMode(player) && timer == 0)
+		{
+			IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
-    @Override
-    public void doNitroParticles(EntityPlayer player)
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F,
-                    i < 2, -1.3, false);
-            Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, player.posY,
-                    side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20,
-                    rand.nextFloat() / 20);
-        }
-
-        for (int i = 0; i < 10; ++i)
-        {
-            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F,
-                    i < 2, -1.3, false);
-            Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, player.posY,
-                    side.zCoord, rand.nextFloat() / 10,
-                    rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
-        }
-    }
-
-    @Override
-    public void transformationTick(EntityPlayer player, int timer)
-    {
-        if (TFDataManager.isInVehicleMode(player) && timer == 0)
-        {
-            IAttributeInstance entityAttribute = player
-                    .getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-
-            Transformer transformer = TFHelper.getTransformer(player);
-
-            if (!TFPlayerData.getData(player).stealthForce)
-            {
-                CommonEventHandler.prevMove = entityAttribute
-                        .getAttributeValue();
-                entityAttribute.setBaseValue(0.0D);
-            }
-            else
-            {
-                if (CommonEventHandler.prevMove != 0)
-                {
-                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
-                }
-            }
-        }
-    }
+			Transformer transformer = TFHelper.getTransformer(player);
+			
+			if (!TFPlayerData.getData(player).stealthForce)
+			{
+				CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
+				entityAttribute.setBaseValue(0.0D);
+			}
+			else
+			{
+				if(CommonEventHandler.prevMove != 0)
+				{
+					entityAttribute.setBaseValue(CommonEventHandler.prevMove);
+				}
+			}
+		}
+	}
 }

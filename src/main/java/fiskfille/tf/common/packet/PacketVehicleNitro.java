@@ -12,19 +12,19 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketVehicleNitro implements IMessage
 {
-    private int id;
-    private boolean nitroOn;
-
-    public PacketVehicleNitro()
-    {
-
-    }
-
-    public PacketVehicleNitro(EntityPlayer player, boolean n)
-    {
-        id = player.getEntityId();
-        nitroOn = n;
-    }
+	private int id;
+	private boolean nitroOn;
+	
+	public PacketVehicleNitro()
+	{
+		
+	}
+	
+	public PacketVehicleNitro(EntityPlayer player, boolean n)
+	{
+		id = player.getEntityId();
+		nitroOn = n;
+	}
 
     public void fromBytes(ByteBuf buf)
     {
@@ -38,8 +38,7 @@ public class PacketVehicleNitro implements IMessage
         buf.writeBoolean(nitroOn);
     }
 
-    public static class Handler implements
-            IMessageHandler<PacketVehicleNitro, IMessage>
+    public static class Handler implements IMessageHandler<PacketVehicleNitro, IMessage>
     {
         public IMessage onMessage(PacketVehicleNitro message, MessageContext ctx)
         {
@@ -51,17 +50,13 @@ public class PacketVehicleNitro implements IMessage
                 if (entity instanceof EntityPlayer)
                 {
                     EntityPlayer fromPlayer = (EntityPlayer) entity;
-                    if (fromPlayer != player)
-                        NitroParticleHandler.setNitro(fromPlayer,
-                                message.nitroOn);
+                    if (fromPlayer != player) NitroParticleHandler.setNitro(fromPlayer, message.nitroOn);
                 }
             }
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-                TFPacketManager.networkWrapper.sendToDimension(
-                        new PacketVehicleNitro(player, message.nitroOn),
-                        player.dimension);
+                TFPacketManager.networkWrapper.sendToDimension(new PacketVehicleNitro(player, message.nitroOn), player.dimension);
             }
 
             return null;

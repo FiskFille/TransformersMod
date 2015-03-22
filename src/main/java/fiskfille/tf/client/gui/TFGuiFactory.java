@@ -10,21 +10,20 @@ public class TFGuiFactory implements IModGuiFactory
 {
     public void initialize(Minecraft minecraftInstance)
     {
-
+    	
     }
-
+    
     public Class<? extends GuiScreen> mainConfigGuiClass()
     {
         return GuiTFModConfig.class;
     }
-
+    
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories()
     {
         return null;
     }
-
-    public RuntimeOptionGuiHandler getHandlerFor(
-            RuntimeOptionCategoryElement element)
+    
+    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element)
     {
         return null;
     }

@@ -15,22 +15,21 @@ public class BlockBasic extends Block
         super(material);
         this.setCreativeTab(TransformersMod.tabTransformers);
     }
-
+    
     public Block setHarvestLvl(String tool, int level)
     {
-        this.setHarvestLevel(tool, level);
-        return this;
+    	this.setHarvestLevel(tool, level);
+    	return this;
     }
-
+    
     public Item getItemDropped(int p_149650_1_, Random rand, int p_149650_3_)
     {
         return Item.getItemFromBlock(this);
     }
-
+    
     @Override
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":"
-                + getUnlocalizedName().substring(5));
+    	blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
     }
 }

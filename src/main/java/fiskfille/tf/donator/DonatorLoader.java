@@ -10,33 +10,30 @@ import fiskfille.tf.web.PastebinFileReader;
 
 public class DonatorLoader extends Thread
 {
-    private Side side;
+	private Side side;
 
-    public void run()
-    {
-        try
-        {
-            Donator[] donators = new Gson().fromJson(
-                    PastebinFileReader.readPastebin("yPpJaz7p"),
-                    Donator[].class);
+	public void run()
+	{
+		try 
+		{
+			Donator[] donators = new Gson().fromJson(PastebinFileReader.readPastebin("yPpJaz7p"), Donator[].class);
 
-            for (Donator donator : donators)
-            {
-                Donators.donators.put(UUID.fromString(donator.uuid), new Money(
-                        donator.money));
-            }
+			for (Donator donator : donators)
+			{
+				Donators.donators.put(UUID.fromString(donator.uuid), new Money(donator.money));
+			}
 
-            Donators.doAchievements(side);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+			Donators.doAchievements(side);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
 
-    public void loadDonators()
-    {
-        side = FMLCommonHandler.instance().getEffectiveSide();
-        this.start();
-    }
+	public void loadDonators()
+	{
+		side = FMLCommonHandler.instance().getEffectiveSide();
+		this.start();
+	}
 }

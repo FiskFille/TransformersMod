@@ -16,19 +16,19 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketHandleTransformation implements IMessage
 {
-    public int id;
-    private boolean transformed;
+	public int id;
+	private boolean transformed;
 
-    public PacketHandleTransformation()
-    {
+	public PacketHandleTransformation()
+	{
 
-    }
+	}
 
-    public PacketHandleTransformation(EntityPlayer player, boolean mode)
-    {
-        id = player.getEntityId();
-        transformed = mode;
-    }
+	public PacketHandleTransformation(EntityPlayer player, boolean mode)
+	{
+		id = player.getEntityId();
+		transformed = mode;
+	}
 
     public void fromBytes(ByteBuf buf)
     {
@@ -42,11 +42,9 @@ public class PacketHandleTransformation implements IMessage
         buf.writeBoolean(transformed);
     }
 
-    public static class Handler implements
-            IMessageHandler<PacketHandleTransformation, IMessage>
+    public static class Handler implements IMessageHandler<PacketHandleTransformation, IMessage>
     {
-        public IMessage onMessage(PacketHandleTransformation message,
-                MessageContext ctx)
+        public IMessage onMessage(PacketHandleTransformation message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -54,33 +52,25 @@ public class PacketHandleTransformation implements IMessage
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
-                if (entity instanceof EntityPlayer)
-                    from = (EntityPlayer) entity;
+                if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
 
                 if (from != null && from != player)
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
-
-                    MinecraftForge.EVENT_BUS
-                            .post(new PlayerTransformEvent(from,
-                                    message.transformed,
-                                    playerData.stealthForce));
+                    
+                    MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, message.transformed, playerData.stealthForce));
                     playerData.stealthForce = false;
                     playerData.vehicle = message.transformed;
-                    TFDataManager.setTransformationTimer(from,
-                            message.transformed ? 20 : 0);
-
+                    TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
+                    
                     String suffix = message.transformed ? "vehicle" : "robot";
-                    from.worldObj.playSound(from.posX, from.posY
-                            - (double) from.yOffset, from.posZ,
-                            TransformersMod.modid + ":transform_" + suffix, 1,
-                            1, false);
+                    from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
                 }
             }
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-
+             
                 if (player != null)
                 {
                     TFDataManager.setInVehicleMode(player, message.transformed);

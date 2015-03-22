@@ -7,15 +7,15 @@ import fiskfille.tf.common.transformer.base.Transformer;
 
 public class ItemPurgeArmor extends ItemTransformerArmor
 {
-    public ItemPurgeArmor(int armorPiece)
-    {
-        super(TFItems.TANKMATERIAL, 4, armorPiece);
-        this.setCreativeTab(TransformersMod.tabTransformers);
-    }
+	public ItemPurgeArmor(int armorPiece)
+	{
+		super(TFItems.TANKMATERIAL, 4, armorPiece);
+		this.setCreativeTab(TransformersMod.tabTransformers);
+	}
 
-    @Override
-    public Transformer getTransformer()
-    {
-        return TransformerManager.transformerPurge;
-    }
+	@Override
+	public Transformer getTransformer() 
+	{
+		return TransformerManager.transformerPurge;
+	}
 }

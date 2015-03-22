@@ -17,26 +17,24 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketSyncStates implements IMessage
 {
-    private Map<UUID, Boolean[]> states;
+	private Map<UUID, Boolean[]> states;
 
-    public PacketSyncStates()
-    {
+	public PacketSyncStates()
+	{
 
-    }
+	}
 
-    public PacketSyncStates(Map<UUID, Boolean[]> s)
-    {
-        states = s;
-    }
+	public PacketSyncStates(Map<UUID, Boolean[]> s)
+	{
+		states = s;
+	}
 
     public void fromBytes(ByteBuf buf)
     {
         states = new HashMap<UUID, Boolean[]>();
         int count = buf.readInt();
 
-        for (int i = 0; i < count; i++)
-            states.put(UUID.fromString(ByteBufUtils.readUTF8String(buf)),
-                    new Boolean[] { buf.readBoolean(), buf.readBoolean() });
+        for (int i = 0; i < count; i++) states.put(UUID.fromString(ByteBufUtils.readUTF8String(buf)), new Boolean[]{buf.readBoolean(), buf.readBoolean()});
     }
 
     public void toBytes(ByteBuf buf)
@@ -51,8 +49,7 @@ public class PacketSyncStates implements IMessage
         }
     }
 
-    public static class Handler implements
-            IMessageHandler<PacketSyncStates, IMessage>
+    public static class Handler implements IMessageHandler<PacketSyncStates, IMessage>
     {
         public IMessage onMessage(PacketSyncStates message, MessageContext ctx)
         {
@@ -64,21 +61,17 @@ public class PacketSyncStates implements IMessage
                     {
                         if (cPlayer instanceof EntityPlayer)
                         {
-                            for (Entry<UUID, Boolean[]> state : message.states
-                                    .entrySet())
+                            for (Entry<UUID, Boolean[]> state : message.states.entrySet())
                             {
                                 EntityPlayer currentPlayer = (EntityPlayer) cPlayer;
 
                                 UUID uuid = state.getKey();
-
-                                if (uuid != null
-                                        && uuid.equals(currentPlayer
-                                                .getUniqueID()))
+                                
+                                if (uuid != null && uuid.equals(currentPlayer.getUniqueID()))
                                 {
-                                    TFPlayerData data = TFPlayerData
-                                            .getData(currentPlayer);
-
-                                    data.vehicle = state.getValue()[0];
+                                    TFPlayerData data = TFPlayerData.getData(currentPlayer);
+                                    
+									data.vehicle = state.getValue()[0];
                                     data.stealthForce = state.getValue()[1];
                                 }
                             }
