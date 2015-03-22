@@ -36,7 +36,8 @@ public class ItemMetaBasic extends Item
 	
 	public String getItemStackDisplayName(ItemStack stack)
 	{
-		return StatCollector.translateToLocal(itemNames[stack.getItemDamage() > itemNames.length ? itemNames.length : stack.getItemDamage()]);
+		int itemDamage = stack.getItemDamage();
+		return StatCollector.translateToLocal(itemNames[itemDamage > itemNames.length ? itemNames.length : itemDamage]);
 	}
 	
 	@SideOnly(Side.CLIENT)

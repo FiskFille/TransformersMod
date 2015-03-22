@@ -47,7 +47,7 @@ public class ModelPlayerTF extends ModelChildBase.Biped
 			ItemStack pants = player.getCurrentArmor(1);
 			boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
 
-			if(!wearingTransformerChest)
+			if(!wearingTransformerChest || !wearingTransformerHelm)
 			{
 				offsets.headOffsetX = 0;
 				offsets.headOffsetY = 0;

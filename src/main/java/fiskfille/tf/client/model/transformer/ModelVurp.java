@@ -945,6 +945,8 @@ public class ModelVurp extends MowzieModelBase
 					if(transformerLegs instanceof TransformerSkystrike)
 					{
 						waist.rotationPointY -= 3;
+						offsets.headOffsetY -= 3;
+						head.rotationPointY += 3;
 					}
 				}
 			}

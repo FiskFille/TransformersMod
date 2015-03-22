@@ -505,11 +505,6 @@ public class ModelPurge extends MowzieModelBase
 
 			waist.rotationPointY += 1;
 
-			if(wearingChest || wearingLegs && !wearingHead)
-			{
-				head.rotationPointY -= 5;
-			}
-
 			head.showModel = wearingHead;
 			upperLegR.showModel = wearingLegs;
 			upperLegL.showModel = wearingLegs;
@@ -525,6 +520,12 @@ public class ModelPurge extends MowzieModelBase
 				globalSpeed = 1.5F;
 			}
 
+			head.rotationPointY -= 5.5F;
+			if(!wearingChest)
+			{
+				head.rotationPointY += 5.5F;
+			}
+			
 			if(wearingHead)
 			{
 				faceTarget(head, 1, par4, par5);
