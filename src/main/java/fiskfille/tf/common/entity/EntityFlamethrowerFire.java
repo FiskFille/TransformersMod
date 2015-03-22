@@ -14,108 +14,111 @@ import fiskfille.tf.common.motion.TFMotionManager;
 
 public class EntityFlamethrowerFire extends EntityThrowable
 {
-	public EntityFlamethrowerFire(World world)
-	{
-		super(world);
-	}
+    public EntityFlamethrowerFire(World world)
+    {
+        super(world);
+    }
 
-	public EntityFlamethrowerFire(World world, EntityLivingBase entity)
-	{
-		super(world, entity);
-	}
+    public EntityFlamethrowerFire(World world, EntityLivingBase entity)
+    {
+        super(world, entity);
+    }
 
-	public EntityFlamethrowerFire(World world, double x, double y, double z)
-	{
-		super(world, x, y, z);
-	}
+    public EntityFlamethrowerFire(World world, double x, double y, double z)
+    {
+        super(world, x, y, z);
+    }
 
-	protected float getGravityVelocity()
-	{
-		return 0.0F;
-	}
+    protected float getGravityVelocity()
+    {
+        return 0.0F;
+    }
 
-	protected float func_70182_d()
-	{
-		return 1.0F;
-	}
+    protected float func_70182_d()
+    {
+        return 1.0F;
+    }
 
-	public void onUpdate()
-	{
-		super.onUpdate();
+    public void onUpdate()
+    {
+        super.onUpdate();
 
-		if (this.isEntityAlive())
-		{
-			if(worldObj.isRemote)
-			{
-				for (int i = 0; i < 5; ++i)
-				{
-					float f = (rand.nextFloat() / 5);
+        if (this.isEntityAlive())
+        {
+            if (worldObj.isRemote)
+            {
+                for (int i = 0; i < 5; ++i)
+                {
+                    float f = (rand.nextFloat() / 5);
 
-					TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, posX + f, posY + 0.15F + f, posZ + f, 0, 0, 0);
-				}
-			}
+                    TFParticles.spawnParticle(
+                            TFParticleType.FLAMETHROWER_FLAME, posX + f, posY
+                                    + 0.15F + f, posZ + f, 0, 0, 0);
+                }
+            }
 
-			if (ticksExisted > 7)
-			{
-				this.setDead();
-			}
-		}
-	}
+            if (ticksExisted > 7)
+            {
+                this.setDead();
+            }
+        }
+    }
 
-	protected void onImpact(MovingObjectPosition mop)
-	{
-		if (mop.entityHit != null)
-		{
-			mop.entityHit.setFire(20);
+    protected void onImpact(MovingObjectPosition mop)
+    {
+        if (mop.entityHit != null)
+        {
+            mop.entityHit.setFire(20);
 
-			if (getThrower() instanceof EntityPlayer)
-			{
-				EntityPlayer player = (EntityPlayer)getThrower();
-				mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(player), 10.0F);
-			}
-		}
+            if (getThrower() instanceof EntityPlayer)
+            {
+                EntityPlayer player = (EntityPlayer) getThrower();
+                mop.entityHit.attackEntityFrom(
+                        DamageSource.causePlayerDamage(player), 10.0F);
+            }
+        }
 
-		setFire(worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
-		this.setDead();
-	}
+        setFire(worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
+        this.setDead();
+    }
 
-	public boolean setFire(World world, int x, int y, int z, int sideHit)
-	{
-		if (sideHit == 0)
-		{
-			--y;
-		}
+    public boolean setFire(World world, int x, int y, int z, int sideHit)
+    {
+        if (sideHit == 0)
+        {
+            --y;
+        }
 
-		if (sideHit == 1)
-		{
-			++y;
-		}
+        if (sideHit == 1)
+        {
+            ++y;
+        }
 
-		if (sideHit == 2)
-		{
-			--z;
-		}
+        if (sideHit == 2)
+        {
+            --z;
+        }
 
-		if (sideHit == 3)
-		{
-			++z;
-		}
+        if (sideHit == 3)
+        {
+            ++z;
+        }
 
-		if (sideHit == 4)
-		{
-			--x;
-		}
+        if (sideHit == 4)
+        {
+            --x;
+        }
 
-		if (sideHit == 5)
-		{
-			++x;
-		}
+        if (sideHit == 5)
+        {
+            ++x;
+        }
 
-		if (world.isAirBlock(x, y, z))
-		{
-			world.setBlock(x, y, z, Blocks.fire);
-		}
+        if (world.isAirBlock(x, y, z))
+        {
+            world.setBlock(x, y, z, Blocks.fire);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

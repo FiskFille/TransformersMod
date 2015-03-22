@@ -6,30 +6,30 @@ import fiskfille.tf.client.tick.ClientTickHandler;
 
 public class CommonProxy
 {
-	public static ClientTickHandler tickHandler;
-	
-	public World getWorld()
-	{
-		return null;
-	}
-	
-	public EntityPlayer getPlayer()
-	{
-		return null;
-	}
-	
-	public void registerRenderInformation()
-	{
-		
-	}
+    public static ClientTickHandler tickHandler;
 
-	public void registerKeyBinds()
-	{
-		
-	}
+    public World getWorld()
+    {
+        return null;
+    }
 
-	public void registerTickHandlers() 
-	{
-		
-	}
+    public EntityPlayer getPlayer()
+    {
+        return null;
+    }
+
+    public void registerRenderInformation()
+    {
+
+    }
+
+    public void registerKeyBinds()
+    {
+
+    }
+
+    public void registerTickHandlers()
+    {
+
+    }
 }

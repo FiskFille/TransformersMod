@@ -18,76 +18,92 @@ import fiskfille.tf.helper.TFHelper;
 
 public abstract class ItemTransformerArmor extends ItemArmor
 {
-	public ItemTransformerArmor(ArmorMaterial material, int renderIndex, int armorPiece)
-	{
-		super(material, renderIndex, armorPiece);
-		this.setCreativeTab(TransformersMod.tabTransformers);
-	}
+    public ItemTransformerArmor(ArmorMaterial material, int renderIndex,
+            int armorPiece)
+    {
+        super(material, renderIndex, armorPiece);
+        this.setCreativeTab(TransformersMod.tabTransformers);
+    }
 
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
-	{
-		String name = getTransformer().getName().toLowerCase().replaceAll(" ", "_");
-		
-		return TransformersMod.modid + ":textures/models/" + name + "/" + name + ".png";
-	}
-	
-	public abstract Transformer getTransformer();
-	
-	/**
-	 * Called to tick armor in the armor slot. Override to do something
-	 *
-	 * @param world
-	 * @param player
-	 * @param itemStack
-	 */
-	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
-	{
-		if (TFHelper.isPlayerTransformer(player))
-		{
-			player.addStat(TFAchievements.transformer, 1);
-		}
-	}
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot,
+            String type)
+    {
+        String name = getTransformer().getName().toLowerCase()
+                .replaceAll(" ", "_");
 
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemstack, int armorSlot) 
-	{
-		ModelBiped armorModel = null;
+        return TransformersMod.modid + ":textures/models/" + name + "/" + name
+                + ".png";
+    }
 
-		if (itemstack != null)
-		{
-			armorModel = getTransformer().getModel();
+    public abstract Transformer getTransformer();
 
-			if (armorModel != null)
-			{
-				armorModel.bipedHead.showModel = armorSlot == 0;
-				armorModel.bipedHeadwear.showModel = armorSlot == 0;
-				armorModel.bipedBody.showModel = armorSlot == 1;
-				armorModel.bipedRightArm.showModel = armorSlot == 1;
-				armorModel.bipedLeftArm.showModel = armorSlot == 1;
-				armorModel.bipedRightLeg.showModel = armorSlot == 2;
-				armorModel.bipedLeftLeg.showModel = armorSlot == 2;
+    /**
+     * Called to tick armor in the armor slot. Override to do something
+     * 
+     * @param world
+     * @param player
+     * @param itemStack
+     */
+    public void onArmorTick(World world, EntityPlayer player,
+            ItemStack itemStack)
+    {
+        if (TFHelper.isPlayerTransformer(player))
+        {
+            player.addStat(TFAchievements.transformer, 1);
+        }
+    }
 
-				armorModel.isSneak = entityLiving.isSneaking();
-				armorModel.isRiding = entityLiving.isRiding();
-				armorModel.isChild = entityLiving.isChild();
-				armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null ? 1 : 0;
+    @SideOnly(Side.CLIENT)
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving,
+            ItemStack itemstack, int armorSlot)
+    {
+        ModelBiped armorModel = null;
 
-				if (entityLiving instanceof EntityPlayer)
-				{
-					ItemStack itemstack1 = entityLiving.getHeldItem();
-					armorModel.aimedBow = ((EntityPlayer)entityLiving).getItemInUseDuration() > 0 && itemstack1 != null && itemstack1.getItemUseAction() == EnumAction.bow;
-					armorModel.heldItemRight = ((EntityPlayer)entityLiving).getItemInUseDuration() > 0 && itemstack1 != null && itemstack1.getItemUseAction() == EnumAction.block ? 3 : (entityLiving.getEquipmentInSlot(0) != null ? 1 : 0);
-				}
+        if (itemstack != null)
+        {
+            armorModel = getTransformer().getModel();
 
-				return armorModel;
-			}
-		}
+            if (armorModel != null)
+            {
+                armorModel.bipedHead.showModel = armorSlot == 0;
+                armorModel.bipedHeadwear.showModel = armorSlot == 0;
+                armorModel.bipedBody.showModel = armorSlot == 1;
+                armorModel.bipedRightArm.showModel = armorSlot == 1;
+                armorModel.bipedLeftArm.showModel = armorSlot == 1;
+                armorModel.bipedRightLeg.showModel = armorSlot == 2;
+                armorModel.bipedLeftLeg.showModel = armorSlot == 2;
 
-		return null;
-	}
+                armorModel.isSneak = entityLiving.isSneaking();
+                armorModel.isRiding = entityLiving.isRiding();
+                armorModel.isChild = entityLiving.isChild();
+                armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null ? 1
+                        : 0;
 
-	public void registerIcons(IIconRegister iconRegistry)
-	{
-		itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":" + iconString);
-	}
+                if (entityLiving instanceof EntityPlayer)
+                {
+                    ItemStack itemstack1 = entityLiving.getHeldItem();
+                    armorModel.aimedBow = ((EntityPlayer) entityLiving)
+                            .getItemInUseDuration() > 0
+                            && itemstack1 != null
+                            && itemstack1.getItemUseAction() == EnumAction.bow;
+                    armorModel.heldItemRight = ((EntityPlayer) entityLiving)
+                            .getItemInUseDuration() > 0
+                            && itemstack1 != null
+                            && itemstack1.getItemUseAction() == EnumAction.block ? 3
+                            : (entityLiving.getEquipmentInSlot(0) != null ? 1
+                                    : 0);
+                }
+
+                return armorModel;
+            }
+        }
+
+        return null;
+    }
+
+    public void registerIcons(IIconRegister iconRegistry)
+    {
+        itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":"
+                + iconString);
+    }
 }

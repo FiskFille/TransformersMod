@@ -29,41 +29,53 @@ public class EntityBassCharge extends EntityThrowable
         super(world, x, y, z);
         this.setSize(1.0F, 1.0F);
     }
-    
+
     public void onUpdate()
     {
-    	super.onUpdate();
-    	
-    	if(ticksExisted > 5)
-    	{
-    		this.setDead();
-    	}
-    }
-    
-	protected float getGravityVelocity()
-	{
-		return 0.0F;
-	}
+        super.onUpdate();
 
-	protected float func_70182_d()
-	{
-		return 3.0F;
-	}
-    
+        if (ticksExisted > 5)
+        {
+            this.setDead();
+        }
+    }
+
+    protected float getGravityVelocity()
+    {
+        return 0.0F;
+    }
+
+    protected float func_70182_d()
+    {
+        return 3.0F;
+    }
+
     protected void onImpact(MovingObjectPosition mop)
     {
         if (mop.entityHit != null)
         {
-        	float f = 2.0F;
-            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), f);
+            float f = 2.0F;
+            mop.entityHit.attackEntityFrom(
+                    DamageSource.causeThrownDamage(this, this.getThrower()), f);
             mop.entityHit.hurtResistantTime = 0;
         }
-        else if (mop.typeOfHit == mop.typeOfHit.BLOCK && worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.glass)
+        else if (mop.typeOfHit == mop.typeOfHit.BLOCK
+                && worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ)
+                        .getMaterial() == Material.glass)
         {
-        	this.worldObj.playAuxSFX(2001, mop.blockX, mop.blockY + 1, mop.blockZ, Block.getIdFromBlock(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ)) + (worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ) << 12));
-        	this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, Blocks.air);
+            this.worldObj.playAuxSFX(
+                    2001,
+                    mop.blockX,
+                    mop.blockY + 1,
+                    mop.blockZ,
+                    Block.getIdFromBlock(worldObj.getBlock(mop.blockX,
+                            mop.blockY, mop.blockZ))
+                            + (worldObj.getBlockMetadata(mop.blockX,
+                                    mop.blockY, mop.blockZ) << 12));
+            this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ,
+                    Blocks.air);
         }
-        
+
         if (!this.worldObj.isRemote)
         {
             this.setDead();

@@ -14,19 +14,19 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketHandleStealthTransformation implements IMessage
 {
-	public int id;
-	private boolean transformed;
+    public int id;
+    private boolean transformed;
 
-	public PacketHandleStealthTransformation()
-	{
+    public PacketHandleStealthTransformation()
+    {
 
-	}
+    }
 
-	public PacketHandleStealthTransformation(EntityPlayer player, boolean mode)
-	{
-		id = player.getEntityId();
-		transformed = mode;
-	}
+    public PacketHandleStealthTransformation(EntityPlayer player, boolean mode)
+    {
+        id = player.getEntityId();
+        transformed = mode;
+    }
 
     public void fromBytes(ByteBuf buf)
     {
@@ -40,9 +40,11 @@ public class PacketHandleStealthTransformation implements IMessage
         buf.writeBoolean(transformed);
     }
 
-    public static class Handler implements IMessageHandler<PacketHandleStealthTransformation, IMessage>
+    public static class Handler implements
+            IMessageHandler<PacketHandleStealthTransformation, IMessage>
     {
-        public IMessage onMessage(PacketHandleStealthTransformation message, MessageContext ctx)
+        public IMessage onMessage(PacketHandleStealthTransformation message,
+                MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -50,15 +52,20 @@ public class PacketHandleStealthTransformation implements IMessage
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
-                if (entity instanceof EntityPlayer) from = (EntityPlayer) entity;
+                if (entity instanceof EntityPlayer)
+                    from = (EntityPlayer) entity;
 
                 if (from != null && from != TransformersMod.proxy.getPlayer())
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
-                    TFDataManager.setStealthModeTimer(from, message.transformed ? 5 : 0);
+                    TFDataManager.setStealthModeTimer(from,
+                            message.transformed ? 5 : 0);
 
                     String suffix = message.transformed ? "vehicle" : "robot";
-                    from.worldObj.playSound(from.posX, from.posY - (double)from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5f, false);
+                    from.worldObj.playSound(from.posX, from.posY
+                            - (double) from.yOffset, from.posZ,
+                            TransformersMod.modid + ":transform_" + suffix, 1,
+                            1.5f, false);
                     playerData.stealthForce = message.transformed;
                 }
             }
@@ -78,7 +85,8 @@ public class PacketHandleStealthTransformation implements IMessage
                     }
                 }
 
-                if (from != null) TFDataManager.setInStealthMode(player, message.transformed);
+                if (from != null)
+                    TFDataManager.setInStealthMode(player, message.transformed);
             }
 
             return null;

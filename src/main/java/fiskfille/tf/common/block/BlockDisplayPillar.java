@@ -18,144 +18,166 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.ItemMiniVehicle;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
-public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvider
+public class BlockDisplayPillar extends BlockBasic implements
+        ITileEntityProvider
 {
-	private Random rand = new Random();
+    private Random rand = new Random();
 
-	public BlockDisplayPillar()
-	{
-		super(Material.rock);
-		this.setCreativeTab(TransformersMod.tabTransformers);
-	}
+    public BlockDisplayPillar()
+    {
+        super(Material.rock);
+        this.setCreativeTab(TransformersMod.tabTransformers);
+    }
 
-	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
-		ItemStack itemstack = tileEntityDisplayPillar.getDisplayItem();
-		
-		if (itemstack != null)
-		{
-			float f = this.rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
+    public void breakBlock(World world, int x, int y, int z, Block block,
+            int metadata)
+    {
+        TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world
+                .getTileEntity(x, y, z);
+        ItemStack itemstack = tileEntityDisplayPillar.getDisplayItem();
 
-			while (itemstack.stackSize > 0)
-			{
-				int j1 = this.rand.nextInt(21) + 10;
+        if (itemstack != null)
+        {
+            float f = this.rand.nextFloat() * 0.8F + 0.1F;
+            float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+            float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
 
-				if (j1 > itemstack.stackSize)
-				{
-					j1 = itemstack.stackSize;
-				}
+            while (itemstack.stackSize > 0)
+            {
+                int j1 = this.rand.nextInt(21) + 10;
 
-				itemstack.stackSize -= j1;
+                if (j1 > itemstack.stackSize)
+                {
+                    j1 = itemstack.stackSize;
+                }
 
-				EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                itemstack.stackSize -= j1;
 
-				if (itemstack.hasTagCompound())
-				{
-					entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
-				}
+                EntityItem entityitem = new EntityItem(world,
+                        (double) ((float) x + f), (double) ((float) y + f1),
+                        (double) ((float) z + f2), new ItemStack(
+                                itemstack.getItem(), j1,
+                                itemstack.getItemDamage()));
 
-				float f3 = 0.05F;
+                if (itemstack.hasTagCompound())
+                {
+                    entityitem.getEntityItem().setTagCompound(
+                            (NBTTagCompound) itemstack.getTagCompound().copy());
+                }
 
-				entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
-				entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
-				entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                float f3 = 0.05F;
 
-				world.spawnEntityInWorld(entityitem);
-			}
-		}
+                entityitem.motionX = (double) ((float) this.rand.nextGaussian() * f3);
+                entityitem.motionY = (double) ((float) this.rand.nextGaussian()
+                        * f3 + 0.2F);
+                entityitem.motionZ = (double) ((float) this.rand.nextGaussian() * f3);
 
-		super.breakBlock(world, x, y, z, block, metadata);
-	}
+                world.spawnEntityInWorld(entityitem);
+            }
+        }
 
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+        super.breakBlock(world, x, y, z, block, metadata);
+    }
 
-		if (tileEntityDisplayPillar != null)
-		{
-			ItemStack heldItem = player.getHeldItem();
+    public boolean onBlockActivated(World world, int x, int y, int z,
+            EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world
+                .getTileEntity(x, y, z);
 
-			ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
+        if (tileEntityDisplayPillar != null)
+        {
+            ItemStack heldItem = player.getHeldItem();
 
-			if (heldItem == null && displayItem != null)
-			{
-				player.setCurrentItemOrArmor(0, displayItem);
+            ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
 
-				tileEntityDisplayPillar.setDisplayItem(null, true);
-			}
-			else if (heldItem != null && heldItem.getItem() instanceof ItemMiniVehicle)
-			{
-				if(displayItem == null)
-				{
-					tileEntityDisplayPillar.setDisplayItem(heldItem, true);
+            if (heldItem == null && displayItem != null)
+            {
+                player.setCurrentItemOrArmor(0, displayItem);
 
-					//if (!player.capabilities.isCreativeMode)
-					{
-						player.setCurrentItemOrArmor(0, null);
-					}
-				}
-			}
-		}
+                tileEntityDisplayPillar.setDisplayItem(null, true);
+            }
+            else if (heldItem != null
+                    && heldItem.getItem() instanceof ItemMiniVehicle)
+            {
+                if (displayItem == null)
+                {
+                    tileEntityDisplayPillar.setDisplayItem(heldItem, true);
 
-		return false;
-	}
+                    // if (!player.capabilities.isCreativeMode)
+                    {
+                        player.setCurrentItemOrArmor(0, null);
+                    }
+                }
+            }
+        }
 
-	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
-	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar)world.getTileEntity(x, y, z);
+        return false;
+    }
 
-		if (tileEntityDisplayPillar != null)
-		{
-			ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y,
+            int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
+    {
+        TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world
+                .getTileEntity(x, y, z);
 
-			if (displayItem != null)
-			{
-				float f = 0.21F;
-				int metadata = displayItem.getItemDamage();
+        if (tileEntityDisplayPillar != null)
+        {
+            ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
 
-				if (metadata == 0 || metadata == 1 || metadata == 4) {this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);}
-				else if (metadata == 2 || metadata == 3) {this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);}
-			}
-			else
-			{
-				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.55F, 1.0F);
-			}
-		}
+            if (displayItem != null)
+            {
+                float f = 0.21F;
+                int metadata = displayItem.getItemDamage();
 
-		return super.collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
-	}
+                if (metadata == 0 || metadata == 1 || metadata == 4)
+                {
+                    this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                }
+                else if (metadata == 2 || metadata == 3)
+                {
+                    this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
+                }
+            }
+            else
+            {
+                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.55F, 1.0F);
+            }
+        }
 
-	public boolean renderAsNormalBlock()
-	{
-		return false;
-	}
+        return super
+                .collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
+    }
 
-	public int getRenderType()
-	{
-		return -1;
-	}
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
 
-	public boolean isOpaqueCube()
-	{
-		return false;
-	}
+    public int getRenderType()
+    {
+        return -1;
+    }
 
-	public boolean hasTileEntity()
-	{
-		return true;
-	}
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
 
-	public TileEntity createNewTileEntity(World world, int metadata)
-	{
-		return new TileEntityDisplayPillar();
-	}
+    public boolean hasTileEntity()
+    {
+        return true;
+    }
 
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister)
-	{
-		blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
-	}
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
+        return new TileEntityDisplayPillar();
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":"
+                + getUnlocalizedName().substring(5));
+    }
 }

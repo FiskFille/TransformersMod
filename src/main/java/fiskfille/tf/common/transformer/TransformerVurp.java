@@ -8,32 +8,32 @@ import fiskfille.tf.common.transformer.base.TransformerCar;
 
 public class TransformerVurp extends TransformerCar
 {
-	public TransformerVurp()
-	{
-		super("Vurp");
-	}
-	
-	@Override
-	public Item getHelmet() 
-	{
-		return TFItems.vurpHelmet;
-	}
+    public TransformerVurp()
+    {
+        super("Vurp");
+    }
 
-	@Override
-	public Item getChestplate() 
-	{
-		return TFItems.vurpChestplate;
-	}
+    @Override
+    public Item getHelmet()
+    {
+        return TFItems.vurpHelmet;
+    }
 
-	@Override
-	public Item getLeggings()
-	{
-		return TFItems.vurpLeggings;
-	}
+    @Override
+    public Item getChestplate()
+    {
+        return TFItems.vurpChestplate;
+    }
 
-	@Override
-	public Item getBoots()
-	{
-		return TFItems.vurpBoots;
-	}
+    @Override
+    public Item getLeggings()
+    {
+        return TFItems.vurpLeggings;
+    }
+
+    @Override
+    public Item getBoots()
+    {
+        return TFItems.vurpBoots;
+    }
 }

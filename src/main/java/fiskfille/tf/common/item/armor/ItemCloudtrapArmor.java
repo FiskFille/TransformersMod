@@ -7,15 +7,15 @@ import fiskfille.tf.common.transformer.base.Transformer;
 
 public class ItemCloudtrapArmor extends ItemTransformerArmor
 {
-	public ItemCloudtrapArmor(int armorPiece)
-	{
-		super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
-		this.setCreativeTab(TransformersMod.tabTransformers);
-	}
+    public ItemCloudtrapArmor(int armorPiece)
+    {
+        super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
+        this.setCreativeTab(TransformersMod.tabTransformers);
+    }
 
-	@Override
-	public Transformer getTransformer() 
-	{
-		return TransformerManager.transformerCloudtrap;
-	}
+    @Override
+    public Transformer getTransformer()
+    {
+        return TransformerManager.transformerCloudtrap;
+    }
 }

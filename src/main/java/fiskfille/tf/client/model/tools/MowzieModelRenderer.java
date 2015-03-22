@@ -19,7 +19,7 @@ public class MowzieModelRenderer extends ModelRenderer
     public float initRotationPointZ;
 
     public ModelRenderer parent;
-    
+
     public MowzieModelRenderer(ModelBase modelBase, String name)
     {
         super(modelBase, name);
@@ -29,14 +29,14 @@ public class MowzieModelRenderer extends ModelRenderer
     {
         super(modelBase, x, y);
 
-        if(modelBase instanceof MowzieModelBase)
+        if (modelBase instanceof MowzieModelBase)
         {
-        	MowzieModelBase mowzieModelBase = (MowzieModelBase) modelBase;
-        	
-			if(mowzieModelBase.parts == null)
-        		mowzieModelBase.parts = new ArrayList<MowzieModelRenderer>();
-        	
-        	mowzieModelBase.parts.add(this);
+            MowzieModelBase mowzieModelBase = (MowzieModelBase) modelBase;
+
+            if (mowzieModelBase.parts == null)
+                mowzieModelBase.parts = new ArrayList<MowzieModelRenderer>();
+
+            mowzieModelBase.parts.add(this);
         }
     }
 
@@ -47,51 +47,51 @@ public class MowzieModelRenderer extends ModelRenderer
 
     public void addChild(ModelRenderer renderer)
     {
-    	super.addChild(renderer);
-    	
-    	if(renderer instanceof MowzieModelRenderer)
-    	{
-    		((MowzieModelRenderer) renderer).setParent(this);
-    	}
+        super.addChild(renderer);
+
+        if (renderer instanceof MowzieModelRenderer)
+        {
+            ((MowzieModelRenderer) renderer).setParent(this);
+        }
     }
-    
+
     /**
      * Post renders all parents in order from top-parent to this
      */
     public void postRenderParentChain(float par1)
     {
-    	if(parent instanceof MowzieModelRenderer)
-    	{
-        	((MowzieModelRenderer) this.parent).postRenderParentChain(par1);
-    	}
-    	else if(parent != null)
-    	{
-    		parent.postRender(par1);
-    	}
-    	
-    	this.postRender(par1);
+        if (parent instanceof MowzieModelRenderer)
+        {
+            ((MowzieModelRenderer) this.parent).postRenderParentChain(par1);
+        }
+        else if (parent != null)
+        {
+            parent.postRender(par1);
+        }
+
+        this.postRender(par1);
     }
-    
+
     /**
      * Returns the parent of this ModelRenderer
      */
     public ModelRenderer getParent()
     {
-    	return parent;
+        return parent;
     }
-    
+
     /**
      * Sets the parent of this ModelRenderer
      */
-    private void setParent(ModelRenderer modelRenderer) 
+    private void setParent(ModelRenderer modelRenderer)
     {
-		this.parent = modelRenderer;
-	}
+        this.parent = modelRenderer;
+    }
 
     /**
      * Set the initialization pose to the current pose
      */
-	public void setInitValuesToCurrentPose()
+    public void setInitValuesToCurrentPose()
     {
         initRotateAngleX = rotateAngleX;
         initRotateAngleY = rotateAngleY;
@@ -102,9 +102,9 @@ public class MowzieModelRenderer extends ModelRenderer
         initRotationPointZ = rotationPointZ;
     }
 
-	/**
-	 * Resets the pose to init pose
-	 */
+    /**
+     * Resets the pose to init pose
+     */
     public void setCurrentPoseToInitValues()
     {
         rotateAngleX = initRotateAngleX;

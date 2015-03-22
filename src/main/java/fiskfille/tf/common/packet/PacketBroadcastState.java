@@ -13,21 +13,21 @@ import fiskfille.tf.common.playerdata.TFPlayerData;
 
 public class PacketBroadcastState implements IMessage
 {
-	private int id;
-	private boolean stealth;
-	private boolean vehicle;
-	
-	public PacketBroadcastState()
-	{
-		
-	}
-	
-	public PacketBroadcastState(EntityPlayer player)
-	{
-		id = player.getEntityId();
-		stealth = TFDataManager.isInStealthMode(player);
-		vehicle = TFDataManager.isInVehicleMode(player);
-	}
+    private int id;
+    private boolean stealth;
+    private boolean vehicle;
+
+    public PacketBroadcastState()
+    {
+
+    }
+
+    public PacketBroadcastState(EntityPlayer player)
+    {
+        id = player.getEntityId();
+        stealth = TFDataManager.isInStealthMode(player);
+        vehicle = TFDataManager.isInVehicleMode(player);
+    }
 
     public void fromBytes(ByteBuf buf)
     {
@@ -43,30 +43,37 @@ public class PacketBroadcastState implements IMessage
         buf.writeBoolean(vehicle);
     }
 
-    public static class Handler implements IMessageHandler<PacketBroadcastState, IMessage>
+    public static class Handler implements
+            IMessageHandler<PacketBroadcastState, IMessage>
     {
-        public IMessage onMessage(PacketBroadcastState message, MessageContext ctx)
+        public IMessage onMessage(PacketBroadcastState message,
+                MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity lookupEntity = player.worldObj.getEntityByID(message.id);
 
-                if (lookupEntity instanceof EntityPlayer && player != lookupEntity)
+                if (lookupEntity instanceof EntityPlayer
+                        && player != lookupEntity)
                 {
                     EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
 
-                    TFPlayerData playerData = TFPlayerData.getData(lookupPlayer);
+                    TFPlayerData playerData = TFPlayerData
+                            .getData(lookupPlayer);
                     playerData.vehicle = message.vehicle;
-                    TFDataManager.setTransformationTimer(lookupPlayer, message.vehicle ? 0 : 20);
+                    TFDataManager.setTransformationTimer(lookupPlayer,
+                            message.vehicle ? 0 : 20);
                     playerData.stealthForce = message.stealth;
-                    TFDataManager.setStealthModeTimer(lookupPlayer, message.stealth ? 0 : 5);
+                    TFDataManager.setStealthModeTimer(lookupPlayer,
+                            message.stealth ? 0 : 5);
                 }
             }
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-                TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), player.dimension);
+                TFPacketManager.networkWrapper.sendToDimension(
+                        new PacketBroadcastState(player), player.dimension);
                 TFPlayerData playerData = TFPlayerData.getData(player);
                 playerData.vehicle = message.vehicle;
                 playerData.stealthForce = message.stealth;

@@ -56,7 +56,7 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
     {
         this.textureWidth = 128;
         this.textureHeight = 128;
-        
+
         this.vehicleCover6 = new ModelRenderer(this, 17, 0);
         this.vehicleCover6.setRotationPoint(4.1F, -1.4F, -2.4F);
         this.vehicleCover6.addBox(-1.0F, 0.0F, 0.0F, 1, 4, 9, 0.0F);
@@ -83,7 +83,8 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         this.vehicleFrontChest2.mirror = true;
         this.vehicleFrontChest2.setRotationPoint(4.0F, -4.0F, -3.0F);
         this.vehicleFrontChest2.addBox(-4.0F, 0.0F, -0.6F, 4, 4, 1, 0.0F);
-        this.setRotateAngle(vehicleFrontChest2, -0.07330382858376185F, 0.0F, 0.005235987755982988F);
+        this.setRotateAngle(vehicleFrontChest2, -0.07330382858376185F, 0.0F,
+                0.005235987755982988F);
         this.vehicleLowerLegL3 = new ModelRenderer(this, 79, 82);
         this.vehicleLowerLegL3.setRotationPoint(0.7F, -1.5F, 2.5F);
         this.vehicleLowerLegL3.addBox(0.0F, 0.0F, 0.0F, 1, 7, 2, 0.0F);
@@ -156,11 +157,13 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         this.vehicleDish1 = new ModelRenderer(this, 0, 67);
         this.vehicleDish1.setRotationPoint(-4.0F, -4.6F, 6.2F);
         this.vehicleDish1.addBox(-2.0F, -3.0F, 0.0F, 2, 3, 1, 0.0F);
-        this.setRotateAngle(vehicleDish1, 0.017453292519943295F, 0.12217304763960307F, 1.5707963267948966F);
+        this.setRotateAngle(vehicleDish1, 0.017453292519943295F,
+                0.12217304763960307F, 1.5707963267948966F);
         this.vehicleShoulderBase1 = new ModelRenderer(this, 48, 78);
         this.vehicleShoulderBase1.setRotationPoint(-1.0F, -1.9F, 0.0F);
         this.vehicleShoulderBase1.addBox(-2.9F, -1.0F, -1.4F, 3, 2, 3, 0.0F);
-        this.setRotateAngle(vehicleShoulderBase1, 1.5707963267948966F, 0.0F, 0.0F);
+        this.setRotateAngle(vehicleShoulderBase1, 1.5707963267948966F, 0.0F,
+                0.0F);
         this.vehicleUpperArmL = new ModelRenderer(this, 61, 79);
         this.vehicleUpperArmL.setRotationPoint(1.7F, 1.0F, 0.0F);
         this.vehicleUpperArmL.addBox(-1.0F, -0.2F, -1.0F, 2, 4, 2, 0.0F);
@@ -192,7 +195,8 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         this.vehicleFrontChest1 = new ModelRenderer(this, 10, 77);
         this.vehicleFrontChest1.setRotationPoint(-4.0F, -4.0F, -3.0F);
         this.vehicleFrontChest1.addBox(0.0F, 0.0F, -0.6F, 4, 4, 1, 0.0F);
-        this.setRotateAngle(vehicleFrontChest1, -0.07330382858376185F, 0.0F, -0.005235987755982988F);
+        this.setRotateAngle(vehicleFrontChest1, -0.07330382858376185F, 0.0F,
+                -0.005235987755982988F);
         this.vehicleBass3 = new ModelRenderer(this, 0, 112);
         this.vehicleBass3.mirror = true;
         this.vehicleBass3.setRotationPoint(-2.5F, -2.5F, 2.1F);
@@ -208,7 +212,8 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         this.vehicleLowerLegL1 = new ModelRenderer(this, 76, 66);
         this.vehicleLowerLegL1.setRotationPoint(1.3F, 2.5F, -1.0F);
         this.vehicleLowerLegL1.addBox(-1.3F, -1.5F, -1.5F, 3, 6, 4, 0.0F);
-        this.setRotateAngle(vehicleLowerLegL1, 0.0F, 0.004886921905584123F, 0.0F);
+        this.setRotateAngle(vehicleLowerLegL1, 0.0F, 0.004886921905584123F,
+                0.0F);
         this.vehicleBass2 = new ModelRenderer(this, 0, 112);
         this.vehicleBass2.setRotationPoint(1.7F, -2.5F, 2.1F);
         this.vehicleBass2.addBox(0.0F, 0.0F, 0.0F, 1, 4, 3, 0.0F);
@@ -221,12 +226,13 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         this.vehicleShoulderBase2 = new ModelRenderer(this, 48, 78);
         this.vehicleShoulderBase2.setRotationPoint(1.0F, -1.9F, 0.0F);
         this.vehicleShoulderBase2.addBox(-0.1F, -1.0F, -1.4F, 3, 2, 3, 0.0F);
-        this.setRotateAngle(vehicleShoulderBase2, 1.5707963267948966F, 0.0F, 0.0F);
+        this.setRotateAngle(vehicleShoulderBase2, 1.5707963267948966F, 0.0F,
+                0.0F);
         this.vehicleRearWheel1 = new ModelRenderer(this, 0, 77);
         this.vehicleRearWheel1.mirror = true;
         this.vehicleRearWheel1.setRotationPoint(-0.2F, 4.4F, -0.5F);
         this.vehicleRearWheel1.addBox(-2.0F, -1.5F, -1.5F, 2, 3, 3, 0.0F);
-        
+
         this.vehicleChestMain1.addChild(this.vehicleCover6);
         this.vehicleUpperArmR.addChild(this.vehicleLowerArmRL1);
         this.vehicleStomach.addChild(this.vehicleChestMain1);
@@ -272,21 +278,23 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         this.vehicleLowerLegR1.addChild(this.vehicleRearWheel1);
     }
 
-    public void render() 
+    public void render()
     {
-    	this.vehicleBase.render(0.0625F);
+        this.vehicleBase.render(0.0625F);
     }
-    
+
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    { 
+    public void render(Entity entity, float f, float f1, float f2, float f3,
+            float f4, float f5)
+    {
         this.vehicleBase.render(f5);
     }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) 
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y,
+            float z)
     {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
