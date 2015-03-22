@@ -1082,10 +1082,7 @@ public class ModelSubwoofer extends MowzieModelBase
 
 			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleBase})
 			{
-				float f1 = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
-				if (modelRenderer.rotateAngleY < f1) {modelRenderer.rotateAngleY += 0.05F;}
-				if (modelRenderer.rotateAngleY > f1) {modelRenderer.rotateAngleY -= 0.05F;}
-				modelRenderer.rotateAngleY = f1;
+				modelRenderer.rotateAngleY = bipedBody.rotateAngleY;
 
 				if (player == Minecraft.getMinecraft().thePlayer)
 				{
