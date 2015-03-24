@@ -274,14 +274,7 @@ public class CommonEventHandler
             
             if (transformer != null)
             {
-                if (vehicleMode)
-                {
-                    transformer.vehicleTick(player);
-                }
-                else
-                {
-                    transformer.robotTick(player);
-                }
+                transformer.tick(player, TFDataManager.getTransformationTimer(player));
             }
             
             if (player.worldObj.isRemote)

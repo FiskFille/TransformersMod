@@ -39,7 +39,7 @@ public abstract class TransformerCar extends Transformer
     }
     
     @Override
-    public void transformationTick(EntityPlayer player, int timer)
+    public void tick(EntityPlayer player, int timer)
     {
         boolean vehicle = TFDataManager.isInVehicleMode(player);
         

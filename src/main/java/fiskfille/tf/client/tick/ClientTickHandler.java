@@ -30,9 +30,7 @@ import fiskfille.tf.helper.TFHelper;
 
 public class ClientTickHandler
 {
-    public static Map<EntityPlayer, Boolean> cloudtrapJetpacking = new HashMap<EntityPlayer, Boolean>();
     private Minecraft mc = Minecraft.getMinecraft();
-    private boolean prevJetpacking;
     
     public void onPlayerTick(EntityPlayer player)
     {
@@ -100,49 +98,6 @@ public class ClientTickHandler
         }
         else
         {
-            if (transformer != null)
-            {
-                if (transformer.hasJetpack())
-                {
-                    boolean isClientPlayer = mc.thePlayer == player;
-                    boolean jetpacking = mc.gameSettings.keyBindJump.getIsKeyPressed();
-                    
-                    if (isClientPlayer)
-                    {
-                        if (prevJetpacking != jetpacking)
-                        {
-                            TFPacketManager.networkWrapper.sendToServer(new PacketCloudtrapJetpack(player, jetpacking));
-                            prevJetpacking = jetpacking;
-                        }
-                    }
-                    else
-                    {
-                        if (cloudtrapJetpacking.get(player))
-                        {
-                            for (int i = 0; i < 20; ++i)
-                            {
-                                Random rand = new Random();
-                                player.worldObj.spawnParticle("flame", player.posX, player.posY, player.posZ, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
-                            }
-                        }
-                    }
-                    
-                    if (jetpacking)
-                    {
-                        player.motionY += 0.09F;
-                        
-                        if (isClientPlayer)
-                        {
-                            for (int i = 0; i < 20; ++i)
-                            {
-                                Random rand = new Random();
-                                player.worldObj.spawnParticle("flame", player.posX, player.posY - 1.5F, player.posZ, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
-                            }
-                        }
-                    }
-                }
-            }
-            
             player.stepHeight = 0.5F;
             
             if (player.isPotionActive(Potion.resistance) && player.getActivePotionEffect(Potion.resistance).getDuration() < 1)
@@ -205,11 +160,6 @@ public class ClientTickHandler
             
             TFDataManager.setTransformationTimer(player, transformationTimer);
             
-            if (transformer != null)
-            {
-                transformer.transformationTick(player, transformationTimer);
-            }
-            
             TFMotionManager.setForwardVelocity(player, 0.0D);
             
             if (transformationTimer == 19)
@@ -225,11 +175,6 @@ public class ClientTickHandler
             transformationTimer--;
             
             TFDataManager.setTransformationTimer(player, transformationTimer);
-            
-            if (transformer != null)
-            {
-                transformer.transformationTick(player, transformationTimer);
-            }
         }
     }
     

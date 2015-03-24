@@ -21,7 +21,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
         
         if (transformer != null)
         {
-            return TFModelRegistry.getVehicleModel(transformer);
+            return TFModelRegistry.getModel(transformer).vehicleModel;
         }
         
         return null;

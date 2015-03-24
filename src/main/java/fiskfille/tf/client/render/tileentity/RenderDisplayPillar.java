@@ -64,7 +64,7 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         
         if (transformer != null)
         {
-            return TFModelRegistry.getVehicleModel(transformer);
+            return TFModelRegistry.getModel(transformer).vehicleModel;
         }
         
         return null;

@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.TransformerModel;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.common.playerdata.TFDataManager;
 
@@ -19,7 +20,7 @@ public abstract class Transformer
     
     public abstract Item getBoots();
     
-    public Biped getModel()
+    public TransformerModel getModel()
     {
         return TFModelRegistry.getModel(this);
     }
@@ -34,15 +35,7 @@ public abstract class Transformer
         return name;
     }
     
-    public void robotTick(EntityPlayer player)
-    {
-    }
-    
-    public void transformationTick(EntityPlayer player, int timer)
-    {
-    }
-    
-    public void vehicleTick(EntityPlayer player)
+    public void tick(EntityPlayer player, int timer)
     {
     }
     
@@ -76,9 +69,7 @@ public abstract class Transformer
         return false;
     }
     
-    public void updateMovement(EntityPlayer player)
-    {
-    }
+    public abstract void updateMovement(EntityPlayer player);
     
     public Item getShootItem()
     {
@@ -106,11 +97,6 @@ public abstract class Transformer
     }
     
     public boolean canShoot(EntityPlayer player)
-    {
-        return false;
-    }
-    
-    public boolean hasJetpack()
     {
         return false;
     }

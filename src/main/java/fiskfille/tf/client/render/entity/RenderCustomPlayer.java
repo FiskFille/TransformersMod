@@ -2,17 +2,14 @@ package fiskfille.tf.client.render.entity;
 
 import java.util.UUID;
 
+import javax.vecmath.Vector3f;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -23,9 +20,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringUtils;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.common.MinecraftForge;
 
 import org.lwjgl.opengl.GL11;
 
@@ -34,18 +28,10 @@ import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.player.ModelPlayerTF;
-import fiskfille.tf.client.model.transformer.ModelCloudtrap;
-import fiskfille.tf.client.model.transformer.ModelPurge;
-import fiskfille.tf.client.model.transformer.ModelSkystrike;
-import fiskfille.tf.client.model.transformer.ModelSubwoofer;
-import fiskfille.tf.client.model.transformer.ModelVurp;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.TransformerModel;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
-import fiskfille.tf.common.transformer.TransformerPurge;
-import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.TransformerSubwoofer;
-import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
 
@@ -158,37 +144,22 @@ public class RenderCustomPlayer extends RenderPlayer
             this.bindTexture(player.getLocationCape());
             GL11.glPushMatrix();
             
-            if (transformer instanceof TransformerPurge) //TODO some sort of api for this
+            TransformerModel model = TFModelRegistry.getModel(transformer);
+             
+            if(model != null && model.backside != null)
             {
-                ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
-                purge.chest.postRenderParentChain(0.0625F);
-                GL11.glTranslatef(0F, -0.2F, 0.1F);
-            }
-            else if (transformer instanceof TransformerSkystrike)
-            {
-                ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
-                skystrike.chest1.postRenderParentChain(0.0625F);
+                if(model.backside instanceof MowzieModelRenderer)
+                {
+                    MowzieModelRenderer backside = (MowzieModelRenderer) model.backside;
+                    backside.postRenderParentChain(0.0625F);
+                }
+                else
+                {
+                    model.backside.postRender(0.0625F);
+                }
                 
-                GL11.glTranslatef(0F, 0.2F, 0.25F);
-            }
-            else if (transformer instanceof TransformerSubwoofer)
-            {
-                ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
-                
-                subwoofer.chestmain3.postRenderParentChain(0.0625F);
-                
-                GL11.glTranslatef(0.18F, 0F, -0.01F);
-            }
-            else if (transformer instanceof TransformerVurp)
-            {
-                ModelVurp vurp = (ModelVurp) TFModelRegistry.getModel(transformer);
-                
-                vurp.torsobase.postRenderParentChain(0.0625F);
-                GL11.glTranslatef(0F, -0.2F, 0.1F);
-            }
-            else if (transformer instanceof TransformerCloudtrap)
-            {
-                modelBipedMain.bipedBody.postRender(0.0625F);
+                Vector3f capeOffset = model.capeOffset;
+                GL11.glTranslatef(capeOffset.x, capeOffset.y, capeOffset.z);
             }
             else
             {
@@ -244,41 +215,22 @@ public class RenderCustomPlayer extends RenderPlayer
         {
             GL11.glPushMatrix();
             
-            if (transformer instanceof TransformerPurge) //TODO some sort of api for this
+            TransformerModel model = TFModelRegistry.getModel(transformer);
+            
+            if(model != null && model.arm != null)
             {
-                ModelPurge purge = (ModelPurge) TFModelRegistry.getModel(transformer);
-                purge.lowerArm1.postRenderParentChain(0.0625F);
-                GL11.glTranslatef(0.05F, 0F, 0.1F);
-            }
-            else if (transformer instanceof TransformerSkystrike)
-            {
-                ModelSkystrike skystrike = (ModelSkystrike) TFModelRegistry.getModel(transformer);
-                skystrike.lowerArmR1.postRenderParentChain(0.0625F);
+                if(model.arm instanceof MowzieModelRenderer)
+                {
+                    MowzieModelRenderer arm = (MowzieModelRenderer) model.arm;
+                    arm.postRenderParentChain(0.0625F);
+                }
+                else
+                {
+                    model.arm.postRender(0.0625F);
+                }
                 
-                GL11.glTranslatef(0F, 0.1F, 0.15F);
-            }
-            else if (transformer instanceof TransformerSubwoofer)
-            {
-                ModelSubwoofer subwoofer = (ModelSubwoofer) TFModelRegistry.getModel(transformer);
-                
-                subwoofer.lowerarmR1.postRenderParentChain(0.0625F);
-                
-                GL11.glTranslatef(0.05F, -0.1F, 0.05F);
-            }
-            else if (transformer instanceof TransformerVurp)
-            {
-                ModelVurp vurp = (ModelVurp) TFModelRegistry.getModel(transformer);
-                vurp.lowerArmR.postRenderParentChain(0.0625F);
-                
-                GL11.glTranslatef(0.05F, -0.1F, 0.05F);
-            }
-            else if (transformer instanceof TransformerCloudtrap)
-            {
-                ModelCloudtrap cloudtrap = (ModelCloudtrap) TFModelRegistry.getModel(transformer);
-                modelBipedMain.bipedRightArm.postRender(0.0625F);
-                cloudtrap.lowerArm1.postRender(0.0625F);
-                
-                GL11.glTranslatef(0.05F, -0.1F, 0.05F);
+                Vector3f itemOffset = model.itemOffset;
+                GL11.glTranslatef(itemOffset.x, itemOffset.y, itemOffset.z);
             }
             else
             {
@@ -293,11 +245,11 @@ public class RenderCustomPlayer extends RenderPlayer
                 heldItemStack = new ItemStack(Items.stick);
             }
             
-            EnumAction enumaction = null;
+            EnumAction action = null;
             
             if (player.getItemInUseCount() > 0)
             {
-                enumaction = heldItemStack.getItemUseAction();
+                action = heldItemStack.getItemUseAction();
             }
             
             net.minecraftforge.client.IItemRenderer customRenderer = net.minecraftforge.client.MinecraftForgeClient.getItemRenderer(heldItemStack, net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED);
@@ -340,7 +292,7 @@ public class RenderCustomPlayer extends RenderPlayer
                     GL11.glTranslatef(0.0F, -0.125F, 0.0F);
                 }
                 
-                if (player.getItemInUseCount() > 0 && enumaction == EnumAction.block)
+                if (player.getItemInUseCount() > 0 && action == EnumAction.block)
                 {
                     GL11.glTranslatef(0.05F, 0.0F, -0.1F);
                     GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F);

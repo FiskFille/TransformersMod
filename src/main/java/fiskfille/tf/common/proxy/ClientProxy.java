@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -43,11 +44,18 @@ import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 public class ClientProxy extends CommonProxy
 {
     public static Field camRollField;
+    private Minecraft mc = Minecraft.getMinecraft();
     
     @Override
     public World getWorld()
     {
-        return Minecraft.getMinecraft().theWorld;
+        return mc.theWorld;
+    }
+    
+    @Override
+    public EntityPlayer getPlayer()
+    {
+        return mc.thePlayer;
     }
     
     @Override
@@ -96,12 +104,6 @@ public class ClientProxy extends CommonProxy
     public void registerTickHandlers()
     {
         tickHandler = new ClientTickHandler();
-    }
-    
-    @Override
-    public EntityPlayer getPlayer()
-    {
-        return Minecraft.getMinecraft().thePlayer;
     }
     
     @Override

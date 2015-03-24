@@ -46,17 +46,20 @@ public class TransformerSkystrike extends TransformerJet
     }
     
     @Override
-    public void robotTick(EntityPlayer player)
+    public void tick(EntityPlayer player, int timer)
     {
-        if (!player.capabilities.isFlying && !(TFDataManager.getTransformationTimer(player) < 10))
+        if(timer == 20)
         {
-            if (player.motionY < 0.0D)
+            if (!player.capabilities.isFlying && !(TFDataManager.getTransformationTimer(player) < 10))
             {
-                player.motionY *= 0.85F;
-            }
-            else
-            {
-                player.motionY += 0.02D;
+                if (player.motionY < 0.0D)
+                {
+                    player.motionY *= 0.85F;
+                }
+                else
+                {
+                    player.motionY += 0.02D;
+                }
             }
         }
     }

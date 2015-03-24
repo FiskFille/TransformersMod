@@ -236,7 +236,7 @@ public abstract class TransformerTruck extends Transformer
     }
     
     @Override
-    public void transformationTick(EntityPlayer player, int timer)
+    public void tick(EntityPlayer player, int timer)
     {
         if (TFDataManager.isInVehicleMode(player) && timer == 0)
         {

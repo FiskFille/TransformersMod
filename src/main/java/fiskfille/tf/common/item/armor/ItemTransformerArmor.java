@@ -55,7 +55,7 @@ public abstract class ItemTransformerArmor extends ItemArmor
         
         if (itemstack != null)
         {
-            armorModel = getTransformer().getModel();
+            armorModel = getTransformer().getModel().mainModel;
             
             if (armorModel != null)
             {

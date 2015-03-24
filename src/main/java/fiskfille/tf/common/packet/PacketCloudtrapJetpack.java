@@ -3,6 +3,8 @@ package fiskfille.tf.common.packet;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.tick.ClientTickHandler;
 import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
+import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -57,7 +59,7 @@ public class PacketCloudtrapJetpack implements IMessage
                 
                 if (from != null && from != player)
                 {
-                    ClientTickHandler.cloudtrapJetpacking.put(from, message.jetpacking);
+                    CloudtrapJetpackManager.cloudtrapJetpacking.put(from, message.jetpacking);
                 }
             }
             else
