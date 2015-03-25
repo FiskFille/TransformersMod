@@ -1,7 +1,7 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
@@ -17,17 +17,17 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketTransformersAction implements IMessage
+public class MessageTransformersAction implements IMessage
 {
     public int id;
     private PlayerInteractEvent.Action action;
     
-    public PacketTransformersAction()
+    public MessageTransformersAction()
     {
         
     }
     
-    public PacketTransformersAction(EntityPlayer player, PlayerInteractEvent.Action a)
+    public MessageTransformersAction(EntityPlayer player, PlayerInteractEvent.Action a)
     {
         id = player.getEntityId();
         action = a;
@@ -62,9 +62,9 @@ public class PacketTransformersAction implements IMessage
         buf.writeInt(index);
     }
     
-    public static class Handler implements IMessageHandler<PacketTransformersAction, IMessage>
+    public static class Handler implements IMessageHandler<MessageTransformersAction, IMessage>
     {
-        public IMessage onMessage(PacketTransformersAction message, MessageContext ctx)
+        public IMessage onMessage(MessageTransformersAction message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -123,7 +123,7 @@ public class PacketTransformersAction implements IMessage
                                 if (hasAmmo)
                                 {
                                     World world = from.worldObj;
-                                    TFPacketManager.networkWrapper.sendToAll(new PacketTransformersAction(player, message.action));
+                                    TFNetworkManager.networkWrapper.sendToAll(new MessageTransformersAction(player, message.action));
                                     
                                     Entity entity = transformer.getShootEntity(player);
                                     entity.posY--;

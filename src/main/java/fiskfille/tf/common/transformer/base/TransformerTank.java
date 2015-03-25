@@ -14,8 +14,8 @@ import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.packet.PacketVehicleNitro;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageVehicleNitro;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 
 public abstract class TransformerTank extends Transformer
@@ -104,7 +104,7 @@ public abstract class TransformerTank extends Transformer
                 
                 if (!prevNitro)
                 {
-                    TFPacketManager.networkWrapper.sendToServer(new PacketVehicleNitro(player, true));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, true));
                     TFMotionManager.prevNitro = true;
                 }
                 
@@ -119,7 +119,7 @@ public abstract class TransformerTank extends Transformer
             {
                 if (prevNitro)
                 {
-                    TFPacketManager.networkWrapper.sendToServer(new PacketVehicleNitro(player, false));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, false));
                     TFMotionManager.prevNitro = false;
                 }
             }

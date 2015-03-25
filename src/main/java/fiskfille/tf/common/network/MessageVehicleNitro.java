@@ -1,8 +1,8 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.particle.NitroParticleHandler;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,17 +10,17 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketVehicleNitro implements IMessage
+public class MessageVehicleNitro implements IMessage
 {
     private int id;
     private boolean nitroOn;
     
-    public PacketVehicleNitro()
+    public MessageVehicleNitro()
     {
         
     }
     
-    public PacketVehicleNitro(EntityPlayer player, boolean n)
+    public MessageVehicleNitro(EntityPlayer player, boolean n)
     {
         id = player.getEntityId();
         nitroOn = n;
@@ -38,9 +38,9 @@ public class PacketVehicleNitro implements IMessage
         buf.writeBoolean(nitroOn);
     }
     
-    public static class Handler implements IMessageHandler<PacketVehicleNitro, IMessage>
+    public static class Handler implements IMessageHandler<MessageVehicleNitro, IMessage>
     {
-        public IMessage onMessage(PacketVehicleNitro message, MessageContext ctx)
+        public IMessage onMessage(MessageVehicleNitro message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -57,7 +57,7 @@ public class PacketVehicleNitro implements IMessage
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-                TFPacketManager.networkWrapper.sendToDimension(new PacketVehicleNitro(player, message.nitroOn), player.dimension);
+                TFNetworkManager.networkWrapper.sendToDimension(new MessageVehicleNitro(player, message.nitroOn), player.dimension);
             }
             
             return null;

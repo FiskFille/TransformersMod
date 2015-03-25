@@ -1,4 +1,4 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.playerdata.TFPlayerData;
@@ -15,16 +15,16 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketSyncStates implements IMessage
+public class MessageSyncStates implements IMessage
 {
     private Map<UUID, Boolean[]> states;
     
-    public PacketSyncStates()
+    public MessageSyncStates()
     {
         
     }
     
-    public PacketSyncStates(Map<UUID, Boolean[]> s)
+    public MessageSyncStates(Map<UUID, Boolean[]> s)
     {
         states = s;
     }
@@ -50,9 +50,9 @@ public class PacketSyncStates implements IMessage
         }
     }
     
-    public static class Handler implements IMessageHandler<PacketSyncStates, IMessage>
+    public static class Handler implements IMessageHandler<MessageSyncStates, IMessage>
     {
-        public IMessage onMessage(PacketSyncStates message, MessageContext ctx)
+        public IMessage onMessage(MessageSyncStates message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {

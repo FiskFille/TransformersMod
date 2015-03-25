@@ -16,7 +16,7 @@ import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.TFEvents;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.proxy.CommonProxy;
 import fiskfille.tf.common.recipe.TFRecipes;
 import fiskfille.tf.common.tab.CreativeTabTransformers;
@@ -100,6 +100,6 @@ public class TransformersMod
         }
         
         TFEvents.registerEvents(event.getSide());
-        TFPacketManager.registerPackets();
+        TFNetworkManager.registerPackets();
     }
 }

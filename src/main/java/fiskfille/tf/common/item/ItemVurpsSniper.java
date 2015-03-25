@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.packet.PacketVurpSniperShoot;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageVurpSniperShoot;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFShootManager;
@@ -35,7 +35,7 @@ public class ItemVurpsSniper extends ItemSword
                 {
                     if (TFShootManager.shootCooldown <= 0)
                     {
-                        TFPacketManager.networkWrapper.sendToServer(new PacketVurpSniperShoot(player));
+                        TFNetworkManager.networkWrapper.sendToServer(new MessageVurpSniperShoot(player));
                         
                         TFShootManager.shotsLeft--;
                         

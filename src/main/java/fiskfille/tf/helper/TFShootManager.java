@@ -10,8 +10,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.packet.PacketTransformersAction;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageTransformersAction;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 
@@ -165,7 +165,7 @@ public class TFShootManager
                                 
                                 if (hasAmmo)
                                 {
-                                    TFPacketManager.networkWrapper.sendToServer(new PacketTransformersAction(player, action));
+                                    TFNetworkManager.networkWrapper.sendToServer(new MessageTransformersAction(player, action));
                                     
                                     if (!isCreative)
                                     {

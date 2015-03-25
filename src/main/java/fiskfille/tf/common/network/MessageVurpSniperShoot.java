@@ -1,9 +1,9 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.entity.EntityMiniMissile;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
@@ -16,16 +16,16 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketVurpSniperShoot implements IMessage
+public class MessageVurpSniperShoot implements IMessage
 {
     public int id;
     
-    public PacketVurpSniperShoot()
+    public MessageVurpSniperShoot()
     {
         
     }
     
-    public PacketVurpSniperShoot(EntityPlayer player)
+    public MessageVurpSniperShoot(EntityPlayer player)
     {
         id = player.getEntityId();
     }
@@ -40,9 +40,9 @@ public class PacketVurpSniperShoot implements IMessage
         buf.writeInt(id);
     }
     
-    public static class Handler implements IMessageHandler<PacketVurpSniperShoot, IMessage>
+    public static class Handler implements IMessageHandler<MessageVurpSniperShoot, IMessage>
     {
-        public IMessage onMessage(PacketVurpSniperShoot message, MessageContext ctx)
+        public IMessage onMessage(MessageVurpSniperShoot message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -77,7 +77,7 @@ public class PacketVurpSniperShoot implements IMessage
                             
                             if (hasAmmo)
                             {
-                                TFPacketManager.networkWrapper.sendToAll(new PacketVurpSniperShoot(player));
+                                TFNetworkManager.networkWrapper.sendToAll(new MessageVurpSniperShoot(player));
                                 
                                 World world = player.worldObj;
                                 EntityMiniMissile entity = new EntityMiniMissile(world, player, 30, TFConfig.allowMissileExplosions);

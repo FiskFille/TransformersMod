@@ -1,4 +1,4 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -7,22 +7,22 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 
-public class PacketBroadcastState implements IMessage
+public class MessageBroadcastState implements IMessage
 {
     private int id;
     private boolean stealth;
     private boolean vehicle;
     
-    public PacketBroadcastState()
+    public MessageBroadcastState()
     {
         
     }
     
-    public PacketBroadcastState(EntityPlayer player)
+    public MessageBroadcastState(EntityPlayer player)
     {
         id = player.getEntityId();
         stealth = TFDataManager.isInStealthMode(player);
@@ -43,9 +43,9 @@ public class PacketBroadcastState implements IMessage
         buf.writeBoolean(vehicle);
     }
     
-    public static class Handler implements IMessageHandler<PacketBroadcastState, IMessage>
+    public static class Handler implements IMessageHandler<MessageBroadcastState, IMessage>
     {
-        public IMessage onMessage(PacketBroadcastState message, MessageContext ctx)
+        public IMessage onMessage(MessageBroadcastState message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -66,7 +66,7 @@ public class PacketBroadcastState implements IMessage
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-                TFPacketManager.networkWrapper.sendToDimension(new PacketBroadcastState(player), player.dimension);
+                TFNetworkManager.networkWrapper.sendToDimension(new MessageBroadcastState(player), player.dimension);
                 TFPlayerData playerData = TFPlayerData.getData(player);
                 playerData.vehicle = message.vehicle;
                 playerData.stealthForce = message.stealth;

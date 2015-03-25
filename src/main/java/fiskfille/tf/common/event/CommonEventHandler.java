@@ -35,9 +35,9 @@ import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.packet.PacketBroadcastState;
-import fiskfille.tf.common.packet.PacketSendFlying;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageBroadcastState;
+import fiskfille.tf.common.network.MessageSendFlying;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -139,11 +139,11 @@ public class CommonEventHandler
                     EntityPlayerMP playerMP = (EntityPlayerMP) player;
                     EntityPlayerMP beingTrackedMP = (EntityPlayerMP) beingTracked;
                     
-                    TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(player), beingTrackedMP);
-                    TFPacketManager.networkWrapper.sendTo(new PacketBroadcastState(beingTracked), playerMP);
+                    TFNetworkManager.networkWrapper.sendTo(new MessageBroadcastState(player), beingTrackedMP);
+                    TFNetworkManager.networkWrapper.sendTo(new MessageBroadcastState(beingTracked), playerMP);
                     
-                    TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(beingTracked, beingTracked.capabilities.isFlying), playerMP);
-                    TFPacketManager.networkWrapper.sendTo(new PacketSendFlying(player, player.capabilities.isFlying), beingTrackedMP);
+                    TFNetworkManager.networkWrapper.sendTo(new MessageSendFlying(beingTracked, beingTracked.capabilities.isFlying), playerMP);
+                    TFNetworkManager.networkWrapper.sendTo(new MessageSendFlying(player, player.capabilities.isFlying), beingTrackedMP);
                 }
             }
         }
@@ -308,14 +308,14 @@ public class CommonEventHandler
                     {
                         if (isFlying != capabilitiesFlying)
                         {
-                            TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+                            TFNetworkManager.networkWrapper.sendToAllAround(new MessageSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
                             
                             prevFlying.put(player, capabilitiesFlying);
                         }
                     }
                     else
                     {
-                        TFPacketManager.networkWrapper.sendToAllAround(new PacketSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+                        TFNetworkManager.networkWrapper.sendToAllAround(new MessageSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
                         prevFlying.put(player, capabilitiesFlying);
                     }
                 }

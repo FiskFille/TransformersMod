@@ -6,8 +6,8 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.packet.PacketCloudtrapJetpack;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageCloudtrapJetpack;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -26,7 +26,7 @@ public class CloudtrapJetpackManager
         {
             if (prevJetpacking != jetpacking)
             {
-                TFPacketManager.networkWrapper.sendToServer(new PacketCloudtrapJetpack(player, jetpacking));
+                TFNetworkManager.networkWrapper.sendToServer(new MessageCloudtrapJetpack(player, jetpacking));
                 prevJetpacking = jetpacking;
             }
         }

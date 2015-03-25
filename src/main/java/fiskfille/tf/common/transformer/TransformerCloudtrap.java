@@ -11,8 +11,8 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.packet.PacketCloudtrapJetpack;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageCloudtrapJetpack;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 

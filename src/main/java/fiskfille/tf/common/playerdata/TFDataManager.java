@@ -10,10 +10,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
-import fiskfille.tf.common.packet.PacketHandleStealthTransformation;
-import fiskfille.tf.common.packet.PacketHandleTransformation;
-import fiskfille.tf.common.packet.PacketSyncStates;
-import fiskfille.tf.common.packet.base.TFPacketManager;
+import fiskfille.tf.common.network.MessageHandleStealthTransformation;
+import fiskfille.tf.common.network.MessageHandleTransformation;
+import fiskfille.tf.common.network.MessageSyncStates;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
 
@@ -38,11 +38,11 @@ public class TFDataManager
             
             if (player.worldObj.isRemote)
             {
-                TFPacketManager.networkWrapper.sendToServer(new PacketHandleTransformation(player, vehicleMode));
+                TFNetworkManager.networkWrapper.sendToServer(new MessageHandleTransformation(player, vehicleMode));
             }
             else
             {
-                TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleTransformation(player, vehicleMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+                TFNetworkManager.networkWrapper.sendToAllAround(new MessageHandleTransformation(player, vehicleMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
             }
             
             data.vehicle = vehicleMode;
@@ -59,11 +59,11 @@ public class TFDataManager
             {
                 if (player.worldObj.isRemote)
                 {
-                    TFPacketManager.networkWrapper.sendToServer(new PacketHandleStealthTransformation(player, stealthMode));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageHandleStealthTransformation(player, stealthMode));
                 }
                 else
                 {
-                    TFPacketManager.networkWrapper.sendToAllAround(new PacketHandleStealthTransformation(player, stealthMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+                    TFNetworkManager.networkWrapper.sendToAllAround(new MessageHandleStealthTransformation(player, stealthMode), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
                 }
                 
                 TFPlayerData.getData(player).stealthForce = stealthMode;
@@ -153,6 +153,6 @@ public class TFDataManager
             }
         }
         
-        TFPacketManager.networkWrapper.sendTo(new PacketSyncStates(states), (EntityPlayerMP) player);
+        TFNetworkManager.networkWrapper.sendTo(new MessageSyncStates(states), (EntityPlayerMP) player);
     }
 }

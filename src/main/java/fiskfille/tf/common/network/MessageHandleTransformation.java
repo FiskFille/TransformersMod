@@ -1,28 +1,30 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketHandleStealthTransformation implements IMessage
+public class MessageHandleTransformation implements IMessage
 {
     public int id;
     private boolean transformed;
     
-    public PacketHandleStealthTransformation()
+    public MessageHandleTransformation()
     {
         
     }
     
-    public PacketHandleStealthTransformation(EntityPlayer player, boolean mode)
+    public MessageHandleTransformation(EntityPlayer player, boolean mode)
     {
         id = player.getEntityId();
         transformed = mode;
@@ -40,9 +42,9 @@ public class PacketHandleStealthTransformation implements IMessage
         buf.writeBoolean(transformed);
     }
     
-    public static class Handler implements IMessageHandler<PacketHandleStealthTransformation, IMessage>
+    public static class Handler implements IMessageHandler<MessageHandleTransformation, IMessage>
     {
-        public IMessage onMessage(PacketHandleStealthTransformation message, MessageContext ctx)
+        public IMessage onMessage(MessageHandleTransformation message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -53,34 +55,27 @@ public class PacketHandleStealthTransformation implements IMessage
                 if (entity instanceof EntityPlayer)
                     from = (EntityPlayer) entity;
                 
-                if (from != null && from != TransformersMod.proxy.getPlayer())
+                if (from != null && from != player)
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
-                    TFDataManager.setStealthModeTimer(from, message.transformed ? 5 : 0);
+                    
+                    MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, message.transformed, playerData.stealthForce));
+                    playerData.stealthForce = false;
+                    playerData.vehicle = message.transformed;
+                    TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
                     
                     String suffix = message.transformed ? "vehicle" : "robot";
-                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5f, false);
-                    playerData.stealthForce = message.transformed;
+                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
                 }
             }
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-                EntityPlayer from = null;
                 
-                for (World world : MinecraftServer.getServer().worldServers)
+                if (player != null)
                 {
-                    Entity entity = world.getEntityByID(message.id);
-                    
-                    if (entity instanceof EntityPlayer)
-                    {
-                        from = (EntityPlayer) entity;
-                        break;
-                    }
+                    TFDataManager.setInVehicleMode(player, message.transformed);
                 }
-                
-                if (from != null)
-                    TFDataManager.setInStealthMode(player, message.transformed);
             }
             
             return null;

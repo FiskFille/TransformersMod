@@ -1,52 +1,49 @@
-package fiskfille.tf.common.packet;
+package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.tick.ClientTickHandler;
-import fiskfille.tf.common.packet.base.TFPacketManager;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
-import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketCloudtrapJetpack implements IMessage
+public class MessageSendFlying implements IMessage
 {
     private int id;
-    private boolean jetpacking;
+    private boolean flying;
     
-    public PacketCloudtrapJetpack()
+    public MessageSendFlying()
     {
         
     }
     
-    public PacketCloudtrapJetpack(EntityPlayer player, boolean j)
+    public MessageSendFlying(EntityPlayer player, boolean f)
     {
         id = player.getEntityId();
-        jetpacking = j;
+        flying = f;
     }
     
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
-        jetpacking = buf.readBoolean();
+        flying = buf.readBoolean();
     }
     
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
-        buf.writeBoolean(jetpacking);
+        buf.writeBoolean(flying);
     }
     
-    public static class Handler implements IMessageHandler<PacketCloudtrapJetpack, IMessage>
+    public static class Handler implements IMessageHandler<MessageSendFlying, IMessage>
     {
-        public IMessage onMessage(PacketCloudtrapJetpack message, MessageContext ctx)
+        public IMessage onMessage(MessageSendFlying message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -59,14 +56,8 @@ public class PacketCloudtrapJetpack implements IMessage
                 
                 if (from != null && from != player)
                 {
-                    CloudtrapJetpackManager.cloudtrapJetpacking.put(from, message.jetpacking);
+                    from.capabilities.isFlying = message.flying;
                 }
-            }
-            else
-            {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
-                
-                TFPacketManager.networkWrapper.sendToAllAround(new PacketCloudtrapJetpack(player, message.jetpacking), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64));
             }
             
             return null;
