@@ -34,7 +34,10 @@ public class EntityBassCharge extends EntityThrowable
     {
         super.onUpdate();
         
-        if (ticksExisted > 5)
+        worldObj.playSound(posX, posY, posZ, "note.bassattack", 1.0F, 0.8F, true);
+        worldObj.playSound(posX, posY, posZ, "note.bass", 1.0F, 0.8F, true);
+        
+        if (ticksExisted > 6)
         {
             this.setDead();
         }

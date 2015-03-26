@@ -47,13 +47,11 @@ public class ItemBassBlaster extends ItemSword
     {
         int duration = this.getMaxItemUseDuration(stack) - count;
         
-        if (duration < 40)
+        if (duration < 80)
         {
             if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
             {
                 World world = player.worldObj;
-                world.playSound(player.posX, player.posY, player.posZ, "note.bassattack", 1.0F, 0.8F, true);
-                world.playSound(player.posX, player.posY, player.posZ, "note.bass", 1.0F, 0.8F, true);
                 
                 if (!world.isRemote)
                 {
