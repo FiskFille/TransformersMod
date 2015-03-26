@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class ItemMiniVehicle extends Item implements IDisplayPillarItem
@@ -58,7 +59,9 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
                 ItemStack chest = new ItemStack(transformer.getChestplate());
                 ItemStack legs = new ItemStack(transformer.getLeggings());
                 ItemStack feet = new ItemStack(transformer.getBoots());
+            
                 ItemStack[] itemstacks = { head, chest, legs, feet };
+              
                 NBTTagList itemsList = new NBTTagList();
                 
                 for (int i = 0; i < itemstacks.length; ++i)
@@ -88,14 +91,19 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
         
         if (player.isSneaking())
         {
-            if (getArmorFromNBT(itemstack) == null)
+            ItemStack[] armorFromNBT = getArmorFromNBT(itemstack);
+          
+            if (armorFromNBT == null)
             {
                 setNBTData(itemstack);
+                armorFromNBT = getArmorFromNBT(itemstack);
             }
             
-            if (getArmorFromNBT(itemstack)[0] != null)
+            boolean server = !player.worldObj.isRemote;
+            
+            if (armorFromNBT[0] != null)
             {
-                if (!player.worldObj.isRemote)
+                if (server)
                 {
                     if (player.getCurrentArmor(3) != null)
                     {
@@ -103,11 +111,12 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
                     }
                 }
                 
-                player.setCurrentItemOrArmor(4, getArmorFromNBT(itemstack)[0]);
+                player.setCurrentItemOrArmor(4, armorFromNBT[0]);
             }
-            if (getArmorFromNBT(itemstack)[1] != null)
+            
+            if (armorFromNBT[1] != null)
             {
-                if (!player.worldObj.isRemote)
+                if (server)
                 {
                     if (player.getCurrentArmor(2) != null)
                     {
@@ -115,11 +124,12 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
                     }
                 }
                 
-                player.setCurrentItemOrArmor(3, getArmorFromNBT(itemstack)[1]);
+                player.setCurrentItemOrArmor(3, armorFromNBT[1]);
             }
-            if (getArmorFromNBT(itemstack)[2] != null)
+            
+            if (armorFromNBT[2] != null)
             {
-                if (!player.worldObj.isRemote)
+                if (server)
                 {
                     if (player.getCurrentArmor(1) != null)
                     {
@@ -127,11 +137,12 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
                     }
                 }
                 
-                player.setCurrentItemOrArmor(2, getArmorFromNBT(itemstack)[2]);
+                player.setCurrentItemOrArmor(2, armorFromNBT[2]);
             }
-            if (getArmorFromNBT(itemstack)[3] != null)
+            
+            if (armorFromNBT[3] != null)
             {
-                if (!player.worldObj.isRemote)
+                if (server)
                 {
                     if (player.getCurrentArmor(0) != null)
                     {
@@ -139,7 +150,7 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
                     }
                 }
                 
-                player.setCurrentItemOrArmor(1, getArmorFromNBT(itemstack)[3]);
+                player.setCurrentItemOrArmor(1, armorFromNBT[3]);
             }
             
             player.setCurrentItemOrArmor(0, null);
@@ -179,12 +190,16 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
     
     public void getSubItems(Item item, CreativeTabs tab, List subItems)
     {
-        int i = 0;
+        int index = 0;
         
         for (Transformer transformer : TransformersAPI.getTransformers())
         {
-            subItems.add(new ItemStack(this, 1, i));
-            i++;
+            if(!(transformer instanceof TransformerCloudtrap))
+            {
+                subItems.add(new ItemStack(this, 1, index));
+            }
+            
+            index++;
         }
     }
 }

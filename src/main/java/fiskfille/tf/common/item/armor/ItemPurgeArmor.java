@@ -10,7 +10,6 @@ public class ItemPurgeArmor extends ItemTransformerArmor
     public ItemPurgeArmor(int armorPiece)
     {
         super(TFItems.TANKMATERIAL, 4, armorPiece);
-        this.setCreativeTab(TransformersMod.tabTransformers);
     }
     
     @Override

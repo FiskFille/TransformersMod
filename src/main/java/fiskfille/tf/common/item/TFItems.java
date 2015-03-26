@@ -81,9 +81,9 @@ public class TFItems
         tankTracks = new ItemBasic();
         tankTurret = new ItemBasic();
         carWheel = new ItemBasic();
-        t50JetCockpit = new ItemBasic();
-        t50JetWing = new ItemBasic();
-        jetThruster = new ItemBasic();
+        t50JetCockpit = new ItemBasic().setCreativeTab(null);
+        t50JetWing = new ItemBasic().setCreativeTab(null);
+        jetThruster = new ItemBasic().setCreativeTab(null);
         smallThruster = new ItemBasic();
         
         skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);

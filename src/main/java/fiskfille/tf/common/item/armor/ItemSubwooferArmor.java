@@ -10,7 +10,6 @@ public class ItemSubwooferArmor extends ItemTransformerArmor
     public ItemSubwooferArmor(int armorPiece)
     {
         super(TFItems.SUBWOOFERMATERIAL, 4, armorPiece);
-        this.setCreativeTab(TransformersMod.tabTransformers);
     }
     
     @Override

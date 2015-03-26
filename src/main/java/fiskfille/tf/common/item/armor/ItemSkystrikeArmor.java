@@ -10,7 +10,6 @@ public class ItemSkystrikeArmor extends ItemTransformerArmor
     public ItemSkystrikeArmor(int armorPiece)
     {
         super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
-        this.setCreativeTab(TransformersMod.tabTransformers);
     }
     
     @Override

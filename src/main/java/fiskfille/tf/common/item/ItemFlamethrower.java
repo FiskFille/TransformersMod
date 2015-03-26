@@ -23,7 +23,6 @@ public class ItemFlamethrower extends ItemSword
     public ItemFlamethrower(ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setMaxDamage(1500);
     }
     

@@ -10,7 +10,7 @@ public class ItemCloudtrapArmor extends ItemTransformerArmor
     public ItemCloudtrapArmor(int armorPiece)
     {
         super(TFItems.TRANSFORMERMATERIAL, 4, armorPiece);
-        this.setCreativeTab(TransformersMod.tabTransformers);
+        this.setCreativeTab(null); //R.I.P CT for now...
     }
     
     @Override
