@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -77,7 +78,7 @@ public class MessageVurpSniperShoot implements IMessage
                             
                             if (hasAmmo)
                             {
-                                TFNetworkManager.networkWrapper.sendToAll(new MessageVurpSniperShoot(player));
+                                TFNetworkManager.networkWrapper.sendToAllAround(new MessageVurpSniperShoot(player), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64));
                                 
                                 World world = player.worldObj;
                                 EntityMiniMissile entity = new EntityMiniMissile(world, player, 30, TFConfig.allowMissileExplosions);

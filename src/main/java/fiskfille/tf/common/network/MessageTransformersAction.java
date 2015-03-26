@@ -13,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -126,7 +127,7 @@ public class MessageTransformersAction implements IMessage
                                     
                                     if(transformer.getShootSound() != null)
                                     {
-                                        TFNetworkManager.networkWrapper.sendToAll(new MessageTransformersAction(player, message.action));
+                                        TFNetworkManager.networkWrapper.sendToAllAround(new MessageTransformersAction(player, message.action), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64));
                                     }
                                     
                                     Entity entity = transformer.getShootEntity(player);

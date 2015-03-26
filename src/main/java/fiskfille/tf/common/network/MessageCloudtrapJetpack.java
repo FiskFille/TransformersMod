@@ -66,7 +66,7 @@ public class MessageCloudtrapJetpack implements IMessage
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
                 
-                TFNetworkManager.networkWrapper.sendToAllAround(new MessageCloudtrapJetpack(player, message.jetpacking), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64));
+                TFNetworkManager.networkWrapper.sendToDimension(new MessageCloudtrapJetpack(player, message.jetpacking), player.dimension);
             }
             
             return null;

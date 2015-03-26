@@ -308,14 +308,14 @@ public class CommonEventHandler
                     {
                         if (isFlying != capabilitiesFlying)
                         {
-                            TFNetworkManager.networkWrapper.sendToAllAround(new MessageSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+                            TFNetworkManager.networkWrapper.sendToDimension(new MessageSendFlying(player, capabilitiesFlying), player.dimension);
                             
                             prevFlying.put(player, capabilitiesFlying);
                         }
                     }
                     else
                     {
-                        TFNetworkManager.networkWrapper.sendToAllAround(new MessageSendFlying(player, capabilitiesFlying), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+                        TFNetworkManager.networkWrapper.sendToDimension(new MessageSendFlying(player, capabilitiesFlying), player.dimension);
                         prevFlying.put(player, capabilitiesFlying);
                     }
                 }
