@@ -18,6 +18,7 @@ public class TransformerModel
     public ModelRenderer backside;
     public Vector3f itemOffset;
     public Vector3f capeOffset;
+    public Vector3f firstPersonArmOffset;
     
     public TransformerModel(Biped mainModel, ModelVehicleBase vehicleBase, ModelRenderer upperArm, ModelRenderer lowerArm, ModelRenderer backside)
     {
@@ -28,5 +29,6 @@ public class TransformerModel
         this.backside = backside;
         this.itemOffset = new Vector3f(0f, 0.1f, -0.05f);
         this.capeOffset = new Vector3f(0f, 0f, 0f);
+        this.firstPersonArmOffset = new Vector3f(0f, 0f, 0f);
     }
 }

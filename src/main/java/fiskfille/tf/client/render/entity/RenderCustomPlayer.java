@@ -34,6 +34,7 @@ import fiskfille.tf.client.model.player.ModelPlayerTF;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.ModelPurge;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.TransformerModel;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -397,6 +398,9 @@ public class RenderCustomPlayer extends RenderPlayer
                 
                 float scale = 1.2F;
                 GL11.glScalef(scale, scale, scale);
+                
+                Vector3f armOffset = model.firstPersonArmOffset;
+                GL11.glTranslatef(armOffset.x, armOffset.y, armOffset.z);
                 GL11.glTranslatef(0.0f, 0.35f, 0.0f);
                 
                 if(upperArm instanceof MowzieModelRenderer)
