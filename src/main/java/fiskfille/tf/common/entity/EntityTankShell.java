@@ -83,6 +83,21 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
             x = mop.blockX;
             y = mop.blockY;
             z = mop.blockZ;
+            
+            int sideHit = mop.sideHit;
+            
+            if (sideHit == 0)
+                --y;
+            else if (sideHit == 1)
+                ++y;
+            else if (sideHit == 2)
+                --z;
+            else if (sideHit == 3)
+                ++z;
+            else if (sideHit == 4)
+                --x;
+            else if (sideHit == 5)
+                ++x;
         }
         else
         {
@@ -92,21 +107,6 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
             y = entityHit.posY;
             z = entityHit.posZ;
         }
-        
-        int sideHit = mop.sideHit;
-        
-        if (sideHit == 0)
-            --y;
-        else if (sideHit == 1)
-            ++y;
-        else if (sideHit == 2)
-            --z;
-        else if (sideHit == 3)
-            ++z;
-        else if (sideHit == 4)
-            --x;
-        else if (sideHit == 5)
-            ++x;
         
         worldObj.createExplosion(getThrower(), x, y, z, 1.0f, explosions);
         
