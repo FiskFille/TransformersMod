@@ -27,9 +27,9 @@ public class TFModelRegistry
 {
     private static Map<Transformer, TransformerModel> models = new HashMap<Transformer, TransformerModel>();
     
-    public static void registerModel(Transformer transformer, Biped model, ModelVehicleBase vehicleModel, ModelRenderer arm, ModelRenderer backside, Vector3f itemOffset, Vector3f capeOffset)
+    public static void registerModel(Transformer transformer, Biped model, ModelVehicleBase vehicleModel, ModelRenderer upperArm, ModelRenderer lowerArm, ModelRenderer backside, Vector3f itemOffset, Vector3f capeOffset)
     {
-        TransformerModel transformerModel = new TransformerModel(model, vehicleModel, arm, backside);
+        TransformerModel transformerModel = new TransformerModel(model, vehicleModel, upperArm, lowerArm, backside);
         
         if(itemOffset != null)
             transformerModel.itemOffset = itemOffset;
@@ -52,10 +52,10 @@ public class TFModelRegistry
         ModelSubwoofer modelSubwoofer = new ModelSubwoofer();
         ModelVurp modelVurp = new ModelVurp();
         
-        TFModelRegistry.registerModel(TransformerManager.transformerCloudtrap, modelCloudtrap, new ModelCloudtrapVehicle(), null, null, null, null);
-        TFModelRegistry.registerModel(TransformerManager.transformerPurge, modelPurge, new ModelPurgeVehicle(), modelPurge.lowerArm1, modelPurge.chest, new Vector3f(0.05F, 0F, 0.1F), new Vector3f(0F, -0.2F, 0.1F));
-        TFModelRegistry.registerModel(TransformerManager.transformerSkystrike, modelSkystrike, new ModelSkystrikeVehicle(), modelSkystrike.lowerArmR1, modelSkystrike.chest1, new Vector3f(0F, 0.1F, 0.15F), new Vector3f(0F, 0.2F, 0.25F));
-        TFModelRegistry.registerModel(TransformerManager.transformerSubwoofer, modelSubwoofer, new ModelSubwooferVehicle(), modelSubwoofer.lowerarmR1, modelSubwoofer.chestmain3, new Vector3f(0.05F, -0.1F, 0.05F), new Vector3f(0.18F, 0F, -0.01F));
-        TFModelRegistry.registerModel(TransformerManager.transformerVurp, modelVurp, new ModelVurpVehicle(), modelVurp.lowerArmR, modelVurp.torsobase, new Vector3f(0.05F, -0.1F, 0.05F), new Vector3f(0F, -0.2F, 0.1F));
+        TFModelRegistry.registerModel(TransformerManager.transformerCloudtrap, modelCloudtrap, new ModelCloudtrapVehicle(), null, null, null, null, null);
+        TFModelRegistry.registerModel(TransformerManager.transformerPurge, modelPurge, new ModelPurgeVehicle(), modelPurge.upperArmR, modelPurge.lowerArm1, modelPurge.chest, new Vector3f(0.05F, 0F, 0.1F), new Vector3f(0F, -0.2F, 0.1F));
+        TFModelRegistry.registerModel(TransformerManager.transformerSkystrike, modelSkystrike, new ModelSkystrikeVehicle(), modelSkystrike.shoulderR, modelSkystrike.lowerArmR1, modelSkystrike.chest1, new Vector3f(0F, 0.1F, 0.15F), new Vector3f(0F, 0.2F, 0.25F));
+        TFModelRegistry.registerModel(TransformerManager.transformerSubwoofer, modelSubwoofer, new ModelSubwooferVehicle(), modelSubwoofer.upperArmR, modelSubwoofer.lowerarmR1, modelSubwoofer.chestmain3, new Vector3f(0.05F, -0.1F, 0.05F), new Vector3f(0.18F, 0F, -0.01F));
+        TFModelRegistry.registerModel(TransformerManager.transformerVurp, modelVurp, new ModelVurpVehicle(), modelVurp.upperArmR, modelVurp.lowerArmR, modelVurp.torsobase, new Vector3f(0.05F, -0.1F, 0.05F), new Vector3f(0F, -0.2F, 0.1F));
     }
 }

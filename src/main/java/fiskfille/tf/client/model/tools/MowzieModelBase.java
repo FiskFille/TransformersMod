@@ -36,7 +36,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
      *
      * @see setInitPose() method in MowzieModelBase class.
      */
-    protected void setToInitPose()
+    public void setToInitPose()
     {
         for (int i = 0; i < this.parts.size(); i++)
             this.parts.get(i).setCurrentPoseToInitValues();

@@ -224,4 +224,18 @@ public class MowzieModelRenderer extends ModelRenderer
     {
         this.rotationPointZ = target.rotationPointZ;
     }
+
+    public void renderWithParents(float partialTicks)
+    {
+        if (parent instanceof MowzieModelRenderer)
+        {
+            ((MowzieModelRenderer) this.parent).renderWithParents(partialTicks);
+        }
+        else if (parent != null)
+        {
+            parent.render(partialTicks);
+        }
+        
+        this.render(partialTicks);
+    }
 }

@@ -5,8 +5,10 @@ import java.util.UUID;
 import javax.vecmath.Vector3f;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
@@ -19,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 
 import org.lwjgl.opengl.GL11;
@@ -28,9 +31,12 @@ import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.player.ModelPlayerTF;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.TransformerModel;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
@@ -145,7 +151,7 @@ public class RenderCustomPlayer extends RenderPlayer
             GL11.glPushMatrix();
             
             TransformerModel model = TFModelRegistry.getModel(transformer);
-             
+            
             if(model != null && model.backside != null)
             {
                 if(model.backside instanceof MowzieModelRenderer)
@@ -217,16 +223,16 @@ public class RenderCustomPlayer extends RenderPlayer
             
             TransformerModel model = TFModelRegistry.getModel(transformer);
             
-            if(model != null && model.arm != null)
+            if(model != null && model.lowerArm != null)
             {
-                if(model.arm instanceof MowzieModelRenderer)
+                if(model.lowerArm instanceof MowzieModelRenderer)
                 {
-                    MowzieModelRenderer arm = (MowzieModelRenderer) model.arm;
+                    MowzieModelRenderer arm = (MowzieModelRenderer) model.lowerArm;
                     arm.postRenderParentChain(0.0625F);
                 }
                 else
                 {
-                    model.arm.postRender(0.0625F);
+                    model.lowerArm.postRender(0.0625F);
                 }
                 
                 Vector3f itemOffset = model.itemOffset;
@@ -350,40 +356,79 @@ public class RenderCustomPlayer extends RenderPlayer
     @Override
     public void renderFirstPersonArm(EntityPlayer player)
     {
-        ItemStack currentArmor = player.getCurrentArmor(2);
-        
-        if (!TFDataManager.isInVehicleMode(player))
+        if (TFDataManager.getTransformationTimer(player) == 20)
         {
-            if (currentArmor != null)
+            ItemStack currentArmor = player.getCurrentArmor(2);
+            ItemTransformerArmor transformerArmor = (ItemTransformerArmor) (currentArmor != null && currentArmor.getItem() instanceof ItemTransformerArmor ? currentArmor.getItem() : null);
+            
+            if (transformerArmor != null)
             {
-                if (TFHelper.isTransformerArmor(currentArmor.getItem()))
+                Transformer transformer = transformerArmor.getTransformer();
+                
+                TransformerModel model = TFModelRegistry.getModel(transformer);
+                
+                ModelRenderer upperArm = model.upperArm;
+                
+                ResourceLocation resourcelocation = new ResourceLocation(transformer.getChestplate().getArmorTexture(currentArmor, player, 3, ""));
+                
+                float f = 1.0F;
+                GL11.glColor3f(f, f, f);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(resourcelocation);
+                
+                Biped mainModel = model.mainModel;
+                
+                if(upperArm == null)
                 {
-                    //					ITransformerArmor transformerArmor = (ITransformerArmor)currentArmor.getItem();
-                    //					Transformer transformer = transformerArmor.getTransformer();
-                    //					
-                    //					if(transformer != null)
-                    //					{
-                    //						ModelChildBase.Biped model = transformer.getModel();
-                    //						ResourceLocation resourcelocation = new ResourceLocation(transformer.getChestplate().getArmorTexture(currentArmor, player, 3, ""));
-                    //						
-                    //						float f = 1.0F;
-                    //				        GL11.glColor3f(f, f, f);
-                    //				        Minecraft.getMinecraft().getTextureManager().bindTexture(resourcelocation);
-                    //				        model.onGround = 0.0F;
-                    //				        model.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, player);
-                    //				        model.bipedRightArm.render(0.0625F);
-                    //					}
-                    
-                    super.renderFirstPersonArm(player);
+                    upperArm = mainModel.bipedRightArm;
+                }
+                
+                mainModel.onGround = 0.0F;
+                
+                mainModel.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, player);
+                
+                if(mainModel instanceof MowzieModelBase)
+                {
+                   ((MowzieModelBase) mainModel).setToInitPose();
+                }
+                else if(model.upperArm != null)
+                {
+                    keepPartAndChildrenStill(upperArm);
+                }
+                
+                float scale = 1.2F;
+                GL11.glScalef(scale, scale, scale);
+                GL11.glTranslatef(0.0f, 0.35f, 0.0f);
+                
+                if(upperArm instanceof MowzieModelRenderer)
+                {
+                    ((MowzieModelRenderer) upperArm).render(0.0625F);
                 }
                 else
                 {
-                    super.renderFirstPersonArm(player);
+                    upperArm.render(0.0625F);
                 }
             }
             else
             {
                 super.renderFirstPersonArm(player);
+            }
+        }
+    }
+    
+    private void keepPartAndChildrenStill(ModelRenderer renderer)
+    {
+        if(renderer instanceof MowzieModelRenderer)
+        {
+            renderer.rotateAngleX = 0;
+            renderer.rotateAngleY = 0;
+            renderer.rotateAngleZ = 0;
+            
+            if(renderer.childModels != null)
+            {
+                for (Object child : renderer.childModels)
+                {
+                    keepPartAndChildrenStill((ModelRenderer) child);
+                }
             }
         }
     }

@@ -13,16 +13,18 @@ public class TransformerModel
 {
     public Biped mainModel;
     public ModelVehicleBase vehicleModel;
-    public ModelRenderer arm;
+    public ModelRenderer lowerArm;
+    public ModelRenderer upperArm;
     public ModelRenderer backside;
     public Vector3f itemOffset;
     public Vector3f capeOffset;
     
-    public TransformerModel(Biped mainModel, ModelVehicleBase vehicleBase, ModelRenderer arm, ModelRenderer backside)
+    public TransformerModel(Biped mainModel, ModelVehicleBase vehicleBase, ModelRenderer upperArm, ModelRenderer lowerArm, ModelRenderer backside)
     {
         this.mainModel = mainModel;
         this.vehicleModel = vehicleBase;
-        this.arm = arm;
+        this.lowerArm = lowerArm;
+        this.upperArm = upperArm;
         this.backside = backside;
         this.itemOffset = new Vector3f(0f, 0.1f, -0.05f);
         this.capeOffset = new Vector3f(0f, 0f, 0f);
