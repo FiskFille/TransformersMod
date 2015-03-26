@@ -123,10 +123,15 @@ public class MessageTransformersAction implements IMessage
                                 if (hasAmmo)
                                 {
                                     World world = from.worldObj;
-                                    TFNetworkManager.networkWrapper.sendToAll(new MessageTransformersAction(player, message.action));
+                                    
+                                    if(transformer.getShootSound() != null)
+                                    {
+                                        TFNetworkManager.networkWrapper.sendToAll(new MessageTransformersAction(player, message.action));
+                                    }
                                     
                                     Entity entity = transformer.getShootEntity(player);
                                     entity.posY--;
+                                    
                                     world.spawnEntityInWorld(entity);
                                     
                                     if (!isCreative)

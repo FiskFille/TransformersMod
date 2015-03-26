@@ -179,7 +179,8 @@ public abstract class TransformerJet extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        return new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+        return entityMissile;
     }
     
     @Override

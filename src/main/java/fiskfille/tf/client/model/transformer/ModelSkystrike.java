@@ -837,33 +837,28 @@ public class ModelSkystrike extends MowzieModelBase
             boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
             boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
             
-            if (!(!wearingChest && !wearingHead && !wearingLegs))
+            if (TFDataManager.getTransformationTimer(player) == 0)
             {
-                if (wearingLegs && wearingHead && !wearingChest)
+                this.mainbody1.render(f5);
+            }
+            else
+            {
+                if (!wearingChest)
                 {
-                    headbase.render(f5);
-                    upperLegR.render(f5);
-                    upperLegL.render(f5);
-                }
-                else if (wearingHead && !wearingChest)
-                {
-                    headbase.render(f5);
-                }
-                else if (wearingLegs && !wearingChest)
-                {
-                    upperLegR.render(f5);
-                    upperLegL.render(f5);
+                    if (wearingHead)
+                    {
+                        headbase.render(f5);
+                    }
+                    
+                    if (wearingLegs)
+                    {
+                        upperLegL.render(f5);
+                        upperLegR.render(f5);
+                    }
                 }
                 else
                 {
-                    if (TFDataManager.getTransformationTimer(player) == 0)
-                    {
-                        this.mainbody1.render(f5);
-                    }
-                    else
-                    {
-                        this.waist.render(f5);
-                    }
+                    waist.render(f5);
                 }
             }
         }
@@ -890,143 +885,141 @@ public class ModelSkystrike extends MowzieModelBase
             boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
             boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
             
-            if (!(!wearingChest && !wearingHead && !wearingLegs))
+            headbase.showModel = wearingHead;
+            upperLegL.showModel = wearingLegs;
+            upperLegR.showModel = wearingLegs;
+            
+            ModelOffset offsets = TFModelHelper.getOffsets(player);
+            
+            this.headbase.rotationPointX += offsets.headOffsetX;
+            this.headbase.rotationPointY += offsets.headOffsetY;
+            this.headbase.rotationPointZ += offsets.headOffsetZ;
+            
+            if (wearingHead)
             {
-                float globalSpeed = 1;
-                float globalDegree = 0.8F;
+                faceTarget(headbase, 1, par4, par5);
+            }
+            
+            if (!wearingChest)
+            {
+                upperLegL.rotationPointY += 10;
+                upperLegR.rotationPointY += 10;
+                upperLegL.rotationPointX -= 1;
+                upperLegR.rotationPointX -= 1;
+                upperLegR.rotationPointZ -= 1;
+                upperLegL.rotationPointZ -= 1;
                 
-                headbase.showModel = wearingHead;
-                upperLegL.showModel = wearingLegs;
-                upperLegR.showModel = wearingLegs;
+                headbase.rotationPointZ -= 2F;
+                headbase.rotationPointY += 1F;
+            }
+            else
+            {
+                offsets.headOffsetY = -4F;
+                offsets.headOffsetZ = 2.5F;
                 
-                if (entity.isSneaking())
+                offsets.timesModified++;
+                
+                headbase.rotationPointY += 4F;
+                headbase.rotationPointZ -= 2.5F;
+                
+                if (!wearingLegs)
                 {
-                    globalDegree = 1F;
-                    globalSpeed = 1.5F;
+                    waist.rotationPointY += 2.5F;
+                    waist.rotationPointZ -= 2.5F;
+                    offsets.headOffsetY += 2.5F;
+                    offsets.headOffsetZ -= 2.5F;
+                    headbase.rotationPointY -= 2.5F;
+                    headbase.rotationPointZ += 2.5F;
                 }
+            }
+            
+            float globalSpeed = 1;
+            float globalDegree = 0.8F;
+            
+            if (entity.isSneaking())
+            {
+                globalDegree = 1F;
+                globalSpeed = 1.5F;
+            }
+            
+            int backwardInverter = 1;
+            
+            if (player.moveForward < 0)
+            {
+                backwardInverter = -1;
+                globalDegree = 0.5F;
+            }
+            
+            if (this.heldItemLeft != 0)
+            {
+                this.upperArmL.rotateAngleX -= 0.2F;
+            }
+            if (this.heldItemRight != 0)
+            {
+                this.upperArmR.rotateAngleX -= 0.2F;
+            }
+            
+            boolean sneaking = player.isSneaking();
+            
+            if (sneaking)
+            {
+                globalDegree = 1.5F;
+                globalSpeed = 1.3F;
+            }
+            
+            if (wearingHead && wearingLegs && wearingChest)
+            {
+                boolean playerOnGround = onGround(player);
                 
-                ModelOffset offsets = TFModelHelper.getOffsets(player);
-                
-                this.headbase.rotationPointX += offsets.headOffsetX;
-                this.headbase.rotationPointY += offsets.headOffsetY;
-                this.headbase.rotationPointZ += offsets.headOffsetZ;
-                
-                if (wearingHead)
+                if (playerOnGround || player.capabilities.isFlying)
                 {
-                    faceTarget(headbase, 1, par4, par5);
-                }
-                
-                if (!wearingChest)
-                {
-                    upperLegL.rotationPointY += 10;
-                    upperLegR.rotationPointY += 10;
-                    upperLegL.rotationPointX -= 1;
-                    upperLegR.rotationPointX -= 1;
-                    upperLegR.rotationPointZ -= 1;
-                    upperLegL.rotationPointZ -= 1;
+                    bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
+                    waist.rotationPointY += 1 * par2;
+                    walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    walk(chestcenter, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    swing(stomach, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
+                    swing(chestcenter, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
+                    swing(waist, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
+                    walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
+                    swing(headbase, 0.5F * globalSpeed, -0.4F * globalDegree, false, 0, 0, par1, par2);
+                    //						headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
                     
-                    headbase.rotationPointZ -= 2F;
-                    headbase.rotationPointY += 1F;
-                }
-                else
-                {
-                    offsets.headOffsetY = -4F;
-                    offsets.headOffsetZ = 2.5F;
+                    swing(upperLegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
+                    swing(upperLegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
                     
-                    offsets.timesModified++;
+                    walk(buttflapL, 1F * globalSpeed, -0.6F * globalDegree, true, -1, 0.2F, par1, par2);
+                    walk(buttflapR, 1F * globalSpeed, -0.6F * globalDegree, true, -1, 0.2F, par1, par2);
                     
-                    headbase.rotationPointY += 4F;
-                    headbase.rotationPointZ -= 2.5F;
+                    walk(upperLegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
+                    walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F * backwardInverter, 0F, par1, par2);
+                    walk(lowerlegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
+                    walk(feetbaseL, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0.5F * backwardInverter, 0.3F, par1, par2);
                     
-                    if (!wearingLegs)
-                    {
-                        waist.rotationPointY += 2.5F;
-                        waist.rotationPointZ -= 2.5F;
-                        offsets.headOffsetY += 2.5F;
-                        offsets.headOffsetZ -= 2.5F;
-                        headbase.rotationPointY -= 2.5F;
-                        headbase.rotationPointZ += 2.5F;
-                    }
-                }
-                
-                int backwardInverter = 1;
-                
-                if (((EntityPlayer) entity).moveForward < 0)
-                {
-                    backwardInverter = -1;
-                    globalDegree = 0.5F;
-                }
-                
-                if (this.heldItemLeft != 0)
-                {
-                    this.upperArmL.rotateAngleX -= 0.2F;
-                }
-                if (this.heldItemRight != 0)
-                {
-                    this.upperArmR.rotateAngleX -= 0.2F;
-                }
-                
-                boolean sneaking = player.isSneaking();
-                
-                if (sneaking)
-                {
-                    globalDegree = 1.5F;
-                    globalSpeed = 1.3F;
-                }
-                
-                if (wearingHead && wearingLegs && wearingChest)
-                {
-                    boolean playerOnGround = onGround(player);
+                    walk(upperLegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
+                    walk(middlelegR, 0.5F * globalSpeed, 1F * globalDegree, false, 1F * backwardInverter, 0F, par1, par2);
+                    walk(lowerLegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
+                    walk(feetbaseR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0.5F * backwardInverter, 0.3F, par1, par2);
                     
-                    if (playerOnGround || player.capabilities.isFlying)
-                    {
-                        bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
-                        waist.rotationPointY += 1 * par2;
-                        walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                        walk(chestcenter, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                        swing(stomach, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
-                        swing(chestcenter, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
-                        swing(waist, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
-                        walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
-                        swing(headbase, 0.5F * globalSpeed, -0.4F * globalDegree, false, 0, 0, par1, par2);
-                        //						headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
-                        
-                        swing(upperLegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
-                        swing(upperLegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
-                        
-                        walk(buttflapL, 1F * globalSpeed, -0.6F * globalDegree, true, -1, 0.2F, par1, par2);
-                        walk(buttflapR, 1F * globalSpeed, -0.6F * globalDegree, true, -1, 0.2F, par1, par2);
-                        
-                        walk(upperLegL, 0.5F * globalSpeed, 0.8F * globalDegree, false, 0F, 0.2F, par1, par2);
-                        walk(middlelegL, 0.5F * globalSpeed, 1F * globalDegree, true, 1F * backwardInverter, 0F, par1, par2);
-                        walk(lowerlegL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, par1, par2);
-                        walk(feetbaseL, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0.5F * backwardInverter, 0.3F, par1, par2);
-                        
-                        walk(upperLegR, 0.5F * globalSpeed, 0.8F * globalDegree, true, 0F, 0.2F, par1, par2);
-                        walk(middlelegR, 0.5F * globalSpeed, 1F * globalDegree, false, 1F * backwardInverter, 0F, par1, par2);
-                        walk(lowerLegR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, par1, par2);
-                        walk(feetbaseR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0.5F * backwardInverter, 0.3F, par1, par2);
-                        
-                        walk(shoulderL, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                        walk(shoulderR, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                        walk(lowerArmL1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
-                        walk(lowerArmR1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
-                        
-                        //Idle animation
-                        int ticksExisted = entity.ticksExisted;
-                        
-                        walk(stomach, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                        walk(chest1, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
-                        walk(headbase, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                        walk(upperArmR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                        walk(upperArmL, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                        
-                        flap(upperArmR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                        flap(upperArmL, 0.08F, 0.04F, false, 1, 0, ticksExisted, 1F);
-                        walk(lowerArmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                        walk(lowerArmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                        
-                        /*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(shoulderL, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(shoulderR, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(lowerArmL1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+                    walk(lowerArmR1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+                    
+                    //Idle animation
+                    int ticksExisted = entity.ticksExisted;
+                    
+                    walk(stomach, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+                    walk(chest1, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
+                    walk(headbase, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
+                    walk(upperArmR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
+                    walk(upperArmL, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
+                    
+                    flap(upperArmR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
+                    flap(upperArmL, 0.08F, 0.04F, false, 1, 0, ticksExisted, 1F);
+                    walk(lowerArmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(lowerArmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    
+                    /*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                         walk(upperlegL, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
                         walk(upperlegR, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
                         walk(chestcenter, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
@@ -1038,197 +1031,190 @@ public class ModelSkystrike extends MowzieModelBase
                         flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
                         walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
                         walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
+                    
+                    if (sneaking)
+                    {
+                        waist.rotationPointY -= par2;
+                        waist.rotateAngleX += 0.3F;
+                        waist.rotationPointZ -= 3F;
+                        waist.rotationPointY += 0.5F;
                         
-                        if (sneaking)
-                        {
-                            waist.rotationPointY -= par2;
-                            waist.rotateAngleX += 0.3F;
-                            waist.rotationPointZ -= 3F;
-                            waist.rotationPointY += 0.5F;
-                            
-                            headbase.rotateAngleX -= 0.3;
-                            upperLegR.rotateAngleX -= 0.3;
-                            upperLegL.rotateAngleX -= 0.3;
-                            middlelegR.rotateAngleX += 0.6;
-                            middlelegL.rotateAngleX += 0.6;
-                            lowerLegR.rotateAngleX -= 0.5;
-                            lowerlegL.rotateAngleX -= 0.5;
-                            upperArmR.rotateAngleX -= 0.3;
-                            upperArmL.rotateAngleX -= 0.3;
-                            upperArmR.rotateAngleZ += 0.5;
-                            upperArmL.rotateAngleZ -= 0.5;
-                            lowerArmR1.rotateAngleZ -= 0.5;
-                            lowerArmL1.rotateAngleZ += 0.5;
-                        }
+                        headbase.rotateAngleX -= 0.3;
+                        upperLegR.rotateAngleX -= 0.3;
+                        upperLegL.rotateAngleX -= 0.3;
+                        middlelegR.rotateAngleX += 0.6;
+                        middlelegL.rotateAngleX += 0.6;
+                        lowerLegR.rotateAngleX -= 0.5;
+                        lowerlegL.rotateAngleX -= 0.5;
+                        upperArmR.rotateAngleX -= 0.3;
+                        upperArmL.rotateAngleX -= 0.3;
+                        upperArmR.rotateAngleZ += 0.5;
+                        upperArmL.rotateAngleZ -= 0.5;
+                        lowerArmR1.rotateAngleZ -= 0.5;
+                        lowerArmL1.rotateAngleZ += 0.5;
                     }
-                    else
+                }
+                else
                     // if(!player.isWet())
-                    {
-                        double motionX = entity.posX - entity.prevPosX;
-                        double motionZ = entity.posZ - entity.prevPosZ;
-                        
-                        double motionY = entity.posY - entity.prevPosY;
-                        float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
-                        float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
-                        
-                        double speed = Math.sqrt((motionX * motionX) + (motionZ * motionZ)) * 1.2D;
-                        
-                        waist.rotateAngleX += 0.2 * par2 * backwardInverter;
-                        
-                        chestcenter.rotateAngleX -= 0.2 * upwardPose;
-                        //chest1.rotateAngleX -= 0.4 * upwardPose;
-                        headbase.rotateAngleX -= 0.2 * upwardPose;
-                        
-                        upperArmR.rotateAngleX += 0.1 * upwardPose;
-                        upperArmL.rotateAngleX += 0.1 * upwardPose;
-                        upperArmR.rotateAngleZ -= 0.1 * upwardPose;
-                        upperArmL.rotateAngleZ += 0.1 * upwardPose;
-                        lowerArmR1.rotateAngleX += 0.2 * upwardPose;
-                        lowerArmL1.rotateAngleX += 0.2 * upwardPose;
-                        
-                        upperLegR.rotateAngleX += 0.2 * upwardPose;
-                        upperLegL.rotateAngleX += 0.2 * upwardPose;
-                        lowerLegR.rotateAngleX += 0.5 * upwardPose;
-                        lowerlegL.rotateAngleX += 0.5 * upwardPose;
-                        
-                        waist.rotateAngleX += speed * downwardPose;
-                        buttflapL.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
-                        buttflapR.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
-                        
-                        upperArmR.rotateAngleZ += 1 * downwardPose;
-                        upperArmL.rotateAngleZ -= 1 * downwardPose;
-                        lowerArmR1.rotateAngleX -= 1 * downwardPose;
-                        lowerArmL1.rotateAngleX -= 1 * downwardPose;
-                        headbase.rotateAngleX += 0.2 * downwardPose;
-                        headbase.rotateAngleX -= (speed * downwardPose) * 0.3F;
-                    }
+                {
+                    double motionX = entity.posX - entity.prevPosX;
+                    double motionZ = entity.posZ - entity.prevPosZ;
                     
-                    int timer = TFDataManager.getTransformationTimer(player);
+                    double motionY = entity.posY - entity.prevPosY;
+                    float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
+                    float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
                     
-                    if (timer == 0)
+                    double speed = Math.sqrt((motionX * motionX) + (motionZ * motionZ)) * 1.2D;
+                    
+                    waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+                    
+                    chestcenter.rotateAngleX -= 0.2 * upwardPose;
+                    //chest1.rotateAngleX -= 0.4 * upwardPose;
+                    headbase.rotateAngleX -= 0.2 * upwardPose;
+                    
+                    upperArmR.rotateAngleX += 0.1 * upwardPose;
+                    upperArmL.rotateAngleX += 0.1 * upwardPose;
+                    upperArmR.rotateAngleZ -= 0.1 * upwardPose;
+                    upperArmL.rotateAngleZ += 0.1 * upwardPose;
+                    lowerArmR1.rotateAngleX += 0.2 * upwardPose;
+                    lowerArmL1.rotateAngleX += 0.2 * upwardPose;
+                    
+                    upperLegR.rotateAngleX += 0.2 * upwardPose;
+                    upperLegL.rotateAngleX += 0.2 * upwardPose;
+                    lowerLegR.rotateAngleX += 0.5 * upwardPose;
+                    lowerlegL.rotateAngleX += 0.5 * upwardPose;
+                    
+                    waist.rotateAngleX += speed * downwardPose;
+                    buttflapL.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+                    buttflapR.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+                    
+                    upperArmR.rotateAngleZ += 1 * downwardPose;
+                    upperArmL.rotateAngleZ -= 1 * downwardPose;
+                    lowerArmR1.rotateAngleX -= 1 * downwardPose;
+                    lowerArmL1.rotateAngleX -= 1 * downwardPose;
+                    headbase.rotateAngleX += 0.2 * downwardPose;
+                    headbase.rotateAngleX -= (speed * downwardPose) * 0.3F;
+                }
+                
+                int timer = TFDataManager.getTransformationTimer(player);
+                
+                if (timer == 0)
+                {
+                    ModelBiped modelBiped = TFModelHelper.modelBipedMain;
+                    
+                    this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
+                    this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
+                }
+                else
+                {
+                    int t = TFDataManager.getTransformationTimer(player);
+                    float f = (float) (20 - t) / 2;
+                    
+                    this.waist.rotationPointY -= (f * 0.8F);
+                    this.waist.rotateAngleX += (f * 0.15F);
+                    
+                    this.headbase.rotateAngleX += (f * -0.15F);
+                    
+                    this.shoulderR.rotateAngleX += f * -0.15F;
+                    this.shoulderL.rotateAngleX += f * -0.15F;
+                    
+                    this.shoulderR.rotateAngleZ += f * 0.15F;
+                    this.shoulderL.rotateAngleZ += f * -0.15F;
+                    
+                    this.lowerArmL1.rotateAngleZ += f * -0.5F;
+                    this.lowerArmR1.rotateAngleZ += f * 0.5F;
+                    
+                    this.upperLegR.rotateAngleX += (f * -0.3F);
+                    this.upperLegL.rotateAngleX += (f * -0.3F);
+                    
+                    this.wingR1biped.rotationPointZ += f * 0.5F;
+                    this.wingL1biped.rotationPointZ += f * 0.5F;
+                    
+                    this.wingR1biped.rotationPointY += f * 0.5F;
+                    this.wingL1biped.rotationPointY += f * 0.5F;
+                    
+                    this.wingR1biped.rotateAngleX += f * 0.1F;
+                    this.wingL1biped.rotateAngleX += f * 0.1F;
+                    
+                    this.wingR1biped.rotateAngleY += f * 0.2F;
+                    this.wingL1biped.rotateAngleY += -f * 0.2F;
+                    
+                    this.cockpit1.rotateAngleZ += f * 0.33F;
+                    this.cockpit1.rotationPointY += f * 0.1F;
+                    this.cockpit1.rotationPointZ += f * -0.2F;
+                    
+                    //						this.lowerarmL1.rotateAngleZ = f * 0.05F;
+                    //						this.lowerarmR1.rotateAngleZ = f * -0.05F;
+                }
+            }
+            else
+            {
+                this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
+                this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2;
+                
+                this.lowerArmL1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
+                this.lowerArmR1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 4;
+                
+                this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
+                this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2) - 0.65F;
+                
+                if (this.isRiding)
+                {
+                    this.upperArmR.rotateAngleX += -((float) Math.PI / 5F);
+                    this.upperArmL.rotateAngleX += -((float) Math.PI / 5F);
+                    this.upperLegR.rotateAngleX = -((float) Math.PI * 2F / 5F);
+                    this.upperLegL.rotateAngleX = -((float) Math.PI * 2F / 5F);
+                    this.upperLegR.rotateAngleY = ((float) Math.PI / 10F);
+                    this.upperLegL.rotateAngleY = -((float) Math.PI / 10F);
+                }
+                
+                if (this.isSneak)
+                {
+                    this.waist.rotateAngleX += 0.4F;
+                    this.waist.rotationPointZ += 4F;
+                    this.waist.rotationPointY -= 2F;
+                    this.upperArmR.rotateAngleX -= 0.4F;
+                    this.upperArmL.rotateAngleX -= 0.4F;
+                    
+                    if (wearingChest)
                     {
-                        ModelBiped modelBiped = TFModelHelper.modelBipedMain;
-                        
-                        this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
-                        this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
-                        
-                        waist.offsetY = 256F;
-                        mainbody1.offsetY = 0F;
+                        this.headbase.rotateAngleX -= 0.4F;
+                        this.upperLegR.rotateAngleX -= 0.4F;
+                        this.upperLegL.rotateAngleX -= 0.4F;
                     }
                     else
                     {
-                        int t = TFDataManager.getTransformationTimer(player);
-                        float f = (float) (20 - t) / 2;
-                        
-                        this.waist.rotationPointY -= (f * 0.8F);
-                        this.waist.rotateAngleX += (f * 0.15F);
-                        
-                        this.headbase.rotateAngleX += (f * -0.15F);
-                        
-                        this.shoulderR.rotateAngleX += f * -0.15F;
-                        this.shoulderL.rotateAngleX += f * -0.15F;
-                        
-                        this.shoulderR.rotateAngleZ += f * 0.15F;
-                        this.shoulderL.rotateAngleZ += f * -0.15F;
-                        
-                        this.lowerArmL1.rotateAngleZ += f * -0.5F;
-                        this.lowerArmR1.rotateAngleZ += f * 0.5F;
-                        
-                        this.upperLegR.rotateAngleX += (f * -0.3F);
-                        this.upperLegL.rotateAngleX += (f * -0.3F);
-                        
-                        this.wingR1biped.rotationPointZ += f * 0.5F;
-                        this.wingL1biped.rotationPointZ += f * 0.5F;
-                        
-                        this.wingR1biped.rotationPointY += f * 0.5F;
-                        this.wingL1biped.rotationPointY += f * 0.5F;
-                        
-                        this.wingR1biped.rotateAngleX += f * 0.1F;
-                        this.wingL1biped.rotateAngleX += f * 0.1F;
-                        
-                        this.wingR1biped.rotateAngleY += f * 0.2F;
-                        this.wingL1biped.rotateAngleY += -f * 0.2F;
-                        
-                        this.cockpit1.rotateAngleZ += f * 0.33F;
-                        this.cockpit1.rotationPointY += f * 0.1F;
-                        this.cockpit1.rotationPointZ += f * -0.2F;
-                        
-                        //						this.lowerarmL1.rotateAngleZ = f * 0.05F;
-                        //						this.lowerarmR1.rotateAngleZ = f * -0.05F;
-                        
-                        waist.offsetY = 0F;
-                        mainbody1.offsetY = 256F;
+                        this.upperLegL.rotationPointZ += 5F;
+                        this.upperLegL.rotationPointY -= 0.8F;
+                        this.upperLegR.rotationPointZ += 5F;
+                        this.upperLegR.rotationPointY -= 0.8F;
                     }
                 }
                 else
                 {
-                    this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
-                    this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2;
-                    
-                    this.lowerArmL1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
-                    this.lowerArmR1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 4;
-                    
-                    this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
-                    this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2) - 0.65F;
-                    
-                    if (this.isRiding)
-                    {
-                        this.upperArmR.rotateAngleX += -((float) Math.PI / 5F);
-                        this.upperArmL.rotateAngleX += -((float) Math.PI / 5F);
-                        this.upperLegR.rotateAngleX = -((float) Math.PI * 2F / 5F);
-                        this.upperLegL.rotateAngleX = -((float) Math.PI * 2F / 5F);
-                        this.upperLegR.rotateAngleY = ((float) Math.PI / 10F);
-                        this.upperLegL.rotateAngleY = -((float) Math.PI / 10F);
-                    }
-                    
-                    if (this.isSneak)
-                    {
-                        this.waist.rotateAngleX += 0.4F;
-                        this.waist.rotationPointZ += 4F;
-                        this.waist.rotationPointY -= 2F;
-                        this.upperArmR.rotateAngleX -= 0.4F;
-                        this.upperArmL.rotateAngleX -= 0.4F;
-                        
-                        if (wearingChest)
-                        {
-                            this.headbase.rotateAngleX -= 0.4F;
-                            this.upperLegR.rotateAngleX -= 0.4F;
-                            this.upperLegL.rotateAngleX -= 0.4F;
-                        }
-                        else
-                        {
-                            this.upperLegL.rotationPointZ += 5F;
-                            this.upperLegL.rotationPointY -= 0.8F;
-                            this.upperLegR.rotationPointZ += 5F;
-                            this.upperLegR.rotationPointY -= 0.8F;
-                        }
-                    }
-                    else
-                    {
-                        this.waist.rotateAngleX = 0.0F;
-                    }
-                    
-                    if (this.onGround > -9990.0F)
-                    {
-                        float f6 = this.onGround;
-                        this.waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float) Math.PI * 2.0F) * 0.2F;
-                        this.upperArmR.rotationPointZ = MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
-                        this.upperArmR.rotationPointX = -MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
-                        this.upperArmL.rotationPointZ = -MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
-                        this.upperArmL.rotationPointX = MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
-                        this.upperArmR.rotateAngleY += this.waist.rotateAngleY;
-                        this.upperArmL.rotateAngleY += this.waist.rotateAngleY;
-                        this.upperArmL.rotateAngleX += this.waist.rotateAngleY;
-                        f6 = 1.0F - this.onGround;
-                        f6 *= f6;
-                        f6 *= f6;
-                        f6 = 1.0F - f6;
-                        float f7 = MathHelper.sin(f6 * (float) Math.PI);
-                        float f8 = MathHelper.sin(this.onGround * (float) Math.PI) * -(this.headbase.rotateAngleX - 0.7F) * 0.75F;
-                        this.upperArmR.rotateAngleX = (float) ((double) this.upperArmR.rotateAngleX - ((double) f7 * 1.2D + (double) f8));
-                        this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
-                        this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float) Math.PI) * -0.4F;
-                    }
+                    this.waist.rotateAngleX = 0.0F;
+                }
+                
+                if (this.onGround > -9990.0F)
+                {
+                    float f6 = this.onGround;
+                    this.waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float) Math.PI * 2.0F) * 0.2F;
+                    this.upperArmR.rotationPointZ = MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
+                    this.upperArmR.rotationPointX = -MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
+                    this.upperArmL.rotationPointZ = -MathHelper.sin(this.waist.rotateAngleY) * 2.5F;
+                    this.upperArmL.rotationPointX = MathHelper.cos(this.waist.rotateAngleY) * 2.5F;
+                    this.upperArmR.rotateAngleY += this.waist.rotateAngleY;
+                    this.upperArmL.rotateAngleY += this.waist.rotateAngleY;
+                    this.upperArmL.rotateAngleX += this.waist.rotateAngleY;
+                    f6 = 1.0F - this.onGround;
+                    f6 *= f6;
+                    f6 *= f6;
+                    f6 = 1.0F - f6;
+                    float f7 = MathHelper.sin(f6 * (float) Math.PI);
+                    float f8 = MathHelper.sin(this.onGround * (float) Math.PI) * -(this.headbase.rotateAngleX - 0.7F) * 0.75F;
+                    this.upperArmR.rotateAngleX = (float) ((double) this.upperArmR.rotateAngleX - ((double) f7 * 1.2D + (double) f8));
+                    this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
+                    this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float) Math.PI) * -0.4F;
                 }
             }
         }
