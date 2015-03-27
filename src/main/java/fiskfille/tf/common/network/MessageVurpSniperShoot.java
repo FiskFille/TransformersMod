@@ -81,8 +81,7 @@ public class MessageVurpSniperShoot implements IMessage
                                 TFNetworkManager.networkWrapper.sendToAllAround(new MessageVurpSniperShoot(player), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64));
                                 
                                 World world = player.worldObj;
-                                EntityMiniMissile entity = new EntityMiniMissile(world, player, 30, TFConfig.allowMissileExplosions);
-                                entity.setDamage(0.01D);
+                                EntityMiniMissile entity = new EntityMiniMissile(world, player, TFConfig.allowMissileExplosions);
                                 --entity.posY;
                                 world.spawnEntityInWorld(entity);
                                 
