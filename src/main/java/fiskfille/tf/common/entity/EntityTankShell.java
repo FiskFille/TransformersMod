@@ -22,7 +22,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,7 +40,7 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         super(world, thrower);
         this.explosions = missileExplosions;
     }
-    
+
     public EntityTankShell(World world, double x, double y, double z)
     {
         super(world, x, y, z);
@@ -52,7 +51,7 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         super(world);
         this.explosions = missileExplosions;
     }
-    
+
     protected float func_70182_d()
     {
         return 3F;
@@ -75,8 +74,6 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
     @Override
     protected void onImpact(MovingObjectPosition mop)
     {
-        boolean hit = false;
-        
         double x = 0;
         double y = 0;
         double z = 0;
@@ -87,25 +84,20 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
             y = mop.blockY;
             z = mop.blockZ;
             
-            if(!(worldObj.getBlock((int) x, (int) y, (int) z) instanceof IPlantable))
-            {
-                int sideHit = mop.sideHit;
-                
-                if (sideHit == 0)
-                    --y;
-                else if (sideHit == 1)
-                    ++y;
-                else if (sideHit == 2)
-                    --z;
-                else if (sideHit == 3)
-                    ++z;
-                else if (sideHit == 4)
-                    --x;
-                else if (sideHit == 5)
-                    ++x;
-                
-                hit = true;
-            }
+            int sideHit = mop.sideHit;
+            
+            if (sideHit == 0)
+                --y;
+            else if (sideHit == 1)
+                ++y;
+            else if (sideHit == 2)
+                --z;
+            else if (sideHit == 3)
+                ++z;
+            else if (sideHit == 4)
+                --x;
+            else if (sideHit == 5)
+                ++x;
         }
         else
         {
@@ -114,25 +106,19 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
             x = entityHit.posX;
             y = entityHit.posY;
             z = entityHit.posZ;
-            
-            hit = true;
-            
-            entityHit.attackEntityFrom(DamageSource.causeArrowDamage(null, getThrower()), 10f);
         }
         
-        if(hit)
-        {
-            worldObj.createExplosion(getThrower(), x, y, z, 1.0f, explosions);
-            this.setDead();
-        }
+        worldObj.createExplosion(getThrower(), x, y, z, 1.0f, explosions);
+        
+        this.setDead();
     }
-    
+
     @Override
     public void writeSpawnData(ByteBuf buf)
     {
         buf.writeBoolean(explosions);
     }
-    
+
     @Override
     public void readSpawnData(ByteBuf buf)
     {

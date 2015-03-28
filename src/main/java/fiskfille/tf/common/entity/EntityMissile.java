@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDeadBush;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,7 +22,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -84,8 +82,6 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
     @Override
     protected void onImpact(MovingObjectPosition mop)
     {
-        boolean hit = false;
-        
         double x = 0;
         double y = 0;
         double z = 0;
@@ -95,26 +91,6 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
             x = mop.blockX;
             y = mop.blockY;
             z = mop.blockZ;
-            
-            if(!(worldObj.getBlock((int) x, (int) y, (int) z) instanceof IPlantable))
-            {
-                int sideHit = mop.sideHit;
-                
-                if (sideHit == 0)
-                    --y;
-                else if (sideHit == 1)
-                    ++y;
-                else if (sideHit == 2)
-                    --z;
-                else if (sideHit == 3)
-                    ++z;
-                else if (sideHit == 4)
-                    --x;
-                else if (sideHit == 5)
-                    ++x;
-                
-                hit = true;
-            }
         }
         else
         {
@@ -123,18 +99,10 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
             x = entityHit.posX;
             y = entityHit.posY;
             z = entityHit.posZ;
-            
-            entityHit.attackEntityFrom(DamageSource.causeArrowDamage(null, getThrower()), 5f);
-            
-            hit = true;
         }
         
-        if(hit)
-        {
-            worldObj.createExplosion(getThrower(), x, y, z, 4, missileExplosions);
-            
-            this.setDead();
-        }
+        worldObj.createExplosion(getThrower(), x, y, z, 4, missileExplosions);
+        this.setDead();
     }
 
     @Override

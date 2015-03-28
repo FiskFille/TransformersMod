@@ -35,6 +35,16 @@ public class RenderMiniMissile extends Render
         GL11.glRotatef(miniMissile.prevRotationPitch + (miniMissile.rotationPitch - miniMissile.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
         GL11.glRotatef(90, 0, -1, 0);
         
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        float f11 = (float) miniMissile.missileShake - p_76986_9_;
+        
+        if (f11 > 0.0F)
+        {
+            float f12 = -MathHelper.sin(f11 * 3.0F) * f11;
+            GL11.glRotatef(f12, 0.0F, 0.0F, 1.0F);
+        }
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        
         float f = 0.7F;
         GL11.glScalef(f, f, f);
         model.render(miniMissile, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
