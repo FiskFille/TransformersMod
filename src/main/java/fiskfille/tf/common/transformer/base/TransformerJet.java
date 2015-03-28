@@ -57,22 +57,20 @@ public abstract class TransformerJet extends Transformer
     @Override
     public void updateMovement(EntityPlayer player)
     {
-        Minecraft minecraft = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getMinecraft();
         
-        boolean moveForward = minecraft.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || minecraft.gameSettings.keyBindSprint.getIsKeyPressed();
+        boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
+        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
         
-        VehicleMotion motion = TFMotionManager.getTransformerPlayer(player);
+        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
         
         int nitro = 0;
         double vel = 0;
         
-        if (motion != null)
+        if (transformedPlayer != null)
         {
-            nitro = motion.getNitro();
-            vel = motion.getForwardVelocity();
-            
-            boolean prevNitro = TFMotionManager.prevNitro;
+            nitro = transformedPlayer.getNitro();
+            vel = transformedPlayer.getForwardVelocity();
             
             double increment = ((nitroPressed && nitro > 0 ? 6.84D : 1.36D) - vel) / 10 + 0.001D;
             
@@ -98,69 +96,18 @@ public abstract class TransformerJet extends Transformer
             player.motionX = (vec3.xCoord - player.posX);
             player.motionY = (vec3.yCoord - player.posY) + getMotionYOffset();
             player.motionZ = (vec3.zCoord - player.posZ);
+          
             if (vel <= 0.09F)
             {
                 vel = 0.09F;
             }
+            
             if (vel > 1.41F)
             {
                 vel = 1.41F;
             }
             
-            if (player == Minecraft.getMinecraft().thePlayer)
-            {
-                if (nitro > 0 && nitroPressed && moveForward)
-                {
-                    if (!player.capabilities.isCreativeMode)
-                        --nitro;
-                    
-                    if (!prevNitro)
-                    {
-                        TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, true));
-                        TFMotionManager.prevNitro = true;
-                    }
-                    
-                    for (int i = 0; i < 4; ++i)
-                    {
-                        Vec3 side = TFMotionManager.getBackSideCoords(player, 0.15F, i < 2, -1.5, true);
-                        Random rand = new Random();
-                        player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.2F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
-                    }
-                }
-                else
-                {
-                    if (prevNitro)
-                    {
-                        TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, false));
-                        TFMotionManager.prevNitro = false;
-                    }
-                }
-                
-//                try
-//                {
-//                    if (TFConfig.rollWithJet)
-//                    {
-//                        EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
-//                        
-//                        ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
-//                        
-//                        float yaw = (modelBipedMain.bipedHead.rotateAngleY - modelBipedMain.bipedBody.rotateAngleY) * 100;
-//                        
-//                        ClientProxy.camRollField.set(entityRenderer, yaw);
-//                    }
-//                }
-//                catch (IllegalArgumentException e)
-//                {
-//                    e.printStackTrace();
-//                }
-//                catch (IllegalAccessException e)
-//                {
-//                    e.printStackTrace();
-//                }
-            }
-            
-            motion.setNitro(nitro);
-            motion.setForwardVelocity(vel);
+            transformedPlayer.setForwardVelocity(vel);
         }
     }
     
@@ -188,9 +135,15 @@ public abstract class TransformerJet extends Transformer
     {
         for (int i = 0; i < 4; ++i)
         {
-            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1, true);
+            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.2F, i < 2, -1.5, true);
             Random rand = new Random();
-            player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord + 1.5F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
+            
+            if(player != Minecraft.getMinecraft().thePlayer)
+            {
+                side.yCoord += 0.8F;
+            }
+            
+            player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.2F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
     

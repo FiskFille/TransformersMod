@@ -57,6 +57,12 @@ public abstract class TransformerTruck extends Transformer
     }
     
     @Override
+    public boolean canUseNitro(EntityPlayer player)
+    {
+        return !TFDataManager.isInStealthMode(player);
+    }
+    
+    @Override
     public void updateMovement(EntityPlayer player)
     {
         Minecraft mc = Minecraft.getMinecraft();
@@ -143,43 +149,6 @@ public abstract class TransformerTruck extends Transformer
                 forwardVelocity = 1;
             }
             
-            boolean prevNitro = TFMotionManager.prevNitro;
-            
-            if (nitro > 0 && nitroPressed && moveForward && player == mc.thePlayer && !inStealthMode)
-            {
-                if (!player.capabilities.isCreativeMode)
-                    --nitro;
-                
-                if (!prevNitro)
-                {
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, true));
-                    TFMotionManager.prevNitro = true;
-                }
-                
-                for (int i = 0; i < 4; ++i)
-                {
-                    Vec3 side = TFMotionManager.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
-                    Random rand = new Random();
-                    player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 1.6F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
-                }
-                
-                for (int i = 0; i < 10; ++i)
-                {
-                    Vec3 side = TFMotionManager.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
-                    Random rand = new Random();
-                    player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 1.6F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
-                }
-            }
-            else
-            {
-                if (prevNitro)
-                {
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, false));
-                    TFMotionManager.prevNitro = false;
-                }
-            }
-            
-            transformedPlayer.setNitro(nitro);
             transformedPlayer.setForwardVelocity(forwardVelocity);
             transformedPlayer.setHorizontalVelocity(horizontalVelocity);
             
@@ -222,16 +191,16 @@ public abstract class TransformerTruck extends Transformer
     {
         for (int i = 0; i < 4; ++i)
         {
-            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1.3, false);
+            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
             Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, player.posY, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.25F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
         
         for (int i = 0; i < 10; ++i)
         {
-            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1.3, false);
+            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
             Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, player.posY, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
+            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.25F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
         }
     }
     

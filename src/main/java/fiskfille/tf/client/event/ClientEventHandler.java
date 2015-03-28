@@ -82,7 +82,14 @@ public class ClientEventHandler
         // This prevents the player from sinking into the ground when sneaking in vehicle mode
         if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 20)
         {
-            GL11.glTranslatef(0, 0.08F, 0);
+            if(isClientPlayer)
+            {
+                GL11.glTranslatef(0, 0.08F, 0);
+            }
+            else
+            {
+                GL11.glTranslatef(0, 0.125F, 0);
+            }
         }
     }
     

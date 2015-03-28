@@ -66,7 +66,7 @@ public class CommonEventHandler
     {
         EntityPlayer player = event.entityPlayer;
         
-        if(TFConfig.canTransform.get(event.transformer))
+        if(TFConfig.canTransform(event.transformer))
         {
             if (!event.transformed)
             {
@@ -85,7 +85,7 @@ public class CommonEventHandler
             event.setCanceled(true);
         }
     }
-    
+
     @SubscribeEvent
     public void onHit(LivingAttackEvent event)
     {

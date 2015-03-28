@@ -21,6 +21,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
+import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
@@ -91,6 +92,42 @@ public class ClientTickHandler
                 if (transformer != null)
                 {
                     transformer.updateMovement(player);
+                    
+                    if(transformedPlayer != null)
+                    {
+                        int nitro = transformedPlayer.getNitro();
+                        
+                        boolean prevNitro = TFMotionManager.prevNitro;
+                        
+                        boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
+                        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+                        
+                        if (nitro > 0 && nitroPressed && moveForward && player == Minecraft.getMinecraft().thePlayer && transformer.canUseNitro(player))
+                        {
+                            if (!player.capabilities.isCreativeMode)
+                                --nitro;
+                            
+                            if (!prevNitro)
+                            {
+                                TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, true));
+                                TFMotionManager.prevNitro = true;
+                            }
+                            
+                            transformedPlayer.setBoosting(true);
+                        }
+                        else
+                        {
+                            if (prevNitro)
+                            {
+                                TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, false));
+                                TFMotionManager.prevNitro = false;
+                            }
+                            
+                            transformedPlayer.setBoosting(false);
+                        }
+                        
+                        transformedPlayer.setNitro(nitro);
+                    }
                 }
             }
             

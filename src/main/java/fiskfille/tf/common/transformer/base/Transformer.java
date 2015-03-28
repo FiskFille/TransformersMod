@@ -20,6 +20,11 @@ public abstract class Transformer
     
     public abstract Item getBoots();
     
+    public boolean canUseNitro(EntityPlayer player)
+    {
+        return true;
+    }
+    
     public TransformerModel getModel()
     {
         return TFModelRegistry.getModel(this);

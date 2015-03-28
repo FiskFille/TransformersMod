@@ -96,36 +96,6 @@ public abstract class TransformerTank extends Transformer
                 vel = 0;
             }
             
-            boolean prevNitro = TFMotionManager.prevNitro;
-            
-            if (nitro > 0 && nitroPressed && moveForward && player == Minecraft.getMinecraft().thePlayer)
-            {
-                if (!player.capabilities.isCreativeMode)
-                    --nitro;
-                
-                if (!prevNitro)
-                {
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, true));
-                    TFMotionManager.prevNitro = true;
-                }
-                
-                for (int i = 0; i < 4; ++i)
-                {
-                    Vec3 side = TFMotionManager.getBackSideCoords(player, 0.15F, i < 2, -0.6, false);
-                    Random rand = new Random();
-                    player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 1.4F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
-                }
-            }
-            else
-            {
-                if (prevNitro)
-                {
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleNitro(player, false));
-                    TFMotionManager.prevNitro = false;
-                }
-            }
-            
-            transformedPlayer.setNitro(nitro);
             transformedPlayer.setForwardVelocity(vel);
             
             if (player.isInWater())
@@ -158,9 +128,9 @@ public abstract class TransformerTank extends Transformer
     {
         for (int i = 0; i < 4; ++i)
         {
-            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -1, false);
+            Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -0.6, false);
             Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, player.posY - 0F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.3F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
 }

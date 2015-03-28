@@ -62,7 +62,7 @@ public class MessageHandleTransformation implements IMessage
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
                     
-                    if(!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, TFHelper.getTransformer(player), playerData.stealthForce, message.transformed)))
+                    if(!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, TFHelper.getTransformer(from), playerData.stealthForce, message.transformed)))
                     {
                         playerData.stealthForce = false;
                         playerData.vehicle = message.transformed;
