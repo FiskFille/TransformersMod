@@ -17,7 +17,6 @@ import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.config.TFConfig;
 
 public abstract class TransformerTank extends Transformer
 {
@@ -150,7 +149,7 @@ public abstract class TransformerTank extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        return new EntityTankShell(player.worldObj, player, TFConfig.allowTankShellExplosions);
+        return new EntityTankShell(player.worldObj, player, 3);
     }
     
     @Override
