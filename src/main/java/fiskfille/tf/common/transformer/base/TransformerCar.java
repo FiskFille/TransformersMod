@@ -272,7 +272,8 @@ public abstract class TransformerCar extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, true);
+        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+        entityMissile.posY--;
         
         return entityMissile;
     }
