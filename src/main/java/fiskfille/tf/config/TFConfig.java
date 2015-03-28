@@ -1,6 +1,12 @@
 package fiskfille.tf.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraftforge.common.config.Configuration;
+import fiskfille.tf.TransformerManager;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFConfig
 {
@@ -11,6 +17,8 @@ public class TFConfig
     public static boolean allowTankShellExplosions;
     public static boolean useMiles;
     public static boolean checkForUpdates;
+    
+    public static Map<Transformer, Boolean> canTransform = new HashMap<Transformer, Boolean>();
     
     private Configuration config;
     
@@ -25,6 +33,12 @@ public class TFConfig
         rollWithJet = getBoolean("Roll With jet", false, "If true, when the jet rolls, your camera will roll with it.");
         allowTankShellExplosions = getBoolean("Allow Tank Shell Explosions", false, "If false, tank shells won't damage the terrain.");
         useMiles = getBoolean("Use Miles For Speed-Measurement", false, "If true, miles will be used instead of kilometers when measuring speed.");
+   
+        for (Transformer transformer : TransformersAPI.getTransformers())
+        {
+            String name = transformer.getName();
+            canTransform.put(transformer, getBoolean("Can Transform As " + name, true, "If false, you will not be able to transform as " + name + ". Useful for servers."));
+        }
     }
     
     private boolean getBoolean(String name, boolean defualt, String desc)

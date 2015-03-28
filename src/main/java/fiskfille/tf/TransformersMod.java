@@ -55,6 +55,8 @@ public class TransformersMod
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        TransformerManager.register();
+        
         configFile = new Configuration(event.getSuggestedConfigurationFile());
         configFile.load();
         config.load(configFile);
@@ -69,8 +71,6 @@ public class TransformersMod
         
         items.register();
         blocks.register();
-        
-        TransformerManager.register();
         
         TFAchievements.register();
         

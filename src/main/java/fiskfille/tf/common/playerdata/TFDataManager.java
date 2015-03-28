@@ -8,13 +8,15 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
+import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
 import fiskfille.tf.common.network.MessageHandleTransformation;
-import fiskfille.tf.common.network.MessageSyncStates;
+import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 
 public class TFDataManager
@@ -29,25 +31,26 @@ public class TFDataManager
         
         if (vehicleMode != data.vehicle)
         {
-            player.triggerAchievement(TFAchievements.transform);
-            
-            if (!vehicleMode)
+            if(!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, TFHelper.getTransformer(player), vehicleMode, data.stealthForce)))
             {
-                data.stealthForce = false;
+                player.triggerAchievement(TFAchievements.transform);
+                
+                if (!vehicleMode)
+                {
+                    data.stealthForce = false;
+                }
+                
+                if (player.worldObj.isRemote)
+                {
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageHandleTransformation(player, vehicleMode));
+                }
+                else
+                {
+                    TFNetworkManager.networkWrapper.sendToDimension(new MessageHandleTransformation(player, vehicleMode), player.dimension);
+                }
+                
+                data.vehicle = vehicleMode;
             }
-            
-            if (player.worldObj.isRemote)
-            {
-                TFNetworkManager.networkWrapper.sendToServer(new MessageHandleTransformation(player, vehicleMode));
-            }
-            else
-            {
-                TFNetworkManager.networkWrapper.sendToDimension(new MessageHandleTransformation(player, vehicleMode), player.dimension);
-            }
-            
-            data.vehicle = vehicleMode;
-            
-            MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, vehicleMode, data.stealthForce));
         }
     }
     
@@ -134,7 +137,7 @@ public class TFDataManager
         setInStealthMode(player, !TFPlayerData.getData(player).stealthForce);
     }
     
-    public static void updateTransformationStatesFor(EntityPlayer player)
+    public static void updatePlayerWithServerInfo(EntityPlayer player)
     {
         Map<UUID, Boolean[]> states = new HashMap<UUID, Boolean[]>();
         
@@ -153,6 +156,6 @@ public class TFDataManager
             }
         }
         
-        TFNetworkManager.networkWrapper.sendTo(new MessageSyncStates(states), (EntityPlayerMP) player);
+        TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(states, TFConfig.canTransform), (EntityPlayerMP) player);
     }
 }

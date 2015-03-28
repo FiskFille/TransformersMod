@@ -66,16 +66,23 @@ public class CommonEventHandler
     {
         EntityPlayer player = event.entityPlayer;
         
-        if (!event.transformed)
+        if(TFConfig.canTransform.get(event.transformer))
         {
-            IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            
-            Transformer transformer = TFHelper.getTransformer(player);
-            
-            if (prevMove != 0)
+            if (!event.transformed)
             {
-                entityAttribute.setBaseValue(prevMove);
+                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+                
+                Transformer transformer = TFHelper.getTransformer(player);
+                
+                if (prevMove != 0)
+                {
+                    entityAttribute.setBaseValue(prevMove);
+                }
             }
+        }
+        else
+        {
+            event.setCanceled(true);
         }
     }
     
@@ -350,7 +357,7 @@ public class CommonEventHandler
             {
                 if (playersNotSunc.size() > 0 && playersNotSunc.contains(player))
                 {
-                    TFDataManager.updateTransformationStatesFor(player);
+                    TFDataManager.updatePlayerWithServerInfo(player);
                     playersNotSunc.remove(player);
                 }
             }

@@ -46,6 +46,8 @@ public class EntityTankShell extends EntityArrow implements IProjectile
     /** The amount of knockback an tankshell applies when it hits a mob. */
     private int knockbackStrength;
     
+    private boolean explosions;
+    
     public EntityTankShell(World world)
     {
         super(world);
@@ -92,7 +94,7 @@ public class EntityTankShell extends EntityArrow implements IProjectile
         }
     }
     
-    public EntityTankShell(World world, EntityLivingBase shooter, float strength)
+    public EntityTankShell(World world, EntityLivingBase shooter, float strength, boolean explosions)
     {
         super(world);
         this.renderDistanceWeight = 10.0D;
@@ -123,6 +125,7 @@ public class EntityTankShell extends EntityArrow implements IProjectile
         this.motionY += shooter.motionY;
         this.motionZ += shooter.motionZ;
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, strength * 1.5F, shooter.rotationPitch);
+        this.explosions = explosions;
     }
     
     protected void entityInit()
@@ -481,6 +484,7 @@ public class EntityTankShell extends EntityArrow implements IProjectile
         nbt.setByte("inGround", (byte) (this.inGround ? 1 : 0));
         nbt.setByte("pickup", (byte) this.canBePickedUp);
         nbt.setDouble("damage", this.damage);
+        nbt.setBoolean("explosions", this.explosions);
     }
     
     /**
@@ -496,6 +500,7 @@ public class EntityTankShell extends EntityArrow implements IProjectile
         this.inData = nbt.getByte("inData") & 255;
         this.tankshellShake = nbt.getByte("shake") & 255;
         this.inGround = nbt.getByte("inGround") == 1;
+        this.explosions = nbt.getBoolean("explosions");
         
         if (nbt.hasKey("damage", 99))
         {

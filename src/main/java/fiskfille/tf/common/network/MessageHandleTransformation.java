@@ -1,10 +1,13 @@
 package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.TFGuiFactory;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -59,13 +62,15 @@ public class MessageHandleTransformation implements IMessage
                 {
                     TFPlayerData playerData = TFPlayerData.getData(from);
                     
-                    MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, message.transformed, playerData.stealthForce));
-                    playerData.stealthForce = false;
-                    playerData.vehicle = message.transformed;
-                    TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
-                    
-                    String suffix = message.transformed ? "vehicle" : "robot";
-                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
+                    if(!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(from, TFHelper.getTransformer(player), playerData.stealthForce, message.transformed)))
+                    {
+                        playerData.stealthForce = false;
+                        playerData.vehicle = message.transformed;
+                        TFDataManager.setTransformationTimer(from, message.transformed ? 20 : 0);
+                        
+                        String suffix = message.transformed ? "vehicle" : "robot";
+                        from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
+                    }
                 }
             }
             else
