@@ -136,27 +136,27 @@ public abstract class TransformerJet extends Transformer
                     }
                 }
                 
-                try
-                {
-                    if (TFConfig.rollWithJet)
-                    {
-                        EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
-                        
-                        ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
-                        
-                        float yaw = (modelBipedMain.bipedHead.rotateAngleY - modelBipedMain.bipedBody.rotateAngleY) * 100;
-                        
-                        ClientProxy.camRollField.set(entityRenderer, yaw);
-                    }
-                }
-                catch (IllegalArgumentException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IllegalAccessException e)
-                {
-                    e.printStackTrace();
-                }
+//                try
+//                {
+//                    if (TFConfig.rollWithJet)
+//                    {
+//                        EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+//                        
+//                        ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
+//                        
+//                        float yaw = (modelBipedMain.bipedHead.rotateAngleY - modelBipedMain.bipedBody.rotateAngleY) * 100;
+//                        
+//                        ClientProxy.camRollField.set(entityRenderer, yaw);
+//                    }
+//                }
+//                catch (IllegalArgumentException e)
+//                {
+//                    e.printStackTrace();
+//                }
+//                catch (IllegalAccessException e)
+//                {
+//                    e.printStackTrace();
+//                }
             }
             
             motion.setNitro(nitro);
