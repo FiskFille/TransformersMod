@@ -457,7 +457,7 @@ public class ModelSubwoofer extends MowzieModelBase
         this.legL3.addBox(-1.1F, -2.7F, -3.2F, 2, 1, 3, 0.0F);
         this.setRotateAngle(legL3, 0.4468042885105484F, 0.012217304763960306F, -0.041887902047863905F);
         
-        this.waist.addChild(this.crotchbuttonR); //TODO (addChildTo? -Gegs) Nope, not needed. Tabula's done that stuff for us, so we don't have to worry about that. -Fisk
+        this.waist.addChild(this.crotchbuttonR);
         this.chestmain1.addChild(this.shoulderbaseR);
         this.shoulderplateL1.addChild(this.shoulderplate2);
         this.lowerarmL1.addChild(this.fistL);

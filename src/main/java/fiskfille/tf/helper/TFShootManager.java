@@ -42,7 +42,7 @@ public class TFShootManager
                             shootCooldown--;
                         }
                         
-                        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player)) //TODO
+                        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player)) //TODO: API for shots left
                         {
                             if (reloading && shootCooldown <= 0)
                             {
