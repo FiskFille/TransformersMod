@@ -992,7 +992,6 @@ public class ModelSubwoofer extends MowzieModelBase
                 }
             }
             else
-            //If not fully suited
             {
                 waist.rotationPointY += 1;
                 this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
@@ -1012,6 +1011,18 @@ public class ModelSubwoofer extends MowzieModelBase
                     this.upperLegL.rotateAngleX = -((float) Math.PI * 2F / 5F);
                     this.upperLegR.rotateAngleY = ((float) Math.PI / 10F);
                     this.upperLegL.rotateAngleY = -((float) Math.PI / 10F);
+                }
+                
+                if (this.aimedBow)
+                {
+                    this.upperArmR.rotateAngleY += -0.1F + this.bipedHead.rotateAngleY;
+                    this.upperArmL.rotateAngleY += 0.1F + this.bipedHead.rotateAngleY + 0.4F;
+                    this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
+                    this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
+                    this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                    this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                    this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
+                    this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
                 }
                 
                 if (this.isSneak)

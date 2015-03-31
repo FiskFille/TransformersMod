@@ -642,7 +642,6 @@ public class ModelPurge extends MowzieModelBase
                     }
                 }
                 else
-                    //If not on ground
                 {
                     double motionY = entity.posY - entity.prevPosY;
                     float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
@@ -694,6 +693,18 @@ public class ModelPurge extends MowzieModelBase
                 
                 this.upperLegR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
                 this.upperLegL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2;
+                
+                if (this.aimedBow)
+                {
+                    this.upperArmR.rotateAngleY += -0.1F + this.bipedHead.rotateAngleY;
+                    this.upperArmL.rotateAngleY += 0.1F + this.bipedHead.rotateAngleY + 0.4F;
+                    this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
+                    this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
+                    this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                    this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                    this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
+                    this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
+                }
                 
                 if (this.isRiding)
                 {

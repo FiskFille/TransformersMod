@@ -30,7 +30,7 @@ import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.player.ModelPlayerTF;
+import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
@@ -48,7 +48,7 @@ public class RenderCustomPlayer extends RenderPlayer
     public RenderCustomPlayer()
     {
         super();
-        this.mainModel = new ModelPlayerTF();
+        this.mainModel = new ModelBipedTF();
         this.modelBipedMain = (ModelBiped) this.mainModel;
     }
     
@@ -271,6 +271,12 @@ public class RenderCustomPlayer extends RenderPlayer
             else if (heldItem == Items.bow)
             {
                 f2 = 0.625F;
+                
+                if(model != null)
+                {
+                    GL11.glTranslatef(0.0F, -0.15F, -0.1F);
+                }
+                
                 GL11.glTranslatef(-0.01F, 0.05F, 0.4F);
                 GL11.glRotatef(-20.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(f2, -f2, f2);

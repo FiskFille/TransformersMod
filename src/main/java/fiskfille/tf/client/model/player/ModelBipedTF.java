@@ -14,9 +14,9 @@ import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
 
 @SideOnly(Side.CLIENT)
-public class ModelPlayerTF extends ModelChildBase.Biped
+public class ModelBipedTF extends ModelChildBase.Biped
 {
-    public ModelPlayerTF()
+    public ModelBipedTF()
     {
         super();
     }

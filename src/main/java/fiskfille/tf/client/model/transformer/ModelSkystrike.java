@@ -1123,6 +1123,21 @@ public class ModelSkystrike extends MowzieModelBase
                     this.upperLegL.rotateAngleY = -((float) Math.PI / 10F);
                 }
                 
+                if (this.aimedBow)
+                {
+                    this.upperArmR.rotateAngleY += -0.1F + this.bipedHead.rotateAngleY;
+                    this.upperArmL.rotateAngleY += 0.1F + this.bipedHead.rotateAngleY + 0.4F;
+                    this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
+                    this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
+                    this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                    this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                    this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
+                    this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
+                    
+                    this.upperArmR.rotateAngleX += 0.25F;
+                    this.upperArmL.rotateAngleX += 0.25F;
+                }
+                
                 if (this.isSneak)
                 {
                     this.waist.rotateAngleX += 0.4F;
