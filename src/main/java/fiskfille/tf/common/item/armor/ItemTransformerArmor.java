@@ -74,9 +74,9 @@ public abstract class ItemTransformerArmor extends ItemArmor
                 
                 if (entityLiving instanceof EntityPlayer)
                 {
-                    ItemStack itemstack1 = entityLiving.getHeldItem();
-                    armorModel.aimedBow = ((EntityPlayer) entityLiving).getItemInUseDuration() > 0 && itemstack1 != null && itemstack1.getItemUseAction() == EnumAction.bow;
-                    armorModel.heldItemRight = ((EntityPlayer) entityLiving).getItemInUseDuration() > 0 && itemstack1 != null && itemstack1.getItemUseAction() == EnumAction.block ? 3 : (entityLiving.getEquipmentInSlot(0) != null ? 1 : 0);
+                    ItemStack heldItem = entityLiving.getHeldItem();
+                    armorModel.aimedBow = ((EntityPlayer) entityLiving).getItemInUseDuration() > 0 && heldItem != null && heldItem.getItemUseAction() == EnumAction.bow;
+                    armorModel.heldItemRight = ((EntityPlayer) entityLiving).getItemInUseDuration() > 0 && heldItem != null && heldItem.getItemUseAction() == EnumAction.block ? 3 : (entityLiving.getEquipmentInSlot(0) != null ? 1 : 0);
                 }
                 
                 return armorModel;
