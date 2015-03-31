@@ -144,6 +144,7 @@ public class ModelSubwoofer extends MowzieModelBase
     {
         this.textureWidth = 128;
         this.textureHeight = 128;
+        
         this.crotchbuttonR = new MowzieModelRenderer(this, 5, 112);
         this.crotchbuttonR.setRotationPoint(-3.0F, 0.5F, -2.7F);
         this.crotchbuttonR.addBox(0.0F, 0.0F, 0.0F, 2, 1, 1, 0.0F);
@@ -974,37 +975,6 @@ public class ModelSubwoofer extends MowzieModelBase
                     lowerarmR1.rotateAngleX -= 1 * downwardPose;
                     lowerarmL1.rotateAngleX -= 1 * downwardPose;
                 }
-                
-                int t = TFDataManager.getTransformationTimer(player);
-                float f = (float) (20 - t);
-                
-                waist.rotationPointY += f * 0.65F;
-                waist.rotateAngleY += f * 0.165F;
-                crotch1.rotateAngleY -= f * 0.165F;
-                crotch2.rotateAngleY -= f * 0.165F;
-                stomach.rotateAngleY -= f * 0.165F;
-                chestwheel1.rotationPointX -= f * 0.05F;
-                chestwheel2.rotationPointX += f * 0.05F;
-                chestmain1.rotationPointY += f * 0.2F;
-                head.rotateAngleX += f * 0.1F;
-                head.rotationPointY += f * 0.1F;
-                head.rotationPointZ += f * 0.2F;
-                upperLegL.rotateAngleX += f * 0.09F;
-                upperLegR.rotateAngleX += f * 0.09F;
-                upperLegL.rotateAngleZ -= f * 0.1F;
-                upperLegR.rotateAngleZ += f * 0.1F;
-                //				upperLegL.rotateAngleY -= f * 0.1F;
-                //				upperLegR.rotateAngleY += f * 0.1F;
-                shoulderbaseL.rotateAngleY += f * 0.1F;
-                shoulderbaseR.rotateAngleY -= f * 0.1F;
-                shoulderbaseL.rotationPointZ += f * 0.5F;
-                shoulderbaseR.rotationPointZ += f * 0.5F;
-                lowerarmL1.rotateAngleX += f * 0.1F;
-                lowerarmL1.rotateAngleY -= f * 0.1F;
-                lowerarmR1.rotateAngleX += f * 0.1F;
-                lowerarmR1.rotateAngleY += f * 0.1F;
-                dish1.rotateAngleZ -= f * 0.08F;
-                dish1.rotationPointY -= f * 0.1F;
             }
             else
             //If not fully suited
@@ -1075,6 +1045,35 @@ public class ModelSubwoofer extends MowzieModelBase
                     this.upperArmR.rotateAngleZ += 0.15F;
                 }
             }
+            
+            int t = TFDataManager.getTransformationTimer(player);
+            float f = (float) (20 - t);
+            
+            waist.rotationPointY += f * 0.65F;
+            waist.rotateAngleY += f * 0.165F;
+            crotch1.rotateAngleY -= f * 0.165F;
+            crotch2.rotateAngleY -= f * 0.165F;
+            stomach.rotateAngleY -= f * 0.165F;
+            chestwheel1.rotationPointX -= f * 0.05F;
+            chestwheel2.rotationPointX += f * 0.05F;
+            chestmain1.rotationPointY += f * 0.2F;
+            head.rotateAngleX += f * 0.1F;
+            head.rotationPointY += f * 0.1F;
+            head.rotationPointZ += f * 0.2F;
+            upperLegL.rotateAngleX += f * 0.09F;
+            upperLegR.rotateAngleX += f * 0.09F;
+            upperLegL.rotateAngleZ -= f * 0.1F;
+            upperLegR.rotateAngleZ += f * 0.1F;
+            shoulderbaseL.rotateAngleY += f * 0.1F;
+            shoulderbaseR.rotateAngleY -= f * 0.1F;
+            shoulderbaseL.rotationPointZ += f * 0.5F;
+            shoulderbaseR.rotationPointZ += f * 0.5F;
+            lowerarmL1.rotateAngleX += f * 0.1F;
+            lowerarmL1.rotateAngleY -= f * 0.1F;
+            lowerarmR1.rotateAngleX += f * 0.1F;
+            lowerarmR1.rotateAngleY += f * 0.1F;
+            dish1.rotateAngleZ -= f * 0.08F;
+            dish1.rotationPointY -= f * 0.1F;
             
             float wheelSpinSpeed = par1 * 0.8F;
             vehicleFrontWheel1.rotateAngleX = wheelSpinSpeed;

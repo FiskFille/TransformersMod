@@ -1095,15 +1095,6 @@ public class ModelVurp extends MowzieModelBase
                     lowerArmL.rotateAngleX -= 0.5F;
                     lowerArmL.rotateAngleY += 0.8F;
                 }
-                
-                int t = TFDataManager.getTransformationTimer(player);
-                float f = (float) (20 - t);
-                
-                this.waist.rotationPointY += f * 0.9F;
-                this.armbaseL1.rotateAngleX -= f * 0.08F;
-                this.armbaseR1.rotateAngleX -= f * 0.08F;
-                this.lowerArmL.rotateAngleZ += f * 0.1F;
-                this.lowerArmR.rotateAngleZ -= f * 0.1F;
             }
             else
             //If not fully suited
@@ -1174,6 +1165,15 @@ public class ModelVurp extends MowzieModelBase
                     this.upperArmR.rotateAngleZ += 0.15F;
                 }
             }
+            
+            int t = TFDataManager.getTransformationTimer(player);
+            float f = (float) (20 - t);
+            
+            this.waist.rotationPointY += f * 0.9F;
+            this.armbaseL1.rotateAngleX -= f * 0.08F;
+            this.armbaseR1.rotateAngleX -= f * 0.08F;
+            this.lowerArmL.rotateAngleZ += f * 0.1F;
+            this.lowerArmR.rotateAngleZ -= f * 0.1F;
             
             float wheelSpinSpeed = par1 * 0.8F;
             vehicleWheelBackR.rotateAngleX = wheelSpinSpeed;

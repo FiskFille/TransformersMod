@@ -34,7 +34,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Resets the rotate angles and rotation points to its original value if they were saved before.
      * Note: Call this at the beginning of setRotationAngles.
      *
-     * @see setInitPose() method in MowzieModelBase class.
+     * @see #setInitPose() method in MowzieModelBase class.
      */
     public void setToInitPose()
     {
@@ -107,7 +107,6 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
      *
-     * @param box    is the ModelRenderer to be animated;
      * @param speed  is how fast the animation runs;
      * @param degree is how far the box will rotate;
      * @param invert will invert the rotation;

@@ -151,14 +151,6 @@ public class ModelSkystrike extends MowzieModelBase
         this.textureWidth = 128;
         this.textureHeight = 128;
         
-        bipedBody = new MowzieModelRenderer(this, 1000, 1000);
-        bipedHead = new MowzieModelRenderer(this, 1000, 1000);
-        bipedHeadwear = new MowzieModelRenderer(this, 1000, 1000);
-        bipedRightLeg = new MowzieModelRenderer(this, 1000, 1000);
-        bipedLeftLeg = new MowzieModelRenderer(this, 1000, 1000);
-        bipedRightArm = new MowzieModelRenderer(this, 1000, 1000);
-        bipedLeftArm = new MowzieModelRenderer(this, 1000, 1000);
-        
         this.textureWidth = 128;
         this.textureHeight = 128;
         this.feetconnectorR = new MowzieModelRenderer(this, 62, 74);
@@ -826,7 +818,6 @@ public class ModelSkystrike extends MowzieModelBase
     
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
-        super.render(entity, f, f1, f2, f3, f4, f5);
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         
         if (entity instanceof EntityPlayer)
@@ -1095,57 +1086,6 @@ public class ModelSkystrike extends MowzieModelBase
                     headbase.rotateAngleX += 0.2 * downwardPose;
                     headbase.rotateAngleX -= (speed * downwardPose) * 0.3F;
                 }
-                
-                int timer = TFDataManager.getTransformationTimer(player);
-                
-                if (timer == 0)
-                {
-                    ModelBiped modelBiped = TFModelHelper.modelBipedMain;
-                    
-                    this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
-                    this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
-                }
-                else
-                {
-                    int t = TFDataManager.getTransformationTimer(player);
-                    float f = (float) (20 - t) / 2;
-                    
-                    this.waist.rotationPointY -= (f * 0.8F);
-                    this.waist.rotateAngleX += (f * 0.15F);
-                    
-                    this.headbase.rotateAngleX += (f * -0.15F);
-                    
-                    this.shoulderR.rotateAngleX += f * -0.15F;
-                    this.shoulderL.rotateAngleX += f * -0.15F;
-                    
-                    this.shoulderR.rotateAngleZ += f * 0.15F;
-                    this.shoulderL.rotateAngleZ += f * -0.15F;
-                    
-                    this.lowerArmL1.rotateAngleZ += f * -0.5F;
-                    this.lowerArmR1.rotateAngleZ += f * 0.5F;
-                    
-                    this.upperLegR.rotateAngleX += (f * -0.3F);
-                    this.upperLegL.rotateAngleX += (f * -0.3F);
-                    
-                    this.wingR1biped.rotationPointZ += f * 0.5F;
-                    this.wingL1biped.rotationPointZ += f * 0.5F;
-                    
-                    this.wingR1biped.rotationPointY += f * 0.5F;
-                    this.wingL1biped.rotationPointY += f * 0.5F;
-                    
-                    this.wingR1biped.rotateAngleX += f * 0.1F;
-                    this.wingL1biped.rotateAngleX += f * 0.1F;
-                    
-                    this.wingR1biped.rotateAngleY += f * 0.2F;
-                    this.wingL1biped.rotateAngleY += -f * 0.2F;
-                    
-                    this.cockpit1.rotateAngleZ += f * 0.33F;
-                    this.cockpit1.rotationPointY += f * 0.1F;
-                    this.cockpit1.rotationPointZ += f * -0.2F;
-                    
-                    //						this.lowerarmL1.rotateAngleZ = f * 0.05F;
-                    //						this.lowerarmR1.rotateAngleZ = f * -0.05F;
-                }
             }
             else
             {
@@ -1216,6 +1156,54 @@ public class ModelSkystrike extends MowzieModelBase
                     this.upperArmR.rotateAngleY += this.waist.rotateAngleY * 2.0F;
                     this.upperArmR.rotateAngleZ = MathHelper.sin(this.onGround * (float) Math.PI) * -0.4F;
                 }
+            }
+            
+            int timer = TFDataManager.getTransformationTimer(player);
+            
+            if (timer == 0)
+            {
+                ModelBiped modelBiped = TFModelHelper.modelBipedMain;
+                
+                this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
+                this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
+            }
+            else
+            {
+                int t = TFDataManager.getTransformationTimer(player);
+                float f = (float) (20 - t) / 2;
+                
+                this.waist.rotationPointY -= (f * 0.8F);
+                this.waist.rotateAngleX += (f * 0.15F);
+                
+                this.headbase.rotateAngleX += (f * -0.15F);
+                
+                this.shoulderR.rotateAngleX += f * -0.15F;
+                this.shoulderL.rotateAngleX += f * -0.15F;
+                
+                this.shoulderR.rotateAngleZ += f * 0.15F;
+                this.shoulderL.rotateAngleZ += f * -0.15F;
+                
+                this.lowerArmL1.rotateAngleZ += f * -0.5F;
+                this.lowerArmR1.rotateAngleZ += f * 0.5F;
+                
+                this.upperLegR.rotateAngleX += (f * -0.3F);
+                this.upperLegL.rotateAngleX += (f * -0.3F);
+                
+                this.wingR1biped.rotationPointZ += f * 0.5F;
+                this.wingL1biped.rotationPointZ += f * 0.5F;
+                
+                this.wingR1biped.rotationPointY += f * 0.5F;
+                this.wingL1biped.rotationPointY += f * 0.5F;
+                
+                this.wingR1biped.rotateAngleX += f * 0.1F;
+                this.wingL1biped.rotateAngleX += f * 0.1F;
+                
+                this.wingR1biped.rotateAngleY += f * 0.2F;
+                this.wingL1biped.rotateAngleY += -f * 0.2F;
+                
+                this.cockpit1.rotateAngleZ += f * 0.33F;
+                this.cockpit1.rotationPointY += f * 0.1F;
+                this.cockpit1.rotationPointZ += f * -0.2F;
             }
         }
     }
