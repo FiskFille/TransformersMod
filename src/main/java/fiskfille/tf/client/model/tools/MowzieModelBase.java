@@ -300,6 +300,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
      */
     public boolean onGround(Entity entity)
     {
+        boolean onGround = entity.onGround;
+        
         if (entity != Minecraft.getMinecraft().thePlayer)
         {
             double moveY = -0.2;
@@ -315,11 +317,9 @@ public class MowzieModelBase extends ModelChildBase.Biped
                 moveY = ((AxisAlignedBB) collidingEntities.get(currentIndex)).calculateYOffset(entity.boundingBox, moveY);
             }
             
-            return actualMoveY != moveY && actualMoveY < 0.0D;
+            onGround = actualMoveY != moveY && actualMoveY < 0.0D;
         }
-        else
-        {
-            return entity.onGround;
-        }
+        
+        return onGround || this.isRiding;
     }
 }

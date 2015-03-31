@@ -958,6 +958,38 @@ public class ModelSkystrike extends MowzieModelBase
                 globalSpeed = 1.3F;
             }
             
+            if (this.aimedBow)
+            {
+                this.upperArmR.rotateAngleY += -0.1F + this.headbase.rotateAngleY;
+                this.upperArmL.rotateAngleY += 0.1F + this.headbase.rotateAngleY + 0.4F;
+                this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
+                this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
+                this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
+                this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
+                
+                this.upperArmR.rotateAngleX += 0.25F;
+                this.upperArmL.rotateAngleX += 0.25F;
+            }
+            
+            if (this.isRiding)
+            {
+                this.upperArmR.rotateAngleX -= (float) Math.PI / 5F;
+                this.upperArmL.rotateAngleX -= (float) Math.PI / 5F;
+                this.upperLegR.rotateAngleX -= (float) Math.PI * 2F / 5F;
+                this.upperLegL.rotateAngleX -= (float) Math.PI * 2F / 5F;
+                
+                this.upperLegR.rotateAngleY += (float) Math.PI / 10F;
+                this.upperLegL.rotateAngleY -= (float) Math.PI / 10F;
+                
+                if(!wearingChest)
+                {
+                    this.upperLegL.rotationPointY += 3;
+                    this.upperLegR.rotationPointY += 3;
+                }
+            }
+            
             if (wearingHead && wearingLegs && wearingChest)
             {
                 if (this.onGround > -9990.0F)
@@ -1025,19 +1057,6 @@ public class ModelSkystrike extends MowzieModelBase
                     walk(lowerArmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                     walk(lowerArmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                     
-                    /*walk(waist, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                        walk(upperlegL, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-                        walk(upperlegR, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-                        walk(chestcenter, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
-                        walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                        walk(upperarmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                        walk(upperarmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-
-                        flap(shoulderL, 0.06F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                        flap(shoulderR, 0.06F, 0.05F, false, 1, 0, ticksExisted, 1F);
-                        walk(lowerarmL1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                        walk(lowerarmR1, 0.06F, 0.1F, true, 1, 0, ticksExisted, 1F);*/
-                    
                     if (sneaking)
                     {
                         waist.rotationPointY -= par2;
@@ -1061,7 +1080,6 @@ public class ModelSkystrike extends MowzieModelBase
                     }
                 }
                 else
-                    // if(!player.isWet())
                 {
                     double motionX = entity.posX - entity.prevPosX;
                     double motionZ = entity.posZ - entity.prevPosZ;
@@ -1110,33 +1128,8 @@ public class ModelSkystrike extends MowzieModelBase
                 this.lowerArmL1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
                 this.lowerArmR1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 4;
                 
-                this.upperLegR.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2) - 0.65F;
-                this.upperLegL.rotateAngleX = ((MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2) - 0.65F;
-                
-                if (this.isRiding)
-                {
-                    this.upperArmR.rotateAngleX += -((float) Math.PI / 5F);
-                    this.upperArmL.rotateAngleX += -((float) Math.PI / 5F);
-                    this.upperLegR.rotateAngleX = -((float) Math.PI * 2F / 5F);
-                    this.upperLegL.rotateAngleX = -((float) Math.PI * 2F / 5F);
-                    this.upperLegR.rotateAngleY = ((float) Math.PI / 10F);
-                    this.upperLegL.rotateAngleY = -((float) Math.PI / 10F);
-                }
-                
-                if (this.aimedBow)
-                {
-                    this.upperArmR.rotateAngleY += -0.1F + this.bipedHead.rotateAngleY;
-                    this.upperArmL.rotateAngleY += 0.1F + this.bipedHead.rotateAngleY + 0.4F;
-                    this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
-                    this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.bipedHead.rotateAngleX;
-                    this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
-                    this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
-                    this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
-                    this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
-                    
-                    this.upperArmR.rotateAngleX += 0.25F;
-                    this.upperArmL.rotateAngleX += 0.25F;
-                }
+                this.upperLegR.rotateAngleX += ((MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2);
+                this.upperLegL.rotateAngleX += ((MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2);
                 
                 if (this.isSneak)
                 {
@@ -1159,10 +1152,6 @@ public class ModelSkystrike extends MowzieModelBase
                         this.upperLegR.rotationPointZ += 5F;
                         this.upperLegR.rotationPointY -= 0.8F;
                     }
-                }
-                else
-                {
-                    this.waist.rotateAngleX = 0.0F;
                 }
                 
                 if (this.onGround > -9990.0F)
