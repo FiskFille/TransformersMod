@@ -941,14 +941,8 @@ public class ModelSkystrike extends MowzieModelBase
                 globalDegree = 0.5F;
             }
             
-            if (this.heldItemLeft != 0)
-            {
-                this.upperArmL.rotateAngleX -= 0.2F;
-            }
-            if (this.heldItemRight != 0)
-            {
-                this.upperArmR.rotateAngleX -= 0.2F;
-            }
+            this.upperArmL.rotateAngleX -= this.heldItemLeft * 0.25F;
+            this.upperArmR.rotateAngleX -= this.heldItemRight * 0.25F;
             
             boolean sneaking = player.isSneaking();
             

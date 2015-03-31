@@ -531,14 +531,8 @@ public class ModelPurge extends MowzieModelBase
             
             boolean fullSuit = wearingHead && wearingLegs && wearingChest;
             
-            if (this.heldItemLeft != 0)
-            {
-                this.upperArmL.rotateAngleX -= 0.2F;
-            }
-            if (this.heldItemRight != 0)
-            {
-                this.upperArmR.rotateAngleX -= 0.2F;
-            }
+            this.upperArmL.rotateAngleX -= this.heldItemLeft * 0.25F;
+            this.upperArmR.rotateAngleX -= this.heldItemRight * 0.25F;
             
             if (this.aimedBow)
             {
