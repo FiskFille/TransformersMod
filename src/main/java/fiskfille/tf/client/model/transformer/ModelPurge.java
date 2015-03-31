@@ -705,6 +705,8 @@ public class ModelPurge extends MowzieModelBase
                     this.upperLegL.rotateAngleY = -((float) Math.PI / 10F);
                 }
                 
+                this.waist.rotationPointY -= 0.8F;
+                
                 if (this.isSneak)
                 {
                     this.waist.rotateAngleX += 0.4F;

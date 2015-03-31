@@ -61,7 +61,7 @@ public class RenderCustomPlayer extends RenderPlayer
         
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
-        super.renderArrowsStuckInEntity(player, partialTicks);
+        super.renderArrowsStuckInEntity(player, partialTicks); //TODO Sync arrows with body (That is gonna be hard xD)
         
         ItemStack helmetStack = player.inventory.armorItemInSlot(3);
         
@@ -202,11 +202,6 @@ public class RenderCustomPlayer extends RenderPlayer
             
             float f8 = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * partialTicks;
             f5 += MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * partialTicks) * 6.0F) * 32.0F * f8;
-            
-            if (player.isSneaking())
-            {
-                f5 += 25.0F;
-            }
             
             GL11.glRotatef(6.0F + f6 / 2.0F + f5, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(f7 / 2.0F, 0.0F, 0.0F, 1.0F);

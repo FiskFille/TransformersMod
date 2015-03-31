@@ -960,6 +960,21 @@ public class ModelSkystrike extends MowzieModelBase
             
             if (wearingHead && wearingLegs && wearingChest)
             {
+                if (this.onGround > -9990.0F)
+                {
+                    float hitTick = this.onGround;
+                    double max = 0.99126524;
+                    
+                    stomach.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    chest1.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    headbase.rotateAngleY += -40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    upperArmR.rotateAngleZ += -2 * (hitTick) * (Math.pow(hitTick, 5) - max);
+                    upperArmR.rotateAngleX += 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    lowerArmR1.rotateAngleX += 50 * (hitTick) * (hitTick - 0.5) * (hitTick - 0.5) * (hitTick - max);
+                    upperArmL.rotateAngleX -= 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    lowerArmL1.rotateAngleX += 25 * (hitTick) * (Math.pow(hitTick, 0.1) - max);
+                }
+                
                 boolean playerOnGround = onGround(player);
                 
                 if (playerOnGround || player.capabilities.isFlying)

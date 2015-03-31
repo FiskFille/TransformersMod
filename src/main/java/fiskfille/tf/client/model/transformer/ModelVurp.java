@@ -984,6 +984,21 @@ public class ModelVurp extends MowzieModelBase
             {
                 boolean playerOnGround = onGround(player);
                 
+                if (this.onGround > -9990.0F)
+                {
+                    float hitTick = this.onGround;
+                    double max = 0.99126524;
+                    
+                    torsobase.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    torsoconnector1.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    head.rotateAngleY += -40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    upperArmR.rotateAngleZ += -2 * (hitTick) * (Math.pow(hitTick, 5) - max);
+                    upperArmR.rotateAngleX += 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    lowerArmR.rotateAngleX += 50 * (hitTick) * (hitTick - 0.5) * (hitTick - 0.5) * (hitTick - max);
+                    upperArmL.rotateAngleX -= 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    lowerArmL.rotateAngleX += 25 * (hitTick) * (Math.pow(hitTick, 0.1) - max);
+                }
+                
                 if (playerOnGround || player.capabilities.isFlying)
                 {
                     waist.rotationPointY -= 3F;
@@ -1038,7 +1053,6 @@ public class ModelVurp extends MowzieModelBase
                     }
                 }
                 else
-                //If not on ground
                 {
                     double motionY = entity.posY - entity.prevPosY;
                     
@@ -1097,7 +1111,6 @@ public class ModelVurp extends MowzieModelBase
                 }
             }
             else
-            //If not fully suited
             {
                 waist.rotationPointY += 1;
                 this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;

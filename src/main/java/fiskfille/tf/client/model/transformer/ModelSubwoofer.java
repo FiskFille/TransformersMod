@@ -57,7 +57,7 @@ public class ModelSubwoofer extends MowzieModelBase
     public MowzieModelRenderer upperArmL;
     public MowzieModelRenderer shoulderplate2;
     public MowzieModelRenderer shoulderplate3;
-    public MowzieModelRenderer lowerarmL1;
+    public MowzieModelRenderer lowerArmL;
     public MowzieModelRenderer lowerarmL2;
     public MowzieModelRenderer lowerarmL3;
     public MowzieModelRenderer fistL;
@@ -65,7 +65,7 @@ public class ModelSubwoofer extends MowzieModelBase
     public MowzieModelRenderer clawL2;
     public MowzieModelRenderer upperArmR;
     public MowzieModelRenderer shoulderplateR1;
-    public MowzieModelRenderer lowerarmR1;
+    public MowzieModelRenderer lowerArmR;
     public MowzieModelRenderer fistR;
     public MowzieModelRenderer bass1;
     public MowzieModelRenderer bass2;
@@ -161,10 +161,10 @@ public class ModelSubwoofer extends MowzieModelBase
         this.fistL.setRotationPoint(0.0F, 4.2F, 0.0F);
         this.fistL.addBox(-1.0F, 0.0F, -1.0F, 2, 2, 2, 0.0F);
         this.setRotateAngle(fistL, -0.03490658503988659F, 0.06981317007977318F, 0.24434609527920614F);
-        this.lowerarmL1 = new MowzieModelRenderer(this, 48, 94);
-        this.lowerarmL1.setRotationPoint(0.0F, 4.0F, 0.0F);
-        this.lowerarmL1.addBox(-1.3F, -0.6F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(lowerarmL1, -0.19198621771937624F, 0.06981317007977318F, 0.10471975511965977F);
+        this.lowerArmL = new MowzieModelRenderer(this, 48, 94);
+        this.lowerArmL.setRotationPoint(0.0F, 4.0F, 0.0F);
+        this.lowerArmL.addBox(-1.3F, -0.6F, -1.5F, 3, 5, 3, 0.0F);
+        this.setRotateAngle(lowerArmL, -0.19198621771937624F, 0.06981317007977318F, 0.10471975511965977F);
         this.lowerlegL3 = new MowzieModelRenderer(this, 79, 82);
         this.lowerlegL3.setRotationPoint(-2.0F, -1.0F, -0.2F);
         this.lowerlegL3.addBox(0.0F, 0.0F, 0.0F, 1, 7, 2, 0.0F);
@@ -322,11 +322,11 @@ public class ModelSubwoofer extends MowzieModelBase
         this.upperLegR.setRotationPoint(-1.0F, 1.0F, 0.0F);
         this.upperLegR.addBox(-2.0F, -1.0F, -2.0F, 2, 5, 3, 0.0F);
         this.setRotateAngle(upperLegR, -0.2617993877991494F, 0.10471975511965977F, 0.08726646259971647F);
-        this.lowerarmR1 = new MowzieModelRenderer(this, 48, 94);
-        this.lowerarmR1.mirror = true;
-        this.lowerarmR1.setRotationPoint(0.0F, 4.0F, 0.0F);
-        this.lowerarmR1.addBox(-1.7F, -0.6F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(lowerarmR1, -0.19198621771937624F, -0.06981317007977318F, -0.10471975511965977F);
+        this.lowerArmR = new MowzieModelRenderer(this, 48, 94);
+        this.lowerArmR.mirror = true;
+        this.lowerArmR.setRotationPoint(0.0F, 4.0F, 0.0F);
+        this.lowerArmR.addBox(-1.7F, -0.6F, -1.5F, 3, 5, 3, 0.0F);
+        this.setRotateAngle(lowerArmR, -0.19198621771937624F, -0.06981317007977318F, -0.10471975511965977F);
         this.bass1 = new MowzieModelRenderer(this, 60, 92);
         this.bass1.setRotationPoint(-2.0F, 5.0F, -0.5F);
         this.bass1.addBox(0.0F, 0.0F, 0.0F, 1, 2, 3, 0.0F);
@@ -461,15 +461,15 @@ public class ModelSubwoofer extends MowzieModelBase
         this.waist.addChild(this.crotchbuttonR);
         this.chestmain1.addChild(this.shoulderbaseR);
         this.shoulderplateL1.addChild(this.shoulderplate2);
-        this.lowerarmL1.addChild(this.fistL);
-        this.upperArmL.addChild(this.lowerarmL1);
+        this.lowerArmL.addChild(this.fistL);
+        this.upperArmL.addChild(this.lowerArmL);
         this.lowerlegL1.addChild(this.lowerlegL3);
         this.stomach.addChild(this.chestmain1);
-        this.lowerarmR1.addChild(this.fistR);
+        this.lowerArmR.addChild(this.fistR);
         this.lowerlegR1.addChild(this.lowerlegR3);
         this.head.addChild(this.head4);
         this.shoulderplateL1.addChild(this.shoulderplate3);
-        this.lowerarmR1.addChild(this.bass5);
+        this.lowerArmR.addChild(this.bass5);
         this.shoulderbaseL.addChild(this.shoulderplateL1);
         this.legbaseL.addChild(this.leg1);
         this.waist.addChild(this.sideflapL);
@@ -479,7 +479,7 @@ public class ModelSubwoofer extends MowzieModelBase
         this.chestmain3.addChild(this.antenna1);
         this.chestmain1.addChild(this.dish1);
         this.upperLegR.addChild(this.lowerlegR1);
-        this.lowerarmR1.addChild(this.bass2);
+        this.lowerArmR.addChild(this.bass2);
         this.chestmain1.addChild(this.frontchestR);
         this.shoulderplateR1.addChild(this.shoulderplateR3);
         this.upperLegL.addChild(this.lowerlegL1);
@@ -487,7 +487,7 @@ public class ModelSubwoofer extends MowzieModelBase
         this.waist.addChild(this.crotch1);
         this.waist.addChild(this.stomach);
         this.shoulderbaseR.addChild(this.shoulderplateR1);
-        this.lowerarmR1.addChild(this.bass3);
+        this.lowerArmR.addChild(this.bass3);
         this.lowerlegL1.addChild(this.lowerlegL2);
         this.chestmain1.addChild(this.chestmain4);
         this.head.addChild(this.head1);
@@ -500,17 +500,17 @@ public class ModelSubwoofer extends MowzieModelBase
         this.legbaseL.addChild(this.legL2);
         this.head.addChild(this.head5);
         this.crotch1.addChild(this.upperLegR);
-        this.upperArmR.addChild(this.lowerarmR1);
-        this.lowerarmR1.addChild(this.bass1);
+        this.upperArmR.addChild(this.lowerArmR);
+        this.lowerArmR.addChild(this.bass1);
         this.lowerlegR1.addChild(this.lowerlegR2);
         this.chestmain1.addChild(this.frontchestL);
         this.headplate1.addChild(this.headplate2_1);
         this.chestmain3.addChild(this.antenna2);
         this.lowerarmL3.addChild(this.clawL1);
-        this.lowerarmL1.addChild(this.lowerarmL3);
+        this.lowerArmL.addChild(this.lowerarmL3);
         this.chestmain1.addChild(this.chestmain3);
         this.headplate1.addChild(this.headplate2);
-        this.lowerarmR1.addChild(this.bass4);
+        this.lowerArmR.addChild(this.bass4);
         this.waist.addChild(this.crotchbuttonL);
         this.chestmain1.addChild(this.chestmain2);
         this.head.addChild(this.head3);
@@ -525,12 +525,12 @@ public class ModelSubwoofer extends MowzieModelBase
         this.legbaseR.addChild(this.legR1);
         this.chestmain1.addChild(this.chestmain5);
         this.dish1.addChild(this.dish2);
-        this.lowerarmR1.addChild(this.bass6);
+        this.lowerArmR.addChild(this.bass6);
         this.shoulderplateR1.addChild(this.shoulderplateR2);
         this.lowerarmL3.addChild(this.clawL2);
         this.chestmain1.addChild(this.chestwheel2);
         this.head.addChild(this.headplate1);
-        this.lowerarmL1.addChild(this.lowerarmL2);
+        this.lowerArmL.addChild(this.lowerarmL2);
         this.legbaseL.addChild(this.legL3);
         
         //parts = new MowzieModelRenderer[]{antenna1, antenna2, bass1, bass2, bass3, bass4, bass5, bass6, chestmain1, chestmain2, chestmain3, chestmain4, chestmain5, chestmain6, chestwheel1, chestwheel2, clawL1, clawL2, crotch1, crotch2, crotchbuttonL, crotchbuttonR, dish1, dish2, fistL, fistR, frontchestL, frontchestR, head, head1, head2, head3, head4, head5, head6, head7, headplate1, headplate2, headplate2_1, leg1, legbaseL, legbaseR, legL2, legL3, legR1, legR2, legR3, lowerarmR1, lowerarmL1, lowerarmL2, lowerarmL3, lowerlegL1, lowerlegL2, lowerlegL3, lowerlegL4, lowerlegR1, lowerlegR2, lowerlegR3, lowerlegR4, shoulderbaseL, shoulderbaseR, shoulderplate2, shoulderplate3, shoulderplateL1, shoulderplateR1, shoulderplateR2, shoulderplateR3, sideflapL, sideflapL_1, stomach, upperArmL, upperArmR, upperLegL, upperLegR, waist};
@@ -876,6 +876,21 @@ public class ModelSubwoofer extends MowzieModelBase
             
             if (wearingChest && wearingHead && wearingLegs)
             {
+                if (this.onGround > -9990.0F)
+                {
+                    float hitTick = this.onGround;
+                    double max = 0.99126524;
+                    
+                    stomach.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    chestmain1.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    head.rotateAngleY += -40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    upperArmR.rotateAngleZ += -2 * (hitTick) * (Math.pow(hitTick, 5) - max);
+                    upperArmR.rotateAngleX += 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    lowerArmR.rotateAngleX += 50 * (hitTick) * (hitTick - 0.5) * (hitTick - 0.5) * (hitTick - max);
+                    upperArmL.rotateAngleX -= 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
+                    lowerArmL.rotateAngleX += 25 * (hitTick) * (Math.pow(hitTick, 0.1) - max);
+                }
+                
                 boolean playerOnGround = onGround(player);
                 
                 if (playerOnGround || player.capabilities.isFlying)
@@ -888,8 +903,8 @@ public class ModelSubwoofer extends MowzieModelBase
                     upperLegL.rotateAngleX -= 0.1;
                     lowerlegR1.rotateAngleX += 0.1;
                     lowerlegL1.rotateAngleX += 0.1;
-                    lowerarmL1.rotateAngleX -= 0.1;
-                    lowerarmR1.rotateAngleX -= 0.1;
+                    lowerArmL.rotateAngleX -= 0.1;
+                    lowerArmR.rotateAngleX -= 0.1;
                     head.rotateAngleX += 0.1;
                     
                     bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
@@ -911,8 +926,8 @@ public class ModelSubwoofer extends MowzieModelBase
                     walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
                     walk(upperArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
                     walk(upperArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                    walk(lowerarmR1, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
-                    walk(lowerarmL1, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+                    walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+                    walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
                     
                     int ticksExisted = entity.ticksExisted;
                     
@@ -924,8 +939,8 @@ public class ModelSubwoofer extends MowzieModelBase
                     
                     flap(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
                     flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
-                    walk(lowerarmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(lowerarmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                     
                     if (player.isSneaking()) // TODO: Sneak Animation
                     {
@@ -949,8 +964,8 @@ public class ModelSubwoofer extends MowzieModelBase
                     upperArmL.rotateAngleX += 0.1 * upwardPose;
                     upperArmR.rotateAngleZ -= 0.1 * upwardPose;
                     upperArmL.rotateAngleZ += 0.1 * upwardPose;
-                    lowerarmR1.rotateAngleX += 0.2 * upwardPose;
-                    lowerarmL1.rotateAngleX += 0.2 * upwardPose;
+                    lowerArmR.rotateAngleX += 0.2 * upwardPose;
+                    lowerArmL.rotateAngleX += 0.2 * upwardPose;
                     
                     upperLegR.rotateAngleX += 0.2 * upwardPose;
                     upperLegL.rotateAngleX -= 1 * upwardPose;
@@ -972,8 +987,8 @@ public class ModelSubwoofer extends MowzieModelBase
                     lowerlegL1.rotateAngleX += 0.5 * downwardPose;
                     upperArmR.rotateAngleZ += 1 * downwardPose;
                     upperArmL.rotateAngleZ -= 1 * downwardPose;
-                    lowerarmR1.rotateAngleX -= 1 * downwardPose;
-                    lowerarmL1.rotateAngleX -= 1 * downwardPose;
+                    lowerArmR.rotateAngleX -= 1 * downwardPose;
+                    lowerArmL.rotateAngleX -= 1 * downwardPose;
                 }
             }
             else
@@ -983,8 +998,8 @@ public class ModelSubwoofer extends MowzieModelBase
                 this.upperArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
                 this.upperArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2;
                 
-                this.lowerarmL1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
-                this.lowerarmR1.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 4;
+                this.lowerArmL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 4;
+                this.lowerArmR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 4;
                 
                 this.upperLegR.rotateAngleX += (MathHelper.cos(par1 * 0.6662F) * 1.4F * par2) / 2;
                 this.upperLegL.rotateAngleX += (MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2) / 2;
@@ -1068,10 +1083,10 @@ public class ModelSubwoofer extends MowzieModelBase
             shoulderbaseR.rotateAngleY -= f * 0.1F;
             shoulderbaseL.rotationPointZ += f * 0.5F;
             shoulderbaseR.rotationPointZ += f * 0.5F;
-            lowerarmL1.rotateAngleX += f * 0.1F;
-            lowerarmL1.rotateAngleY -= f * 0.1F;
-            lowerarmR1.rotateAngleX += f * 0.1F;
-            lowerarmR1.rotateAngleY += f * 0.1F;
+            lowerArmL.rotateAngleX += f * 0.1F;
+            lowerArmL.rotateAngleY -= f * 0.1F;
+            lowerArmR.rotateAngleX += f * 0.1F;
+            lowerArmR.rotateAngleY += f * 0.1F;
             dish1.rotateAngleZ -= f * 0.08F;
             dish1.rotationPointY -= f * 0.1F;
             
@@ -1101,7 +1116,7 @@ public class ModelSubwoofer extends MowzieModelBase
             {
                 setRotateAngle(shoulderbaseR, 0.0F, 0.0F, 0.0F);
                 setRotateAngle(upperArmR, 0.0F, 0.0F, 0.2F);
-                setRotateAngle(lowerarmR1, bipedHead.rotateAngleX - pi / 2, bipedHead.rotateAngleY, 0.0F);
+                setRotateAngle(lowerArmR, bipedHead.rotateAngleX - pi / 2, bipedHead.rotateAngleY, 0.0F);
             }
         }
     }
