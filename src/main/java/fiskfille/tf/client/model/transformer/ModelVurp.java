@@ -1,23 +1,21 @@
 package fiskfille.tf.client.model.transformer;
 
+import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.item.ItemVurpsSniper;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.common.item.ItemVurpsSniper;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.TransformerSubwoofer;
-import fiskfille.tf.common.transformer.TransformerVurp;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelVurp extends MowzieModelBase
 {
@@ -1044,9 +1042,9 @@ public class ModelVurp extends MowzieModelBase
                     
                     swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
                     head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
-                    
-                    swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
-                    swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
+
+                    swing(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree, true, 0, -0.2F, par1, par2);
+                    swing(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree, true, 0, 0.2F, par1, par2);
                     walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
                     walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
                     walk(lowerLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
@@ -1071,6 +1069,22 @@ public class ModelVurp extends MowzieModelBase
                     
                     if (player.isSneaking()) // TODO: Sneak Animation
                     {
+                        waist.rotationPointY -= par2;
+                        waist.rotateAngleX += 0.3F;
+                        waist.rotationPointZ -= 0F;
+                        waist.rotationPointY += 0.5F;
+
+                        head.rotateAngleX -= 0.3;
+                        upperLegR.rotateAngleX -= 0.7;
+                        upperLegL.rotateAngleX -= 0.7;
+                        lowerLegR.rotateAngleX += 0.7;
+                        lowerLegL.rotateAngleX += 0.7;
+                        upperArmR.rotateAngleX -= 0.3;
+                        upperArmL.rotateAngleX -= 0.3;
+                        upperArmR.rotateAngleZ += 0.5;
+                        upperArmL.rotateAngleZ -= 0.5;
+                        lowerArmR.rotateAngleZ -= 0.5;
+                        lowerArmL.rotateAngleZ += 0.5;
                     }
                 }
                 else
@@ -1194,6 +1208,17 @@ public class ModelVurp extends MowzieModelBase
             float f = (float) (20 - t);
             
             this.waist.rotationPointY += f * 0.9F;
+            this.waist.rotateAngleX += f * 0.17F;
+           this.torsobase.rotationPointY += f * 0.2F;
+
+            upperLegL.rotateAngleX -= f * 0.15F;
+            upperLegR.rotateAngleX -= f * 0.15F;
+            lowerLegL.rotateAngleX += f * 0.05F;
+            lowerLegR.rotateAngleX += f * 0.05F;
+
+            torsobase.rotateAngleX -= f * 0.2F;
+            head.rotateAngleX += f * 0.15F;
+
             this.armbaseL1.rotateAngleX -= f * 0.08F;
             this.armbaseR1.rotateAngleX -= f * 0.08F;
             this.lowerArmL.rotateAngleZ += f * 0.1F;

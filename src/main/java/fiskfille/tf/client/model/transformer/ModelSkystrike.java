@@ -1,12 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -14,6 +7,11 @@ import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 
 public class ModelSkystrike extends MowzieModelBase
 {
@@ -1097,9 +1095,10 @@ public class ModelSkystrike extends MowzieModelBase
                     lowerArmR1.rotateAngleX += 0.2 * upwardPose;
                     lowerArmL1.rotateAngleX += 0.2 * upwardPose;
                     
-                    upperLegR.rotateAngleX += 0.2 * upwardPose;
+                    upperLegR.rotateAngleX -= 0.3 * upwardPose;
                     upperLegL.rotateAngleX += 0.2 * upwardPose;
-                    lowerLegR.rotateAngleX += 0.5 * upwardPose;
+                    middlelegR.rotateAngleX += 0.5 * upwardPose;
+                    lowerLegR.rotateAngleX += 0.3 * upwardPose;
                     lowerlegL.rotateAngleX += 0.5 * upwardPose;
                     
                     waist.rotateAngleX += speed * downwardPose;

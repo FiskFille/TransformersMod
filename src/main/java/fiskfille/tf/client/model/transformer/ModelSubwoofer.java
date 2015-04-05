@@ -935,14 +935,14 @@ public class ModelSubwoofer extends MowzieModelBase
                     swing(head, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
                     head.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
                     
-                    swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
-                    swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
+                    swing(upperLegR, 0.5F * globalSpeed, 0.1F * globalDegree, true, 0, -0.2F, par1, par2);
+                    swing(upperLegL, 0.5F * globalSpeed, 0.1F * globalDegree, true, 0, 0.2F, par1, par2);
                     walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
                     walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
                     walk(lowerlegR1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
                     walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
-                    walk(upperArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                    walk(upperArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(upperArmR, 0.5F * globalSpeed, 0.7F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(upperArmL, 0.5F * globalSpeed, 0.7F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
                     walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
                     walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
                     
@@ -961,6 +961,22 @@ public class ModelSubwoofer extends MowzieModelBase
                     
                     if (player.isSneaking()) // TODO: Sneak Animation
                     {
+                        waist.rotationPointY -= par2;
+                        waist.rotateAngleX += 0.3F;
+                        waist.rotationPointZ -= 0F;
+                        waist.rotationPointY += 0.5F;
+
+                        head.rotateAngleX -= 0.3;
+                        upperLegR.rotateAngleX -= 0.7;
+                        upperLegL.rotateAngleX -= 0.7;
+                        lowerlegR1.rotateAngleX += 0.7;
+                        lowerlegL1.rotateAngleX += 0.7;
+                        upperArmR.rotateAngleX -= 0.3;
+                        upperArmL.rotateAngleX -= 0.3;
+                        upperArmR.rotateAngleZ += 0.5;
+                        upperArmL.rotateAngleZ -= 0.5;
+                        lowerArmR.rotateAngleZ -= 0.5;
+                        lowerArmL.rotateAngleZ += 0.5;
                     }
                 }
                 else
