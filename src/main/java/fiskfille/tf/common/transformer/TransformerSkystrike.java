@@ -2,85 +2,68 @@ package fiskfille.tf.common.transformer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import fiskfille.tf.client.model.transformer.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 
+/**
+ * @author gegy1000
+ */
 public class TransformerSkystrike extends TransformerJet
 {
-	public TransformerSkystrike()
-	{
-		super("Skystrike");
-	}
-	
-	@Override
-	public Item getHelmet() 
-	{
-		return TFItems.skystrikeHelmet;
-	}
-
-	@Override
-	public Item getChestplate() 
-	{
-		return TFItems.skystrikeChestplate;
-	}
-
-	@Override
-	public Item getLeggings()
-	{
-		return TFItems.skystrikeLeggings;
-	}
-
-	@Override
-	public Item getBoots()
-	{
-		return TFItems.skystrikeBoots;
-	}
-	
-	@Override
-	public Biped getModel()
-	{
-		return TFModelRegistry.getModel(this);
-	}
-	
-	@Override
-	public void onJump(EntityPlayer player)
-	{
-		player.motionY += 0.205D;
-	}
-	
-	@Override
-	public void vehicleTick(EntityPlayer player)
-	{
-		if (!player.capabilities.isFlying)
-		{
-			if (player.motionY < 0.0D)
-			{
-				player.motionY *= 0.85F;
-			}
-			else
-			{
-				player.motionY += 0.02D;
-			}
-		}
-	}
-	
-	@Override
-	public int getDisplayVehicleMetadata()
-	{
-		return 0;
-	}
-
-    @Override
-    public float getCameraYOffset(EntityPlayer player)
+    public TransformerSkystrike()
     {
-        return -0.7f;
+        super("Skystrike");
     }
-
+    
     @Override
-    public float getMotionYOffset()
+    public Item getHelmet()
     {
-        return 0.6f;
+        return TFItems.skystrikeHelmet;
+    }
+    
+    @Override
+    public Item getChestplate()
+    {
+        return TFItems.skystrikeChestplate;
+    }
+    
+    @Override
+    public Item getLeggings()
+    {
+        return TFItems.skystrikeLeggings;
+    }
+    
+    @Override
+    public Item getBoots()
+    {
+        return TFItems.skystrikeBoots;
+    }
+    
+    @Override
+    public void onJump(EntityPlayer player)
+    {
+        player.motionY += 0.205D;
+    }
+    
+    @Override
+    public void tick(EntityPlayer player, int timer)
+    {
+        if(timer == 20)
+        {
+            if (!player.capabilities.isFlying && !(TFDataManager.getTransformationTimer(player) < 10))
+            {
+                if (player.motionY < 0.0D)
+                {
+                    player.motionY *= 0.85F;
+                }
+                else
+                {
+                    player.motionY += 0.02D;
+                }
+            }
+        }
     }
 }

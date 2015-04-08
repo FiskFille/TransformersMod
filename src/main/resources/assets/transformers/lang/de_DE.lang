@@ -1,0 +1,115 @@
+------Items------
+item.transformium.name=Transformium
+item.energon_crystal_piece.name=Energon Kristallstück
+item.standard_engine.name=Standard Motor
+item.jet_turbine.name=Jet Turbine
+item.jet_thruster.name=Jet Antrieb
+item.small_thruster.name=Kleiner Antrieb
+item.ahd-2_jet_wing.name=AHD-2 Jet Flügel
+item.ahd-2_jet_cockpit.name=AHD-2 Jet Cockpit
+item.t-50_jet_wing.name=T-50 Jet Flügel
+item.t-50_jet_cockpit.name=T-50 Jet Cockpit
+item.tracks.name=Ketten
+item.turret.name=Geschütz
+item.wheel.name=Rad
+item.missile.name=Rakete
+item.tank_shell.name=Panzer Gehäuse
+item.mini_missile.name=Zweckrakete
+item.transformium_detector.name=Transformium Detektor
+
+------Armor------
+item.skystrike_head.name=Skystrike Kopf
+item.skystrike_torso.name=Skystrike Körper
+item.skystrike_legs.name=Skystrike Beine
+item.skystrike_feet.name=Skystrike Füße
+item.purge_head.name=Purge Kopf
+item.purge_torso.name=Purge Körper
+item.purge_legs.name=Purge Beine
+item.purge_feet.name=Purge Füße
+item.vurp_head.name=Vurp Kopf
+item.vurp_torso.name=Vurp Körper
+item.vurp_legs.name=Vurp Beine
+item.vurp_feet.name=Vurp Füße
+item.subwoofer_head.name=Subwoofer Kopf
+item.subwoofer_torso.name=Subwoofer Körper
+item.subwoofer_legs.name=Subwoofer Beine
+item.subwoofer_feet.name=Subwoofer Füße
+item.cloudtrap_head.name=Cloudtrap Kopf
+item.cloudtrap_torso.name=Cloudtrap Körper
+item.cloudtrap_legs.name=Cloudtrap Beine
+item.cloudtrap_feet.name=Cloudtrap Füße
+
+------Display Vehicles------
+item.display_skystrike.name=AHD-2 Lamphyrade Dropship
+item.display_purge.name=M5 Scout Tank
+item.display_vurp.name=2015 Chevrolet Corvette Z06
+item.display_subwoofer.name=2015 Acura NSX
+item.display_cloudtrap.name=T-50 Stealth Jet
+
+------Weapons------
+item.skystrikes_energon_crossbow.name=Skystrike's Energon Armbrust
+item.purges_katana.name=Purge's Katana
+item.vurps_sniper.name=Vurp's Sniper
+item.subwoofers_bass_blaster.name=Subwoofer's Bass Blaster
+item.flame_thrower.name=Cloudtrap's Flammenwerfer
+
+------Blocks------
+tile.display_pillar.name=Display Pillar
+tile.transformium_ore.name=Transformium Erz
+tile.energon_crystal.name=Energon Kristall
+tile.energon_cube.name=Energon Würfel
+tile.transformium_stone.name=Transformium Stein
+tile.transformium_seed.name=Transformium Samen
+
+-----Tab------
+itemGroup.Transformers=Transformers
+
+-----GUI------
+stats.nitro.name=Nitro
+stats.shots_left.name=Shots Left
+gui.display_pillar.name=Display Pillar
+
+------Achievements------
+achievement.shoot_missile=Directed by Michael Bay
+achievement.shoot_missile.desc=Schieße eine Rakete
+
+achievement.transformium=Transformium
+achievement.transformium.desc=Schmelze etwas Transformium Erz
+
+achievement.transformers_mod=Transformers Mod
+achievement.transformers_mod.desc=Spiele mit der Transformers Mod
+
+achievement.transformer=Transformer
+achievement.transformer.desc=Trage eine Transformer Rüstung
+
+achievement.transform=Robots in Disguise
+achievement.transform.desc=Transformiere dich in ein Auto
+
+achievement.tf.donate=Generosity
+achievement.tf.donate.desc=Spende
+
+achievement.tf.tracks=On the right Track
+achievement.tf.tracks.desc=Crafte Ketten mit 6 Leder und 2 Eisen
+
+achievement.tf.purge=Heavy Metal
+achievement.tf.purge.desc=Trage das ganze Purge Set
+
+achievement.tf.detonateSeed=Extinction
+achievement.tf.detonateSeed.desc=Zünde die Transformium Saat
+
+
+
+------Miscellaneous------
+misc.donate.thanks=Danke für die Spende $
+
+------Message------
+transformium_detector.no_space.message=Kein Platz für Energon Kristallstücke!
+transformium_detector.insert_fuel.message=Treibstoff eingefüllt.
+transformium_detector.no_energon.message=Du hast keine Energon Kristallstücke!
+transformium_detector.no_fuel.message=Du hast kein Treibstoff für den Transformium Detector!
+stats.fuel.name=Treibstoff
+
+------Tooltip------
+tooltip.tile.transformium_seed=Wandelt Materie in Transformium wenn gezündet.
+tooltip.tile.transformium_stone=Material zu Transformium bei Saat explosion verwandelt.
+tooltip.tile.energon_cube=Kompremierte Energon Form.

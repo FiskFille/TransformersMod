@@ -18,20 +18,13 @@ public class TileEntityDisplayPillar extends TileEntity
 
 	public void setDisplayItem(ItemStack item, boolean sync)
 	{
-		if(item != this.displayItem)
+		if (item != this.displayItem)
 		{
-			if(sync)
-			{
-				sync();
-			}
+			if (sync)
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
 			this.displayItem = ItemStack.copyItemStack(item);
 		}
-	}
-
-	private void sync() 
-	{
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord); 
 	}
 
 	public void readFromNBT(NBTTagCompound tagCompound)
@@ -49,7 +42,7 @@ public class TileEntityDisplayPillar extends TileEntity
 
 		NBTTagCompound itemTag = new NBTTagCompound();
 
-		if(displayItem != null)
+		if (displayItem != null)
 		{
 			displayItem.writeToNBT(itemTag);
 		}

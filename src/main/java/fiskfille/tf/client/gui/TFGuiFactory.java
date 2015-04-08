@@ -10,7 +10,7 @@ public class TFGuiFactory implements IModGuiFactory
 {
     public void initialize(Minecraft minecraftInstance)
     {
-    	
+        
     }
     
     public Class<? extends GuiScreen> mainConfigGuiClass()

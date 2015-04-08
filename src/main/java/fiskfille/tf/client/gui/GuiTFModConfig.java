@@ -7,14 +7,8 @@ import fiskfille.tf.TransformersMod;
 
 public class GuiTFModConfig extends GuiConfig
 {
-	public GuiTFModConfig(GuiScreen parent)
-	{
-		super(
-			parent,
-			new ConfigElement(TransformersMod.configFile.getCategory("Options")).getChildElements(),
-			TransformersMod.modid,
-			false,
-			false,
-			GuiConfig.getAbridgedConfigPath(TransformersMod.configFile.toString()));
-	}
+    public GuiTFModConfig(GuiScreen parent)
+    {
+        super(parent, new ConfigElement(TransformersMod.configFile.getCategory("Options")).getChildElements(), TransformersMod.modid, false, false, GuiConfig.getAbridgedConfigPath(TransformersMod.configFile.toString()));
+    }
 }

@@ -1,82 +1,104 @@
 package fiskfille.tf.helper;
 
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
+import fiskfille.tf.common.transformer.TransformerPurge;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.TransformerSubwoofer;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.base.Transformer;
 
+/**
+ * @author FiskFille, gegy1000
+ */
 public class TFHelper
 {
+	/**
+	 * @returns whether the player is wearing the 'Cloudtrap' set.
+	 */
 	public static boolean isPlayerCloudtrap(EntityPlayer player)
 	{
-		return hasFullArmour(player) && player.getCurrentArmor(3).getItem() == TFItems.cloudtrapHelmet && player.getCurrentArmor(2).getItem() == TFItems.cloudtrapChestplate && player.getCurrentArmor(1).getItem() == TFItems.cloudtrapLeggings && player.getCurrentArmor(0).getItem() == TFItems.cloudtrapBoots;
+		return getTransformer(player) instanceof TransformerCloudtrap;
 	}
-	
+
+	/**
+	 * @returns whether the player is wearing the 'Skystrike' set.
+	 */
 	public static boolean isPlayerSkystrike(EntityPlayer player)
 	{
-		return hasFullArmour(player) && player.getCurrentArmor(3).getItem() == TFItems.skystrikeHelmet && player.getCurrentArmor(2).getItem() == TFItems.skystrikeChestplate && player.getCurrentArmor(1).getItem() == TFItems.skystrikeLeggings && player.getCurrentArmor(0).getItem() == TFItems.skystrikeBoots;
+		return getTransformer(player) instanceof TransformerSkystrike;
 	}
-	
+
+	/**
+	 * @returns whether the player is wearing the 'Purge' set.
+	 */
 	public static boolean isPlayerPurge(EntityPlayer player)
 	{
-		return hasFullArmour(player) && player.getCurrentArmor(3).getItem() == TFItems.purgeHelmet && player.getCurrentArmor(2).getItem() == TFItems.purgeChestplate && player.getCurrentArmor(1).getItem() == TFItems.purgeLeggings && player.getCurrentArmor(0).getItem() == TFItems.purgeBoots;
+		return getTransformer(player) instanceof TransformerPurge;
 	}
-	
+
+	/**
+	 * @returns whether the player is wearing the 'Vurp' set.
+	 */
 	public static boolean isPlayerVurp(EntityPlayer player)
 	{
-		return hasFullArmour(player) && player.getCurrentArmor(3).getItem() == TFItems.vurpHelmet && player.getCurrentArmor(2).getItem() == TFItems.vurpChestplate && player.getCurrentArmor(1).getItem() == TFItems.vurpLeggings && player.getCurrentArmor(0).getItem() == TFItems.vurpBoots;
+		return getTransformer(player) instanceof TransformerVurp;
 	}
-	
+
+	/**
+	 * @returns whether the player is wearing the 'Subwoofer' set.
+	 */
 	public static boolean isPlayerSubwoofer(EntityPlayer player)
 	{
-		return hasFullArmour(player) && player.getCurrentArmor(3).getItem() == TFItems.subwooferHelmet && player.getCurrentArmor(2).getItem() == TFItems.subwooferChestplate && player.getCurrentArmor(1).getItem() == TFItems.subwooferLeggings && player.getCurrentArmor(0).getItem() == TFItems.subwooferBoots;
+		return getTransformer(player) instanceof TransformerSubwoofer;
 	}
 
-	public static boolean hasFullArmour(EntityPlayer player)
+	/**
+	 * @returns whether the player is wearing a full Transformer set.
+	 */
+	public static boolean isPlayerTransformer(EntityPlayer player)
 	{
-		return player != null ? player.getCurrentArmor(0) != null && player.getCurrentArmor(1) != null && player.getCurrentArmor(2) != null && player.getCurrentArmor(3) != null : false;
-	}
-	
-	public static boolean isTransformerArmor(Item item)
-	{
-		return item instanceof ItemTransformerArmor;
-	}
-	
-	public static boolean isPlayerTransformer(EntityPlayer player) 
-	{
-		if (hasFullArmour(player))
-		{
-			Item helmet = player.getCurrentArmor(3).getItem();
-			Item chestplate = player.getCurrentArmor(2).getItem();
-			Item legs = player.getCurrentArmor(1).getItem();
-			Item boots = player.getCurrentArmor(0).getItem();
-			
-			boolean transformerArmour = helmet instanceof ItemTransformerArmor && chestplate instanceof ItemTransformerArmor && legs instanceof ItemTransformerArmor && boots instanceof ItemTransformerArmor;
-			
-			return transformerArmour && helmet.getClass() == chestplate.getClass() && helmet.getClass() == legs.getClass() && helmet.getClass() == boots.getClass();
-		}
-	
-		return false;
+		Transformer helmetTransformer = getTransformerFromArmor(player, 3);
+		Transformer chestTransformer = getTransformerFromArmor(player, 2);
+		Transformer legsTransformer = getTransformerFromArmor(player, 1);
+		Transformer feetTransformer = getTransformerFromArmor(player, 0);
+
+		return helmetTransformer != null && helmetTransformer == chestTransformer && chestTransformer == legsTransformer && legsTransformer == feetTransformer;
 	}
 
+	/**
+	 * @returns the Transformer that the player currently has fully equipped, null when not wearing a full set.
+	 */
 	public static Transformer getTransformer(EntityPlayer player)
 	{
-		return isPlayerTransformer(player) ? ((ItemTransformerArmor)(player.getCurrentArmor(3).getItem())).getTransformer() : null;
+		if(isPlayerTransformer(player))
+		{
+			return getTransformerFromArmor(player, 0);
+		}
+
+		return null;
 	}
 
-	public static Transformer getTransformerFromArmor(EntityPlayer player, int slot) 
+	/**
+	 * @returns the Transformer that the player is wearing in the specified slot.
+	 */
+	public static Transformer getTransformerFromArmor(EntityPlayer player, int slot)
 	{
 		ItemStack currentArmorStack = player.getCurrentArmor(slot);
-		
-		if(currentArmorStack != null)
+
+		if (currentArmorStack != null)
 		{
-			Item currentArmor = currentArmorStack.getItem();			
-			
-			return isTransformerArmor(currentArmor) ? ((ItemTransformerArmor)currentArmor).getTransformer() : null;
+			Item currentArmor = currentArmorStack.getItem();
+
+			if(currentArmor instanceof ItemTransformerArmor)
+			{
+				return ((ItemTransformerArmor) currentArmor).getTransformer();
+			}
 		}
-		
+
 		return null;
 	}
 }

@@ -25,33 +25,32 @@ import fiskfille.tf.helper.TFHelper;
 
 public class ItemPurgesKatana extends ItemSword
 {
-	public ItemPurgesKatana(ToolMaterial material)
-	{
-		super(material);
-		this.setCreativeTab(TransformersMod.tabTransformers);
-		this.setMaxDamage(1500);
-	}
-	
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
+    public ItemPurgesKatana(ToolMaterial material)
     {
-		if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerPurge(player))
-		{
-	        int timeLeft = this.getMaxItemUseDuration(stack) - time;
-	        double d = (double)timeLeft / 10;
-	        
-	        if (d > 2.0D)
-	        {
-	        	d = 2.0D;
-	        }
-	        	        
-	        stack.damageItem(2, player);
-	        Vec3 vec3 = TFMotionManager.getFrontCoords(player, player.onGround ? d : d * 0.75D, true);
-	        player.motionX = (vec3.xCoord - player.posX);
-	        player.motionY = (vec3.yCoord - player.posY) / 2;
-			player.motionZ = (vec3.zCoord - player.posZ);
-		}
+        super(material);
+        this.setMaxDamage(1500);
     }
-
+    
+    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
+    {
+        if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerPurge(player))
+        {
+            int timeLeft = this.getMaxItemUseDuration(stack) - time;
+            double d = (double) timeLeft / 10;
+            
+            if (d > 2.0D)
+            {
+                d = 2.0D;
+            }
+            
+            stack.damageItem(1, player);
+            Vec3 vec3 = TFMotionManager.getFrontCoords(player, player.onGround ? d : d * 0.75D, true);
+            player.motionX = (vec3.xCoord - player.posX);
+            player.motionY = (vec3.yCoord - player.posY) / 2;
+            player.motionZ = (vec3.zCoord - player.posZ);
+        }
+    }
+    
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         return stack;
@@ -69,29 +68,23 @@ public class ItemPurgesKatana extends ItemSword
     
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-    	if (TFHelper.isPlayerPurge(player))
-    	{
-    		if (!TFDataManager.isInVehicleMode(player))
-        	{
-        		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-        	}
-    	}
-    	
+        if (TFHelper.isPlayerPurge(player))
+        {
+            if (!TFDataManager.isInVehicleMode(player))
+            {
+                player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+            }
+        }
+        
         return stack;
     }
-	
-    public static List<Entity> getEntitiesNear(World world, double x, double y, double z, float par4)
+    
+    public static List<Entity> getEntitiesNear(World world, double x, double y, double z, float range)
     {
-        List<Entity> entities = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
-        return entities;
+        return world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range), IEntitySelector.selectAnything);
     }
-	
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
-	}
-	
-	public Multimap getItemAttributeModifiers()
+    
+    public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();
         multimap.removeAll(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
