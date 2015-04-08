@@ -1141,8 +1141,8 @@ public class ModelSubwoofer extends MowzieModelBase
 			rotateTo(stomach, vehicleStomach, f);
 			rotateTo(shoulderbaseR, vehicleShoulderBase1, f);
 			rotateTo(shoulderbaseL, vehicleShoulderBase2, f);
-			shoulderplateR1.rotationPointX += f * 0.4F;
-			shoulderplateL1.rotationPointX -= f * 0.4F;
+			shoulderplateR1.rotationPointX += f * 0.2F;
+			shoulderplateL1.rotationPointX -= f * 0.2F;
 			shoulderplateR1.rotationPointZ -= f * 0.2F;
 			shoulderplateL1.rotationPointZ -= f * 0.2F;
 			head.rotationPointY += f * 0.2F;

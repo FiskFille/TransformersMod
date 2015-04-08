@@ -978,6 +978,31 @@ public class ModelVurp extends MowzieModelBase
 			ItemStack heldItemStack = player.getHeldItem();
 			boolean holdingSniper = heldItemStack != null && heldItemStack.getItem() instanceof ItemVurpsSniper;
 
+			if (holdingSniper)
+			{
+				//					upperArmR.rotateAngleX -= 0.6F;
+				//					upperArmR.rotateAngleY += (head.rotateAngleY - 0.45F);
+				//					lowerArmR.rotateAngleX -= 0.2F;
+				//					
+				//					upperArmL.rotateAngleX -= 0.6F;
+				//					upperArmL.rotateAngleY += (head.rotateAngleY + 0.4F);
+				//					lowerArmL.rotateAngleX -= 0.2F;
+
+				ModelRenderer head = wearingHead ? this.head : bipedHead;
+				
+				armbaseR1.rotateAngleX += head.rotateAngleX;
+				upperArmR.rotateAngleX -= 0.25F;
+				upperArmR.rotateAngleY -= 0.25F;
+				lowerArmR.rotateAngleX -= 0.25F;
+				lowerArmR.rotateAngleY -= 0.5F;
+
+				armbaseL1.rotateAngleX += head.rotateAngleX;
+				upperArmL.rotateAngleX -= 0.25F;
+				upperArmL.rotateAngleY += 0.25F;
+				lowerArmL.rotateAngleX -= 0.5F;
+				lowerArmL.rotateAngleY += 0.8F;
+			}
+			
 			if (this.aimedBow)
 			{
 				this.upperArmR.rotateAngleY += -0.1F + this.head.rotateAngleY;
@@ -1158,29 +1183,6 @@ public class ModelVurp extends MowzieModelBase
 					upperArmL.rotateAngleZ -= 0.5F * downwardPose;
 					lowerArmR.rotateAngleX -= 1 * downwardPose;
 					lowerArmL.rotateAngleX -= 1 * downwardPose;
-				}
-
-				if (holdingSniper)
-				{
-					//					upperArmR.rotateAngleX -= 0.6F;
-					//					upperArmR.rotateAngleY += (head.rotateAngleY - 0.45F);
-					//					lowerArmR.rotateAngleX -= 0.2F;
-					//					
-					//					upperArmL.rotateAngleX -= 0.6F;
-					//					upperArmL.rotateAngleY += (head.rotateAngleY + 0.4F);
-					//					lowerArmL.rotateAngleX -= 0.2F;
-
-					armbaseR1.rotateAngleX += head.rotateAngleX;
-					upperArmR.rotateAngleX -= 0.25F;
-					upperArmR.rotateAngleY -= 0.25F;
-					lowerArmR.rotateAngleX -= 0.25F;
-					lowerArmR.rotateAngleY -= 0.5F;
-
-					armbaseL1.rotateAngleX += head.rotateAngleX;
-					upperArmL.rotateAngleX -= 0.25F;
-					upperArmL.rotateAngleY += 0.25F;
-					lowerArmL.rotateAngleX -= 0.5F;
-					lowerArmL.rotateAngleY += 0.8F;
 				}
 			}
 			else
