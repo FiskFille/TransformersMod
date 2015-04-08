@@ -28,7 +28,6 @@ public class ItemPurgesKatana extends ItemSword
     public ItemPurgesKatana(ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setMaxDamage(1500);
     }
     
@@ -80,15 +79,9 @@ public class ItemPurgesKatana extends ItemSword
         return stack;
     }
     
-    public static List<Entity> getEntitiesNear(World world, double x, double y, double z, float par4)
+    public static List<Entity> getEntitiesNear(World world, double x, double y, double z, float range)
     {
-        List<Entity> entities = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
-        return entities;
-    }
-    
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+        return world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range), IEntitySelector.selectAnything);
     }
     
     public Multimap getItemAttributeModifiers()

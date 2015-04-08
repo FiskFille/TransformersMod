@@ -33,11 +33,8 @@ public class RenderItemSkystrikesCrossbow implements IItemRenderer
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
         {
             GL11.glPushMatrix();
-            //			GL11.glRotatef(110, 0.2F, 6.0F, 4.0F);
-            //			GL11.glRotatef(165, -2.35F, 0.8F, 0.2F);
-            //			GL11.glTranslatef(0.3F, -0.3F, -0.45F);
             
-            if ((Entity) data[1] instanceof EntityPlayer)
+            if (data[1] instanceof EntityPlayer)
             {
                 EntityPlayer player = (EntityPlayer) data[1];
                 

@@ -11,7 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
@@ -21,14 +23,11 @@ public abstract class ItemTransformerArmor extends ItemArmor
     public ItemTransformerArmor(ArmorMaterial material, int renderIndex, int armorPiece)
     {
         super(material, renderIndex, armorPiece);
-        this.setCreativeTab(TransformersMod.tabTransformers);
     }
     
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
-        String name = getTransformer().getName().toLowerCase().replaceAll(" ", "_");
-        
-        return TransformersMod.modid + ":textures/models/" + name + "/" + name + ".png";
+        return TFModelRegistry.getModel(getTransformer()).getTexture().toString();
     }
     
     public abstract Transformer getTransformer();
@@ -55,7 +54,7 @@ public abstract class ItemTransformerArmor extends ItemArmor
         
         if (itemstack != null)
         {
-            armorModel = getTransformer().getModel().mainModel;
+            armorModel = getTransformer().getModel().getMainModel();
             
             if (armorModel != null)
             {
@@ -84,10 +83,5 @@ public abstract class ItemTransformerArmor extends ItemArmor
         }
         
         return null;
-    }
-    
-    public void registerIcons(IIconRegister iconRegistry)
-    {
-        itemIcon = iconRegistry.registerIcon(TransformersMod.modid + ":" + iconString);
     }
 }

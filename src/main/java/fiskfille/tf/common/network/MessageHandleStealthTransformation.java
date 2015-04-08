@@ -15,7 +15,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageHandleStealthTransformation implements IMessage
 {
     public int id;
-    private boolean transformed;
+    private boolean stealthForce;
     
     public MessageHandleStealthTransformation()
     {
@@ -25,19 +25,19 @@ public class MessageHandleStealthTransformation implements IMessage
     public MessageHandleStealthTransformation(EntityPlayer player, boolean mode)
     {
         id = player.getEntityId();
-        transformed = mode;
+        stealthForce = mode;
     }
     
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
-        transformed = buf.readBoolean();
+        stealthForce = buf.readBoolean();
     }
     
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
-        buf.writeBoolean(transformed);
+        buf.writeBoolean(stealthForce);
     }
     
     public static class Handler implements IMessageHandler<MessageHandleStealthTransformation, IMessage>
@@ -55,12 +55,11 @@ public class MessageHandleStealthTransformation implements IMessage
                 
                 if (from != null && from != TransformersMod.proxy.getPlayer())
                 {
-                    TFPlayerData playerData = TFPlayerData.getData(from);
-                    TFDataManager.setStealthModeTimer(from, message.transformed ? 5 : 0);
+                    TFDataManager.setStealthModeTimer(from, message.stealthForce ? 5 : 0);
                     
-                    String suffix = message.transformed ? "vehicle" : "robot";
+                    String suffix = message.stealthForce ? "vehicle" : "robot";
                     from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1.5f, false);
-                    playerData.stealthForce = message.transformed;
+                    TFDataManager.setInStealthModeWithoutNotify(from, message.stealthForce);
                 }
             }
             else
@@ -80,7 +79,7 @@ public class MessageHandleStealthTransformation implements IMessage
                 }
                 
                 if (from != null)
-                    TFDataManager.setInStealthMode(player, message.transformed);
+                    TFDataManager.setInStealthMode(player, message.stealthForce);
             }
             
             return null;

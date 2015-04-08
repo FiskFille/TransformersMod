@@ -31,6 +31,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
@@ -42,9 +43,9 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
-import fiskfille.tf.donator.Donators;
 import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.update.Update;
+import fiskfille.tf.web.donator.Donators;
+import fiskfille.tf.web.update.Update;
 
 public class CommonEventHandler
 {
@@ -66,13 +67,13 @@ public class CommonEventHandler
     {
         EntityPlayer player = event.entityPlayer;
         
-        if(TFConfig.canTransform(event.transformer))
+        Transformer transformer = event.transformer;
+		
+        if(transformer != null ? transformer.canTransform(player) : true)
         {
             if (!event.transformed)
             {
                 IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-                
-                Transformer transformer = TFHelper.getTransformer(player);
                 
                 if (prevMove != 0)
                 {
@@ -194,12 +195,9 @@ public class CommonEventHandler
             {
                 boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
                 
-                TFDataManager.setTransformationTimer(player, inVehicleMode ? 0 : 20);
-                TFDataManager.setStealthModeTimer(player, TFDataManager.isInStealthMode(player) ? 0 : 5);
-                
                 if (!inVehicleMode)
                 {
-                    TickHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
+                    ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
                 }
                 
                 if (!displayedUpdates && TFConfig.checkForUpdates)
@@ -328,7 +326,7 @@ public class CommonEventHandler
                 }
             }
             
-            // TODO: Re-implement player resizing for version 0.6
+            // TODO-TF: Re-implement player resizing for version 0.6
             //			try 
             //			{
             //				if (vehicleMode && yOffset != 0)

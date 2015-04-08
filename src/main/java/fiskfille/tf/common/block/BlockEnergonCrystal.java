@@ -32,7 +32,11 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     public BlockEnergonCrystal()
     {
         super(Material.glass);
-        this.setCreativeTab(TransformersMod.tabTransformers);
+        this.setHarvestLvl("pickaxe", 1);
+        this.setStepSound(Block.soundTypeGlass);
+        this.setHardness(6.0F);
+        this.setResistance(10.0F);
+        this.setLightLevel(0.75F);
     }
     
     protected boolean canSilkHarvest()

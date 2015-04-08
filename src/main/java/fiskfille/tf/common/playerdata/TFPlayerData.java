@@ -13,6 +13,8 @@ public class TFPlayerData implements IExtendedEntityProperties
     
     public static final String IDENTIFIER = "TFPLAYERDATA";
     
+    private EntityPlayer player;
+    
     public static TFPlayerData getData(EntityPlayer player)
     {
         return (TFPlayerData) player.getExtendedProperties(IDENTIFIER);
@@ -30,10 +32,17 @@ public class TFPlayerData implements IExtendedEntityProperties
     {
         vehicle = compound.getBoolean("mode");
         stealthForce = compound.getBoolean("stealth");
+        
+        TFDataManager.setTransformationTimer(player, vehicle ? 0 : 20);
+        TFDataManager.setStealthModeTimer(player, stealthForce ? 0 : 5);
     }
     
     @Override
     public void init(Entity entity, World world)
     {
+    	if(entity instanceof EntityPlayer)
+    	{
+    		player = (EntityPlayer) entity;
+    	}
     }
 }

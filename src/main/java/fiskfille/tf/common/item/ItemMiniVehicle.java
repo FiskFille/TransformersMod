@@ -18,13 +18,12 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.base.Transformer;
 
-public class ItemMiniVehicle extends Item implements IDisplayPillarItem
+public class ItemMiniVehicle extends Item
 {
     public ItemMiniVehicle()
     {
         super();
         this.setMaxStackSize(1);
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setHasSubtypes(true);
     }
     
@@ -42,9 +41,9 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
         }
     }
     
-    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_)
     {
-        list.add("Equippable");
+        info.add("Equippable");
     }
     
     public void setNBTData(ItemStack itemstack)
@@ -163,21 +162,22 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
     {
         if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("Items"))
         {
-            NBTTagList nbttaglist = itemstack.getTagCompound().getTagList("Items", 10);
-            ItemStack[] itemstacks = new ItemStack[4];
+            NBTTagList nbtItems = itemstack.getTagCompound().getTagList("Items", 10);
+            ItemStack[] items = new ItemStack[4];
             
-            for (int i = 0; i < nbttaglist.tagCount(); ++i)
+            for (int i = 0; i < nbtItems.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
-                byte b0 = nbttagcompound1.getByte("Slot");
+                NBTTagCompound item = (NBTTagCompound) nbtItems.getCompoundTagAt(i);
+               
+                byte slot = item.getByte("Slot");
                 
-                if (b0 >= 0 && b0 < itemstacks.length)
+                if (slot >= 0 && slot < items.length)
                 {
-                    itemstacks[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+                    items[slot] = ItemStack.loadItemStackFromNBT(item);
                 }
             }
             
-            return itemstacks;
+            return items;
         }
         
         return null;
@@ -194,7 +194,7 @@ public class ItemMiniVehicle extends Item implements IDisplayPillarItem
         
         for (Transformer transformer : TransformersAPI.getTransformers())
         {
-            if(!(transformer instanceof TransformerCloudtrap))
+            if(!(transformer instanceof TransformerCloudtrap)) //Sorry CT :P
             {
                 subItems.add(new ItemStack(this, 1, index));
             }

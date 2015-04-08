@@ -3,11 +3,14 @@ package fiskfille.tf.common.transformer.base;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import fiskfille.tf.client.model.transformer.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.TransformerModel;
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.config.TFConfig;
 
+/**
+ * @author gegy1000
+ */
 public abstract class Transformer
 {
     private String name;
@@ -20,11 +23,20 @@ public abstract class Transformer
     
     public abstract Item getBoots();
     
+    /**
+     * Override to specify whether this Transformer can use nitro.
+     * 
+     * @param player The player trying to use nitro.
+     * @returns whether the player can use nitro.
+     */
     public boolean canUseNitro(EntityPlayer player)
     {
         return true;
     }
     
+    /**
+     * @returns the model to use for this Transformer.
+     */
     public TransformerModel getModel()
     {
         return TFModelRegistry.getModel(this);
@@ -35,11 +47,20 @@ public abstract class Transformer
         this.name = name;
     }
     
+    /**
+     * @returns the name of this Transformer.
+     */
     public String getName()
     {
         return name;
     }
     
+    /**
+     * Called every tick while wearing the armor.
+     * 
+     * @param player The player wearing the armor.
+     * @param timer The transformation timer.
+     */
     public void tick(EntityPlayer player, int timer)
     {
     }
@@ -67,6 +88,11 @@ public abstract class Transformer
     public boolean canJumpAsVehicle(EntityPlayer player)
     {
         return false;
+    }
+    
+    public boolean canTransform(EntityPlayer player)
+    {
+    	return TFConfig.canTransform(this);
     }
     
     public boolean hasStealthForce(EntityPlayer player)
@@ -112,13 +138,25 @@ public abstract class Transformer
     
     public float getThirdPersonDistance(EntityPlayer player)
     {
-        return 4.0F - (2.0F - (float) TFDataManager.getTransformationTimer(player) / 10);
+        return 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
     }
     
+    /**
+     * Called every tick while using nitro on the client side, used to make nitro particles.
+     * 
+     * @param player The player making the particles
+     */
     public void doNitroParticles(EntityPlayer player)
     {
     }
     
+    /**
+     * Called when this transformer hits the ground.
+     * 
+     * @param player The player who is falling.
+     * @param distance The distance fell.
+     * @return The damage to take.
+     */
     public float fall(EntityPlayer player, float distance)
     {
         return distance;

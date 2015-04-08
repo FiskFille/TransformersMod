@@ -13,7 +13,9 @@ public class BlockTransformiumStone extends BlockBasic
     public BlockTransformiumStone()
     {
         super(Material.rock);
-        this.setCreativeTab(TransformersMod.tabTransformers);
+        this.setHarvestLvl("pickaxe", 2);
+        this.setHardness(2.5F);
+        this.setResistance(10.0F);
     }
     
     @SideOnly(Side.CLIENT)

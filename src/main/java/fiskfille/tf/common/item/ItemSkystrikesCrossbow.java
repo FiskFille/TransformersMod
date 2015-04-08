@@ -26,7 +26,6 @@ public class ItemSkystrikesCrossbow extends ItemSword
     public ItemSkystrikesCrossbow(ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setMaxDamage(1500);
     }
     
@@ -111,10 +110,5 @@ public class ItemSkystrikesCrossbow extends ItemSword
     {
         List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
         return list;
-    }
-    
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
     }
 }

@@ -25,19 +25,19 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
         itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
     }
     
-    public void renderModelAt(TileEntityTransformiumSeed tileentity, double d, double d1, double d2, float f)
+    public void renderModelAt(TileEntityTransformiumSeed seed, double x, double y, double z, float partialTicks)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) d + 0.5F, (float) d1 + 0.5F, (float) d2 + 0.5F);
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
         this.bindTexture(texture);
-        model.render(new EntityTransformiumSeed(tileentity.getWorldObj()));
+        model.render(new EntityTransformiumSeed(seed.getWorldObj()));
         
         GL11.glPopMatrix();
     }
     
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
-        renderModelAt((TileEntityTransformiumSeed) tileentity, d, d1, d2, f);
+        renderModelAt((TileEntityTransformiumSeed) tileentity, x, y, z, partialTicks);
     }
 }

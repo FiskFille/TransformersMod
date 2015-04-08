@@ -7,6 +7,9 @@ import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 
+/**
+ * @author gegy1000
+ */
 public class TransformerManager
 {
     public static Transformer transformerSkystrike = new TransformerSkystrike();

@@ -22,7 +22,6 @@ public class ItemMetaBasic extends Item
     {
         super();
         this.itemNames = itemNames;
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setHasSubtypes(true);
     }
     
@@ -47,13 +46,13 @@ public class ItemMetaBasic extends Item
     }
     
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         icons = new IIcon[itemNames.length];
         
         for (int i = 0; i < itemNames.length; ++i)
         {
-            icons[i] = par1IconRegister.registerIcon(TransformersMod.modid + ":" + itemNames[i].toLowerCase().replace(' ', '_').replace("'", ""));
+            icons[i] = iconRegister.registerIcon(TransformersMod.modid + ":" + itemNames[i].toLowerCase().replaceAll(" ", "_").replaceAll("'", ""));
         }
     }
 }

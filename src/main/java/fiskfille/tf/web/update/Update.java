@@ -1,4 +1,4 @@
-package fiskfille.tf.update;
+package fiskfille.tf.web.update;
 
 public class Update
 {

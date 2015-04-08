@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelDisplayPillar;
-import fiskfille.tf.client.model.transformer.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -29,15 +29,15 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
     }
     
-    public void renderModelAt(TileEntityDisplayPillar tileentity, double d, double d1, double d2, float f)
+    public void renderModelAt(TileEntityDisplayPillar displayPillar, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
         this.bindTexture(texture);
         model.renderAll();
         
-        ItemStack displayItem = tileentity.getDisplayItem();
+        ItemStack displayItem = displayPillar.getDisplayItem();
         
         if (displayItem != null)
         {
@@ -64,7 +64,7 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         
         if (transformer != null)
         {
-            return TFModelRegistry.getModel(transformer).vehicleModel;
+            return TFModelRegistry.getModel(transformer).getVehicleModel();
         }
         
         return null;
@@ -83,8 +83,8 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         return null;
     }
     
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
-        renderModelAt((TileEntityDisplayPillar) tileentity, d, d1, d2, f);
+        renderModelAt((TileEntityDisplayPillar) tileentity, x, y, z, partialTicks);
     }
 }

@@ -17,6 +17,8 @@ public class NitroParticleHandler
 {
     private static Map<EntityPlayer, Boolean> nitroOnMap = new HashMap<EntityPlayer, Boolean>();
     
+    //TODO-TF Vehicle motion needs a real cleanup
+    
     public static void doNitroParticles(EntityPlayer player)
     {
         boolean nitro = getNitro(player);

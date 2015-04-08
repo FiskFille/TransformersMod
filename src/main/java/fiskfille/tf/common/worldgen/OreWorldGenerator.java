@@ -57,13 +57,11 @@ public class OreWorldGenerator implements IWorldGenerator
     
     public void generateCrystal(int veinsPerChunk, Block block, int minY, World world, Random random, int chunkX, int chunkZ)
     {
-        Random randomGenerator = random;
-        
         for (int i = 0; i < veinsPerChunk; i++)
         {
-            int randPosX = chunkX + randomGenerator.nextInt(8);
+            int randPosX = chunkX + random.nextInt(8);
             int randPosY = random.nextInt(minY);
-            int randPosZ = chunkZ + randomGenerator.nextInt(8);
+            int randPosZ = chunkZ + random.nextInt(8);
             
             if (world.getBlock(randPosX, randPosY, randPosZ) == Blocks.air)
             {
@@ -87,6 +85,7 @@ public class OreWorldGenerator implements IWorldGenerator
                     world.setBlock(randPosX, randPosY, randPosZ, block);
                     world.setBlockMetadataWithNotify(randPosX, randPosY, randPosZ, 3, 2);
                 }
+                
                 if (world.getBlock(randPosX, randPosY - 1, randPosZ).getMaterial() == Material.rock)
                 {
                     world.setBlock(randPosX, randPosY, randPosZ, block);

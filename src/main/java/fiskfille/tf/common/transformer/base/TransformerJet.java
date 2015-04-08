@@ -23,6 +23,9 @@ import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFModelHelper;
 
+/**
+ * @author gegy1000
+ */
 public abstract class TransformerJet extends Transformer
 {
     public TransformerJet(String name)
@@ -92,17 +95,14 @@ public abstract class TransformerJet extends Transformer
                 player.setPosition(player.posX, player.posY + 0.8, player.posZ);
             }
             
-            Vec3 vec3 = TFMotionManager.getFrontCoords(player, vel, true);
-            player.motionX = (vec3.xCoord - player.posX);
-            player.motionY = (vec3.yCoord - player.posY) + getMotionYOffset();
-            player.motionZ = (vec3.zCoord - player.posZ);
+            TFMotionManager.moveForward(player, vel, true);
+            player.motionY -= 0.1;
           
             if (vel <= 0.09F)
             {
                 vel = 0.09F;
             }
-            
-            if (vel > 1.41F)
+            else if (vel > 1.41F)
             {
                 vel = 1.41F;
             }
@@ -145,10 +145,5 @@ public abstract class TransformerJet extends Transformer
             
             player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.2F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
-    }
-    
-    public float getMotionYOffset()
-    {
-        return -0.1f;
     }
 }

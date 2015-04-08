@@ -4,11 +4,9 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-/**
- * Damn this is horrible code! @gegy1000
- */
 public class ModelFlamethrower extends ModelBase
-{
+{ 
+	//......
     ModelRenderer box1;
     ModelRenderer box2;
     ModelRenderer box3;

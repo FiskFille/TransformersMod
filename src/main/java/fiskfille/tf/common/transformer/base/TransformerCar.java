@@ -25,6 +25,9 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
+/**
+ * @author gegy1000
+ */
 public abstract class TransformerCar extends Transformer
 {
     public TransformerCar(String name)
@@ -51,8 +54,6 @@ public abstract class TransformerCar extends Transformer
         if (vehicle && timer == 0)
         {
             IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            
-            Transformer transformer = TFHelper.getTransformer(player);
             
             if (!TFPlayerData.getData(player).stealthForce)
             {

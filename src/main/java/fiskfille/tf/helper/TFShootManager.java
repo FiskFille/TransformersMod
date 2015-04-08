@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageTransformersAction;
+import fiskfille.tf.common.network.MessageVehicleShoot;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -42,7 +42,7 @@ public class TFShootManager
                             shootCooldown--;
                         }
                         
-                        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player)) //TODO: API for shots left
+                        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player))
                         {
                             if (reloading && shootCooldown <= 0)
                             {
@@ -88,7 +88,7 @@ public class TFShootManager
     {
         int maxAmmo = transformer.getShots();
         
-        if (!TFDataManager.isInVehicleMode(player))
+        if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerVurp(player))
         {
             maxAmmo = 4;
         }
@@ -165,7 +165,7 @@ public class TFShootManager
                                 
                                 if (hasAmmo)
                                 {
-                                    TFNetworkManager.networkWrapper.sendToServer(new MessageTransformersAction(player, action));
+                                    TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleShoot(player));
                                     
                                     if (!isCreative)
                                     {

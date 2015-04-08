@@ -153,7 +153,7 @@ public class GuiOverlay extends Gui
                 
                 if (heldItem != null)
                 {
-                    if (transformationTimer == 20 && (heldItem.getItem() == TFItems.vurpsSniper && TFHelper.isPlayerVurp(player))) //TODO: API for shots left
+                    if (transformationTimer == 20 && (heldItem.getItem() == TFItems.vurpsSniper && TFHelper.isPlayerVurp(player)))
                     {
                         int x = 75;
                         

@@ -11,7 +11,7 @@ import fiskfille.tf.common.network.MessageHandleStealthTransformation;
 import fiskfille.tf.common.network.MessageHandleTransformation;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessagePlayerJoin;
-import fiskfille.tf.common.network.MessageTransformersAction;
+import fiskfille.tf.common.network.MessageVehicleShoot;
 import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.MessageVurpSniperShoot;
 
@@ -27,7 +27,7 @@ public class TFNetworkManager
         registerPacket(MessageHandleTransformation.Handler.class, MessageHandleTransformation.class);
         registerPacket(MessageHandleStealthTransformation.Handler.class, MessageHandleStealthTransformation.class);
         registerPacket(MessagePlayerJoin.Handler.class, MessagePlayerJoin.class);
-        registerPacket(MessageTransformersAction.Handler.class, MessageTransformersAction.class);
+        registerPacket(MessageVehicleShoot.Handler.class, MessageVehicleShoot.class);
         registerPacket(MessageCloudtrapJetpack.Handler.class, MessageCloudtrapJetpack.class);
         registerPacket(MessageBroadcastState.Handler.class, MessageBroadcastState.class);
         registerPacket(MessageVehicleNitro.Handler.class, MessageVehicleNitro.class);

@@ -1,4 +1,4 @@
-package fiskfille.tf.donator;
+package fiskfille.tf.web.donator;
 
 import java.util.UUID;
 
@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import fiskfille.tf.web.PastebinFileReader;
+import fiskfille.tf.web.WebHelper;
 
 public class DonatorLoader extends Thread
 {
@@ -16,7 +16,7 @@ public class DonatorLoader extends Thread
     {
         try
         {
-            Donator[] donators = new Gson().fromJson(PastebinFileReader.readPastebin("yPpJaz7p"), Donator[].class);
+            Donator[] donators = new Gson().fromJson(WebHelper.readPastebin("yPpJaz7p"), Donator[].class);
             
             for (Donator donator : donators)
             {

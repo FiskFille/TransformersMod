@@ -11,6 +11,9 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
+/**
+ * @author gegy1000
+ */
 public class CloudtrapJetpackManager
 {
     public static Map<EntityPlayer, Boolean> cloudtrapJetpacking = new HashMap<EntityPlayer, Boolean>();

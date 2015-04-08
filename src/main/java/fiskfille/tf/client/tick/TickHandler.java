@@ -30,8 +30,6 @@ public class TickHandler
 {
     public static int time = 0;
     
-    public static boolean prevViewBobbing;
-    
     private Minecraft mc = Minecraft.getMinecraft();
     
     @SubscribeEvent
@@ -50,18 +48,14 @@ public class TickHandler
             if (inVehicleMode && transformationTimer == 0)
             {
                 TFDataManager.setInVehicleMode(player, false);
-                gameSettings.viewBobbing = prevViewBobbing;
                 player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
                 TFPlayerData.getData(player).stealthForce = false;
             }
             else if (!inVehicleMode && transformationTimer == 20)
             {
                 TFDataManager.setInVehicleMode(player, true);
-                prevViewBobbing = gameSettings.viewBobbing;
-                gameSettings.viewBobbing = false;
                 player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
                 TFPlayerData.getData(player).stealthForce = false;
-                TFMotionManager.resetPlayer(player);
             }
             
             EntityRenderer entityRenderer = mc.entityRenderer;
@@ -122,16 +116,6 @@ public class TickHandler
             }
             
             TransformersMod.proxy.tickHandler.handleTransformation(player);
-        }
-        
-        if (TFDataManager.getZoomTimer(player) > 7)
-        {
-            ItemStack heldItem = player.getHeldItem();
-            
-            if (heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper)
-            {
-                player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
-            }
         }
     }
     

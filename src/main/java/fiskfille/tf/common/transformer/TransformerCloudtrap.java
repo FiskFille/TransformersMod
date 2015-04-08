@@ -9,13 +9,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.client.model.transformer.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 
+/**
+ * @author gegy1000
+ */
 public class TransformerCloudtrap extends TransformerJet
 {
     public TransformerCloudtrap()

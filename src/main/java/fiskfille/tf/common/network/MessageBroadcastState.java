@@ -56,10 +56,9 @@ public class MessageBroadcastState implements IMessage
                 {
                     EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
                     
-                    TFPlayerData playerData = TFPlayerData.getData(lookupPlayer);
-                    playerData.vehicle = message.vehicle;
+                    TFDataManager.setInVehicleModeWithoutNotify(lookupPlayer, message.vehicle);
                     TFDataManager.setTransformationTimer(lookupPlayer, message.vehicle ? 0 : 20);
-                    playerData.stealthForce = message.stealth;
+                    TFDataManager.setInStealthModeWithoutNotify(lookupPlayer, message.stealth);
                     TFDataManager.setStealthModeTimer(lookupPlayer, message.stealth ? 0 : 5);
                 }
             }
@@ -67,9 +66,8 @@ public class MessageBroadcastState implements IMessage
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
                 TFNetworkManager.networkWrapper.sendToDimension(new MessageBroadcastState(player), player.dimension);
-                TFPlayerData playerData = TFPlayerData.getData(player);
-                playerData.vehicle = message.vehicle;
-                playerData.stealthForce = message.stealth;
+                TFDataManager.setInVehicleModeWithoutNotify(player, message.vehicle);
+                TFDataManager.setInStealthModeWithoutNotify(player, message.stealth);
             }
             
             return null;

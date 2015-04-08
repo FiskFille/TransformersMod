@@ -23,12 +23,12 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
     }
     
-    public void renderAModelAt(TileEntityCrystal tileentity, double d, double d1, double d2, float f)
+    public void renderAModelAt(TileEntityCrystal tile, double x, double y, double z, float partialTicks)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
-        adjustRotation(tileentity, d, d1, d2, f);
+        adjustRotation(tile, x, y, z, partialTicks);
         
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
@@ -40,34 +40,35 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
     
-    public void adjustRotation(TileEntityCrystal tile, double d, double d1, double d2, float f)
+    public void adjustRotation(TileEntityCrystal tile, double x, double y, double z, float partialTicks)
     {
         int rot = tile.getWorldObj().getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord);
+       
         if (rot == 1)
         {
             GL11.glRotatef(0 * 90, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0, 0, 0.075F);
         }
-        if (rot == 2)
+        else if (rot == 2)
         {
             GL11.glRotatef(2 * 90, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0, 0, 0.075F);
         }
-        if (rot == 3)
+        else if (rot == 3)
         {
             GL11.glRotatef(1 * 90, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0, 0, 0.075F);
         }
-        if (rot == 4)
+        else if (rot == 4)
         {
             GL11.glRotatef(3 * 90, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0, 0, 0.075F);
         }
-        if (rot == 5)
+        else if (rot == 5)
         {
             GL11.glTranslatef(0.05F, 0, 0.075F);
         }
-        if (rot == 6)
+        else if (rot == 6)
         {
             GL11.glTranslatef(-0.05F, 2, 0.075F);
             GL11.glRotatef(180, 0.0F, 0.0F, 1.0F);
@@ -80,8 +81,8 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         }
     }
     
-    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks)
     {
-        renderAModelAt((TileEntityCrystal) tileentity, d, d1, d2, f);
+        renderAModelAt((TileEntityCrystal) tile, x, y, z, partialTicks);
     }
 }

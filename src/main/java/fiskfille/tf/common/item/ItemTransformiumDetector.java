@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -14,8 +15,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.block.TFBlocks;
 
-public class ItemTransformiumDetector extends ItemBasic
-{
+public class ItemTransformiumDetector extends Item
+{ 
+	//TODO-TF improve it for 0.6.0
+	
     public ItemTransformiumDetector()
     {
         super();
@@ -148,7 +151,6 @@ public class ItemTransformiumDetector extends ItemBasic
                 if (world.isRemote)
                 {
                     player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_space.message")));
-                    //player.addChatMessage(new ChatComponentText("There is no space in your inventory for the Energon Crystal Pieces!"));
                 }
             }
         }

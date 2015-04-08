@@ -6,12 +6,21 @@ import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import fiskfille.tf.common.transformer.base.Transformer;
 
-public class TFMotionManager
+public class TFMotionManager //TODO-TF Clean this up
 {
     private static Map<EntityPlayer, VehicleMotion> transformedPlayerMap = new HashMap<EntityPlayer, VehicleMotion>();
     
     public static boolean prevNitro;
+    
+    public static void moveForward(EntityPlayer player, double vel, boolean pitch)
+    {
+        Vec3 frontCoords = TFMotionManager.getFrontCoords(player, vel, pitch);
+        player.motionX = (frontCoords.xCoord - player.posX);
+        player.motionY = (frontCoords.yCoord - player.posY);
+        player.motionZ = (frontCoords.zCoord - player.posZ);
+    }
     
     public static Vec3 getBackSideCoords(EntityPlayer player, double amount, boolean side, double backAmount, boolean pitch)
     {
@@ -149,7 +158,7 @@ public class TFMotionManager
         }
         else
         {
-            transformedPlayerMap.put(player, new VehicleMotion(0, vel, 0));
+            transformedPlayerMap.put(player, new VehicleMotion().setHorizontalVelocity(vel));
         }
     }
     
@@ -163,7 +172,7 @@ public class TFMotionManager
         }
         else
         {
-            transformedPlayerMap.put(player, new VehicleMotion(nitro, 0, 0));
+            transformedPlayerMap.put(player, new VehicleMotion().setNitro(nitro));
         }
     }
     
@@ -177,14 +186,8 @@ public class TFMotionManager
         }
         else
         {
-            transformedPlayerMap.put(player, new VehicleMotion(0, 0, vel));
+            transformedPlayerMap.put(player, new VehicleMotion().setHorizontalVelocity(vel));
         }
-    }
-    
-    public static void resetPlayer(EntityPlayer player)
-    {
-        VehicleMotion vehicleMotion = transformedPlayerMap.get(player);
-        vehicleMotion.setRoll(0);
     }
     
     public static VehicleMotion getTransformerPlayer(EntityPlayer player)
@@ -193,7 +196,7 @@ public class TFMotionManager
         
         if (vehicleMotion == null)
         {
-            vehicleMotion = new VehicleMotion(0, 0, 0);
+            vehicleMotion = new VehicleMotion();
             transformedPlayerMap.put(player, vehicleMotion);
         }
         

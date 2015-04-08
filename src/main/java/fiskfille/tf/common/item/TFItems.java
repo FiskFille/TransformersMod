@@ -72,19 +72,19 @@ public class TFItems
     {
         String modId = TransformersMod.modid;
         
-        transformium = new ItemBasic();
+        transformium = new Item();
         transformiumArmorMolds = new ItemMetaBasic("Transformium Head Mold", "Transformium Torso Mold", "Transformium Legs Mold", "Transformium Feet Mold");
-        standardEngine = new ItemBasic();
-        jetTurbine = new ItemBasic();
-        ahd2JetWing = new ItemBasic();
-        ahd2JetCockpit = new ItemBasic();
-        tankTracks = new ItemBasic();
-        tankTurret = new ItemBasic();
-        carWheel = new ItemBasic();
-        t50JetCockpit = new ItemBasic().setCreativeTab(null);
-        t50JetWing = new ItemBasic().setCreativeTab(null);
-        jetThruster = new ItemBasic().setCreativeTab(null);
-        smallThruster = new ItemBasic();
+        standardEngine = new Item();
+        jetTurbine = new Item();
+        ahd2JetWing = new Item();
+        ahd2JetCockpit = new Item();
+        tankTracks = new Item();
+        tankTurret = new Item();
+        carWheel = new Item();
+        t50JetCockpit = new Item().setCreativeTab(null);
+        t50JetWing = new Item().setCreativeTab(null);
+        jetThruster = new Item().setCreativeTab(null);
+        smallThruster = new Item();
         
         skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);
         purgesKatana = new ItemPurgesKatana(ToolMaterial.EMERALD);
@@ -116,12 +116,12 @@ public class TFItems
         transformiumDetector = new ItemTransformiumDetector();
         
         displayVehicle = new ItemMiniVehicle();
-        energonCrystalPiece = new ItemBasic();
+        energonCrystalPiece = new Item();
         
-        tankShell = new ItemBasic();
-        missile = new ItemBasic().setFull3D();
-        miniMissile = new ItemBasic().setFull3D();
-        smallThruster = new ItemBasic();
+        tankShell = new Item();
+        missile = new Item().setFull3D();
+        miniMissile = new Item().setFull3D();
+        smallThruster = new Item();
         
         TRANSFORMERMATERIAL.customCraftingMaterial = transformium;
         TANKMATERIAL.customCraftingMaterial = transformium;

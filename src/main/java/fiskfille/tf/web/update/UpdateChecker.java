@@ -1,9 +1,9 @@
-package fiskfille.tf.update;
+package fiskfille.tf.web.update;
 
 import java.util.List;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.web.PastebinFileReader;
+import fiskfille.tf.web.WebHelper;
 
 public class UpdateChecker extends Thread
 {
@@ -15,7 +15,7 @@ public class UpdateChecker extends Thread
         
         try
         {
-            List<String> text = PastebinFileReader.readPastebinAsList("hBG80bPW");
+            List<String> text = WebHelper.readPastebinAsList("hBG80bPW");
             
             String version = text.get(0).split("\\:")[1];
             Version newestVersion = new Version(version);

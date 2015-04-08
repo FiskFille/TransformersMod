@@ -9,32 +9,20 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class RenderItemDisplayVehicle implements IItemRenderer
 {
-    public ModelVehicleBase getModelFromMetadata(int metadata)
+    public TransformerModel getModelFromMetadata(int metadata)
     {
         Transformer transformer = TransformersAPI.getTransformers().get(metadata);
         
         if (transformer != null)
         {
-            return TFModelRegistry.getModel(transformer).vehicleModel;
-        }
-        
-        return null;
-    }
-    
-    public String getTextureFromMetadata(int metadata)
-    {
-        Transformer transformer = TransformersAPI.getTransformers().get(metadata);
-        
-        if (transformer != null)
-        {
-            String name = transformer.getName().toLowerCase().replaceAll(" ", "_");
-            return name + "/" + name + ".png";
+            return TFModelRegistry.getModel(transformer);
         }
         
         return null;
@@ -52,8 +40,9 @@ public class RenderItemDisplayVehicle implements IItemRenderer
     
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromMetadata(item.getItemDamage())));
-        ModelVehicleBase model = getModelFromMetadata(item.getItemDamage());
+        TransformerModel model = getModelFromMetadata(item.getItemDamage());
+        Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
+        ModelVehicleBase vehicleModel = model.getVehicleModel();
         
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
         {
@@ -65,7 +54,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
             
             float scale = 0.7F;
             GL11.glScalef(scale, scale, scale);
-            model.render();
+            vehicleModel.render();
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.EQUIPPED)
@@ -78,7 +67,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
             
             float scale = 0.7F;
             GL11.glScalef(scale, scale, scale);
-            model.render();
+            vehicleModel.render();
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.INVENTORY)
@@ -91,7 +80,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
             
             float scale = 1.0F;
             GL11.glScalef(scale, scale, scale);
-            model.render();
+            vehicleModel.render();
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.ENTITY)
@@ -104,7 +93,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
             
             float scale = 0.5F;
             GL11.glScalef(scale, scale, scale);
-            model.render();
+            vehicleModel.render();
             GL11.glPopMatrix();
         }
     }

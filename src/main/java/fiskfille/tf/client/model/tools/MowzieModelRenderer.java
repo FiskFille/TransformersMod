@@ -7,12 +7,19 @@ import net.minecraft.client.model.ModelRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/**
+ * @author BobMowzie, gegy1000
+ */
 @SideOnly(Side.CLIENT)
 public class MowzieModelRenderer extends ModelRenderer
 {
     public float initRotateAngleX;
     public float initRotateAngleY;
     public float initRotateAngleZ;
+    
+    public float initOffsetX;
+    public float initOffsetY;
+    public float initOffsetZ;
     
     public float initRotationPointX;
     public float initRotationPointY;
@@ -33,10 +40,7 @@ public class MowzieModelRenderer extends ModelRenderer
         {
             MowzieModelBase mowzieModelBase = (MowzieModelBase) modelBase;
             
-            if (mowzieModelBase.parts == null)
-                mowzieModelBase.parts = new ArrayList<MowzieModelRenderer>();
-            
-            mowzieModelBase.parts.add(this);
+            mowzieModelBase.addPart(this);
         }
     }
     
@@ -100,6 +104,10 @@ public class MowzieModelRenderer extends ModelRenderer
         initRotationPointX = rotationPointX;
         initRotationPointY = rotationPointY;
         initRotationPointZ = rotationPointZ;
+        
+        initOffsetX = offsetX;
+        initOffsetY = offsetY;
+        initOffsetZ = offsetZ;
     }
     
     /**
@@ -114,6 +122,10 @@ public class MowzieModelRenderer extends ModelRenderer
         rotationPointX = initRotationPointX;
         rotationPointY = initRotationPointY;
         rotationPointZ = initRotationPointZ;
+        
+        offsetX = initOffsetX;
+        offsetY = initOffsetY;
+        offsetZ = initOffsetZ;
     }
     
     public void setRotationAngles(float x, float y, float z)

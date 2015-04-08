@@ -17,7 +17,6 @@ public class ItemVurpsSniper extends ItemSword
     public ItemVurpsSniper(ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setMaxDamage(1500);
     }
     
@@ -31,7 +30,7 @@ public class ItemVurpsSniper extends ItemSword
             
             if (world.isRemote)
             {
-                if (TFShootManager.shotsLeft > 0)
+                if (TFShootManager.shotsLeft > 0) //TODO-TF Shots Left API
                 {
                     if (TFShootManager.shootCooldown <= 0)
                     {
@@ -58,10 +57,5 @@ public class ItemVurpsSniper extends ItemSword
         }
         
         return stack;
-    }
-    
-    public void registerIcons(IIconRegister register)
-    {
-        itemIcon = register.registerIcon(TransformersMod.modid + ":" + iconString);
     }
 }

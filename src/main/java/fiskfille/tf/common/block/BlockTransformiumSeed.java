@@ -20,7 +20,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
     public BlockTransformiumSeed()
     {
         super(Material.circuits);
-        this.setCreativeTab(TransformersMod.tabTransformers);
+        this.setResistance(1000000.0F);
     }
     
     public void onBlockAdded(World world, int x, int y, int z)

@@ -51,21 +51,6 @@ public class ClientTickHandler
             TFDataManager.setStealthModeTimer(player, stealthModeTimer - 1);
         }
         
-        if (TFHelper.isPlayerVurp(player) && heldItem != null && heldItem.getItem() == TFItems.vurpsSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
-        {
-            if (TFDataManager.getZoomTimer(player) < 10)
-            {
-                TFDataManager.setZoomTimer(player, TFDataManager.getZoomTimer(player) + 1);
-            }
-        }
-        else
-        {
-            if (TFDataManager.getZoomTimer(player) > 0)
-            {
-                TFDataManager.setZoomTimer(player, TFDataManager.getZoomTimer(player) - 1);
-            }
-        }
-        
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
         
         if (inVehicleMode && transformationTimer < 10)
@@ -76,7 +61,7 @@ public class ClientTickHandler
             {
                 GameSettings gameSettings = mc.gameSettings;
                 
-                if (Keyboard.isKeyDown(Keyboard.KEY_R) && mc.currentScreen == null)
+                if (TFKeyBinds.keyBindingViewFront.getIsKeyPressed() && mc.currentScreen == null)
                 {
                     gameSettings.thirdPersonView = 2;
                 }
@@ -136,11 +121,6 @@ public class ClientTickHandler
         else
         {
             player.stepHeight = 0.5F;
-            
-            if (player.isPotionActive(Potion.resistance) && player.getActivePotionEffect(Potion.resistance).getDuration() < 1)
-            {
-                player.removePotionEffect(Potion.resistance.id);
-            }
         }
         
         int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
@@ -223,7 +203,7 @@ public class ClientTickHandler
         {
             Transformer transformer = TFHelper.getTransformer(player);
             
-            float thirdPersonDistance = 4.0F - (2.0F - (float) TFDataManager.getTransformationTimer(player) / 10);
+            float thirdPersonDistance = 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
             
             if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
             {

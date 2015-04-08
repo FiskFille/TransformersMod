@@ -1,7 +1,5 @@
 package fiskfille.tf.client.keybinds;
 
-import java.lang.reflect.Field;
-
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -14,26 +12,16 @@ public class TFKeyBinds
     public static TFKeyBinding keyBindingZoom = new TFKeyBinding("Aim", Keyboard.KEY_B);
     public static TFKeyBinding keyBindingStealthMode = new TFKeyBinding("Stealth Force Mode", Keyboard.KEY_V);
     public static TFKeyBinding keyBindingVehicleFirstPerson = new TFKeyBinding("Vehicle First Person", Keyboard.KEY_G);
+    public static TFKeyBinding keyBindingViewFront = new TFKeyBinding("View Vehicle Front", Keyboard.KEY_R);
     
     public static void register()
     {
-        for (Field field : TFKeyBinds.class.getDeclaredFields())
-        {
-            if (field.getType() == TFKeyBinding.class)
-            {
-                try
-                {
-                    ClientRegistry.registerKeyBinding((TFKeyBinding) field.get(null));
-                }
-                catch (IllegalArgumentException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IllegalAccessException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
+    	ClientRegistry.registerKeyBinding(keyBindingTransform);
+    	ClientRegistry.registerKeyBinding(keyBindingStealthMode);
+    	ClientRegistry.registerKeyBinding(keyBindingNitro);
+    	ClientRegistry.registerKeyBinding(keyBindingBrake);
+    	ClientRegistry.registerKeyBinding(keyBindingZoom);
+    	ClientRegistry.registerKeyBinding(keyBindingVehicleFirstPerson);
+    	ClientRegistry.registerKeyBinding(keyBindingViewFront);
     }
 }

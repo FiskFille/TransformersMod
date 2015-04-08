@@ -43,8 +43,7 @@ public class EntityTFFlameFX extends EntityFX
         {
             f1 = 0.0F;
         }
-        
-        if (f1 > 1.0F)
+        else if (f1 > 1.0F)
         {
             f1 = 1.0F;
         }
@@ -111,9 +110,6 @@ public class EntityTFFlameFX extends EntityFX
         if (!worldObj.isAirBlock((int) posX, (int) posY, (int) posZ))
         {
             this.setDead();
-            //        	this.motionX = -this.motionX;
-            //        	this.motionY = -this.motionY;
-            //        	this.motionZ = -this.motionZ;
         }
     }
 }

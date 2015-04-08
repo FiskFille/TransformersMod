@@ -26,7 +26,6 @@ public class ItemBassBlaster extends ItemSword
     public ItemBassBlaster(ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TransformersMod.tabTransformers);
         this.setMaxDamage(1500);
     }
     
@@ -95,7 +94,8 @@ public class ItemBassBlaster extends ItemSword
     
     public void registerIcons(IIconRegister iconRegister)
     {
-        itemIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + iconString);
+    	super.registerIcons(iconRegister);
+    	
         bassChargeIcon = iconRegister.registerIcon(TransformersMod.modid + ":bass_charge");
     }
 }

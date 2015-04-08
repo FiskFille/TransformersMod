@@ -1,4 +1,4 @@
-package fiskfille.tf.donator;
+package fiskfille.tf.web.donator;
 
 import java.util.regex.Pattern;
 

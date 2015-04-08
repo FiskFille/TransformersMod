@@ -19,6 +19,9 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 
+/**
+ * @author gegy1000
+ */
 public abstract class TransformerTank extends Transformer
 {
     public TransformerTank(String name)
@@ -80,9 +83,8 @@ public abstract class TransformerTank extends Transformer
                 vel = 0.0D;
             }
             
-            Vec3 vec3 = TFMotionManager.getFrontCoords(player, 0, vel);
-            player.motionX = (vec3.xCoord - player.posX);
-            player.motionZ = (vec3.zCoord - player.posZ);
+            TFMotionManager.moveForward(player, vel, false);
+            
             if (vel <= 0)
             {
                 vel = 0;
