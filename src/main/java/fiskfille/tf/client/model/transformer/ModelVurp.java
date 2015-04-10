@@ -973,7 +973,8 @@ public class ModelVurp extends MowzieModelBase
 			}
 
 			applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArmR, lowerArmL);
-
+			applyDefaultHittingAnimation(upperArmR, upperArmL, head, torsobase, lowerArmR, lowerArmL);
+			
 			ItemStack heldItemStack = player.getHeldItem();
 			boolean holdingSniper = heldItemStack != null && heldItemStack.getItem() instanceof ItemVurpsSniper;
 
@@ -1017,8 +1018,6 @@ public class ModelVurp extends MowzieModelBase
 				this.upperLegL.rotateAngleY -= (float) Math.PI / 10F;
 			}
 
-			applyDefaultHittingAnimation(upperArmR, upperArmL, head, torsobase, lowerArmR, lowerArmL);
-			
 			if (wearingChest && wearingHead && wearingLegs)
 			{
 				boolean playerOnGround = onGround(player);

@@ -942,6 +942,7 @@ public class ModelSkystrike extends MowzieModelBase
             }
             
             applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArmR, lowerArmL);
+            applyDefaultHittingAnimation(upperArmR, upperArmL, headbase, stomach, lowerArmR, lowerArmL);
             
             boolean sneaking = player.isSneaking();
             
@@ -949,21 +950,6 @@ public class ModelSkystrike extends MowzieModelBase
             {
                 globalDegree = 1.5F;
                 globalSpeed = 1.3F;
-            }
-            
-            if (this.aimedBow)
-            {
-                this.upperArmR.rotateAngleY += -0.1F + this.headbase.rotateAngleY;
-                this.upperArmL.rotateAngleY += 0.1F + this.headbase.rotateAngleY + 0.4F;
-                this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
-                this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
-                this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
-                this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
-                this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
-                this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
-                
-                this.upperArmR.rotateAngleX += 0.25F;
-                this.upperArmL.rotateAngleX += 0.25F;
             }
             
             if (this.isRiding)
@@ -983,7 +969,20 @@ public class ModelSkystrike extends MowzieModelBase
                 }
             }
             
-            applyDefaultHittingAnimation(upperArmR, upperArmL, headbase, chest1, lowerArmR, lowerArmL);
+            if (this.aimedBow)
+            {
+                this.upperArmR.rotateAngleY += -0.1F + this.headbase.rotateAngleY;
+                this.upperArmL.rotateAngleY += 0.1F + this.headbase.rotateAngleY + 0.4F;
+                this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
+                this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
+                this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
+                this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
+                this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
+                
+                this.upperArmR.rotateAngleX += 0.25F;
+                this.upperArmL.rotateAngleX += 0.25F;
+            }
             
             if (wearingHead && wearingLegs && wearingChest)
             {

@@ -532,7 +532,8 @@ public class ModelPurge extends MowzieModelBase
 			boolean fullSuit = wearingHead && wearingLegs && wearingChest;
 
 			applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArm1, lowerArm2);
-
+			applyDefaultHittingAnimation(upperArmR, upperArmL, head, chest, lowerArm1, lowerArm2);
+			
 			if (this.aimedBow)
 			{
 				this.upperArmR.rotateAngleY += -0.1F + this.head.rotateAngleY;
@@ -545,8 +546,6 @@ public class ModelPurge extends MowzieModelBase
 				this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
 			}
 
-			applyDefaultHittingAnimation(upperArmR, upperArmL, head, chest, lowerArm1, lowerArm2);
-			
 			if (this.isRiding)
 			{
 				this.upperArmR.rotateAngleX -= (float) Math.PI / 5F;

@@ -173,7 +173,7 @@ public class TFDataManager
 	{
 		Integer timer = transformationTimerClient.get(player);
 
-		return timer != null ? timer : 0;
+		return timer != null ? timer : 20;
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class TFDataManager
 	{
 		Integer timer = stealthModeTimerClient.get(player);
 
-		return timer != null ? timer : 0;
+		return timer != null ? timer : 5;
 	}
 
 	/**

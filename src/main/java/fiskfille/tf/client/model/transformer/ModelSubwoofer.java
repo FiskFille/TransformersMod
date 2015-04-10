@@ -866,7 +866,8 @@ public class ModelSubwoofer extends MowzieModelBase
 			}
 
 			applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArmR, lowerArmL);
-
+			applyDefaultHittingAnimation(upperArmR, upperArmL, head, chestmain1, lowerArmR, lowerArmL);
+			
 			if (this.isRiding)
 			{
 				this.upperArmR.rotateAngleX -= (float) Math.PI / 5F;
@@ -889,9 +890,7 @@ public class ModelSubwoofer extends MowzieModelBase
 				this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
 				this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
 			}
-
-			applyDefaultHittingAnimation(upperArmR, upperArmL, head, chestmain1, lowerArmR, lowerArmL);
-
+			
 			if (wearingChest && wearingHead && wearingLegs)
 			{
 				boolean playerOnGround = onGround(player);
