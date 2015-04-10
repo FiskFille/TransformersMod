@@ -962,25 +962,6 @@ public class ModelSubwoofer extends MowzieModelBase
 						upperArmL.rotateAngleZ -= 0.5;
 						lowerArmR.rotateAngleZ -= 0.5;
 						lowerArmL.rotateAngleZ += 0.5;
-						//						waist.rotateAngleX -= 0.1F;
-						//						stomach.rotateAngleX += 0.5;
-						//						head.rotateAngleX -= 0.5;
-						//						upperLegR.rotateAngleX -= 0.7;
-						//						upperLegL.rotateAngleX -= 0.7;
-						//						upperLegR.rotateAngleY += 0.2;
-						//						upperLegL.rotateAngleY -= 0.2;
-						//						lowerlegR1.rotateAngleX += 1.1;
-						//						lowerlegL1.rotateAngleX += 1.1;
-						//						legbaseR.rotateAngleX -= 0.25;
-						//						legbaseL.rotateAngleX -= 0.25;
-						//						legbaseR.rotationPointY += 2;
-						//						legbaseL.rotationPointY += 2;
-						//						upperArmR.rotateAngleX -= 0.5;
-						//						upperArmL.rotateAngleX -= 0.5;
-						//						upperArmR.rotateAngleZ += 0.5;
-						//						upperArmL.rotateAngleZ -= 0.5;
-						//						lowerArmR.rotateAngleZ -= 0.5;
-						//						lowerArmL.rotateAngleZ += 0.5;
 					}
 				}
 				else
@@ -1069,7 +1050,7 @@ public class ModelSubwoofer extends MowzieModelBase
 			int t = TFDataManager.getTransformationTimer(player);
 			float f = (float) (20 - t);
 
-			//			waist.rotationPointY += f * 0.65F; Sorry Josh, my animation is better ;)
+			//			waist.rotationPointY += f * 0.65F; - Josh's Animation
 			//			waist.rotateAngleY += f * 0.165F;
 			//			crotch1.rotateAngleY -= f * 0.165F;
 			//			crotch2.rotateAngleY -= f * 0.165F;

@@ -1078,25 +1078,6 @@ public class ModelVurp extends MowzieModelBase
 
 					if (player.isSneaking())
 					{
-						//						waist.rotationPointY -= par2; You can do better than this Josh :(
-						//						waist.rotateAngleX += 0.3F;
-						//						waist.rotationPointZ -= 0F;
-						//						waist.rotationPointY += 0.5F;
-						//
-						//						head.rotateAngleX -= 0.3;
-						//						upperLegR.rotateAngleX -= 0.7;
-						//						upperLegL.rotateAngleX -= 0.7;
-						//						lowerLegR.rotateAngleX += 0.7;
-						//						lowerLegL.rotateAngleX += 0.7;
-						//						upperArmR.rotateAngleX -= 0.3;
-						//						upperArmL.rotateAngleX -= 0.3;
-						//						upperArmR.rotateAngleZ += 0.5;
-						//						upperArmL.rotateAngleZ -= 0.5;
-						//						lowerArmR.rotateAngleZ -= 0.5;
-						//						lowerArmL.rotateAngleZ += 0.5;
-						//						footbaseR.rotateAngleX -= 0.3F;
-						//						footbaseL.rotateAngleX -= 0.3F;
-
 						waist.rotationPointY -= par2;
 						waist.rotateAngleX += 0.35F;
 						upperLegR.rotateAngleX -= 1F;
@@ -1241,7 +1222,7 @@ public class ModelVurp extends MowzieModelBase
 			rotateTo(shoulderL1, vehicleshoulderL1_1, f);
 			head.rotationPointY += f * 0.3F;
 
-			//			this.waist.rotationPointY += f * 0.9F; My animation is still better ;)
+			//			this.waist.rotationPointY += f * 0.9F;
 			//			this.waist.rotateAngleX += f * 0.17F;
 			//			this.torsobase.rotationPointY += f * 0.2F;
 			//
@@ -1268,8 +1249,11 @@ public class ModelVurp extends MowzieModelBase
 			{
 				for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleBase })
 				{
-					modelRenderer.rotateAngleY = bipedBody.rotateAngleY;
-
+					float d = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
+					if (modelRenderer.rotateAngleY < d) {modelRenderer.rotateAngleY += 0.05F;}
+					if (modelRenderer.rotateAngleY > d) {modelRenderer.rotateAngleY -= 0.05F;}
+					modelRenderer.rotateAngleY = d;
+					
 					modelRenderer.rotateAngleX = 1.65F;
 
 					if (player == Minecraft.getMinecraft().thePlayer)
