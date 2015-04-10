@@ -77,28 +77,54 @@ public class ModelChildBase
 			model.rotationPointZ = z;
 		}
 
-		protected void applyDefualtHittingAnimation(ModelRenderer upperArmR, ModelRenderer upperArmL, ModelRenderer waist, ModelRenderer head) 
+		protected void applyDefaultHittingAnimation(ModelRenderer upperArmR, ModelRenderer upperArmL, ModelRenderer head, ModelRenderer chest, ModelRenderer lowerArmR, ModelRenderer lowerArmL) 
 		{
 			if (this.onGround > -9990.0F)
 			{
-				float f6 = this.onGround;
-				waist.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(f6) * (float) Math.PI * 2.0F) * 0.2F;
-				upperArmR.rotateAngleY += waist.rotateAngleY;
-				upperArmL.rotateAngleY += waist.rotateAngleY;
-				upperArmL.rotateAngleX += waist.rotateAngleY;
-				f6 = 1.0F - onGround;
-				f6 *= f6;
-				f6 *= f6;
-				f6 = 1.0F - f6;
-				float f7 = MathHelper.sin(f6 * (float) Math.PI);
+				float hitAnimation = this.onGround;
+
+				float change = MathHelper.sin(MathHelper.sqrt_float(hitAnimation) * (float) Math.PI * 2.0F) * 0.2F;
+				chest.rotateAngleY += change;
+				head.rotateAngleY -= change;
+
+				upperArmR.rotateAngleY += change * 0.5;
+				upperArmL.rotateAngleY += change * 0.5;
+				upperArmL.rotateAngleX += change * 0.5;
+
+				lowerArmR.rotateAngleY += change * 0.5;
+				lowerArmL.rotateAngleY += change * 0.5;
+				lowerArmL.rotateAngleX += change * 0.5;
+
+				hitAnimation = 1.0F - onGround;
+				hitAnimation *= hitAnimation;
+				hitAnimation *= hitAnimation;
+				hitAnimation = 1.0F - hitAnimation;
+				float f7 = MathHelper.sin(hitAnimation * (float) Math.PI);
 				float f8 = MathHelper.sin(onGround * (float) Math.PI) * -(head.rotateAngleX - 0.7F) * 0.75F;
-				upperArmR.rotateAngleX = (float) ((double) upperArmR.rotateAngleX - ((double) f7 * 1.2D + (double) f8));
-				upperArmR.rotateAngleY += waist.rotateAngleY * 2.0F;
-				upperArmR.rotateAngleZ = MathHelper.sin(onGround * (float) Math.PI) * -0.4F;
-				upperArmR.rotateAngleZ += 0.15F;
+
+				float armRXChange = (float) ((double) upperArmR.rotateAngleX - ((double) f7 * 1.2D + (double) f8)) * 0.5F;
+				float armRZChange = MathHelper.sin(onGround * (float) Math.PI) * -0.4F * 0.5F;
+				
+				upperArmR.rotateAngleX += armRXChange;
+				upperArmR.rotateAngleY += change * 2.0F * 0.5;
+				upperArmR.rotateAngleZ += armRZChange;
+
+				lowerArmR.rotateAngleX += armRXChange;
+				lowerArmR.rotateAngleY += change * 2.0F * 0.5;
+				lowerArmR.rotateAngleZ += armRZChange;
 			}
+
 		}
 
+		protected void applyDefaultHoldingAnimation(ModelRenderer upperArmR, ModelRenderer upperArmL, ModelRenderer lowerArmR, ModelRenderer lowerArmL) 
+		{
+			upperArmL.rotateAngleX -= this.heldItemLeft * 0.125F;
+			upperArmR.rotateAngleX -= this.heldItemRight * 0.125F;
+
+			lowerArmL.rotateAngleX -= this.heldItemLeft * 0.0625F;
+			lowerArmR.rotateAngleX -= this.heldItemRight * 0.0625F;
+		}
+		
 		public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
 		{
 			super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);

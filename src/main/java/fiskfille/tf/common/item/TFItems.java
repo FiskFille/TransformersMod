@@ -138,7 +138,7 @@ public class TFItems
         TFItemRegistry.registerItem(tankTracks, "Tracks", modId);
         TFItemRegistry.registerItem(tankTurret, "Turret", modId);
         TFItemRegistry.registerItem(carWheel, "Wheel", modId);
-        TFItemRegistry.registerItem(jetThruster, "Jet Thruster", modId);
+        TFItemRegistry.registerItemNoTab(jetThruster, "Jet Thruster", modId);
         TFItemRegistry.registerItem(smallThruster, "Small Thruster", modId);
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector", modId);
         
@@ -146,7 +146,7 @@ public class TFItems
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);
         TFItemRegistry.registerItem(vurpsSniper, "Vurp's Sniper", modId);
         TFItemRegistry.registerItem(subwoofersBassBlaster, "Subwoofer's Bass Blaster", modId);
-        TFItemRegistry.registerItem(cloudtrapsFlamethrower, "Flame Thrower", modId);
+        TFItemRegistry.registerItemNoTab(cloudtrapsFlamethrower, "Flame Thrower", modId);
         
         TFItemRegistry.registerItem(skystrikeHelmet, "Skystrike Head", modId);
         TFItemRegistry.registerItem(skystrikeChestplate, "Skystrike Torso", modId);
@@ -164,10 +164,10 @@ public class TFItems
         TFItemRegistry.registerItem(subwooferChestplate, "Subwoofer Torso", modId);
         TFItemRegistry.registerItem(subwooferLeggings, "Subwoofer Legs", modId);
         TFItemRegistry.registerItem(subwooferBoots, "Subwoofer Feet", modId);
-        TFItemRegistry.registerItem(cloudtrapHelmet, "Cloudtrap Head", modId);
-        TFItemRegistry.registerItem(cloudtrapChestplate, "Cloudtrap Torso", modId);
-        TFItemRegistry.registerItem(cloudtrapLeggings, "Cloudtrap Legs", modId);
-        TFItemRegistry.registerItem(cloudtrapBoots, "Cloudtrap Feet", modId);
+        TFItemRegistry.registerItemNoTab(cloudtrapHelmet, "Cloudtrap Head", modId);
+        TFItemRegistry.registerItemNoTab(cloudtrapChestplate, "Cloudtrap Torso", modId);
+        TFItemRegistry.registerItemNoTab(cloudtrapLeggings, "Cloudtrap Legs", modId);
+        TFItemRegistry.registerItemNoTab(cloudtrapBoots, "Cloudtrap Feet", modId);
         
         TFItemRegistry.registerItem(displayVehicle, "Display Vehicle", modId);
         TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece", modId);

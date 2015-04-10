@@ -865,8 +865,7 @@ public class ModelSubwoofer extends MowzieModelBase
 				globalDegree = 0.5F;
 			}
 
-			this.upperArmL.rotateAngleX -= this.heldItemLeft * 0.25F;
-			this.upperArmR.rotateAngleX -= this.heldItemRight * 0.25F;
+			applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArmR, lowerArmL);
 
 			if (this.isRiding)
 			{
@@ -891,23 +890,10 @@ public class ModelSubwoofer extends MowzieModelBase
 				this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
 			}
 
+			applyDefaultHittingAnimation(upperArmR, upperArmL, head, chestmain1, lowerArmR, lowerArmL);
+
 			if (wearingChest && wearingHead && wearingLegs)
 			{
-				if (this.onGround > -9990.0F)
-				{
-					float hitTick = this.onGround;
-					double max = 0.99126524;
-
-					stomach.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					chestmain1.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					head.rotateAngleY += -40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					upperArmR.rotateAngleZ += -2 * (hitTick) * (Math.pow(hitTick, 5) - max);
-					upperArmR.rotateAngleX += 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					lowerArmR.rotateAngleX += 50 * (hitTick) * (hitTick - 0.5) * (hitTick - 0.5) * (hitTick - max);
-					upperArmL.rotateAngleX -= 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					lowerArmL.rotateAngleX += 25 * (hitTick) * (Math.pow(hitTick, 0.1) - max);
-				}
-
 				boolean playerOnGround = onGround(player);
 
 				if (playerOnGround || player.capabilities.isFlying)
@@ -1079,8 +1065,6 @@ public class ModelSubwoofer extends MowzieModelBase
 						this.upperLegR.rotationPointY -= 0.8F;
 					}
 				}
-
-				applyDefualtHittingAnimation(upperArmR, upperArmL, waist, head);
 			}
 
 			int t = TFDataManager.getTransformationTimer(player);

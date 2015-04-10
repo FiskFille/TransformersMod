@@ -972,22 +972,13 @@ public class ModelVurp extends MowzieModelBase
 				globalDegree = 0.5F;
 			}
 
-			this.upperArmL.rotateAngleX -= this.heldItemLeft * 0.25F;
-			this.upperArmR.rotateAngleX -= this.heldItemRight * 0.25F;
+			applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArmR, lowerArmL);
 
 			ItemStack heldItemStack = player.getHeldItem();
 			boolean holdingSniper = heldItemStack != null && heldItemStack.getItem() instanceof ItemVurpsSniper;
 
 			if (holdingSniper)
 			{
-				//					upperArmR.rotateAngleX -= 0.6F;
-				//					upperArmR.rotateAngleY += (head.rotateAngleY - 0.45F);
-				//					lowerArmR.rotateAngleX -= 0.2F;
-				//					
-				//					upperArmL.rotateAngleX -= 0.6F;
-				//					upperArmL.rotateAngleY += (head.rotateAngleY + 0.4F);
-				//					lowerArmL.rotateAngleX -= 0.2F;
-
 				ModelRenderer head = wearingHead ? this.head : bipedHead;
 				
 				armbaseR1.rotateAngleX += head.rotateAngleX;
@@ -1026,24 +1017,11 @@ public class ModelVurp extends MowzieModelBase
 				this.upperLegL.rotateAngleY -= (float) Math.PI / 10F;
 			}
 
+			applyDefaultHittingAnimation(upperArmR, upperArmL, head, torsobase, lowerArmR, lowerArmL);
+			
 			if (wearingChest && wearingHead && wearingLegs)
 			{
 				boolean playerOnGround = onGround(player);
-
-				if (this.onGround > -9990.0F)
-				{
-					float hitTick = this.onGround;
-					double max = 0.99126524;
-
-					torsobase.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					torsoconnector1.rotateAngleY += 20 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					head.rotateAngleY += -40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					upperArmR.rotateAngleZ += -2 * (hitTick) * (Math.pow(hitTick, 5) - max);
-					upperArmR.rotateAngleX += 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					lowerArmR.rotateAngleX += 50 * (hitTick) * (hitTick - 0.5) * (hitTick - 0.5) * (hitTick - max);
-					upperArmL.rotateAngleX -= 40 * (hitTick) * (hitTick - 0.4) * (Math.pow(hitTick, 0.3F) - max);
-					lowerArmL.rotateAngleX += 25 * (hitTick) * (Math.pow(hitTick, 0.1) - max);
-				}
 
 				if (playerOnGround || player.capabilities.isFlying)
 				{
@@ -1221,8 +1199,6 @@ public class ModelVurp extends MowzieModelBase
 						this.upperLegR.rotationPointY -= 0.8F;
 					}
 				}
-
-				applyDefualtHittingAnimation(upperArmR, upperArmL, waist, head);
 			}
 
 			float f = (float) (20 - t);
