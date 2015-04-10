@@ -204,7 +204,7 @@ public class CommonEventHandler
                 {
                     Update update = TransformersMod.latestUpdate;
                     
-                    if (update.isAvailable())
+                    if (update != null && update.isAvailable())
                     {
                         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Version " + update.getVersion() + " is now available!"));
                         player.addChatMessage(new ChatComponentText(""));
