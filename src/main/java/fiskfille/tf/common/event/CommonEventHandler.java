@@ -55,7 +55,6 @@ public class CommonEventHandler
     
     private boolean displayedUpdates;
     
-    private long lastTime;
     private double lastX;
     private double lastY;
     private double lastZ;
@@ -68,7 +67,7 @@ public class CommonEventHandler
         EntityPlayer player = event.entityPlayer;
         
         Transformer transformer = event.transformer;
-		
+        
         if(transformer != null ? transformer.canTransform(player) : true)
         {
             if (!event.transformed)
@@ -86,7 +85,7 @@ public class CommonEventHandler
             event.setCanceled(true);
         }
     }
-
+    
     @SubscribeEvent
     public void onHit(LivingAttackEvent event)
     {
@@ -361,24 +360,17 @@ public class CommonEventHandler
             }
             else
             {
-                long time = System.currentTimeMillis();
+                double diffX = (player.posX - lastX);
+                double diffY = (player.posY - lastY);
+                double diffZ = (player.posZ - lastZ);
                 
-                long timeDiff = time - lastTime;
+                double blocksMoved = Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
                 
-                if (timeDiff >= 500)
-                {
-                    double diffX = (player.posX - lastX);
-                    double diffY = (player.posY - lastY);
-                    double diffZ = (player.posZ - lastZ);
-                    
-                    GuiOverlay.speed = (double) (Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ)) * ((((double) 60) * 60) * 2) / 1000);
-                    
-                    lastX = player.posX;
-                    lastY = player.posY;
-                    lastZ = player.posZ;
-                    
-                    lastTime = time;
-                }
+                GuiOverlay.speed = (double) (blocksMoved / 50) * 60 * 60; //50 seems to be the average milliseconds between ticks
+                
+                lastX = player.posX;
+                lastY = player.posY;
+                lastZ = player.posZ;
             }
             
             if (!(TFDataManager.getTransformationTimer(player) <= 20))

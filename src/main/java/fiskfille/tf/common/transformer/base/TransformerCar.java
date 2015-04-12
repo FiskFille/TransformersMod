@@ -115,17 +115,17 @@ public abstract class TransformerCar extends Transformer
             
             if (inStealthMode)
             {
-                increment = (0.328D - forwardVelocity) / 10 + 0.001D;
+                increment = (0.32D - forwardVelocity) / 10 + 0.001D;
             }
             else
             {
                 if (nitroPressed && nitro > 0)
                 {
-                    increment = 5.5D;
+                    increment = 8.8D;
                 }
                 else
                 {
-                    increment = 0.74D;
+                    increment = 0.83D;
                 }
                 
                 increment -= forwardVelocity;

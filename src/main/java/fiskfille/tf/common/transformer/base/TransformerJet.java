@@ -75,7 +75,7 @@ public abstract class TransformerJet extends Transformer
             nitro = transformedPlayer.getNitro();
             vel = transformedPlayer.getForwardVelocity();
             
-            double increment = ((nitroPressed && nitro > 0 ? 6.84D : 1.36D) - vel) / 10 + 0.001D;
+            double increment = ((nitroPressed && nitro > 0 ? 6.5D : 1.36D) - vel) / 10 + 0.001D;
             
             if (moveForward && vel <= 1.41D)
             {

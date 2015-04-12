@@ -23,6 +23,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
+import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;

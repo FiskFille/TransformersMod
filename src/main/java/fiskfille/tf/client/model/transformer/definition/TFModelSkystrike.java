@@ -66,7 +66,7 @@ public class TFModelSkystrike extends TransformerModel
 	@Override
 	public void renderCape(EntityPlayer player)
 	{
-		GL11.glTranslatef(0, -0.2F, 0.25F);
+		GL11.glTranslatef(0, 0F, 0.25F);
 	}
 	
 	@Override

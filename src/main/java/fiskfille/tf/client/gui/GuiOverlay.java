@@ -71,7 +71,6 @@ public class GuiOverlay extends Gui
             int nitro = transformedPlayer.getNitro();
             
             int i = transformationTimer * 10;
-            
             if (transformationTimer <= 19)
             {
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -88,7 +87,7 @@ public class GuiOverlay extends Gui
                 drawTexturedModalRect(6 - i, 4, 0, 0, (int) (nitro * 1.25F), 10);
                 GL11.glColor4f(1F, 0F, 0F, 0.5F);
                 //Speed Bar
-                drawTexturedModalRect(6 - i, 17, 0, 0, (int) (speed) > 200 ? 200 : (int) (speed), 10);
+                drawTexturedModalRect(6 - i, 17, 0, 0, speed > 200 ? 200 : (int)Math.round(speed), 10);
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
                 
                 drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, 5, 0xffffff);

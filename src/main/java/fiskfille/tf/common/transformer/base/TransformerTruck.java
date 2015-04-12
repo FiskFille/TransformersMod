@@ -91,17 +91,17 @@ public abstract class TransformerTruck extends Transformer
             
             if (inStealthMode)
             {
-                increment = (0.2D - forwardVelocity) / 10;
+                increment = (0.19D - forwardVelocity) / 10;
             }
             else
             {
                 if (nitroPressed && nitro > 0)
                 {
-                    increment = 0.68D;
+                    increment = 0.84D;
                 }
                 else
                 {
-                    increment = 0.45D;
+                    increment = 0.56D;
                 }
                 
                 increment -= forwardVelocity;

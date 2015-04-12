@@ -68,7 +68,7 @@ public abstract class TransformerTank extends Transformer
         {
             nitro = transformedPlayer.getNitro();
             vel = transformedPlayer.getForwardVelocity();
-            double increment = ((nitroPressed && nitro > 0 ? 0.15D : 0.035D) - vel) / 10 + 0.001D;
+            double increment = ((nitroPressed && nitro > 0 ? 0.18D : 0.035D) - vel) / 10 + 0.001D;
             
             if (moveForward && vel <= 1.0D)
             {
