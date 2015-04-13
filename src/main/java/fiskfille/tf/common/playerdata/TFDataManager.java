@@ -31,7 +31,7 @@ public class TFDataManager
 	/**
 	 * Used to set whether the player is in vehicle mode or not. Keep Note that this will notify other clients / the server depending which side you are currently on.
 	 */
-	public static void setInVehicleMode(EntityPlayer player, boolean vehicleMode)
+	public static boolean setInVehicleMode(EntityPlayer player, boolean vehicleMode)
 	{
 		TFPlayerData data = TFPlayerData.getData(player);
 
@@ -56,14 +56,18 @@ public class TFDataManager
 				}
 
 				data.vehicle = vehicleMode;
+				
+				return true;
 			}
 		}
+		
+		return false;
 	}
 
 	/**
 	 * Used to set whether the player is in stealth force or not. Keep Note that this will notify other clients / the server depending which side you are currently on.
 	 */
-	public static void setInStealthMode(EntityPlayer player, boolean stealthMode)
+	public static boolean setInStealthMode(EntityPlayer player, boolean stealthMode)
 	{
 		if (stealthMode != TFPlayerData.getData(player).stealthForce)
 		{
@@ -79,8 +83,12 @@ public class TFDataManager
 				}
 
 				TFPlayerData.getData(player).stealthForce = stealthMode;
+				
+				return true;
 			}
 		}
+		
+		return false;
 	}
 	
 	/**

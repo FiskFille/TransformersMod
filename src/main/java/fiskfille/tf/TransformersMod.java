@@ -41,7 +41,7 @@ public class TransformersMod
     @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
     public static CommonProxy proxy;
     
-    public TFConfig config = new TFConfig();
+    public static TFConfig config = new TFConfig();
     public TFItems items = new TFItems();
     public TFBlocks blocks = new TFBlocks();
     
@@ -59,7 +59,11 @@ public class TransformersMod
         configFile = new Configuration(event.getSuggestedConfigurationFile());
         configFile.load();
         config.load(configFile);
-        configFile.save();
+        
+        if(configFile.hasChanged())
+        {
+            configFile.save();
+        }
         
         if (TFConfig.checkForUpdates)
         {

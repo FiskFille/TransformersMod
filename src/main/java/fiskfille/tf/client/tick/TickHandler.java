@@ -47,15 +47,17 @@ public class TickHandler
             
             if (inVehicleMode && transformationTimer == 0)
             {
-                TFDataManager.setInVehicleMode(player, false);
-                player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
-                TFPlayerData.getData(player).stealthForce = false;
+                if(TFDataManager.setInVehicleMode(player, false))
+                {
+                    player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
+                }
             }
             else if (!inVehicleMode && transformationTimer == 20)
             {
-                TFDataManager.setInVehicleMode(player, true);
-                player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
-                TFPlayerData.getData(player).stealthForce = false;
+                if(TFDataManager.setInVehicleMode(player, true))
+                {
+                    player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
+                }
             }
             
             EntityRenderer entityRenderer = mc.entityRenderer;
