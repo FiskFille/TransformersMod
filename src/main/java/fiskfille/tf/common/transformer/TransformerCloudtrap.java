@@ -53,9 +53,9 @@ public class TransformerCloudtrap extends TransformerJet
     @Override
     public void tick(EntityPlayer player, int timer)
     {
-        if(timer > 10)
+        if (timer > 10)
         {
-            if(player.worldObj.isRemote)
+            if (player.worldObj.isRemote)
             {
                 CloudtrapJetpackManager.cloudtrapTick(player);
             }

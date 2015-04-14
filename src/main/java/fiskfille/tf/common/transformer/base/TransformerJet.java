@@ -126,7 +126,8 @@ public abstract class TransformerJet extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+//        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+    	EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
         return entityMissile;
     }
     
@@ -138,7 +139,7 @@ public abstract class TransformerJet extends Transformer
             Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.2F, i < 2, -1.5, true);
             Random rand = new Random();
             
-            if(player != Minecraft.getMinecraft().thePlayer)
+            if (player != Minecraft.getMinecraft().thePlayer)
             {
                 side.yCoord += 0.8F;
             }
