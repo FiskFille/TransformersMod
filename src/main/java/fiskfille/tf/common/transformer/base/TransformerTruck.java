@@ -68,98 +68,7 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public void updateMovement(EntityPlayer player)
     {
-        Minecraft mc = Minecraft.getMinecraft();
-        
-        boolean inStealthMode = TFDataManager.isInStealthMode(player);
-        boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean moveSide = player.moveStrafing != 0;
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
-        int nitro = 0;
-        double forwardVelocity = 0;
-        double horizontalVelocity = 0;
-        
-        player.stepHeight = 1.0F;
-        
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-        
-        if (transformedPlayer != null)
-        {
-            nitro = transformedPlayer.getNitro();
-            forwardVelocity = transformedPlayer.getForwardVelocity();
-            horizontalVelocity = transformedPlayer.getHorizontalVelocity();
-            double increment;
-            
-            if (inStealthMode)
-            {
-                increment = (0.19D - forwardVelocity) / 10;
-            }
-            else
-            {
-                if (nitroPressed && nitro > 0)
-                {
-                    increment = 0.84D;
-                }
-                else
-                {
-                    increment = 0.56D;
-                }
-                
-                increment -= forwardVelocity;
-                increment = increment / 10;
-                
-                if (forwardVelocity < 0.5D)
-                {
-                    increment += 0.05D;
-                }
-            }
-            
-            if (moveForward && forwardVelocity <= 1.0D)
-            {
-                forwardVelocity += increment * 0.5F;
-            }
-            else if (forwardVelocity > 0.02D)
-            {
-                forwardVelocity -= 0.02D;
-            }
-            else if (forwardVelocity <= 0.02D)
-            {
-                forwardVelocity = 0;
-            }
-            
-            if (moveSide && horizontalVelocity <= 1.0D && inStealthMode)
-            {
-                horizontalVelocity += increment * 0.5F;
-            }
-            else if (horizontalVelocity > 0.02D)
-            {
-                horizontalVelocity -= 0.02D;
-            }
-            else if (horizontalVelocity <= 0.02D)
-            {
-                horizontalVelocity = 0;
-            }
-            
-            Vec3 forwardVec = TFMotionManager.getFrontCoords(player, 0, forwardVelocity);
-            player.motionX = (forwardVec.xCoord - player.posX);
-            player.motionZ = (forwardVec.zCoord - player.posZ);
-            
-            if (forwardVelocity <= 0)
-            {
-                forwardVelocity = 0;
-            }
-            if (forwardVelocity > 1)
-            {
-                forwardVelocity = 1;
-            }
-            
-            transformedPlayer.setForwardVelocity(forwardVelocity);
-            transformedPlayer.setHorizontalVelocity(horizontalVelocity);
-            
-            if (player.isInWater())
-            {
-                player.motionY = -0.1F;
-            }
-        }
+    	TFMotionManager.motionTruck(player, 40, 60, 20, 10);
     }
     
     @Override
@@ -214,19 +123,20 @@ public abstract class TransformerTruck extends Transformer
         if (TFDataManager.isInVehicleMode(player) && timer == 0)
         {
             IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            entityAttribute.setBaseValue(0.0D);
             
-            if (!TFPlayerData.getData(player).stealthForce)
-            {
-                CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
-                entityAttribute.setBaseValue(0.0D);
-            }
-            else
-            {
-                if (CommonEventHandler.prevMove != 0)
-                {
-                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
-                }
-            }
+//            if (!TFPlayerData.getData(player).stealthForce)
+//            {
+//                CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
+//                entityAttribute.setBaseValue(0.0D);
+//            }
+//            else
+//            {
+//                if (CommonEventHandler.prevMove != 0)
+//                {
+//                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
+//                }
+//            }
         }
     }
 }

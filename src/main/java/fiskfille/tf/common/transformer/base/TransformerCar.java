@@ -54,19 +54,7 @@ public abstract class TransformerCar extends Transformer
         if (vehicle && timer == 0)
         {
             IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            
-            if (!TFPlayerData.getData(player).stealthForce)
-            {
-                CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
-                entityAttribute.setBaseValue(0.0D);
-            }
-            else
-            {
-                if (CommonEventHandler.prevMove != 0)
-                {
-                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
-                }
-            }
+            entityAttribute.setBaseValue(0.0D);
         }
     }
     
@@ -91,134 +79,7 @@ public abstract class TransformerCar extends Transformer
     @Override
     public void updateMovement(EntityPlayer player)
     {
-        Minecraft mc = Minecraft.getMinecraft();
-        
-        boolean inStealthMode = TFDataManager.isInStealthMode(player);
-        boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean moveSide = player.moveStrafing != 0;
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
-        boolean driftPressed = TFKeyBinds.keyBindingBrake.getIsKeyPressed();
-        int nitro = 0;
-        double forwardVelocity = 0;
-        double horizontalVelocity = 0;
-        
-        player.stepHeight = 1.0F;
-        
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-        
-        if (transformedPlayer != null)
-        {
-            nitro = transformedPlayer.getNitro();
-            forwardVelocity = transformedPlayer.getForwardVelocity();
-            horizontalVelocity = transformedPlayer.getHorizontalVelocity();
-            double increment;
-            
-            if (inStealthMode)
-            {
-                increment = (0.32D - forwardVelocity) / 10 + 0.001D;
-            }
-            else
-            {
-                if (nitroPressed && nitro > 0)
-                {
-                    increment = 8.8D;
-                }
-                else
-                {
-                    increment = 0.83D;
-                }
-                
-                increment -= forwardVelocity;
-                increment = increment / 10;
-                increment += 0.001D;
-                
-                if (forwardVelocity < 0.5D)
-                {
-                    increment += 0.05D;
-                }
-            }
-            
-            if (moveForward && forwardVelocity <= 1.0D)
-            {
-                forwardVelocity += increment * 0.5F;
-            }
-            else if (forwardVelocity > 0.02D)
-            {
-                forwardVelocity -= 0.02D;
-            }
-            else if (forwardVelocity <= 0.02D)
-            {
-                forwardVelocity = 0;
-            }
-            
-            if (moveSide && horizontalVelocity <= 1.0D && inStealthMode)
-            {
-                horizontalVelocity += increment * 0.5F;
-            }
-            else if (horizontalVelocity > 0.02D)
-            {
-                horizontalVelocity -= 0.02D;
-            }
-            else if (horizontalVelocity <= 0.02D)
-            {
-                horizontalVelocity = 0;
-            }
-            
-            if (driftPressed && player.onGround && forwardVelocity > 0)
-            {
-                ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
-                
-                float f = modelBipedMain.bipedHead.rotateAngleY - (modelBipedMain.bipedBody.rotateAngleY - modelBipedMain.bipedHead.rotateAngleY) / 3;
-                forwardVelocity -= 0.03D;
-                
-                Vec3 vec3 = TFMotionManager.getSideCoords(player, forwardVelocity, -(int) (f * 45)/*f > -0.25D && f < 0.25D ? 0 : (f > 0 ? -45 : 30)*/);
-                player.motionX = (vec3.xCoord - player.posX);
-                player.motionZ = (vec3.zCoord - player.posZ);
-                
-                if (forwardVelocity > 0.1D)
-                {
-                    for (int i = 0; i < 10; ++i)
-                    {
-                        Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i < 2, -0.5F, false);
-                        player.worldObj.spawnParticle("reddust", side.xCoord, player.posY - 1.5F, side.zCoord, -1, 0, 0);
-                    }
-                }
-                
-                float decrement = (float) (1.0F - (increment * 0.5F));
-                
-                if (f > 0.5F && forwardVelocity > 0.0F)
-                {
-                    player.rotationYaw += decrement;
-                }
-                if (f < -0.5F && forwardVelocity > 0.0F)
-                {
-                    player.rotationYaw -= decrement;
-                }
-            }
-            else
-            {
-                Vec3 forwardVec = TFMotionManager.getFrontCoords(player, 0, forwardVelocity);
-                player.motionX = (forwardVec.xCoord - player.posX);
-                player.motionZ = (forwardVec.zCoord - player.posZ);
-            }
-            
-            if (forwardVelocity <= 0)
-            {
-                forwardVelocity = 0;
-            }
-            if (forwardVelocity > 1)
-            {
-                forwardVelocity = 1;
-            }
-            
-            transformedPlayer.setForwardVelocity(forwardVelocity);
-            transformedPlayer.setHorizontalVelocity(horizontalVelocity);
-            
-            if (player.isInWater())
-            {
-                player.motionY = -0.1F;
-            }
-        }
+        TFMotionManager.motionTruck(player, 60, 100, 20, 20);
     }
     
     @Override
@@ -243,9 +104,7 @@ public abstract class TransformerCar extends Transformer
     public Entity getShootEntity(EntityPlayer player)
     {
 //        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
-        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
-        entityMissile.posY--;
-        
+        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));        
         return entityMissile;
     }
     
