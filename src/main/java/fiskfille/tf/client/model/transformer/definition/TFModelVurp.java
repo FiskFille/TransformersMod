@@ -13,6 +13,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelChildBase;
 import fiskfille.tf.client.model.transformer.ModelVurp;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.stealth.ModelVurpStealth;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
 
@@ -20,11 +21,13 @@ public class TFModelVurp extends TransformerModel
 {
 	private ModelVurp model;
 	private ModelVurpVehicle vehicle;
+	private ModelVurpStealth stealth;
 
 	public TFModelVurp() 
 	{
 		this.model = new ModelVurp();
 		this.vehicle = new ModelVurpVehicle();
+		this.stealth = new ModelVurpStealth();
 	}
 
 	@Override
@@ -37,6 +40,12 @@ public class TFModelVurp extends TransformerModel
 	public ModelVehicleBase getVehicleModel()
 	{
 		return vehicle;
+	}
+	
+	@Override
+	public Biped getStealthModel()
+	{
+		return stealth;
 	}
 
 	@Override

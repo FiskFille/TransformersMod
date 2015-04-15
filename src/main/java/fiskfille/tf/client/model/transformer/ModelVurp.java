@@ -9,6 +9,8 @@ import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.ItemVurpsSniper;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerVurp;
@@ -774,7 +776,7 @@ public class ModelVurp extends MowzieModelBase
 		this.vehicleWheelBackL.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
 		this.vehicleWheelL = new ModelRenderer(this, 55, 68);
 		this.vehicleWheelL.mirror = true;
-		this.vehicleWheelL.setRotationPoint(2.6F, 0.3F, -2.0F);
+		this.vehicleWheelL.setRotationPoint(2.7F, 0.3F, -2.0F);
 		this.vehicleWheelL.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2);
 		this.vehicleWheelR = new ModelRenderer(this, 55, 68);
 		this.vehicleWheelR.setRotationPoint(-2.7F, 0.3F, -2.0F);
@@ -1235,15 +1237,20 @@ public class ModelVurp extends MowzieModelBase
 			//			this.lowerArmL.rotateAngleZ += f * 0.1F;
 			//			this.lowerArmR.rotateAngleZ -= f * 0.1F;
 
-			float wheelSpinSpeed = par1 * 0.8F;
-			vehicleWheelBackR.rotateAngleX = wheelSpinSpeed;
-			vehicleWheelBackL.rotateAngleX = wheelSpinSpeed;
-			vehicleWheelL.rotateAngleX = wheelSpinSpeed;
-			vehicleWheelR.rotateAngleX = wheelSpinSpeed;
+			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
+			{
+				VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+				
+				if (transformedPlayer != null)
+				{
+					float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
+					modelRenderer.rotateAngleX = wheelSpinSpeed;
+				}
+			}
 
 			if(t == 0)
 			{
-				for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleBase })
+				for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleBase})
 				{
 					float d = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
 					if (modelRenderer.rotateAngleY < d) {modelRenderer.rotateAngleY += 0.05F;}
