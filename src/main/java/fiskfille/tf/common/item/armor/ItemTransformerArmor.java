@@ -15,6 +15,7 @@ import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
 
@@ -55,6 +56,17 @@ public abstract class ItemTransformerArmor extends ItemArmor
         if (itemstack != null)
         {
             armorModel = getTransformer().getModel().getMainModel();
+            
+            if (entityLiving instanceof EntityPlayer)
+            {
+            	EntityPlayer player = (EntityPlayer)entityLiving;
+            	ModelBiped model = getTransformer().getModel().getStealthModel();
+            	
+            	if (TFDataManager.getStealthModeTimer(player) != 5 && model != null)
+            	{
+            		armorModel = model;
+            	}
+            }
             
             if (armorModel != null)
             {

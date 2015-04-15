@@ -20,6 +20,11 @@ public abstract class TransformerModel
     
     public abstract ResourceLocation getTexture();
     
+    public Biped getStealthModel()
+    {
+    	return null;
+    }
+    
     public void renderItem(EntityPlayer player, ItemStack stack)
     {
     }

@@ -9,6 +9,8 @@ import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
@@ -674,10 +676,10 @@ public class ModelSubwoofer extends MowzieModelBase
 		this.vehicleFrontChest1.addBox(0.0F, 0.0F, -0.6F, 4, 4, 1, 0.0F);
 		this.setRotateAngle(vehicleFrontChest1, -0.07330382858376185F, 0.0F, -0.005235987755982988F);
 		this.vehicleBass3 = new ModelRenderer(this, 0, 112);
-		this.vehicleBass3.mirror = true;
-		this.vehicleBass3.setRotationPoint(-2.5F, -2.5F, 2.1F);
-		this.vehicleBass3.addBox(0.0F, 0.0F, 0.0F, 1, 4, 3, 0.0F);
-		this.setRotateAngle(vehicleBass3, 0.0F, 1.5707963267948966F, 0.0F);
+        this.vehicleBass3.mirror = true;
+        this.vehicleBass3.setRotationPoint(-2.3F, -2.5F, 2.1F);
+        this.vehicleBass3.addBox(0.0F, 0.0F, 0.0F, 1, 4, 3, 0.0F);
+        this.setRotateAngle(vehicleBass3, 0.0F, 1.5707963267948966F, 0.0F);
 		this.vehicleFrontWheel1 = new ModelRenderer(this, 0, 77);
 		this.vehicleFrontWheel1.setRotationPoint(-2.5F, 1.5F, -3.7F);
 		this.vehicleFrontWheel1.addBox(-2.0F, -1.5F, -1.5F, 2, 3, 3, 0.0F);
@@ -1111,13 +1113,18 @@ public class ModelSubwoofer extends MowzieModelBase
 			shoulderplateL1.rotationPointZ -= f * 0.2F;
 			head.rotationPointY += f * 0.2F;
 
-			float wheelSpinSpeed = par1 * 0.8F;
-			vehicleFrontWheel1.rotateAngleX = wheelSpinSpeed;
-			vehicleFrontWheel2.rotateAngleX = wheelSpinSpeed;
-			vehicleRearWheel1.rotateAngleX = wheelSpinSpeed;
-			vehicleRearWheel2.rotateAngleX = wheelSpinSpeed;
+			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2})
+			{
+				VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+				
+				if (transformedPlayer != null)
+				{
+					float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
+					modelRenderer.rotateAngleX = wheelSpinSpeed;
+				}
+			}
 
-			for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleBase })
+			for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleBase})
 			{
 				modelRenderer.rotateAngleY = bipedBody.rotateAngleY;
 

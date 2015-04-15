@@ -13,6 +13,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelChildBase;
 import fiskfille.tf.client.model.transformer.ModelSubwoofer;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.stealth.ModelSubwooferStealth;
 import fiskfille.tf.client.model.transformer.vehicle.ModelSubwooferVehicle;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 
@@ -20,11 +21,13 @@ public class TFModelSubwoofer extends TransformerModel
 {
 	private ModelSubwoofer model;
 	private ModelSubwooferVehicle vehicle;
+	private ModelSubwooferStealth stealth;
 
 	public TFModelSubwoofer() 
 	{
 		this.model = new ModelSubwoofer();
 		this.vehicle = new ModelSubwooferVehicle();
+		this.stealth = new ModelSubwooferStealth();
 	}
 
 	@Override
@@ -37,6 +40,12 @@ public class TFModelSubwoofer extends TransformerModel
 	public ModelVehicleBase getVehicleModel()
 	{
 		return vehicle;
+	}
+	
+	@Override
+	public Biped getStealthModel()
+	{
+		return stealth;
 	}
 
 	@Override
