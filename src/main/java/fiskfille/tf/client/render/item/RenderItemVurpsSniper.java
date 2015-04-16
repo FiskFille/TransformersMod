@@ -94,10 +94,6 @@ public class RenderItemVurpsSniper implements IItemRenderer
                     GL11.glRotatef(-10, 1, 0, 0);
                     GL11.glRotatef(200, 0, 0, 1);
                     GL11.glRotatef(90, 0, 1, 0);
-                    //					GL11.glTranslatef(0.6F, 0.7F, -0.95F);
-                    //					GL11.glRotatef(0, 1, 0, 0);
-                    //					GL11.glRotatef(210, 0, 0, 1);
-                    //					GL11.glRotatef(95, 0, 1, 0);
                 }
                 
                 float f = 2.0F;
@@ -109,10 +105,10 @@ public class RenderItemVurpsSniper implements IItemRenderer
         else if (type == ItemRenderType.EQUIPPED)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef(0.83F, 0.5F, 0F);
+            GL11.glTranslatef(0.86F, 0.5F, 0.05F);
             GL11.glRotatef(-135, 0, 0, 1);
             GL11.glRotatef(0, 0, 0, 1);
-            GL11.glRotatef(75, 0, 1, 0);
+            GL11.glRotatef(95, 0, 1, 0);
             
             float f = 0.9F;
             GL11.glScalef(f, f, f);

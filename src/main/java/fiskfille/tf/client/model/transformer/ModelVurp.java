@@ -976,22 +976,7 @@ public class ModelVurp extends MowzieModelBase
             ItemStack heldItemStack = player.getHeldItem();
             boolean holdingSniper = heldItemStack != null && heldItemStack.getItem() instanceof ItemVurpsSniper;
             
-            if (holdingSniper)
-            {
-                ModelRenderer head = wearingHead ? this.head : bipedHead;
-                
-                armbaseR1.rotateAngleX += head.rotateAngleX;
-                upperArmR.rotateAngleX -= 0.25F;
-                upperArmR.rotateAngleY -= 0.25F;
-                lowerArmR.rotateAngleX -= 0.25F;
-                lowerArmR.rotateAngleY -= 0.5F;
-                
-                armbaseL1.rotateAngleX += head.rotateAngleX;
-                upperArmL.rotateAngleX -= 0.25F;
-                upperArmL.rotateAngleY += 0.25F;
-                lowerArmL.rotateAngleX -= 0.5F;
-                lowerArmL.rotateAngleY += 0.8F;
-            }
+
             
             if (this.aimedBow)
             {
@@ -1268,12 +1253,28 @@ public class ModelVurp extends MowzieModelBase
                 
                 vehicleBase.rotateAngleX -= 0.1F;
             }
+            
+            
+            
+            if (holdingSniper) // Always put special item holding animations at the bottom, otherwise other animations like i.e. walking will override it!
+            {
+                ModelRenderer head = wearingHead ? this.head : bipedHead;
+                
+                
+                upperArmR.rotateAngleX = -0.3F;
+                lowerArmR.rotateAngleX = -1.0F;
+                lowerArmR.rotateAngleY = -0.5F;
+                lowerArmR.rotateAngleZ = -0.3F;
+                
+                upperArmL.rotateAngleX = -0.8F;
+                upperArmL.rotateAngleZ = 0.3F;
+                lowerArmL.rotateAngleX = -0.3F;
+                lowerArmL.rotateAngleY = 0.7F;
+                lowerArmL.rotateAngleZ = 0.7F;
+            }
         }
     }
     
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
