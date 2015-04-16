@@ -83,7 +83,7 @@ public class TickHandler
             
             if (transformer != null)
             {
-                if (inVehicleMode && mc.currentScreen == null && transformer.hasStealthForce(player))
+                if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player))
                 {
                     int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
                     
