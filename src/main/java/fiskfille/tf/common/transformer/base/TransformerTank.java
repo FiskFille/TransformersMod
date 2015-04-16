@@ -122,7 +122,7 @@ public abstract class TransformerTank extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        return new EntityTankShell(player.worldObj, player, 3, TFConfig.allowTankShellExplosions);
+        return new EntityTankShell(player.worldObj, player, TFConfig.allowTankShellExplosions);
     }
     
     @Override

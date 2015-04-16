@@ -112,6 +112,7 @@ public class ModelPurgeVehicle extends ModelVehicleBase
     
     public void render()
     {
+    	this.vehicleTurret.rotationPointZ = -2;
         this.vehicleBody.render(0.0625F);
     }
     

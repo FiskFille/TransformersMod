@@ -1,16 +1,12 @@
 package fiskfille.tf.common.entity;
 
 import io.netty.buffer.ByteBuf;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityMissile extends EntityThrowable implements IEntityAdditionalSpawnData
 {
@@ -27,6 +23,7 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
         super(world, entity);
         isInStealthMode = stealthMode;
         allowExplosions = explosions;
+        setThrowableHeading(this.motionX, this.motionY, this.motionZ, this.func_70182_d(), 1.0F);
     }
     
     public EntityMissile(World world, double x, double y, double z)
@@ -38,7 +35,7 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
     {
         super.onUpdate();
         
-        if (ticksExisted < 10 && !isInStealthMode)
+        if (ticksExisted < 5 && !isInStealthMode)
         {
             posY -= 0.2F;
         }
@@ -52,7 +49,7 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
     
     protected float getGravityVelocity()
     {
-        return isInStealthMode ? 0.1F : 0.0002F;
+        return isInStealthMode ? 0.05F : 0.0005F;
     }
     
     protected float func_70182_d()
@@ -77,24 +74,16 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
         setDead();
     }
     
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        
         nbt.setBoolean("Explosions", allowExplosions);
         nbt.setBoolean("StealthForce", isInStealthMode);
     }
     
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        
         allowExplosions = nbt.getBoolean("Explosions");
         isInStealthMode = nbt.getBoolean("StealthForce");
     }
