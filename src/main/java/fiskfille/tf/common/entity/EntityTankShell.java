@@ -40,7 +40,7 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
     
     protected float func_70182_d()
     {
-        return 2.0F;
+        return 4.0F;
     }
     
     protected void onImpact(MovingObjectPosition mop)
@@ -49,7 +49,16 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         {
             if (mop.typeOfHit == mop.typeOfHit.BLOCK)
             {
-                worldObj.createExplosion(null, mop.blockX, mop.blockY, mop.blockZ, 1.0F, allowExplosions);
+                int blockY = mop.blockY;
+                int blockX = mop.blockX;
+                int blockZ = mop.blockZ;
+                
+                if(worldObj.getBlock(blockX, blockY, blockZ).isOpaqueCube())
+                {
+                    blockY++;
+                }
+                
+                worldObj.createExplosion(null, blockX, blockY, blockZ, 1.0F, allowExplosions);
             }
             else if (mop.typeOfHit == mop.typeOfHit.ENTITY)
             {

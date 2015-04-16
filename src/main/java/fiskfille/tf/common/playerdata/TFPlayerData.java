@@ -32,8 +32,6 @@ public class TFPlayerData implements IExtendedEntityProperties
     {
         vehicle = compound.getBoolean("mode");
         stealthForce = compound.getBoolean("stealth");
-        TFDataManager.setTransformationTimer(player, vehicle ? 0 : 20);
-        TFDataManager.setStealthModeTimer(player, stealthForce ? 0 : 5);
     }
     
     @Override

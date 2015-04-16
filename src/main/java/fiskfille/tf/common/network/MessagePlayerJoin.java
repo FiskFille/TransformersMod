@@ -2,7 +2,10 @@ package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.playerdata.TFPlayerData;
+import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import io.netty.buffer.ByteBuf;
@@ -22,17 +25,25 @@ public class MessagePlayerJoin implements IMessage
 {
 	private Map<Transformer, Boolean> canTransform;
 
+	private boolean vehicleMode;
+	private boolean stealthForce;
+	
 	public MessagePlayerJoin()
 	{
 	}
 
-	public MessagePlayerJoin(Map<Transformer, Boolean> t)
+	public MessagePlayerJoin(boolean vehicleMode, boolean stealthForce, Map<Transformer, Boolean> t)
 	{
-		canTransform = t;
+		this.canTransform = t;
+		this.vehicleMode = vehicleMode;
+		this.stealthForce = stealthForce;
 	}
 
 	public void fromBytes(ByteBuf buf)
 	{
+	    vehicleMode = buf.readBoolean();
+	    stealthForce = buf.readBoolean();
+	    
 		canTransform = new HashMap<Transformer, Boolean>();
 
 		for (Transformer transformer : TransformersAPI.getTransformers())
@@ -41,6 +52,9 @@ public class MessagePlayerJoin implements IMessage
 
 	public void toBytes(ByteBuf buf)
 	{
+	    buf.writeBoolean(vehicleMode);
+	    buf.writeBoolean(stealthForce);
+	    
 		for (Entry<Transformer, Boolean> transformable : canTransform.entrySet())
 		{
 			buf.writeBoolean(transformable.getValue());
@@ -53,6 +67,14 @@ public class MessagePlayerJoin implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
+			    EntityPlayer player = TransformersMod.proxy.getPlayer();
+			    
+			    TFDataManager.setInVehicleModeWithoutNotify(player, message.vehicleMode);
+			    TFDataManager.setInStealthModeWithoutNotify(player, message.stealthForce);
+			    
+			    TFDataManager.setTransformationTimer(player, message.vehicleMode ? 0 : 20);
+		        TFDataManager.setStealthModeTimer(player, message.stealthForce ? 0 : 5);
+			    
 				if(message.canTransform != null)
 				{
 					TFConfig.canTransform = message.canTransform;

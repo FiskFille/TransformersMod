@@ -211,7 +211,7 @@ public class TFDataManager
 	{
 		if(!player.worldObj.isRemote)
 		{
-			TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(TFConfig.canTransform), (EntityPlayerMP) player);
+			TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(isInVehicleMode(player), isInStealthMode(player), TFConfig.canTransform), (EntityPlayerMP) player);
 		}
 	}
 }

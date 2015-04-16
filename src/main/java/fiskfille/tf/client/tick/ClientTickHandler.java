@@ -205,7 +205,7 @@ public class ClientTickHandler
             
             float thirdPersonDistance = 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
             
-            if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
+            if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFKeyBinds.keyBindingViewFront.getIsKeyPressed())
             {
                 thirdPersonDistance = transformer.getZoomAmount(player);
             }

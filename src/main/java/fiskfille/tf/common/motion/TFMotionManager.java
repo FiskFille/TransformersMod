@@ -166,7 +166,12 @@ public class TFMotionManager //TODO-TF Clean this up
     {
         Vec3 frontCoords = TFMotionManager.getFrontCoords(player, vel, pitch);
         player.motionX = (frontCoords.xCoord - player.posX);
-        player.motionY = (frontCoords.yCoord - player.posY);
+        
+        if(pitch)
+        {
+            player.motionY = (frontCoords.yCoord - player.posY);
+        }
+        
         player.motionZ = (frontCoords.zCoord - player.posZ);
     }
     
