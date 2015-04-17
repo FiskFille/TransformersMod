@@ -57,7 +57,7 @@ public class MessageHandleStealthTransformation implements IMessage
                 {
                     TFDataManager.setStealthModeTimer(from, message.stealthForce ? 5 : 0);
                     
-                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_stealth" + (message.stealthForce ? "" : "_in"), 1, 1f, false);
+                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_stealth" + (message.stealthForce ? "" : "_in"), 1, 1.25f, false);
                     TFDataManager.setInStealthModeWithoutNotify(from, message.stealthForce);
                 }
             }
