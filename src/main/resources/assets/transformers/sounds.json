@@ -1,6 +1,8 @@
 {
 	"transform_robot": {"category": "master","sounds": [{"name": "transform_robot","stream": false}]},
 	"transform_vehicle": {"category": "master","sounds": [{"name": "transform_vehicle","stream": false}]},
+	"transform_stealth": {"category": "master","sounds": [{"name": "transform_stealth","stream": false}]},
+    "transform_stealth_in": {"category": "master","sounds": [{"name": "transform_stealth_in","stream": false}]},
 	"tankfire": {"category": "master","sounds": [{"name": "tankfire","stream": false}]},
 	"car1": {"category": "master","sounds": [{"name": "car1","stream": false}]},
 	"car2": {"category": "master","sounds": [{"name": "car2","stream": false}]},

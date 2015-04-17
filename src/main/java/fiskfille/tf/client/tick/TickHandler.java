@@ -90,12 +90,12 @@ public class TickHandler
                     if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
                     {
                         TFDataManager.setInStealthMode(player, false);
-                        player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.5F);
+                        player.playSound(TransformersMod.modid + ":transform_stealth_in", 1.0F, 1F);
                     }
                     else if (!TFDataManager.isInStealthMode(player) && stealthModeTimer == 5)
                     {
                         TFDataManager.setInStealthMode(player, true);
-                        player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.5F);
+                        player.playSound(TransformersMod.modid + ":transform_stealth", 1.0F, 1F);
                     }
                 }
             }
