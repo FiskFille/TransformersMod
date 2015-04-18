@@ -49,16 +49,7 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         {
             if (mop.typeOfHit == mop.typeOfHit.BLOCK)
             {
-                int blockY = mop.blockY;
-                int blockX = mop.blockX;
-                int blockZ = mop.blockZ;
-                
-                if(worldObj.getBlock(blockX, blockY, blockZ).isOpaqueCube())
-                {
-                    blockY++;
-                }
-                
-                worldObj.createExplosion(null, blockX, blockY, blockZ, 1.0F, allowExplosions);
+                explode(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
             }
             else if (mop.typeOfHit == mop.typeOfHit.ENTITY)
             {
@@ -67,6 +58,36 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         }
         
         setDead();
+    }
+    
+    public void explode(int x, int y, int z, int sideHit)
+    {
+        if (sideHit == 0)
+        {
+            --y;
+        }
+        else if (sideHit == 1)
+        {
+            ++y;
+        }
+        else if (sideHit == 2)
+        {
+            --z;
+        }
+        else if (sideHit == 3)
+        {
+            ++z;
+        }
+        else if (sideHit == 4)
+        {
+            --x;
+        }
+        else if (sideHit == 5)
+        {
+            ++x;
+        }
+
+        worldObj.createExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 1.0F, allowExplosions);
     }
     
     public void writeEntityToNBT(NBTTagCompound nbt)

@@ -3,6 +3,7 @@ package fiskfille.tf.common.entity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -63,7 +64,7 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
         {
             if (mop.typeOfHit == mop.typeOfHit.BLOCK)
             {
-                worldObj.createExplosion(null, mop.blockX, mop.blockY, mop.blockZ, 4, allowExplosions);
+                explode(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
             }
             else if (mop.typeOfHit == mop.typeOfHit.ENTITY)
             {
@@ -72,6 +73,36 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
         }
         
         setDead();
+    }
+    
+    public void explode(int x, int y, int z, int sideHit)
+    {
+        if (sideHit == 0)
+        {
+            --y;
+        }
+        else if (sideHit == 1)
+        {
+            ++y;
+        }
+        else if (sideHit == 2)
+        {
+            --z;
+        }
+        else if (sideHit == 3)
+        {
+            ++z;
+        }
+        else if (sideHit == 4)
+        {
+            --x;
+        }
+        else if (sideHit == 5)
+        {
+            ++x;
+        }
+
+        worldObj.createExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 4, allowExplosions);
     }
     
     public void writeEntityToNBT(NBTTagCompound nbt)
