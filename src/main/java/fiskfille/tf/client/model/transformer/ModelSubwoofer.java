@@ -460,6 +460,8 @@ public class ModelSubwoofer extends MowzieModelBase
         this.legL3.addBox(-1.1F, -2.7F, -3.2F, 2, 1, 3, 0.0F);
         this.setRotateAngle(legL3, 0.4468042885105484F, 0.012217304763960306F, -0.041887902047863905F);
         
+        setInitPose();
+        
         this.waist.addChild(this.crotchbuttonR);
         this.chestmain1.addChild(this.shoulderbaseR);
         this.shoulderplateL1.addChild(this.shoulderplate2);
@@ -534,10 +536,6 @@ public class ModelSubwoofer extends MowzieModelBase
         this.head.addChild(this.headplate1);
         this.lowerArmL.addChild(this.lowerarmL2);
         this.legbaseL.addChild(this.legL3);
-        
-        //parts = new MowzieModelRenderer[]{antenna1, antenna2, bass1, bass2, bass3, bass4, bass5, bass6, chestmain1, chestmain2, chestmain3, chestmain4, chestmain5, chestmain6, chestwheel1, chestwheel2, clawL1, clawL2, crotch1, crotch2, crotchbuttonL, crotchbuttonR, dish1, dish2, fistL, fistR, frontchestL, frontchestR, head, head1, head2, head3, head4, head5, head6, head7, headplate1, headplate2, headplate2_1, leg1, legbaseL, legbaseR, legL2, legL3, legR1, legR2, legR3, lowerarmR1, lowerarmL1, lowerarmL2, lowerarmL3, lowerlegL1, lowerlegL2, lowerlegL3, lowerlegL4, lowerlegR1, lowerlegR2, lowerlegR3, lowerlegR4, shoulderbaseL, shoulderbaseR, shoulderplate2, shoulderplate3, shoulderplateL1, shoulderplateR1, shoulderplateR2, shoulderplateR3, sideflapL, sideflapL_1, stomach, upperArmL, upperArmR, upperLegL, upperLegR, waist};
-        
-        setInitPose();
         
         this.vehicleCover6 = new ModelRenderer(this, 17, 0);
         this.vehicleCover6.setRotationPoint(4.1F, -1.4F, -2.4F);
