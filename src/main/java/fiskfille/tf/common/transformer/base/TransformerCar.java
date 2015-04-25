@@ -48,7 +48,7 @@ public abstract class TransformerCar extends Transformer
         
         if (timer >= 14 && vehicle)
         {
-            player.motionY += 0.25;
+        	player.motionY += 0.225;
         }
         
         if (vehicle && timer == 0)

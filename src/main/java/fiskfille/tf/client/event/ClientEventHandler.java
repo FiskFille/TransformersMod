@@ -94,11 +94,8 @@ public class ClientEventHandler
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {
         EntityPlayer player = event.entityPlayer;
-        
         Transformer transformer = TFHelper.getTransformer(player);
-        
         boolean isClientPlayer = mc.thePlayer == player;
-        
         float cameraYOffset = 0;
         
         if (transformer != null)
@@ -115,7 +112,7 @@ public class ClientEventHandler
         // This prevents the player from sinking into the ground when sneaking in vehicle mode
         if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 20)
         {
-            if(isClientPlayer)
+            if (isClientPlayer)
             {
                 GL11.glTranslatef(0, 0.08F, 0);
             }
@@ -130,9 +127,7 @@ public class ClientEventHandler
     public void onRenderPlayer(RenderPlayerEvent.Post event)
     {
         EntityPlayer player = event.entityPlayer;
-        
         Transformer transformer = TFHelper.getTransformer(player);
-        
         boolean isClientPlayer = mc.thePlayer == player;
         
         if (transformer != null)
