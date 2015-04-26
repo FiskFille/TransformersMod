@@ -65,7 +65,6 @@ public class TFRecipes
     private static void addProjectileRecipes()
     {
         GameRegistry.addRecipe(new ItemStack(TFItems.missile, 4), new Object[] { "T  ", " I ", "  E", 'I', Items.iron_ingot, 'T', Blocks.tnt, 'E', TFItems.smallThruster });
-        GameRegistry.addRecipe(new ItemStack(TFItems.miniMissile, 4), new Object[] { "T  ", " I ", "  E", 'I', Items.iron_ingot, 'T', Items.gunpowder, 'E', TFItems.smallThruster });
         GameRegistry.addRecipe(new ItemStack(TFItems.tankShell, 4), new Object[] { "IIT", 'I', Items.iron_ingot, 'T', Items.gunpowder });
     }
     

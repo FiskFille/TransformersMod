@@ -42,39 +42,28 @@ public class TFShootManager
                             shootCooldown--;
                         }
                         
-                        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player))
+                        Item ammo = transformer.getShootItem();
+                        
+                        if (ammo != null)
                         {
-                            if (reloading && shootCooldown <= 0)
-                            {
-                                shotsLeft = getShotsLeft(player, transformer, TFItems.miniMissile);
-                                reloading = false;
-                            }
-                        }
-                        else
-                        {
-                            Item ammo = transformer.getShootItem();
+                            int ammoCount = getShotsLeft(player, transformer, ammo);
                             
-                            if (ammo != null)
+                            if (TFDataManager.isInVehicleMode(player))
                             {
-                                int ammoCount = getShotsLeft(player, transformer, ammo);
-                                
-                                if (TFDataManager.isInVehicleMode(player))
+                                if (reloading && shootCooldown <= 0)
                                 {
-                                    if (reloading && shootCooldown <= 0)
-                                    {
-                                        shotsLeft = ammoCount;
-                                        
-                                        reloading = false;
-                                    }
-                                }
-                                else
-                                {
-                                    int shots = ammoCount;
+                                    shotsLeft = ammoCount;
                                     
-                                    if (shotsLeft > shots)
-                                    {
-                                        shotsLeft = shots;
-                                    }
+                                    reloading = false;
+                                }
+                            }
+                            else
+                            {
+                                int shots = ammoCount;
+                                
+                                if (shotsLeft > shots)
+                                {
+                                    shotsLeft = shots;
                                 }
                             }
                         }
@@ -87,11 +76,6 @@ public class TFShootManager
     private int getShotsLeft(EntityPlayer player, Transformer transformer, Item shootItem)
     {
         int maxAmmo = transformer.getShots();
-        
-        if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerVurp(player))
-        {
-            maxAmmo = 4;
-        }
         
         int ammoCount;
         

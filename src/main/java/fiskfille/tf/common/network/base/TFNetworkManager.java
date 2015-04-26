@@ -9,11 +9,10 @@ import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
 import fiskfille.tf.common.network.MessageHandleTransformation;
-import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessagePlayerJoin;
-import fiskfille.tf.common.network.MessageVehicleShoot;
+import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageVehicleNitro;
-import fiskfille.tf.common.network.MessageVurpSniperShoot;
+import fiskfille.tf.common.network.MessageVehicleShoot;
 
 public class TFNetworkManager
 {
@@ -31,7 +30,6 @@ public class TFNetworkManager
         registerPacket(MessageCloudtrapJetpack.Handler.class, MessageCloudtrapJetpack.class);
         registerPacket(MessageBroadcastState.Handler.class, MessageBroadcastState.class);
         registerPacket(MessageVehicleNitro.Handler.class, MessageVehicleNitro.class);
-        registerPacket(MessageVurpSniperShoot.Handler.class, MessageVurpSniperShoot.class);
         registerPacket(MessageSendFlying.Handler.class, MessageSendFlying.class);
     }
     

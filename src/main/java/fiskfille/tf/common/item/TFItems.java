@@ -62,7 +62,6 @@ public class TFItems
     public static Item energonCrystalPiece;
     
     public static Item tankShell;
-    public static Item miniMissile;
     public static Item missile;
     public static Item smallThruster;
     
@@ -120,7 +119,6 @@ public class TFItems
         
         tankShell = new Item();
         missile = new Item().setFull3D();
-        miniMissile = new Item().setFull3D();
         smallThruster = new Item();
         
         TRANSFORMERMATERIAL.customCraftingMaterial = transformium;
@@ -173,6 +171,5 @@ public class TFItems
         TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece", modId);
         TFItemRegistry.registerItem(tankShell, "Tank Shell", modId);
         TFItemRegistry.registerItem(missile, "Missile", modId);
-        TFItemRegistry.registerItem(miniMissile, "Mini Missile", modId);
     }
 }

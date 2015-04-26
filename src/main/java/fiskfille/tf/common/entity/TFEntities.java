@@ -10,7 +10,7 @@ public class TFEntities
     {
         registerEntity(EntityTankShell.class, "tank_shell", 20, 10, true);
         registerEntity(EntityMissile.class, "missile", 20, 10, true);
-        registerEntity(EntityMiniMissile.class, "mini_missile", 20, 10, true);
+        registerEntity(EntityLaser.class, "laser", 20, 10, true);
         registerEntity(EntityTransformiumSeed.class, "transformium_seed", 20, 10, true);
         registerEntity(EntityFlamethrowerFire.class, "flamethrower_fire", 20, 10, true);
         registerEntity(EntityBassCharge.class, "bass_charge", 20, 10, true);
