@@ -53,7 +53,7 @@ public class MessageHandleStealthTransformation implements IMessage
                 if (entity instanceof EntityPlayer)
                     from = (EntityPlayer) entity;
                 
-                if (from != null && from != TransformersMod.proxy.getPlayer())
+                if (from != null && from != player)
                 {
                     TFDataManager.setStealthModeTimer(from, message.stealthForce ? 5 : 0);
                     

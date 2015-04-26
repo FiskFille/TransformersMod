@@ -106,7 +106,6 @@ public class MessageSniperShoot implements IMessage
                             World world = from.worldObj;
                             
                             Entity entity = new EntityLaser(world, from);
-                            entity.posY--;
                             
                             world.spawnEntityInWorld(entity);
                             

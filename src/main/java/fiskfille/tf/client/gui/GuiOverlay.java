@@ -67,7 +67,7 @@ public class GuiOverlay extends Gui
     {
         ItemStack heldItem = player.getHeldItem();
         
-        if(heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFHelper.getTransformer(player) instanceof TransformerVurp && !TFDataManager.isInVehicleMode(player))
+        if(heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFHelper.getTransformer(player) instanceof TransformerVurp && TFDataManager.getTransformationTimer(player) == 20)
         {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glEnable(GL11.GL_BLEND);

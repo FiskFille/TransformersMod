@@ -15,7 +15,7 @@ public class ModelLaser extends ModelBase
         this.textureWidth = 64;
         this.textureHeight = 16;
         this.laserInner = new ModelRenderer(this, 0, 0);
-        this.laserInner.setRotationPoint(0.0F, 23.0F, 0.0F);
+        this.laserInner.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.laserInner.addBox(-0.5F, -0.5F, -3.5F, 1, 1, 7);
         this.laserOuter = new ModelRenderer(this, 17, 0);
         this.laserOuter.setRotationPoint(0.0F, 0.0F, 0.0F);

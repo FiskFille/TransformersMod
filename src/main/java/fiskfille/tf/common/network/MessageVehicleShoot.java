@@ -105,7 +105,6 @@ public class MessageVehicleShoot implements IMessage
 
 								Entity entity = transformer.getShootEntity(from);
 								entity.posY--;
-
 								world.spawnEntityInWorld(entity);
 
 								if (!isCreative)
