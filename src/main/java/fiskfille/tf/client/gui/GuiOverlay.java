@@ -19,10 +19,12 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
@@ -56,7 +58,32 @@ public class GuiOverlay extends Gui
             renderNitroAndSpeed(event, width, height, player);
             renderKatanaDash(event, width, height, player);
             renderShotsLeft(event, width, height, player);
+            renderLaserCharge(event, width, height, player);
             //renderCrossbowAmmo(event, width, height, player);
+        }
+    }
+    
+    public void renderLaserCharge(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
+    {
+        ItemStack heldItem = player.getHeldItem();
+        
+        if(heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFHelper.getTransformer(player) instanceof TransformerVurp && !TFDataManager.isInVehicleMode(player))
+        {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glColor4f(0F, 0F, 0F, 0.3F);
+            
+            //Charge Outline
+            drawTexturedModalRect(5, 3, 0, 0, 102, 12);
+            GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
+            
+            //Charge Bar
+            drawTexturedModalRect(6, 4, 0, 0, (int) (TFShootManager.sniperCharge * 2), 10);
+            GL11.glColor4f(1F, 0F, 0F, 0.5F);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            
+            drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.sniper_charge.name"), 56, 5, 0xffffff);
         }
     }
     

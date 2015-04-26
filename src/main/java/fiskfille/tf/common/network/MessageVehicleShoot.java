@@ -70,7 +70,6 @@ public class MessageVehicleShoot implements IMessage
 			}
 			else
 			{
-				EntityPlayer player = ctx.getServerHandler().playerEntity;
 				EntityPlayer from = null;
 
 				for (World world : MinecraftServer.getServer().worldServers)
@@ -85,11 +84,11 @@ public class MessageVehicleShoot implements IMessage
 
 				if (from != null)
 				{
-					Transformer transformer = TFHelper.getTransformer(player);
+					Transformer transformer = TFHelper.getTransformer(from);
 
 					if (transformer != null)
 					{
-						if (transformer.canShoot(player) && TFDataManager.isInVehicleMode(from))
+						if (transformer.canShoot(from) && TFDataManager.isInVehicleMode(from))
 						{
 							Item shootItem = transformer.getShootItem();
 							boolean isCreative = from.capabilities.isCreativeMode;
@@ -101,16 +100,16 @@ public class MessageVehicleShoot implements IMessage
 
 								if(transformer.getShootSound() != null)
 								{
-									TFNetworkManager.networkWrapper.sendToAllAround(new MessageVehicleShoot(player), new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 32));
+									TFNetworkManager.networkWrapper.sendToAllAround(new MessageVehicleShoot(from), new TargetPoint(from.dimension, from.posX, from.posY, from.posZ, 32));
 								}
 
-								Entity entity = transformer.getShootEntity(player);
+								Entity entity = transformer.getShootEntity(from);
 								entity.posY--;
 
 								world.spawnEntityInWorld(entity);
 
 								if (!isCreative)
-									player.inventory.consumeInventoryItem(shootItem);
+									from.inventory.consumeInventoryItem(shootItem);
 							}
 						}
 					}

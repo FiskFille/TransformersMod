@@ -9,10 +9,12 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFShootManager
@@ -21,6 +23,9 @@ public class TFShootManager
     public static int shotsLeft = 4;
     
     public static boolean reloading;
+    
+    public static int sniperCharge;
+    public static boolean sniperFilling;
     
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent event)
@@ -34,6 +39,21 @@ public class TFShootManager
                 if (player == Minecraft.getMinecraft().thePlayer)
                 {
                     Transformer transformer = TFHelper.getTransformer(player);
+
+                    if(sniperFilling)
+                    {
+                        int max = 50;
+                        
+                        if(sniperCharge < max)
+                        {
+                            sniperCharge += 1;
+                        }
+                        else if(sniperCharge >= max)
+                        {
+                            sniperFilling = false;
+                            sniperCharge = max;
+                        }
+                    }
                     
                     if (transformer != null)
                     {
