@@ -35,12 +35,12 @@ public class EntityLaser extends EntityThrowable
     
     protected float getGravityVelocity()
     {
-        return 0.04F;
+        return 0.01F;
     }
     
     protected float func_70182_d()
     {
-        return 3.0F;
+        return 3.5F;
     }
     
     protected void onImpact(MovingObjectPosition mop)
