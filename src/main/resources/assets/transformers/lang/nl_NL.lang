@@ -1,21 +1,25 @@
-Dutch Translations by: Mitch (teamminer)
+Original Dutch Translations by Mitch (teamminer)
+> Updated translations by iLexipoo
 
-------Miscellaneous------
+------Items------
 item.transformium.name=Transformium
-item.energon_crystal_piece.name=Energon Kristal Stukje
+item.energon_crystal_piece.name=Energon Kristal Splinter
 item.standard_engine.name=Standaard Motor
-item.jet_turbine.name=Straaljager Turbine
+item.jet_turbine.name=Straatjager Turbine
 item.jet_thruster.name=Straaljager Boegschroef
 item.small_thruster.name=Kleine Boegschroef
-item.f-88_jet_wing.name=F-88 Straaljager Vleugel
-item.f-88_jet_cockpit.name=F-88 Straaljager Cockpit
+item.ahd-2_jet_wing.name=AHD-2 Straaljager Vleugel
+item.ahd-2_jet_cockpit.name=AHD-2 Straatjager Cockpit
 item.t-50_jet_wing.name=T-50 Straaljager Vleugel
 item.t-50_jet_cockpit.name=T-50 Straaljager Cockpit
-item.tracks.name=Rupsbanden
-item.turret.name=Machinegeweer
+item.tracks.name=Sporen
+item.turret.name=Turret
 item.wheel.name=Wiel
 item.missile.name=Raket
- 
+item.tank_shell.name=Reservoir
+item.mini_missile.name=Mini Raket
+item.transformium_detector.name=Transformium Detector
+
 ------Armor------
 item.skystrike_head.name=Skystrike Hoofd
 item.skystrike_torso.name=Skystrike Torso
@@ -37,45 +41,77 @@ item.cloudtrap_head.name=Cloudtrap Hoofd
 item.cloudtrap_torso.name=Cloudtrap Torso
 item.cloudtrap_legs.name=Cloudtrap Benen
 item.cloudtrap_feet.name=Cloudtrap Voeten
- 
+
 ------Display Vehicles------
-item.display_skystrike.name=F-88 Fighter Jet
-item.display_purge.name=Tank
-item.display_vurp.name=2015 Chevrolet Corvette Z06
-item.display_subwoofer.name=2015 Acura NSX
+item.display_skystrike.name=AHD-2 Lamphyrade Dropship
+item.display_purge.name=M5 Scout Tank
+item.display_vurp.name=Porsche 918 Spyder
+item.display_subwoofer.name=Radar Van
 item.display_cloudtrap.name=T-50 Stealth Jet
- 
+
 ------Weapons------
 item.skystrikes_energon_crossbow.name=Skystrike's Energon Kruisboog
 item.purges_katana.name=Purge's Katana
-item.tank_shell.name=Tank Reservoir
- 
+item.vurps_sniper.name=Vurp's Sniper
+item.subwoofers_bass_blaster.name=Subwoofer's Bass Blaster
+item.flame_thrower.name=Cloudtrap's Vlammenwerper
+
 ------Blocks------
-tile.display_pillar.name=Expositie Pilaar
+tile.display_pillar.name=Pilaar
 tile.transformium_ore.name=Transformium Erts
 tile.energon_crystal.name=Energon Kristal
- 
+tile.energon_cube.name=Energon Blok
+tile.transformium_stone.name=Transformium Steen
+tile.transformium_seed.name=Transformium Zaad
+
+-----Tab------
+itemGroup.Transformers=Transformers
+
 -----GUI------
 stats.nitro.name=Nitro
 stats.shots_left.name=Schoten Over
-gui.display_pillar.name=Expositie Pilaar
+stats.sniper_charge.name=Sniper Lading
+gui.display_pillar.name=Pilaar
 
-itemGroup.Transformers=Transformers
+------Achievements------
+achievement.shoot_missile=Directed by Michael Bay
+achievement.shoot_missile.desc=Schiet een Raket
 
---Stats--
-achievement.shoot_missile=Geregisseerd door Michael Bay!
-achievement.shoot_missile.desc=Schiet een raket!
-achievement.transformium=Transformium!
-achievement.transformium.desc=Smelt wat Transformium Erts!
+achievement.transformium=Transformium
+achievement.transformium.desc=Smelt was Transformium Erts
 
-achievement.transformers_mod=Transformers Mod!
-achievement.transformers_mod.desc=Speel met de Transformers Mod!
+achievement.transformers_mod=Transformers Mod
+achievement.transformers_mod.desc=Speel met de Transformers Mod
 
-achievement.transformer=Transformer!
-achievement.transformer.desc=Draag een Transformer Pak!
+achievement.transformer=Transformer
+achievement.transformer.desc=Draag een Transformers pakket
 
-achievement.transform=Robots in Vermomming!
-achievement.transform.desc=Transformeer in een Vervoersmiddel!
+achievement.transform=Robots in Vermomming
+achievement.transform.desc=Transform in een voertuig
 
-achievement.tf.donate=Generosity!
-achievement.tf.donate.desc=Donate!
+achievement.tf.donate=Vrijgevigheid
+achievement.tf.donate.desc=Doneer
+
+achievement.tf.tracks=Op het goede spoor
+achievement.tf.tracks.desc=Craft sporen
+
+achievement.tf.purge=Zwaar Metaal
+achievement.tf.purge.desc=Draag het volledige Purge pakket
+
+achievement.tf.detonateSeed=Ondergang
+achievement.tf.detonateSeed.desc=Activeer een Transformium Seed
+
+------Miscellaneous------
+misc.donate.thanks=Bedankt voor het doneren!
+
+------Message------
+transformium_detector.no_space.message=Er is geen plaats vrij voor de Energon Kristal Splinters!
+transformium_detector.insert_fuel.message=Voeg fuel toe.
+transformium_detector.no_energon.message=Je hebt geen Energon Kristal Splinters!
+transformium_detector.no_fuel.message=Je hebt geen fuel meer voor de Transformium Detector!
+stats.fuel.name=Fuel
+
+------Tooltip------
+tooltip.tile.transformium_seed=Converts matter into Transformium when detonated.
+tooltip.tile.transformium_stone=Matter converted to Transformium from seed detonation.
+tooltip.tile.energon_cube=Compressed form of Energon.
