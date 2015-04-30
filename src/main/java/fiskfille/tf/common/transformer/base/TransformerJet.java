@@ -60,55 +60,55 @@ public abstract class TransformerJet extends Transformer
     @Override
     public void updateMovement(EntityPlayer player)
     {
-        Minecraft mc = Minecraft.getMinecraft();
-        
-        boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
-        
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-        
-        int nitro = 0;
-        double vel = 0;
-        
-        if (transformedPlayer != null)
-        {
-            nitro = transformedPlayer.getNitro();
-            vel = transformedPlayer.getForwardVelocity();
-            
-            double increment = ((nitroPressed && nitro > 0 ? 6.5D : 1.36D) - vel) / 10 + 0.001D;
-            
-            if (moveForward && vel <= 1.41D)
-            {
-                vel += increment;
-            }
-            if (vel > 0.14D && !moveForward)
-            {
-                vel -= 0.14D;
-            }
-            if (vel <= 0.14D)
-            {
-                vel = 0.14D;
-            }
-            
-            if ((player.worldObj.getBlock((int) player.posX, (int) player.posY - 1, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 3, (int) player.posZ) != Blocks.air))
-            {
-                player.setPosition(player.posX, player.posY + 0.8, player.posZ);
-            }
-            
-            TFMotionManager.moveForward(player, vel, true);
-            player.motionY -= 0.1;
-          
-            if (vel <= 0.09F)
-            {
-                vel = 0.09F;
-            }
-            else if (vel > 1.41F)
-            {
-                vel = 1.41F;
-            }
-            
-            transformedPlayer.setForwardVelocity(vel);
-        }
+    	Minecraft mc = Minecraft.getMinecraft();
+
+    	boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
+    	boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+
+    	VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+
+    	int nitro = 0;
+    	double vel = 0;
+
+    	if (transformedPlayer != null)
+    	{
+    		nitro = transformedPlayer.getNitro();
+    		vel = transformedPlayer.getForwardVelocity();
+
+    		double increment = ((nitroPressed && nitro > 0 ? 6.5D : 1.36D) - vel) / 10 + 0.001D;
+
+    		if (moveForward && vel <= 1.41D)
+    		{
+    			vel += increment;
+    		}
+    		if (vel > 0.14D && !moveForward)
+    		{
+    			vel -= 0.14D;
+    		}
+    		if (vel <= 0.14D)
+    		{
+    			vel = 0.14D;
+    		}
+
+    		if ((player.worldObj.getBlock((int) player.posX, (int) player.posY - 1, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 3, (int) player.posZ) != Blocks.air))
+    		{
+    			player.setPosition(player.posX, player.posY + 0.8, player.posZ);
+    		}
+
+    		TFMotionManager.moveForward(player, vel, true);
+    		player.motionY -= 0.1;
+
+    		if (vel <= 0.09F)
+    		{
+    			vel = 0.09F;
+    		}
+    		else if (vel > 1.41F)
+    		{
+    			vel = 1.41F;
+    		}
+
+    		transformedPlayer.setForwardVelocity(vel);
+    	}
     }
     
     @Override
