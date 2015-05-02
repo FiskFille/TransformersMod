@@ -79,7 +79,7 @@ public abstract class TransformerCar extends Transformer
     @Override
     public void updateMovement(EntityPlayer player)
     {
-        TFMotionManager.motionTruck(player, 60, 100, 20, 20);
+        TFMotionManager.motion(player, 60, 100, 20, 20, true, false, TFDataManager.isInStealthMode(player), true);
     }
     
     @Override

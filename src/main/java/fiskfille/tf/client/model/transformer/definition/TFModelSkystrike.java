@@ -52,9 +52,15 @@ public class TFModelSkystrike extends TransformerModel
 	}
 
 	@Override
-	public ModelRenderer getBackside() 
+	public ModelRenderer getBody() 
 	{
 		return model.chest1;
+	}
+	
+	@Override
+	public ModelRenderer getHead() 
+	{
+		return model.headbase;
 	}
 
 	@Override

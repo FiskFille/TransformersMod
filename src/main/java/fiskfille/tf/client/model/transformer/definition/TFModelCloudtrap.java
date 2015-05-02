@@ -53,7 +53,13 @@ public class TFModelCloudtrap extends TransformerModel
 	}
 
 	@Override
-	public ModelRenderer getBackside() 
+	public ModelRenderer getBody() 
+	{
+		return null;
+	}
+	
+	@Override
+	public ModelRenderer getHead() 
 	{
 		return null;
 	}

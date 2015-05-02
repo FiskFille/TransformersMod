@@ -61,9 +61,15 @@ public class TFModelSubwoofer extends TransformerModel
 	}
 
 	@Override
-	public ModelRenderer getBackside() 
+	public ModelRenderer getBody() 
 	{
 		return model.chestmain3;
+	}
+	
+	@Override
+	public ModelRenderer getHead() 
+	{
+		return model.head;
 	}
 
 	@Override

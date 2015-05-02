@@ -1,7 +1,7 @@
 package fiskfille.tf.common.motion;
 
 /**
- * @author gegy1000
+ * @author gegy1000, FiskFille
  */
 public class VehicleMotion
 {
@@ -9,6 +9,8 @@ public class VehicleMotion
     private double horizontalVelocity;
     private int nitro;
     private boolean boosting;
+    
+    private int jetRoll;
     
     public boolean isBoosting()
     {
@@ -18,7 +20,6 @@ public class VehicleMotion
     public VehicleMotion setBoosting(boolean boosting)
     {
         this.boosting = boosting;
-        
         return this;
     }
     
@@ -35,26 +36,34 @@ public class VehicleMotion
     public VehicleMotion setForwardVelocity(double vel)
     {
         this.forwardVelocity = vel;
-
         return this;
     }
     
     public VehicleMotion setHorizontalVelocity(double vel)
     {
         this.horizontalVelocity = vel;
-
         return this;
     }
     
     public VehicleMotion setNitro(int nitro)
     {
         this.nitro = nitro;
-
         return this;
     }
     
     public int getNitro()
     {
         return nitro;
+    }
+    
+    public VehicleMotion setJetRoll(int roll)
+    {
+        this.jetRoll = roll;
+        return this;
+    }
+    
+    public int getJetRoll()
+    {
+        return jetRoll;
     }
 }

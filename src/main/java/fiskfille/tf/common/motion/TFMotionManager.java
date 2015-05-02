@@ -1,14 +1,20 @@
 package fiskfille.tf.common.motion;
 
+import static net.minecraft.block.material.Material.*;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFModelHelper;
@@ -21,9 +27,23 @@ public class TFMotionManager //TODO-TF Clean this up
     private static Map<EntityPlayer, VehicleMotion> transformedPlayerMap = new HashMap<EntityPlayer, VehicleMotion>();
     public static boolean prevNitro;
     
-    public static void motionTruck(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double stealthModeSpeedLimit, double reversingSpeedLimit)
+    /**
+     * Method used to apply realistic vehicle motion to the player.
+     * 
+     * @param player The player the motion should be applied to
+     * @param speedLimit How many km/h the vehicle can go moving normally 
+     * @param nitroSpeedLimit How many km/h the vehicle can go while using nitro
+     * @param sidewaysSpeedLimit How many km/h the vehicle can go while in Stealth Force mode
+     * @param reversingSpeedLimit How many km/h the vehicle can go backwards while reversing
+     * @param canDrift If the vehicle can drift
+     * @param canDriveOffroad If the vehicle can drive off-road
+     * @param canMoveSideways If the vehicle can move to the left or to the right
+     * @param faceForward If the vehicle should face forward or not. Used by tanks to make the head and body rotations different.
+     */
+    public static void motion(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double sidewaysSpeedLimit, double reversingSpeedLimit, boolean canDrift, boolean canDriveOffroad, boolean canMoveSideways, boolean faceForward)
     {
     	Minecraft mc = Minecraft.getMinecraft();
+    	Random rand = new Random();
         
     	// Controls
     	boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
@@ -48,10 +68,8 @@ public class TFMotionManager //TODO-TF Clean this up
             nitro = transformedPlayer.getNitro();
             forwardVelocity = transformedPlayer.getForwardVelocity();
             horizontalVelocity = transformedPlayer.getHorizontalVelocity();
-            currentSpeedLimit = inStealthMode ? stealthModeSpeedLimit : (nitroPressed && nitro > 0 ? nitroSpeedLimit : speedLimit);
-            
-//            System.out.println(player.worldObj.getBlock((int)player.posX, (int)player.posY - 2, (int)player.posZ).getUnlocalizedName());
-            
+            currentSpeedLimit = canMoveSideways ? sidewaysSpeedLimit : (nitroPressed && nitro > 0 ? nitroSpeedLimit : speedLimit);
+                        
             if (moveForward)
             {
             	if (forwardVelocity < currentSpeedLimit)
@@ -76,11 +94,11 @@ public class TFMotionManager //TODO-TF Clean this up
             	forwardVelocity += 1;
             }
             
-            if (inStealthMode)
+            if (canMoveSideways)
             {
             	if (moveRight)
                 {
-                	if (horizontalVelocity < stealthModeSpeedLimit)
+                	if (horizontalVelocity < sidewaysSpeedLimit)
                 	{
                 		horizontalVelocity += 1;
                 	}
@@ -92,7 +110,7 @@ public class TFMotionManager //TODO-TF Clean this up
             	
             	if (moveLeft)
                 {
-                	if (horizontalVelocity > -stealthModeSpeedLimit)
+                	if (horizontalVelocity > -sidewaysSpeedLimit)
                 	{
                 		horizontalVelocity -= 1;
                 	}
@@ -102,10 +120,8 @@ public class TFMotionManager //TODO-TF Clean this up
             		horizontalVelocity += 1;
             	}
             }
-            
-        	player.renderYawOffset = player.rotationYawHead; // Makes sure the vehicle always faces forward, even when reversing.
         	
-            if (!inStealthMode)
+            if (!canMoveSideways)
             {
                 if (horizontalVelocity > 0)
             	{
@@ -115,18 +131,23 @@ public class TFMotionManager //TODO-TF Clean this up
             	{
             		horizontalVelocity += 2;
             	}
+                
+                if (horizontalVelocity >= -1 || horizontalVelocity <= 1)
+                {
+                	horizontalVelocity = 0;
+                }
             }
             if (horizontalVelocity != (int)horizontalVelocity)
             {
             	horizontalVelocity = (int)horizontalVelocity;
             }
-            else if (horizontalVelocity > stealthModeSpeedLimit)
+            else if (horizontalVelocity > sidewaysSpeedLimit)
             {
-            	horizontalVelocity = stealthModeSpeedLimit;
+            	horizontalVelocity = sidewaysSpeedLimit;
             }
-            else if (horizontalVelocity < -stealthModeSpeedLimit)
+            else if (horizontalVelocity < -sidewaysSpeedLimit)
             {
-            	horizontalVelocity = -stealthModeSpeedLimit;
+            	horizontalVelocity = -sidewaysSpeedLimit;
             }
             if (forwardVelocity < 1 && forwardVelocity > -1)
             {
@@ -140,17 +161,136 @@ public class TFMotionManager //TODO-TF Clean this up
             {
             	forwardVelocity -= 1;
             }
+          
+            if (!canDriveOffroad)
+            {
+            	Material[] offroadMaterials = {cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web};
+            	Block block = player.worldObj.getBlock((int)player.posX, (int)player.posY - 2, (int)player.posZ - 1);
+            	boolean isDrivingOffroad = false;
+            	
+            	for (Material mat : offroadMaterials)
+            	{
+            		if (block.getMaterial().equals(mat))
+            		{
+            			isDrivingOffroad = true;
+            		}
+            	}
+            	
+            	if (isDrivingOffroad && (forwardVelocity > 5 || forwardVelocity < -5 || horizontalVelocity > 5 || horizontalVelocity < -5))
+            	{
+            		double multiplier = (double)(forwardVelocity) / 20;
+            		drift(player, forwardVelocity, (rand.nextDouble() - 0.5D) * multiplier, false);
+            		forwardVelocity *= 0.95D;
+            	}
+            }
             
-            TFMotionManager.moveWithVelocity(player, forwardVelocity, horizontalVelocity);
+            if (canDrift && driftPressed && player.onGround && forwardVelocity > 10 && !inStealthMode)
+            {
+                ModelBipedTF modelBipedMain = (ModelBipedTF) TFModelHelper.modelBipedMain;
+                float f = modelBipedMain.bipedHead.rotateAngleY - (modelBipedMain.bipedBody.rotateAngleY - modelBipedMain.bipedHead.rotateAngleY);
+            	
+            	drift(player, forwardVelocity, f, true);
+            	forwardVelocity -= 3;
+            }
+            else
+            {
+            	TFMotionManager.moveWithVelocity(player, forwardVelocity, horizontalVelocity);
+            	
+            	if (faceForward || forwardVelocity < 0)
+            	{
+                	player.renderYawOffset = player.rotationYawHead; // Makes sure the vehicle always faces forward, even when reversing.
+            	}
+            }
             
             transformedPlayer.setForwardVelocity(forwardVelocity);
             transformedPlayer.setHorizontalVelocity(horizontalVelocity);
         }
     }
     
-    public static void drift(EntityPlayer player, double forwardVelocity, double driftAmount)
+    /**
+     * Method used to apply realistic jet motion to the player.
+     * 
+     * @param player The player the motion should be applied to
+     * @param speedLimit How many km/h the jet can go moving normally 
+     * @param nitroSpeedLimit How many km/h the jet can go while using nitro
+     * @param idlingSpeedLimit How many km/h the jet goes while idling 
+     */
+    public static void motionJet(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double idlingSpeedLimit)
     {
+    	Minecraft mc = Minecraft.getMinecraft();
+    	Random rand = new Random();
+        
+    	// Controls
+    	boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
     	
+        // Variables
+        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+        int nitro = 0;
+        double forwardVelocity = 0;
+        double currentSpeedLimit = 0;
+        
+        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+        
+        if (transformedPlayer != null)
+        {
+            nitro = transformedPlayer.getNitro();
+            forwardVelocity = transformedPlayer.getForwardVelocity();
+            currentSpeedLimit = nitroPressed && nitro > 0 ? nitroSpeedLimit : speedLimit;
+                        
+            if (moveForward)
+            {
+            	if (forwardVelocity < currentSpeedLimit)
+            	{
+            		forwardVelocity += (currentSpeedLimit - forwardVelocity) / 10;
+            	}
+            }
+            else if (forwardVelocity > 0)
+            {
+            	forwardVelocity -= 1;
+            }
+            
+            if (forwardVelocity >= currentSpeedLimit)
+            {
+            	forwardVelocity -= 1;
+            }
+            else if (forwardVelocity < idlingSpeedLimit)
+            {
+            	forwardVelocity = idlingSpeedLimit;
+            }
+            
+            if ((player.worldObj.getBlock((int) player.posX, (int) player.posY - 1, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 3, (int) player.posZ) != Blocks.air))
+    		{
+    			player.setPosition(player.posX, player.posY + 0.8, player.posZ);
+    		}
+            
+            TFMotionManager.moveForward(player, forwardVelocity, true);
+            player.motionY -= 0.1;
+            
+            transformedPlayer.setForwardVelocity(forwardVelocity);
+        }
+    }
+    
+    public static void drift(EntityPlayer player, double forwardVelocity, double driftAmount, boolean tireParticles)
+    {
+    	TFMotionManager.moveWithVelocity(player, forwardVelocity, -driftAmount * 10);
+		
+    	if (tireParticles)
+    	{
+    		for (int i = 0; i < 10; ++i)
+            {
+                Vec3 side = NitroParticleHandler.getBackSideCoords(player, 0.15F, i <= 5, -0.5F, false);
+                player.worldObj.spawnParticle("reddust", side.xCoord, player.posY - 1.5F, side.zCoord, -1, 0, 0);
+            }
+    	}
+        
+        if (driftAmount > 0.2F)
+        {
+            player.rotationYaw += driftAmount * 2;
+        }
+        if (driftAmount < -0.2F)
+        {
+            player.rotationYaw -= -driftAmount * 2;
+        }
     }
     
     public static void moveWithVelocity(EntityPlayer player, double forwardVel, double horizontalVel)
@@ -164,10 +304,11 @@ public class TFMotionManager //TODO-TF Clean this up
     
     public static void moveForward(EntityPlayer player, double vel, boolean pitch)
     {
-        Vec3 frontCoords = TFMotionManager.getFrontCoords(player, vel, pitch);
+    	double d = vel / 100 * 1.3898888673066752967899576429878D;
+        Vec3 frontCoords = TFMotionManager.getFrontCoords(player, d, pitch);
         player.motionX = (frontCoords.xCoord - player.posX);
         
-        if(pitch)
+        if (pitch)
         {
             player.motionY = (frontCoords.yCoord - player.posY);
         }
@@ -203,7 +344,6 @@ public class TFMotionManager //TODO-TF Clean this up
     public static Vec3 getSideCoords(EntityPlayer player, double amount, boolean side)
     {
         float f = 1.0F;
-//        float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
         float f1 = 0;
         float f2 = (player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) + (side ? -90 : 90));
         double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) f;

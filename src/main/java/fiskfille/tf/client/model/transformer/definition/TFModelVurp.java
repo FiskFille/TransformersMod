@@ -61,9 +61,15 @@ public class TFModelVurp extends TransformerModel
 	}
 
 	@Override
-	public ModelRenderer getBackside() 
+	public ModelRenderer getBody() 
 	{
 		return model.torsobase;
+	}
+	
+	@Override
+	public ModelRenderer getHead() 
+	{
+		return model.head;
 	}
 
 	@Override

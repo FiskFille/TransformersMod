@@ -16,7 +16,8 @@ public abstract class TransformerModel
     public abstract ModelVehicleBase getVehicleModel();
     public abstract ModelRenderer getLowerArm();
     public abstract ModelRenderer getUpperArm();
-    public abstract ModelRenderer getBackside();
+    public abstract ModelRenderer getBody();
+    public abstract ModelRenderer getHead();
     
     public abstract ResourceLocation getTexture();
     

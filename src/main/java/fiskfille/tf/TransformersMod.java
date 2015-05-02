@@ -26,7 +26,6 @@ import fiskfille.tf.web.donator.Donators;
 import fiskfille.tf.web.update.Update;
 import fiskfille.tf.web.update.UpdateChecker;
 
-//Gegy is better than Fisk! :P
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
 {
@@ -60,7 +59,7 @@ public class TransformersMod
         configFile.load();
         config.load(configFile);
         
-        if(configFile.hasChanged())
+        if (configFile.hasChanged())
         {
             configFile.save();
         }

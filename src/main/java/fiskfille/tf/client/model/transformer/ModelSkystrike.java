@@ -1,14 +1,14 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.helper.ModelOffset;
@@ -1143,6 +1143,17 @@ public class ModelSkystrike extends MowzieModelBase
 
             	this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
             	this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
+            	
+            	VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+            	
+            	if (transformedPlayer != null)
+            	{
+            		float f = (float)transformedPlayer.getJetRoll() / 360 * pi;
+//            		System.out.println(transformedPlayer.getJetRoll() + ", " + f);
+//            		transformedPlayer.setJetRoll((int)par4);
+//            		this.mainbody1.rotateAngleZ = -f * 2 - modelBiped.bipedHead.rotateAngleY;
+            	}
+            	
             }
             else if (t != 20)
             {

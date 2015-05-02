@@ -52,9 +52,15 @@ public class TFModelPurge extends TransformerModel
 	}
 
 	@Override
-	public ModelRenderer getBackside() 
+	public ModelRenderer getBody() 
 	{
 		return model.chest;
+	}
+	
+	@Override
+	public ModelRenderer getHead() 
+	{
+		return model.head;
 	}
 
 	@Override

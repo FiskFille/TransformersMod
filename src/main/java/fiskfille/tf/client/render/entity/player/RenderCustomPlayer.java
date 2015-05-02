@@ -164,7 +164,7 @@ public class RenderCustomPlayer extends RenderPlayer
 				{
 					model.renderCape(player);
 
-					ModelRenderer backside = model.getBackside();
+					ModelRenderer backside = model.getBody();
 
 					if(backside != null)
 					{
@@ -503,7 +503,7 @@ public class RenderCustomPlayer extends RenderPlayer
 					
 					if(!(embeddedIn instanceof MowzieModelRenderer))
 					{
-						embeddedIn = model.getBackside();
+						embeddedIn = model.getBody();
 					}
 				}
 				else
