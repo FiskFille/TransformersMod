@@ -35,7 +35,7 @@ public class TransformersMod
     public static Configuration configFile;
     
     public static final String modid = "transformers";
-    public static final String version = "0.5.0";
+    public static final String version = "0.3.4";
     
     @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
     public static CommonProxy proxy;

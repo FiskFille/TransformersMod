@@ -205,7 +205,7 @@ public class CommonEventHandler
                     
                     if (update != null && update.isAvailable())
                     {
-                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Version " + update.getVersion() + " is now available!"));
+                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "TransformersMod version " + update.getVersion() + " is now available!"));
                         player.addChatMessage(new ChatComponentText(""));
                         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "" + EnumChatFormatting.BOLD + "What's New: "));
                         
@@ -222,6 +222,10 @@ public class CommonEventHandler
                             else if (updatePart.trim().startsWith("+"))
                             {
                                 colour = EnumChatFormatting.GREEN;
+                            }
+                            else if (updatePart.trim().startsWith("-"))
+                            {
+                                colour = EnumChatFormatting.RED;
                             }
                             
                             player.addChatMessage(new ChatComponentText(colour + updatePart));
