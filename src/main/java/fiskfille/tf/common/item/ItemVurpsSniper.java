@@ -37,7 +37,7 @@ public class ItemVurpsSniper extends ItemSword
                 }
                 else
                 {
-                    if (player.inventory.hasItem(TFItems.energonCrystalPiece))
+                    if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
                     {
                         TFShootManager.sniperFilling = true;
                     }
