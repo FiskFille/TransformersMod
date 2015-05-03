@@ -48,7 +48,7 @@ public class TFModelPurge extends TransformerModel
 	@Override
 	public ModelRenderer getUpperArm() 
 	{
-		return model.lowerArm1;
+		return model.upperArmR;
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class TFModelPurge extends TransformerModel
 	@Override
 	public void renderFirstPersonArm(EntityPlayer player)
 	{
-		GL11.glTranslatef(0, 0.05F, 0.5F);
+		GL11.glTranslatef(0, -0.3F, 0.1F);
 	}
 	
 	@Override

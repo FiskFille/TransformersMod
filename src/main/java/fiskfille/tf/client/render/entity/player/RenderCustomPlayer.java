@@ -394,11 +394,8 @@ public class RenderCustomPlayer extends RenderPlayer
 			if (transformerArmor != null)
 			{
 				Transformer transformer = transformerArmor.getTransformer();
-
 				TransformerModel model = TFModelRegistry.getModel(transformer);
-
 				ModelRenderer upperArm = model.getUpperArm();
-
 				ResourceLocation resourcelocation = new ResourceLocation(transformer.getChestplate().getArmorTexture(currentArmor, player, 3, ""));
 
 				float f = 1.0F;
@@ -407,20 +404,19 @@ public class RenderCustomPlayer extends RenderPlayer
 
 				Biped mainModel = model.getMainModel();
 
-				if(upperArm == null)
+				if (upperArm == null)
 				{
 					upperArm = mainModel.bipedRightArm;
 				}
 
 				mainModel.onGround = 0.0F;
-
 				mainModel.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, player);
 
-				if(mainModel instanceof MowzieModelBase)
+				if (mainModel instanceof MowzieModelBase)
 				{
 					((MowzieModelBase) mainModel).setToInitPose();
 				}
-				else if(model.getUpperArm() != null)
+				else if (model.getUpperArm() != null)
 				{
 					keepPartAndChildrenStill(upperArm);
 				}
@@ -431,7 +427,7 @@ public class RenderCustomPlayer extends RenderPlayer
 				model.renderFirstPersonArm(player);
 				GL11.glTranslatef(0.0f, 0.35f, 0.0f);
 
-				if(upperArm instanceof MowzieModelRenderer)
+				if (upperArm instanceof MowzieModelRenderer)
 				{
 					((MowzieModelRenderer) upperArm).render(0.0625F);
 				}

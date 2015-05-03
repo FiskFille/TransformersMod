@@ -57,7 +57,7 @@ public class TFModelVurp extends TransformerModel
 	@Override
 	public ModelRenderer getUpperArm() 
 	{
-		return model.upperArmR;
+		return model.armbaseR1;
 	}
 
 	@Override
@@ -87,7 +87,8 @@ public class TFModelVurp extends TransformerModel
 	@Override
 	public void renderFirstPersonArm(EntityPlayer player)
 	{
-		GL11.glTranslatef(0F, 0.3F, 0.5F);
+		float scale = 1.1F;
+		GL11.glScalef(scale, scale, scale);
 	}
 	
 	@Override

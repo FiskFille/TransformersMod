@@ -76,6 +76,12 @@ public class TFModelSkystrike extends TransformerModel
 	}
 	
 	@Override
+	public void renderFirstPersonArm(EntityPlayer player)
+	{
+		GL11.glTranslatef(0.2F, -0.2F, -0.0F);
+	}
+	
+	@Override
 	public ResourceLocation getTexture()
 	{
 		return new ResourceLocation(TransformersMod.modid, "textures/models/skystrike/skystrike.png");
