@@ -29,17 +29,15 @@ public class ItemVurpsSniper extends ItemSword
             
             if (world.isRemote)
             {
-                if(!TFShootManager.sniperFilling && TFShootManager.sniperCharge > 0)
+                if (!TFShootManager.sniperFilling && TFShootManager.sniperCharge > 0)
                 {
                     TFShootManager.sniperCharge -= 5;
-                    
                     boolean consume = TFShootManager.sniperCharge <= 0;
-                    
                     TFNetworkManager.networkWrapper.sendToServer(new MessageSniperShoot(player, consume));
                 }
                 else
                 {
-                    if(player.inventory.hasItem(TFItems.energonCrystalPiece))
+                    if (player.inventory.hasItem(TFItems.energonCrystalPiece))
                     {
                         TFShootManager.sniperFilling = true;
                     }

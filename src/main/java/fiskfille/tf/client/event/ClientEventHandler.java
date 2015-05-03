@@ -121,8 +121,6 @@ public class ClientEventHandler
                 GL11.glTranslatef(0, 0.125F, 0);
             }
         }
-        
-//        GL11.glRotatef(90, 0, 1, 0);
     }
     
     @SubscribeEvent
@@ -215,21 +213,22 @@ public class ClientEventHandler
         }
     }
     
-    @SubscribeEvent
-    public void onItemToolTip(ItemTooltipEvent event)
-    {
-        String s = "tooltip." + event.itemStack.getUnlocalizedName();
-        
-        if (!s.equals(StatCollector.translateToLocal(s)))
-        {
-            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-            {
-                event.toolTip.add(StatCollector.translateToLocal(s));
-            }
-            else
-            {
-                event.toolTip.add(EnumChatFormatting.BLUE + "Hold SHIFT for info.");
-            }
-        }
-    }
+//    TODO: Expand upon and re-implement this for 0.6.0 
+//    @SubscribeEvent
+//    public void onItemToolTip(ItemTooltipEvent event)
+//    {
+//        String s = "tooltip." + event.itemStack.getUnlocalizedName();
+//        
+//        if (!s.equals(StatCollector.translateToLocal(s)))
+//        {
+//            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+//            {
+//                event.toolTip.add(StatCollector.translateToLocal(s));
+//            }
+//            else
+//            {
+//                event.toolTip.add(EnumChatFormatting.BLUE + "Hold SHIFT for info.");
+//            }
+//        }
+//    }
 }

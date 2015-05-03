@@ -1,18 +1,20 @@
 package fiskfille.tf.common.transformer;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.TransformerCar;
 
 /**
- * @author gegy1000
+ * @author gegy1000, FiskFille
  */
 public class TransformerVurp extends TransformerCar
 {
@@ -44,6 +46,44 @@ public class TransformerVurp extends TransformerCar
 	{
 		return TFItems.vurpBoots;
 	}
+	
+	@Override
+    public Item getShootItem()
+    {
+        return TFItems.energonCrystalPiece;
+    }
+    
+    @Override
+    public Entity getShootEntity(EntityPlayer player)
+    {
+        EntityLaser entityLaser = new EntityLaser(player.worldObj, player);
+        entityLaser.posY -= 0.3;
+        return entityLaser;
+    }
+    
+    @Override
+    public String getShootSound()
+    {
+    	return "random.fizz";
+    }
+    
+    @Override
+    public float getShootVolume()
+    {
+    	return 0.3F;
+    }
+    
+    @Override
+    public int getShots()
+    {
+        return 64;
+    }
+    
+    @Override
+    public boolean hasRapidFire()
+    {
+    	return true;
+    }
 
 	@Override
 	public void tick(EntityPlayer player, int timer)

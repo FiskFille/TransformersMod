@@ -2,8 +2,8 @@ package fiskfille.tf.common.entity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -50,7 +50,7 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
     
     protected float getGravityVelocity()
     {
-        return isInStealthMode ? 0.05F : 0.0005F;
+        return isInStealthMode ? 0.05F : 0.005F;
     }
     
     protected float func_70182_d()

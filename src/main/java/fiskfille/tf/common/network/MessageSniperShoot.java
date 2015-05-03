@@ -101,7 +101,7 @@ public class MessageSniperShoot implements IMessage
                         {
                             Item shootItem = TFItems.energonCrystalPiece;
                             boolean isCreative = from.capabilities.isCreativeMode;
-                            boolean consumeItems = isCreative || from.inventory.hasItem(shootItem) && message.consume;
+                            boolean consumeItems = !isCreative || from.inventory.hasItem(shootItem) && message.consume;
                             
                             World world = from.worldObj;
                             
@@ -112,7 +112,9 @@ public class MessageSniperShoot implements IMessage
                             if (consumeItems)
                             {
                                 if (!isCreative && message.consume)
+                                {
                                     from.inventory.consumeInventoryItem(shootItem);
+                                }
                             }
                         }
                     }

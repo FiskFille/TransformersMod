@@ -1,5 +1,7 @@
 package fiskfille.tf.common.network;
 
+import org.lwjgl.input.Mouse;
+
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -98,17 +100,19 @@ public class MessageVehicleShoot implements IMessage
 							{
 								World world = from.worldObj;
 
-								if(transformer.getShootSound() != null)
+								if (transformer.getShootSound() != null)
 								{
 									TFNetworkManager.networkWrapper.sendToAllAround(new MessageVehicleShoot(from), new TargetPoint(from.dimension, from.posX, from.posY, from.posZ, 32));
 								}
-
+								
 								Entity entity = transformer.getShootEntity(from);
 								entity.posY--;
 								world.spawnEntityInWorld(entity);
-
+								
 								if (!isCreative)
+								{
 									from.inventory.consumeInventoryItem(shootItem);
+								}
 							}
 						}
 					}

@@ -9,7 +9,7 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 
 /**
- * @author gegy1000
+ * @author gegy1000, FiskFille
  */
 public abstract class Transformer
 {
@@ -161,4 +161,9 @@ public abstract class Transformer
     {
         return distance;
     }
+
+	public boolean hasRapidFire()
+	{
+		return false;
+	}
 }
