@@ -74,7 +74,7 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public boolean canShoot(EntityPlayer player)
     {
-        return TFDataManager.getStealthModeTimer(player) < 5;
+        return player.worldObj.isRemote ? TFDataManager.getStealthModeTimer(player) < 5 : TFDataManager.isInStealthMode(player);
     }
     
     @Override
