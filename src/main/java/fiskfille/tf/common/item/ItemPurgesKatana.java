@@ -36,18 +36,19 @@ public class ItemPurgesKatana extends ItemSword
         if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerPurge(player))
         {
             int timeLeft = this.getMaxItemUseDuration(stack) - time;
-            double d = (double) timeLeft / 10;
+            double force = (double) timeLeft / 10;
             
-            if (d > 2.0D)
+            if (force > 2.0D)
             {
-                d = 2.0D;
+                force = 2.0D;
             }
             
             stack.damageItem(1, player);
-            Vec3 vec3 = TFMotionManager.getFrontCoords(player, player.onGround ? d : d * 0.75D, true);
+            Vec3 vec3 = TFMotionManager.getFrontCoords(player, player.onGround ? force : force * 0.75D, true);
             player.motionX = (vec3.xCoord - player.posX);
             player.motionY = (vec3.yCoord - player.posY);
             player.motionZ = (vec3.zCoord - player.posZ);
+            player.fallDistance = 0;
             player.swingItem();
         }
     }
