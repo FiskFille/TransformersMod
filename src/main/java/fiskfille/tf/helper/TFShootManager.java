@@ -90,17 +90,17 @@ public class TFShootManager
                         }
                     }
                 }
-            }
-            
-            Transformer transformer = TFHelper.getTransformer(player);
-            
-            if (Mouse.isButtonDown(1))
-            {
-            	if (transformer != null && TFDataManager.isInVehicleMode(player))
+                
+                Transformer transformer = TFHelper.getTransformer(player);
+                
+                if (Mouse.isButtonDown(1))
                 {
-                    if (transformer.canShoot(player) && transformer.hasRapidFire() && player.ticksExisted % 2 == 0)
+                    if (transformer != null && TFDataManager.isInVehicleMode(player))
                     {
-                        stealthForceShoot(transformer, player);
+                        if (transformer.canShoot(player) && transformer.hasRapidFire() && player.ticksExisted % 2 == 0)
+                        {
+                            stealthForceShoot(transformer, player);
+                        }
                     }
                 }
             }
