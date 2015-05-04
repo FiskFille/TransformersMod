@@ -27,7 +27,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
     @Override
     public ModelRenderer getRandomModelBox(Random rand)
     {
-        if(parts.size() > 0)
+        if (parts.size() > 0)
         {
             return parts.get(rand.nextInt(parts.size()));
         }

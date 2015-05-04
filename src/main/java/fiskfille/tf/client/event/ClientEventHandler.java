@@ -41,7 +41,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
     {
-        if(event.modID.equals(TransformersMod.modid))
+        if (event.modID.equals(TransformersMod.modid))
         {
             TransformersMod.config.load(TransformersMod.configFile);
             
@@ -54,12 +54,12 @@ public class ClientEventHandler
     {
         EntityPlayer player = event.entityPlayer;
         
-        if(player == mc.thePlayer)
+        if (player == mc.thePlayer)
         {
-            if(event.transformed)
+            if (event.transformed)
             {
                 GameSettings gameSettings = mc.gameSettings;
-                prevViewBobbing = gameSettings.viewBobbing; 
+                prevViewBobbing = gameSettings.viewBobbing;
                 gameSettings.viewBobbing = false;
             }
             else
@@ -213,22 +213,22 @@ public class ClientEventHandler
         }
     }
     
-//    TODO: Expand upon and re-implement this for 0.6.0 
-//    @SubscribeEvent
-//    public void onItemToolTip(ItemTooltipEvent event)
-//    {
-//        String s = "tooltip." + event.itemStack.getUnlocalizedName();
-//        
-//        if (!s.equals(StatCollector.translateToLocal(s)))
-//        {
-//            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-//            {
-//                event.toolTip.add(StatCollector.translateToLocal(s));
-//            }
-//            else
-//            {
-//                event.toolTip.add(EnumChatFormatting.BLUE + "Hold SHIFT for info.");
-//            }
-//        }
-//    }
+    //    TODO: Expand upon and re-implement this for 0.6.0 
+    //    @SubscribeEvent
+    //    public void onItemToolTip(ItemTooltipEvent event)
+    //    {
+    //        String s = "tooltip." + event.itemStack.getUnlocalizedName();
+    //        
+    //        if (!s.equals(StatCollector.translateToLocal(s)))
+    //        {
+    //            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    //            {
+    //                event.toolTip.add(StatCollector.translateToLocal(s));
+    //            }
+    //            else
+    //            {
+    //                event.toolTip.add(EnumChatFormatting.BLUE + "Hold SHIFT for info.");
+    //            }
+    //        }
+    //    }
 }

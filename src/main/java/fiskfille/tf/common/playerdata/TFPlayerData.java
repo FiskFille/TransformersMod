@@ -37,9 +37,9 @@ public class TFPlayerData implements IExtendedEntityProperties
     @Override
     public void init(Entity entity, World world)
     {
-    	if(entity instanceof EntityPlayer)
-    	{
-    		player = (EntityPlayer) entity;
-    	}
+        if (entity instanceof EntityPlayer)
+        {
+            player = (EntityPlayer) entity;
+        }
     }
 }

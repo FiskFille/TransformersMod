@@ -41,7 +41,7 @@ public class TFShootManager
                 if (player == Minecraft.getMinecraft().thePlayer)
                 {
                     Transformer transformer = TFHelper.getTransformer(player);
-
+                    
                     if (sniperFilling)
                     {
                         int max = 50;
@@ -162,7 +162,7 @@ public class TFShootManager
         
         if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
         {
-        	if (transformer != null && TFDataManager.isInVehicleMode(player))
+            if (transformer != null && TFDataManager.isInVehicleMode(player))
             {
                 if (transformer.canShoot(player) && !transformer.hasRapidFire())
                 {
@@ -172,10 +172,10 @@ public class TFShootManager
             }
         }
     }
-
-	private void stealthForceShoot(Transformer transformer, EntityPlayer player)
-	{
-		if (shotsLeft > 0)
+    
+    private void stealthForceShoot(Transformer transformer, EntityPlayer player)
+    {
+        if (shotsLeft > 0)
         {
             if (shootCooldown <= 0)
             {
@@ -199,7 +199,7 @@ public class TFShootManager
                 
                 if (shotsLeft > transformer.getShots())
                 {
-                	shotsLeft = transformer.getShots();
+                    shotsLeft = transformer.getShots();
                 }
                 
                 shotsLeft--;
@@ -219,5 +219,5 @@ public class TFShootManager
                 reloading = true;
             }
         }
-	}
+    }
 }

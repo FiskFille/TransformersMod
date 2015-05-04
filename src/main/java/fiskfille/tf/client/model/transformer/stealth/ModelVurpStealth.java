@@ -374,7 +374,7 @@ public class ModelVurpStealth extends MowzieModelBase
     }
     
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    { 
+    {
         this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         this.vehicleBase.render(0.0625F);
         
@@ -401,23 +401,23 @@ public class ModelVurpStealth extends MowzieModelBase
             EntityPlayer player = (EntityPlayer) entity;
             
             int t = TFDataManager.getStealthModeTimer(player);
-            float f = (float)(5 - t) / 5;
-            float f1 = (float)t / 5;
+            float f = (float) (5 - t) / 5;
+            float f1 = (float) t / 5;
             
             vehicleRPlate1.rotateAngleY = f * 0.593411945678072F;
             vehicleLPlate1.rotateAngleY = f * -0.593411945678072F;
-            vehicleRpg1.rotationPointZ = 2F + (float)t / 2;
-            vehicleRpg2.rotationPointZ = 2F + (float)t / 2;
+            vehicleRpg1.rotationPointZ = 2F + (float) t / 2;
+            vehicleRpg2.rotationPointZ = 2F + (float) t / 2;
             vehicleLowerLegR4.rotateAngleX = 1.239183768915974F * f;
             vehicleLowerLegL4.rotateAngleX = 1.239183768915974F * f;
             vehicleFrontR1.rotateAngleY = 0.9599310885968813F * f;
             vehicleFrontL1.rotateAngleY = -0.9599310885968813F * f;
             vehicleFrontR2.rotateAngleX = 0.24434609527920614F * f1;
             vehicleFrontL2.rotateAngleX = 0.24434609527920614F * f1;
-            vehicleGun1.setRotationPoint(-1.5F + f1, -2 + 1 * f1, 2.2F + (float)t / 2);
-            vehicleGun2.setRotationPoint(6.5F - f1, -2 + 1 * f1, 2.2F + (float)t / 2);
-            vehicleGun3.setRotationPoint(6.5F - f1, -0.5F, 2.2F + (float)t / 2);
-            vehicleGun4.setRotationPoint(-1.5F + f1, -0.5F, 2.2F + (float)t / 2);
+            vehicleGun1.setRotationPoint(-1.5F + f1, -2 + 1 * f1, 2.2F + (float) t / 2);
+            vehicleGun2.setRotationPoint(6.5F - f1, -2 + 1 * f1, 2.2F + (float) t / 2);
+            vehicleGun3.setRotationPoint(6.5F - f1, -0.5F, 2.2F + (float) t / 2);
+            vehicleGun4.setRotationPoint(-1.5F + f1, -0.5F, 2.2F + (float) t / 2);
             
             vehicleWheelR.setRotationPoint(-3.7F + f1, 0.3F, -1.0F - f1);
             vehicleWheelL.setRotationPoint(3.7F - f1, 0.3F, -1.0F - f1);
@@ -429,14 +429,14 @@ public class ModelVurpStealth extends MowzieModelBase
             
             if (transformedPlayer != null)
             {
-                for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
+                for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL })
                 {
                     
                     float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
                     modelRenderer.rotateAngleX = wheelSpinSpeed;
                 }
                 
-                float vel = (float)transformedPlayer.getHorizontalVelocity();
+                float vel = (float) transformedPlayer.getHorizontalVelocity();
                 float rot = (vel > 0 ? (vel <= 8 ? vel : 8) : (vel >= -8 ? vel : -8)) / 10;
                 vehicleWheelBackR.rotateAngleZ = rot;
                 vehicleWheelBackL.rotateAngleZ = rot;
@@ -445,8 +445,14 @@ public class ModelVurpStealth extends MowzieModelBase
             }
             
             float d = this.bipedHead.rotateAngleY - (this.bipedBody.rotateAngleY - this.bipedHead.rotateAngleY) / 3;
-            if (vehicleBase.rotateAngleY < d) {vehicleBase.rotateAngleY += 0.05F;}
-            if (vehicleBase.rotateAngleY > d) {vehicleBase.rotateAngleY -= 0.05F;}
+            if (vehicleBase.rotateAngleY < d)
+            {
+                vehicleBase.rotateAngleY += 0.05F;
+            }
+            if (vehicleBase.rotateAngleY > d)
+            {
+                vehicleBase.rotateAngleY -= 0.05F;
+            }
             vehicleBase.rotateAngleY = d;
             
             vehicleBase.rotateAngleX = 1.65F;

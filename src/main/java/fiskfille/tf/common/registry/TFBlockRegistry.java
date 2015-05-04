@@ -10,10 +10,10 @@ public class TFBlockRegistry
     public static void registerBlock(Block block, String name, String modId)
     {
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
-	
+        
         block.setBlockName(unlocalizedName);
         block.setBlockTextureName(modId + ":" + unlocalizedName);
-    	block.setCreativeTab(TransformersMod.tabTransformers);
+        block.setCreativeTab(TransformersMod.tabTransformers);
         
         GameRegistry.registerBlock(block, unlocalizedName);
     }

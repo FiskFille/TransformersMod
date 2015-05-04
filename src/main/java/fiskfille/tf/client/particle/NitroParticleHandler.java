@@ -56,7 +56,7 @@ public class NitroParticleHandler
         
         nitro = nitroObj;
         
-        if(player == Minecraft.getMinecraft().thePlayer)
+        if (player == Minecraft.getMinecraft().thePlayer)
         {
             nitro = TFMotionManager.getTransformerPlayer(player).isBoosting();
         }
@@ -95,8 +95,8 @@ public class NitroParticleHandler
     {
         float f = 1.0F;
         float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
-       
-        if(!pitch)
+        
+        if (!pitch)
         {
             f1 = 0;
         }
@@ -119,8 +119,8 @@ public class NitroParticleHandler
     public static Vec3 getFrontCoords(EntityPlayer player, double amount, boolean pitch)
     {
         EntityClientPlayerMP thePlayer = Minecraft.getMinecraft().thePlayer;
-    
-        if(!(thePlayer == player))
+        
+        if (!(thePlayer == player))
         {
             amount -= 0.25F;
         }
@@ -146,7 +146,7 @@ public class NitroParticleHandler
         float f8 = f3 * f5;
         Vec3 frontCoords = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);
         
-        if(thePlayer != player)
+        if (thePlayer != player)
         {
             Transformer transformer = TFHelper.getTransformer(player);
             

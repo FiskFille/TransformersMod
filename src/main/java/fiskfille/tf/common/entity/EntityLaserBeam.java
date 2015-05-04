@@ -61,7 +61,7 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
                 {
                     float f = (rand.nextFloat() / 5);
                     
-                    worldObj.spawnParticle("reddust", posX+ f, posY + 0.15F, posZ + f, blue ? -1.0D : 0.0D, 0.0D, blue ? 1.0D : 0.0D);
+                    worldObj.spawnParticle("reddust", posX + f, posY + 0.15F, posZ + f, blue ? -1.0D : 0.0D, 0.0D, blue ? 1.0D : 0.0D);
                 }
             }
             
@@ -86,13 +86,13 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
             }
         }
         
-        if(mop.typeOfHit != MovingObjectType.BLOCK)
+        if (mop.typeOfHit != MovingObjectType.BLOCK)
         {
             this.setDead();
         }
         else
         {
-            if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).isOpaqueCube())
+            if (worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).isOpaqueCube())
             {
                 this.setDead();
             }
@@ -118,13 +118,13 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
         
         blue = nbt.getBoolean("Blue");
     }
-
+    
     @Override
     public void writeSpawnData(ByteBuf buf)
     {
         buf.writeBoolean(blue);
     }
-
+    
     @Override
     public void readSpawnData(ByteBuf buf)
     {

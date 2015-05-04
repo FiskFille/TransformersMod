@@ -883,8 +883,8 @@ public class ModelSubwoofer extends MowzieModelBase
             {
                 this.upperArmR.rotateAngleY += -0.1F + this.head.rotateAngleY;
                 this.upperArmL.rotateAngleY += 0.1F + this.head.rotateAngleY + 0.4F;
-                this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.head.rotateAngleX;
-                this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.head.rotateAngleX;
+                this.upperArmR.rotateAngleX += -((float) Math.PI / 2F) + this.head.rotateAngleX;
+                this.upperArmL.rotateAngleX += -((float) Math.PI / 2F) + this.head.rotateAngleX;
                 this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
                 this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
                 this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
@@ -1110,7 +1110,7 @@ public class ModelSubwoofer extends MowzieModelBase
             shoulderplateL1.rotationPointZ -= f * 0.2F;
             head.rotationPointY += f * 0.2F;
             
-            for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2})
+            for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2 })
             {
                 VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
                 

@@ -479,8 +479,8 @@ public class ModelTransformer extends MowzieModelBase
             
             head.rotationPointY -= 5.5F;
             
-            head.rotateAngleY = par4 / (180F / (float)Math.PI);
-            head.rotateAngleX = par5 / (180F / (float)Math.PI);
+            head.rotateAngleY = par4 / (180F / (float) Math.PI);
+            head.rotateAngleX = par5 / (180F / (float) Math.PI);
             
             int backwardInverter = 1;
             if (transformer.moveForward < 0)

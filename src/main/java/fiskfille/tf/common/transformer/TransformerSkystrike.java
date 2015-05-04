@@ -51,7 +51,7 @@ public class TransformerSkystrike extends TransformerJet
     @Override
     public void tick(EntityPlayer player, int timer)
     {
-        if(timer == 20)
+        if (timer == 20)
         {
             if (!player.capabilities.isFlying && !(TFDataManager.getTransformationTimer(player) < 10))
             {

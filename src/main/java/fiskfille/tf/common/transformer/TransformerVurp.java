@@ -18,36 +18,36 @@ import fiskfille.tf.common.transformer.base.TransformerCar;
  */
 public class TransformerVurp extends TransformerCar
 {
-	public TransformerVurp()
-	{
-		super("Vurp");
-	}
-
-	@Override
-	public Item getHelmet()
-	{
-		return TFItems.vurpHelmet;
-	}
-
-	@Override
-	public Item getChestplate()
-	{
-		return TFItems.vurpChestplate;
-	}
-
-	@Override
-	public Item getLeggings()
-	{
-		return TFItems.vurpLeggings;
-	}
-
-	@Override
-	public Item getBoots()
-	{
-		return TFItems.vurpBoots;
-	}
-	
-	@Override
+    public TransformerVurp()
+    {
+        super("Vurp");
+    }
+    
+    @Override
+    public Item getHelmet()
+    {
+        return TFItems.vurpHelmet;
+    }
+    
+    @Override
+    public Item getChestplate()
+    {
+        return TFItems.vurpChestplate;
+    }
+    
+    @Override
+    public Item getLeggings()
+    {
+        return TFItems.vurpLeggings;
+    }
+    
+    @Override
+    public Item getBoots()
+    {
+        return TFItems.vurpBoots;
+    }
+    
+    @Override
     public Item getShootItem()
     {
         return TFItems.energonCrystalPiece;
@@ -64,13 +64,13 @@ public class TransformerVurp extends TransformerCar
     @Override
     public String getShootSound()
     {
-    	return "random.fizz";
+        return "random.fizz";
     }
     
     @Override
     public float getShootVolume()
     {
-    	return 0.3F;
+        return 0.3F;
     }
     
     @Override
@@ -82,50 +82,50 @@ public class TransformerVurp extends TransformerCar
     @Override
     public boolean hasRapidFire()
     {
-    	return true;
+        return true;
     }
-
-	@Override
-	public void tick(EntityPlayer player, int timer)
-	{
-		super.tick(player, timer);
-		
-		ItemStack heldItem = player.getHeldItem();
-
-		boolean holdingSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper;
-
-		int zoomTimer = TFDataManager.getZoomTimer(player);
-
-		PotionEffect activePotionEffect = player.getActivePotionEffect(Potion.nightVision);
-		
-		if(activePotionEffect == null || (activePotionEffect != null && activePotionEffect.getDuration() == 0))
-		{
-			if (holdingSniper && zoomTimer > 7)
-			{
-				player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
-			}
-			else
-			{
-				player.removePotionEffect(Potion.nightVision.id);
-			}
-		}
-
-		if(player.worldObj.isRemote)
-		{
-			if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
-			{
-				if (zoomTimer < 10)
-				{
-					TFDataManager.setZoomTimer(player, zoomTimer + 1);
-				}
-			}
-			else
-			{
-				if (zoomTimer > 0)
-				{
-					TFDataManager.setZoomTimer(player, zoomTimer - 1);
-				}
-			}
-		}
-	}
+    
+    @Override
+    public void tick(EntityPlayer player, int timer)
+    {
+        super.tick(player, timer);
+        
+        ItemStack heldItem = player.getHeldItem();
+        
+        boolean holdingSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper;
+        
+        int zoomTimer = TFDataManager.getZoomTimer(player);
+        
+        PotionEffect activePotionEffect = player.getActivePotionEffect(Potion.nightVision);
+        
+        if (activePotionEffect == null || (activePotionEffect != null && activePotionEffect.getDuration() == 0))
+        {
+            if (holdingSniper && zoomTimer > 7)
+            {
+                player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1, 0));
+            }
+            else
+            {
+                player.removePotionEffect(Potion.nightVision.id);
+            }
+        }
+        
+        if (player.worldObj.isRemote)
+        {
+            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
+            {
+                if (zoomTimer < 10)
+                {
+                    TFDataManager.setZoomTimer(player, zoomTimer + 1);
+                }
+            }
+            else
+            {
+                if (zoomTimer > 0)
+                {
+                    TFDataManager.setZoomTimer(player, zoomTimer - 1);
+                }
+            }
+        }
+    }
 }

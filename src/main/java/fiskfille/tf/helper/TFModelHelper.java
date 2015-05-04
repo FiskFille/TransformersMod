@@ -14,9 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 @SideOnly(Side.CLIENT)
 public class TFModelHelper
 {
-	/**
-	 * The main client player's model.
-	 */
+    /**
+     * The main client player's model.
+     */
     public static ModelBiped modelBipedMain;
     
     private static Map<EntityPlayer, ModelOffset> offsets = new HashMap<EntityPlayer, ModelOffset>();

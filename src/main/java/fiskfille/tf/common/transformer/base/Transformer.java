@@ -92,7 +92,7 @@ public abstract class Transformer
     
     public boolean canTransform(EntityPlayer player)
     {
-    	return TFConfig.canTransform(this);
+        return TFConfig.canTransform(this);
     }
     
     public boolean hasStealthForce(EntityPlayer player)
@@ -161,9 +161,9 @@ public abstract class Transformer
     {
         return distance;
     }
-
-	public boolean hasRapidFire()
-	{
-		return false;
-	}
+    
+    public boolean hasRapidFire()
+    {
+        return false;
+    }
 }

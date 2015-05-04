@@ -47,7 +47,7 @@ public class EntityTransformer extends EntityCreature
     @Override
     public boolean attackEntityAsMob(Entity entity)
     {
-        if(!transformed)
+        if (!transformed)
         {
             float damage = 10;
             
@@ -83,12 +83,12 @@ public class EntityTransformer extends EntityCreature
     {
         super.onUpdate();
         
-        if(worldObj.isRemote)
+        if (worldObj.isRemote)
         {
             this.transformed = this.dataWatcher.getWatchableObjectByte(20) == 1;
         }
         
-        if(transformed)
+        if (transformed)
         {
             this.stepHeight = 1.0F;
         }
@@ -97,14 +97,14 @@ public class EntityTransformer extends EntityCreature
             this.stepHeight = 0.5F;
         }
         
-        if(transformed && transformationTimer > 0)
-            transformationTimer-=2;
-        else if(!transformed && transformationTimer < 20)
-            transformationTimer+=2;
+        if (transformed && transformationTimer > 0)
+            transformationTimer -= 2;
+        else if (!transformed && transformationTimer < 20)
+            transformationTimer += 2;
         
         this.setSize(0.8F, (transformationTimer * 0.05F) + 1F);
         
-        if(!worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             this.dataWatcher.updateObject(20, transformedByte());
         }
@@ -151,7 +151,7 @@ public class EntityTransformer extends EntityCreature
     @Override
     public ItemStack[] getLastActiveItems()
     {
-        return new ItemStack[]{};
+        return new ItemStack[] {};
     }
     
     public void readEntityFromNBT(NBTTagCompound nbt)

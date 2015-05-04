@@ -78,7 +78,7 @@ public class ClientTickHandler
                 {
                     transformer.updateMovement(player);
                     
-                    if(transformedPlayer != null)
+                    if (transformedPlayer != null)
                     {
                         int nitro = transformedPlayer.getNitro();
                         
@@ -214,13 +214,12 @@ public class ClientTickHandler
                 thirdPersonDistance = transformer.getThirdPersonDistance(player);
             }
             
-            ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] {"thirdPersonDistance", "E", "field_78490_B"});
-            
+            ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
             
             if (transformedPlayer != null)
             {
-            	float f = player.rotationYaw;
-//            	ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
+                float f = player.rotationYaw;
+                //            	ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
             }
         }
         catch (Exception e)

@@ -91,7 +91,7 @@ public class EntityLaser extends EntityThrowable
         {
             ++x;
         }
-
+        
         worldObj.setBlock(x, y, z, Blocks.fire);
     }
 }

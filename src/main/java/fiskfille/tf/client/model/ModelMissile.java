@@ -36,7 +36,7 @@ public class ModelMissile extends ModelBase
     public ModelRenderer rearfin4;
     public ModelRenderer rearfin6;
     public ModelRenderer rearfin8;
-
+    
     public ModelMissile()
     {
         this.textureWidth = 64;
@@ -190,7 +190,7 @@ public class ModelMissile extends ModelBase
     }
     
     public void render()
-    { 
+    {
         this.missileBase.render(0.0625F);
     }
     

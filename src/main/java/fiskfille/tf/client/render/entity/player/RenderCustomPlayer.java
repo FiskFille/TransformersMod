@@ -160,15 +160,15 @@ public class RenderCustomPlayer extends RenderPlayer
                 
                 TransformerModel model = TFModelRegistry.getModel(transformer);
                 
-                if(model != null)
+                if (model != null)
                 {
                     model.renderCape(player);
                     
                     ModelRenderer backside = model.getBody();
                     
-                    if(backside != null)
+                    if (backside != null)
                     {
-                        if(backside instanceof MowzieModelRenderer)
+                        if (backside instanceof MowzieModelRenderer)
                         {
                             MowzieModelRenderer backsideMowzie = (MowzieModelRenderer) backside;
                             backsideMowzie.postRenderParentChain(0.0625F);
@@ -234,14 +234,14 @@ public class RenderCustomPlayer extends RenderPlayer
                 
                 TransformerModel model = TFModelRegistry.getModel(transformer);
                 
-                if(model != null)
+                if (model != null)
                 {
                     model.renderItem(player, heldItemStack);
                     ModelRenderer lowerArm = model.getLowerArm();
                     
-                    if(lowerArm != null)
+                    if (lowerArm != null)
                     {
-                        if(lowerArm instanceof MowzieModelRenderer)
+                        if (lowerArm instanceof MowzieModelRenderer)
                         {
                             MowzieModelRenderer arm = (MowzieModelRenderer) lowerArm;
                             arm.postRenderParentChain(0.0625F);
@@ -295,7 +295,7 @@ public class RenderCustomPlayer extends RenderPlayer
                 {
                     f2 = 0.625F;
                     
-                    if(model != null)
+                    if (model != null)
                     {
                         GL11.glTranslatef(0.0F, -0.15F, -0.1F);
                     }
@@ -444,13 +444,13 @@ public class RenderCustomPlayer extends RenderPlayer
     
     private void keepPartAndChildrenStill(ModelRenderer renderer)
     {
-        if(renderer instanceof MowzieModelRenderer)
+        if (renderer instanceof MowzieModelRenderer)
         {
             renderer.rotateAngleX = 0;
             renderer.rotateAngleY = 0;
             renderer.rotateAngleZ = 0;
             
-            if(renderer.childModels != null)
+            if (renderer.childModels != null)
             {
                 for (Object child : renderer.childModels)
                 {
@@ -473,7 +473,7 @@ public class RenderCustomPlayer extends RenderPlayer
         
         Biped tfModel = null;
         
-        if(model != null)
+        if (model != null)
         {
             tfModel = model.getMainModel();
         }
@@ -483,20 +483,20 @@ public class RenderCustomPlayer extends RenderPlayer
         if (arrowCount > 0)
         {
             EntityArrow arrow = new EntityArrow(entity.worldObj, entity.posX, entity.posY, entity.posZ);
-            Random random = new Random((long)entity.getEntityId());
+            Random random = new Random((long) entity.getEntityId());
             RenderHelper.disableStandardItemLighting();
             
             for (int currentArrow = 0; currentArrow < arrowCount; ++currentArrow)
             {
                 GL11.glPushMatrix();
                 
-                ModelRenderer embeddedIn = null; 
+                ModelRenderer embeddedIn = null;
                 
-                if(tfModel != null)
+                if (tfModel != null)
                 {
                     embeddedIn = tfModel.getRandomModelBox(random);
                     
-                    if(!(embeddedIn instanceof MowzieModelRenderer))
+                    if (!(embeddedIn instanceof MowzieModelRenderer))
                     {
                         embeddedIn = model.getBody();
                     }
@@ -506,9 +506,9 @@ public class RenderCustomPlayer extends RenderPlayer
                     embeddedIn = this.mainModel.getRandomModelBox(random);
                 }
                 
-                ModelBox modelbox = (ModelBox)embeddedIn.cubeList.get(random.nextInt(embeddedIn.cubeList.size()));
+                ModelBox modelbox = (ModelBox) embeddedIn.cubeList.get(random.nextInt(embeddedIn.cubeList.size()));
                 
-                if(embeddedIn instanceof MowzieModelRenderer)
+                if (embeddedIn instanceof MowzieModelRenderer)
                 {
                     MowzieModelRenderer mowzieModel = (MowzieModelRenderer) embeddedIn;
                     
@@ -533,8 +533,8 @@ public class RenderCustomPlayer extends RenderPlayer
                 f2 *= -1.0F;
                 f3 *= -1.0F;
                 float f7 = MathHelper.sqrt_float(f1 * f1 + f3 * f3);
-                arrow.prevRotationYaw = arrow.rotationYaw = (float)(Math.atan2((double)f1, (double)f3) * 180.0D / Math.PI);
-                arrow.prevRotationPitch = arrow.rotationPitch = (float)(Math.atan2((double)f2, (double)f7) * 180.0D / Math.PI);
+                arrow.prevRotationYaw = arrow.rotationYaw = (float) (Math.atan2((double) f1, (double) f3) * 180.0D / Math.PI);
+                arrow.prevRotationPitch = arrow.rotationPitch = (float) (Math.atan2((double) f2, (double) f7) * 180.0D / Math.PI);
                 this.renderManager.renderEntityWithPosYaw(arrow, 0, 0, 0, 0, partialTicks);
                 GL11.glPopMatrix();
             }

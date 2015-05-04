@@ -16,12 +16,12 @@ public class TFKeyBinds
     
     public static void register()
     {
-    	ClientRegistry.registerKeyBinding(keyBindingTransform);
-    	ClientRegistry.registerKeyBinding(keyBindingStealthMode);
-    	ClientRegistry.registerKeyBinding(keyBindingNitro);
-    	ClientRegistry.registerKeyBinding(keyBindingBrake);
-    	ClientRegistry.registerKeyBinding(keyBindingZoom);
-    	ClientRegistry.registerKeyBinding(keyBindingVehicleFirstPerson);
-    	ClientRegistry.registerKeyBinding(keyBindingViewFront);
+        ClientRegistry.registerKeyBinding(keyBindingTransform);
+        ClientRegistry.registerKeyBinding(keyBindingStealthMode);
+        ClientRegistry.registerKeyBinding(keyBindingNitro);
+        ClientRegistry.registerKeyBinding(keyBindingBrake);
+        ClientRegistry.registerKeyBinding(keyBindingZoom);
+        ClientRegistry.registerKeyBinding(keyBindingVehicleFirstPerson);
+        ClientRegistry.registerKeyBinding(keyBindingViewFront);
     }
 }

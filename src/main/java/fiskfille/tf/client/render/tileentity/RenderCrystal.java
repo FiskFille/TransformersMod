@@ -43,7 +43,7 @@ public class RenderCrystal extends TileEntitySpecialRenderer
     public void adjustRotation(TileEntityCrystal tile, double x, double y, double z, float partialTicks)
     {
         int rot = tile.getWorldObj().getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord);
-       
+        
         if (rot == 1)
         {
             GL11.glRotatef(0 * 90, 0.0F, 1.0F, 0.0F);

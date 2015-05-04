@@ -48,7 +48,7 @@ public abstract class TransformerCar extends Transformer
         
         if (timer >= 14 && vehicle)
         {
-        	player.motionY += 0.225;
+            player.motionY += 0.225;
         }
         
         IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
@@ -108,7 +108,7 @@ public abstract class TransformerCar extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));        
+        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
         return entityMissile;
     }
     

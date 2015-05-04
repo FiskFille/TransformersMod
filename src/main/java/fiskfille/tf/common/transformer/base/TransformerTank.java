@@ -59,14 +59,6 @@ public abstract class TransformerTank extends Transformer
         //    	TFMotionManager.motion(player, false, 20, 30, 10, 20, false, true, true);
         TFMotionManager.motion(player, 20, 30, 0, 20, false, true, false, false);
         
-        
-        
-        
-        
-        
-        
-        
-        
         //        Minecraft minecraft = Minecraft.getMinecraft();
         //        boolean moveForward = minecraft.gameSettings.keyBindForward.getIsKeyPressed();
         //        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || minecraft.gameSettings.keyBindSprint.getIsKeyPressed();

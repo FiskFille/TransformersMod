@@ -17,7 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class CloudtrapJetpackManager
 {
     public static Map<EntityPlayer, Boolean> cloudtrapJetpacking = new HashMap<EntityPlayer, Boolean>();
-
+    
     private static boolean prevJetpacking;
     
     public static void cloudtrapTick(EntityPlayer player)
@@ -38,8 +38,8 @@ public class CloudtrapJetpackManager
             boolean playerJetpacking = false;
             
             Boolean playerJetpackingObj = cloudtrapJetpacking.get(player);
-        
-            if(playerJetpackingObj != null)
+            
+            if (playerJetpackingObj != null)
             {
                 playerJetpacking = playerJetpackingObj;
             }

@@ -19,54 +19,54 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
 
 public class TFModelCloudtrap extends TransformerModel
 {
-	private ModelCloudtrap model;
-	private ModelCloudtrapVehicle vehicle;
-
-	public TFModelCloudtrap() 
-	{
-		this.model = new ModelCloudtrap();
-		this.vehicle = new ModelCloudtrapVehicle();
-	}
-
-	@Override
-	public Biped getMainModel() 
-	{
-		return model;
-	}
-
-	@Override
-	public ModelVehicleBase getVehicleModel()
-	{
-		return vehicle;
-	}
-
-	@Override
-	public ModelRenderer getLowerArm() 
-	{
-		return null;
-	}
-
-	@Override
-	public ModelRenderer getUpperArm() 
-	{
-		return null;
-	}
-
-	@Override
-	public ModelRenderer getBody() 
-	{
-		return null;
-	}
-	
-	@Override
-	public ModelRenderer getHead() 
-	{
-		return null;
-	}
-
-	@Override
-	public ResourceLocation getTexture()
-	{
-		return new ResourceLocation(TransformersMod.modid, "textures/models/cloudtrap/cloudtrap.png");
-	}
+    private ModelCloudtrap model;
+    private ModelCloudtrapVehicle vehicle;
+    
+    public TFModelCloudtrap()
+    {
+        this.model = new ModelCloudtrap();
+        this.vehicle = new ModelCloudtrapVehicle();
+    }
+    
+    @Override
+    public Biped getMainModel()
+    {
+        return model;
+    }
+    
+    @Override
+    public ModelVehicleBase getVehicleModel()
+    {
+        return vehicle;
+    }
+    
+    @Override
+    public ModelRenderer getLowerArm()
+    {
+        return null;
+    }
+    
+    @Override
+    public ModelRenderer getUpperArm()
+    {
+        return null;
+    }
+    
+    @Override
+    public ModelRenderer getBody()
+    {
+        return null;
+    }
+    
+    @Override
+    public ModelRenderer getHead()
+    {
+        return null;
+    }
+    
+    @Override
+    public ResourceLocation getTexture()
+    {
+        return new ResourceLocation(TransformersMod.modid, "textures/models/cloudtrap/cloudtrap.png");
+    }
 }

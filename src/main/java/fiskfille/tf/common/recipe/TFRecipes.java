@@ -90,9 +90,9 @@ public class TFRecipes
         GameRegistry.addRecipe(new ItemStack(TFItems.subwooferLeggings, 1), new Object[] { "b*b", "y y", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 2), 'b', new ItemStack(Items.dye, 1, 4), 'y', new ItemStack(Items.dye, 1, 11) });
         GameRegistry.addRecipe(new ItemStack(TFItems.subwooferBoots, 1), new Object[] { "b*b", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 3), 'b', new ItemStack(Items.dye, 1, 4) });
         
-//      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapHelmet, 1), new Object[] { " b ", "I*I", " t ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 0), 'I', Items.iron_ingot, 't', new ItemStack(Items.dye, 1, 0), 'b', new ItemStack(Items.dye, 1, 10) });
-//      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapChestplate, 1), new Object[] { "rwr", "W*W", " C ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 1), 'C', TFItems.t50JetCockpit, 'W', TFItems.t50JetWing, 'r', new ItemStack(Items.dye, 1, 10), 'w', new ItemStack(Items.dye, 1, 12) });
-//      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapLeggings, 1), new Object[] { " b ", "w*w", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 2), 'w', new ItemStack(Items.dye, 1, 12), 'b', new ItemStack(Items.dye, 1, 10) });
-//      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapBoots, 1), new Object[] { " g ", "b*b", "T T", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 3), 'T', TFItems.jetThruster, 'b', new ItemStack(Items.dye, 1, 12), 'g', new ItemStack(Items.dye, 1, 10) });
+        //      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapHelmet, 1), new Object[] { " b ", "I*I", " t ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 0), 'I', Items.iron_ingot, 't', new ItemStack(Items.dye, 1, 0), 'b', new ItemStack(Items.dye, 1, 10) });
+        //      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapChestplate, 1), new Object[] { "rwr", "W*W", " C ", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 1), 'C', TFItems.t50JetCockpit, 'W', TFItems.t50JetWing, 'r', new ItemStack(Items.dye, 1, 10), 'w', new ItemStack(Items.dye, 1, 12) });
+        //      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapLeggings, 1), new Object[] { " b ", "w*w", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 2), 'w', new ItemStack(Items.dye, 1, 12), 'b', new ItemStack(Items.dye, 1, 10) });
+        //      GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapBoots, 1), new Object[] { " g ", "b*b", "T T", '*', new ItemStack(TFItems.transformiumArmorMolds, 1, 3), 'T', TFItems.jetThruster, 'b', new ItemStack(Items.dye, 1, 12), 'g', new ItemStack(Items.dye, 1, 10) });
     }
 }

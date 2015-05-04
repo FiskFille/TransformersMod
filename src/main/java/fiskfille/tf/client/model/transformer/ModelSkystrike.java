@@ -962,7 +962,7 @@ public class ModelSkystrike extends MowzieModelBase
                 this.upperLegR.rotateAngleY += (float) Math.PI / 10F;
                 this.upperLegL.rotateAngleY -= (float) Math.PI / 10F;
                 
-                if(!wearingChest)
+                if (!wearingChest)
                 {
                     this.upperLegL.rotationPointY += 3;
                     this.upperLegR.rotationPointY += 3;
@@ -973,8 +973,8 @@ public class ModelSkystrike extends MowzieModelBase
             {
                 this.upperArmR.rotateAngleY += -0.1F + this.headbase.rotateAngleY;
                 this.upperArmL.rotateAngleY += 0.1F + this.headbase.rotateAngleY + 0.4F;
-                this.upperArmR.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
-                this.upperArmL.rotateAngleX += -((float)Math.PI / 2F) + this.headbase.rotateAngleX;
+                this.upperArmR.rotateAngleX += -((float) Math.PI / 2F) + this.headbase.rotateAngleX;
+                this.upperArmL.rotateAngleX += -((float) Math.PI / 2F) + this.headbase.rotateAngleX;
                 this.upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
                 this.upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
                 this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
@@ -1139,63 +1139,63 @@ public class ModelSkystrike extends MowzieModelBase
             
             if (t == 0)
             {
-            	ModelBiped modelBiped = TFModelHelper.modelBipedMain;
-
-            	this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
-            	this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
-            	
-            	VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-            	
-            	if (transformedPlayer != null)
-            	{
-            		float f = (float)transformedPlayer.getJetRoll() / 360 * pi;
-//            		System.out.println(transformedPlayer.getJetRoll() + ", " + f);
-//            		transformedPlayer.setJetRoll((int)par4);
-//            		this.mainbody1.rotateAngleZ = -f * 2 - modelBiped.bipedHead.rotateAngleY;
-            	}
-            	
+                ModelBiped modelBiped = TFModelHelper.modelBipedMain;
+                
+                this.mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
+                this.mainbody1.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
+                
+                VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+                
+                if (transformedPlayer != null)
+                {
+                    float f = (float) transformedPlayer.getJetRoll() / 360 * pi;
+                    //            		System.out.println(transformedPlayer.getJetRoll() + ", " + f);
+                    //            		transformedPlayer.setJetRoll((int)par4);
+                    //            		this.mainbody1.rotateAngleZ = -f * 2 - modelBiped.bipedHead.rotateAngleY;
+                }
+                
             }
             else if (t != 20)
             {
-            	float f = (float)(20 - t);
-//            	float f = 20;
-            	float f1 = f / 20;
-            	float f2 = 1.0F - f1;
-            	
-            	setToInitPose();
-            	headbase.rotationPointY = -2 + 4.5F * f1;
-            	neck.rotationPointY = -2 + 3 * f1;
-            	shoulderR.rotationPointX -= f1;
-            	shoulderL.rotationPointX += f1;
-            	setRotation(upperArmR, 0.017453292519943295F * f2, -0.017453292519943295F * f2, 0.05235987755982988F * f2);
-            	setRotation(lowerArmR, -0.19198621771937624F * f2, -0.05235987755982988F * f2 + pi * f1, -0.06981317007977318F * f2 - pi / 2 * f1);
-            	setRotation(lowerarmR3, -0.03490658503988659F * f2, 0.12566370614359174F * f2, -0.06335545184739416F * f2);
-            	lowerArmR.setRotationPoint(1.9F * f1, 3.0F * f2 - f1 * 1.6F, 0.0F);
-            	shoulderR.rotateAngleX = -pi / 2 * f1;
-            	shoulderR.rotateAngleY = -pi / 2 * f1;
-            	setRotation(wingR1biped, 0.017453292519943295F * f2 + pi / 2 * f1, 0.07853981633974483F * f2, 0.5061454830783556F * f2 + (pi / 2 + 0.5061454830783556F) * f1);
-            	setRotation(wingR2biped, -0.3665191429188092F * f2, 0.0F, 0.0F);
-            	wingR1biped.setRotationPoint(-4.0F + 5 * f1, -3.0F, -1.8F + 2.5F * f1);
-            	setRotation(upperArmL, 0.017453292519943295F * f2, 0.017453292519943295F * f2, -0.05235987755982988F * f2);
-            	setRotation(lowerArmL, -0.19198621771937624F * f2, 0.05235987755982988F * f2 + pi * f1, 0.06981317007977318F * f2 + pi / 2 * f1);
-            	setRotation(lowerarmL3, -0.03490658503988659F * f2, -0.12566370614359174F * f2, 0.06335545184739416F * f2);
-            	lowerArmL.setRotationPoint(-1.9F * f1, 3.0F * f2 - f1 * 1.6F, 0.0F);
-            	shoulderL.rotateAngleX = -pi / 2 * f1;
-            	shoulderL.rotateAngleY = pi / 2 * f1;
-            	setRotation(wingL1biped, 0.017453292519943295F * f2 + pi / 2 * f1, -0.07853981633974483F * f2, -0.5061454830783556F * f2 - (pi / 2 + 0.5061454830783556F) * f1);
-            	setRotation(wingL2biped, -0.3665191429188092F * f2, 0.0F, 0.0F);
-            	wingL1biped.setRotationPoint(4.0F - 5 * f1, -3.0F, -1.8F + 2.5F * f1);
-            	setRotation(chest1, -pi / 2 * f1, pi * f1, 0);
-            	bodywingR1.setRotationPoint(-3.0F, 0.2F, 6.0F - 5 * f1);
-            	setRotation(bodywingR1, -pi * f1, -0.9250245035569946F * f2 + 0.15F, -0.2792526803190927F * f2 + pi * f1);
-            	setRotation(bodywingR2, -1.1519173063162573F * f2, -0.03490658503988659F * f2, -0.003490658503988659F * f2);
-            	bodywingL1.setRotationPoint(3.0F, 0.2F, 6.0F - 5 * f1);
-            	setRotation(bodywingL1, -pi * f1, 0.9250245035569946F * f2 - 0.15F, 0.2792526803190927F * f2 + pi * f1);
-            	setRotation(bodywingL2, -1.1519173063162573F * f2, 0.03490658503988659F * f2, 0.003490658503988659F * f2);
-            	setRotation(waist, pi / 2 * f1, 0, pi * f1);
-            	waist.rotationPointY -= 8 * f1;
-            	waist.rotationPointZ += 6 * f1;
-            	rearstomach.setRotationPoint(0.0F, -8.6F - 10 * f1, 2.9F - 3 * f1);
+                float f = (float) (20 - t);
+                //            	float f = 20;
+                float f1 = f / 20;
+                float f2 = 1.0F - f1;
+                
+                setToInitPose();
+                headbase.rotationPointY = -2 + 4.5F * f1;
+                neck.rotationPointY = -2 + 3 * f1;
+                shoulderR.rotationPointX -= f1;
+                shoulderL.rotationPointX += f1;
+                setRotation(upperArmR, 0.017453292519943295F * f2, -0.017453292519943295F * f2, 0.05235987755982988F * f2);
+                setRotation(lowerArmR, -0.19198621771937624F * f2, -0.05235987755982988F * f2 + pi * f1, -0.06981317007977318F * f2 - pi / 2 * f1);
+                setRotation(lowerarmR3, -0.03490658503988659F * f2, 0.12566370614359174F * f2, -0.06335545184739416F * f2);
+                lowerArmR.setRotationPoint(1.9F * f1, 3.0F * f2 - f1 * 1.6F, 0.0F);
+                shoulderR.rotateAngleX = -pi / 2 * f1;
+                shoulderR.rotateAngleY = -pi / 2 * f1;
+                setRotation(wingR1biped, 0.017453292519943295F * f2 + pi / 2 * f1, 0.07853981633974483F * f2, 0.5061454830783556F * f2 + (pi / 2 + 0.5061454830783556F) * f1);
+                setRotation(wingR2biped, -0.3665191429188092F * f2, 0.0F, 0.0F);
+                wingR1biped.setRotationPoint(-4.0F + 5 * f1, -3.0F, -1.8F + 2.5F * f1);
+                setRotation(upperArmL, 0.017453292519943295F * f2, 0.017453292519943295F * f2, -0.05235987755982988F * f2);
+                setRotation(lowerArmL, -0.19198621771937624F * f2, 0.05235987755982988F * f2 + pi * f1, 0.06981317007977318F * f2 + pi / 2 * f1);
+                setRotation(lowerarmL3, -0.03490658503988659F * f2, -0.12566370614359174F * f2, 0.06335545184739416F * f2);
+                lowerArmL.setRotationPoint(-1.9F * f1, 3.0F * f2 - f1 * 1.6F, 0.0F);
+                shoulderL.rotateAngleX = -pi / 2 * f1;
+                shoulderL.rotateAngleY = pi / 2 * f1;
+                setRotation(wingL1biped, 0.017453292519943295F * f2 + pi / 2 * f1, -0.07853981633974483F * f2, -0.5061454830783556F * f2 - (pi / 2 + 0.5061454830783556F) * f1);
+                setRotation(wingL2biped, -0.3665191429188092F * f2, 0.0F, 0.0F);
+                wingL1biped.setRotationPoint(4.0F - 5 * f1, -3.0F, -1.8F + 2.5F * f1);
+                setRotation(chest1, -pi / 2 * f1, pi * f1, 0);
+                bodywingR1.setRotationPoint(-3.0F, 0.2F, 6.0F - 5 * f1);
+                setRotation(bodywingR1, -pi * f1, -0.9250245035569946F * f2 + 0.15F, -0.2792526803190927F * f2 + pi * f1);
+                setRotation(bodywingR2, -1.1519173063162573F * f2, -0.03490658503988659F * f2, -0.003490658503988659F * f2);
+                bodywingL1.setRotationPoint(3.0F, 0.2F, 6.0F - 5 * f1);
+                setRotation(bodywingL1, -pi * f1, 0.9250245035569946F * f2 - 0.15F, 0.2792526803190927F * f2 + pi * f1);
+                setRotation(bodywingL2, -1.1519173063162573F * f2, 0.03490658503988659F * f2, 0.003490658503988659F * f2);
+                setRotation(waist, pi / 2 * f1, 0, pi * f1);
+                waist.rotationPointY -= 8 * f1;
+                waist.rotationPointZ += 6 * f1;
+                rearstomach.setRotationPoint(0.0F, -8.6F - 10 * f1, 2.9F - 3 * f1);
                 setRotation(rearstomach, -0.46774823953448036F * f2 - 0.15F * f1, 0.0F, 0.0F);
                 setRotation(upperLegR, -0.6457718232379019F * f2, 0.0F, 0.08726646259971647F * f2);
                 upperLegR.setRotationPoint(f1, 0.5F - f1 * 7.5F, 1.1F - f1 * 3);

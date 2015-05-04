@@ -68,14 +68,14 @@ public class CommonEventHandler
         
         Transformer transformer = event.transformer;
         
-        if(transformer != null ? transformer.canTransform(player) : true)
+        if (transformer != null ? transformer.canTransform(player) : true)
         {
-//            if (!event.transformed)
-//            {
-//                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-//                
-//                entityAttribute.setBaseValue(1);
-//            }
+            //            if (!event.transformed)
+            //            {
+            //                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            //                
+            //                entityAttribute.setBaseValue(1);
+            //            }
         }
         else
         {

@@ -101,7 +101,7 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
         {
             ++x;
         }
-
+        
         worldObj.createExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 4, allowExplosions);
     }
     

@@ -14,7 +14,7 @@ public class ModelTankShell extends ModelBase
         this.shell = new ModelRenderer(this, 0, 0);
         this.shell.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.shell.addBox(-3.0F, -1.0F, -1.0F, 6, 2, 2);
-        this.shell.rotateAngleY = (float)Math.PI / 2;
+        this.shell.rotateAngleY = (float) Math.PI / 2;
     }
     
     public void render()

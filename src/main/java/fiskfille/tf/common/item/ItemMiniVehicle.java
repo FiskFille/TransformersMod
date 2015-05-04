@@ -58,9 +58,9 @@ public class ItemMiniVehicle extends Item
                 ItemStack chest = new ItemStack(transformer.getChestplate());
                 ItemStack legs = new ItemStack(transformer.getLeggings());
                 ItemStack feet = new ItemStack(transformer.getBoots());
-            
+                
                 ItemStack[] itemstacks = { head, chest, legs, feet };
-              
+                
                 NBTTagList itemsList = new NBTTagList();
                 
                 for (int i = 0; i < itemstacks.length; ++i)
@@ -91,7 +91,7 @@ public class ItemMiniVehicle extends Item
         if (player.isSneaking())
         {
             ItemStack[] armorFromNBT = getArmorFromNBT(itemstack);
-          
+            
             if (armorFromNBT == null)
             {
                 setNBTData(itemstack);
@@ -168,7 +168,7 @@ public class ItemMiniVehicle extends Item
             for (int i = 0; i < nbtItems.tagCount(); ++i)
             {
                 NBTTagCompound item = (NBTTagCompound) nbtItems.getCompoundTagAt(i);
-               
+                
                 byte slot = item.getByte("Slot");
                 
                 if (slot >= 0 && slot < items.length)
@@ -194,7 +194,7 @@ public class ItemMiniVehicle extends Item
         
         for (Transformer transformer : TransformersAPI.getTransformers())
         {
-            if(!(transformer instanceof TransformerCloudtrap)) //Sorry CT :P
+            if (!(transformer instanceof TransformerCloudtrap)) //Sorry CT :P
             {
                 subItems.add(new ItemStack(this, 1, index));
             }

@@ -33,7 +33,7 @@ public class EntityAITransform extends EntityAIBase
     {
         return true;
     }
-
+    
     private boolean hasEnemy()
     {
         List entities = world.getEntitiesWithinAABBExcludingEntity(transformer, entityBoundingBox(transformer, distance, distance, distance));
@@ -42,7 +42,7 @@ public class EntityAITransform extends EntityAIBase
         
         for (Object object : entities)
         {
-            if(enemy.isAssignableFrom(object.getClass()) && object.getClass() != transformer.getClass())
+            if (enemy.isAssignableFrom(object.getClass()) && object.getClass() != transformer.getClass())
             {
                 hasEnemy = true;
                 closestEnemy = (Entity) object;
@@ -52,7 +52,7 @@ public class EntityAITransform extends EntityAIBase
         
         return hasEnemy;
     }
-
+    
     private AxisAlignedBB entityBoundingBox(Entity entity, double x, double y, double z)
     {
         double dX = x / 2;
@@ -74,7 +74,7 @@ public class EntityAITransform extends EntityAIBase
     {
         return transformer.isEntityAlive();
     }
-
+    
     /**
      * Execute a one shot task or start executing a continuous task
      */
@@ -82,7 +82,7 @@ public class EntityAITransform extends EntityAIBase
     public void startExecuting()
     {
     }
-
+    
     /**
      * Resets the task
      */
@@ -91,7 +91,7 @@ public class EntityAITransform extends EntityAIBase
     {
         this.closestEnemy = null;
     }
-
+    
     /**
      * Updates the task
      */
@@ -100,7 +100,7 @@ public class EntityAITransform extends EntityAIBase
     {
         boolean hasEnemy = hasEnemy();
         
-        if(hasEnemy != transformer.isTransformed())
+        if (hasEnemy != transformer.isTransformed())
         {
             String end = hasEnemy ? "vehicle" : "robot";
             world.playSoundAtEntity(transformer, TransformersMod.modid + ":transform_" + end, 1.0F, 1.0F);

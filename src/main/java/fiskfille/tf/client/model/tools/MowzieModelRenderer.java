@@ -126,7 +126,7 @@ public class MowzieModelRenderer extends ModelRenderer
      */
     public void setCurrentPoseToInitValues()
     {
-        if(hasInitPose)
+        if (hasInitPose)
         {
             rotateAngleX = initRotateAngleX;
             rotateAngleY = initRotateAngleY;
@@ -250,7 +250,7 @@ public class MowzieModelRenderer extends ModelRenderer
     {
         this.rotationPointZ = target.rotationPointZ;
     }
-
+    
     public void renderWithParents(float partialTicks)
     {
         if (parent instanceof MowzieModelRenderer)
@@ -275,22 +275,22 @@ public class MowzieModelRenderer extends ModelRenderer
     @SideOnly(Side.CLIENT)
     public void render(float p_78785_1_)
     {
-    	GL11.glPushMatrix();
-    	
+        GL11.glPushMatrix();
+        
         if (!this.isHidden)
         {
             if (this.showModel)
             {
-            	if (!this.compiled)
+                if (!this.compiled)
                 {
                     this.compileDisplayList(p_78785_1_);
                 }
                 
-            	float f5 = 0.0625F;
+                float f5 = 0.0625F;
                 GL11.glTranslatef(this.rotationPointX * f5, this.rotationPointY * f5, this.rotationPointZ * f5);
                 GL11.glTranslatef(this.offsetX, this.offsetY, this.offsetZ);
-            	GL11.glScalef(scaleX, scaleY, scaleZ);
-            	GL11.glTranslatef(-this.rotationPointX * f5, -this.rotationPointY * f5, -this.rotationPointZ * f5);
+                GL11.glScalef(scaleX, scaleY, scaleZ);
+                GL11.glTranslatef(-this.rotationPointX * f5, -this.rotationPointY * f5, -this.rotationPointZ * f5);
                 int i;
                 
                 if (this.rotateAngleX == 0.0F && this.rotateAngleY == 0.0F && this.rotateAngleZ == 0.0F)
@@ -298,12 +298,12 @@ public class MowzieModelRenderer extends ModelRenderer
                     if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F)
                     {
                         GL11.glCallList(this.displayList);
-
+                        
                         if (this.childModels != null)
                         {
                             for (i = 0; i < this.childModels.size(); ++i)
                             {
-                                ((MowzieModelRenderer)this.childModels.get(i)).render(p_78785_1_);
+                                ((MowzieModelRenderer) this.childModels.get(i)).render(p_78785_1_);
                             }
                         }
                     }
@@ -311,15 +311,15 @@ public class MowzieModelRenderer extends ModelRenderer
                     {
                         GL11.glTranslatef(this.rotationPointX * p_78785_1_, this.rotationPointY * p_78785_1_, this.rotationPointZ * p_78785_1_);
                         GL11.glCallList(this.displayList);
-
+                        
                         if (this.childModels != null)
                         {
                             for (i = 0; i < this.childModels.size(); ++i)
                             {
-                                ((MowzieModelRenderer)this.childModels.get(i)).render(p_78785_1_);
+                                ((MowzieModelRenderer) this.childModels.get(i)).render(p_78785_1_);
                             }
                         }
-
+                        
                         GL11.glTranslatef(-this.rotationPointX * p_78785_1_, -this.rotationPointY * p_78785_1_, -this.rotationPointZ * p_78785_1_);
                     }
                 }
@@ -327,32 +327,32 @@ public class MowzieModelRenderer extends ModelRenderer
                 {
                     GL11.glPushMatrix();
                     GL11.glTranslatef(this.rotationPointX * p_78785_1_, this.rotationPointY * p_78785_1_, this.rotationPointZ * p_78785_1_);
-
+                    
                     if (this.rotateAngleZ != 0.0F)
                     {
-                        GL11.glRotatef(this.rotateAngleZ * (180F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+                        GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
                     }
-
+                    
                     if (this.rotateAngleY != 0.0F)
                     {
-                        GL11.glRotatef(this.rotateAngleY * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                        GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
                     }
-
+                    
                     if (this.rotateAngleX != 0.0F)
                     {
-                        GL11.glRotatef(this.rotateAngleX * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+                        GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
                     }
-
+                    
                     GL11.glCallList(this.displayList);
-
+                    
                     if (this.childModels != null)
                     {
                         for (i = 0; i < this.childModels.size(); ++i)
                         {
-                            ((MowzieModelRenderer)this.childModels.get(i)).render(p_78785_1_);
+                            ((MowzieModelRenderer) this.childModels.get(i)).render(p_78785_1_);
                         }
                     }
-
+                    
                     GL11.glPopMatrix();
                 }
                 
@@ -370,12 +370,12 @@ public class MowzieModelRenderer extends ModelRenderer
         this.displayList = GLAllocation.generateDisplayLists(1);
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
         Tessellator tessellator = Tessellator.instance;
-
+        
         for (int i = 0; i < this.cubeList.size(); ++i)
         {
-            ((ModelBox)this.cubeList.get(i)).render(tessellator, p_78788_1_);
+            ((ModelBox) this.cubeList.get(i)).render(tessellator, p_78788_1_);
         }
-
+        
         GL11.glEndList();
         this.compiled = true;
     }

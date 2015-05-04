@@ -47,14 +47,14 @@ public class TickHandler
             
             if (inVehicleMode && transformationTimer == 0)
             {
-                if(TFDataManager.setInVehicleMode(player, false))
+                if (TFDataManager.setInVehicleMode(player, false))
                 {
                     player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
                 }
             }
             else if (!inVehicleMode && transformationTimer == 20)
             {
-                if(TFDataManager.setInVehicleMode(player, true))
+                if (TFDataManager.setInVehicleMode(player, true))
                 {
                     player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
                 }

@@ -94,8 +94,8 @@ public class ItemBassBlaster extends ItemSword
     
     public void registerIcons(IIconRegister iconRegister)
     {
-    	super.registerIcons(iconRegister);
-    	
+        super.registerIcons(iconRegister);
+        
         bassChargeIcon = iconRegister.registerIcon(TransformersMod.modid + ":bass_charge");
     }
 }

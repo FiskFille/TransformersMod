@@ -86,7 +86,7 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         {
             ++x;
         }
-
+        
         worldObj.createExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 1.0F, allowExplosions);
     }
     

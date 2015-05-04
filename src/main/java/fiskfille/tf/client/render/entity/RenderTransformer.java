@@ -29,7 +29,7 @@ public class RenderTransformer extends RendererLivingEntity
     {
         super(new ModelTransformer(), 0.0F);
     }
-
+    
     @Override
     protected ResourceLocation getEntityTexture(Entity entity)
     {
