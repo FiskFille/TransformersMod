@@ -16,7 +16,7 @@ public class ItemVurpsSniper extends ItemSword
     public ItemVurpsSniper(ToolMaterial material)
     {
         super(material);
-        this.setMaxDamage(1500);
+        this.setMaxDamage(800);
     }
     
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
@@ -25,8 +25,6 @@ public class ItemVurpsSniper extends ItemSword
         
         if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player))
         {
-            stack.damageItem(1, player);
-            
             if (world.isRemote)
             {
                 if (!TFShootManager.sniperFilling && TFShootManager.sniperCharge > 0)
@@ -39,6 +37,7 @@ public class ItemVurpsSniper extends ItemSword
                 {
                     if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
                     {
+                        stack.damageItem(1, player);
                         TFShootManager.sniperFilling = true;
                     }
                 }
