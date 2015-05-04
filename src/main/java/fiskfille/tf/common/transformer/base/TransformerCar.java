@@ -51,10 +51,15 @@ public abstract class TransformerCar extends Transformer
         	player.motionY += 0.225;
         }
         
+        IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        
         if (vehicle && timer == 0)
         {
-            IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
             entityAttribute.setBaseValue(0.0D);
+        }
+        else if (timer == 20)
+        {
+            entityAttribute.setBaseValue(0.1D);
         }
     }
     

@@ -68,7 +68,7 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public void updateMovement(EntityPlayer player)
     {
-    	TFMotionManager.motion(player, 40, 60, 20, 10, false, true, TFDataManager.isInStealthMode(player), true);
+        TFMotionManager.motion(player, 40, 60, 20, 10, false, true, TFDataManager.isInStealthMode(player), true);
     }
     
     @Override
@@ -86,9 +86,9 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-//        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
-    	EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
-//        entityMissile.posY--;
+        //        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
+        //        entityMissile.posY--;
         
         return entityMissile;
     }
@@ -120,23 +120,27 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public void tick(EntityPlayer player, int timer)
     {
+        IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        
         if (TFDataManager.isInVehicleMode(player) && timer == 0)
         {
-            IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
             entityAttribute.setBaseValue(0.0D);
-            
-//            if (!TFPlayerData.getData(player).stealthForce)
-//            {
-//                CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
-//                entityAttribute.setBaseValue(0.0D);
-//            }
-//            else
-//            {
-//                if (CommonEventHandler.prevMove != 0)
-//                {
-//                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
-//                }
-//            }
         }
+        else if (timer == 20)
+        {
+            entityAttribute.setBaseValue(0.1D);
+        }
+        //            if (!TFPlayerData.getData(player).stealthForce)
+        //            {
+        //                CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
+        //                entityAttribute.setBaseValue(0.0D);
+        //            }
+        //            else
+        //            {
+        //                if (CommonEventHandler.prevMove != 0)
+        //                {
+        //                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
+        //                }
+        //            }
     }
 }

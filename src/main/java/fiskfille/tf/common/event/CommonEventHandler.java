@@ -70,15 +70,12 @@ public class CommonEventHandler
         
         if(transformer != null ? transformer.canTransform(player) : true)
         {
-            if (!event.transformed)
-            {
-                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-                
-                if (prevMove != 0)
-                {
-                    entityAttribute.setBaseValue(prevMove);
-                }
-            }
+//            if (!event.transformed)
+//            {
+//                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+//                
+//                entityAttribute.setBaseValue(1);
+//            }
         }
         else
         {

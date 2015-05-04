@@ -31,11 +31,12 @@ public class ItemVurpsSniper extends ItemSword
                 {
                     TFShootManager.sniperCharge -= 5;
                     boolean consume = TFShootManager.sniperCharge <= 0;
+                    player.playSound("random.fizz", 1, 2F);
                     TFNetworkManager.networkWrapper.sendToServer(new MessageSniperShoot(player, consume));
                 }
                 else
                 {
-                    if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
+                    if (!TFShootManager.sniperFilling && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
                     {
                         stack.damageItem(1, player);
                         TFShootManager.sniperFilling = true;
