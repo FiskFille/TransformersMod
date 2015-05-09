@@ -1058,44 +1058,56 @@ public class ModelSkystrike extends MowzieModelBase
                 }
                 else
                 {
-                    double motionX = entity.posX - entity.prevPosX;
-                    double motionZ = entity.posZ - entity.prevPosZ;
-                    
-                    double motionY = entity.posY - entity.prevPosY;
-                    float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
-                    float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
-                    
-                    double speed = Math.sqrt((motionX * motionX) + (motionZ * motionZ)) * 1.2D;
-                    
-                    waist.rotateAngleX += 0.2 * par2 * backwardInverter;
-                    
-                    chestcenter.rotateAngleX -= 0.2 * upwardPose;
-                    //chest1.rotateAngleX -= 0.4 * upwardPose;
-                    headbase.rotateAngleX -= 0.2 * upwardPose;
-                    
-                    upperArmR.rotateAngleX += 0.1 * upwardPose;
-                    upperArmL.rotateAngleX += 0.1 * upwardPose;
-                    upperArmR.rotateAngleZ -= 0.1 * upwardPose;
-                    upperArmL.rotateAngleZ += 0.1 * upwardPose;
-                    lowerArmR.rotateAngleX += 0.2 * upwardPose;
-                    lowerArmL.rotateAngleX += 0.2 * upwardPose;
-                    
-                    upperLegR.rotateAngleX -= 0.3 * upwardPose;
-                    upperLegL.rotateAngleX += 0.2 * upwardPose;
-                    middlelegR.rotateAngleX += 0.5 * upwardPose;
-                    lowerLegR.rotateAngleX += 0.3 * upwardPose;
-                    lowerLegL.rotateAngleX += 0.5 * upwardPose;
-                    
-                    waist.rotateAngleX += speed * downwardPose;
-                    buttflapL.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
-                    buttflapR.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
-                    
-                    upperArmR.rotateAngleZ += 1 * downwardPose;
-                    upperArmL.rotateAngleZ -= 1 * downwardPose;
-                    lowerArmR.rotateAngleX -= 1 * downwardPose;
-                    lowerArmL.rotateAngleX -= 1 * downwardPose;
-                    headbase.rotateAngleX += 0.2 * downwardPose;
-                    headbase.rotateAngleX -= (speed * downwardPose) * 0.3F;
+                	double motionX = entity.posX - entity.prevPosX;
+                	double motionZ = entity.posZ - entity.prevPosZ;
+
+                	double motionY = entity.posY - entity.prevPosY;
+                	float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
+                	float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
+
+                	double speed = Math.sqrt((motionX * motionX) + (motionZ * motionZ)) * 1.2D;
+
+//                	waist.rotateAngleX -= 0.1 * par2 * backwardInverter;
+
+                	chestcenter.rotateAngleX -= 0.2 * upwardPose;
+                	headbase.rotateAngleX -= 0.2 * upwardPose;
+
+                	shoulderR.rotateAngleX += 0.1 * upwardPose;
+                	shoulderL.rotateAngleX += 0.1 * upwardPose;
+                	shoulderR.rotateAngleZ -= 0.1 * upwardPose;
+                	shoulderL.rotateAngleZ += 0.1 * upwardPose;
+                	lowerArmR.rotateAngleX += 0.2 * upwardPose;
+                	lowerArmL.rotateAngleX += 0.2 * upwardPose;
+
+                	upperLegR.rotateAngleX -= 0.3 * upwardPose;
+                	upperLegL.rotateAngleX += 0.2 * upwardPose;
+                	middlelegR.rotateAngleX += 0.5 * upwardPose;
+                	lowerLegR.rotateAngleX += 0.3 * upwardPose;
+                	lowerLegL.rotateAngleX += 0.5 * upwardPose;
+
+                	waist.rotateAngleX -= speed * downwardPose * 0.5;
+                	buttflapL.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+                	buttflapR.rotateAngleX += (speed * downwardPose) + downwardPose / 2;
+
+                	shoulderR.rotateAngleZ += 1 * downwardPose;
+                	shoulderL.rotateAngleZ -= 1 * downwardPose;
+                	lowerArmR.rotateAngleX -= 1 * downwardPose;
+                	lowerArmL.rotateAngleX -= 1 * downwardPose;
+                	headbase.rotateAngleX += 0.2 * downwardPose;
+                	headbase.rotateAngleX -= (speed * downwardPose) * 0.3F;
+                	
+                	wingR1biped.rotateAngleZ -= downwardPose;
+                	wingR1biped.rotationPointY += 1.25 * downwardPose;
+                	wingL1biped.rotateAngleZ += downwardPose;
+                	wingL1biped.rotationPointY += 1.25 * downwardPose;
+                	bodywingR1.rotateAngleX += 1.5 * downwardPose;
+                	bodywingR1.rotateAngleY += 1 * downwardPose;
+                	bodywingR1.rotateAngleZ -= 1 * downwardPose;
+                	bodywingR2.rotateAngleX += 0.75 * downwardPose;
+                	bodywingL1.rotateAngleX += 1.5 * downwardPose;
+                	bodywingL1.rotateAngleY -= 1 * downwardPose;
+                	bodywingL1.rotateAngleZ += 1 * downwardPose;
+                	bodywingL2.rotateAngleX += 0.75 * downwardPose;
                 }
             }
             else
