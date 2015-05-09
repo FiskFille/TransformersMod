@@ -183,14 +183,14 @@ public class TFShootManager
                 if (!laserFilling && laserCharge > 0)
                 {
                     laserCharge -= 1;
-                    boolean consume = laserCharge <= 0;
                     player.playSound("random.fizz", 1, 2F);
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, consume));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, false));
                 }
                 else
                 {
                     if (!laserFilling && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
                     {
+                        TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, true));
                         laserFilling = true;
                     }
                 }

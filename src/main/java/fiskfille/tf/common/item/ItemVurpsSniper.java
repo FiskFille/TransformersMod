@@ -30,15 +30,15 @@ public class ItemVurpsSniper extends ItemSword
                 if (!TFShootManager.laserFilling && TFShootManager.laserCharge > 0)
                 {
                     TFShootManager.laserCharge -= 5;
-                    boolean consume = TFShootManager.laserCharge <= 0;
                     player.playSound("random.fizz", 1, 2F);
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, consume));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, false));
                 }
                 else
                 {
                     if (!TFShootManager.laserFilling && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
                     {
                         stack.damageItem(1, player);
+                        TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, true));
                         TFShootManager.laserFilling = true;
                     }
                 }

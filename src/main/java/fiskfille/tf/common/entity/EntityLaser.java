@@ -56,7 +56,7 @@ public class EntityLaser extends EntityThrowable
                 Entity entityHit = mop.entityHit;
                 
                 entityHit.setFire(10);
-                entityHit.attackEntityFrom(DamageSource.inFire, 5F);
+                entityHit.attackEntityFrom(DamageSource.inFire, 10F);
                 entityHit.hurtResistantTime = 0;
                 entityHit.motionY -= 0.2F;
             }

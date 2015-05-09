@@ -85,6 +85,11 @@ public class GuiOverlay extends Gui
             
             int x = ((5 - stealthModeTimer) * 20) - 94;
             
+            if(hasSniper)
+            {
+                x = 6;
+            }
+            
             int y = 3;
             
             if(!hasSniper)
