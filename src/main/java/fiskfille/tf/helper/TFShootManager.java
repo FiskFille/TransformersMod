@@ -184,7 +184,7 @@ public class TFShootManager
                 {
                     if (!laserFilling && laserCharge > 0)
                     {
-                        laserCharge -= 1;
+                        laserCharge -= 2;
                         player.playSound("random.fizz", 1, 2F);
                         TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, false));
                     }

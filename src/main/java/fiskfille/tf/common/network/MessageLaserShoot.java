@@ -107,6 +107,11 @@ public class MessageLaserShoot implements IMessage
                             
                             Entity entity = new EntityLaser(world, from);
                             
+                            if(TFDataManager.isInVehicleMode(from))
+                            {
+                                entity.posY -= 0.8F;
+                            }
+                            
                             world.spawnEntityInWorld(entity);
                         }
                         else if(consumeItems && !isCreative)
