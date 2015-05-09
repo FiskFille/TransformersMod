@@ -1,5 +1,5 @@
 Original Dutch Translations by Mitch (teamminer)
-> Updated translations by iLexipoo
+> Updated translations by Lexipoo
 
 ------Items------
 item.transformium.name=Transformium
@@ -70,7 +70,7 @@ itemGroup.Transformers=Transformers
 -----GUI------
 stats.nitro.name=Nitro
 stats.shots_left.name=Schoten Over
-stats.sniper_charge.name=Sniper Lading
+stats.laser_charge.name=Lazer Lading
 gui.display_pillar.name=Pilaar
 
 ------Achievements------
