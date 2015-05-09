@@ -1,10 +1,8 @@
 package fiskfille.tf.common.network;
 
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -13,26 +11,24 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageSniperShoot implements IMessage
+public class MessageLaserShoot implements IMessage
 {
     public int id;
     public boolean consume;
     
-    public MessageSniperShoot()
+    public MessageLaserShoot()
     {
         
     }
     
-    public MessageSniperShoot(EntityPlayer player, boolean consume)
+    public MessageLaserShoot(EntityPlayer player, boolean consume)
     {
         this.id = player.getEntityId();
         this.consume = consume;
@@ -50,9 +46,9 @@ public class MessageSniperShoot implements IMessage
         buf.writeBoolean(consume);
     }
     
-    public static class Handler implements IMessageHandler<MessageSniperShoot, IMessage>
+    public static class Handler implements IMessageHandler<MessageLaserShoot, IMessage>
     {
-        public IMessage onMessage(MessageSniperShoot message, MessageContext ctx)
+        public IMessage onMessage(MessageLaserShoot message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -95,26 +91,27 @@ public class MessageSniperShoot implements IMessage
                 {
                     Transformer transformer = TFHelper.getTransformer(from);
                     
-                    if (transformer instanceof TransformerVurp && from.getHeldItem() != null && from.getHeldItem().getItem() instanceof ItemVurpsSniper)
+                    ItemStack heldItem = from.getHeldItem();
+                    
+                    boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(from) == 20;
+                    
+                    if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(from)))
                     {
-                        if (!TFDataManager.isInVehicleMode(from))
+                        Item shootItem = TFItems.energonCrystalPiece;
+                        boolean isCreative = from.capabilities.isCreativeMode;
+                        boolean consumeItems = !isCreative || from.inventory.hasItem(shootItem) && message.consume;
+                        
+                        World world = from.worldObj;
+                        
+                        Entity entity = new EntityLaser(world, from);
+                        
+                        world.spawnEntityInWorld(entity);
+                        
+                        if (consumeItems)
                         {
-                            Item shootItem = TFItems.energonCrystalPiece;
-                            boolean isCreative = from.capabilities.isCreativeMode;
-                            boolean consumeItems = !isCreative || from.inventory.hasItem(shootItem) && message.consume;
-                            
-                            World world = from.worldObj;
-                            
-                            Entity entity = new EntityLaser(world, from);
-                            
-                            world.spawnEntityInWorld(entity);
-                            
-                            if (consumeItems)
+                            if (!isCreative && message.consume)
                             {
-                                if (!isCreative && message.consume)
-                                {
-                                    from.inventory.consumeInventoryItem(shootItem);
-                                }
+                                from.inventory.consumeInventoryItem(shootItem);
                             }
                         }
                     }

@@ -67,7 +67,7 @@ itemGroup.Transformers=Transformers
 -----GUI------
 stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
-stats.sniper_charge.name=Sniper Charge
+stats.laser_charge.name=Laser Charge
 gui.display_pillar.name=Display Pillar
 
 ------Achievements------

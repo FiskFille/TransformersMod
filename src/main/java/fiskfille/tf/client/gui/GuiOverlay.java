@@ -49,17 +49,20 @@ public class GuiOverlay extends Gui
     @SideOnly(Side.CLIENT)
     public void onRender(RenderGameOverlayEvent.Pre event)
     {
-        int width = event.resolution.getScaledWidth();
-        int height = event.resolution.getScaledHeight();
-        EntityPlayer player = mc.thePlayer;
-        
-        if (event.type == ElementType.HOTBAR)
+        if(!event.isCanceled())
         {
-            renderNitroAndSpeed(event, width, height, player);
-            renderKatanaDash(event, width, height, player);
-            renderShotsLeft(event, width, height, player);
-            renderLaserCharge(event, width, height, player);
-            //renderCrossbowAmmo(event, width, height, player);
+            int width = event.resolution.getScaledWidth();
+            int height = event.resolution.getScaledHeight();
+            EntityPlayer player = mc.thePlayer;
+            
+            if (event.type == ElementType.HOTBAR)
+            {
+                renderNitroAndSpeed(event, width, height, player);
+                renderKatanaDash(event, width, height, player);
+                renderShotsLeft(event, width, height, player);
+                renderLaserCharge(event, width, height, player);
+                //renderCrossbowAmmo(event, width, height, player);
+            }
         }
     }
     
@@ -67,23 +70,46 @@ public class GuiOverlay extends Gui
     {
         ItemStack heldItem = player.getHeldItem();
         
-        if (heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFHelper.getTransformer(player) instanceof TransformerVurp && TFDataManager.getTransformationTimer(player) == 20)
+        Transformer transformer = TFHelper.getTransformer(player);
+        
+        boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(player) == 20;
+        
+        if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(player)))
         {
+            int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+            
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glColor4f(0F, 0F, 0F, 0.3F);
             
+            int x = ((5 - stealthModeTimer) * 20) - 94;
+            
+            int y = 3;
+            
+            if(!hasSniper)
+            {
+                y = 30;
+            }
+            
             //Charge Outline
-            drawTexturedModalRect(5, 3, 0, 0, 102, 12);
-            GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
+            drawTexturedModalRect(x - 1, y, 0, 0, 102, 12);
+            
+            if(hasSniper)
+            {
+                GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
+            }
+            else
+            {
+                GL11.glColor4f(1F, 0F, 0F, 0.5F);
+            }
             
             //Charge Bar
-            drawTexturedModalRect(6, 4, 0, 0, (int) (TFShootManager.sniperCharge * 2), 10);
-            GL11.glColor4f(1F, 0F, 0F, 0.5F);
+            drawTexturedModalRect(x, y + 1, 0, 0, (int) (TFShootManager.laserCharge * 2), 10);
+            
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             
-            drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.sniper_charge.name"), 56, 5, 0xffffff);
+            drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.laser_charge.name"), x + 50, y + 2, 0xffffff);
         }
     }
     
@@ -127,7 +153,7 @@ public class GuiOverlay extends Gui
     {
         Transformer transformer = TFHelper.getTransformer(player);
         
-        if (transformer != null)
+        if (transformer != null && !(transformer instanceof TransformerVurp))
         {
             int transformationTimer = TFDataManager.getTransformationTimer(player);
             

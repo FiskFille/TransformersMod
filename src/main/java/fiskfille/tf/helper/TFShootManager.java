@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -26,8 +27,8 @@ public class TFShootManager
     
     public static boolean reloading;
     
-    public static int sniperCharge;
-    public static boolean sniperFilling;
+    public static int laserCharge;
+    public static boolean laserFilling;
     
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent event)
@@ -42,18 +43,18 @@ public class TFShootManager
                 {
                     Transformer transformer = TFHelper.getTransformer(player);
                     
-                    if (sniperFilling)
+                    if (laserFilling)
                     {
                         int max = 50;
                         
-                        if (sniperCharge < max)
+                        if (laserCharge < max)
                         {
-                            sniperCharge += 1;
+                            laserCharge += 1;
                         }
-                        else if (sniperCharge >= max)
+                        else if (laserCharge >= max)
                         {
-                            sniperFilling = false;
-                            sniperCharge = max;
+                            laserFilling = false;
+                            laserCharge = max;
                         }
                     }
                     
@@ -175,49 +176,72 @@ public class TFShootManager
     
     private void stealthForceShoot(Transformer transformer, EntityPlayer player)
     {
-        if (shotsLeft > 0)
+        if(transformer instanceof TransformerVurp)
         {
-            if (shootCooldown <= 0)
+            if(transformer.canShoot(player))
             {
-                if (transformer.canShoot(player))
+                if (!laserFilling && laserCharge > 0)
                 {
-                    Item shootItem = transformer.getShootItem();
-                    
-                    boolean isCreative = player.capabilities.isCreativeMode;
-                    boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
-                    
-                    if (hasAmmo)
+                    laserCharge -= 1;
+                    boolean consume = laserCharge <= 0;
+                    player.playSound("random.fizz", 1, 2F);
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, consume));
+                }
+                else
+                {
+                    if (!laserFilling && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
                     {
-                        TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleShoot(player));
-                        
-                        if (!isCreative)
-                        {
-                            player.inventory.consumeInventoryItem(shootItem);
-                        }
+                        laserFilling = true;
                     }
-                }
-                
-                if (shotsLeft > transformer.getShots())
-                {
-                    shotsLeft = transformer.getShots();
-                }
-                
-                shotsLeft--;
-                
-                if (shotsLeft <= 0)
-                {
-                    shootCooldown = 20;
-                    reloading = true;
                 }
             }
         }
         else
         {
-            if (!reloading)
+            if (shotsLeft > 0)
             {
-                shootCooldown = 20;
-                reloading = true;
+                if (shootCooldown <= 0)
+                {
+                    if (transformer.canShoot(player))
+                    {
+                        Item shootItem = transformer.getShootItem();
+                        
+                        boolean isCreative = player.capabilities.isCreativeMode;
+                        boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
+                        
+                        if (hasAmmo)
+                        {
+                            TFNetworkManager.networkWrapper.sendToServer(new MessageVehicleShoot(player));
+                            
+                            if (!isCreative)
+                            {
+                                player.inventory.consumeInventoryItem(shootItem);
+                            }
+                        }
+                    }
+                    
+                    if (shotsLeft > transformer.getShots())
+                    {
+                        shotsLeft = transformer.getShots();
+                    }
+                    
+                    shotsLeft--;
+                    
+                    if (shotsLeft <= 0)
+                    {
+                        shootCooldown = 20;
+                        reloading = true;
+                    }
+                }
             }
+            else
+            {
+                if (!reloading)
+                {
+                    shootCooldown = 20;
+                    reloading = true;
+                }
+            }    
         }
     }
 }
