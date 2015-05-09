@@ -74,7 +74,7 @@ public class TFHelper
      */
     public static Transformer getTransformer(EntityPlayer player)
     {
-        if (isPlayerTransformer(player))
+        if (player != null && isPlayerTransformer(player))
         {
             return getTransformerFromArmor(player, 0);
         }
