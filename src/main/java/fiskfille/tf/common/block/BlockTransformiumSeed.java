@@ -12,6 +12,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
@@ -55,6 +56,11 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
             EntityTransformiumSeed seed = new EntityTransformiumSeed(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), entity);
             world.spawnEntityInWorld(seed);
             world.playSoundAtEntity(seed, "note.pling", 1.0F, 0.5F);
+        }
+        
+        if (entity instanceof EntityPlayer)
+        {
+        	((EntityPlayer)entity).addStat(TFAchievements.detonateSeed, 1);
         }
     }
     

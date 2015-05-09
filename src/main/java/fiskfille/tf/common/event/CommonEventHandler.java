@@ -28,6 +28,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import fiskfille.tf.TransformersMod;
@@ -106,6 +107,15 @@ public class CommonEventHandler
         if (event.smelting.getItem() == TFItems.transformium)
         {
             event.player.addStat(TFAchievements.transformium, 1);
+        }
+    }
+    
+    @SubscribeEvent
+    public void onCraft(ItemCraftedEvent event)
+    {
+    	if (event.crafting.getItem() == TFItems.tankTracks)
+        {
+            event.player.addStat(TFAchievements.tracks, 1);
         }
     }
     

@@ -42,9 +42,21 @@ public abstract class ItemTransformerArmor extends ItemArmor
      */
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
     {
-        if (TFHelper.isPlayerTransformer(player))
+    	if (TFHelper.isPlayerSkystrike(player))
         {
-            player.addStat(TFAchievements.transformer, 1);
+            player.addStat(TFAchievements.skystrike, 1);
+        }
+    	else if (TFHelper.isPlayerPurge(player))
+        {
+            player.addStat(TFAchievements.purge, 1);
+        }
+    	else if (TFHelper.isPlayerVurp(player))
+        {
+            player.addStat(TFAchievements.vurp, 1);
+        }
+    	else if (TFHelper.isPlayerSubwoofer(player))
+        {
+            player.addStat(TFAchievements.subwoofer, 1);
         }
     }
     

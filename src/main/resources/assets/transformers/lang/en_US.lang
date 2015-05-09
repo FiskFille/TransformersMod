@@ -71,20 +71,17 @@ stats.laser_charge.name=Laser Charge
 gui.display_pillar.name=Display Pillar
 
 ------Achievements------
-achievement.shoot_missile=Directed by Michael Bay
-achievement.shoot_missile.desc=Shoot a Missile
+achievement.tf.shoot_missile=Directed by Michael Bay
+achievement.tf.shoot_missile.desc=Shoot a Missile
 
-achievement.transformium=Transformium
-achievement.transformium.desc=Smelt some Transformium Ore
+achievement.tf.transformium=Transformium
+achievement.tf.transformium.desc=Smelt some Transformium Ore
 
-achievement.transformers_mod=Transformers Mod
-achievement.transformers_mod.desc=Play with the Transformers Mod
+achievement.tf.transformers_mod=Transformers Mod
+achievement.tf.transformers_mod.desc=Play with the Transformers Mod
 
-achievement.transformer=Transformer
-achievement.transformer.desc=Wear a Transformer Suit
-
-achievement.transform=Robots in Disguise
-achievement.transform.desc=Transform into a Vehicle
+achievement.tf.transform=Robots in Disguise
+achievement.tf.transform.desc=Transform into a Vehicle
 
 achievement.tf.donate=Generosity
 achievement.tf.donate.desc=Donate
@@ -92,11 +89,23 @@ achievement.tf.donate.desc=Donate
 achievement.tf.tracks=On the right Track
 achievement.tf.tracks.desc=Craft tracks using 6 leather and 2 iron
 
+achievement.tf.detonateSeed=Extinction
+achievement.tf.detonateSeed.desc=Detonate a Transformium Seed
+
+achievement.tf.skystrike=High Flyer
+achievement.tf.skystrike.desc=Wear the full Skystrike set
+
 achievement.tf.purge=Heavy Metal
 achievement.tf.purge.desc=Wear the full Purge set
 
-achievement.tf.detonateSeed=Extinction
-achievement.tf.detonateSeed.desc=Detonate a Transformium Seed
+achievement.tf.vurp=German Engineering
+achievement.tf.vurp.desc=Wear the full Vurp set
+
+achievement.tf.subwoofer=Sound Waves
+achievement.tf.subwoofer.desc=Wear the full Subwoofer set
+
+achievement.tf.sharpshooter=Sharpshooter
+achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away
 
 ------Miscellaneous------
 misc.donate.thanks=Thanks for donating $

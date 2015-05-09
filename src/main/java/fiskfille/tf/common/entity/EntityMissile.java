@@ -2,12 +2,14 @@ package fiskfille.tf.common.entity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import fiskfille.tf.common.achievement.TFAchievements;
 
 public class EntityMissile extends EntityThrowable implements IEntityAdditionalSpawnData
 {
@@ -69,6 +71,16 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
             else if (mop.typeOfHit == mop.typeOfHit.ENTITY)
             {
                 worldObj.createExplosion(null, mop.entityHit.posX, mop.entityHit.posY, mop.entityHit.posZ, 4, allowExplosions);
+                
+                if (mop.entityHit instanceof EntityBat && getThrower() instanceof EntityPlayer)
+                {
+                	EntityPlayer player = (EntityPlayer)getThrower();
+                	
+                	if (player.getDistanceSqToEntity(mop.entityHit) >= 25.0D)
+                	{
+                		player.addStat(TFAchievements.sharpshooter, 1);
+                	}
+                }
             }
         }
         

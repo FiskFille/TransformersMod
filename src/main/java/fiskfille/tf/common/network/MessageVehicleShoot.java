@@ -3,6 +3,7 @@ package fiskfille.tf.common.network;
 import org.lwjgl.input.Mouse;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -113,6 +114,8 @@ public class MessageVehicleShoot implements IMessage
                                 {
                                     from.inventory.consumeInventoryItem(shootItem);
                                 }
+                                
+                                from.addStat(TFAchievements.firstMissile, 1);
                             }
                         }
                     }
