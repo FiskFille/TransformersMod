@@ -908,8 +908,6 @@ public class ModelSkystrike extends MowzieModelBase
                 offsets.headOffsetY = -4F;
                 offsets.headOffsetZ = 2.5F;
                 
-                offsets.timesModified++;
-                
                 headbase.rotationPointY += 4F;
                 headbase.rotationPointZ -= 2.5F;
                 

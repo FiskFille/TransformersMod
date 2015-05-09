@@ -87,15 +87,6 @@ public class ModelBipedTF extends ModelChildBase.Biped
                 this.bipedLeftLeg.render(partialTicks);
                 this.bipedHeadwear.render(partialTicks);
             }
-            
-            if (!(offsets.timesModified > 0))
-            {
-                offsets.headOffsetX = 0;
-                offsets.headOffsetY = 0;
-                offsets.headOffsetZ = 0;
-            }
-            
-            offsets.timesModified = 0;
         }
     }
 }

@@ -3,33 +3,35 @@ package fiskfille.tf.client.event;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ClientEventHandler
 {
@@ -37,6 +39,8 @@ public class ClientEventHandler
     private EntityRenderer renderer, prevRenderer;
     
     public static boolean prevViewBobbing;
+    
+    private Item prevHelm, prevChest, prevLegs, prevBoots;
     
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
@@ -87,6 +91,56 @@ public class ClientEventHandler
         if (TFDataManager.getTransformationTimer(event.entityPlayer) < 10)
         {
             event.setCanceled(true);
+        }
+    }
+    
+    @SubscribeEvent
+    public void onRenderPlayerPost(RenderPlayerEvent.Specials.Post event)
+    {
+        //After rendered everything
+        
+        EntityPlayer player = mc.thePlayer;
+        
+        ModelOffset offsets = TFModelHelper.getOffsets(player);
+
+        ItemStack bootsStack = player.getCurrentArmor(0);
+        ItemStack legsStack = player.getCurrentArmor(1);
+        ItemStack chestStack = player.getCurrentArmor(2);
+        ItemStack helmStack = player.getCurrentArmor(3);
+        
+        Item boots = bootsStack != null ? bootsStack.getItem() : null; 
+        Item legs = legsStack != null ? legsStack.getItem() : null; 
+        Item chest = chestStack != null ? chestStack.getItem() : null; 
+        Item helm = helmStack != null ? helmStack.getItem() : null; 
+        
+        boolean armorChanged = false;
+        
+        if(boots != prevBoots)
+        {
+            prevBoots = boots;
+            armorChanged = true;
+        }
+        if(chest != prevChest)
+        {
+            prevChest = chest;
+            armorChanged = true;
+        }
+        if(legs != prevLegs)
+        {
+            prevLegs = legs;
+            armorChanged = true;
+        }
+        if(helm != prevHelm)
+        {
+            prevHelm = helm;
+            armorChanged = true;
+        }
+        
+        if(armorChanged)
+        {
+            offsets.headOffsetX = 0;
+            offsets.headOffsetY = 0;
+            offsets.headOffsetZ = 0;
         }
     }
     
@@ -213,6 +267,11 @@ public class ClientEventHandler
         }
     }
     
+    @SubscribeEvent
+    public void onPlayerTick(PlayerTickEvent event)
+    {
+      
+    }
     //    TODO: Expand upon and re-implement this for 0.6.0 
     //    @SubscribeEvent
     //    public void onItemToolTip(ItemTooltipEvent event)
