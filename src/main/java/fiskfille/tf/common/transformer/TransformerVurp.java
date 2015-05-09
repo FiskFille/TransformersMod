@@ -112,7 +112,7 @@ public class TransformerVurp extends TransformerCar
         
         if (player.worldObj.isRemote)
         {
-            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed())
+            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFDataManager.isInVehicleMode(player))
             {
                 if (zoomTimer < 10)
                 {

@@ -204,38 +204,40 @@ public class GuiOverlay extends Gui
                 
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
             }
-            else
+        }
+        else if(transformer instanceof TransformerVurp)
+        {
+            ItemStack heldItem = player.getHeldItem();
+            
+            if (heldItem != null)
             {
-                ItemStack heldItem = player.getHeldItem();
+                int transformationTimer = TFDataManager.getTransformationTimer(player);
                 
-                if (heldItem != null)
+                if (transformationTimer == 20 && (heldItem.getItem() == TFItems.vurpsSniper && TFHelper.isPlayerVurp(player)))
                 {
-                    if (transformationTimer == 20 && (heldItem.getItem() == TFItems.vurpsSniper && TFHelper.isPlayerVurp(player)))
+                    GL11.glEnable(GL11.GL_BLEND);
+                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                    GL11.glColor4f(0F, 0F, 0F, 0.15F);
+                    
+                    if (this.mc.gameSettings.thirdPersonView == 0 && heldItem != null && heldItem.getItem() == TFItems.vurpsSniper && TFDataManager.getZoomTimer(player) > 7)
                     {
-                        GL11.glEnable(GL11.GL_BLEND);
-                        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                        GL11.glColor4f(0F, 0F, 0F, 0.15F);
-                        
-                        if (this.mc.gameSettings.thirdPersonView == 0 && heldItem != null && heldItem.getItem() == TFItems.vurpsSniper && TFDataManager.getZoomTimer(player) > 7)
-                        {
-                            GL11.glDisable(GL11.GL_DEPTH_TEST);
-                            GL11.glDepthMask(false);
-                            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-                            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                            GL11.glDisable(GL11.GL_ALPHA_TEST);
-                            this.mc.getTextureManager().bindTexture(new ResourceLocation(TransformersMod.modid, "textures/misc/sniper_scope.png"));
-                            Tessellator tessellator = Tessellator.instance;
-                            tessellator.startDrawingQuads();
-                            tessellator.addVertexWithUV(0.0D, (double) height, -90.0D, 0.0D, 1.0D);
-                            tessellator.addVertexWithUV((double) width, (double) height, -90.0D, 1.0D, 1.0D);
-                            tessellator.addVertexWithUV((double) width, 0.0D, -90.0D, 1.0D, 0.0D);
-                            tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
-                            tessellator.draw();
-                            GL11.glDepthMask(true);
-                            GL11.glEnable(GL11.GL_DEPTH_TEST);
-                            GL11.glEnable(GL11.GL_ALPHA_TEST);
-                            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                        }
+                        GL11.glDisable(GL11.GL_DEPTH_TEST);
+                        GL11.glDepthMask(false);
+                        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                        GL11.glDisable(GL11.GL_ALPHA_TEST);
+                        this.mc.getTextureManager().bindTexture(new ResourceLocation(TransformersMod.modid, "textures/misc/sniper_scope.png"));
+                        Tessellator tessellator = Tessellator.instance;
+                        tessellator.startDrawingQuads();
+                        tessellator.addVertexWithUV(0.0D, (double) height, -90.0D, 0.0D, 1.0D);
+                        tessellator.addVertexWithUV((double) width, (double) height, -90.0D, 1.0D, 1.0D);
+                        tessellator.addVertexWithUV((double) width, 0.0D, -90.0D, 1.0D, 0.0D);
+                        tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
+                        tessellator.draw();
+                        GL11.glDepthMask(true);
+                        GL11.glEnable(GL11.GL_DEPTH_TEST);
+                        GL11.glEnable(GL11.GL_ALPHA_TEST);
+                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                     }
                 }
             }
