@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
@@ -127,5 +128,7 @@ public class TransformerVurp extends TransformerCar
                 }
             }
         }
+        
+        player.addStat(TFAchievements.vurp, 1);
     }
 }

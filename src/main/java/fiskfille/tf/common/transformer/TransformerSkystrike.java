@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
@@ -65,5 +66,7 @@ public class TransformerSkystrike extends TransformerJet
                 }
             }
         }
+        
+        player.addStat(TFAchievements.skystrike, 1);
     }
 }
