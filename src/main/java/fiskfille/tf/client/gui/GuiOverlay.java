@@ -49,7 +49,7 @@ public class GuiOverlay extends Gui
     @SideOnly(Side.CLIENT)
     public void onRender(RenderGameOverlayEvent.Pre event)
     {
-        if(!event.isCanceled())
+        if (!event.isCanceled())
         {
             int width = event.resolution.getScaledWidth();
             int height = event.resolution.getScaledHeight();
@@ -85,14 +85,14 @@ public class GuiOverlay extends Gui
             
             int x = ((5 - stealthModeTimer) * 20) - 94;
             
-            if(hasSniper)
+            if (hasSniper)
             {
                 x = 6;
             }
             
             int y = 3;
             
-            if(!hasSniper)
+            if (!hasSniper)
             {
                 y = 30;
             }
@@ -100,7 +100,7 @@ public class GuiOverlay extends Gui
             //Charge Outline
             drawTexturedModalRect(x - 1, y, 0, 0, 102, 12);
             
-            if(hasSniper)
+            if (hasSniper)
             {
                 GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
             }
@@ -205,7 +205,7 @@ public class GuiOverlay extends Gui
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
             }
         }
-        else if(transformer instanceof TransformerVurp)
+        else if (transformer instanceof TransformerVurp)
         {
             ItemStack heldItem = player.getHeldItem();
             

@@ -101,20 +101,20 @@ public class MessageLaserShoot implements IMessage
                         boolean isCreative = from.capabilities.isCreativeMode;
                         boolean consumeItems = !isCreative || from.inventory.hasItem(shootItem) && message.consume;
                         
-                        if(!message.consume)
+                        if (!message.consume)
                         {
                             World world = from.worldObj;
                             
                             Entity entity = new EntityLaser(world, from);
                             
-                            if(TFDataManager.isInVehicleMode(from))
+                            if (TFDataManager.isInVehicleMode(from))
                             {
                                 entity.posY -= 0.8F;
                             }
                             
                             world.spawnEntityInWorld(entity);
                         }
-                        else if(consumeItems && !isCreative)
+                        else if (consumeItems && !isCreative)
                         {
                             from.inventory.consumeInventoryItem(shootItem);
                         }

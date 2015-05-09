@@ -199,32 +199,27 @@ public class ClientTickHandler
     {
         EntityPlayer player = mc.thePlayer;
         
-        try
+        Transformer transformer = TFHelper.getTransformer(player);
+        
+        float thirdPersonDistance = 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
+        
+        if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFKeyBinds.keyBindingViewFront.getIsKeyPressed())
         {
-            Transformer transformer = TFHelper.getTransformer(player);
-            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-            float thirdPersonDistance = 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
-            
-            if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFKeyBinds.keyBindingViewFront.getIsKeyPressed())
-            {
-                thirdPersonDistance = transformer.getZoomAmount(player);
-            }
-            else
-            {
-                thirdPersonDistance = transformer.getThirdPersonDistance(player);
-            }
-            
-            ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
-            
-            if (transformedPlayer != null)
-            {
-                float f = player.rotationYaw;
-                //            	ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
-            }
+            thirdPersonDistance = transformer.getZoomAmount(player);
         }
-        catch (Exception e)
+        else if (transformer != null)
         {
+            thirdPersonDistance = transformer.getThirdPersonDistance(player);
         }
+        
+        ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
+        
+        //            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+        //            if (transformedPlayer != null)
+        //            {
+        //                float f = player.rotationYaw;
+        //                //            	ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
+        //            }
     }
     
     public void onTickStart()

@@ -176,11 +176,11 @@ public class TFShootManager
     
     private void stealthForceShoot(Transformer transformer, EntityPlayer player)
     {
-        if(player == Minecraft.getMinecraft().thePlayer)
+        if (player == Minecraft.getMinecraft().thePlayer)
         {
-            if(transformer instanceof TransformerVurp)
+            if (transformer instanceof TransformerVurp)
             {
-                if(transformer.canShoot(player))
+                if (transformer.canShoot(player))
                 {
                     if (!laserFilling && laserCharge > 0)
                     {
@@ -243,7 +243,7 @@ public class TFShootManager
                         shootCooldown = 20;
                         reloading = true;
                     }
-                }    
+                }
             }
         }
     }
