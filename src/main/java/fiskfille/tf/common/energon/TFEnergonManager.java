@@ -10,9 +10,9 @@ public class TFEnergonManager
     public static Energon energon;
     public static Energon redEnergon;
     
-    public static void registerDefualtEnergonTypes()
+    public static void registerDefaultEnergonTypes()
     {
-        energon = new DefualtEnergon();
+        energon = new DefaultEnergon();
         redEnergon = new RedEnergon();
         
         TransformersAPI.registerEnergonType(energon);

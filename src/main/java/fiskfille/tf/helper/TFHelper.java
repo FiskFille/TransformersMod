@@ -101,4 +101,16 @@ public class TFHelper
         
         return null;
     }
+    
+    /**
+     * @param hex The color code to be converted
+     * @returns an integer array containing the RGB for specified hexadecimal
+     */
+    public static float[] hexToRGB(int hex)
+    {
+        float r = (float)((hex & 0xFF0000) >> 16) / 255F;
+        float g = (float)((hex & 0xFF00) >> 8) / 255F;
+        float b = (float)(hex & 0xFF) / 255F;
+    	return new float[] {r, g, b};
+    }
 }

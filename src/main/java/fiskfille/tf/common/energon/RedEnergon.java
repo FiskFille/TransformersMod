@@ -18,4 +18,10 @@ public class RedEnergon extends Energon
     {
         return TFItems.redEnergonCrystalPiece;
     }
+    
+    @Override
+    public int getColor()
+    {
+    	return 0xFF0000;
+    }
 }

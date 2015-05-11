@@ -8,4 +8,6 @@ public abstract class Energon
     public abstract Block getCrystal();
     
     public abstract Item getCrystalPiece();
+    
+    public abstract int getColor();
 }

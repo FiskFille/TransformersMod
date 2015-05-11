@@ -3,6 +3,8 @@ package fiskfille.tf.common.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.energon.DefaultEnergon;
+import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
@@ -22,8 +24,8 @@ public class TFBlocks
     {
         transformiumOre = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(10.0F).setResistance(1000.0F);
         displayPillar = new BlockDisplayPillar();
-        energonCrystal = new BlockEnergonCrystal();
-        redEnergonCrystal = new BlockRedEnergonCrystal();
+        energonCrystal = new BlockEnergonCrystal(new DefaultEnergon());
+        redEnergonCrystal = new BlockEnergonCrystal(new RedEnergon());
         energonCube = new BlockEnergonCube();
         transformiumStone = new BlockTransformiumStone();
         transformiumSeed = new BlockTransformiumSeed();

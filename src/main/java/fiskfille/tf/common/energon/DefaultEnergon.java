@@ -5,7 +5,7 @@ import fiskfille.tf.common.item.TFItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-public class DefualtEnergon extends Energon
+public class DefaultEnergon extends Energon
 {
     @Override
     public Block getCrystal()
@@ -17,5 +17,11 @@ public class DefualtEnergon extends Energon
     public Item getCrystalPiece()
     {
         return TFItems.energonCrystalPiece;
+    }
+    
+    @Override
+    public int getColor()
+    {
+    	return 0x0080FF;
     }
 }

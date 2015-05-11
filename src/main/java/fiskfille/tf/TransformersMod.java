@@ -78,7 +78,7 @@ public class TransformersMod
         TFAchievements.register();
         TFRecipes.registerRecipes();
         TFEntities.registerEntities();
-        TFEnergonManager.registerDefualtEnergonTypes();
+        TFEnergonManager.registerDefaultEnergonTypes();
         
         GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
         
