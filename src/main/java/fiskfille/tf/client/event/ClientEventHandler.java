@@ -159,13 +159,14 @@ public class ClientEventHandler
     
     @SubscribeEvent
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
-    {
+    {      
+        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
+        TFModelHelper.modelBipedMain = modelBipedMain;
+        
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
         boolean isClientPlayer = mc.thePlayer == player;
         float cameraYOffset = 0;
-        
-        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
         
         if(modelBipedMain != null)
         {
