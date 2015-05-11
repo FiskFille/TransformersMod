@@ -1,6 +1,7 @@
 ------Items------
 item.transformium.name=Transformium
 item.energon_crystal_piece.name=Energon Crystal Piece
+item.red_energon_crystal_piece.name=Red Energon Crystal Piece
 item.standard_engine.name=Standard Engine
 item.jet_turbine.name=Jet Turbine
 item.jet_thruster.name=Jet Thruster
@@ -57,6 +58,7 @@ item.flame_thrower.name=Cloudtrap's Flamethrower
 tile.display_pillar.name=Display Pillar
 tile.transformium_ore.name=Transformium Ore
 tile.energon_crystal.name=Energon Crystal
+tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed

@@ -9,11 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 
 public class RenderCrystal extends TileEntitySpecialRenderer
 {
-    private ResourceLocation texture = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     private ModelCrystal model;
     private ItemRenderer itemRenderer;
     
@@ -35,6 +35,12 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(0.0F, 0.5F, 1.0F, 0.5F);
         this.bindTexture(new ResourceLocation("textures/misc/underwater.png"));
+        
+        if(tile.getBlockType() == TFBlocks.redEnergonCrystal)
+        {
+            GL11.glColor4f(1.0F, 0F, 0F, 0.5F);
+        }
+        
         model.renderAll();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();

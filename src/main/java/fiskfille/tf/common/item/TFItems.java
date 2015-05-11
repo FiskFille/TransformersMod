@@ -60,6 +60,7 @@ public class TFItems
     
     public static Item displayVehicle;
     public static Item energonCrystalPiece;
+    public static Item redEnergonCrystalPiece;
     
     public static Item tankShell;
     public static Item missile;
@@ -116,6 +117,7 @@ public class TFItems
         
         displayVehicle = new ItemMiniVehicle();
         energonCrystalPiece = new Item();
+        redEnergonCrystalPiece = new Item();
         
         tankShell = new Item();
         missile = new Item().setFull3D();
@@ -169,6 +171,7 @@ public class TFItems
         
         TFItemRegistry.registerItem(displayVehicle, "Display Vehicle", modId);
         TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece", modId);
+        TFItemRegistry.registerItem(redEnergonCrystalPiece, "Red Energon Crystal Piece", modId);
         TFItemRegistry.registerItem(tankShell, "Tank Shell", modId);
         TFItemRegistry.registerItem(missile, "Missile", modId);
     }
