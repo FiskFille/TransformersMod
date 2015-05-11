@@ -4,16 +4,24 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -21,6 +29,11 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
@@ -102,7 +115,7 @@ public class ClientEventHandler
         EntityPlayer player = mc.thePlayer;
         
         ModelOffset offsets = TFModelHelper.getOffsets(player);
-
+        
         ItemStack bootsStack = player.getCurrentArmor(0);
         ItemStack legsStack = player.getCurrentArmor(1);
         ItemStack chestStack = player.getCurrentArmor(2);
@@ -152,6 +165,29 @@ public class ClientEventHandler
         boolean isClientPlayer = mc.thePlayer == player;
         float cameraYOffset = 0;
         
+        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
+        
+        if(modelBipedMain != null)
+        {
+            ItemStack helm = player.getCurrentArmor(3);
+            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
+            ItemStack chest = player.getCurrentArmor(2);
+            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
+            ItemStack pants = player.getCurrentArmor(1);
+            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
+            
+            modelBipedMain.bipedHead.showModel = !wearingTransformerHelm;
+            modelBipedMain.bipedHeadwear.showModel = !wearingTransformerHelm;
+            modelBipedMain.bipedEars.showModel = !wearingTransformerHelm;
+            
+            modelBipedMain.bipedBody.showModel = !wearingTransformerChest;
+            modelBipedMain.bipedRightArm.showModel = !wearingTransformerChest;
+            modelBipedMain.bipedLeftArm.showModel = !wearingTransformerChest;
+            
+            modelBipedMain.bipedLeftLeg.showModel = !wearingTransformerPants;
+            modelBipedMain.bipedRightLeg.showModel = !wearingTransformerPants;
+        }
+        
         if (transformer != null)
         {
             cameraYOffset = transformer.getCameraYOffset(player);
@@ -183,6 +219,22 @@ public class ClientEventHandler
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
         boolean isClientPlayer = mc.thePlayer == player;
+        
+        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
+        
+        if(modelBipedMain != null)
+        {
+            modelBipedMain.bipedHead.showModel = true;
+            modelBipedMain.bipedHeadwear.showModel = true;
+            modelBipedMain.bipedEars.showModel = true;
+            
+            modelBipedMain.bipedBody.showModel = true;
+            modelBipedMain.bipedRightArm.showModel = true;
+            modelBipedMain.bipedLeftArm.showModel = true;
+            
+            modelBipedMain.bipedLeftLeg.showModel = true;
+            modelBipedMain.bipedRightLeg.showModel = true;
+        }
         
         if (transformer != null)
         {
@@ -270,7 +322,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent event)
     {
-      
+        
     }
     //    TODO: Expand upon and re-implement this for 0.6.0 
     //    @SubscribeEvent

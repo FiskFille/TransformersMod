@@ -45,6 +45,7 @@ import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer
@@ -54,6 +55,7 @@ public class RenderCustomPlayer extends RenderPlayer
         super();
         this.mainModel = new ModelBipedTF();
         this.modelBipedMain = (ModelBiped) this.mainModel;
+        TFModelHelper.modelBipedMain = this.modelBipedMain;
     }
     
     protected void renderEquippedItems(AbstractClientPlayer player, float partialTicks)
