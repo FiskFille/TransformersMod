@@ -11,7 +11,9 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,6 +32,7 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
+import org.apache.http.client.ClientProtocolException;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.authlib.GameProfile;
@@ -44,12 +47,14 @@ import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
+import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
@@ -63,6 +68,8 @@ public class ClientEventHandler
     public static boolean prevViewBobbing;
     
     private Item prevHelm, prevChest, prevLegs, prevBoots;
+    
+    private RenderPlayer prevRenderPlayer;
     
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
@@ -463,6 +470,11 @@ public class ClientEventHandler
         Item chest = chestStack != null ? chestStack.getItem() : null; 
         Item helm = helmStack != null ? helmStack.getItem() : null; 
         
+        if(prevRenderPlayer != null)
+        {
+            RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
+        }
+        
         boolean armorChanged = false;
         
         if(boots != prevBoots)
@@ -497,6 +509,8 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {      
+        Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
+        
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
         TFModelHelper.modelBipedMain = modelBipedMain;
         
@@ -504,6 +518,8 @@ public class ClientEventHandler
         Transformer transformer = TFHelper.getTransformer(player);
         boolean isClientPlayer = mc.thePlayer == player;
         float cameraYOffset = 0;
+        
+        boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
         
         if(modelBipedMain != null)
         {
@@ -524,6 +540,15 @@ public class ClientEventHandler
             
             modelBipedMain.bipedLeftLeg.showModel = !wearingTransformerPants;
             modelBipedMain.bipedRightLeg.showModel = !wearingTransformerPants;
+            
+            if(!customRenderer)
+            {
+                if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants)
+                {
+                    prevRenderPlayer = (RenderPlayer) entityRenderObject;
+                    RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
+                }
+            }
         }
         
         if (transformer != null)
