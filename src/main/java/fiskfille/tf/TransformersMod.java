@@ -13,6 +13,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.TFEvents;
 import fiskfille.tf.common.item.TFItems;
@@ -77,6 +78,7 @@ public class TransformersMod
         TFAchievements.register();
         TFRecipes.registerRecipes();
         TFEntities.registerEntities();
+        TFEnergonManager.registerDefualtEnergonTypes();
         
         GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
         
