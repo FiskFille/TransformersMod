@@ -24,8 +24,6 @@ public class ModelBipedTF extends ModelChildBase.Biped
     
     public void render(Entity entity, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float partialTicks)
     {
-        TFModelHelper.modelBipedMain = this;
-        
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, partialTicks, entity);
         
         if (entity instanceof EntityPlayer)
@@ -41,23 +39,23 @@ public class ModelBipedTF extends ModelChildBase.Biped
             this.bipedHead.rotationPointZ = offsets.headOffsetZ;
             this.bipedHeadwear.rotationPointZ = offsets.headOffsetZ;
             
-            ItemStack helm = player.getCurrentArmor(3);
-            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
-            ItemStack chest = player.getCurrentArmor(2);
-            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
-            ItemStack pants = player.getCurrentArmor(1);
-            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
-            
-            bipedHead.showModel = !wearingTransformerHelm;
-            bipedHeadwear.showModel = !wearingTransformerHelm;
-            bipedEars.showModel = !wearingTransformerHelm;
-            
-            bipedBody.showModel = !wearingTransformerChest;
-            bipedRightArm.showModel = !wearingTransformerChest;
-            bipedLeftArm.showModel = !wearingTransformerChest;
-            
-            bipedLeftLeg.showModel = !wearingTransformerPants;
-            bipedRightLeg.showModel = !wearingTransformerPants;
+//            ItemStack helm = player.getCurrentArmor(3);
+//            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
+//            ItemStack chest = player.getCurrentArmor(2);
+//            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
+//            ItemStack pants = player.getCurrentArmor(1);
+//            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
+//            
+//            bipedHead.showModel = !wearingTransformerHelm;
+//            bipedHeadwear.showModel = !wearingTransformerHelm;
+//            bipedEars.showModel = !wearingTransformerHelm;
+//            
+//            bipedBody.showModel = !wearingTransformerChest;
+//            bipedRightArm.showModel = !wearingTransformerChest;
+//            bipedLeftArm.showModel = !wearingTransformerChest;
+//            
+//            bipedLeftLeg.showModel = !wearingTransformerPants;
+//            bipedRightLeg.showModel = !wearingTransformerPants;
             
             if (this.isChild)
             {
