@@ -62,6 +62,7 @@ tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed
+tile.energon_processor.name=Energon Processor
 
 -----Tab------
 itemGroup.Transformers=Transformers
@@ -70,7 +71,7 @@ itemGroup.Transformers=Transformers
 stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
 stats.laser_charge.name=Laser Charge
-gui.display_pillar.name=Display Pillar
+gui.energon_processor=Energon Processor
 
 ------Achievements------
 achievement.tf.shoot_missile=Directed by Michael Bay

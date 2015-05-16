@@ -7,7 +7,7 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 /**
- * @author gegy1000
+ * @author gegy1000, FiskFille
  */
 public class TransformersAPI
 {
@@ -62,5 +62,22 @@ public class TransformersAPI
     public static List<Transformer> getTransformers()
     {
         return transformers;
+    }
+    
+    /**
+     * @param name The name of the energon type 
+     * @return an instance of an energon type with the specified name 
+     */
+    public static Energon getEnergonTypeByName(String name)
+    {
+    	for (Energon energon : energonTypes)
+    	{
+    		if (energon.getId().equals(name))
+    		{
+    			return energon;
+    		}
+    	}
+    	
+    	return null;
     }
 }

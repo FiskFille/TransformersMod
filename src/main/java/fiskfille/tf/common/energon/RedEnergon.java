@@ -24,4 +24,10 @@ public class RedEnergon extends Energon
     {
     	return 0xFF0000;
     }
+    
+    @Override
+    public String getId()
+    {
+    	return "red";
+    }
 }

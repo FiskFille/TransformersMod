@@ -11,6 +11,7 @@ public class TFRecipes
 {
     public static void registerRecipes()
     {
+    	PowerManager.load();
         addSmelting();
         addDisplayRecipes();
         addWeaponRecipes();

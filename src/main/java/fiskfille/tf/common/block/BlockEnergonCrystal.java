@@ -23,10 +23,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 
-public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider
+public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider, IEnergon
 {
     private Random rand = new Random();
     private Energon energonType;
@@ -46,6 +47,11 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     public Energon getEnergonType()
     {
     	return energonType;
+    }
+    
+    public int getMass()
+    {
+    	return 10;
     }
     
     protected boolean canSilkHarvest()

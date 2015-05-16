@@ -5,6 +5,8 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.energon.DefaultEnergon;
+import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
 import fiskfille.tf.common.item.armor.ItemPurgeArmor;
 import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
@@ -116,8 +118,8 @@ public class TFItems
         transformiumDetector = new ItemTransformiumDetector();
         
         displayVehicle = new ItemMiniVehicle();
-        energonCrystalPiece = new Item();
-        redEnergonCrystalPiece = new Item();
+        energonCrystalPiece = new ItemEnergon(new DefaultEnergon());
+        redEnergonCrystalPiece = new ItemEnergon(new RedEnergon());
         
         tankShell = new Item();
         missile = new Item().setFull3D();

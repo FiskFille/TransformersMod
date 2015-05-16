@@ -8,6 +8,7 @@ import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
 public class TFBlocks
@@ -19,6 +20,7 @@ public class TFBlocks
     public static Block energonCube;
     public static Block transformiumStone;
     public static Block transformiumSeed;
+    public static Block energonProcessor;
     
     public void register()
     {
@@ -29,6 +31,7 @@ public class TFBlocks
         energonCube = new BlockEnergonCube();
         transformiumStone = new BlockTransformiumStone();
         transformiumSeed = new BlockTransformiumSeed();
+        energonProcessor = new BlockEnergonProcessor();
         
         String modId = TransformersMod.modid;
         
@@ -39,5 +42,6 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube", modId);
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone", modId);
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
+        TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class, modId);
     }
 }

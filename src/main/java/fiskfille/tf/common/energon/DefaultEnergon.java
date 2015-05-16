@@ -24,4 +24,10 @@ public class DefaultEnergon extends Energon
     {
     	return 0x0080FF;
     }
+    
+    @Override
+    public String getId()
+    {
+    	return "default";
+    }
 }
