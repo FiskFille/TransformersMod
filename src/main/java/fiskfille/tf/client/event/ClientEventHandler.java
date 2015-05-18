@@ -8,13 +8,15 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
+<<<<<<< HEAD
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
+=======
+>>>>>>> parent of 8299b17... Body Hiding with Events
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -22,20 +24,26 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+<<<<<<< HEAD
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
+=======
+>>>>>>> parent of 8299b17... Body Hiding with Events
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
 import org.apache.http.client.ClientProtocolException;
 import org.lwjgl.opengl.GL11;
+<<<<<<< HEAD
 
 import com.mojang.authlib.GameProfile;
+=======
+>>>>>>> parent of 8299b17... Body Hiding with Events
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -43,9 +51,12 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+<<<<<<< HEAD
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+=======
+>>>>>>> parent of 8299b17... Body Hiding with Events
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
 import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
@@ -460,7 +471,7 @@ public class ClientEventHandler
         EntityPlayer player = mc.thePlayer;
         
         ModelOffset offsets = TFModelHelper.getOffsets(player);
-        
+
         ItemStack bootsStack = player.getCurrentArmor(0);
         ItemStack legsStack = player.getCurrentArmor(1);
         ItemStack chestStack = player.getCurrentArmor(2);
@@ -520,6 +531,7 @@ public class ClientEventHandler
         boolean isClientPlayer = mc.thePlayer == player;
         float cameraYOffset = 0;
         
+<<<<<<< HEAD
         boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
         
         if(modelBipedMain != null)
@@ -552,6 +564,8 @@ public class ClientEventHandler
             }
         }
         
+=======
+>>>>>>> parent of 8299b17... Body Hiding with Events
         if (transformer != null)
         {
             cameraYOffset = transformer.getCameraYOffset(player);
@@ -583,22 +597,6 @@ public class ClientEventHandler
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
         boolean isClientPlayer = mc.thePlayer == player;
-        
-        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
-        
-        if(modelBipedMain != null)
-        {
-            modelBipedMain.bipedHead.showModel = true;
-            modelBipedMain.bipedHeadwear.showModel = true;
-            modelBipedMain.bipedEars.showModel = true;
-            
-            modelBipedMain.bipedBody.showModel = true;
-            modelBipedMain.bipedRightArm.showModel = true;
-            modelBipedMain.bipedLeftArm.showModel = true;
-            
-            modelBipedMain.bipedLeftLeg.showModel = true;
-            modelBipedMain.bipedRightLeg.showModel = true;
-        }
         
         if (transformer != null)
         {
@@ -686,7 +684,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent event)
     {
-        
+      
     }
     //    TODO: Expand upon and re-implement this for 0.6.0 
     //    @SubscribeEvent
