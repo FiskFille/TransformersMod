@@ -9,7 +9,6 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.playerdata.TFPlayerData;
 
 public class MessageBroadcastState implements IMessage
 {

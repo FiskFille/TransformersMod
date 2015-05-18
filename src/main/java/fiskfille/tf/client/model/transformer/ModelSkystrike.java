@@ -1,6 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

@@ -1,7 +1,5 @@
 package fiskfille.tf.helper;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,8 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+
+import org.lwjgl.input.Mouse;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.MessageVehicleShoot;

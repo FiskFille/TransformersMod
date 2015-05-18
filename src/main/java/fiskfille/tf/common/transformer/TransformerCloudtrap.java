@@ -1,18 +1,8 @@
 package fiskfille.tf.common.transformer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageCloudtrapJetpack;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 

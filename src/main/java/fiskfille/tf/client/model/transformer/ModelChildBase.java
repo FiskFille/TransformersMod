@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelChildBase
 {

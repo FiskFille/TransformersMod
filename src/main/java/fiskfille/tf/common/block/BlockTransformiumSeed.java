@@ -11,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
@@ -60,7 +59,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         
         if (entity instanceof EntityPlayer)
         {
-        	((EntityPlayer)entity).addStat(TFAchievements.detonateSeed, 1);
+            ((EntityPlayer) entity).addStat(TFAchievements.detonateSeed, 1);
         }
     }
     

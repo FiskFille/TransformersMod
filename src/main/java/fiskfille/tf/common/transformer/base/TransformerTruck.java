@@ -2,28 +2,18 @@ package fiskfille.tf.common.transformer.base;
 
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
-import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.entity.EntityMissile;
-import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.network.MessageVehicleNitro;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.config.TFConfig;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
 
 /**
  * @author gegy1000

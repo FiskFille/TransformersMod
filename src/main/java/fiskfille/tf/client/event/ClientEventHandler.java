@@ -32,7 +32,6 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
-import org.apache.http.client.ClientProtocolException;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.authlib.GameProfile;
@@ -124,7 +123,7 @@ public class ClientEventHandler
             event.setCanceled(true);
         }
         
-        if(!event.isCanceled())
+        if (!event.isCanceled())
         {
             if (TFHelper.getTransformerFromArmor(player, 2) != null)
             {
@@ -132,7 +131,7 @@ public class ClientEventHandler
                 
                 ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
                 
-                if(modelBipedMain != null)
+                if (modelBipedMain != null)
                 {
                     float partialTicks = event.partialRenderTick;
                     
@@ -466,29 +465,29 @@ public class ClientEventHandler
         ItemStack chestStack = player.getCurrentArmor(2);
         ItemStack helmStack = player.getCurrentArmor(3);
         
-        Item boots = bootsStack != null ? bootsStack.getItem() : null; 
-        Item legs = legsStack != null ? legsStack.getItem() : null; 
-        Item chest = chestStack != null ? chestStack.getItem() : null; 
-        Item helm = helmStack != null ? helmStack.getItem() : null; 
+        Item boots = bootsStack != null ? bootsStack.getItem() : null;
+        Item legs = legsStack != null ? legsStack.getItem() : null;
+        Item chest = chestStack != null ? chestStack.getItem() : null;
+        Item helm = helmStack != null ? helmStack.getItem() : null;
         
         boolean armorChanged = false;
         
-        if(boots != prevBoots)
+        if (boots != prevBoots)
         {
             prevBoots = boots;
             armorChanged = true;
         }
-        if(chest != prevChest)
+        if (chest != prevChest)
         {
             prevChest = chest;
             armorChanged = true;
         }
-        if(legs != prevLegs)
+        if (legs != prevLegs)
         {
             prevLegs = legs;
             armorChanged = true;
         }
-        if(helm != prevHelm)
+        if (helm != prevHelm)
         {
             prevHelm = helm;
             armorChanged = true;
@@ -501,9 +500,9 @@ public class ClientEventHandler
             offsets.headOffsetZ = 0;
         }
         
-        if(player == mc.thePlayer)
+        if (player == mc.thePlayer)
         {
-            if(prevRenderPlayer != null)
+            if (prevRenderPlayer != null)
             {
                 RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
             }
@@ -512,7 +511,7 @@ public class ClientEventHandler
     
     @SubscribeEvent
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
-    {      
+    {
         Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
         
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
@@ -549,9 +548,9 @@ public class ClientEventHandler
             modelBipedMain.bipedLeftLeg.showModel = !wearingTransformerPants;
             modelBipedMain.bipedRightLeg.showModel = !wearingTransformerPants;
             
-            if(!customRenderer && isClientPlayer)
+            if (!customRenderer && isClientPlayer)
             {
-                if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
+                if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
                 {
                     prevRenderPlayer = (RenderPlayer) entityRenderObject;
                     RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
@@ -593,7 +592,7 @@ public class ClientEventHandler
         
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
         
-        if(modelBipedMain != null)
+        if (modelBipedMain != null)
         {
             modelBipedMain.bipedHead.showModel = true;
             modelBipedMain.bipedHeadwear.showModel = true;

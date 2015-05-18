@@ -21,7 +21,6 @@ public class TFAchievements
     public static Achievement subwoofer = new Achievement("achievement.tf.subwoofer", "tf.subwoofer", -7, -2, TFItems.subwooferHelmet, null).setSpecial().registerStat();
     public static Achievement sharpshooter = new Achievement("achievement.tf.sharpshooter", "tf.sharpshooter", 6, 1, TFItems.vurpsSniper, firstMissile).setSpecial().registerStat();
     
-    
     public static AchievementPage transformersPage = new AchievementPage("Transformers", transformersMod, transformium, firstMissile, transform, donate, tracks, skystrike, purge, vurp, subwoofer, detonateSeed, sharpshooter);
     
     public static void register()

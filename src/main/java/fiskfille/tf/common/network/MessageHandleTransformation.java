@@ -1,18 +1,10 @@
 package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.gui.TFGuiFactory;
-import fiskfille.tf.common.event.PlayerTransformEvent;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.playerdata.TFPlayerData;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.TFHelper;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

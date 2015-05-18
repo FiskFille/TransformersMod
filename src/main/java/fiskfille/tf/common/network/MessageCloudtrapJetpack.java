@@ -1,17 +1,11 @@
 package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.tick.ClientTickHandler;
 import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

@@ -2,7 +2,6 @@ package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.playerdata.TFPlayerData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

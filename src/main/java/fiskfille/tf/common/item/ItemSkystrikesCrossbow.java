@@ -2,7 +2,6 @@ package fiskfille.tf.common.item;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,12 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.entity.EntityFlamethrowerFire;
 import fiskfille.tf.common.entity.EntityLaserBeam;
 import fiskfille.tf.helper.TFHelper;
 

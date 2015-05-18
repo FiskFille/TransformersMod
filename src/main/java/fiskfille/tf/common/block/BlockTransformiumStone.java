@@ -6,7 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
 
 public class BlockTransformiumStone extends BlockBasic
 {

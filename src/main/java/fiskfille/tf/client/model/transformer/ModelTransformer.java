@@ -2,19 +2,11 @@ package fiskfille.tf.client.model.transformer;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.entity.EntityTransformer;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.TransformerPurge;
-import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelTransformer extends MowzieModelBase
 {

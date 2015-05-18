@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.TFItems;
 
 public class BlockEnergonCube extends BlockBasic //BlockIce
