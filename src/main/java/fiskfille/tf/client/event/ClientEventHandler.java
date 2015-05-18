@@ -446,7 +446,6 @@ public class ClientEventHandler
                         
                         GL11.glPopMatrix();
                     }
-                    net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Post(player, event.renderer, event.partialRenderTick));
                 }
             }
         }
