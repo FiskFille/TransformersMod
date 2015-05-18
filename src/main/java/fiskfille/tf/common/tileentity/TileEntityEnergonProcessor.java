@@ -12,6 +12,9 @@ import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 import com.google.common.collect.Maps;
@@ -43,110 +46,110 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     
     public void updateEntity()
     {
-    	if (burnTime > 0)
-    	{
-    		animationTimer += 0.001F;
-    		animationTimer *= 1.05F;
-    	}
-    	else
-    	{
-    		animationTimer *= 0.95F;
-    	}
-    	
-    	if (animationTimer > 1.0F)
-    	{
-    		animationTimer = 1.0F;
-    	}
-    	
-    	
-//    	if (!worldObj.isRemote)
-    	{
-    		ItemStack power = itemStacks[0];
-    		ItemStack crystal = itemStacks[1];
-    		ItemStack container = itemStacks[2];
-    		
-    		if (powerTime > 0)
-    		{
-    			--powerTime;
-    		}
-    		
-    		if (powerTime <= 0 && power != null && isItemValidForSlot(0, power) && canBurnCrystal(crystal))
-    		{
-    			currentMaxPowerTime = powerTime = PowerManager.getPowerSourceAmount(power) + 2;
-    			decrStackSize(0, 1);
-    		}
-    		
-    		if (powerTime > 0 && canBurnCrystal(crystal))
-    		{
-    			if (burnTime < 200)
-    			{
-    				++burnTime;
-    			}
-    			else if (burnTime >= 200)
-    			{
-    				IEnergon ienergon = (IEnergon)(crystal.getItem() instanceof ItemBlock ? Block.getBlockFromItem(crystal.getItem()) : crystal.getItem());
-    				
-    				if (liquidColor == 0xffffff)
-    				{
-    					liquidColor = ienergon.getEnergonType().getColor();
-    				}
-    				
-    				int num = energonContentMap.get(ienergon.getEnergonType().getId()) == null ? 0 : energonContentMap.get(ienergon.getEnergonType().getId());
-    				energonContentMap.put(ienergon.getEnergonType().getId(), num + ienergon.getMass());
-    				liquidAmount += ienergon.getMass();
-    				
-    				burnTime = 0;
-    				decrStackSize(1, 1);
-    			}
-    		}
-    		else if (burnTime > 0)
-    		{
-    			--burnTime;
-    		}
-    		
-    		if (liquidAmount > 0 && container != null && container.getItem() instanceof ItemBucket)
-    		{
-    			if (fillTime < 100)
-    			{
-    				++fillTime;
-    			}
-    			else if (fillTime >= 100)
-    			{
-    				
-    			}
-    		}
-    		else if (fillTime > 0)
-    		{
-    			--fillTime;
-    		}
-    		
-    		
-    		for (Map.Entry<String, Integer> e : energonContentMap.entrySet())
-    		{
-    			for (Energon energon : TransformersAPI.getEnergonTypes())
-    			{
-    				if (energon.getId().equals(e.getKey()))
-    				{
-    					liquidColor = TFHelper.blend(liquidColor, energon.getColor(), 0.5F);
-    				}
-    			}
-    		}
-    	}
+        if (burnTime > 0)
+        {
+            animationTimer += 0.001F;
+            animationTimer *= 1.05F;
+        }
+        else
+        {
+            animationTimer *= 0.95F;
+        }
+        
+        if (animationTimer > 1.0F)
+        {
+            animationTimer = 1.0F;
+        }
+        
+        if (!worldObj.isRemote)
+        {
+            ItemStack power = itemStacks[0];
+            ItemStack crystal = itemStacks[1];
+            ItemStack container = itemStacks[2];
+            
+            if (powerTime > 0)
+            {
+                --powerTime;
+            }
+            
+            if (powerTime <= 0 && power != null && isItemValidForSlot(0, power) && canBurnCrystal(crystal))
+            {
+                currentMaxPowerTime = powerTime = PowerManager.getPowerSourceAmount(power) + 2;
+                decrStackSize(0, 1);
+                markDirty();
+            }
+            
+            if (powerTime > 0 && canBurnCrystal(crystal))
+            {
+                if (burnTime < 200)
+                {
+                    ++burnTime;
+                }
+                else if (burnTime >= 200)
+                {
+                    IEnergon ienergon = (IEnergon)(crystal.getItem() instanceof ItemBlock ? Block.getBlockFromItem(crystal.getItem()) : crystal.getItem());
+                    
+                    if (liquidColor == 0xffffff)
+                    {
+                        liquidColor = ienergon.getEnergonType().getColor();
+                    }
+
+                    int num = energonContentMap.get(ienergon.getEnergonType().getId()) == null ? 0 : energonContentMap.get(ienergon.getEnergonType().getId());
+                    energonContentMap.put(ienergon.getEnergonType().getId(), num + ienergon.getMass());
+                    liquidAmount += ienergon.getMass();
+                    
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    burnTime = 0;
+                    decrStackSize(1, 1);
+                }
+            }
+            else if (burnTime > 0)
+            {
+                --burnTime;
+            }
+            
+            if (liquidAmount > 0 && container != null && container.getItem() instanceof ItemBucket)
+            {
+                if (fillTime < 100)
+                {
+                    ++fillTime;
+                }
+                else if (fillTime >= 100)
+                {
+                    
+                }
+            }
+            else if (fillTime > 0)
+            {
+                --fillTime;
+            }
+            
+            for (Map.Entry<String, Integer> e : energonContentMap.entrySet())
+            {
+                for (Energon energon : TransformersAPI.getEnergonTypes())
+                {
+                    if (energon.getId().equals(e.getKey()))
+                    {
+                        liquidColor = TFHelper.blend(liquidColor, energon.getColor(), 0.5F);
+                    }
+                }
+            }
+        }
     }
     
     public boolean canBurnCrystal(ItemStack itemstack)
     {
-    	if (itemstack != null && isItemValidForSlot(1, itemstack))
-		{
-			IEnergon ienergon = (IEnergon)(itemstack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(itemstack.getItem()) : itemstack.getItem());
-			
-			if (liquidAmount + ienergon.getMass() <= 52)
-			{
-				return true;
-			}
-		}
-    	
-    	return false;
+        if (itemstack != null && isItemValidForSlot(1, itemstack))
+        {
+            IEnergon ienergon = (IEnergon)(itemstack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(itemstack.getItem()) : itemstack.getItem());
+            
+            if (liquidAmount + ienergon.getMass() <= 52)
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public int getSizeInventory()
@@ -174,12 +177,12 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
             else
             {
                 itemstack = this.itemStacks[slot].splitStack(amount);
-
+                
                 if (this.itemStacks[slot].stackSize == 0)
                 {
                     this.itemStacks[slot] = null;
                 }
-
+                
                 return itemstack;
             }
         }
@@ -189,12 +192,12 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         }
     }
     
-    public ItemStack getStackInSlotOnClosing(int p_70304_1_)
+    public ItemStack getStackInSlotOnClosing(int slot)
     {
-        if (this.itemStacks[p_70304_1_] != null)
+        if (this.itemStacks[slot] != null)
         {
-            ItemStack itemstack = this.itemStacks[p_70304_1_];
-            this.itemStacks[p_70304_1_] = null;
+            ItemStack itemstack = this.itemStacks[slot];
+            this.itemStacks[slot] = null;
             return itemstack;
         }
         else
@@ -206,7 +209,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         this.itemStacks[slot] = itemstack;
-
+        
         if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
         {
             itemstack.stackSize = this.getInventoryStackLimit();
@@ -222,26 +225,26 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     {
         return this.inventoryName != null && this.inventoryName.length() > 0;
     }
-
+    
     public void func_145951_a(String p_145951_1_)
     {
         this.inventoryName = p_145951_1_;
     }
-
+    
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
         NBTTagList nbttaglist = nbt.getTagList("Items", 10);
         this.itemStacks = new ItemStack[this.getSizeInventory()];
-
+        
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            byte b0 = nbttagcompound1.getByte("Slot");
-
-            if (b0 >= 0 && b0 < this.itemStacks.length)
+            byte slot = nbttagcompound1.getByte("Slot");
+            
+            if (slot >= 0 && slot < this.itemStacks.length)
             {
-                this.itemStacks[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+                this.itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
         
@@ -259,22 +262,27 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         }
     }
     
-    public Map readMapFromString(String s)
+    public Map readMapFromString(String mapString)
     {
-    	s = s.replace("{", "").replace("}", "");
-    	String[] astring = s.split(", ");
-    	Map map = Maps.newHashMap(); 
-    	
-    	for (String s1 : astring)
-    	{
-    		String key = s1.split("=")[0];
-    		String value = s1.split("=")[1];
-    		map.put(key, Integer.valueOf(value));
-    	}
-    	
-    	return map;
+        mapString = mapString.replace("{", "").replace("}", "");
+        String[] entries = mapString.split(", ");
+        Map map = Maps.newHashMap(); 
+        
+        for (String entry : entries)
+        {
+            String[] keyValue = entry.split("=");
+            
+            if(keyValue.length == 2)
+            {
+                String key = keyValue[0];
+                String value = keyValue[1];
+                map.put(key, Integer.valueOf(value));
+            }
+        }
+        
+        return map;
     }
-
+    
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
@@ -285,7 +293,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         nbt.setInteger("FillTime", fillTime);
         nbt.setInteger("MaxPowerTime", currentMaxPowerTime);
         NBTTagList nbttaglist = new NBTTagList();
-
+        
         for (int i = 0; i < this.itemStacks.length; ++i)
         {
             if (this.itemStacks[i] != null)
@@ -311,18 +319,18 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         return 64;
     }
     
-    public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+    public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : p_70300_1_.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
-
+    
     public void openInventory() {}
-
+    
     public void closeInventory() {}
     
-    public boolean isItemValidForSlot(int slot, ItemStack itemstack)
+    public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot == 0 ? PowerManager.isPowerSource(itemstack) : (slot == 1 ? (itemstack.getItem() instanceof IEnergon || Block.getBlockFromItem(itemstack.getItem()) instanceof IEnergon) : true);
+        return slot == 0 ? PowerManager.isPowerSource(stack) : (slot == 1 ? (stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon) : true);
     }
     
     public int[] getAccessibleSlotsFromSide(int side)
@@ -330,13 +338,28 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         return side == 0 ? slotsBottom : (side == 1 ? slotsTop : slotsSides);
     }
     
-    public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_)
+    public boolean canInsertItem(int slot, ItemStack stack, int p_102007_3_)
     {
-        return this.isItemValidForSlot(p_102007_1_, p_102007_2_);
+        return this.isItemValidForSlot(slot, stack);
     }
     
-    public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_)
+    public boolean canExtractItem(int slot, ItemStack stack, int p_102008_3_)
     {
-        return p_102008_3_ != 0 || p_102008_1_ != 1 || p_102008_2_.getItem() == Items.bucket;
+        return p_102008_3_ != 0 || slot != 1 || stack.getItem() == Items.bucket;
+    }
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound syncData = new NBTTagCompound();
+        this.writeToNBT(syncData);
+        
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
+    }
+    
+    @Override
+    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
+    {
+        this.readFromNBT(packet.func_148857_g());
     }
 }
