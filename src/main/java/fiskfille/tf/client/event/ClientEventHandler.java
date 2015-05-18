@@ -5,6 +5,9 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,12 +25,14 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
+import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
@@ -41,6 +46,8 @@ public class ClientEventHandler
     public static boolean prevViewBobbing;
     
     private Item prevHelm, prevChest, prevLegs, prevBoots;
+    
+    private RenderPlayer prevRenderPlayer;
     
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
@@ -102,7 +109,7 @@ public class ClientEventHandler
         EntityPlayer player = mc.thePlayer;
         
         ModelOffset offsets = TFModelHelper.getOffsets(player);
-
+        
         ItemStack bootsStack = player.getCurrentArmor(0);
         ItemStack legsStack = player.getCurrentArmor(1);
         ItemStack chestStack = player.getCurrentArmor(2);
@@ -142,8 +149,16 @@ public class ClientEventHandler
             offsets.headOffsetY = 0;
             offsets.headOffsetZ = 0;
         }
+
+        if(player == mc.thePlayer)
+        {
+            if(prevRenderPlayer != null)
+            {
+                RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
+            }
+        }
     }
-    
+
     @SubscribeEvent
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {
@@ -152,9 +167,33 @@ public class ClientEventHandler
         boolean isClientPlayer = mc.thePlayer == player;
         float cameraYOffset = 0;
         
+        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
+        
         if (transformer != null)
         {
             cameraYOffset = transformer.getCameraYOffset(player);
+        }
+        
+        Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
+        
+        if (isClientPlayer)
+        {
+            TFModelHelper.modelBipedMain = modelBipedMain;
+        }
+        
+        boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
+        
+        if(!customRenderer && isClientPlayer)
+        {
+            boolean wearingTransformerHelm = player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem() instanceof ItemTransformerArmor;
+            boolean wearingTransformerChest = player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem() instanceof ItemTransformerArmor;
+            boolean wearingTransformerPants = player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem() instanceof ItemTransformerArmor;
+            
+            if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
+            {
+                prevRenderPlayer = (RenderPlayer) entityRenderObject;
+                RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
+            }
         }
         
         if (isClientPlayer && cameraYOffset != 0)
@@ -270,7 +309,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent event)
     {
-      
+        
     }
     //    TODO: Expand upon and re-implement this for 0.6.0 
     //    @SubscribeEvent

@@ -24,8 +24,6 @@ public class ModelBipedTF extends ModelChildBase.Biped
     
     public void render(Entity entity, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float partialTicks)
     {
-        TFModelHelper.modelBipedMain = this;
-        
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, partialTicks, entity);
         
         if (entity instanceof EntityPlayer)
