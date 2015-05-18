@@ -1,5 +1,7 @@
 package fiskfille.tf.client.event;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.block.Block;
@@ -66,7 +68,10 @@ public class ClientEventHandler
     
     public static boolean prevViewBobbing;
     
-    private Item prevHelm, prevChest, prevLegs, prevBoots;
+    private Map<EntityPlayer, Item> prevHelm = new HashMap<EntityPlayer, Item>();
+    private Map<EntityPlayer, Item> prevChest = new HashMap<EntityPlayer, Item>();
+    private Map<EntityPlayer, Item> prevLegs = new HashMap<EntityPlayer, Item>();
+    private Map<EntityPlayer, Item> prevBoots = new HashMap<EntityPlayer, Item>();
     
     private RenderPlayer prevRenderPlayer;
     
@@ -456,6 +461,8 @@ public class ClientEventHandler
     {
         //After rendered everything
         
+//        System.out.println(mc.thePlayer.getCommandSenderName() + ":" + event.entityPlayer.getCommandSenderName());
+        
         EntityPlayer player = event.entityPlayer;
         
         ModelOffset offsets = TFModelHelper.getOffsets(player);
@@ -472,24 +479,24 @@ public class ClientEventHandler
         
         boolean armorChanged = false;
         
-        if (boots != prevBoots)
+        if (boots != prevBoots.get(player))
         {
-            prevBoots = boots;
+            prevBoots.put(player, boots);
             armorChanged = true;
         }
-        if (chest != prevChest)
+        if (chest != prevChest.get(player))
         {
-            prevChest = chest;
+            prevChest.put(player, chest);
             armorChanged = true;
         }
-        if (legs != prevLegs)
+        if (legs != prevLegs.get(player))
         {
-            prevLegs = legs;
+            prevLegs.put(player, legs);
             armorChanged = true;
         }
-        if (helm != prevHelm)
+        if (helm != prevHelm.get(player))
         {
-            prevHelm = helm;
+            prevHelm.put(player, helm);
             armorChanged = true;
         }
         
