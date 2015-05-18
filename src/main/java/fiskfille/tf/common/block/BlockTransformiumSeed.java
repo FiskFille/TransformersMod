@@ -60,7 +60,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         
         if (entity instanceof EntityPlayer)
         {
-        	((EntityPlayer)entity).addStat(TFAchievements.detonateSeed, 1);
+            ((EntityPlayer) entity).addStat(TFAchievements.detonateSeed, 1);
         }
     }
     

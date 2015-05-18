@@ -115,50 +115,50 @@ public class ClientEventHandler
         ItemStack chestStack = player.getCurrentArmor(2);
         ItemStack helmStack = player.getCurrentArmor(3);
         
-        Item boots = bootsStack != null ? bootsStack.getItem() : null; 
-        Item legs = legsStack != null ? legsStack.getItem() : null; 
-        Item chest = chestStack != null ? chestStack.getItem() : null; 
-        Item helm = helmStack != null ? helmStack.getItem() : null; 
+        Item boots = bootsStack != null ? bootsStack.getItem() : null;
+        Item legs = legsStack != null ? legsStack.getItem() : null;
+        Item chest = chestStack != null ? chestStack.getItem() : null;
+        Item helm = helmStack != null ? helmStack.getItem() : null;
         
         boolean armorChanged = false;
         
-        if(boots != prevBoots)
+        if (boots != prevBoots)
         {
             prevBoots = boots;
             armorChanged = true;
         }
-        if(chest != prevChest)
+        if (chest != prevChest)
         {
             prevChest = chest;
             armorChanged = true;
         }
-        if(legs != prevLegs)
+        if (legs != prevLegs)
         {
             prevLegs = legs;
             armorChanged = true;
         }
-        if(helm != prevHelm)
+        if (helm != prevHelm)
         {
             prevHelm = helm;
             armorChanged = true;
         }
         
-        if(armorChanged)
+        if (armorChanged)
         {
             offsets.headOffsetX = 0;
             offsets.headOffsetY = 0;
             offsets.headOffsetZ = 0;
         }
-
-        if(player == mc.thePlayer)
+        
+        if (player == mc.thePlayer)
         {
-            if(prevRenderPlayer != null)
+            if (prevRenderPlayer != null)
             {
                 RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {
@@ -183,13 +183,13 @@ public class ClientEventHandler
         
         boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
         
-        if(!customRenderer && isClientPlayer)
+        if (!customRenderer && isClientPlayer)
         {
             boolean wearingTransformerHelm = player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem() instanceof ItemTransformerArmor;
             boolean wearingTransformerChest = player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem() instanceof ItemTransformerArmor;
             boolean wearingTransformerPants = player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem() instanceof ItemTransformerArmor;
             
-            if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
+            if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
             {
                 prevRenderPlayer = (RenderPlayer) entityRenderObject;
                 RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
