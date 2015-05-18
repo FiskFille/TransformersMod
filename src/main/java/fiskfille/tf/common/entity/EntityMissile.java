@@ -74,12 +74,12 @@ public class EntityMissile extends EntityThrowable implements IEntityAdditionalS
                 
                 if (mop.entityHit instanceof EntityBat && getThrower() instanceof EntityPlayer)
                 {
-                    EntityPlayer player = (EntityPlayer) getThrower();
-                    
-                    if (player.getDistanceSqToEntity(mop.entityHit) >= 25.0D)
-                    {
-                        player.addStat(TFAchievements.sharpshooter, 1);
-                    }
+                	EntityPlayer player = (EntityPlayer)getThrower();
+                	
+                	if (player.getDistanceSqToEntity(mop.entityHit) >= 25.0D)
+                	{
+                		player.addStat(TFAchievements.sharpshooter, 1);
+                	}
                 }
             }
         }

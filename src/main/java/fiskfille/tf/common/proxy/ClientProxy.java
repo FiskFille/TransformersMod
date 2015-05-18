@@ -46,8 +46,9 @@ import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 public class ClientProxy extends CommonProxy
 {
     public static Field camRollField;
-    public static RenderCustomPlayer renderCustomPlayer;
     private Minecraft mc = Minecraft.getMinecraft();
+    
+    public static RenderCustomPlayer renderCustomPlayer;
     
     @Override
     public World getWorld()

@@ -198,8 +198,8 @@ public class ClientTickHandler
     public void onTickEnd()
     {
         EntityPlayer player = mc.thePlayer;
-        
-        if (player != null)
+
+        if(player != null)
         {
             Transformer transformer = TFHelper.getTransformer(player);
             
