@@ -543,7 +543,7 @@ public class ClientEventHandler
             
             if(!customRenderer)
             {
-                if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
+                if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants)
                 {
                     prevRenderPlayer = (RenderPlayer) entityRenderObject;
                     RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
