@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -30,11 +28,9 @@ import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.gui.GuiOverlay;
-import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageBroadcastState;
@@ -113,7 +109,7 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onCraft(ItemCraftedEvent event)
     {
-    	if (event.crafting.getItem() == TFItems.tankTracks)
+        if (event.crafting.getItem() == TFItems.tankTracks)
         {
             event.player.addStat(TFAchievements.tracks, 1);
         }

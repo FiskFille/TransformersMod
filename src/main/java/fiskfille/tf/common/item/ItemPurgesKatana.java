@@ -2,7 +2,6 @@ package fiskfille.tf.common.item;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +17,6 @@ import net.minecraft.world.World;
 
 import com.google.common.collect.Multimap;
 
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;

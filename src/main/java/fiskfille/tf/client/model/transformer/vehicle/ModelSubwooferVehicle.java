@@ -1,7 +1,5 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import fiskfille.tf.client.model.transformer.ModelChildBase;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 

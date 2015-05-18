@@ -4,19 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
-import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.TransformerSubwoofer;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelSubwooferStealth extends MowzieModelBase
 {

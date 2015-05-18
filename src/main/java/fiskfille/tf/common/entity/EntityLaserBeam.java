@@ -1,22 +1,16 @@
 package fiskfille.tf.common.entity;
 
 import io.netty.buffer.ByteBuf;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
-import fiskfille.tf.client.particle.TFParticleType;
-import fiskfille.tf.client.particle.TFParticles;
-import fiskfille.tf.common.motion.TFMotionManager;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityLaserBeam extends EntityThrowable implements IEntityAdditionalSpawnData
 {

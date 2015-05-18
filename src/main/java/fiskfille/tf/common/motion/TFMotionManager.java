@@ -1,6 +1,21 @@
 package fiskfille.tf.common.motion;
 
-import static net.minecraft.block.material.Material.*;
+import static net.minecraft.block.material.Material.cactus;
+import static net.minecraft.block.material.Material.cake;
+import static net.minecraft.block.material.Material.clay;
+import static net.minecraft.block.material.Material.coral;
+import static net.minecraft.block.material.Material.craftedSnow;
+import static net.minecraft.block.material.Material.gourd;
+import static net.minecraft.block.material.Material.ground;
+import static net.minecraft.block.material.Material.ice;
+import static net.minecraft.block.material.Material.leaves;
+import static net.minecraft.block.material.Material.packedIce;
+import static net.minecraft.block.material.Material.plants;
+import static net.minecraft.block.material.Material.sand;
+import static net.minecraft.block.material.Material.snow;
+import static net.minecraft.block.material.Material.sponge;
+import static net.minecraft.block.material.Material.vine;
+import static net.minecraft.block.material.Material.web;
 
 import java.util.HashMap;
 import java.util.Map;

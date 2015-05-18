@@ -6,11 +6,9 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import fiskfille.tf.client.particle.TFParticleType;
 import fiskfille.tf.client.particle.TFParticles;
-import fiskfille.tf.common.motion.TFMotionManager;
 
 public class EntityFlamethrowerFire extends EntityThrowable
 {

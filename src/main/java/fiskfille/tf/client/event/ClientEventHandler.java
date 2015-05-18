@@ -1,5 +1,7 @@
 package fiskfille.tf.client.event;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.block.Block;
@@ -32,7 +34,6 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
-import org.apache.http.client.ClientProtocolException;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.authlib.GameProfile;
@@ -67,7 +68,10 @@ public class ClientEventHandler
     
     public static boolean prevViewBobbing;
     
-    private Item prevHelm, prevChest, prevLegs, prevBoots;
+    private Map<EntityPlayer, Item> prevHelm = new HashMap<EntityPlayer, Item>();
+    private Map<EntityPlayer, Item> prevChest = new HashMap<EntityPlayer, Item>();
+    private Map<EntityPlayer, Item> prevLegs = new HashMap<EntityPlayer, Item>();
+    private Map<EntityPlayer, Item> prevBoots = new HashMap<EntityPlayer, Item>();
     
     private RenderPlayer prevRenderPlayer;
     
@@ -124,7 +128,7 @@ public class ClientEventHandler
             event.setCanceled(true);
         }
         
-        if(!event.isCanceled())
+        if (!event.isCanceled())
         {
             if (TFHelper.getTransformerFromArmor(player, 2) != null)
             {
@@ -132,7 +136,7 @@ public class ClientEventHandler
                 
                 ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
                 
-                if(modelBipedMain != null)
+                if (modelBipedMain != null)
                 {
                     float partialTicks = event.partialRenderTick;
                     
@@ -457,7 +461,9 @@ public class ClientEventHandler
     {
         //After rendered everything
         
-        EntityPlayer player = mc.thePlayer;
+//        System.out.println(mc.thePlayer.getCommandSenderName() + ":" + event.entityPlayer.getCommandSenderName());
+        
+        EntityPlayer player = event.entityPlayer;
         
         ModelOffset offsets = TFModelHelper.getOffsets(player);
         
@@ -466,63 +472,70 @@ public class ClientEventHandler
         ItemStack chestStack = player.getCurrentArmor(2);
         ItemStack helmStack = player.getCurrentArmor(3);
         
-        Item boots = bootsStack != null ? bootsStack.getItem() : null; 
-        Item legs = legsStack != null ? legsStack.getItem() : null; 
-        Item chest = chestStack != null ? chestStack.getItem() : null; 
-        Item helm = helmStack != null ? helmStack.getItem() : null; 
-        
-        if(prevRenderPlayer != null)
-        {
-            RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
-        }
+        Item boots = bootsStack != null ? bootsStack.getItem() : null;
+        Item legs = legsStack != null ? legsStack.getItem() : null;
+        Item chest = chestStack != null ? chestStack.getItem() : null;
+        Item helm = helmStack != null ? helmStack.getItem() : null;
         
         boolean armorChanged = false;
         
-        if(boots != prevBoots)
+        if (boots != prevBoots.get(player))
         {
-            prevBoots = boots;
+            prevBoots.put(player, boots);
             armorChanged = true;
         }
-        if(chest != prevChest)
+        if (chest != prevChest.get(player))
         {
-            prevChest = chest;
+            prevChest.put(player, chest);
             armorChanged = true;
         }
-        if(legs != prevLegs)
+        if (legs != prevLegs.get(player))
         {
-            prevLegs = legs;
+            prevLegs.put(player, legs);
             armorChanged = true;
         }
-        if(helm != prevHelm)
+        if (helm != prevHelm.get(player))
         {
-            prevHelm = helm;
+            prevHelm.put(player, helm);
             armorChanged = true;
         }
         
-        if(armorChanged)
+        if (armorChanged)
         {
             offsets.headOffsetX = 0;
             offsets.headOffsetY = 0;
             offsets.headOffsetZ = 0;
         }
+        
+        if (player == mc.thePlayer)
+        {
+            if (prevRenderPlayer != null)
+            {
+                RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
+            }
+        }
     }
     
     @SubscribeEvent
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
-    {      
+    {
         Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
         
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
-        TFModelHelper.modelBipedMain = modelBipedMain;
         
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
         boolean isClientPlayer = mc.thePlayer == player;
         float cameraYOffset = 0;
         
+        if (isClientPlayer)
+        {
+            TFModelHelper.modelBipedMain = modelBipedMain;
+        }
+        
         boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
         
-        if(modelBipedMain != null)
+        if (modelBipedMain != null)
         {
             ItemStack helm = player.getCurrentArmor(3);
             boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
@@ -542,9 +555,9 @@ public class ClientEventHandler
             modelBipedMain.bipedLeftLeg.showModel = !wearingTransformerPants;
             modelBipedMain.bipedRightLeg.showModel = !wearingTransformerPants;
             
-            if(!customRenderer)
+            if (!customRenderer && isClientPlayer)
             {
-                if(wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
+                if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
                 {
                     prevRenderPlayer = (RenderPlayer) entityRenderObject;
                     RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
@@ -586,7 +599,7 @@ public class ClientEventHandler
         
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
         
-        if(modelBipedMain != null)
+        if (modelBipedMain != null)
         {
             modelBipedMain.bipedHead.showModel = true;
             modelBipedMain.bipedHeadwear.showModel = true;

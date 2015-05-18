@@ -1,26 +1,16 @@
 package fiskfille.tf.client.tick;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-
-import org.lwjgl.input.Keyboard;
-
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
-import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -198,8 +188,8 @@ public class ClientTickHandler
     public void onTickEnd()
     {
         EntityPlayer player = mc.thePlayer;
-
-        if(player != null)
+        
+        if (player != null)
         {
             Transformer transformer = TFHelper.getTransformer(player);
             

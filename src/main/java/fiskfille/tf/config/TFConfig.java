@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraftforge.common.config.Configuration;
-import fiskfille.tf.TransformerManager;
 import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFConfig

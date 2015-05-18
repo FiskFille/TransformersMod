@@ -1,7 +1,6 @@
 package fiskfille.tf.common.item.armor;
 
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.Transformer;
 

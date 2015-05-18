@@ -1,8 +1,6 @@
 package fiskfille.tf.client.render.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -11,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.item.ModelBassBlaster;
-import fiskfille.tf.client.model.item.ModelFlamethrower;
 
 public class RenderItemBassBlaster implements IItemRenderer
 {

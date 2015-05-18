@@ -1,7 +1,5 @@
 package fiskfille.tf.common.network;
 
-import org.lwjgl.input.Mouse;
-
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.network.base.TFNetworkManager;
@@ -14,8 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

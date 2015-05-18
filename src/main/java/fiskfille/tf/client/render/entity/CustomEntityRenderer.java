@@ -7,8 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 
-import org.lwjgl.opengl.GL11;
-
 public class CustomEntityRenderer extends EntityRenderer
 {
     private final Minecraft mc;

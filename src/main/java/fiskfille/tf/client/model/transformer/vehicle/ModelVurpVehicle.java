@@ -1,6 +1,5 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 

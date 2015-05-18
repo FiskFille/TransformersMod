@@ -1,16 +1,13 @@
 package fiskfille.tf.client.model.player;
 
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.transformer.ModelChildBase;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
 
@@ -39,23 +36,23 @@ public class ModelBipedTF extends ModelChildBase.Biped
             this.bipedHead.rotationPointZ = offsets.headOffsetZ;
             this.bipedHeadwear.rotationPointZ = offsets.headOffsetZ;
             
-//            ItemStack helm = player.getCurrentArmor(3);
-//            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
-//            ItemStack chest = player.getCurrentArmor(2);
-//            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
-//            ItemStack pants = player.getCurrentArmor(1);
-//            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
-//            
-//            bipedHead.showModel = !wearingTransformerHelm;
-//            bipedHeadwear.showModel = !wearingTransformerHelm;
-//            bipedEars.showModel = !wearingTransformerHelm;
-//            
-//            bipedBody.showModel = !wearingTransformerChest;
-//            bipedRightArm.showModel = !wearingTransformerChest;
-//            bipedLeftArm.showModel = !wearingTransformerChest;
-//            
-//            bipedLeftLeg.showModel = !wearingTransformerPants;
-//            bipedRightLeg.showModel = !wearingTransformerPants;
+            //            ItemStack helm = player.getCurrentArmor(3);
+            //            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
+            //            ItemStack chest = player.getCurrentArmor(2);
+            //            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
+            //            ItemStack pants = player.getCurrentArmor(1);
+            //            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
+            //            
+            //            bipedHead.showModel = !wearingTransformerHelm;
+            //            bipedHeadwear.showModel = !wearingTransformerHelm;
+            //            bipedEars.showModel = !wearingTransformerHelm;
+            //            
+            //            bipedBody.showModel = !wearingTransformerChest;
+            //            bipedRightArm.showModel = !wearingTransformerChest;
+            //            bipedLeftArm.showModel = !wearingTransformerChest;
+            //            
+            //            bipedLeftLeg.showModel = !wearingTransformerPants;
+            //            bipedRightLeg.showModel = !wearingTransformerPants;
             
             if (this.isChild)
             {
