@@ -48,8 +48,6 @@ public class ClientProxy extends CommonProxy
     public static Field camRollField;
     private Minecraft mc = Minecraft.getMinecraft();
     
-    public static RenderCustomPlayer renderCustomPlayer;
-    
     @Override
     public World getWorld()
     {
@@ -65,7 +63,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderInformation()
     {
-        renderCustomPlayer = new RenderCustomPlayer();
+        RenderCustomPlayer renderCustomPlayer = new RenderCustomPlayer();
         renderCustomPlayer.setRenderManager(RenderManager.instance);
         RenderManager.instance.entityRenderMap.put(EntityPlayer.class, renderCustomPlayer);
         
