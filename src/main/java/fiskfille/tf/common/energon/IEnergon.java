@@ -1,8 +1,8 @@
 package fiskfille.tf.common.energon;
 
-public abstract interface IEnergon
+public interface IEnergon
 {
-	public abstract Energon getEnergonType();
+	public Energon getEnergonType();
 	
-	public abstract int getMass();
+	public int getMass();
 }
