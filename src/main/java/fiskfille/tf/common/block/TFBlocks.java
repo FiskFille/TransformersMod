@@ -21,6 +21,8 @@ public class TFBlocks
     public static Block transformiumStone;
     public static Block transformiumSeed;
     public static Block energonProcessor;
+    public static Block groundBridgeFrame;
+    public static BlockGroundBridgeTeleporter groundBridgeTeleporter;
     
     public void register()
     {
@@ -32,6 +34,8 @@ public class TFBlocks
         transformiumStone = new BlockTransformiumStone();
         transformiumSeed = new BlockTransformiumSeed();
         energonProcessor = new BlockEnergonProcessor();
+        groundBridgeFrame = new BlockGroundBridgeFrame();
+        groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         
         String modId = TransformersMod.modid;
         
@@ -43,5 +47,10 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone", modId);
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
         TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class, modId);
+        
+        TFBlockRegistry.registerBlock(groundBridgeFrame, "Ground Bridge Frame", modId);
+        TFBlockRegistry.registerBlock(groundBridgeTeleporter, "Ground Bridge Teleporter", modId);
+        
+        groundBridgeTeleporter.setCreativeTab(null);
     }
 }
