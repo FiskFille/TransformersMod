@@ -8,7 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -22,14 +21,16 @@ import com.google.common.collect.Maps;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
 import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityEnergonProcessor extends TileEntity implements ISidedInventory
 {
     private static final int[] slotsTop = new int[] {1};
-    private static final int[] slotsBottom = new int[] {2, 1};
-    private static final int[] slotsSides = new int[] {1};
+    private static final int[] slotsBottom = new int[] {2};
+    private static final int[] slotsSides = new int[] {0, 2};
     
     private ItemStack[] itemStacks = new ItemStack[3];
     private String inventoryName;
@@ -65,7 +66,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         {
             ItemStack power = itemStacks[0];
             ItemStack crystal = itemStacks[1];
-            ItemStack container = itemStacks[2];
+            ItemStack canister = itemStacks[2];
             
             if (powerTime > 0)
             {
@@ -108,7 +109,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 --burnTime;
             }
             
-            if (liquidAmount > 0 && container != null && container.getItem() instanceof ItemBucket)
+            if (liquidAmount > 0 && canister != null && canister.getItem() == TFItems.emptyFuelCanister && ItemFuelCanister.getContents(canister).isEmpty())
             {
                 if (fillTime < 100)
                 {
@@ -116,7 +117,22 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 }
                 else if (fillTime >= 100)
                 {
-                    
+                	ItemStack itemstack = new ItemStack(TFItems.filledFuelCanister);
+                	itemstack.setTagCompound(canister.getTagCompound());
+                	itemstack.stackSize = canister.stackSize;
+                	
+                	if (!itemstack.hasTagCompound())
+                	{
+                		itemstack.setTagCompound(new NBTTagCompound());
+                	}
+                	
+                	itemstack.getTagCompound().setString("Contents", energonContentMap.toString());
+                	itemStacks[2] = itemstack.copy();
+                	fillTime = 0;
+                	energonContentMap.clear();
+                	liquidAmount = 0;
+                	liquidColor = 0xffffff;
+                	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 }
             }
             else if (fillTime > 0)
@@ -272,7 +288,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         {
             String[] keyValue = entry.split("=");
             
-            if(keyValue.length == 2)
+            if (keyValue.length == 2)
             {
                 String key = keyValue[0];
                 String value = keyValue[1];
@@ -330,7 +346,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot == 0 ? PowerManager.isPowerSource(stack) : (slot == 1 ? (stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon) : true);
+        return slot == 0 ? PowerManager.isPowerSource(stack) : (slot == 1 ? (stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon) : (slot == 2 ? stack.getItem() == TFItems.emptyFuelCanister && stack.stackSize == 1 && itemStacks[slot] == null : false));
     }
     
     public int[] getAccessibleSlotsFromSide(int side)
@@ -345,7 +361,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     
     public boolean canExtractItem(int slot, ItemStack stack, int p_102008_3_)
     {
-        return p_102008_3_ != 0 || slot != 1 || stack.getItem() == Items.bucket;
+        return p_102008_3_ != 0 || slot == 0 || (slot == 2 && stack.getItem() == TFItems.filledFuelCanister);
     }
     
     @Override

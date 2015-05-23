@@ -17,6 +17,8 @@ item.missile.name=Missile
 item.tank_shell.name=Tank Shell
 item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
+item.empty_fuel_canister.name=Empty Fuel Canister
+item.fuel_canister.name=Fuel Canister
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head

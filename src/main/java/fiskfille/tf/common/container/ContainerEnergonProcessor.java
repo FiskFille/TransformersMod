@@ -154,9 +154,9 @@ public class ContainerEnergonProcessor extends ContainerBasic
     		// If itemstack is in Output stack
     		if (par2 == OUTPUT_1)
     		{
-    			// try to place in player inventory / action bar; add 36+1 because mergeItemStack uses < index,
+    			// try to place in player inventory / action bar; add 36 + 1 because mergeItemStack uses < index,
     			// so the last slot in the inventory won't get checked if you don't add 1
-    			if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 +36 + 1, true))
+    			if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 36 + 1, true))
     			{
     				return null;
     			}
@@ -184,22 +184,22 @@ public class ContainerEnergonProcessor extends ContainerBasic
     				}
     			}
     			// item in player's inventory, but not in action bar
-    			else if (par2 >= OUTPUT_1+1 && par2 < OUTPUT_1+28)
+    			else if (par2 >= OUTPUT_1 + 1 && par2 < OUTPUT_1 + 28)
     			{
     				// place in action bar
-    				if (!this.mergeItemStack(itemstack1, OUTPUT_1+28, OUTPUT_1+37, false))
+    				if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 28, OUTPUT_1 + 37, false))
     				{
     					return null;
     				}
     			}
     			// item in action bar - place in player inventory
-    			else if (par2 >= OUTPUT_1+28 && par2 < OUTPUT_1+37 && !this.mergeItemStack(itemstack1, OUTPUT_1+1, OUTPUT_1+28, false))
+    			else if (par2 >= OUTPUT_1 + 28 && par2 < OUTPUT_1 + 37 && !this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 28, false))
     			{
     				return null;
     			}
     		}
     		// In one of the infuser slots; try to place in player inventory / action bar
-    		else if (!this.mergeItemStack(itemstack1, OUTPUT_1+1, OUTPUT_1+37, false))
+    		else if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 37, false))
     		{
     			return null;
     		}
