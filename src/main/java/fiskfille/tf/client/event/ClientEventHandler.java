@@ -145,8 +145,6 @@ public class ClientEventHandler
                     
                     GL11.glColor3f(1.0F, 1.0F, 1.0F);
                     
-                    //                    renderArrowsStuckInEntity(player, partialTicks); TODO
-                    
                     ItemStack helmetStack = player.inventory.armorItemInSlot(3);
                     
                     if (helmetStack != null && event.renderHelmet)

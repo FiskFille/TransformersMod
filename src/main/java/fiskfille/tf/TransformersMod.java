@@ -30,7 +30,7 @@ import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.web.donator.Donators;
 
-@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
+@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory", dependencies = "required-after:llibrary@[0.2.0-1.7.10,)")
 public class TransformersMod
 {
     @Instance(TransformersMod.modid)
@@ -39,7 +39,7 @@ public class TransformersMod
     public static Configuration configFile;
     
     public static final String modid = "transformers";
-    public static final String version = "0.5.0";
+    public static final String version = "0.6.0";
     
     @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
     public static CommonProxy proxy;
