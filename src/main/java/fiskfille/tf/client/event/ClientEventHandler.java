@@ -2,42 +2,24 @@ package fiskfille.tf.client.event;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-import net.gegy1000.visualenhancements.client.render.RenderCustomPlayer;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StringUtils;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
 import org.lwjgl.opengl.GL11;
-
-import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -45,9 +27,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
@@ -55,7 +34,6 @@ import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
@@ -205,8 +183,6 @@ public class ClientEventHandler
         {
             TFModelHelper.modelBipedMain = modelBipedMain;
         }
-        
-        boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
         
         if (modelBipedMain != null)
         {
