@@ -70,7 +70,7 @@ public class TransformersMod
         {
             try
             {
-                UpdateHelper.registerUpdateChecker(this, "http://pastebin.com/raw.php?i=4SftsUDa");
+                UpdateHelper.registerUpdateChecker(this, "http://pastebin.com/raw.php?i=J1BrPkvD");
             }
             catch (IOException e)
             {
