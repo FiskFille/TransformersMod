@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import net.gegy1000.visualenhancements.client.render.RenderCustomPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -48,7 +49,6 @@ import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
-import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -73,7 +73,7 @@ public class ClientEventHandler
     private Map<EntityPlayer, Item> prevLegs = new HashMap<EntityPlayer, Item>();
     private Map<EntityPlayer, Item> prevBoots = new HashMap<EntityPlayer, Item>();
     
-    private RenderPlayer prevRenderPlayer;
+//    private RenderPlayer prevRenderPlayer;
     
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
@@ -506,14 +506,14 @@ public class ClientEventHandler
             offsets.headOffsetY = 0;
             offsets.headOffsetZ = 0;
         }
-        
-        if (player == mc.thePlayer)
-        {
-            if (prevRenderPlayer != null)
-            {
-                RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
-            }
-        }
+//        
+//        if (player == mc.thePlayer)
+//        {
+//            if (prevRenderPlayer != null)
+//            {
+//                RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
+//            }
+//        }
     }
     
     @SubscribeEvent
@@ -554,15 +554,15 @@ public class ClientEventHandler
             
             modelBipedMain.bipedLeftLeg.showModel = !wearingTransformerPants;
             modelBipedMain.bipedRightLeg.showModel = !wearingTransformerPants;
-            
-            if (!customRenderer && isClientPlayer)
-            {
-                if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
-                {
-                    prevRenderPlayer = (RenderPlayer) entityRenderObject;
-                    RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
-                }
-            }
+//            
+//            if (!customRenderer && isClientPlayer)
+//            {
+//                if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper))
+//                {
+//                    prevRenderPlayer = (RenderPlayer) entityRenderObject;
+//                    RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
+//                }
+//            }
         }
         
         if (transformer != null)

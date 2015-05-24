@@ -1,10 +1,13 @@
 package fiskfille.tf;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
+import net.ilexiconn.llibrary.common.update.UpdateHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
+import scala.collection.script.Update;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -26,8 +29,6 @@ import fiskfille.tf.common.tab.CreativeTabTransformers;
 import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.web.donator.Donators;
-import fiskfille.tf.web.update.Update;
-import fiskfille.tf.web.update.UpdateChecker;
 
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
@@ -51,8 +52,6 @@ public class TransformersMod
     
     public static Method setSizeMethod;
     
-    public static Update latestUpdate;
-    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -69,8 +68,15 @@ public class TransformersMod
         
         if (TFConfig.checkForUpdates)
         {
-            UpdateChecker updateChecker = new UpdateChecker();
-            updateChecker.handleUpdates();
+            try
+            {
+                UpdateHelper.registerUpdateChecker(this, "http://pastebin.com/raw.php?i=4SftsUDa");
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            
             Donators.loadDonators();
         }
         
