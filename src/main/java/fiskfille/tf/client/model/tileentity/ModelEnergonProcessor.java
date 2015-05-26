@@ -145,10 +145,16 @@ public class ModelEnergonProcessor extends MowzieModelBase
     
     public void render(TileEntityEnergonProcessor tileentity)
     {
-//    	if (tileentity.burnTime == 0)
-//    	{
-//    		setToInitPose();
-//    	}
+    	if (tileentity.burnTime == 0)
+    	{
+    		setToInitPose();
+    	}
+    	
+    	rotatingrod_top.rotateAngleY = tileentity.burnTime * tileentity.animationTimer + tileentity.animationTimer * 10;
+        rotatingrod_top.rotationPointY = 11 + tileentity.animationTimer * 4;
+        flap1.rotateAngleX = (float)Math.PI / 2 * tileentity.animationTimer * 0.9F;
+        flap2.rotateAngleX = (float)Math.PI / 2 * tileentity.animationTimer * 0.9F;
+        rotatechamber_base.rotateAngleY = -tileentity.burnTime * tileentity.animationTimer - tileentity.animationTimer * 10;
     	
     	float f5 = 0.0625F;
         this.shape14.render(f5);
@@ -172,12 +178,6 @@ public class ModelEnergonProcessor extends MowzieModelBase
         this.shape16.render(f5);
         this.shape2.render(f5);
         this.shape2_3.render(f5);
-        
-//        rotatingrod_top.rotateAngleY = tileentity.burnTime * tileentity.animationTimer + tileentity.animationTimer * 10;
-//        rotatingrod_top.rotationPointY = 11 + tileentity.animationTimer * 4;
-//        flap1.rotateAngleX = (float)Math.PI / 2 * tileentity.animationTimer;
-//        flap2.rotateAngleX = (float)Math.PI / 2 * tileentity.animationTimer;
-//        rotatechamber_base.rotateAngleY = -tileentity.burnTime * tileentity.animationTimer - tileentity.animationTimer * 10;
     }
     
     public void setRotateAngle(MowzieModelRenderer MowzieModelRenderer, float x, float y, float z)

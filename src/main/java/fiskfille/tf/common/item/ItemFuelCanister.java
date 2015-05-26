@@ -51,7 +51,6 @@ public class ItemFuelCanister extends Item
             	int percent = Math.round(e.getValue() * percentMultiplier);
             	
             	list.add(EnumChatFormatting.YELLOW + name + " Energon: " + percent + "%");
-//            	colors.add(TransformersAPI.getEnergonTypeByName(e.getKey()).getColor());
             }
             
             list.add("");
@@ -63,7 +62,7 @@ public class ItemFuelCanister extends Item
 		
 		percentMultiplier = 100F / 52F;
         int percent = Math.round(liquidAmount * percentMultiplier);
-        float litres = (float)Math.round(liquidAmount * percentMultiplier) / 50;
+        float litres = (float)percent / 50;
         list.add(EnumChatFormatting.YELLOW + "" + percent + "% filled (" + litres + "L)");
 	}
 	
@@ -82,32 +81,22 @@ public class ItemFuelCanister extends Item
         }
         else
         {
-        	int liquidColor = 0;
-        	
-        	for (Map.Entry<String, Integer> e : getContents(itemstack).entrySet())
-            {
-                for (Energon energon : TransformersAPI.getEnergonTypes())
-                {
-                    if (energon.getId().equals(e.getKey()))
-                    {
-                        liquidColor = TFHelper.blend(liquidColor, energon.getColor(), 0.5F);
-                    }
-                }
-            }
-        	
-        	return liquidColor;
+        	return getLiquidColor(itemstack);
         }
     }
 	
-	public static HashMap<String, Integer> getContents(ItemStack itemstack)
+	public static void refreshNBT(ItemStack itemstack)
 	{
 		if (!itemstack.hasTagCompound())
 		{
 			itemstack.setTagCompound(new NBTTagCompound());
 		}
-		
+	}
+	
+	public static HashMap<String, Integer> getContents(ItemStack itemstack)
+	{
+		refreshNBT(itemstack);
 		Map map = readMapFromString(itemstack.getTagCompound().getString("Contents"));
-		
 		return (HashMap<String, Integer>)(map == null ? Maps.newHashMap() : map);
 	}
 	
@@ -131,6 +120,18 @@ public class ItemFuelCanister extends Item
         
         return map;
     }
+	
+	public static void setLiquidColor(ItemStack itemstack, int color)
+	{
+		refreshNBT(itemstack);
+		itemstack.getTagCompound().setInteger("LiquidColor", color);
+	}
+	
+	public static int getLiquidColor(ItemStack itemstack)
+	{
+		refreshNBT(itemstack);
+		return itemstack.getTagCompound().getInteger("LiquidColor");
+	}
 	
 	@SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses()

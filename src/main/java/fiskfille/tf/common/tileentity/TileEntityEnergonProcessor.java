@@ -15,6 +15,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 
 import com.google.common.collect.Maps;
 
@@ -64,6 +65,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         
         if (!worldObj.isRemote)
         {
+        	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             ItemStack power = itemStacks[0];
             ItemStack crystal = itemStacks[1];
             ItemStack canister = itemStacks[2];
@@ -121,12 +123,9 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 	itemstack.setTagCompound(canister.getTagCompound());
                 	itemstack.stackSize = canister.stackSize;
                 	
-                	if (!itemstack.hasTagCompound())
-                	{
-                		itemstack.setTagCompound(new NBTTagCompound());
-                	}
-                	
+                	ItemFuelCanister.refreshNBT(itemstack);
                 	itemstack.getTagCompound().setString("Contents", energonContentMap.toString());
+                	ItemFuelCanister.setLiquidColor(itemstack, liquidColor);
                 	itemStacks[2] = itemstack.copy();
                 	fillTime = 0;
                 	energonContentMap.clear();
@@ -140,14 +139,24 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 --fillTime;
             }
             
-            for (Map.Entry<String, Integer> e : energonContentMap.entrySet())
+            
+            float percentMultiplier = 100F / liquidAmount;
+            int tempLiquidColor = liquidColor;
+    		
+    		if (!energonContentMap.isEmpty())
             {
-                for (Energon energon : TransformersAPI.getEnergonTypes())
+                for (Map.Entry<String, Integer> e : energonContentMap.entrySet())
                 {
-                    if (energon.getId().equals(e.getKey()))
-                    {
-                        liquidColor = TFHelper.blend(liquidColor, energon.getColor(), 0.5F);
-                    }
+                	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                	int percent = Math.round(e.getValue() * percentMultiplier);
+                	
+                	if (energon != null)
+                	{
+//                		for (int i = 0; i < percent; ++i)
+                		{
+                			liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float)percent / 100);
+                		}
+                	}
                 }
             }
         }
