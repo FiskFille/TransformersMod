@@ -94,7 +94,10 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor)
     {
-    	// TODO
+        if(neighbor == this || neighbor == TFBlocks.groundBridgeFrame)
+        {
+            world.setBlockToAir(x, y, z);
+        }
     }
     
     @SideOnly(Side.CLIENT)
