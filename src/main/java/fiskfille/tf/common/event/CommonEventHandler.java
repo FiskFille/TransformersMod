@@ -25,6 +25,7 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
+import scala.collection.script.Update;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
@@ -42,7 +43,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.web.donator.Donators;
-import fiskfille.tf.web.update.Update;
 
 public class CommonEventHandler
 {
@@ -50,7 +50,7 @@ public class CommonEventHandler
     
     private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
     
-    private boolean displayedUpdates;
+    private boolean downloadedDonators;
     
     private double lastX;
     private double lastY;
@@ -202,48 +202,15 @@ public class CommonEventHandler
                     ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
                 }
                 
-                if (!displayedUpdates && TFConfig.checkForUpdates)
+                if (!downloadedDonators && TFConfig.checkForUpdates)
                 {
-                    Update update = TransformersMod.latestUpdate;
-                    
-                    if (update != null && update.isAvailable())
-                    {
-                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "TransformersMod version " + update.getVersion() + " is now available!"));
-                        player.addChatMessage(new ChatComponentText(""));
-                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "" + EnumChatFormatting.BOLD + "What's New: "));
-                        
-                        String[] updates = update.getUpdateLog().split(Pattern.quote("(newline)"));
-                        
-                        for (String updatePart : updates)
-                        {
-                            EnumChatFormatting colour = EnumChatFormatting.RED;
-                            
-                            if (updatePart.trim().startsWith("*"))
-                            {
-                                colour = EnumChatFormatting.GOLD;
-                            }
-                            else if (updatePart.trim().startsWith("+"))
-                            {
-                                colour = EnumChatFormatting.GREEN;
-                            }
-                            else if (updatePart.trim().startsWith("-"))
-                            {
-                                colour = EnumChatFormatting.RED;
-                            }
-                            
-                            player.addChatMessage(new ChatComponentText(colour + updatePart));
-                        }
-                        
-                        player.addChatMessage(new ChatComponentText(""));
-                    }
-                    
                     if (Donators.isDonator(player))
                     {
                         player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("misc.donate.thanks") + Donators.getDonationAmount(player).toString().replaceAll(Pattern.quote("$"), "") + "!"));
                         player.addStat(TFAchievements.donate, 1);
                     }
                     
-                    displayedUpdates = true;
+                    downloadedDonators = true;
                 }
             }
         }

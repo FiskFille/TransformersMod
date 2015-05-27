@@ -4,16 +4,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
+import fiskfille.tf.common.block.BlockEnergonCrystal;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
+import fiskfille.tf.helper.TFHelper;
 
 public class RenderCrystal extends TileEntitySpecialRenderer
 {
-    private ResourceLocation texture = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     private ModelCrystal model;
     private ItemRenderer itemRenderer;
     
@@ -25,6 +27,9 @@ public class RenderCrystal extends TileEntitySpecialRenderer
     
     public void renderAModelAt(TileEntityCrystal tile, double x, double y, double z, float partialTicks)
     {
+    	BlockEnergonCrystal block = (BlockEnergonCrystal)tile.getBlockType();
+    	Energon energon = block.getEnergonType();
+    	
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
@@ -33,8 +38,10 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(0.0F, 0.5F, 1.0F, 0.5F);
-        this.bindTexture(new ResourceLocation("textures/misc/underwater.png"));
+        
+        float[] rgb = TFHelper.hexToRGB(energon.getColor());
+        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
+        
         model.renderAll();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
