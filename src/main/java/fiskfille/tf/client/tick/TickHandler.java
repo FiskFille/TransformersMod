@@ -1,20 +1,16 @@
 package fiskfille.tf.client.tick;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -101,7 +97,6 @@ public class TickHandler
     {
         ++time;
         EntityPlayer player = event.player;
-        World world = player.worldObj;
         boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
         int transformationTimer = TFDataManager.getTransformationTimer(player);
         
@@ -115,8 +110,8 @@ public class TickHandler
             TransformersMod.proxy.tickHandler.handleTransformation(player);
         }
     }
-
-	@SubscribeEvent
+    
+    @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         switch (event.phase)

@@ -22,17 +22,14 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 
-public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider, IEnergon
+public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider
 {
     private Random rand = new Random();
-    private Energon energonType;
     
-    public BlockEnergonCrystal(Energon type)
+    public BlockEnergonCrystal()
     {
         super(Material.glass);
         this.setHarvestLvl("pickaxe", 1);
@@ -40,18 +37,6 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         this.setHardness(6.0F);
         this.setResistance(10.0F);
         this.setLightLevel(0.75F);
-        
-        this.energonType = type;
-    }
-    
-    public Energon getEnergonType()
-    {
-    	return energonType;
-    }
-    
-    public int getMass()
-    {
-    	return 10;
     }
     
     protected boolean canSilkHarvest()
@@ -66,7 +51,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     
     public Item getItemDropped(int p_149650_1_, Random random, int p_149650_3_)
     {
-        return energonType.getCrystalPiece();
+        return TFItems.energonCrystalPiece;
     }
     
     @Override
@@ -261,7 +246,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
                         double motionX = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
                         double motionY = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
                         double motionZ = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                        EntityItem entityitem = new EntityItem(world, (double) x + motionX, (double) y + motionY, (double) z + motionZ, new ItemStack(energonType.getCrystal()));
+                        EntityItem entityitem = new EntityItem(world, (double) x + motionX, (double) y + motionY, (double) z + motionZ, new ItemStack(TFBlocks.energonCrystal));
                         entityitem.delayBeforeCanPickup = 10;
                         world.spawnEntityInWorld(entityitem);
                     }
@@ -346,5 +331,10 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityCrystal();
+    }
+    
+    public void registerBlockIcons(IIconRegister par1IconRegister)
+    {
+        blockIcon = par1IconRegister.registerIcon(TransformersMod.modid + ":energon_crystal");
     }
 }

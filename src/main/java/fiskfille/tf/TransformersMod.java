@@ -1,24 +1,18 @@
 package fiskfille.tf;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
-import net.ilexiconn.llibrary.common.update.UpdateHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
-import scala.collection.script.Update;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import fiskfille.tf.client.gui.GuiHandlerTF;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.TFEvents;
 import fiskfille.tf.common.item.TFItems;
@@ -29,8 +23,10 @@ import fiskfille.tf.common.tab.CreativeTabTransformers;
 import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.web.donator.Donators;
+import fiskfille.tf.web.update.Update;
+import fiskfille.tf.web.update.UpdateChecker;
 
-@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory", dependencies = "required-after:llibrary@[0.2.0-1.7.10,)")
+@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
 {
     @Instance(TransformersMod.modid)
@@ -39,7 +35,7 @@ public class TransformersMod
     public static Configuration configFile;
     
     public static final String modid = "transformers";
-    public static final String version = "0.6.0";
+    public static final String version = "0.5.0";
     
     @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -51,6 +47,8 @@ public class TransformersMod
     public static CreativeTabs tabTransformers = new CreativeTabTransformers();
     
     public static Method setSizeMethod;
+    
+    public static Update latestUpdate;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -68,15 +66,8 @@ public class TransformersMod
         
         if (TFConfig.checkForUpdates)
         {
-            try
-            {
-                UpdateHelper.registerUpdateChecker(this, "http://pastebin.com/raw.php?i=J1BrPkvD");
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            
+            UpdateChecker updateChecker = new UpdateChecker();
+            updateChecker.handleUpdates();
             Donators.loadDonators();
         }
         
@@ -86,11 +77,8 @@ public class TransformersMod
         TFAchievements.register();
         TFRecipes.registerRecipes();
         TFEntities.registerEntities();
-        TFEnergonManager.registerDefaultEnergonTypes();
         
         GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
-        
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerTF());
         
         proxy.registerRenderInformation();
         proxy.registerKeyBinds();

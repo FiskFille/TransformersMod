@@ -5,8 +5,6 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.energon.DefaultEnergon;
-import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
 import fiskfille.tf.common.item.armor.ItemPurgeArmor;
 import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
@@ -32,8 +30,6 @@ public class TFItems
     public static Item tankTracks;
     public static Item tankTurret;
     public static Item carWheel;
-    public static Item emptyFuelCanister;
-    public static Item filledFuelCanister;
     
     public static Item skystrikesCrossbow;
     public static Item purgesKatana;
@@ -64,7 +60,6 @@ public class TFItems
     
     public static Item displayVehicle;
     public static Item energonCrystalPiece;
-    public static Item redEnergonCrystalPiece;
     
     public static Item tankShell;
     public static Item missile;
@@ -89,8 +84,6 @@ public class TFItems
         t50JetWing = new Item().setCreativeTab(null);
         jetThruster = new Item().setCreativeTab(null);
         smallThruster = new Item();
-        emptyFuelCanister = new Item();
-        filledFuelCanister = new ItemFuelCanister().setCreativeTab(null);
         
         skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);
         purgesKatana = new ItemPurgesKatana(ToolMaterial.EMERALD);
@@ -122,8 +115,7 @@ public class TFItems
         transformiumDetector = new ItemTransformiumDetector();
         
         displayVehicle = new ItemMiniVehicle();
-        energonCrystalPiece = new ItemEnergon(new DefaultEnergon());
-        redEnergonCrystalPiece = new ItemEnergon(new RedEnergon());
+        energonCrystalPiece = new Item();
         
         tankShell = new Item();
         missile = new Item().setFull3D();
@@ -147,8 +139,6 @@ public class TFItems
         TFItemRegistry.registerItemNoTab(jetThruster, "Jet Thruster", modId);
         TFItemRegistry.registerItem(smallThruster, "Small Thruster", modId);
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector", modId);
-        TFItemRegistry.registerItem(emptyFuelCanister, "Empty Fuel Canister", modId);
-        TFItemRegistry.registerItemNoTab(filledFuelCanister, "Fuel Canister", modId);
         
         TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow", modId);
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);
@@ -179,7 +169,6 @@ public class TFItems
         
         TFItemRegistry.registerItem(displayVehicle, "Display Vehicle", modId);
         TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece", modId);
-        TFItemRegistry.registerItem(redEnergonCrystalPiece, "Red Energon Crystal Piece", modId);
         TFItemRegistry.registerItem(tankShell, "Tank Shell", modId);
         TFItemRegistry.registerItem(missile, "Missile", modId);
     }

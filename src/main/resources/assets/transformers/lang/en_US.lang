@@ -1,7 +1,6 @@
 ------Items------
 item.transformium.name=Transformium
 item.energon_crystal_piece.name=Energon Crystal Piece
-item.red_energon_crystal_piece.name=Red Energon Crystal Piece
 item.standard_engine.name=Standard Engine
 item.jet_turbine.name=Jet Turbine
 item.jet_thruster.name=Jet Thruster
@@ -17,8 +16,6 @@ item.missile.name=Missile
 item.tank_shell.name=Tank Shell
 item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
-item.empty_fuel_canister.name=Empty Fuel Canister
-item.fuel_canister.name=Fuel Canister
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head
@@ -60,11 +57,9 @@ item.flame_thrower.name=Cloudtrap's Flamethrower
 tile.display_pillar.name=Display Pillar
 tile.transformium_ore.name=Transformium Ore
 tile.energon_crystal.name=Energon Crystal
-tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed
-tile.energon_processor.name=Energon Processor
 
 -----Tab------
 itemGroup.Transformers=Transformers
@@ -73,7 +68,7 @@ itemGroup.Transformers=Transformers
 stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
 stats.laser_charge.name=Laser Charge
-gui.energon_processor=Energon Processor
+gui.display_pillar.name=Display Pillar
 
 ------Achievements------
 achievement.tf.shoot_missile=Directed by Michael Bay

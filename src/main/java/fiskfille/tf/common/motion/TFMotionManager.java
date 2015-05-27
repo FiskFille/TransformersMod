@@ -24,12 +24,12 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFModelHelper;
@@ -201,7 +201,7 @@ public class TFMotionManager //TODO-TF Clean this up
             
             if (canDrift && driftPressed && player.onGround && forwardVelocity > 10 && !inStealthMode)
             {
-                ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
+                ModelBipedTF modelBipedMain = (ModelBipedTF) TFModelHelper.modelBipedMain;
                 float f = modelBipedMain.bipedHead.rotateAngleY - (modelBipedMain.bipedBody.rotateAngleY - modelBipedMain.bipedHead.rotateAngleY);
                 
                 drift(player, forwardVelocity, f, true);
