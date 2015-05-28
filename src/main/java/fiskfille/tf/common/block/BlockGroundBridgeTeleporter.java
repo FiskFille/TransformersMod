@@ -73,12 +73,12 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public boolean spawnTeleporter(World world, int x, int y, int z)
     {
-    	if (isNorthFacingFramePresent(world, x, y, z))
+    	if (isNorthSouthFacingFramePresent(world, x, y, z))
     	{
     		fillNorthFacingFrame(world, x, y, z, TFBlocks.groundBridgeTeleporter);
     		return true;
     	}
-    	else if (isEastFacingFramePresent(world, x, y, z))
+    	else if (isEastWestFacingFramePresent(world, x, y, z))
     	{
     		fillEastFacingFrame(world, x, y, z, TFBlocks.groundBridgeTeleporter);
     		return true;
@@ -186,7 +186,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
         return meta & 3;
     }
     
-    public boolean isNorthFacingFramePresent(World world, int x, int y, int z)
+    public boolean isNorthSouthFacingFramePresent(World world, int x, int y, int z)
     {
     	Block b = TFBlocks.groundBridgeFrame;
     	boolean flag = false;
@@ -221,7 +221,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
         return flag;
     }
     
-    public boolean isEastFacingFramePresent(World world, int x, int y, int z)
+    public boolean isEastWestFacingFramePresent(World world, int x, int y, int z)
     {
     	Block b = TFBlocks.groundBridgeFrame;
     	boolean flag = false;
