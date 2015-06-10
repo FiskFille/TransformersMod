@@ -62,7 +62,7 @@ public class BlockEnergonProcessor extends BlockContainer
     			liquidAmount += e.getValue();
             }
     		
-    		return Math.round((float)liquidAmount / 52 * 15);
+    		return Math.round((float)liquidAmount * 0.15F);
     	}
     	
         return 0;

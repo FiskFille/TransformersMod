@@ -178,7 +178,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         {
             IEnergon ienergon = (IEnergon)(itemstack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(itemstack.getItem()) : itemstack.getItem());
             
-            if (liquidAmount + ienergon.getMass() <= 52)
+            if (liquidAmount + ienergon.getMass() <= 100)
             {
                 return true;
             }

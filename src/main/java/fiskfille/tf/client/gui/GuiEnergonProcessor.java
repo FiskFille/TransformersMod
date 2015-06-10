@@ -73,9 +73,8 @@ public class GuiEnergonProcessor extends GuiContainer
         	colors.add(0xbf0000);
         }
         
-        percentMultiplier = 100F / 52F;
-        int percent = Math.round(tileentity.liquidAmount * percentMultiplier);
-        float litres = (float)Math.round(tileentity.liquidAmount * percentMultiplier) / 50;
+        int percent = Math.round(tileentity.liquidAmount);
+        float litres = (float)Math.round(tileentity.liquidAmount) / 50;
         text.add(percent + "% filled (" + litres + "L)");
         colors.add(tileentity.liquidColor);
         
@@ -199,7 +198,7 @@ public class GuiEnergonProcessor extends GuiContainer
 
         mc.getTextureManager().bindTexture(energonTextures);
         float[] rgb = TFHelper.hexToRGB(tileentity.liquidColor);
-        int offsetY = tileentity.liquidAmount / 2;
+        int offsetY = (int)(tileentity.liquidAmount * 0.26F);
         float scale = 2;
         
         GL11.glPushMatrix();

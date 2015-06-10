@@ -51,7 +51,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     
     public int getMass()
     {
-    	return 10;
+    	return 20;
     }
     
     protected boolean canSilkHarvest()

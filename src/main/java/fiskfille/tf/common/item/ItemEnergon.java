@@ -21,6 +21,6 @@ public class ItemEnergon extends Item implements IEnergon
 	
 	public int getMass()
 	{
-		return 2;
+		return 5;
 	}
 }

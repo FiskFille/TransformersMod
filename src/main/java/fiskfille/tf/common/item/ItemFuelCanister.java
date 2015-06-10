@@ -60,8 +60,7 @@ public class ItemFuelCanister extends Item
         	list.add(EnumChatFormatting.RED + "Unidentified");
         }
 		
-		percentMultiplier = 100F / 52F;
-        int percent = Math.round(liquidAmount * percentMultiplier);
+        int percent = Math.round(liquidAmount);
         float litres = (float)percent / 50;
         list.add(EnumChatFormatting.YELLOW + "" + percent + "% filled (" + litres + "L)");
 	}
