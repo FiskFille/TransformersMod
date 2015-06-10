@@ -17,6 +17,6 @@ public class BlockGroundBridgeFrame extends Block
     {
         TFBlocks.groundBridgeTeleporter.spawnTeleporter(world, x, y, z);
         
-        return true;
+        return false;
     }
 }

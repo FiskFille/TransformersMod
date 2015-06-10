@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -42,6 +43,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     public int fillTime;
     public int currentMaxPowerTime;
     public float animationTimer;
+    public int animationBurnTime;
     
     public HashMap<String, Integer> energonContentMap = Maps.newHashMap();
     public int liquidColor = 0xffffff;
@@ -50,11 +52,13 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     {
         if (burnTime > 0)
         {
+        	++animationBurnTime;
             animationTimer += 0.001F;
             animationTimer *= 1.05F;
         }
         else
         {
+        	animationBurnTime = 0;
             animationTimer *= 0.95F;
         }
         
@@ -65,7 +69,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         
         if (!worldObj.isRemote)
         {
-        	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+//        	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             ItemStack power = itemStacks[0];
             ItemStack crystal = itemStacks[1];
             ItemStack canister = itemStacks[2];
@@ -104,6 +108,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     burnTime = 0;
                     decrStackSize(1, 1);
+                    notifyNeighborBlocksOfChange();
                 }
             }
             else if (burnTime > 0)
@@ -132,6 +137,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 	liquidAmount = 0;
                 	liquidColor = 0xffffff;
                 	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                	notifyNeighborBlocksOfChange();
                 }
             }
             else if (fillTime > 0)
@@ -141,7 +147,6 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
             
             
             float percentMultiplier = 100F / liquidAmount;
-            int tempLiquidColor = liquidColor;
     		
     		if (!energonContentMap.isEmpty())
             {
@@ -152,17 +157,22 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 	
                 	if (energon != null)
                 	{
-//                		for (int i = 0; i < percent; ++i)
-                		{
-                			liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float)percent / 100);
-                		}
+                		liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float)percent / 100);
                 	}
                 }
             }
         }
     }
     
-    public boolean canBurnCrystal(ItemStack itemstack)
+    private void notifyNeighborBlocksOfChange()
+    {
+        worldObj.getBlock(xCoord + 1, yCoord, zCoord).onNeighborBlockChange(worldObj, xCoord + 1, yCoord, zCoord, blockType);
+        worldObj.getBlock(xCoord - 1, yCoord, zCoord).onNeighborBlockChange(worldObj, xCoord - 1, yCoord, zCoord, blockType);
+        worldObj.getBlock(xCoord, yCoord, zCoord + 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord + 1, blockType);
+        worldObj.getBlock(xCoord, yCoord, zCoord - 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord - 1, blockType);
+	}
+
+	public boolean canBurnCrystal(ItemStack itemstack)
     {
         if (itemstack != null && isItemValidForSlot(1, itemstack))
         {
@@ -365,6 +375,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     
     public boolean canInsertItem(int slot, ItemStack stack, int p_102007_3_)
     {
+    	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return this.isItemValidForSlot(slot, stack);
     }
     

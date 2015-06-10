@@ -1,8 +1,10 @@
 package fiskfille.tf.common.block;
 
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -41,6 +43,30 @@ public class BlockEnergonProcessor extends BlockContainer
 	{
 		return -1;
 	}
+	
+	public boolean hasComparatorInputOverride()
+    {
+        return true;
+    }
+	
+    public int getComparatorInputOverride(World world, int x, int y, int z, int metadata)
+    {
+    	TileEntityEnergonProcessor tile = (TileEntityEnergonProcessor)world.getTileEntity(x, y, z);
+    	
+    	if (tile != null)
+    	{
+    		int liquidAmount = 0;
+    		
+    		for (Map.Entry<String, Integer> e : tile.energonContentMap.entrySet())
+            {
+    			liquidAmount += e.getValue();
+            }
+    		
+    		return Math.round((float)liquidAmount / 52 * 15);
+    	}
+    	
+        return 0;
+    }
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
 	{
