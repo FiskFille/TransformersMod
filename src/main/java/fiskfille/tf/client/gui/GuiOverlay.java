@@ -164,24 +164,24 @@ public class GuiOverlay extends Gui
             
             int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
             
-            if (transformationTimer <= 20 && (transformer.canShoot(player)))
+            if (transformationTimer < 20 && (transformer.canShoot(player)))
             {
                 int transformationOffsetX = 0;
                 
                 if (transformer.hasStealthForce(player) && stealthModeTimer <= 5)
                 {
-                    transformationOffsetX = stealthModeTimer * 25;
+                    transformationOffsetX = stealthModeTimer * 35;
                 }
                 else
                 {
-                    transformationOffsetX = (int) (transformationTimer * 7.5F);
+                    transformationOffsetX = (int) (transformationTimer * 10F);
                 }
                 
-                int x = 80;
+                int x = 75;
                 
-                int j = 20 - TFShootManager.shootCooldown;
+                int j = 50 - TFShootManager.shootCooldown;
                 
-                double d = (double) j * 2.5;
+                double d = (double) j * 2.61F;
                 
                 String shotsLeft = "" + TFShootManager.shotsLeft;
                 
@@ -198,7 +198,7 @@ public class GuiOverlay extends Gui
                 GL11.glColor4f(0F, 0F, 0F, 0.15F);
                 
                 int y = 30;
-                drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 52, 12);
+                drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 132, 12);
                 GL11.glColor4f(1F, 0F, 0F, 0.25F);
                 drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int) (d), 10);
                 

@@ -231,7 +231,7 @@ public class TFShootManager
                         
                         if (shotsLeft <= 0)
                         {
-                            shootCooldown = 20;
+                            shootCooldown = 50;
                             reloading = true;
                         }
                     }
@@ -240,7 +240,7 @@ public class TFShootManager
                 {
                     if (!reloading)
                     {
-                        shootCooldown = 20;
+                        shootCooldown = 50;
                         reloading = true;
                     }
                 }
