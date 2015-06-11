@@ -162,4 +162,10 @@ public abstract class TransformerTank extends Transformer
             player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.3F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
+    
+    @Override
+    public int getShots()
+    {
+        return 10;
+    }
 }

@@ -177,11 +177,11 @@ public class GuiOverlay extends Gui
                     transformationOffsetX = (int) (transformationTimer * 10F);
                 }
                 
-                int x = 75;
+                int x = 78;
                 
                 int j = 50 - TFShootManager.shootCooldown;
                 
-                double d = (double) j * 2.61F;
+                double d = (double) j * 2.55F;
                 
                 String shotsLeft = "" + TFShootManager.shotsLeft;
                 
@@ -198,7 +198,7 @@ public class GuiOverlay extends Gui
                 GL11.glColor4f(0F, 0F, 0F, 0.15F);
                 
                 int y = 30;
-                drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 132, 12);
+                drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 129, 12);
                 GL11.glColor4f(1F, 0F, 0F, 0.25F);
                 drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int) (d), 10);
                 
