@@ -22,7 +22,6 @@ public class ItemFlamethrower extends ItemSword
     {
         super(material);
         this.setMaxDamage(1500);
-        this.setCreativeTab(null);
     }
     
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)

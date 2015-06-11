@@ -193,10 +193,7 @@ public class ItemMiniVehicle extends Item
         
         for (Transformer transformer : TransformersAPI.getTransformers())
         {
-            if (!(transformer instanceof TransformerCloudtrap)) //Sorry CT :P
-            {
-                subItems.add(new ItemStack(this, 1, index));
-            }
+            subItems.add(new ItemStack(this, 1, index));
             
             index++;
         }
