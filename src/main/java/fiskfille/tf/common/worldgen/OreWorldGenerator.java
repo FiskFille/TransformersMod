@@ -44,13 +44,11 @@ public class OreWorldGenerator implements IWorldGenerator
     
     public void generateOre(int veinsPerChunk, Block block, int veinSize, int minY, World world, Random random, int chunkX, int chunkZ)
     {
-        Random randomGenerator = random;
-        
         for (int i = 0; i < veinsPerChunk; i++)
         {
-            int randPosX = chunkX + randomGenerator.nextInt(16);
+            int randPosX = chunkX + random.nextInt(16);
             int randPosY = random.nextInt(minY);
-            int randPosZ = chunkZ + randomGenerator.nextInt(16);
+            int randPosZ = chunkZ + random.nextInt(16);
             new WorldGenMinable(block, veinSize).generate(world, random, randPosX, randPosY, randPosZ);
         }
     }
@@ -59,9 +57,9 @@ public class OreWorldGenerator implements IWorldGenerator
     {
         for (int i = 0; i < veinsPerChunk; i++)
         {
-            int randPosX = chunkX + random.nextInt(8);
+            int randPosX = chunkX + random.nextInt(15) + 1;
             int randPosY = random.nextInt(minY);
-            int randPosZ = chunkZ + random.nextInt(8);
+            int randPosZ = chunkZ + random.nextInt(15) + 1;
             
             if (world.getBlock(randPosX, randPosY, randPosZ) == Blocks.air)
             {
