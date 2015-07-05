@@ -6,7 +6,10 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.particle.NitroParticleHandler;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 
@@ -22,7 +25,7 @@ public class CloudtrapJetpackManager
     public static void cloudtrapTick(EntityPlayer player)
     {
         boolean isClientPlayer = TransformersMod.proxy.getPlayer() == player;
-        boolean jetpacking = Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+        boolean jetpacking = Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed() && !player.capabilities.isFlying;
         
         if (isClientPlayer)
         {
@@ -52,7 +55,8 @@ public class CloudtrapJetpackManager
                 for (int i = 0; i < 20; ++i)
                 {
                     Random rand = new Random();
-                    player.worldObj.spawnParticle("flame", player.posX, player.posY, player.posZ, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
+                    Vec3 coords = NitroParticleHandler.getSideCoords(player, 0.15, i > 10, false);
+                    player.worldObj.spawnParticle("flame", coords.xCoord, coords.yCoord + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
                 }
             }
         }
@@ -66,7 +70,8 @@ public class CloudtrapJetpackManager
                 for (int i = 0; i < 20; ++i)
                 {
                     Random rand = new Random();
-                    player.worldObj.spawnParticle("flame", player.posX, player.posY - 1.5F, player.posZ, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
+                    Vec3 coords = NitroParticleHandler.getSideCoords(player, 0.15, i > 10, false);
+                    player.worldObj.spawnParticle("flame", coords.xCoord, coords.yCoord - 1.5F + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
                 }
             }
         }

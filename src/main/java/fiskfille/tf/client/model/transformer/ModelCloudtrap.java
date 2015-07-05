@@ -2104,6 +2104,14 @@ public class ModelCloudtrap extends MowzieModelBase
             int t = TFDataManager.getTransformationTimer(player);
             float f = (float) (20 - t);
             
+            ModelBiped modelBiped = TFModelHelper.modelBipedMain;
+            
+            if(modelBiped != null)
+            {
+                this.vehicleBody.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
+                this.vehicleBody.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
+            }
+            
             rotateTo(waist, vehicleBody, f);
             rotateTo(upperLegL, vehicleUpperlegLbase, f);
             rotateTo(upperLegR, vehicleUpperlegRbase, f);
@@ -2194,7 +2202,7 @@ public class ModelCloudtrap extends MowzieModelBase
             rotateTo(upperlegL3, vehicleupperlegL3, f);
             rotateTo(upperlegR2, vehicleupperlegR2, f);
             rotateTo(upperlegR3, vehicleupperlegR3, f);
-
+            
             rotateTo(upperLegL, vehicleUpperlegLbase, f);
             rotateTo(upperLegR, vehicleUpperlegRbase, f);
             
@@ -2234,14 +2242,6 @@ public class ModelCloudtrap extends MowzieModelBase
             fistRbase.rotationPointY -= f * 0.25F;
             
             rotateTo(chestcockpitbase, vehiclechestcockpitbase, f);
-            
-            if (t == 0)
-            {
-                ModelBiped modelBiped = TFModelHelper.modelBipedMain;
-                
-                this.vehicleBody.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
-                this.vehicleBody.rotateAngleZ = -(modelBiped.bipedHead.rotateAngleY);
-            }
         }
     }
     
