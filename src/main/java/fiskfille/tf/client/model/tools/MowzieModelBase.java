@@ -341,9 +341,9 @@ public class MowzieModelBase extends ModelChildBase.Biped
     /**
      * @param rotating The ModelRenderer you are moving.
      * @param to The ModelRenderer you are moving to
-     * @param t The timer (20-0)
+     * @param f The timer (20-0)
      */
-    protected void rotateTo(ModelRenderer rotating, ModelRenderer to, float t)
+    protected void rotateTo(ModelRenderer rotating, ModelRenderer to, float f)
     {
         float rotXDif = to.rotateAngleX - rotating.rotateAngleX;
         float rotYDif = to.rotateAngleY - rotating.rotateAngleY;
@@ -357,17 +357,17 @@ public class MowzieModelBase extends ModelChildBase.Biped
         float offsetYDif = to.offsetY - rotating.offsetY;
         float offsetZDif = to.offsetZ - rotating.offsetZ;
         
-        rotating.rotateAngleX += (rotXDif / 20) * t;
-        rotating.rotateAngleY += (rotYDif / 20) * t;
-        rotating.rotateAngleZ += (rotZDif / 20) * t;
+        rotating.rotateAngleX += (rotXDif / 20) * f;
+        rotating.rotateAngleY += (rotYDif / 20) * f;
+        rotating.rotateAngleZ += (rotZDif / 20) * f;
         
-        rotating.offsetX += (offsetXDif / 20) * t;
-        rotating.offsetY += (offsetYDif / 20) * t;
-        rotating.offsetZ += (offsetZDif / 20) * t;
+        rotating.offsetX += (offsetXDif / 20) * f;
+        rotating.offsetY += (offsetYDif / 20) * f;
+        rotating.offsetZ += (offsetZDif / 20) * f;
         
-        rotating.rotationPointX += (posXDif / 20) * t;
-        rotating.rotationPointY += (posYDif / 20) * t;
-        rotating.rotationPointZ += (posZDif / 20) * t;
+        rotating.rotationPointX += (posXDif / 20) * f;
+        rotating.rotationPointY += (posYDif / 20) * f;
+        rotating.rotationPointZ += (posZDif / 20) * f;
     }
     
     public void addPart(MowzieModelRenderer mowzieModelRenderer)
