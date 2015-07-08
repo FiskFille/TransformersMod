@@ -1983,7 +1983,7 @@ public class ModelCloudtrap extends MowzieModelBase
                     {
                         waist.rotateAngleX -= 0.1F;
                         waist.rotationPointY += 1.28F;
-                        waist.rotationPointY -= limbSwing * limbSwingAmount * 0.015F;
+                        waist.rotationPointY -= limbSwing * limbSwingAmount * 0.005F;
                         torsoConnector.rotateAngleX += 0.5;
                         head.rotateAngleX -= 0.5;
                         upperLegR.rotateAngleX -= 0.7;
