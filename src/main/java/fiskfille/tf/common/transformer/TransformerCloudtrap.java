@@ -8,6 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 
@@ -55,6 +57,23 @@ public class TransformerCloudtrap extends TransformerJet
                 CloudtrapJetpackManager.cloudtrapTick(player);
             }
         }
+        
+        if (timer == 20)
+        {
+            if (!player.capabilities.isFlying)
+            {
+                if (player.motionY < 0.0D)
+                {
+                    player.motionY *= 0.975;
+                }
+            }
+        }
+    }
+    
+    @Override
+    public void updateMovement(EntityPlayer player)
+    {
+        TFMotionManager.motionJet(player, 140, 200, 50);
     }
     
     @Override

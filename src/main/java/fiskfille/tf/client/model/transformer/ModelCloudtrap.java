@@ -1981,25 +1981,25 @@ public class ModelCloudtrap extends MowzieModelBase
                     
                     if (entity.isSneaking())
                     {
-                        waist.rotationPointY -= limbSwingAmount;
-                        waist.rotateAngleX += 0.45F;
-                        upperLegR.rotateAngleX -= 1F;
-                        upperLegL.rotateAngleX -= 1F;
-                        upperLegR.rotateAngleY += 0.1F;
-                        upperLegL.rotateAngleY -= 0.1F;
-                        lowerlegRbase.rotateAngleX += 1F;
-                        lowerlegLbase.rotateAngleX += 1F;
-                        lowerlegRbase.rotationPointY += 2F;
-                        lowerlegLbase.rotationPointY += 2F;
-                        upperArmR.rotateAngleX -= 0.35F;
-                        upperArmL.rotateAngleX -= 0.35F;
-                        upperArmR.rotateAngleY += 0.15F;
-                        upperArmL.rotateAngleY -= 0.15F;
-                        upperArmR.rotateAngleZ += 0.05F;
-                        upperArmL.rotateAngleZ -= 0.05F;
-                        feetbaseR.rotateAngleX -= 0.35F;
-                        feetbaseL.rotateAngleX -= 0.35F;
-                        head.rotateAngleX -= 0.35F;
+                        waist.rotateAngleX -= 0.1F;
+                        waist.rotationPointY += 1.28F;
+                        waist.rotationPointY -= limbSwing * limbSwingAmount * 0.015F;
+                        torsoConnector.rotateAngleX += 0.5;
+                        head.rotateAngleX -= 0.5;
+                        upperLegR.rotateAngleX -= 0.7;
+                        upperLegL.rotateAngleX -= 0.7;
+                        upperLegR.rotateAngleY += 0.2;
+                        upperLegL.rotateAngleY -= 0.2;
+                        lowerlegRbase.rotateAngleX += 1.1;
+                        lowerlegLbase.rotateAngleX += 1.1;
+                        feetbaseR.rotateAngleX -= 0.25;
+                        feetbaseL.rotateAngleX -= 0.25;
+                        upperArmR.rotateAngleX -= 0.5;
+                        upperArmL.rotateAngleX -= 0.5;
+                        upperArmR.rotateAngleZ += 0.5;
+                        upperArmL.rotateAngleZ -= 0.5;
+                        lowerArmR.rotateAngleZ -= 0.5;
+                        lowerArmL.rotateAngleZ += 0.5;
                     }
                 }
                 else
@@ -2047,10 +2047,10 @@ public class ModelCloudtrap extends MowzieModelBase
                     upperBodyBase.rotateAngleX += 0.3 * downwardPose;
                     torsoConnector.rotateAngleX += 0.3 * downwardPose;
                     head.rotateAngleX += 0.3 * downwardPose;
-                    upperLegR.rotateAngleX -= 1.2 * downwardPose;
+                    upperLegR.rotateAngleX -= 0.6 * downwardPose;
                     upperLegL.rotateAngleX -= 0.2 * downwardPose;
-                    lowerlegRbase.rotateAngleX += 2 * downwardPose;
-                    lowerlegLbase.rotateAngleX += 0.5 * downwardPose;
+                    lowerlegRbase.rotateAngleX += 1.4F * downwardPose;
+                    lowerlegLbase.rotateAngleX += 0.5F * downwardPose;
                     upperArmR.rotateAngleZ += 0.5F * downwardPose;
                     upperArmL.rotateAngleZ -= 0.5F * downwardPose;
                     lowerArmR.rotateAngleX -= 1 * downwardPose;
