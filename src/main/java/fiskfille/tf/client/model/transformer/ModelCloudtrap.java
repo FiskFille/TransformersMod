@@ -1,21 +1,19 @@
 package fiskfille.tf.client.model.transformer;
 
-import org.lwjgl.opengl.GL11;
-
+import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
-import fiskfille.tf.common.transformer.TransformerPurge;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelCloudtrap extends MowzieModelBase
 {
@@ -1866,7 +1864,7 @@ public class ModelCloudtrap extends MowzieModelBase
             
             if (entity.isSneaking())
             {
-                globalDegree = 1F;
+                globalDegree = 0.4F;
                 globalSpeed = 1.5F;
             }
             
@@ -1927,7 +1925,7 @@ public class ModelCloudtrap extends MowzieModelBase
                 
                 if (playerOnGround || player.capabilities.isFlying)
                 {
-                    bob(waist, globalSpeed * 0.8F, globalDegree * 1.0F, false, limbSwing, limbSwingAmount);
+                    bob(waist, globalSpeed * 1F, globalDegree * 1.0F, false, limbSwing, limbSwingAmount);
                     
                     waist.rotationPointY += (1 * limbSwingAmount) * 1.25F;
                     walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * limbSwingAmount * backwardInverter, limbSwing, limbSwingAmount);
@@ -1941,13 +1939,13 @@ public class ModelCloudtrap extends MowzieModelBase
                     swing(upperLegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, limbSwing, limbSwingAmount);
                     swing(upperLegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, limbSwing, limbSwingAmount);
                     
-                    walk(upperLegR, globalSpeed * 0.5F, globalDegree * 0.8F, true, 0.0F, 0.2F, limbSwing, limbSwingAmount);
-                    walk(lowerlegRbase, 0.5F * globalSpeed, 1F * globalDegree, false, 1F * backwardInverter, 0F, limbSwing, limbSwingAmount);
+                    walk(upperLegR, globalSpeed * 0.5F, globalDegree * 1F, true, 0.0F, 0.2F, limbSwing, limbSwingAmount);
+                    walk(lowerlegRbase, 0.5F * globalSpeed, 1.3F * globalDegree, false, 1F * backwardInverter, 0.2F, limbSwing, limbSwingAmount);
                     walk(feetbaseR, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0F, 0F, limbSwing, limbSwingAmount);
                     walk(feetbaseR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0.5F * backwardInverter, 0.3F, limbSwing, limbSwingAmount);
                     
-                    walk(upperLegL, globalSpeed * 0.5F, globalDegree * 0.8F, false, 0.0F, 0.2F, limbSwing, limbSwingAmount);
-                    walk(lowerlegLbase, 0.5F * globalSpeed, 1F * globalDegree, true, 1F * backwardInverter, 0F, limbSwing, limbSwingAmount);
+                    walk(upperLegL, globalSpeed * 0.5F, globalDegree * 1F, false, 0.0F, 0.2F, limbSwing, limbSwingAmount);
+                    walk(lowerlegLbase, 0.5F * globalSpeed, 1.3F * globalDegree, true, 1F * backwardInverter, 0.2F, limbSwing, limbSwingAmount);
                     walk(feetbaseL, 0.5F * globalSpeed, 0.6F * globalDegree, false, 0F, 0F, limbSwing, limbSwingAmount);
                     walk(feetbaseL, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0.5F * backwardInverter, 0.3F, limbSwing, limbSwingAmount);
                     
@@ -1973,11 +1971,11 @@ public class ModelCloudtrap extends MowzieModelBase
                     flap(wingbaseR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
                     flap(wingbaseL, 0.08F, 0.04F, false, 1, 0, ticksExisted, 1F);
                     
-                    walk(wingstrutR1, 0.06F, 0.08F, true, 2.5F, 0, ticksExisted, 1F);
-                    walk(wingstrutL1, 0.06F, 0.08F, true, 2.5F, 0, ticksExisted, 1F);
+                    walk(wingstrutR1, 0.08F, 0.08F, true, 2.5F, 0, ticksExisted, 1F);
+                    walk(wingstrutL1, 0.08F, 0.08F, true, 2.5F, 0, ticksExisted, 1F);
                     
-                    walk(wingstrutR3, 0.06F, 0.08F, false, 2.5F, 0, ticksExisted, 1F);
-                    walk(wingstrutL3, 0.06F, 0.08F, false, 2.5F, 0, ticksExisted, 1F);
+                    walk(wingstrutR3, 0.08F, 0.08F, false, 2.5F, 0, ticksExisted, 1F);
+                    walk(wingstrutL3, 0.08F, 0.08F, false, 2.5F, 0, ticksExisted, 1F);
                     
                     if (entity.isSneaking())
                     {
