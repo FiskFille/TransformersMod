@@ -2,10 +2,9 @@ package fiskfille.tf.common.proxy;
 
 import java.lang.reflect.Field;
 
-import net.ilexiconn.llibrary.LLibrary;
-import net.ilexiconn.llibrary.client.render.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -13,7 +12,6 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.model.player.PlayerModelOverride;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.render.entity.RenderBassCharge;
 import fiskfille.tf.client.render.entity.RenderBlank;
@@ -22,6 +20,7 @@ import fiskfille.tf.client.render.entity.RenderMissile;
 import fiskfille.tf.client.render.entity.RenderTankShell;
 import fiskfille.tf.client.render.entity.RenderTransformer;
 import fiskfille.tf.client.render.entity.RenderTransformiumSeedEntity;
+import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.client.render.item.RenderItemBassBlaster;
 import fiskfille.tf.client.render.item.RenderItemDisplayVehicle;
 import fiskfille.tf.client.render.item.RenderItemFlamethrower;
@@ -54,7 +53,7 @@ public class ClientProxy extends CommonProxy
     public static Field camRollField;
     private Minecraft mc = Minecraft.getMinecraft();
     
-//    public static RenderCustomPlayer renderCustomPlayer;
+    public static RenderCustomPlayer renderCustomPlayer;
     
     @Override
     public World getWorld()
@@ -71,9 +70,9 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderInformation()
     {
-//        renderCustomPlayer = new RenderCustomPlayer();
-//        renderCustomPlayer.setRenderManager(RenderManager.instance);
-//        RenderManager.instance.entityRenderMap.put(EntityPlayer.class, renderCustomPlayer);
+    	renderCustomPlayer = new RenderCustomPlayer();
+    	renderCustomPlayer.setRenderManager(RenderManager.instance);
+    	RenderManager.instance.entityRenderMap.put(EntityPlayer.class, renderCustomPlayer);
         
         int i = 0;
         for (Field curField : EntityRenderer.class.getDeclaredFields())
@@ -111,7 +110,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonProcessor), new RenderItemTileEntity(new TileEntityEnergonProcessor()));
         
-        RenderHelper.registerModelExtension(new PlayerModelOverride());
+//        RenderHelper.registerModelExtension(new PlayerModelOverride());
         
         TFModelRegistry.registerModels();
     }

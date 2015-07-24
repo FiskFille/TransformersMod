@@ -1,13 +1,10 @@
 package fiskfille.tf;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
-import net.ilexiconn.llibrary.common.update.UpdateHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
-import scala.collection.script.Update;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -30,7 +27,7 @@ import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.web.donator.Donators;
 
-@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory", dependencies = "required-after:llibrary@[0.2.0-1.7.10,)")
+@Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
 {
     @Instance(TransformersMod.modid)
@@ -68,15 +65,7 @@ public class TransformersMod
         
         if (TFConfig.checkForUpdates)
         {
-            try
-            {
-                UpdateHelper.registerUpdateChecker(this, "http://pastebin.com/raw.php?i=J1BrPkvD");
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            
+        	// TODO: Re-implement our own update checker.
             Donators.loadDonators();
         }
         
