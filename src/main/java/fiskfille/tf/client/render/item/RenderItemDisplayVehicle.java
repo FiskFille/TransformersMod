@@ -47,10 +47,10 @@ public class RenderItemDisplayVehicle implements IItemRenderer
             GL11.glPushMatrix();
             GL11.glRotatef(180, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(210, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(20, 0.0F, 0.0F, 1.0F);
-            GL11.glTranslatef(-0.6F, -2.0F, 0.7F);
+            GL11.glRotatef(10, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslatef(-0.7F, -2.1F, 0.2F);
             
-            float scale = 0.7F;
+            float scale = 1.0F;
             GL11.glScalef(scale, scale, scale);
             vehicleModel.render();
             GL11.glPopMatrix();

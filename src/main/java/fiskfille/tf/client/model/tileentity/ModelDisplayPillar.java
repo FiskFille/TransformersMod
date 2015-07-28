@@ -55,7 +55,7 @@ public class ModelDisplayPillar extends ModelBase
         setRotation(top, 0F, 0F, 0F);
     }
     
-    public void renderAll()
+    public void render()
     {
         float f5 = 0.0625F;
         main.render(f5);

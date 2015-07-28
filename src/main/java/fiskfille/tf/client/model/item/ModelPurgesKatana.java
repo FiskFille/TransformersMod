@@ -1,5 +1,7 @@
 package fiskfille.tf.client.model.item;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
@@ -83,7 +85,19 @@ public class ModelPurgesKatana extends ModelBase
         setRotation(wheel6, 0F, 1.570796F, 0F);
     }
     
-    public void render(float f5)
+    public void render()
+    {
+    	float f = 1.0F;
+        float f1 = f * 0.75F;
+        GL11.glScalef(f, f, f);
+        renderBlade(0.0625F);
+        
+        float f2 = 0.65F;
+        GL11.glScalef(f, f, f2);
+        renderWheels(0.0625F);
+    }
+    
+    public void renderBlade(float f5)
     {
         handle.render(f5);
         blade.render(f5);

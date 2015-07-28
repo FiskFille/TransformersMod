@@ -16,6 +16,7 @@ public class TFBlocks
     public static Block energonCube;
     public static Block transformiumStone;
     public static Block transformiumSeed;
+    public static Block transformiumBlock;
     
     public void register()
     {
@@ -23,8 +24,9 @@ public class TFBlocks
         displayPillar = new BlockDisplayPillar();
         energonCrystal = new BlockEnergonCrystal();
         energonCube = new BlockEnergonCube();
-        transformiumStone = new BlockTransformiumStone();
+        transformiumStone = new BlockTransformiumStone().setResistance(1000.0F);
         transformiumSeed = new BlockTransformiumSeed();
+        transformiumBlock = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
         
         String modId = TransformersMod.modid;
         
@@ -34,5 +36,6 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube", modId);
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone", modId);
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
+        TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium", modId);
     }
 }

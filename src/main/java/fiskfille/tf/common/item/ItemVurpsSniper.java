@@ -1,9 +1,11 @@
 package fiskfille.tf.common.item;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -34,7 +36,7 @@ public class ItemVurpsSniper extends ItemSword
                 }
                 else
                 {
-                    if (!TFShootManager.laserFilling && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+                    if (!TFShootManager.laserFilling && (player.inventory.hasItem(Item.getItemFromBlock(TFBlocks.energonCube)) || player.capabilities.isCreativeMode))
                     {
                         stack.damageItem(1, player);
                         TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, true));

@@ -4,8 +4,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
+import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRecipes
 {
@@ -19,8 +21,13 @@ public class TFRecipes
         addArmorRecipes();
         
         GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), new Object[] { "IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformium, 'R', Blocks.redstone_block, 'r', Items.redstone });
+        GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), new Object[] { "TET", "TNT", "DND", 'T', TFBlocks.transformiumBlock, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block });
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(TFItems.energonCrystalPiece, 9), new Object[] { TFBlocks.energonCube });
+        GameRegistry.addShapelessRecipe(new ItemStack(TFItems.transformium, 9), new Object[] { TFBlocks.transformiumBlock });
+        
         GameRegistry.addRecipe(new ItemStack(TFBlocks.energonCube, 1), new Object[] { "CCC", "CCC", "CCC", 'C', TFItems.energonCrystalPiece });
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), new Object[] { "TET", "TNT", "DND", 'T', TFItems.transformium, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block });
+        GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumBlock, 1), new Object[] { "CCC", "CCC", "CCC", 'C', TFItems.transformium });
     }
     
     private static void addSmelting()
@@ -60,6 +67,14 @@ public class TFRecipes
     {
         GameRegistry.addRecipe(new ItemStack(TFBlocks.displayPillar, 1), new Object[] { " - ", "SWS", '-', Blocks.stone_slab, 'S', Blocks.stone, 'W', Blocks.cobblestone_wall });
         GameRegistry.addRecipe(new RecipesDisplayItems());
+        
+        int i = 0;
+        
+        for (Transformer transformer : TransformersAPI.getTransformers())
+        {
+        	GameRegistry.addShapelessRecipe(new ItemStack(TFItems.displayVehicle, 1, i), new Object[] { transformer.getHelmet(), transformer.getChestplate(), transformer.getLeggings(), transformer.getBoots() });
+        	++i;
+        }
     }
     
     private static void addProjectileRecipes()

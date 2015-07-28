@@ -8,6 +8,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
@@ -51,14 +52,13 @@ public class TransformerVurp extends TransformerCar
     @Override
     public Item getShootItem()
     {
-        return TFItems.energonCrystalPiece;
+        return Item.getItemFromBlock(TFBlocks.energonCube);
     }
     
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
         EntityLaser entityLaser = new EntityLaser(player.worldObj, player);
-        entityLaser.posY -= 0.3;
         return entityLaser;
     }
     

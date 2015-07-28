@@ -114,7 +114,7 @@ public class TFItems
         
         transformiumDetector = new ItemTransformiumDetector();
         
-        displayVehicle = new ItemMiniVehicle();
+        displayVehicle = new ItemDisplayVehicle();
         energonCrystalPiece = new Item();
         
         tankShell = new Item();

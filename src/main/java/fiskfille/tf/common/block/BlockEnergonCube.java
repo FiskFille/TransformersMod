@@ -1,14 +1,10 @@
 package fiskfille.tf.common.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.item.TFItems;
 
 public class BlockEnergonCube extends BlockBasic //BlockIce
 {
@@ -36,12 +32,7 @@ public class BlockEnergonCube extends BlockBasic //BlockIce
     {
         return shouldRenderSide(world, x, y, z, 1 - side);
     }
-    
-    public int quantityDropped(Random random)
-    {
-        return random.nextInt(1) + 9;
-    }
-    
+
     public boolean renderAsNormalBlock()
     {
         return false;
@@ -54,11 +45,6 @@ public class BlockEnergonCube extends BlockBasic //BlockIce
     public int getRenderBlockPass()
     {
         return 1;
-    }
-    
-    public Item getItemDropped(int p_149650_1_, Random random, int p_149650_3_)
-    {
-        return TFItems.energonCrystalPiece;
     }
     
     public boolean isOpaqueCube()

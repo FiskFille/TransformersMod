@@ -17,9 +17,9 @@ import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.base.Transformer;
 
-public class ItemMiniVehicle extends Item
+public class ItemDisplayVehicle extends Item
 {
-    public ItemMiniVehicle()
+    public ItemDisplayVehicle()
     {
         super();
         this.setMaxStackSize(1);

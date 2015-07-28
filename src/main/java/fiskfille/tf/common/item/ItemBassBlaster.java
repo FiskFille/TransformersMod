@@ -15,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.entity.EntityBassCharge;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 
 public class ItemBassBlaster extends ItemSword
@@ -44,15 +45,26 @@ public class ItemBassBlaster extends ItemSword
     {
         int duration = this.getMaxItemUseDuration(stack) - count;
         
-        if (duration < 80)
+        if (duration < 60)
         {
             if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
             {
                 World world = player.worldObj;
                 
+                for (int i = 0; i < 2; ++i)
+                {
+                	world.playSoundAtEntity(player, "note.bass", 1.0F, 0.8F);
+                }
+                
                 if (!world.isRemote)
                 {
                     EntityBassCharge entity = new EntityBassCharge(world, player);
+                    
+                    if (TFDataManager.isInVehicleMode(player))
+                    {
+                    	entity.posY -= 1.;
+                    }
+                    
                     world.spawnEntityInWorld(entity);
                 }
             }

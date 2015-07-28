@@ -36,32 +36,18 @@ public class RenderItemPurgesKatana implements IItemRenderer
             GL11.glRotatef(210, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(-0.7F, 0.2F, -0.0F);
             
-            float f = 1.0F;
-            float f1 = f * 0.75F;
-            GL11.glScalef(f, f, f);
-            model.render(0.0625F);
-            
-            float f2 = 0.65F;
-            GL11.glScalef(f, f, f2);
-            model.renderWheels(0.0625F);
+            model.render();
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.EQUIPPED)
         {
             GL11.glPushMatrix();
-            GL11.glRotatef(10, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(0, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(220, 0.0F, 0.0F, 1.0F);
-            GL11.glTranslatef(-0.8F, 0.25F, -0.055F);
+            GL11.glRotatef(5, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(-5, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(215, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslatef(-0.815F, 0.265F, -0.1F);
             
-            float f = 1.0F;
-            float f1 = f * 0.75F;
-            GL11.glScalef(f, f, f);
-            model.render(0.0625F);
-            
-            float f2 = 0.65F;
-            GL11.glScalef(f, f, f2);
-            model.renderWheels(0.0625F);
+            model.render();
             GL11.glPopMatrix();
         }
     }

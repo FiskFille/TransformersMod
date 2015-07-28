@@ -2,9 +2,9 @@ package fiskfille.tf.common.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -14,31 +14,28 @@ public class EntityBassCharge extends EntityThrowable
     public EntityBassCharge(World world)
     {
         super(world);
-        this.setSize(1.0F, 1.0F);
+        setSize(1.0F, 1.0F);
     }
     
     public EntityBassCharge(World world, EntityLivingBase entity)
     {
         super(world, entity);
-        this.setSize(1.0F, 1.0F);
+        setSize(1.0F, 1.0F);
     }
     
     public EntityBassCharge(World world, double x, double y, double z)
     {
         super(world, x, y, z);
-        this.setSize(1.0F, 1.0F);
+        setSize(1.0F, 1.0F);
     }
     
     public void onUpdate()
     {
         super.onUpdate();
         
-        worldObj.playSound(posX, posY, posZ, "note.bassattack", 1.0F, 0.8F, true);
-        worldObj.playSound(posX, posY, posZ, "note.bass", 1.0F, 0.8F, true);
-        
-        if (ticksExisted > 6)
+        if (ticksExisted > 20)
         {
-            this.setDead();
+            setDead();
         }
     }
     
@@ -56,19 +53,33 @@ public class EntityBassCharge extends EntityThrowable
     {
         if (mop.entityHit != null)
         {
-            float f = 2.0F;
-            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), f);
+            float f = 2.0F * (1.0F - ((float)ticksExisted / 20));
+            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), f);
             mop.entityHit.hurtResistantTime = 0;
+            
+            if (!worldObj.isRemote)
+            {
+//            	setDead();
+            }
         }
-        else if (mop.typeOfHit == mop.typeOfHit.BLOCK && worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getMaterial() == Material.glass)
+        else if (mop.typeOfHit == mop.typeOfHit.BLOCK)
         {
-            this.worldObj.playAuxSFX(2001, mop.blockX, mop.blockY + 1, mop.blockZ, Block.getIdFromBlock(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ)) + (worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ) << 12));
-            this.worldObj.setBlock(mop.blockX, mop.blockY, mop.blockZ, Blocks.air);
+        	int x = mop.blockX;
+        	int y = mop.blockY;
+        	int z = mop.blockZ;
+        	Block block = worldObj.getBlock(x, y, z);
+        	
+        	if (block.getMaterial().equals(Material.glass))
+        	{
+        		worldObj.playAuxSFX(2001, x, y + 1, z, Block.getIdFromBlock(worldObj.getBlock(x, y, z)) + (worldObj.getBlockMetadata(x, y, z) << 12));
+                worldObj.setBlockToAir(x, y, z);
+        	}
+        	else
+        	{
+
+        	}
         }
         
-        if (!this.worldObj.isRemote)
-        {
-            this.setDead();
-        }
+		setThrowableHeading(motionX, motionY, motionZ, -0.001F, 0);
     }
 }

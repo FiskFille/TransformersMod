@@ -1,5 +1,6 @@
 package fiskfille.tf.common.network;
 
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
@@ -97,7 +98,7 @@ public class MessageLaserShoot implements IMessage
                     
                     if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(from)))
                     {
-                        Item shootItem = TFItems.energonCrystalPiece;
+                        Item shootItem = Item.getItemFromBlock(TFBlocks.energonCube);
                         boolean isCreative = from.capabilities.isCreativeMode;
                         boolean consumeItems = !isCreative || from.inventory.hasItem(shootItem) && message.consume;
                         
@@ -109,7 +110,7 @@ public class MessageLaserShoot implements IMessage
                             
                             if (TFDataManager.isInVehicleMode(from))
                             {
-                                entity.posY -= 0.8F;
+                                entity.posY -= 1.1F;
                             }
                             
                             world.spawnEntityInWorld(entity);

@@ -66,7 +66,7 @@ public class RenderItemSkystrikesCrossbow implements IItemRenderer
             
             float f = 1.0F;
             GL11.glScalef(f, f, f);
-            model.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+            model.render();
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.EQUIPPED)
@@ -81,7 +81,7 @@ public class RenderItemSkystrikesCrossbow implements IItemRenderer
             
             float f = 1.0F;
             GL11.glScalef(f, f, f);
-            model.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+            model.render();
             GL11.glPopMatrix();
         }
     }

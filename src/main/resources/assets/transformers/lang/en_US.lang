@@ -60,6 +60,7 @@ tile.energon_crystal.name=Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed
+tile.block_of_transformium.name=Block of Transformium
 
 -----Tab------
 itemGroup.Transformers=Transformers
@@ -117,7 +118,13 @@ transformium_detector.no_energon.message=You do not have any Energon Crystal Pie
 transformium_detector.no_fuel.message=You have run out of fuel for your Transformium Detector!
 stats.fuel.name=Fuel
 
+
+
 ------Tooltip------
-tooltip.tile.transformium_seed=Converts matter into Transformium when detonated.
-tooltip.tile.transformium_stone=Matter converted to Transformium from seed detonation.
-tooltip.tile.energon_cube=Compressed form of Energon.
+tile.transformium_seed.desc=Converts matter into Transformium when detonated.
+tile.display_pillar.desc=Right click a displayable item on the pillar\nto put it on display.\n[key=38,name="<FORMAT_BLUE>Hold L for a list of displayable items.",content="\snDisplayable items:\snVAR_LIST_DISPLAYABLES"]
+
+item.skystrikes_energon_crossbow.desc=Shoots out a beam of laser when used.\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear the full Skystrike set to use.
+item.purges_katana.desc=Hold right click to charge up dash,\nlet go to use.\n<FORMAT_RED>Must wear the full Purge set to use.
+item.vurps_sniper.desc=Shoots lasers upon right click.\nHold VAR_KEYBIND_ZOOM to aim.\nAmmo: Energon Cube\n<FORMAT_RED>Must wear full Vurp set to use.
+item.subwoofers_bass_blaster.desc=Shoots out bass charges that destroy glass\nand break armor when used. The closer to the\ntarget you are, the more damage it will deal\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear full Subwoofer set to use.

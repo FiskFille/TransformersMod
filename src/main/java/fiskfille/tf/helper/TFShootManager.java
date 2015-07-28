@@ -190,7 +190,7 @@ public class TFShootManager
                     }
                     else
                     {
-                        if (!laserFilling && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+                        if (!laserFilling && (player.inventory.hasItem(transformer.getShootItem()) || player.capabilities.isCreativeMode))
                         {
                             TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, true));
                             laserFilling = true;

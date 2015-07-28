@@ -112,11 +112,9 @@ public class ModelSkystrikesCrossbow extends ModelChildBase.Base
         this.addChildTo(missile7, handle);
     }
     
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    public void render()
     {
-        super.render(entity, f, f1, f2, f3, f4, f5);
-        setRotationAngles(entity, f, f1, f2, f3, f4, f5);
-        handle.render(f5);
+        handle.render(0.0625F);
     }
     
     private void setRotation(ModelRenderer model, float x, float y, float z)
@@ -135,7 +133,6 @@ public class ModelSkystrikesCrossbow extends ModelChildBase.Base
             
             if (itemstack != null)
             {
-                //				boolean flag = ItemSkystrikesCrossbow.blueMode.get(entity.getCommandSenderName()) != null ? ItemSkystrikesCrossbow.blueMode.get(entity.getCommandSenderName()) : false;
                 boolean flag = itemstack.hasTagCompound() ? itemstack.getTagCompound().getBoolean("blueMode") : false;
                 float pidb2 = pi / 2;
                 if (!flag && handle.rotateAngleZ > 0.0F)
