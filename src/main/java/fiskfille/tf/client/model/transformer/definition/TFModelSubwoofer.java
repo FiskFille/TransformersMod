@@ -1,6 +1,7 @@
 package fiskfille.tf.client.model.transformer.definition;
 
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -88,7 +89,7 @@ public class TFModelSubwoofer extends TransformerModel
     }
     
     @Override
-    public ResourceLocation getTexture()
+    public ResourceLocation getTexture(Entity entity)
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/subwoofer/subwoofer.png");
     }

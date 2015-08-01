@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.client.particle.NitroParticleHandler;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -125,4 +126,10 @@ public abstract class TransformerCar extends Transformer
             player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.35F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
         }
     }
+    
+    @Override
+    public EnumTutorialType getTutorialType()
+	{
+		return EnumTutorialType.CAR;
+	}
 }

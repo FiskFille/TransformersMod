@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 
@@ -166,4 +167,19 @@ public abstract class Transformer
     {
         return false;
     }
+
+	public boolean disableViewBobbing(EntityPlayer player)
+	{
+		return true;
+	}
+
+	public boolean disableStepSounds(EntityPlayer player)
+	{
+		return true;
+	}
+	
+	public EnumTutorialType getTutorialType()
+	{
+		return null;
+	}
 }

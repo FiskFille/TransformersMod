@@ -8,12 +8,11 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class TFPlayerData implements IExtendedEntityProperties
 {
+	public static final String IDENTIFIER = "TFPLAYERDATA";
+	private EntityPlayer player;
+	
     public boolean vehicle;
     public boolean stealthForce;
-    
-    public static final String IDENTIFIER = "TFPLAYERDATA";
-    
-    private EntityPlayer player;
     
     public static TFPlayerData getData(EntityPlayer player)
     {

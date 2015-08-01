@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.client.particle.NitroParticleHandler;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -148,4 +149,10 @@ public abstract class TransformerJet extends Transformer
             player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.2F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
+    
+    @Override
+    public EnumTutorialType getTutorialType()
+	{
+		return EnumTutorialType.JET;
+	}
 }

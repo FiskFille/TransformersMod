@@ -18,6 +18,11 @@ public class CommonProxy
         return null;
     }
     
+    public void preInit()
+    {
+    	
+    }
+    
     public void registerRenderInformation()
     {
         

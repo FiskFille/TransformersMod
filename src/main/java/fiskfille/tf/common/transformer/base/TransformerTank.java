@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.particle.NitroParticleHandler;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -162,4 +163,10 @@ public abstract class TransformerTank extends Transformer
             player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.3F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
+    
+    @Override
+    public EnumTutorialType getTutorialType()
+	{
+		return EnumTutorialType.TANK;
+	}
 }

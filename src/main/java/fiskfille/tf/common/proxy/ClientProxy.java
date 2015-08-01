@@ -31,6 +31,7 @@ import fiskfille.tf.client.render.tileentity.RenderCrystal;
 import fiskfille.tf.client.render.tileentity.RenderDisplayPillar;
 import fiskfille.tf.client.render.tileentity.RenderTransformiumSeed;
 import fiskfille.tf.client.tick.ClientTickHandler;
+import fiskfille.tf.client.tutorial.TutorialHandler;
 import fiskfille.tf.common.entity.EntityBassCharge;
 import fiskfille.tf.common.entity.EntityFlamethrowerFire;
 import fiskfille.tf.common.entity.EntityLaser;
@@ -61,6 +62,12 @@ public class ClientProxy extends CommonProxy
     public EntityPlayer getPlayer()
     {
         return mc.thePlayer;
+    }
+    
+    @Override
+    public void preInit()
+    {
+    	TutorialHandler.init();
     }
     
     @Override

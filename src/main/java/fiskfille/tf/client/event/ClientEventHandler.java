@@ -1,6 +1,7 @@
 package fiskfille.tf.client.event;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -47,6 +49,8 @@ import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.Displayable;
@@ -56,6 +60,7 @@ import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
 import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
+import fiskfille.tf.client.tutorial.TutorialHandler;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -97,18 +102,31 @@ public class ClientEventHandler
 	public void onTransform(PlayerTransformEvent event)
 	{
 		EntityPlayer player = event.entityPlayer;
+		Transformer transformer = event.transformer;
 
 		if (player == mc.thePlayer)
 		{
+			if (transformer == null || (transformer != null && transformer.disableViewBobbing(player)))
+			{
+				if (event.transformed)
+				{
+					GameSettings gameSettings = mc.gameSettings;
+					prevViewBobbing = gameSettings.viewBobbing;
+					gameSettings.viewBobbing = false;
+				}
+				else
+				{
+					mc.gameSettings.viewBobbing = prevViewBobbing;
+				}
+			}
+			
 			if (event.transformed)
 			{
-				GameSettings gameSettings = mc.gameSettings;
-				prevViewBobbing = gameSettings.viewBobbing;
-				gameSettings.viewBobbing = false;
+				TutorialHandler.openTutorial(player, transformer);
 			}
 			else
 			{
-				mc.gameSettings.viewBobbing = prevViewBobbing;
+				TutorialHandler.currentTutorial = null;
 			}
 		}
 	}
@@ -118,9 +136,16 @@ public class ClientEventHandler
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			if (event.name.startsWith("step.") && TFDataManager.isInVehicleMode((EntityPlayer) event.entity))
+			EntityPlayer player = (EntityPlayer) event.entity;
+			
+			if (event.name.startsWith("step.") && TFDataManager.isInVehicleMode(player))
 			{
-				event.setCanceled(true);
+				Transformer transformer = TFHelper.getTransformer(player);
+				
+				if (transformer != null && transformer.disableStepSounds(player))
+				{
+					event.setCanceled(true);
+				}
 			}
 		}
 	}
@@ -238,7 +263,7 @@ public class ClientEventHandler
 
 					if (hasCape && !player.isInvisible() && !player.getHideCape())
 					{
-						renderManager.renderEngine.bindTexture(player.getLocationSkin());
+						renderManager.renderEngine.bindTexture(player.getLocationCape());
 						GL11.glPushMatrix();
 
 						TransformerModel model = TFModelRegistry.getModel(transformer);
@@ -628,6 +653,15 @@ public class ClientEventHandler
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void onPlayerTick(PlayerTickEvent event)
+	{
+		if (event.phase == Phase.END)
+		{
+			TutorialHandler.tick(event.player);
+		}
+	}
 
 	@SubscribeEvent
 	public void renderTick(TickEvent.RenderTickEvent event)
@@ -713,6 +747,11 @@ public class ClientEventHandler
 			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
 			{
 				s = StatCollector.translateToLocal(s);
+				
+				if (s.startsWith("\\l"))
+				{
+					s = parseLineDividing(s, 200).substring(2);
+				}
 
 				for (String s1 : parseDescVariables(s).split("\\\\n"))
 				{
@@ -726,16 +765,47 @@ public class ClientEventHandler
 			}
 			else
 			{
-				event.toolTip.add(EnumChatFormatting.BLUE + "Hold SHIFT for info.");
+				event.toolTip.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("item-info.prompt"));
 			}
 		}
 	}
+	
+	public String parseLineDividing(String s, int width)
+    {
+        s = trimStringNewline(s);
+        s = splitString(s, width);
+        return s;
+    }
+	
+	private String trimStringNewline(String s)
+    {
+        while (s != null && s.endsWith("\\n"))
+        {
+            s = s.substring(0, s.length() - 1);
+        }
+
+        return s;
+    }
+	
+	private String splitString(String s, int width)
+    {
+        List list = mc.fontRenderer.listFormattedStringToWidth(s, width);
+        String s2 = "";
+        
+        for (Iterator iterator = list.iterator(); iterator.hasNext();)
+        {
+            String s1 = (String)iterator.next();
+            s2 += s1 + "\\n";
+        }
+        
+        return s2;
+    }
 
 	public String parseDescVariables(String s)
 	{
 		{
 			String[] keys = {"KEYBIND_ZOOM", "LIST_DISPLAYABLES"};
-			String[] values = {Keyboard.getKeyName(TFKeyBinds.keyBindingZoom.getKeyCode()), getDisplayableItemsList()};
+			String[] values = {GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingZoom.getKeyCode()), getDisplayableItemsList()};
 
 			for (int i = 0; i < keys.length; ++i)
 			{

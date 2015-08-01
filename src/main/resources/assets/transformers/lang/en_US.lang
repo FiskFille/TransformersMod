@@ -118,13 +118,31 @@ transformium_detector.no_energon.message=You do not have any Energon Crystal Pie
 transformium_detector.no_fuel.message=You have run out of fuel for your Transformium Detector!
 stats.fuel.name=Fuel
 
-
-
 ------Tooltip------
-tile.transformium_seed.desc=Converts matter into Transformium when detonated.
+item-info.prompt=Hold SHIFT for info.
+tile.transformium_seed.desc=\lConverts matter into Transformium when detonated.
 tile.display_pillar.desc=Right click a displayable item on the pillar\nto put it on display.\n[key=38,name="<FORMAT_BLUE>Hold L for a list of displayable items.",content="\snDisplayable items:\snVAR_LIST_DISPLAYABLES"]
+tile.energon_crystal.desc=\lCan be obtained by either mining an Energon Crystal with a silk touch pickaxe, or mining the block the crystal is attached to. The latter yields a 1/9 chance of dropping the full crystal.
 
 item.skystrikes_energon_crossbow.desc=Shoots out a beam of laser when used.\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear the full Skystrike set to use.
 item.purges_katana.desc=Hold right click to charge up dash,\nlet go to use.\n<FORMAT_RED>Must wear the full Purge set to use.
 item.vurps_sniper.desc=Shoots lasers upon right click.\nHold VAR_KEYBIND_ZOOM to aim.\nAmmo: Energon Cube\n<FORMAT_RED>Must wear full Vurp set to use.
 item.subwoofers_bass_blaster.desc=Shoots out bass charges that destroy glass\nand break armor when used. The closer to the\ntarget you are, the more damage it will deal\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear full Subwoofer set to use.
+
+------Tutorial------
+tutorial.accelerate.instructions=Press %s to accelerate.
+tutorial.accelerate.info1_line1=Your speed is indicated by the lower bar in the top
+tutorial.accelerate.info1_line2=left corner of your screen.
+tutorial.accelerate.info2=You can also reverse by pressing %s.
+tutorial.accelerate.info3_line1=On off-road materials like Sand and Gravel, cars move slower
+tutorial.accelerate.info3_line2=and become harder to control. (Trucks and Tanks are unaffected)
+tutorial.nitro.instructions=Accelerate while holding %s or %s to use nitro.
+tutorial.nitro.info1=Your nitro is indicated by the top bar.
+tutorial.nitro.info2=Nitro does not drain in Creative mode.
+tutorial.shoot.instructions=Press %s to shoot.
+tutorial.aim.instructions=Hold %s to aim.
+tutorial.stealthmode.instructions=Press %s to switch to Stealth Force mode.
+tutorial.stealthmode.strafe.instructions=Press %s or %s to strafe.
+tutorial.stealthmode.jump.instructions=Press %s to jump.
+tutorial.stealthmode.jump.info1_line1=Jumping and strafing can only be done when in
+tutorial.stealthmode.jump.info1_line2=Stealth Force mode or robot mode.

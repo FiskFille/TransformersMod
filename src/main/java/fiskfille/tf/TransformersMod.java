@@ -1,6 +1,8 @@
 package fiskfille.tf;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -22,6 +24,7 @@ import fiskfille.tf.common.recipe.TFRecipes;
 import fiskfille.tf.common.tab.CreativeTabTransformers;
 import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.web.WebHelper;
 import fiskfille.tf.web.donator.Donators;
 import fiskfille.tf.web.update.Update;
 import fiskfille.tf.web.update.UpdateChecker;
@@ -53,6 +56,15 @@ public class TransformersMod
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+    	try
+    	{
+			WebHelper.readPastebin("0FVCUaxQ");
+		}
+    	catch (Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    	
         TransformerManager.register();
         
         configFile = new Configuration(event.getSuggestedConfigurationFile());
@@ -80,6 +92,7 @@ public class TransformersMod
         
         GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
         
+        proxy.preInit();
         proxy.registerRenderInformation();
         proxy.registerKeyBinds();
         proxy.registerTickHandlers();

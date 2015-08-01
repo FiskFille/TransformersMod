@@ -43,6 +43,25 @@ public class TransformersAPI
     }
     
     /**
+     * Gets an instance of a Transformer by name.
+     * 
+     * @param name The name of the Transformer
+     * @return the Transformer with the specified name, or null if there is none.
+     */
+    public static Transformer getTransformerByName(String name)
+    {
+    	for (Transformer transformer : transformers)
+    	{
+    		if (transformer.getName().equals(name))
+    		{
+    			return transformer;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    /**
      * Used to register the specified Displayable.
      * 
      * @param item The item to be assigned to.

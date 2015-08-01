@@ -22,7 +22,7 @@ public abstract class ItemTransformerArmor extends ItemArmor
     
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
-        return TFModelRegistry.getModel(getTransformer()).getTexture().toString();
+        return TFModelRegistry.getModel(getTransformer()).getTexture(entity).toString();
     }
     
     public abstract Transformer getTransformer();

@@ -1,6 +1,7 @@
 package fiskfille.tf.client.render.item;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -39,7 +40,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         TransformerModel model = getModelFromMetadata(item.getItemDamage());
-        Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
+        Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture(null));
         ModelVehicleBase vehicleModel = model.getVehicleModel();
         
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)

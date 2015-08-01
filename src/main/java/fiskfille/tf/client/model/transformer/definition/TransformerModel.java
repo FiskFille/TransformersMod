@@ -1,6 +1,7 @@
 package fiskfille.tf.client.model.transformer.definition;
 
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +25,7 @@ public abstract class TransformerModel
     
     public abstract ModelRenderer getHead();
     
-    public abstract ResourceLocation getTexture();
+    public abstract ResourceLocation getTexture(Entity entity);
     
     public Biped getStealthModel()
     {
