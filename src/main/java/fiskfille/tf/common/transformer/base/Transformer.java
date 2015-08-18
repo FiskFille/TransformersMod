@@ -182,4 +182,24 @@ public abstract class Transformer
 	{
 		return null;
 	}
+	
+	public boolean overrideFirstPerson(EntityPlayer player)
+	{
+	    return true;
+	}
+	
+	public boolean renderSpeedAndNitro(EntityPlayer player)
+	{
+	    return true;
+	}
+	
+	/**
+	 * @param player The player
+	 * @return Whether this Transformer can interact with the world while in vehicle mode, i.e.
+     * break blocks, damage entities, etc.
+	 */
+	public boolean canInteractInVehicleMode(EntityPlayer player)
+	{
+	    return true;
+	}
 }

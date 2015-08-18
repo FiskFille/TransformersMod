@@ -92,8 +92,9 @@ public class CommonEventHandler
         if (cause instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) cause;
+            Transformer transformer = TFHelper.getTransformer(player);
             
-            if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile())
+            if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile() && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
             {
                 event.setCanceled(true);
             }
@@ -130,7 +131,10 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onPlayerBreakBlock(BlockEvent.BreakEvent event)
     {
-        if (TFDataManager.isInVehicleMode(event.getPlayer()))
+        EntityPlayer player = event.getPlayer();
+        Transformer transformer = TFHelper.getTransformer(player);
+        
+        if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
         {
             event.setCanceled(true);
         }
@@ -186,7 +190,10 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {
-        if (TFDataManager.isInVehicleMode(event.entityPlayer))
+        EntityPlayer player = event.entityPlayer;
+        Transformer transformer = TFHelper.getTransformer(player);
+        
+        if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
         {
             event.setCanceled(true);
         }

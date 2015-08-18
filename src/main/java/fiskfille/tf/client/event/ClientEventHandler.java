@@ -21,6 +21,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -607,19 +609,6 @@ public class ClientEventHandler
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
 		}
-
-		// This prevents the player from sinking into the ground when sneaking in vehicle mode
-		if (player.isSneaking() && TFDataManager.getTransformationTimer(player) < 20)
-		{
-			if (isClientPlayer)
-			{
-				GL11.glTranslatef(0, 0.08F, 0);
-			}
-			else
-			{
-				GL11.glTranslatef(0, 0.125F, 0);
-			}
-		}
 	}
 
 	@SubscribeEvent
@@ -709,14 +698,15 @@ public class ClientEventHandler
 	{
 		EntityPlayerSP player = event.entity;
 		VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
+		Transformer transformer = TFHelper.getTransformer(player);
+		
 		int nitro = transformedPlayer == null ? 0 : transformedPlayer.getNitro();
 		boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
 		boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
 
 		if (TFDataManager.isInVehicleMode(player))
 		{
-			if (nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
+			if ((transformer == null || transformer != null && transformer.canUseNitro(player)) && nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
 			{
 				event.newfov = 1.3F;
 			}
@@ -730,6 +720,8 @@ public class ClientEventHandler
 				event.newfov = 1.0F - (float) TFDataManager.getZoomTimer(player) / 10;
 			}
 		}
+		
+		IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
 		if (TFDataManager.getTransformationTimer(player) < 20 && !(nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player)))
 		{

@@ -37,10 +37,10 @@ public abstract class TransformerCar extends Transformer
     {
         boolean vehicle = TFDataManager.isInVehicleMode(player);
         
-        if (timer >= 14 && vehicle)
-        {
-            player.motionY += 0.225;
-        }
+//        if (timer >= 14 && vehicle)
+//        {
+//            player.motionY += 0.225;
+//        }
         
         IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
         

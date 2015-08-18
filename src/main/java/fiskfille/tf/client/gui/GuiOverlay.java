@@ -63,7 +63,14 @@ public class GuiOverlay extends Gui
             
             if (event.type == ElementType.HOTBAR)
             {
-                renderNitroAndSpeed(event, width, height, player);
+                Transformer transformer = TFHelper.getTransformer(player);
+                boolean flag = transformer == null || transformer != null && transformer.renderSpeedAndNitro(player);
+                
+                if (flag)
+                {
+                    renderNitroAndSpeed(event, width, height, player);
+                }
+                
                 renderKatanaDash(event, width, height, player);
                 renderShotsLeft(event, width, height, player);
                 renderLaserCharge(event, width, height, player);

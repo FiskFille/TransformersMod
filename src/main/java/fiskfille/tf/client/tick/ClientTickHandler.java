@@ -45,23 +45,29 @@ public class ClientTickHandler
         
         if (inVehicleMode && transformationTimer < 10)
         {
-            player.setSprinting(false);
+            if (transformer.canUseNitro(player) || TFDataManager.isInStealthMode(player))
+            {
+                player.setSprinting(false);
+            }
             
             if (player == mc.thePlayer)
             {
-                GameSettings gameSettings = mc.gameSettings;
-                
-                if (TFKeyBinds.keyBindingViewFront.getIsKeyPressed() && mc.currentScreen == null)
+                if (transformer.overrideFirstPerson(player))
                 {
-                    gameSettings.thirdPersonView = 2;
-                }
-                else if (TFKeyBinds.keyBindingVehicleFirstPerson.getIsKeyPressed())
-                {
-                    gameSettings.thirdPersonView = 0;
-                }
-                else
-                {
-                    gameSettings.thirdPersonView = 3;
+                    GameSettings gameSettings = mc.gameSettings;
+
+                    if (TFKeyBinds.keyBindingViewFront.getIsKeyPressed() && mc.currentScreen == null)
+                    {
+                        gameSettings.thirdPersonView = 2;
+                    }
+                    else if (TFKeyBinds.keyBindingVehicleFirstPerson.getIsKeyPressed())
+                    {
+                        gameSettings.thirdPersonView = 0;
+                    }
+                    else
+                    {
+                        gameSettings.thirdPersonView = 3;
+                    }
                 }
                 
                 if (transformer != null)
@@ -193,25 +199,29 @@ public class ClientTickHandler
         {
             Transformer transformer = TFHelper.getTransformer(player);
             
-            float thirdPersonDistance = 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
-            
-            if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFKeyBinds.keyBindingViewFront.getIsKeyPressed())
+            if (transformer != null && player.ridingEntity == null)
             {
-                thirdPersonDistance = transformer.getZoomAmount(player);
+                float thirdPersonDistance = 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
+                
+                if (transformer != null && (transformer.canZoom(player)) && TFDataManager.isInVehicleMode(player) && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFKeyBinds.keyBindingViewFront.getIsKeyPressed())
+                {
+                    thirdPersonDistance = transformer.getZoomAmount(player);
+                }
+                else if (transformer != null)
+                {
+                    thirdPersonDistance = transformer.getThirdPersonDistance(player);
+                }
+                
+                ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
+                
+                
+                //            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+                //            if (transformedPlayer != null)
+                //            {
+                //                float f = player.rotationYaw;
+                //                //                ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
+                //            }
             }
-            else if (transformer != null)
-            {
-                thirdPersonDistance = transformer.getThirdPersonDistance(player);
-            }
-            
-            ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[] { "thirdPersonDistance", "E", "field_78490_B" });
-            
-            //            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-            //            if (transformedPlayer != null)
-            //            {
-            //                float f = player.rotationYaw;
-            //                //                ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
-            //            }
         }
     }
     
