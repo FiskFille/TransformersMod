@@ -1,6 +1,7 @@
 package fiskfille.tf.common.item;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -12,6 +13,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import fiskfille.tf.client.particle.TFParticleType;
+import fiskfille.tf.client.particle.TFParticles;
 import fiskfille.tf.common.entity.EntityFlamethrowerFire;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.helper.TFHelper;
@@ -42,25 +45,50 @@ public class ItemFlamethrower extends ItemSword
     {
         int duration = this.getMaxItemUseDuration(stack) - count;
         
-        if (duration < 100)
+        if (duration < 40)
         {
             if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
             {
                 World world = player.worldObj;
+                Random rand = new Random();
                 
-                if (duration % 5 == 0)
+                if (duration % 4 == 0)
                 {
-                    Vec3 backCoords = TFMotionManager.getFrontCoords(player, -0.3F, true);
+                    Vec3 backCoords = TFMotionManager.getFrontCoords(player, -0.1F, true);
                     player.motionX = (backCoords.xCoord - player.posX);
                     player.motionZ = (backCoords.zCoord - player.posZ);
                     
                     world.playAuxSFX(1009, (int) player.posX, (int) player.posY, (int) player.posZ, 0);
                 }
                 
+                Vec3 sideCoords = TFMotionManager.getBackSideCoords(player, 0.3F, false, 0.6F, true);
+                Vec3 backCoords = TFMotionManager.getFrontCoords(player, 0.5F, true);
+                float divider = 3;
+                
                 if (!world.isRemote)
                 {
-                    EntityFlamethrowerFire entity = new EntityFlamethrowerFire(world, player);
-                    world.spawnEntityInWorld(entity);
+                    for (int i = 0; i < 50; ++i)
+                    {
+                        float motionX = (float)(backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionY = (float)(backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionZ = (float)(backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
+                        
+                        TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, sideCoords.xCoord, sideCoords.yCoord - player.getEyeHeight(), sideCoords.zCoord, motionX, motionY, motionZ);
+                    }
+                    
+                    for (int i = 0; i < 5; ++i)
+                    {
+                        float motionX = (float)(backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionY = (float)(backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionZ = (float)(backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
+                        
+                        EntityFlamethrowerFire entity = new EntityFlamethrowerFire(world, player);
+                        entity.motionX = motionX;
+                        entity.motionY = motionY;
+                        entity.motionZ = motionZ;
+                        entity.setPosition(sideCoords.xCoord, sideCoords.yCoord - player.getEyeHeight(), sideCoords.zCoord);
+                        world.spawnEntityInWorld(entity);
+                    }
                 }
             }
         }
@@ -78,7 +106,7 @@ public class ItemFlamethrower extends ItemSword
     
     public EnumAction getItemUseAction(ItemStack stack)
     {
-        return EnumAction.bow;
+        return EnumAction.none;
     }
     
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)

@@ -7,11 +7,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import fiskfille.tf.client.particle.TFParticleType;
-import fiskfille.tf.client.particle.TFParticles;
 
 public class EntityFlamethrowerFire extends EntityThrowable
 {
+    protected int particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 2;
+    
     public EntityFlamethrowerFire(World world)
     {
         super(world);
@@ -41,21 +41,11 @@ public class EntityFlamethrowerFire extends EntityThrowable
     {
         super.onUpdate();
         
-        if (this.isEntityAlive())
+        if (isEntityAlive())
         {
-            if (worldObj.isRemote)
+            if (ticksExisted >= particleMaxAge)
             {
-                for (int i = 0; i < 5; ++i)
-                {
-                    float f = (rand.nextFloat() / 5);
-                    
-                    TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, posX + f, posY + 0.15F + f, posZ + f, 0, 0, 0);
-                }
-            }
-            
-            if (ticksExisted > 7)
-            {
-                this.setDead();
+                setDead();
             }
         }
     }
@@ -64,17 +54,23 @@ public class EntityFlamethrowerFire extends EntityThrowable
     {
         if (mop.entityHit != null)
         {
-            mop.entityHit.setFire(20);
+            float multiplier = (float)(particleMaxAge - ticksExisted) / particleMaxAge;
+            
+            mop.entityHit.setFire((int)(float)(20F * multiplier));
             
             if (getThrower() instanceof EntityPlayer)
             {
                 EntityPlayer player = (EntityPlayer) getThrower();
-                mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(player), 10.0F);
+                mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(player), 5.0F * multiplier);
             }
         }
         
-        setFire(worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
-        this.setDead();
+        if (rand.nextInt(10) == 0)
+        {
+            setFire(worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
+        }
+        
+        setDead();
     }
     
     public boolean setFire(World world, int x, int y, int z, int sideHit)

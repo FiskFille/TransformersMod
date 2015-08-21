@@ -14,6 +14,7 @@ public class TFDisplayableManager
 		TransformersAPI.registerDisplayable(TFItems.purgesKatana, new DisplayablePurgesKatana());
 		TransformersAPI.registerDisplayable(TFItems.vurpsSniper, new DisplayableVurpsSniper());
 		TransformersAPI.registerDisplayable(TFItems.subwoofersBassBlaster, new DisplayableBassBlaster());
+		TransformersAPI.registerDisplayable(TFItems.cloudtrapsFlamethrower, new DisplayableFlamethrower());
 //		TransformersAPI.registerDisplayable(Item.getItemFromBlock(TFBlocks.energonCrystal), new DisplayableEnergonCrystal());
 //		TransformersAPI.registerDisplayable(Item.getItemFromBlock(TFBlocks.transformiumSeed), new DisplayableTransformiumSeed());
 	}

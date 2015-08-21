@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class ItemDisplayVehicle extends Item
@@ -193,11 +192,7 @@ public class ItemDisplayVehicle extends Item
         
         for (Transformer transformer : TransformersAPI.getTransformers())
         {
-            if (!(transformer instanceof TransformerCloudtrap)) //Sorry CT :P
-            {
-                subItems.add(new ItemStack(this, 1, index));
-            }
-            
+            subItems.add(new ItemStack(this, 1, index));
             index++;
         }
     }

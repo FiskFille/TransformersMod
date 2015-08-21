@@ -1047,34 +1047,17 @@ public class ModelSubwoofer extends MowzieModelBase
                 }
             }
             
+            ItemStack heldItem = player.getHeldItem();
+
+            if (heldItem != null && heldItem.getItem() == TFItems.subwoofersBassBlaster && TFDataManager.getTransformationTimer(player) == 20)
+            {
+                setRotateAngle(shoulderbaseR, 0.0F, 0.0F, 0.0F);
+                setRotateAngle(upperArmR, 0.0F, 0.0F, 0.2F);
+                setRotateAngle(lowerArmR, bipedHead.rotateAngleX - pi / 2, bipedHead.rotateAngleY, 0.0F);
+            }
+            
             int t = TFDataManager.getTransformationTimer(player);
             float f = (float) (20 - t);
-            
-            //			waist.rotationPointY += f * 0.65F; - Josh's Animation
-            //			waist.rotateAngleY += f * 0.165F;
-            //			crotch1.rotateAngleY -= f * 0.165F;
-            //			crotch2.rotateAngleY -= f * 0.165F;
-            //			stomach.rotateAngleY -= f * 0.165F;
-            //			chestwheel1.rotationPointX -= f * 0.05F;
-            //			chestwheel2.rotationPointX += f * 0.05F;
-            //			chestmain1.rotationPointY += f * 0.2F;
-            //			head.rotateAngleX += f * 0.1F;
-            //			head.rotationPointY += f * 0.1F;
-            //			head.rotationPointZ += f * 0.2F;
-            //			upperLegL.rotateAngleX += f * 0.09F;
-            //			upperLegR.rotateAngleX += f * 0.09F;
-            //			upperLegL.rotateAngleZ -= f * 0.1F;
-            //			upperLegR.rotateAngleZ += f * 0.1F;
-            //			shoulderbaseL.rotateAngleY += f * 0.1F;
-            //			shoulderbaseR.rotateAngleY -= f * 0.1F;
-            //			shoulderbaseL.rotationPointZ += f * 0.5F;
-            //			shoulderbaseR.rotationPointZ += f * 0.5F;
-            //			lowerArmL.rotateAngleX += f * 0.1F;
-            //			lowerArmL.rotateAngleY -= f * 0.1F;
-            //			lowerArmR.rotateAngleX += f * 0.1F;
-            //			lowerArmR.rotateAngleY += f * 0.1F;
-            //			dish1.rotateAngleZ -= f * 0.08F;
-            //			dish1.rotationPointY -= f * 0.1F;
             
             rotateTo(waist, vehicleBase, f);
             rotateTo(upperArmR, vehicleUpperArmR, f);
@@ -1130,15 +1113,6 @@ public class ModelSubwoofer extends MowzieModelBase
             else
             {
                 vehicleBase.rotateAngleX = -(float) (player.posY - player.prevPosY) * 1.5F;
-            }
-            
-            ItemStack heldItem = player.getHeldItem();
-            
-            if (heldItem != null && heldItem.getItem() == TFItems.subwoofersBassBlaster && TFDataManager.getTransformationTimer(player) == 20)
-            {
-                setRotateAngle(shoulderbaseR, 0.0F, 0.0F, 0.0F);
-                setRotateAngle(upperArmR, 0.0F, 0.0F, 0.2F);
-                setRotateAngle(lowerArmR, bipedHead.rotateAngleX - pi / 2, bipedHead.rotateAngleY, 0.0F);
             }
         }
     }
