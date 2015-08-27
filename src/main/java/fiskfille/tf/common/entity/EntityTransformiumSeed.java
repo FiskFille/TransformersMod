@@ -2,6 +2,7 @@ package fiskfille.tf.common.entity;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -93,14 +94,31 @@ public class EntityTransformiumSeed extends Entity
             }
             else
             {
+                for (int j = 0; j < 3; ++j)
+                {
+                    int y = 256;
+
+                    while (worldObj.getBlock((int)posX - 1, y, (int)posZ - 1) == Blocks.air)
+                    {
+                        --y;
+                    }
+                    
+                    Block block = worldObj.getBlock((int)posX - 1, y - j, (int)posZ - 1);
+                    
+                    if (block != TFBlocks.transformiumStone && block != Blocks.air && block != Blocks.bedrock)
+                    {
+                        worldObj.setBlock((int)posX - 1, y - j, (int)posZ - 1, TFBlocks.transformiumStone);
+                    }
+                }
+                
                 for (int i = 0; i < 360; ++i)
                 {
                     float f = 1.0F;
                     float f1 = 0.0F;
-                    float f2 = i;
-                    double d0 = prevPosX + (posX - prevPosX) * (double) f;
+                    float f2 = (float)i;
+                    double d0 = prevPosX + (posX - prevPosX) * (double) f - 1;
                     double d1 = prevPosY + (posY - prevPosY) * (double) f;
-                    double d2 = prevPosZ + (posZ - prevPosZ) * (double) f;
+                    double d2 = prevPosZ + (posZ - prevPosZ) * (double) f - 1;
                     Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
                     float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
                     float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
@@ -108,38 +126,38 @@ public class EntityTransformiumSeed extends Entity
                     float f6 = MathHelper.sin(-f1 * 0.017453292F);
                     float f7 = f4 * f5;
                     float f8 = f3 * f5;
-                    double d3 = fuse;
+                    double d3 = fuse * 0.9;
                     Vec3 vec31 = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
-                    
+
                     double x = (int) vec31.xCoord;
                     int y = 256;
                     double z = (int) vec31.zCoord;
-                    
+
                     while (worldObj.getBlock((int) x, y, (int) z) == Blocks.air)
                     {
                         --y;
                     }
-                    
-                    for (int j = 0; j < 5; ++j)
+
+                    for (int j = 0; j < 3; ++j)
                     {
                         worldObj.spawnParticle("smoke", x + rand.nextFloat() - 0.5F / 2, y + 1.2F, z + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
                         worldObj.spawnParticle("flame", x + rand.nextFloat() - 0.5F / 2, y + 1.2F, z + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
-                        
+
                         if (worldObj.getBlock((int) x, y - j, (int) z) != TFBlocks.transformiumStone && !worldObj.isAirBlock((int) x, y - j, (int) z) && worldObj.getBlock((int) x, y - j, (int) z) != Blocks.bedrock)
                         {
                             worldObj.setBlock((int) x, y - j, (int) z, TFBlocks.transformiumStone);
                         }
-                        
-                        List<Entity> list = getEntitiesNear(worldObj, x, y, z, 5.0F);
-                        
+
+                        List<Entity> list = getEntitiesNear(worldObj, x, y - j, z, 5.0F);
+
                         for (Entity entity : list)
                         {
                             if (!entity.getUniqueID().equals(getUniqueID()))
                             {
                                 if (entity instanceof EntityLivingBase)
                                 {
-                                    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.onFire, 99999999999999999999.0F);
-                                    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.generic, 99999999999999999999.0F);
+                                    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.onFire, Float.MAX_VALUE);
+                                    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.generic, Float.MAX_VALUE);
                                 }
                             }
                         }
