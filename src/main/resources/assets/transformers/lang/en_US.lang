@@ -124,7 +124,7 @@ item-info.prompt=Hold SHIFT for info.
 tile.transformium_seed.desc=\lConverts matter into Transformium when detonated.
 tile.display_pillar.desc=Right click a displayable item on the pillar\nto put it on display.\n[key=38,name="<FORMAT_BLUE>Hold L for a list of displayable items.",content="\snDisplayable items:\snVAR_LIST_DISPLAYABLES"]
 tile.energon_crystal.desc=\lCan be obtained by either mining an Energon Crystal with a silk touch pickaxe, or mining the block the crystal is attached to. The latter yields a 1/9 chance of dropping the full crystal.
-tile.cosmic_rust.desc=Virus that spreads through physical\ncontact with <FORMAT_ITALIC>Transformium Stone<FORMAT_RESET><FORMAT_GRAY>. The\nvirus is naturally formed in transformium\nstone not exposed to direct sunlight.\n<FORMAT_RED>WARNING:\nBreaks down any Transformer armor the\nplayer is wearing when the virus is in the\nplayer's inventory!
+tile.cosmic_rust.desc=Virus that spreads through physical\ncontact with <FORMAT_ITALIC>Transformium Stone<FORMAT_RESET><FORMAT_GRAY>. The\nvirus is naturally formed in transformium\nstone not exposed to direct sunlight.
 
 item.skystrikes_energon_crossbow.desc=Shoots out a beam of laser when used.\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear the full Skystrike set to use.
 item.purges_katana.desc=Hold right click to charge up dash,\nlet go to use.\n<FORMAT_RED>Must wear the full Purge set to use.
