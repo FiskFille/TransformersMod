@@ -18,7 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.client.displayable.DisplayableRender;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
 public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvider
@@ -129,7 +129,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 
 			if (displayItem != null)
 			{
-				Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
+				DisplayableRender displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
 				
 				if (displayable != null)
 				{

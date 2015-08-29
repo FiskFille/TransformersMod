@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.item.ModelVurpsSniper;
 
-public class DisplayableVurpsSniper extends Displayable
+public class DisplayableVurpsSniper extends DisplayableRender
 {
 	private ModelVurpsSniper model = new ModelVurpsSniper();
 	

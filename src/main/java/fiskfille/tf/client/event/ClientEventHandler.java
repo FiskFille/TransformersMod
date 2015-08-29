@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -55,7 +54,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.client.displayable.DisplayableRender;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
@@ -865,7 +864,7 @@ public class ClientEventHandler
 		String s = "";
 		String prefix = "   ";
 		
-		for (Map.Entry<Item, Displayable> e : TransformersAPI.getDisplayables().entrySet())
+		for (Map.Entry<Item, DisplayableRender> e : TransformersAPI.getDisplayables().entrySet())
 		{
 			Item item = e.getKey();
 			

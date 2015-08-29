@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
 
-public class DisplayableEnergonCrystal extends Displayable
+public class DisplayableEnergonCrystal extends DisplayableRender
 {
     private ModelCrystal model = new ModelCrystal();
     

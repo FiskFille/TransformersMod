@@ -1,6 +1,5 @@
 package fiskfille.tf.client.displayable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -12,7 +11,7 @@ import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.transformer.base.Transformer;
 
-public class DisplayableVehicle extends Displayable
+public class DisplayableVehicle extends DisplayableRender
 {
 	@Override
 	public void render(ItemStack itemstack)
