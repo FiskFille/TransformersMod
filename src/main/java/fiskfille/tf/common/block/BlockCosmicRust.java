@@ -1,11 +1,15 @@
 package fiskfille.tf.common.block;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -21,10 +25,32 @@ public class BlockCosmicRust extends Block
         super(Material.circuits);
         setTickRandomly(true);
     }
-    
-    public int quantityDropped(Random random)
+
+    public float getBlockHardness(World world, int x, int y, int z)
     {
-        return 0;
+        return world.getBlockMetadata(x, y, z) == 2 ? 2.0F : this.blockHardness;
+    }
+
+    /**
+     * Determines the damage on the item the block drops. Used in cloth and wood.
+     */
+    public int damageDropped(int meta)
+    {
+        return meta;
+    }
+
+    /**
+     * Metadata and fortune sensitive version, this replaces the old (int meta, Random rand)
+     * version in 1.1.
+     *
+     * @param meta Blocks Metadata
+     * @param fortune Current item fortune level
+     * @param random Random number generator
+     * @return The number of items to drop
+     */
+    public int quantityDropped(int meta, int fortune, Random random)
+    {
+        return meta == 2 ? 1 : 0;
     }
 
     public int tickRate(World world)
@@ -56,6 +82,15 @@ public class BlockCosmicRust extends Block
         {
             world.setBlock(x, y, z, this);
         }
+    }
+
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(Item item, CreativeTabs tab, List subBlocks)
+    {
+        subBlocks.add(new ItemStack(item, 1, 2));
     }
     
     public void onBlockAdded(World world, int x, int y, int z)

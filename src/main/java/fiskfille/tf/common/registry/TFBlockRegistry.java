@@ -1,5 +1,6 @@
 package fiskfille.tf.common.registry;
 
+import fiskfille.tf.common.item.ItemBlockWithMetadata;
 import net.minecraft.block.Block;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -17,7 +18,18 @@ public class TFBlockRegistry
         
         GameRegistry.registerBlock(block, unlocalizedName);
     }
-    
+
+    public static void registerItemBlock(Block block, String name, String modId)
+    {
+        String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
+
+        block.setBlockName(unlocalizedName);
+        block.setBlockTextureName(modId + ":" + unlocalizedName);
+        block.setCreativeTab(TransformersMod.tabTransformers);
+
+        GameRegistry.registerBlock(block, ItemBlockWithMetadata.class, unlocalizedName);
+    }
+
     public static void registerOre(Block block, String name, String oreDictName, String modId)
     {
         registerBlock(block, name, modId);

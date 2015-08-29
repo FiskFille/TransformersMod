@@ -39,6 +39,6 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone", modId);
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
         TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium", modId);
-        TFBlockRegistry.registerBlock(cosmicRust, "Cosmic Rust", modId);
+        TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust", modId);
     }
 }
