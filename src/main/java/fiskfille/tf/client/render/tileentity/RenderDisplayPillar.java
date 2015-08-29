@@ -1,6 +1,5 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.client.displayable.DisplayableRender;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -10,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.client.model.tileentity.ModelDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
@@ -30,7 +30,7 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         
         if (displayItem != null)
         {
-            DisplayableRender displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
+            Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
             
             if (displayable != null)
             {

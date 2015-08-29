@@ -1,7 +1,5 @@
 package fiskfille.tf.client.displayable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -12,19 +10,17 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-public abstract class DisplayableRender
+public abstract class Displayable
 {
 	protected Minecraft mc = Minecraft.getMinecraft();
 
 	public abstract void render(ItemStack itemstack);
 
-	@SideOnly(Side.CLIENT)
 	protected void bindTexture(ResourceLocation resourcelocation)
 	{
 		mc.getTextureManager().bindTexture(resourcelocation);
 	}
 
-	@SideOnly(Side.CLIENT)
 	protected void renderTag(String s, float x, float y, float z)
 	{
 		RenderManager renderManager = RenderManager.instance;

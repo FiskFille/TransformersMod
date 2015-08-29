@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fiskfille.tf.client.displayable.DisplayableRender;
 import net.minecraft.item.Item;
+import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 /**
@@ -15,7 +15,7 @@ import fiskfille.tf.common.transformer.base.Transformer;
 public class TransformersAPI
 {
     private static List<Transformer> transformers = new ArrayList<Transformer>();
-    private static Map<Item, DisplayableRender> displayables = new HashMap<Item, DisplayableRender>();
+    private static Map<Item, Displayable> displayables = new HashMap<Item, Displayable>();
     
     /**
      * Used to register the specified Transformer.
@@ -62,12 +62,12 @@ public class TransformersAPI
     }
     
     /**
-     * Used to register the specified DisplayableRender.
+     * Used to register the specified Displayable.
      * 
      * @param item The item to be assigned to.
-     * @param displayable The DisplayableRender registered.
+     * @param displayable The Displayable registered.
      */
-    public static void registerDisplayable(Item item, DisplayableRender displayable)
+    public static void registerDisplayable(Item item, Displayable displayable)
     {
     	displayables.put(item, displayable);
     }
@@ -75,18 +75,18 @@ public class TransformersAPI
     /**
      * @returns a list of registered Displayables.
      */
-    public static Map<Item, DisplayableRender> getDisplayables()
+    public static Map<Item, Displayable> getDisplayables()
     {
         return displayables;
     }
     
     /**
-     * @param item The item to get the DisplayableRender for.
-     * @return the DisplayableRender for the specific item.
+     * @param item The item to get the Displayable for.
+     * @return the Displayable for the specific item.
      */
-    public static DisplayableRender getDisplayableFor(Item item)
+    public static Displayable getDisplayableFor(Item item)
     {
-    	for (Map.Entry<Item, DisplayableRender> e : displayables.entrySet())
+    	for (Map.Entry<Item, Displayable> e : displayables.entrySet())
     	{
     		if (e.getKey() == item)
     		{

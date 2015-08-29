@@ -1,5 +1,10 @@
 package fiskfille.tf.client.displayable;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -8,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
-public class DisplayableTransformiumSeed extends DisplayableRender
+public class DisplayableTransformiumSeed extends Displayable
 {
 	@Override
 	public void render(ItemStack itemstack)
