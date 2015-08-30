@@ -27,7 +27,7 @@ public class DisplayableEnergonCrystal extends Displayable
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(0.0F, 0.5F, 1.0F, 0.5F);
-        model.renderAll();
+        model.render();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
 	}
