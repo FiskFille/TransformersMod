@@ -302,8 +302,8 @@ public class ModelSubwoofer extends MowzieModelBase
         this.sideflapL_1.addBox(-0.7F, 0.0F, -2.0F, 1, 4, 3, 0.0F);
         this.setRotateAngle(sideflapL_1, 0.0F, 0.06981317007977318F, 0.06981317007977318F);
         this.chestwheel1 = new MowzieModelRenderer(this, 0, 77);
-        this.chestwheel1.setRotationPoint(-3.5F, -0.5F, -2.0F);
-        this.chestwheel1.addBox(0.0F, 0.0F, 0.0F, 2, 3, 3, 0.0F);
+        this.chestwheel1.setRotationPoint(-2.5F, 1F, -0.5F);
+        this.chestwheel1.addBox(-1, -1.5F, -1.5F, 2, 3, 3, 0.0F);
         this.setRotateAngle(chestwheel1, -0.08726646259971647F, 0.0F, 0.13962634015954636F);
         this.head7 = new MowzieModelRenderer(this, 54, 69);
         this.head7.mirror = true;
@@ -446,8 +446,8 @@ public class ModelSubwoofer extends MowzieModelBase
         this.setRotateAngle(clawL2, 0.0F, 0.0F, 0.08726646259971647F);
         this.chestwheel2 = new MowzieModelRenderer(this, 0, 77);
         this.chestwheel2.mirror = true;
-        this.chestwheel2.setRotationPoint(3.5F, -0.5F, -2.0F);
-        this.chestwheel2.addBox(-2.0F, 0.0F, 0.0F, 2, 3, 3, 0.0F);
+        this.chestwheel2.setRotationPoint(2.5F, 1.0F, -0.5F);
+        this.chestwheel2.addBox(-1, -1.5F, -1.5F, 2, 3, 3, 0.0F);
         this.setRotateAngle(chestwheel2, -0.08726646259971647F, 0.0F, -0.14608405839192537F);
         this.headplate1 = new MowzieModelRenderer(this, 53, 65);
         this.headplate1.setRotationPoint(0.0F, -1.0F, -1.0F);
@@ -890,7 +890,7 @@ public class ModelSubwoofer extends MowzieModelBase
                 this.upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
                 this.upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
             }
-            
+
             if (wearingChest && wearingHead && wearingLegs)
             {
                 boolean playerOnGround = onGround(player);
@@ -943,7 +943,20 @@ public class ModelSubwoofer extends MowzieModelBase
                     flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
                     walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                     walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    
+
+                    float idleSpeed = 0.15F;
+
+                    walk(antenna1, idleSpeed * 1.0F, 0.1F, false, 0, 0, ticksExisted, 1);
+                    walk(antenna2, idleSpeed * 1.0F, 0.1F, true, 0, 0, ticksExisted, 1);
+
+                    swing(dish1, idleSpeed * 0.5F, 0.5F, false, 0, 0, ticksExisted, 1);
+
+                    bob(clawL1, idleSpeed * 1.0F, 0.2F, false, ticksExisted, 1);
+                    bob(clawL2, idleSpeed * 1.0F, 0.2F, false, ticksExisted, 1);
+
+                    chestwheel1.rotateAngleX += ticksExisted * idleSpeed;
+                    chestwheel2.rotateAngleX += ticksExisted * idleSpeed;
+
                     if (player.isSneaking())
                     {
                         waist.rotationPointY -= par2;
@@ -1046,7 +1059,7 @@ public class ModelSubwoofer extends MowzieModelBase
                     }
                 }
             }
-            
+
             ItemStack heldItem = player.getHeldItem();
 
             if (heldItem != null && heldItem.getItem() == TFItems.subwoofersBassBlaster && TFDataManager.getTransformationTimer(player) == 20)
