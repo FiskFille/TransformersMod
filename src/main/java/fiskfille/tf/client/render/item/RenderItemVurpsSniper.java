@@ -16,29 +16,29 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 public class RenderItemVurpsSniper implements IItemRenderer
 {
     private ModelVurpsSniper model = new ModelVurpsSniper();
-    
+
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
-        return type == type.EQUIPPED || type == type.EQUIPPED_FIRST_PERSON;
+        return type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON;
     }
-    
+
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return false;
     }
-    
+
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/weapons/sniper.png"));
-        
+
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
         {
             GL11.glPushMatrix();
-            
+
             if ((Entity) data[1] instanceof EntityPlayer)
             {
                 int i = TFDataManager.getZoomTimer((EntityPlayer) data[1]);
-                
+
                 if (i == 7)
                 {
                     GL11.glTranslatef(0.1F, 0.45F, -1.0F);
@@ -95,7 +95,7 @@ public class RenderItemVurpsSniper implements IItemRenderer
                     GL11.glRotatef(200, 0, 0, 1);
                     GL11.glRotatef(90, 0, 1, 0);
                 }
-                
+
                 float f = 2.0F;
                 GL11.glScalef(f, f, f);
                 model.render();
@@ -109,7 +109,7 @@ public class RenderItemVurpsSniper implements IItemRenderer
             GL11.glRotatef(-135, 0, 0, 1);
             GL11.glRotatef(0, 0, 0, 1);
             GL11.glRotatef(95, 0, 1, 0);
-            
+
             float f = 0.9F;
             GL11.glScalef(f, f, f);
             model.render();

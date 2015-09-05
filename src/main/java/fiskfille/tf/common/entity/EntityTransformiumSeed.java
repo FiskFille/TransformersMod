@@ -22,75 +22,75 @@ public class EntityTransformiumSeed extends Entity
     public int fuse;
     public int maxFuse;
     private EntityLivingBase placedBye;
-    
+
     public EntityTransformiumSeed(World world)
     {
         super(world);
-        this.preventEntitySpawning = true;
-        this.setSize(0.98F, 0.98F);
-        this.yOffset = this.height / 2.0F;
+        preventEntitySpawning = true;
+        setSize(0.98F, 0.98F);
+        yOffset = height / 2.0F;
     }
-    
+
     public EntityTransformiumSeed(World world, double x, double y, double z, EntityLivingBase entity)
     {
         this(world);
-        this.setPosition(x, y, z);
+        setPosition(x, y, z);
         float f = (float) (Math.random() * Math.PI * 2.0D);
-        this.motionX = (double) (-((float) Math.sin((double) f)) * 0.02F);
-        this.motionY = 0.05D;
-        this.motionZ = (double) (-((float) Math.cos((double) f)) * 0.02F);
-        this.prevPosX = x;
-        this.prevPosY = y;
-        this.prevPosZ = z;
-        this.placedBye = entity;
+        motionX = -((float) Math.sin(f)) * 0.02F;
+        motionY = 0.05D;
+        motionZ = -((float) Math.cos(f)) * 0.02F;
+        prevPosX = x;
+        prevPosY = y;
+        prevPosZ = z;
+        placedBye = entity;
     }
-    
+
     protected void entityInit()
     {
     }
-    
+
     protected boolean canTriggerWalking()
     {
         return false;
     }
-    
+
     public boolean canBeCollidedWith()
     {
-        return !this.isDead;
+        return !isDead;
     }
-    
+
     public void onUpdate()
     {
-        this.motionX = 0;
-        this.motionZ = 0;
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        
-        if (this.motionY > 0)
+        motionX = 0;
+        motionZ = 0;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
+        moveEntity(motionX, motionY, motionZ);
+
+        if (motionY > 0)
         {
-            this.motionY -= 0.0005D;
+            motionY -= 0.0005D;
         }
         else
         {
-            this.motionY = 0D;
+            motionY = 0D;
         }
-        
-        this.worldObj.playSoundAtEntity(this, "note.pling", 1, 0.0F + (float) ticksExisted / 50);
-        this.worldObj.playSoundAtEntity(this, "note.bassattack", 1, 0.0F + (float) ticksExisted / 50);
-        
+
+        worldObj.playSoundAtEntity(this, "note.pling", 1, 0.0F + (float) ticksExisted / 50);
+        worldObj.playSoundAtEntity(this, "note.bassattack", 1, 0.0F + (float) ticksExisted / 50);
+
         for (int j = 0; j < 5; ++j)
         {
             worldObj.spawnParticle("flame", posX, posY, posZ, 0.0D, -0.5D, 0.0D);
         }
-        
-        if (this.ticksExisted > 100)
+
+        if (ticksExisted > 100)
         {
-            if (this.fuse++ >= 40)
+            if (fuse++ >= 40)
             {
-                this.setDead();
-                this.explode();
+                setDead();
+                explode();
             }
             else
             {
@@ -102,23 +102,23 @@ public class EntityTransformiumSeed extends Entity
                     {
                         --y;
                     }
-                    
+
                     Block block = worldObj.getBlock((int)posX - 1, y - j, (int)posZ - 1);
-                    
+
                     if (block != TFBlocks.transformiumStone && block != Blocks.air && block != Blocks.bedrock)
                     {
                         worldObj.setBlock((int)posX - 1, y - j, (int)posZ - 1, TFBlocks.transformiumStone);
                     }
                 }
-                
+
                 for (int i = 0; i < 360; ++i)
                 {
                     float f = 1.0F;
                     float f1 = 0.0F;
-                    float f2 = (float)i;
-                    double d0 = prevPosX + (posX - prevPosX) * (double) f - 1;
-                    double d1 = prevPosY + (posY - prevPosY) * (double) f;
-                    double d2 = prevPosZ + (posZ - prevPosZ) * (double) f - 1;
+                    float f2 = i;
+                    double d0 = prevPosX + (posX - prevPosX) * f - 1;
+                    double d1 = prevPosY + (posY - prevPosY) * f;
+                    double d2 = prevPosZ + (posZ - prevPosZ) * f - 1;
                     Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
                     float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
                     float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
@@ -166,42 +166,42 @@ public class EntityTransformiumSeed extends Entity
             }
         }
     }
-    
+
     public static List<Entity> getEntitiesNear(World world, double x, double y, double z, float radius)
     {
         List list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius), IEntitySelector.selectAnything);
         return list;
     }
-    
+
     private void explode()
     {
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             float f = 10.0F;
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, f, true);
+            worldObj.createExplosion(this, posX, posY, posZ, f, true);
         }
     }
-    
+
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        nbt.setByte("Fuse", (byte) this.fuse);
-        nbt.setByte("MaxFuse", (byte) this.maxFuse);
+        nbt.setByte("Fuse", (byte) fuse);
+        nbt.setByte("MaxFuse", (byte) maxFuse);
     }
-    
+
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
-        this.fuse = nbt.getByte("Fuse");
-        this.maxFuse = nbt.getByte("MaxFuse");
+        fuse = nbt.getByte("Fuse");
+        maxFuse = nbt.getByte("MaxFuse");
     }
-    
+
     @SideOnly(Side.CLIENT)
     public float getShadowSize()
     {
         return 0.0F;
     }
-    
+
     public EntityLivingBase getSeedPlacedBy()
     {
-        return this.placedBye;
+        return placedBye;
     }
 }

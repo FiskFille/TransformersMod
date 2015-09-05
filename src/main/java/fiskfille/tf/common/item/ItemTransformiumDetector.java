@@ -18,32 +18,32 @@ import fiskfille.tf.common.block.TFBlocks;
 public class ItemTransformiumDetector extends Item
 {
     //TODO-TF improve it for 0.6.0
-    
+
     public ItemTransformiumDetector()
     {
         super();
     }
-    
+
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean hand)
     {
         int time = entity.ticksExisted;
-        
+
         if (time > 0)
         {
             NBTTagCompound tagCompound = stack.getTagCompound();
-            
+
             if (tagCompound == null)
             {
                 tagCompound = new NBTTagCompound();
                 stack.setTagCompound(tagCompound);
             }
-            
+
             int energonFuel = tagCompound.getInteger("fuel");
-            
+
             if (entity instanceof EntityPlayer)
             {
                 EntityPlayer player = (EntityPlayer) entity;
-                
+
                 if (energonFuel > 0)
                 {
                     if (time % 500 == 0)
@@ -55,7 +55,7 @@ public class ItemTransformiumDetector extends Item
                             player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("transformium_detector.no_fuel.message")));
                         }
                     }
-                    
+
                     if (time % 5 == 0)
                     {
                         int posX = (int) entity.posX;
@@ -64,13 +64,13 @@ public class ItemTransformiumDetector extends Item
                         int startX = posX - 10;
                         int startY = posY - 10;
                         int startZ = posZ - 10;
-                        
+
                         int endX = posX + 10;
                         int endY = posY + 10;
                         int endZ = posZ + 10;
-                        
+
                         int smallestDist = 1000;
-                        
+
                         for (int x = startX; x < endX; x++)
                         {
                             for (int y = startY; y < endY; y++)
@@ -82,9 +82,9 @@ public class ItemTransformiumDetector extends Item
                                         int xDiff = x - posX;
                                         int yDiff = y - posY;
                                         int zDiff = z - posZ;
-                                        
-                                        int distance = (int) Math.sqrt((xDiff * xDiff) + (yDiff * yDiff) + (zDiff * zDiff));
-                                        
+
+                                        int distance = (int) Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+
                                         if (distance < smallestDist)
                                         {
                                             smallestDist = distance;
@@ -93,7 +93,7 @@ public class ItemTransformiumDetector extends Item
                                 }
                             }
                         }
-                        
+
                         if (smallestDist != 1000)
                         {
                             tagCompound.setInteger("d", smallestDist);
@@ -103,13 +103,13 @@ public class ItemTransformiumDetector extends Item
                             tagCompound.setInteger("d", -1);
                         }
                     }
-                    
+
                     if (player.worldObj.isRemote)
                     {
                         if (Minecraft.getMinecraft().thePlayer == player)
                         {
                             int d = tagCompound.getInteger("d");
-                            
+
                             if (d > 0)
                             {
                                 if (time % (d * 3) == 0)
@@ -126,7 +126,7 @@ public class ItemTransformiumDetector extends Item
             }
         }
     }
-    
+
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
@@ -136,9 +136,9 @@ public class ItemTransformiumDetector extends Item
         {
             stack.setTagCompound(new NBTTagCompound());
         }
-        
+
         int fuel = stack.getTagCompound().getInteger("fuel");
-        
+
         if (player.isSneaking())
         {
             if (player.inventory.getFirstEmptyStack() != -1)
@@ -172,10 +172,10 @@ public class ItemTransformiumDetector extends Item
                 }
             }
         }
-        
+
         return stack;
     }
-    
+
     /**
      * allows items to add custom lines of information to the mouseover description
      */
@@ -183,7 +183,7 @@ public class ItemTransformiumDetector extends Item
     public void addInformation(ItemStack stack, EntityPlayer player, List informationList, boolean p_77624_4_)
     {
         NBTTagCompound tagCompound = stack.getTagCompound();
-        
+
         if (tagCompound != null)
         {
             informationList.add(StatCollector.translateToLocal("stats.fuel.name") + ": " + tagCompound.getInteger("fuel"));

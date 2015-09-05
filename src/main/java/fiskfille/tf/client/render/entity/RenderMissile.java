@@ -16,7 +16,7 @@ public class RenderMissile extends Render
 {
     public ModelMissile model = new ModelMissile();
     public ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/models/weapons/missile.png");
-    
+
     public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
     {
         GL11.glPushMatrix();
@@ -29,7 +29,7 @@ public class RenderMissile extends Render
         model.render();
         GL11.glPopMatrix();
     }
-    
+
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
         return texture;

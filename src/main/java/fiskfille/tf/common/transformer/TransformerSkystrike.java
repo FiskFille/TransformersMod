@@ -16,37 +16,37 @@ public class TransformerSkystrike extends TransformerJet
     {
         super("Skystrike");
     }
-    
+
     @Override
     public Item getHelmet()
     {
         return TFItems.skystrikeHelmet;
     }
-    
+
     @Override
     public Item getChestplate()
     {
         return TFItems.skystrikeChestplate;
     }
-    
+
     @Override
     public Item getLeggings()
     {
         return TFItems.skystrikeLeggings;
     }
-    
+
     @Override
     public Item getBoots()
     {
         return TFItems.skystrikeBoots;
     }
-    
+
     @Override
     public void onJump(EntityPlayer player)
     {
         player.motionY += 0.205D;
     }
-    
+
     @Override
     public void tick(EntityPlayer player, int timer)
     {
@@ -64,7 +64,7 @@ public class TransformerSkystrike extends TransformerJet
                 }
             }
         }
-        
+
         player.addStat(TFAchievements.skystrike, 1);
     }
 }

@@ -16,7 +16,7 @@ public class TransformersAPI
 {
     private static List<Transformer> transformers = new ArrayList<Transformer>();
     private static Map<Item, Displayable> displayables = new HashMap<Item, Displayable>();
-    
+
     /**
      * Used to register the specified Transformer.
      * 
@@ -33,7 +33,7 @@ public class TransformersAPI
             System.err.println("[TransformersAPI] " + transformer.getName() + " has already been registered!");
         }
     }
-    
+
     /**
      * @returns a list of registered Transformers.
      */
@@ -41,7 +41,7 @@ public class TransformersAPI
     {
         return transformers;
     }
-    
+
     /**
      * Gets an instance of a Transformer by name.
      * 
@@ -50,17 +50,17 @@ public class TransformersAPI
      */
     public static Transformer getTransformerByName(String name)
     {
-    	for (Transformer transformer : transformers)
-    	{
-    		if (transformer.getName().equals(name))
-    		{
-    			return transformer;
-    		}
-    	}
-    	
-    	return null;
+        for (Transformer transformer : transformers)
+        {
+            if (transformer.getName().equals(name))
+            {
+                return transformer;
+            }
+        }
+
+        return null;
     }
-    
+
     /**
      * Used to register the specified Displayable.
      * 
@@ -69,9 +69,9 @@ public class TransformersAPI
      */
     public static void registerDisplayable(Item item, Displayable displayable)
     {
-    	displayables.put(item, displayable);
+        displayables.put(item, displayable);
     }
-    
+
     /**
      * @returns a list of registered Displayables.
      */
@@ -79,21 +79,21 @@ public class TransformersAPI
     {
         return displayables;
     }
-    
+
     /**
      * @param item The item to get the Displayable for.
      * @return the Displayable for the specific item.
      */
     public static Displayable getDisplayableFor(Item item)
     {
-    	for (Map.Entry<Item, Displayable> e : displayables.entrySet())
-    	{
-    		if (e.getKey() == item)
-    		{
-    			return e.getValue();
-    		}
-    	}
-    	
-    	return null;
+        for (Map.Entry<Item, Displayable> e : displayables.entrySet())
+        {
+            if (e.getKey() == item)
+            {
+                return e.getValue();
+            }
+        }
+
+        return null;
     }
 }

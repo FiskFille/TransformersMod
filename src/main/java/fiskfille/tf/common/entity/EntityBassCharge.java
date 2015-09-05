@@ -2,11 +2,11 @@ package fiskfille.tf.common.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 
 public class EntityBassCharge extends EntityThrowable
@@ -16,70 +16,70 @@ public class EntityBassCharge extends EntityThrowable
         super(world);
         setSize(1.0F, 1.0F);
     }
-    
+
     public EntityBassCharge(World world, EntityLivingBase entity)
     {
         super(world, entity);
         setSize(1.0F, 1.0F);
     }
-    
+
     public EntityBassCharge(World world, double x, double y, double z)
     {
         super(world, x, y, z);
         setSize(1.0F, 1.0F);
     }
-    
+
     public void onUpdate()
     {
         super.onUpdate();
-        
+
         if (ticksExisted > 20)
         {
             setDead();
         }
     }
-    
+
     protected float getGravityVelocity()
     {
         return 0.0F;
     }
-    
+
     protected float func_70182_d()
     {
         return 3.0F;
     }
-    
+
     protected void onImpact(MovingObjectPosition mop)
     {
         if (mop.entityHit != null)
         {
-            float f = 2.0F * (1.0F - ((float)ticksExisted / 20));
+            float f = 2.0F * (1.0F - (float)ticksExisted / 20);
             mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), f);
             mop.entityHit.hurtResistantTime = 0;
-            
+
             if (!worldObj.isRemote)
             {
-//            	setDead();
+                //            	setDead();
             }
         }
-        else if (mop.typeOfHit == mop.typeOfHit.BLOCK)
+        else if (mop.typeOfHit == MovingObjectType.BLOCK)
         {
-        	int x = mop.blockX;
-        	int y = mop.blockY;
-        	int z = mop.blockZ;
-        	Block block = worldObj.getBlock(x, y, z);
-        	
-        	if (block.getMaterial().equals(Material.glass))
-        	{
-        		worldObj.playAuxSFX(2001, x, y + 1, z, Block.getIdFromBlock(worldObj.getBlock(x, y, z)) + (worldObj.getBlockMetadata(x, y, z) << 12));
-                worldObj.setBlockToAir(x, y, z);
-        	}
-        	else
-        	{
+            int x = mop.blockX;
+            int y = mop.blockY;
+            int z = mop.blockZ;
+            Block block = worldObj.getBlock(x, y, z);
 
-        	}
+            if (block.getMaterial().equals(Material.glass))
+            {
+                worldObj.playAuxSFX(2001, x, y + 1, z, Block.getIdFromBlock(worldObj.getBlock(x, y, z)) + (worldObj.getBlockMetadata(x, y, z) << 12));
+                worldObj.setBlockToAir(x, y, z);
+            }
+            else
+            {
+
+            }
         }
-        
-		setThrowableHeading(motionX, motionY, motionZ, -0.001F, 0);
+
+        setThrowableHeading(motionX, motionY, motionZ, -0.001F, 0);
     }
 }

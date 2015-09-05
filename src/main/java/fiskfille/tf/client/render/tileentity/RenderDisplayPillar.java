@@ -17,7 +17,7 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 {
     private ResourceLocation texture = new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/display_pillar.png");
     private ModelDisplayPillar model = new ModelDisplayPillar();
-    
+
     public void renderModelAt(TileEntityDisplayPillar displayPillar, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
@@ -25,22 +25,22 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         GL11.glScalef(1.0F, -1F, -1F);
         bindTexture(texture);
         model.render();
-        
+
         ItemStack displayItem = displayPillar.getDisplayItem();
-        
+
         if (displayItem != null)
         {
             Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
-            
+
             if (displayable != null)
             {
-            	displayable.render(displayItem);
+                displayable.render(displayItem);
             }
         }
-        
+
         GL11.glPopMatrix();
     }    
-    
+
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
         renderModelAt((TileEntityDisplayPillar)tileentity, x, y, z, partialTicks);

@@ -18,7 +18,7 @@ public class TFBlocks
     public static Block transformiumSeed;
     public static Block transformiumBlock;
     public static BlockCosmicRust cosmicRust;
-    
+
     public void register()
     {
         transformiumOre = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(10.0F).setResistance(1000.0F);
@@ -29,8 +29,8 @@ public class TFBlocks
         transformiumSeed = new BlockTransformiumSeed();
         transformiumBlock = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
         cosmicRust = new BlockCosmicRust();
-        
-        
+
+
         String modId = TransformersMod.modid;
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore", modId);
         TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class, modId);

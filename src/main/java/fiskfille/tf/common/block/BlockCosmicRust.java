@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -19,7 +18,7 @@ import fiskfille.tf.TransformersMod;
 public class BlockCosmicRust extends Block
 {
     private IIcon[] icons;
-    
+
     protected BlockCosmicRust()
     {
         super(Material.circuits);
@@ -28,7 +27,7 @@ public class BlockCosmicRust extends Block
 
     public float getBlockHardness(World world, int x, int y, int z)
     {
-        return world.getBlockMetadata(x, y, z) == 2 ? 2.0F : this.blockHardness;
+        return world.getBlockMetadata(x, y, z) == 2 ? 2.0F : blockHardness;
     }
 
     /**
@@ -67,7 +66,7 @@ public class BlockCosmicRust extends Block
         tryRust(world, x, y + 1, z);
         tryRust(world, x, y, z - 1);
         tryRust(world, x, y, z + 1);
-        
+
         if (world.getBlockMetadata(x, y, z) == 0)
         {
             world.setBlockToAir(x, y, z);
@@ -77,7 +76,7 @@ public class BlockCosmicRust extends Block
     private void tryRust(World world, int x, int y, int z)
     {
         Random rand = new Random();
-        
+
         if (world.getBlock(x, y, z) == TFBlocks.transformiumStone)
         {
             world.setBlock(x, y, z, this);
@@ -92,29 +91,29 @@ public class BlockCosmicRust extends Block
     {
         subBlocks.add(new ItemStack(item, 1, 2));
     }
-    
+
     public void onBlockAdded(World world, int x, int y, int z)
     {
         world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
     }
-    
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         onBlockAdded(world, x, y, z);
     }
-    
+
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata)
     {
         return metadata == 0 ? icons[0] : icons[2];
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
         icons = new IIcon[3];
-        
+
         for (int i = 0; i < icons.length; ++i)
         {
             icons[i] = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_stage_" + i);

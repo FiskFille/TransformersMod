@@ -23,7 +23,7 @@ public class TFHelper
     {
         return getTransformer(player) instanceof TransformerCloudtrap;
     }
-    
+
     /**
      * @returns whether the player is wearing the 'Skystrike' set.
      */
@@ -31,7 +31,7 @@ public class TFHelper
     {
         return getTransformer(player) instanceof TransformerSkystrike;
     }
-    
+
     /**
      * @returns whether the player is wearing the 'Purge' set.
      */
@@ -39,7 +39,7 @@ public class TFHelper
     {
         return getTransformer(player) instanceof TransformerPurge;
     }
-    
+
     /**
      * @returns whether the player is wearing the 'Vurp' set.
      */
@@ -47,7 +47,7 @@ public class TFHelper
     {
         return getTransformer(player) instanceof TransformerVurp;
     }
-    
+
     /**
      * @returns whether the player is wearing the 'Subwoofer' set.
      */
@@ -55,7 +55,7 @@ public class TFHelper
     {
         return getTransformer(player) instanceof TransformerSubwoofer;
     }
-    
+
     /**
      * @returns whether the player is wearing a full Transformer set.
      */
@@ -65,10 +65,10 @@ public class TFHelper
         Transformer chestTransformer = getTransformerFromArmor(player, 2);
         Transformer legsTransformer = getTransformerFromArmor(player, 1);
         Transformer feetTransformer = getTransformerFromArmor(player, 0);
-        
+
         return helmetTransformer != null && helmetTransformer == chestTransformer && chestTransformer == legsTransformer && legsTransformer == feetTransformer;
     }
-    
+
     /**
      * @returns the Transformer that the player currently has fully equipped, null when not wearing a full set.
      */
@@ -78,27 +78,27 @@ public class TFHelper
         {
             return getTransformerFromArmor(player, 0);
         }
-        
+
         return null;
     }
-    
+
     /**
      * @returns the Transformer that the player is wearing in the specified slot.
      */
     public static Transformer getTransformerFromArmor(EntityPlayer player, int slot)
     {
         ItemStack currentArmorStack = player.getCurrentArmor(slot);
-        
+
         if (currentArmorStack != null)
         {
             Item currentArmor = currentArmorStack.getItem();
-            
+
             if (currentArmor instanceof ItemTransformerArmor)
             {
                 return ((ItemTransformerArmor) currentArmor).getTransformer();
             }
         }
-        
+
         return null;
     }
 }

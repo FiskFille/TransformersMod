@@ -10,7 +10,7 @@ public class ItemPurgeArmor extends ItemTransformerArmor
     {
         super(TFItems.TANKMATERIAL, 4, armorPiece);
     }
-    
+
     @Override
     public Transformer getTransformer()
     {

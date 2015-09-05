@@ -15,31 +15,31 @@ public class EntityAITransform extends EntityAIBase
     private EntityTransformer transformer;
     private Class<? extends Entity> enemy;
     private World world;
-    
+
     private Entity closestEnemy;
-    
+
     private int distance;
-    
+
     public EntityAITransform(EntityTransformer transformer, Class<? extends EntityLivingBase> enemy, int distance)
     {
         this.transformer = transformer;
         this.enemy = enemy;
-        this.world = transformer.worldObj;
+        world = transformer.worldObj;
         this.distance = distance;
     }
-    
+
     @Override
     public boolean shouldExecute()
     {
         return true;
     }
-    
+
     private boolean hasEnemy()
     {
         List entities = world.getEntitiesWithinAABBExcludingEntity(transformer, entityBoundingBox(transformer, distance, distance, distance));
-        
+
         boolean hasEnemy = false;
-        
+
         for (Object object : entities)
         {
             if (enemy.isAssignableFrom(object.getClass()) && object.getClass() != transformer.getClass())
@@ -49,23 +49,23 @@ public class EntityAITransform extends EntityAIBase
                 break;
             }
         }
-        
+
         return hasEnemy;
     }
-    
+
     private AxisAlignedBB entityBoundingBox(Entity entity, double x, double y, double z)
     {
         double dX = x / 2;
         double dY = y / 2;
         double dZ = z / 2;
-        
+
         double posX = entity.posX;
         double posY = entity.posY;
         double posZ = entity.posZ;
-        
+
         return AxisAlignedBB.getBoundingBox(posX - dX, posY - dY, posZ - dZ, posX + dX, posY + dY, posZ + dZ);
     }
-    
+
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
@@ -74,7 +74,7 @@ public class EntityAITransform extends EntityAIBase
     {
         return transformer.isEntityAlive();
     }
-    
+
     /**
      * Execute a one shot task or start executing a continuous task
      */
@@ -82,16 +82,16 @@ public class EntityAITransform extends EntityAIBase
     public void startExecuting()
     {
     }
-    
+
     /**
      * Resets the task
      */
     @Override
     public void resetTask()
     {
-        this.closestEnemy = null;
+        closestEnemy = null;
     }
-    
+
     /**
      * Updates the task
      */
@@ -99,13 +99,13 @@ public class EntityAITransform extends EntityAIBase
     public void updateTask()
     {
         boolean hasEnemy = hasEnemy();
-        
+
         if (hasEnemy != transformer.isTransformed())
         {
             String end = hasEnemy ? "vehicle" : "robot";
             world.playSoundAtEntity(transformer, TransformersMod.modid + ":transform_" + end, 1.0F, 1.0F);
         }
-        
-        this.transformer.setInVehicleMode(hasEnemy);
+
+        transformer.setInVehicleMode(hasEnemy);
     }
 }

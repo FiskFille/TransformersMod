@@ -21,54 +21,54 @@ public class ModelTransformiumSeed extends ModelBase
     public ModelRenderer wingC;
     public ModelRenderer wingD;
     public ModelRenderer antenna;
-    
+
     public ModelTransformiumSeed()
     {
-        this.textureWidth = 64;
-        this.textureHeight = 32;
-        this.shape1 = new ModelRenderer(this, 0, 0);
-        this.shape1.setRotationPoint(0.0F, 4.0F, 0.0F);
-        this.shape1.addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2, 0.0F);
-        this.shape2 = new ModelRenderer(this, 0, 3);
-        this.shape2.setRotationPoint(0.0F, 5.0F, 0.0F);
-        this.shape2.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
-        this.shape5 = new ModelRenderer(this, 0, 19);
-        this.shape5.setRotationPoint(0.0F, 6.0F, 0.0F);
-        this.shape5.addBox(-2.0F, 0.0F, -2.0F, 4, 1, 4, 0.0F);
-        this.antenna = new ModelRenderer(this, 14, 7);
-        this.antenna.setRotationPoint(0.0F, 12.5F, 0.0F);
-        this.antenna.addBox(-0.5F, 0.0F, -0.5F, 1, 4, 1, 0.0F);
-        this.shape6 = new ModelRenderer(this, 8, 8);
-        this.shape6.setRotationPoint(0.0F, 14.0F, 0.0F);
-        this.shape6.addBox(-0.5F, -0.5F, -2.0F, 1, 2, 4, 0.0F);
-        this.setRotation(shape6, 0.0F, 1.5707963267948966F, 0.0F);
-        this.shape7 = new ModelRenderer(this, 8, 8);
-        this.shape7.setRotationPoint(0.0F, 14.0F, 0.0F);
-        this.shape7.addBox(-0.5F, -0.5F, -2.0F, 1, 2, 4, 0.0F);
-        this.wingA = new ModelRenderer(this, 12, 0);
-        this.wingA.setRotationPoint(0.0F, 14.0F, -1.5F);
-        this.wingA.addBox(-1.0F, -5.0F, -0.5F, 2, 6, 1, 0.0F);
-        this.setRotation(wingA, 0.06981317007977318F, 0.0F, 0.0F);
-        this.wingB = new ModelRenderer(this, 18, 0);
-        this.wingB.setRotationPoint(-1.5F, 14.0F, 0.0F);
-        this.wingB.addBox(-0.5F, -5.0F, -1.0F, 1, 6, 2, 0.0F);
-        this.setRotation(wingB, 0.0F, 0.0F, -0.06981317007977318F);
-        this.shape4 = new ModelRenderer(this, 0, 19);
-        this.shape4.setRotationPoint(0.0F, 8.0F, 0.0F);
-        this.shape4.addBox(-2.0F, 0.0F, -2.0F, 4, 1, 4, 0.0F);
-        this.shape3 = new ModelRenderer(this, 0, 12);
-        this.shape3.setRotationPoint(0.0F, 11.0F, 0.0F);
-        this.shape3.addBox(-1.0F, 0.0F, -1.0F, 2, 5, 2, 0.0F);
-        this.wingC = new ModelRenderer(this, 24, 0);
-        this.wingC.setRotationPoint(0.0F, 14.0F, 1.5F);
-        this.wingC.addBox(-1.0F, -5.0F, -0.5F, 2, 6, 1, 0.0F);
-        this.setRotation(wingC, -0.06981317007977318F, 0.0F, 0.0F);
-        this.wingD = new ModelRenderer(this, 30, 0);
-        this.wingD.setRotationPoint(1.5F, 14.0F, 0.0F);
-        this.wingD.addBox(-0.5F, -5.0F, -1.0F, 1, 6, 2, 0.0F);
-        this.setRotation(wingD, 0.0F, 0.0F, 0.06981317007977318F);
+        textureWidth = 64;
+        textureHeight = 32;
+        shape1 = new ModelRenderer(this, 0, 0);
+        shape1.setRotationPoint(0.0F, 4.0F, 0.0F);
+        shape1.addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2, 0.0F);
+        shape2 = new ModelRenderer(this, 0, 3);
+        shape2.setRotationPoint(0.0F, 5.0F, 0.0F);
+        shape2.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
+        shape5 = new ModelRenderer(this, 0, 19);
+        shape5.setRotationPoint(0.0F, 6.0F, 0.0F);
+        shape5.addBox(-2.0F, 0.0F, -2.0F, 4, 1, 4, 0.0F);
+        antenna = new ModelRenderer(this, 14, 7);
+        antenna.setRotationPoint(0.0F, 12.5F, 0.0F);
+        antenna.addBox(-0.5F, 0.0F, -0.5F, 1, 4, 1, 0.0F);
+        shape6 = new ModelRenderer(this, 8, 8);
+        shape6.setRotationPoint(0.0F, 14.0F, 0.0F);
+        shape6.addBox(-0.5F, -0.5F, -2.0F, 1, 2, 4, 0.0F);
+        setRotation(shape6, 0.0F, 1.5707963267948966F, 0.0F);
+        shape7 = new ModelRenderer(this, 8, 8);
+        shape7.setRotationPoint(0.0F, 14.0F, 0.0F);
+        shape7.addBox(-0.5F, -0.5F, -2.0F, 1, 2, 4, 0.0F);
+        wingA = new ModelRenderer(this, 12, 0);
+        wingA.setRotationPoint(0.0F, 14.0F, -1.5F);
+        wingA.addBox(-1.0F, -5.0F, -0.5F, 2, 6, 1, 0.0F);
+        setRotation(wingA, 0.06981317007977318F, 0.0F, 0.0F);
+        wingB = new ModelRenderer(this, 18, 0);
+        wingB.setRotationPoint(-1.5F, 14.0F, 0.0F);
+        wingB.addBox(-0.5F, -5.0F, -1.0F, 1, 6, 2, 0.0F);
+        setRotation(wingB, 0.0F, 0.0F, -0.06981317007977318F);
+        shape4 = new ModelRenderer(this, 0, 19);
+        shape4.setRotationPoint(0.0F, 8.0F, 0.0F);
+        shape4.addBox(-2.0F, 0.0F, -2.0F, 4, 1, 4, 0.0F);
+        shape3 = new ModelRenderer(this, 0, 12);
+        shape3.setRotationPoint(0.0F, 11.0F, 0.0F);
+        shape3.addBox(-1.0F, 0.0F, -1.0F, 2, 5, 2, 0.0F);
+        wingC = new ModelRenderer(this, 24, 0);
+        wingC.setRotationPoint(0.0F, 14.0F, 1.5F);
+        wingC.addBox(-1.0F, -5.0F, -0.5F, 2, 6, 1, 0.0F);
+        setRotation(wingC, -0.06981317007977318F, 0.0F, 0.0F);
+        wingD = new ModelRenderer(this, 30, 0);
+        wingD.setRotationPoint(1.5F, 14.0F, 0.0F);
+        wingD.addBox(-0.5F, -5.0F, -1.0F, 1, 6, 2, 0.0F);
+        setRotation(wingD, 0.0F, 0.0F, 0.06981317007977318F);
     }
-    
+
     public void render(EntityTransformiumSeed seed)
     {
         setRotationAngles(seed);
@@ -77,39 +77,39 @@ public class ModelTransformiumSeed extends ModelBase
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -0.85F, 0.0F);
         GL11.glScalef(scale, scale, scale);
-        this.shape1.render(f5);
-        this.shape2.render(f5);
-        this.shape5.render(f5);
-        this.antenna.render(f5);
-        this.shape6.render(f5);
-        this.shape7.render(f5);
-        this.wingA.render(f5);
-        this.wingB.render(f5);
-        this.shape4.render(f5);
-        this.shape3.render(f5);
-        this.wingC.render(f5);
-        this.wingD.render(f5);
+        shape1.render(f5);
+        shape2.render(f5);
+        shape5.render(f5);
+        antenna.render(f5);
+        shape6.render(f5);
+        shape7.render(f5);
+        wingA.render(f5);
+        wingB.render(f5);
+        shape4.render(f5);
+        shape3.render(f5);
+        wingC.render(f5);
+        wingD.render(f5);
         GL11.glPopMatrix();
     }
-    
+
     public void setRotation(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-    
+
     public void setRotationAngles(EntityTransformiumSeed seed)
     {
         super.setRotationAngles(0, 0, 0, 0, 0, 0, seed);
-        
+
         float t = (float) (seed.ticksExisted <= 50 ? seed.ticksExisted : 50) / 50;
         float i = 1.0F - t;
-        
-        this.setRotation(wingA, (0.06981317007977318F * i + ((float) Math.PI / 2) * t), 0.0F, 0.0F);
-        this.setRotation(wingB, 0.0F, 0.0F, -(0.06981317007977318F * i + ((float) Math.PI / 2) * t));
-        this.setRotation(wingC, -(0.06981317007977318F * i + ((float) Math.PI / 2) * t), 0.0F, 0.0F);
-        this.setRotation(wingD, 0.0F, 0.0F, (0.06981317007977318F * i + ((float) Math.PI / 2) * t));
-        this.antenna.setRotationPoint(0.0F, 12.5F + (t * 3.5F), 0.0F);
+
+        setRotation(wingA, 0.06981317007977318F * i + (float) Math.PI / 2 * t, 0.0F, 0.0F);
+        setRotation(wingB, 0.0F, 0.0F, -(0.06981317007977318F * i + (float) Math.PI / 2 * t));
+        setRotation(wingC, -(0.06981317007977318F * i + (float) Math.PI / 2 * t), 0.0F, 0.0F);
+        setRotation(wingD, 0.0F, 0.0F, 0.06981317007977318F * i + (float) Math.PI / 2 * t);
+        antenna.setRotationPoint(0.0F, 12.5F + t * 3.5F, 0.0F);
     }
 }

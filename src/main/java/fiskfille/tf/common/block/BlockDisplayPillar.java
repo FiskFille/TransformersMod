@@ -23,157 +23,157 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
 public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvider
 {
-	private Random rand = new Random();
+    private Random rand = new Random();
 
-	public BlockDisplayPillar()
-	{
-		super(Material.rock);
-		this.setHardness(0.5F);
-		this.setResistance(1.0F);
-	}
+    public BlockDisplayPillar()
+    {
+        super(Material.rock);
+        setHardness(0.5F);
+        setResistance(1.0F);
+    }
 
-	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
-		ItemStack itemstack = tileEntityDisplayPillar.getDisplayItem();
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
+    {
+        TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+        ItemStack itemstack = tileEntityDisplayPillar.getDisplayItem();
 
-		if (itemstack != null)
-		{
-			float f = this.rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
+        if (itemstack != null)
+        {
+            float f = rand.nextFloat() * 0.8F + 0.1F;
+            float f1 = rand.nextFloat() * 0.8F + 0.1F;
+            float f2 = rand.nextFloat() * 0.8F + 0.1F;
 
-			while (itemstack.stackSize > 0)
-			{
-				int j1 = this.rand.nextInt(21) + 10;
+            while (itemstack.stackSize > 0)
+            {
+                int j1 = rand.nextInt(21) + 10;
 
-				if (j1 > itemstack.stackSize)
-				{
-					j1 = itemstack.stackSize;
-				}
+                if (j1 > itemstack.stackSize)
+                {
+                    j1 = itemstack.stackSize;
+                }
 
-				itemstack.stackSize -= j1;
+                itemstack.stackSize -= j1;
 
-				EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
-				if (itemstack.hasTagCompound())
-				{
-					entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-				}
+                if (itemstack.hasTagCompound())
+                {
+                    entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                }
 
-				float f3 = 0.05F;
+                float f3 = 0.05F;
 
-				entityitem.motionX = (double) ((float) this.rand.nextGaussian() * f3);
-				entityitem.motionY = (double) ((float) this.rand.nextGaussian() * f3 + 0.2F);
-				entityitem.motionZ = (double) ((float) this.rand.nextGaussian() * f3);
+                entityitem.motionX = (float) rand.nextGaussian() * f3;
+                entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
+                entityitem.motionZ = (float) rand.nextGaussian() * f3;
 
-				world.spawnEntityInWorld(entityitem);
-			}
-		}
+                world.spawnEntityInWorld(entityitem);
+            }
+        }
 
-		super.breakBlock(world, x, y, z, block, metadata);
-	}
+        super.breakBlock(world, x, y, z, block, metadata);
+    }
 
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
 
-		if (tileEntityDisplayPillar != null)
-		{
-			ItemStack heldItem = player.getHeldItem();
+        if (tileEntityDisplayPillar != null)
+        {
+            ItemStack heldItem = player.getHeldItem();
 
-			ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
+            ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
 
-			if (heldItem == null && displayItem != null)
-			{
-				player.setCurrentItemOrArmor(0, displayItem);
+            if (heldItem == null && displayItem != null)
+            {
+                player.setCurrentItemOrArmor(0, displayItem);
 
-				tileEntityDisplayPillar.setDisplayItem(null, true);
-			}
-			else if (heldItem != null && TransformersAPI.getDisplayableFor(heldItem.getItem()) != null)
-			{
-				if (displayItem == null)
-				{
-					tileEntityDisplayPillar.setDisplayItem(heldItem, true);
+                tileEntityDisplayPillar.setDisplayItem(null, true);
+            }
+            else if (heldItem != null && TransformersAPI.getDisplayableFor(heldItem.getItem()) != null)
+            {
+                if (displayItem == null)
+                {
+                    tileEntityDisplayPillar.setDisplayItem(heldItem, true);
 
-					//if (!player.capabilities.isCreativeMode)
-					{
-						player.setCurrentItemOrArmor(0, null);
-					}
-				}
-			}
-		}
+                    //if (!player.capabilities.isCreativeMode)
+                    {
+                        player.setCurrentItemOrArmor(0, null);
+                    }
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
-	{
-		this.setBlockBoundsBasedOnState(world, x, y, z);
-		return super.collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
-	}
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
+    {
+        setBlockBoundsBasedOnState(world, x, y, z);
+        return super.collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
+    }
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-	{
-		this.setBlockBoundsBasedOnState(world, x, y, z);
-		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-	}
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+    {
+        setBlockBoundsBasedOnState(world, x, y, z);
+        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+    }
 
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-	{
-		TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+    {
+        TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
 
-		if (tileEntityDisplayPillar != null)
-		{
-			ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
+        if (tileEntityDisplayPillar != null)
+        {
+            ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
 
-			if (displayItem != null)
-			{
-				Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
-				
-				if (displayable != null)
-				{
-					setBlockBounds(0, 0, 0, 1, displayable.getBlockHeight(displayItem), 1);
-				}
-			}
-			else
-			{
-				setBlockBounds(0, 0, 0, 1, 0.0625F * 9, 1);
-			}
-		}
+            if (displayItem != null)
+            {
+                Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
 
-		super.setBlockBoundsBasedOnState(world, x, y, z);
-	}
+                if (displayable != null)
+                {
+                    setBlockBounds(0, 0, 0, 1, displayable.getBlockHeight(displayItem), 1);
+                }
+            }
+            else
+            {
+                setBlockBounds(0, 0, 0, 1, 0.0625F * 9, 1);
+            }
+        }
+
+        super.setBlockBoundsBasedOnState(world, x, y, z);
+    }
 
 
-	public boolean renderAsNormalBlock()
-	{
-		return false;
-	}
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
 
-	public int getRenderType()
-	{
-		return -1;
-	}
+    public int getRenderType()
+    {
+        return -1;
+    }
 
-	public boolean isOpaqueCube()
-	{
-		return false;
-	}
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
 
-	public boolean hasTileEntity()
-	{
-		return true;
-	}
+    public boolean hasTileEntity()
+    {
+        return true;
+    }
 
-	public TileEntity createNewTileEntity(World world, int metadata)
-	{
-		return new TileEntityDisplayPillar();
-	}
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
+        return new TileEntityDisplayPillar();
+    }
 
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister)
-	{
-		blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
-	}
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":" + getUnlocalizedName().substring(5));
+    }
 }

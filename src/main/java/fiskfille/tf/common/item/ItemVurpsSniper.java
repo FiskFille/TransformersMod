@@ -17,13 +17,13 @@ public class ItemVurpsSniper extends ItemSword
     public ItemVurpsSniper(ToolMaterial material)
     {
         super(material);
-        this.setMaxDamage(800);
+        setMaxDamage(800);
     }
-    
+
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         boolean isCreativeMode = player.capabilities.isCreativeMode;
-        
+
         if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player))
         {
             if (world.isRemote)
@@ -45,7 +45,7 @@ public class ItemVurpsSniper extends ItemSword
                 }
             }
         }
-        
+
         return stack;
     }
 }

@@ -24,82 +24,82 @@ public class TransformerVurp extends TransformerCar
     {
         super("Vurp");
     }
-    
+
     @Override
     public Item getHelmet()
     {
         return TFItems.vurpHelmet;
     }
-    
+
     @Override
     public Item getChestplate()
     {
         return TFItems.vurpChestplate;
     }
-    
+
     @Override
     public Item getLeggings()
     {
         return TFItems.vurpLeggings;
     }
-    
+
     @Override
     public Item getBoots()
     {
         return TFItems.vurpBoots;
     }
-    
+
     @Override
     public Item getShootItem()
     {
         return Item.getItemFromBlock(TFBlocks.energonCube);
     }
-    
+
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
         EntityLaser entityLaser = new EntityLaser(player.worldObj, player);
         return entityLaser;
     }
-    
+
     @Override
     public String getShootSound()
     {
         return "random.fizz";
     }
-    
+
     @Override
     public float getShootVolume()
     {
         return 0.3F;
     }
-    
+
     @Override
     public int getShots()
     {
         return 64;
     }
-    
+
     @Override
     public boolean hasRapidFire()
     {
         return true;
     }
-    
+
     @Override
     public void tick(EntityPlayer player, int timer)
     {
         super.tick(player, timer);
-        
+
         ItemStack heldItem = player.getHeldItem();
-        
+
         boolean holdingSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper;
-        
+
         int zoomTimer = TFDataManager.getZoomTimer(player);
-        
+
         PotionEffect activePotionEffect = player.getActivePotionEffect(Potion.nightVision);
-        
-        if (activePotionEffect == null || (activePotionEffect != null && activePotionEffect.getDuration() == 0))
+
+        if (activePotionEffect == null || activePotionEffect != null && activePotionEffect.getDuration() == 0)
         {
             if (holdingSniper && zoomTimer > 7)
             {
@@ -110,7 +110,7 @@ public class TransformerVurp extends TransformerCar
                 player.removePotionEffect(Potion.nightVision.id);
             }
         }
-        
+
         if (player.worldObj.isRemote)
         {
             if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFDataManager.isInVehicleMode(player))
@@ -128,7 +128,7 @@ public class TransformerVurp extends TransformerCar
                 }
             }
         }
-        
+
         player.addStat(TFAchievements.vurp, 1);
     }
 }

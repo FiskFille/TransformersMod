@@ -9,11 +9,11 @@ public class BlockBasic extends Block
     {
         super(material);
     }
-    
+
     public BlockBasic setHarvestLvl(String tool, int level)
     {
         this.setHarvestLevel(tool, level);
-        
+
         return this;
     }
 }

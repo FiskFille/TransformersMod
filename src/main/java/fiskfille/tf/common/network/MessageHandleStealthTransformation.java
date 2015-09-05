@@ -15,30 +15,30 @@ public class MessageHandleStealthTransformation implements IMessage
 {
     public int id;
     private boolean stealthForce;
-    
+
     public MessageHandleStealthTransformation()
     {
-        
+
     }
-    
+
     public MessageHandleStealthTransformation(EntityPlayer player, boolean mode)
     {
         id = player.getEntityId();
         stealthForce = mode;
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         stealthForce = buf.readBoolean();
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
         buf.writeBoolean(stealthForce);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageHandleStealthTransformation, IMessage>
     {
         public IMessage onMessage(MessageHandleStealthTransformation message, MessageContext ctx)
@@ -48,15 +48,17 @@ public class MessageHandleStealthTransformation implements IMessage
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
-                
+
                 if (entity instanceof EntityPlayer)
+                {
                     from = (EntityPlayer) entity;
-                
+                }
+
                 if (from != null && from != player)
                 {
                     TFDataManager.setStealthModeTimer(from, message.stealthForce ? 5 : 0);
-                    
-                    from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, TransformersMod.modid + ":transform_stealth" + (message.stealthForce ? "" : "_in"), 1, 1.25f, false);
+
+                    from.worldObj.playSound(from.posX, from.posY - from.yOffset, from.posZ, TransformersMod.modid + ":transform_stealth" + (message.stealthForce ? "" : "_in"), 1, 1.25f, false);
                     TFDataManager.setInStealthModeWithoutNotify(from, message.stealthForce);
                 }
             }
@@ -64,22 +66,24 @@ public class MessageHandleStealthTransformation implements IMessage
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
                 EntityPlayer from = null;
-                
+
                 for (World world : MinecraftServer.getServer().worldServers)
                 {
                     Entity entity = world.getEntityByID(message.id);
-                    
+
                     if (entity instanceof EntityPlayer)
                     {
                         from = (EntityPlayer) entity;
                         break;
                     }
                 }
-                
+
                 if (from != null)
+                {
                     TFDataManager.setInStealthMode(player, message.stealthForce);
+                }
             }
-            
+
             return null;
         }
     }

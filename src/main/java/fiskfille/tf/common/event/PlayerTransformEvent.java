@@ -11,7 +11,7 @@ public class PlayerTransformEvent extends PlayerEvent
     public final boolean transformed;
     public final boolean stealthForce;
     public final Transformer transformer;
-    
+
     public PlayerTransformEvent(EntityPlayer player, Transformer transformer, boolean transformed, boolean stealthForce)
     {
         super(player);

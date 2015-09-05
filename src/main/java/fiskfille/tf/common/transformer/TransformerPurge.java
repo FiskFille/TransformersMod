@@ -15,36 +15,36 @@ public class TransformerPurge extends TransformerTank
     {
         super("Purge");
     }
-    
+
     @Override
     public Item getHelmet()
     {
         return TFItems.purgeHelmet;
     }
-    
+
     @Override
     public Item getChestplate()
     {
         return TFItems.purgeChestplate;
     }
-    
+
     @Override
     public Item getLeggings()
     {
         return TFItems.purgeLeggings;
     }
-    
+
     @Override
     public Item getBoots()
     {
         return TFItems.purgeBoots;
     }
-    
+
     @Override
     public void tick(EntityPlayer player, int timer)
     {
         super.tick(player, timer);
-        
+
         player.addStat(TFAchievements.purge, 1);
     }
 }

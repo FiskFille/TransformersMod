@@ -14,30 +14,30 @@ public class MessageCloudtrapJetpack implements IMessage
 {
     private int id;
     private boolean jetpacking;
-    
+
     public MessageCloudtrapJetpack()
     {
-        
+
     }
-    
+
     public MessageCloudtrapJetpack(EntityPlayer player, boolean j)
     {
         id = player.getEntityId();
         jetpacking = j;
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         jetpacking = buf.readBoolean();
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
         buf.writeBoolean(jetpacking);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageCloudtrapJetpack, IMessage>
     {
         public IMessage onMessage(MessageCloudtrapJetpack message, MessageContext ctx)
@@ -47,10 +47,12 @@ public class MessageCloudtrapJetpack implements IMessage
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
-                
+
                 if (entity instanceof EntityPlayer)
+                {
                     from = (EntityPlayer) entity;
-                
+                }
+
                 if (from != null && from != player)
                 {
                     CloudtrapJetpackManager.cloudtrapJetpacking.put(from, message.jetpacking);
@@ -59,10 +61,10 @@ public class MessageCloudtrapJetpack implements IMessage
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
-                
+
                 TFNetworkManager.networkWrapper.sendToDimension(new MessageCloudtrapJetpack(player, message.jetpacking), player.dimension);
             }
-            
+
             return null;
         }
     }

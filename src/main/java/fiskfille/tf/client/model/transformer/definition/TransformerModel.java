@@ -14,32 +14,32 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 public abstract class TransformerModel
 {
     public abstract Biped getMainModel();
-    
+
     public abstract ModelVehicleBase getVehicleModel();
-    
+
     public abstract ModelRenderer getLowerArm();
-    
+
     public abstract ModelRenderer getUpperArm();
-    
+
     public abstract ModelRenderer getBody();
-    
+
     public abstract ModelRenderer getHead();
-    
+
     public abstract ResourceLocation getTexture(Entity entity);
-    
+
     public Biped getStealthModel()
     {
         return null;
     }
-    
+
     public void renderItem(EntityPlayer player, ItemStack stack)
     {
     }
-    
+
     public void renderCape(EntityPlayer player)
     {
     }
-    
+
     public void renderFirstPersonArm(EntityPlayer player)
     {
     }

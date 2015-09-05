@@ -15,33 +15,33 @@ public class MessageBroadcastState implements IMessage
     private int id;
     private boolean stealth;
     private boolean vehicle;
-    
+
     public MessageBroadcastState()
     {
-        
+
     }
-    
+
     public MessageBroadcastState(EntityPlayer player)
     {
         id = player.getEntityId();
         stealth = TFDataManager.isInStealthMode(player);
         vehicle = TFDataManager.isInVehicleMode(player);
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         stealth = buf.readBoolean();
         vehicle = buf.readBoolean();
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
         buf.writeBoolean(stealth);
         buf.writeBoolean(vehicle);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageBroadcastState, IMessage>
     {
         public IMessage onMessage(MessageBroadcastState message, MessageContext ctx)
@@ -50,11 +50,11 @@ public class MessageBroadcastState implements IMessage
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity lookupEntity = player.worldObj.getEntityByID(message.id);
-                
+
                 if (lookupEntity instanceof EntityPlayer && player != lookupEntity)
                 {
                     EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
-                    
+
                     TFDataManager.setInVehicleModeWithoutNotify(lookupPlayer, message.vehicle);
                     TFDataManager.setTransformationTimer(lookupPlayer, message.vehicle ? 0 : 20);
                     TFDataManager.setInStealthModeWithoutNotify(lookupPlayer, message.stealth);
@@ -68,7 +68,7 @@ public class MessageBroadcastState implements IMessage
                 TFDataManager.setInVehicleModeWithoutNotify(player, message.vehicle);
                 TFDataManager.setInStealthModeWithoutNotify(player, message.stealth);
             }
-            
+
             return null;
         }
     }

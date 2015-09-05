@@ -20,12 +20,12 @@ public class ModelSkystrikesCrossbow extends ModelChildBase.Base
     ModelRenderer missile5;
     ModelRenderer missile6;
     ModelRenderer missile7;
-    
+
     public ModelSkystrikesCrossbow()
     {
         textureWidth = 64;
         textureHeight = 64;
-        
+
         handle = new ModelRenderer(this, 0, 0);
         handle.addBox(-1F, -1F, -9F, 2, 2, 15);
         handle.setRotationPoint(0F, -1F, 0F);
@@ -98,39 +98,39 @@ public class ModelSkystrikesCrossbow extends ModelChildBase.Base
         missile7.setTextureSize(64, 64);
         missile7.mirror = true;
         setRotation(missile7, 0F, 0F, 0F);
-        
-        this.addChildTo(bottomEdge1, handle);
-        this.addChildTo(bottomEdge2, handle);
-        this.addChildTo(upperEdge1, handle);
-        this.addChildTo(upperEdge2, handle);
-        this.addChildTo(missile1, handle);
-        this.addChildTo(missile2, handle);
-        this.addChildTo(missile3, handle);
-        this.addChildTo(missile4, handle);
-        this.addChildTo(missile5, handle);
-        this.addChildTo(missile6, handle);
-        this.addChildTo(missile7, handle);
+
+        addChildTo(bottomEdge1, handle);
+        addChildTo(bottomEdge2, handle);
+        addChildTo(upperEdge1, handle);
+        addChildTo(upperEdge2, handle);
+        addChildTo(missile1, handle);
+        addChildTo(missile2, handle);
+        addChildTo(missile3, handle);
+        addChildTo(missile4, handle);
+        addChildTo(missile5, handle);
+        addChildTo(missile6, handle);
+        addChildTo(missile7, handle);
     }
-    
+
     public void render()
     {
         handle.render(0.0625F);
     }
-    
+
     private void setRotation(ModelRenderer model, float x, float y, float z)
     {
         model.rotateAngleX = x;
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
     }
-    
+
     public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
             ItemStack itemstack = player.getHeldItem();
-            
+
             if (itemstack != null)
             {
                 boolean flag = itemstack.hasTagCompound() ? itemstack.getTagCompound().getBoolean("blueMode") : false;

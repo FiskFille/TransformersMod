@@ -3,7 +3,6 @@ package fiskfille.tf.common.network;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
-import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -23,30 +22,30 @@ public class MessageLaserShoot implements IMessage
 {
     public int id;
     public boolean consume;
-    
+
     public MessageLaserShoot()
     {
-        
+
     }
-    
+
     public MessageLaserShoot(EntityPlayer player, boolean consume)
     {
-        this.id = player.getEntityId();
+        id = player.getEntityId();
         this.consume = consume;
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         consume = buf.readBoolean();
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
         buf.writeBoolean(consume);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageLaserShoot, IMessage>
     {
         public IMessage onMessage(MessageLaserShoot message, MessageContext ctx)
@@ -76,43 +75,43 @@ public class MessageLaserShoot implements IMessage
             else
             {
                 EntityPlayer from = null;
-                
+
                 for (World world : MinecraftServer.getServer().worldServers)
                 {
                     Entity entity = world.getEntityByID(message.id);
-                    
+
                     if (entity instanceof EntityPlayer)
                     {
                         from = (EntityPlayer) entity;
                         break;
                     }
                 }
-                
+
                 if (from != null)
                 {
                     Transformer transformer = TFHelper.getTransformer(from);
-                    
+
                     ItemStack heldItem = from.getHeldItem();
-                    
+
                     boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(from) == 20;
-                    
+
                     if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(from)))
                     {
                         Item shootItem = Item.getItemFromBlock(TFBlocks.energonCube);
                         boolean isCreative = from.capabilities.isCreativeMode;
                         boolean consumeItems = !isCreative || from.inventory.hasItem(shootItem) && message.consume;
-                        
+
                         if (!message.consume)
                         {
                             World world = from.worldObj;
-                            
+
                             Entity entity = new EntityLaser(world, from);
-                            
+
                             if (TFDataManager.isInVehicleMode(from))
                             {
                                 entity.posY -= 1.1F;
                             }
-                            
+
                             world.spawnEntityInWorld(entity);
                         }
                         else if (consumeItems && !isCreative)
@@ -122,7 +121,7 @@ public class MessageLaserShoot implements IMessage
                     }
                 }
             }
-            
+
             return null;
         }
     }

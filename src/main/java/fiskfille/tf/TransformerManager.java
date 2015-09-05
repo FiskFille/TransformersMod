@@ -17,7 +17,7 @@ public class TransformerManager
     public static Transformer transformerVurp = new TransformerVurp();
     public static Transformer transformerSubwoofer = new TransformerSubwoofer();
     public static Transformer transformerCloudtrap = new TransformerCloudtrap();
-    
+
     public static void register()
     {
         TransformersAPI.registerTransformer(transformerSkystrike);

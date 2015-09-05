@@ -13,13 +13,13 @@ public class RenderTransformer extends RendererLivingEntity
     {
         super(new ModelTransformer(), 0.0F);
     }
-    
+
     @Override
     protected ResourceLocation getEntityTexture(Entity entity)
     {
         return new ResourceLocation(TransformersMod.modid + ":textures/models/purge/purge.png");
     }
-    
+
     @Override
     public void doRender(EntityLivingBase entity, double x, double y, double z, float yaw, float partialTicks)
     {

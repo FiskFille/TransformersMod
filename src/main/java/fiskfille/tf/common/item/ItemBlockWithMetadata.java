@@ -1,10 +1,10 @@
 package fiskfille.tf.common.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IIcon;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockWithMetadata extends ItemBlock
 {
@@ -14,8 +14,8 @@ public class ItemBlockWithMetadata extends ItemBlock
     {
         super(block);
         this.block = block;
-        this.setMaxDamage(0);
-        this.setHasSubtypes(true);
+        setMaxDamage(0);
+        setHasSubtypes(true);
     }
 
     /**
@@ -24,7 +24,7 @@ public class ItemBlockWithMetadata extends ItemBlock
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int damage)
     {
-        return this.block.getIcon(2, damage);
+        return block.getIcon(2, damage);
     }
 
     /**

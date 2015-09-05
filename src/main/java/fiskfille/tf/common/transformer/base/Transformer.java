@@ -15,15 +15,15 @@ import fiskfille.tf.config.TFConfig;
 public abstract class Transformer
 {
     private String name;
-    
+
     public abstract Item getHelmet();
-    
+
     public abstract Item getChestplate();
-    
+
     public abstract Item getLeggings();
-    
+
     public abstract Item getBoots();
-    
+
     /**
      * Override to specify whether this Transformer can use nitro.
      * 
@@ -34,7 +34,7 @@ public abstract class Transformer
     {
         return true;
     }
-    
+
     /**
      * @returns the model to use for this Transformer.
      */
@@ -42,12 +42,12 @@ public abstract class Transformer
     {
         return TFModelRegistry.getModel(this);
     }
-    
+
     public Transformer(String name)
     {
         this.name = name;
     }
-    
+
     /**
      * @returns the name of this Transformer.
      */
@@ -55,7 +55,7 @@ public abstract class Transformer
     {
         return name;
     }
-    
+
     /**
      * Called every tick while wearing the armor.
      * 
@@ -65,83 +65,83 @@ public abstract class Transformer
     public void tick(EntityPlayer player, int timer)
     {
     }
-    
+
     public boolean canZoom(EntityPlayer player)
     {
         return false;
     }
-    
+
     public float getZoomAmount(EntityPlayer player)
     {
         return 0.1F;
     }
-    
+
     public float getCameraYOffset(EntityPlayer player)
     {
         return -1;
     }
-    
+
     public float getVehicleCameraYOffset(EntityPlayer player)
     {
         return -1;
     }
-    
+
     public boolean canJumpAsVehicle(EntityPlayer player)
     {
         return false;
     }
-    
+
     public boolean canTransform(EntityPlayer player)
     {
         return TFConfig.canTransform(this);
     }
-    
+
     public boolean hasStealthForce(EntityPlayer player)
     {
         return false;
     }
-    
+
     public abstract void updateMovement(EntityPlayer player);
-    
+
     public Item getShootItem()
     {
         return null;
     }
-    
+
     public Entity getShootEntity(EntityPlayer player)
     {
         return null;
     }
-    
+
     public String getShootSound()
     {
         return null;
     }
-    
+
     public float getShootVolume()
     {
         return 1;
     }
-    
+
     public int getShots()
     {
         return 4;
     }
-    
+
     public boolean canShoot(EntityPlayer player)
     {
         return false;
     }
-    
+
     public void onJump(EntityPlayer player)
     {
     }
-    
+
     public float getThirdPersonDistance(EntityPlayer player)
     {
-        return 2.0F - (-(float) TFDataManager.getTransformationTimer(player) / 10);
+        return 2.0F - -(float) TFDataManager.getTransformationTimer(player) / 10;
     }
-    
+
     /**
      * Called every tick while using nitro on the client side, used to make nitro particles.
      * 
@@ -150,7 +150,7 @@ public abstract class Transformer
     public void doNitroParticles(EntityPlayer player)
     {
     }
-    
+
     /**
      * Called when this transformer hits the ground.
      * 
@@ -162,44 +162,44 @@ public abstract class Transformer
     {
         return distance;
     }
-    
+
     public boolean hasRapidFire()
     {
         return false;
     }
 
-	public boolean disableViewBobbing(EntityPlayer player)
-	{
-		return true;
-	}
+    public boolean disableViewBobbing(EntityPlayer player)
+    {
+        return true;
+    }
 
-	public boolean disableStepSounds(EntityPlayer player)
-	{
-		return true;
-	}
-	
-	public EnumTutorialType getTutorialType()
-	{
-		return null;
-	}
-	
-	public boolean overrideFirstPerson(EntityPlayer player)
-	{
-	    return true;
-	}
-	
-	public boolean renderSpeedAndNitro(EntityPlayer player)
-	{
-	    return true;
-	}
-	
-	/**
-	 * @param player The player
-	 * @return Whether this Transformer can interact with the world while in vehicle mode, i.e.
+    public boolean disableStepSounds(EntityPlayer player)
+    {
+        return true;
+    }
+
+    public EnumTutorialType getTutorialType()
+    {
+        return null;
+    }
+
+    public boolean overrideFirstPerson(EntityPlayer player)
+    {
+        return true;
+    }
+
+    public boolean renderSpeedAndNitro(EntityPlayer player)
+    {
+        return true;
+    }
+
+    /**
+     * @param player The player
+     * @return Whether this Transformer can interact with the world while in vehicle mode, i.e.
      * break blocks, damage entities, etc.
-	 */
-	public boolean canInteractInVehicleMode(EntityPlayer player)
-	{
-	    return true;
-	}
+     */
+    public boolean canInteractInVehicleMode(EntityPlayer player)
+    {
+        return true;
+    }
 }

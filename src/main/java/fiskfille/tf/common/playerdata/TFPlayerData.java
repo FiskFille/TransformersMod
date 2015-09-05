@@ -8,31 +8,31 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class TFPlayerData implements IExtendedEntityProperties
 {
-	public static final String IDENTIFIER = "TFPLAYERDATA";
-	private EntityPlayer player;
-	
+    public static final String IDENTIFIER = "TFPLAYERDATA";
+    private EntityPlayer player;
+
     public boolean vehicle;
     public boolean stealthForce;
-    
+
     public static TFPlayerData getData(EntityPlayer player)
     {
         return (TFPlayerData) player.getExtendedProperties(IDENTIFIER);
     }
-    
+
     @Override
     public void saveNBTData(NBTTagCompound compound)
     {
         compound.setBoolean("mode", vehicle);
         compound.setBoolean("stealth", stealthForce);
     }
-    
+
     @Override
     public void loadNBTData(NBTTagCompound compound)
     {
         vehicle = compound.getBoolean("mode");
         stealthForce = compound.getBoolean("stealth");
     }
-    
+
     @Override
     public void init(Entity entity, World world)
     {
