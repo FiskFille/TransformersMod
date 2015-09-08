@@ -1985,10 +1985,70 @@ public class ModelPurge extends MowzieModelBase
 
                 if (playerOnGround || player.capabilities.isFlying)
                 {
+                    waist.rotationPointY -= 2;
+
+                    upperLegR.rotateAngleY += 0.2;
+                    upperLegL.rotateAngleY -= 0.2;
+                    upperLegR.rotateAngleX -= 0.1;
+                    upperLegL.rotateAngleX -= 0.1;
+                    lowerlegR1.rotateAngleX += 0.1;
+                    lowerlegL1.rotateAngleX += 0.1;
+                    lowerArmL.rotateAngleX -= 0.1;
+                    lowerArmR.rotateAngleX -= 0.1;
+                    headbase.rotateAngleX += 0.1;
+
+                    bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
+                    waist.rotationPointY += 1 * par2 + 3;
+                    walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    walk(stomach1, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
+                    walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
+
+                    swing(headbase, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
+                    headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
+
+                    swing(upperLegR, 0.5F * globalSpeed, 0.1F * globalDegree, true, 0, -0.2F, par1, par2);
+                    swing(upperLegL, 0.5F * globalSpeed, 0.1F * globalDegree, true, 0, 0.2F, par1, par2);
+                    walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
+                    walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
+                    walk(lowerlegR1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
+                    walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
+                    walk(upperArmR, 0.5F * globalSpeed, 0.7F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(upperArmL, 0.5F * globalSpeed, 0.7F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
+                    walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+
                     int ticksExisted = entity.ticksExisted;
+
+                    walk(stomach1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(stomach1, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+                    walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+                    walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+                    walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+
+                    flap(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
+                    flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
+                    walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
 
                     if (player.isSneaking())
                     {
+                        waist.rotationPointY -= par2;
+                        waist.rotateAngleX += 0.3F;
+                        waist.rotationPointZ -= 0F;
+                        waist.rotationPointY += 0.5F;
+
+                        headbase.rotateAngleX -= 0.3;
+                        upperLegR.rotateAngleX -= 0.7;
+                        upperLegL.rotateAngleX -= 0.7;
+                        lowerlegR1.rotateAngleX += 0.7;
+                        lowerlegL1.rotateAngleX += 0.7;
+                        upperArmR.rotateAngleX -= 0.3;
+                        upperArmL.rotateAngleX -= 0.3;
+                        upperArmR.rotateAngleZ += 0.5;
+                        upperArmL.rotateAngleZ -= 0.5;
+                        lowerArmR.rotateAngleZ -= 0.5;
+                        lowerArmL.rotateAngleZ += 0.5;
                     }
                 }
                 else
@@ -1997,12 +2057,76 @@ public class ModelPurge extends MowzieModelBase
 
                     float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
                     float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
+
+                    waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+
+                    stomach1.rotateAngleX += 0.2 * upwardPose;
+                    chestplate1.rotateAngleX -= 0.4 * upwardPose;
+                    headbase.rotateAngleX += 0.6 * upwardPose;
+
+                    upperArmR.rotateAngleX += 0.1 * upwardPose;
+                    upperArmL.rotateAngleX += 0.1 * upwardPose;
+                    upperArmR.rotateAngleZ -= 0.1 * upwardPose;
+                    upperArmL.rotateAngleZ += 0.1 * upwardPose;
+                    lowerArmR.rotateAngleX += 0.2 * upwardPose;
+                    lowerArmL.rotateAngleX += 0.2 * upwardPose;
+
+                    upperLegR.rotateAngleX += 0.2 * upwardPose;
+                    upperLegL.rotateAngleX -= 1 * upwardPose;
+                    lowerlegR1.rotateAngleX += 0.3 * upwardPose;
+                    lowerlegL1.rotateAngleX += 1.5 * upwardPose;
+
+                    walk(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
+                    walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
+                    walk(lowerlegR1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
+                    walk(lowerlegL1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
+
+                    waist.rotateAngleX -= 0.2 * downwardPose;
+                    stomach1.rotateAngleX += 0.3 * downwardPose;
+                    chestplate1.rotateAngleX += 0.3 * downwardPose;
+                    headbase.rotateAngleX += 0.3 * downwardPose;
+                    upperLegR.rotateAngleX -= 1.2 * downwardPose;
+                    upperLegL.rotateAngleX -= 0.2 * downwardPose;
+                    lowerlegR1.rotateAngleX += 2 * downwardPose;
+                    lowerlegL1.rotateAngleX += 0.5 * downwardPose;
+                    upperArmR.rotateAngleZ += 1 * downwardPose;
+                    upperArmL.rotateAngleZ -= 1 * downwardPose;
+                    lowerArmR.rotateAngleX -= 1 * downwardPose;
+                    lowerArmL.rotateAngleX -= 1 * downwardPose;
                 }
             }
             else
             {
+                upperArmL.rotateAngleX += MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 / 2;
+                upperArmR.rotateAngleX += MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2 / 2;
+
+                lowerArmL.rotateAngleX += MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 / 4;
+                lowerArmR.rotateAngleX += MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2 / 4;
+
+                upperLegR.rotateAngleX += MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 / 2;
+                upperLegL.rotateAngleX += MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2 / 2;
+
                 if (isSneak)
                 {
+                    waist.rotateAngleX += 0.4F;
+                    waist.rotationPointZ += 4F;
+                    waist.rotationPointY -= 2F;
+                    upperArmR.rotateAngleX -= 0.1F;
+                    upperArmL.rotateAngleX -= 0.1F;
+
+                    if (wearingChest)
+                    {
+                        headbase.rotateAngleX -= 0.4F;
+                        upperLegR.rotateAngleX -= 0.4F;
+                        upperLegL.rotateAngleX -= 0.4F;
+                    }
+                    else
+                    {
+                        upperLegL.rotationPointZ += 5F;
+                        upperLegL.rotationPointY -= 0.8F;
+                        upperLegR.rotationPointZ += 5F;
+                        upperLegR.rotationPointY -= 0.8F;
+                    }
                 }
             }
 
@@ -2125,14 +2249,19 @@ public class ModelPurge extends MowzieModelBase
 
             headbase.rotationPointY += f * 0.15F;
             headbase.rotationPointZ += f * 0.3F;
-            vehicleturretbase_rotatehere.rotateAngleZ = (-(par4 + 180) / (180f / (float) Math.PI));
+            vehicleturretbase_rotatehere.rotateAngleZ = -(par4 + 180) / (180f / (float) Math.PI);
 
             if(par5 > 0)
             {
                 par5 = 0;
             }
 
-            vehicleturretbase_rotatehere.rotateAngleX = -par5 / (180f / (float) Math.PI);
+            if(par5 < -60)
+            {
+                par5 = -60;
+            }
+
+            vehiclebarrelbase1_rotatehere.rotateAngleX = -par5 / (180f / (float) Math.PI);
         }
     }
 
