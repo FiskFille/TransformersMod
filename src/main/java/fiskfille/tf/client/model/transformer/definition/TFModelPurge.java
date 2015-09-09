@@ -64,7 +64,7 @@ public class TFModelPurge extends TransformerModel
     @Override
     public void renderItem(EntityPlayer player, ItemStack stack)
     {
-        GL11.glTranslatef(0.05F, -0F, 0.1F);
+        GL11.glTranslatef(0.05F, 0.0F, 0.1F);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class TFModelPurge extends TransformerModel
     @Override
     public void renderFirstPersonArm(EntityPlayer player)
     {
-        GL11.glTranslatef(0, -0.3F, 0.1F);
+        GL11.glTranslatef(0, 0.15F, 0.1F);
     }
 
     @Override
