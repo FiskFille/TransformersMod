@@ -2042,6 +2042,7 @@ public class ModelPurge extends MowzieModelBase
 
                     if (player.isSneaking())
                     {
+                        waist.rotationPointY += 1.8F;
                         waist.rotateAngleX -= 0.1F;
                         torsoconnector.rotateAngleX += 0.5;
                         headbase.rotateAngleX -= 0.5;
@@ -2051,8 +2052,8 @@ public class ModelPurge extends MowzieModelBase
                         upperLegL.rotateAngleY -= 0.2;
                         lowerlegR1.rotateAngleX += 1.1;
                         lowerlegL1.rotateAngleX += 1.1;
-                        feetbaseR1.rotateAngleX -= 0.5;
-                        feetbaseL1.rotateAngleX -= 0.5;
+                        feetbaseR1.rotateAngleX -= 0.3;
+                        feetbaseL1.rotateAngleX -= 0.3;
                         feetbaseR1.rotationPointY += 2;
                         feetbaseL1.rotationPointY += 2;
                         upperArmR.rotateAngleX -= 0.5;
