@@ -40,7 +40,7 @@ public class TFModelPurge extends TransformerModel
     @Override
     public ModelRenderer getLowerArm()
     {
-        return model.lowerArm1;
+        return model.lowerArmR;
     }
 
     @Override
@@ -52,13 +52,13 @@ public class TFModelPurge extends TransformerModel
     @Override
     public ModelRenderer getBody()
     {
-        return model.chest;
+        return model.chestplate1;
     }
 
     @Override
     public ModelRenderer getHead()
     {
-        return model.head;
+        return model.headbase;
     }
 
     @Override
