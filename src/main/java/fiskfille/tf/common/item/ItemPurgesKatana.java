@@ -43,9 +43,9 @@ public class ItemPurgesKatana extends ItemSword
 
             stack.damageItem(1, player);
             Vec3 vec3 = TFVectorHelper.getFrontCoords(player, player.onGround ? force : force * 0.75D, true);
-            player.motionX = vec3.xCoord - player.posX;
-            player.motionY = vec3.yCoord - player.posY;
-            player.motionZ = vec3.zCoord - player.posZ;
+            player.motionX += vec3.xCoord - player.posX;
+            player.motionY += vec3.yCoord - player.posY;
+            player.motionZ += vec3.zCoord - player.posZ;
             player.fallDistance = 0;
             player.swingItem();
         }
