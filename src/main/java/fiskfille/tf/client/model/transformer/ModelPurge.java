@@ -2,6 +2,7 @@ package fiskfille.tf.client.model.transformer;
 
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
@@ -13,6 +14,7 @@ import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
 public class ModelPurge extends MowzieModelBase
@@ -2262,6 +2264,10 @@ public class ModelPurge extends MowzieModelBase
             }
 
             vehiclebarrelbase1_rotatehere.rotateAngleX = -par5 / (180f / (float) Math.PI);
+
+            ItemStack heldItem = player.getHeldItem();
+
+            trackconnectorR1.showModel = !(heldItem != null && heldItem.getItem() == TFItems.purgesKatana);
         }
     }
 

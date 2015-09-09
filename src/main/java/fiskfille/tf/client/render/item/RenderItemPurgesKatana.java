@@ -26,7 +26,7 @@ public class RenderItemPurgesKatana implements IItemRenderer
 
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/weapons/purges_katana.png"));
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/purge/purge.png"));
 
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.FIRST_PERSON_MAP)
         {
