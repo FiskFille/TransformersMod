@@ -1922,29 +1922,31 @@ public class ModelPurge extends MowzieModelBase
             upperLegR.showModel = wearingLegs;
             upperLegL.showModel = wearingLegs;
 
-            if (!wearingChest && wearingHead)
+            if(wearingChest && !wearingHead)
             {
-                headbase.rotationPointY += 4;
-
-                if (transformerChest instanceof TransformerSkystrike)
-                {
-                    headbase.rotationPointY -= 1;
-                }
-
-                headbase.rotationPointZ += 1;
+                offsets.headOffsetY = 0.8F;
             }
 
             if (wearingHead)
             {
                 faceTarget(headbase, 1, par4, par5);
+
+                if(!wearingChest)
+                {
+                    headbase.rotationPointY += 1;
+                    headbase.rotationPointZ -= 0.5;
+
+                    if(transformerChest instanceof TransformerSkystrike)
+                    {
+                        headbase.rotationPointY -= 1.5;
+                    }
+                }
             }
 
-            if (!wearingChest && wearingLegs)
+            if(wearingLegs && !wearingChest)
             {
-                upperLegL.rotationPointY += 11;
-                upperLegR.rotationPointY += 11;
-                upperLegL.rotateAngleX += 0.2F;
-                upperLegR.rotateAngleX += 0.2F;
+                upperLegR.rotationPointY += 10;
+                upperLegL.rotationPointY += 10;
             }
 
             int backwardInverter = 1;
