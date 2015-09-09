@@ -101,4 +101,22 @@ public class TFHelper
 
         return null;
     }
+    
+    /**
+     * @returns the Transformer for the specific armor ItemStack.
+     */
+    public static Transformer getTransformerFromArmor(ItemStack itemstack)
+    {
+        if (itemstack != null)
+        {
+            Item currentArmor = itemstack.getItem();
+
+            if (currentArmor instanceof ItemTransformerArmor)
+            {
+                return ((ItemTransformerArmor) currentArmor).getTransformer();
+            }
+        }
+
+        return null;
+    }
 }

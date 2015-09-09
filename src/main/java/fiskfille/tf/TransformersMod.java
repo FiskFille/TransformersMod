@@ -10,7 +10,9 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import fiskfille.tf.client.gui.GuiHandlerTF;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.TFEntities;
@@ -89,6 +91,8 @@ public class TransformersMod
         TFEntities.registerEntities();
 
         GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
+        
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerTF());
 
         proxy.preInit();
         proxy.registerRenderInformation();

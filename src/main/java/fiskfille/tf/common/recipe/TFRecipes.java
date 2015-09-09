@@ -67,6 +67,7 @@ public class TFRecipes
     private static void addDisplayRecipes()
     {
         GameRegistry.addRecipe(new ItemStack(TFBlocks.displayPillar, 1), new Object[] {" - ", "SWS", '-', Blocks.stone_slab, 'S', Blocks.stone, 'W', Blocks.cobblestone_wall});
+        GameRegistry.addRecipe(new ItemStack(TFBlocks.displayStation, 1), new Object[] {" L ", " I ", "-I-", '-', new ItemStack(Blocks.stone_slab, 1, 0), 'I', Items.iron_ingot, 'L', Blocks.redstone_lamp});
         GameRegistry.addRecipe(new RecipesDisplayItems());
 
         int i = 0;

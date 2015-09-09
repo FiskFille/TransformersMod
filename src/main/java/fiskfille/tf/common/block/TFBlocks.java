@@ -6,6 +6,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
 public class TFBlocks
@@ -18,6 +19,7 @@ public class TFBlocks
     public static Block transformiumSeed;
     public static Block transformiumBlock;
     public static BlockCosmicRust cosmicRust;
+    public static Block displayStation;
 
     public void register()
     {
@@ -29,6 +31,7 @@ public class TFBlocks
         transformiumSeed = new BlockTransformiumSeed();
         transformiumBlock = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
         cosmicRust = new BlockCosmicRust();
+        displayStation = new BlockDisplayStation();
 
 
         String modId = TransformersMod.modid;
@@ -40,5 +43,6 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
         TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium", modId);
         TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust", modId);
+        TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class, modId);
     }
 }
