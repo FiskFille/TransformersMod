@@ -6,7 +6,6 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
@@ -1905,6 +1904,9 @@ public class ModelPurge extends MowzieModelBase
             float globalSpeed = 1;
             float globalDegree = 0.8F;
 
+//            par1 = entity.ticksExisted;
+//            par2 = 1.0F;
+
             ModelOffset offsets = TFModelHelper.getOffsets(player);
             headbase.rotationPointX += offsets.headOffsetX;
             headbase.rotationPointY += offsets.headOffsetY;
@@ -1987,43 +1989,48 @@ public class ModelPurge extends MowzieModelBase
 
                 if (playerOnGround || player.capabilities.isFlying)
                 {
-                    waist.rotationPointY -= 2;
-
                     upperLegR.rotateAngleY += 0.2;
                     upperLegL.rotateAngleY -= 0.2;
-                    upperLegR.rotateAngleX -= 0.1;
-                    upperLegL.rotateAngleX -= 0.1;
-                    lowerlegR1.rotateAngleX += 0.1;
-                    lowerlegL1.rotateAngleX += 0.1;
-                    lowerArmL.rotateAngleX -= 0.1;
-                    lowerArmR.rotateAngleX -= 0.1;
+                    upperLegR.rotateAngleX -= 0.4;
+                    upperLegL.rotateAngleX -= 0.4;
+                    lowerlegR1.rotateAngleX += 0.6;
+                    lowerlegL1.rotateAngleX += 0.6;
+                    feetbaseR1.rotateAngleX -= 0.3;
+                    feetbaseL1.rotateAngleX -= 0.3;
+
+                    waist.rotateAngleX += 0.1;
+
                     headbase.rotateAngleX += 0.1;
 
                     bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
-                    waist.rotationPointY += 1 * par2 + 3;
+                    waist.rotationPointY += 1.2 * par2;
                     walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                    walk(stomach1, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    walk(chestplate1, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    swing(chestplate1, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
                     swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
+                    swing(headbase, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
                     walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
 
                     swing(headbase, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
                     headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
 
-                    swing(upperLegR, 0.5F * globalSpeed, 0.1F * globalDegree, true, 0, -0.2F, par1, par2);
-                    swing(upperLegL, 0.5F * globalSpeed, 0.1F * globalDegree, true, 0, 0.2F, par1, par2);
+                    swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
+                    swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
                     walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
                     walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
                     walk(lowerlegR1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
                     walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
-                    walk(upperArmR, 0.5F * globalSpeed, 0.7F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                    walk(upperArmL, 0.5F * globalSpeed, 0.7F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(upperArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(upperArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
                     walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
                     walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
 
+                    walk(barrelbase1, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
+
                     int ticksExisted = entity.ticksExisted;
 
-                    walk(stomach1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(stomach1, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+                    walk(torsoconnector, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    walk(chestplate1, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
                     walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
                     walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
                     walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
@@ -2035,18 +2042,21 @@ public class ModelPurge extends MowzieModelBase
 
                     if (player.isSneaking())
                     {
-                        waist.rotationPointY -= par2;
-                        waist.rotateAngleX += 0.3F;
-                        waist.rotationPointZ -= 0F;
-                        waist.rotationPointY += 0.5F;
-
-                        headbase.rotateAngleX -= 0.3;
+                        waist.rotateAngleX -= 0.1F;
+                        torsoconnector.rotateAngleX += 0.5;
+                        headbase.rotateAngleX -= 0.5;
                         upperLegR.rotateAngleX -= 0.7;
                         upperLegL.rotateAngleX -= 0.7;
-                        lowerlegR1.rotateAngleX += 0.7;
-                        lowerlegL1.rotateAngleX += 0.7;
-                        upperArmR.rotateAngleX -= 0.3;
-                        upperArmL.rotateAngleX -= 0.3;
+                        upperLegR.rotateAngleY += 0.2;
+                        upperLegL.rotateAngleY -= 0.2;
+                        lowerlegR1.rotateAngleX += 1.1;
+                        lowerlegL1.rotateAngleX += 1.1;
+                        feetbaseR1.rotateAngleX -= 0.5;
+                        feetbaseL1.rotateAngleX -= 0.5;
+                        feetbaseR1.rotationPointY += 2;
+                        feetbaseL1.rotationPointY += 2;
+                        upperArmR.rotateAngleX -= 0.5;
+                        upperArmL.rotateAngleX -= 0.5;
                         upperArmR.rotateAngleZ += 0.5;
                         upperArmL.rotateAngleZ -= 0.5;
                         lowerArmR.rotateAngleZ -= 0.5;
