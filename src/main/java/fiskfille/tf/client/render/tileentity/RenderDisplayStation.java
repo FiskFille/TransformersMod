@@ -59,10 +59,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 
             try
             {
-                Minecraft mc = Minecraft.getMinecraft();
-
-                EntityClientPlayerMP entity = mc.playerController.func_147493_a(tileentity.getWorldObj(), new StatFileWriter());
-                entity.movementInput = new MovementInputFromOptions(mc.gameSettings);
+                EntityClientPlayerMP entity = tileentity.fakePlayer;
 
                 ItemStack head = tileentity.getStackInSlot(0);
                 ItemStack chest = tileentity.getStackInSlot(1);

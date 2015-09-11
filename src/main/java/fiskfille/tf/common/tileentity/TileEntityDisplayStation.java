@@ -1,5 +1,7 @@
 package fiskfille.tf.common.tileentity;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -9,7 +11,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovementInputFromOptions;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.item.ItemDisplayVehicle;
 import fiskfille.tf.common.item.TFItems;
@@ -21,6 +27,21 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
 {
     private ItemStack[] itemStacks = new ItemStack[5];
     private String inventoryName;
+    
+    @SideOnly(Side.CLIENT)
+    public EntityClientPlayerMP fakePlayer;
+    
+    @SideOnly(Side.CLIENT)
+    public void updateEntity()
+    {
+        if (fakePlayer == null)
+        {
+            Minecraft mc = Minecraft.getMinecraft();
+
+            fakePlayer = mc.playerController.func_147493_a(getWorldObj(), new StatFileWriter());
+            fakePlayer.movementInput = new MovementInputFromOptions(mc.gameSettings);
+        }
+    }
     
     public boolean transform()
     {
