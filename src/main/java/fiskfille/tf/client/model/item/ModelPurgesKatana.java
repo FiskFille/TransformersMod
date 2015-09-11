@@ -1,5 +1,7 @@
 package fiskfille.tf.client.model.item;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -132,6 +134,7 @@ public class ModelPurgesKatana extends ModelBase
     {
         this.base.rotateAngleY = (float) Math.toRadians(180);
         this.base.rotationPointY = -4;
+        GL11.glScalef(1, 1, 0.75F);
         this.base.render(0.0625F);
     }
 

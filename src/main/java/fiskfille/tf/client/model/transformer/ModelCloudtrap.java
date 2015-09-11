@@ -2128,7 +2128,7 @@ public class ModelCloudtrap extends MowzieModelBase
 
             ItemStack heldItem = player.getHeldItem();
 
-            if (heldItem != null && heldItem.getItem() == TFItems.cloudtrapsFlamethrower && TFDataManager.getTransformationTimer(player) == 20)
+            if (heldItem != null && heldItem.getItem() == TFItems.cloudtrapsFlamethrower && TFDataManager.getTransformationTimer(player) == 20 && player.isUsingItem())
             {
                 setRotation(upperArmR, bipedHead.rotateAngleX - pi / 2 + 0.2F, bipedHead.rotateAngleY, 0.1F);
                 setRotation(lowerArmR, -0.2F, 0, 0);

@@ -45,7 +45,7 @@ public class RenderItemPurgesKatana implements IItemRenderer
             GL11.glRotatef(5, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(-5, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(215, 0.0F, 0.0F, 1.0F);
-            GL11.glTranslatef(-0.815F, 0.265F, -0.1F);
+            GL11.glTranslatef(-0.715F, 0.265F, -0.07F);
 
             model.render();
             GL11.glPopMatrix();

@@ -184,7 +184,7 @@ public class ModelPurge extends MowzieModelBase
     public MowzieModelRenderer lowerlegL9;
     public MowzieModelRenderer lowerlegL12;
     public MowzieModelRenderer waistL2;
-    public MowzieModelRenderer SkirtL1;
+    public MowzieModelRenderer skirtL1;
     public MowzieModelRenderer skirtL2;
     public MowzieModelRenderer waistR2;
     public MowzieModelRenderer skirtR1;
@@ -359,10 +359,10 @@ public class ModelPurge extends MowzieModelBase
         this.trackL4.setRotationPoint(-2.25F, -3.25F, 0.0F);
         this.trackL4.addBox(0.0F, 0.0F, 0.0F, 3, 1, 3, 0.0F);
         this.setRotateAngle(trackL4, 0.0F, 0.017453292519943295F, 0.0F);
-        this.SkirtL1 = new MowzieModelRenderer(this, 80, 50);
-        this.SkirtL1.setRotationPoint(1.5F, 0.2F, -0.5F);
-        this.SkirtL1.addBox(0.0F, 0.0F, 0.0F, 1, 6, 3, 0.0F);
-        this.setRotateAngle(SkirtL1, 0.0F, -0.05235987755982988F, -0.10471975511965977F);
+        this.skirtL1 = new MowzieModelRenderer(this, 80, 50);
+        this.skirtL1.setRotationPoint(1.5F, 0.2F, -0.5F);
+        this.skirtL1.addBox(0.0F, 0.0F, 0.0F, 1, 6, 3, 0.0F);
+        this.setRotateAngle(skirtL1, 0.0F, -0.05235987755982988F, -0.10471975511965977F);
         this.skirtL2 = new MowzieModelRenderer(this, 90, 55);
         this.skirtL2.setRotationPoint(0.0F, 3.0F, 3.0F);
         this.skirtL2.addBox(0.0F, 0.0F, 0.0F, 1, 3, 1, 0.0F);
@@ -1056,8 +1056,8 @@ public class ModelPurge extends MowzieModelBase
         this.upperLegL.addChild(this.lowerlegL1);
         this.lowerlegL1.addChild(this.feetbaseL1);
         this.trackL3.addChild(this.trackL4);
-        this.waistL1.addChild(this.SkirtL1);
-        this.SkirtL1.addChild(this.skirtL2);
+        this.waistL1.addChild(this.skirtL1);
+        this.skirtL1.addChild(this.skirtL2);
         this.trackR6.addChild(this.trackR7);
         this.turretconnector.addChild(this.turretbase);
         this.feetbaseR1.addChild(this.feetR2);
@@ -1904,9 +1904,6 @@ public class ModelPurge extends MowzieModelBase
             float globalSpeed = 1;
             float globalDegree = 0.8F;
 
-//            par1 = entity.ticksExisted;
-//            par2 = 1.0F;
-
             ModelOffset offsets = TFModelHelper.getOffsets(player);
             headbase.rotationPointX += offsets.headOffsetX;
             headbase.rotationPointY += offsets.headOffsetY;
@@ -1922,7 +1919,7 @@ public class ModelPurge extends MowzieModelBase
             upperLegR.showModel = wearingLegs;
             upperLegL.showModel = wearingLegs;
 
-            if(wearingChest && !wearingHead)
+            if (wearingChest && !wearingHead)
             {
                 offsets.headOffsetY = 0.8F;
             }
@@ -1931,19 +1928,19 @@ public class ModelPurge extends MowzieModelBase
             {
                 faceTarget(headbase, 1, par4, par5);
 
-                if(!wearingChest)
+                if (!wearingChest)
                 {
                     headbase.rotationPointY += 1;
                     headbase.rotationPointZ -= 0.5;
 
-                    if(transformerChest instanceof TransformerSkystrike)
+                    if (transformerChest instanceof TransformerSkystrike)
                     {
                         headbase.rotationPointY -= 1.5;
                     }
                 }
             }
 
-            if(wearingLegs && !wearingChest)
+            if (wearingLegs && !wearingChest)
             {
                 upperLegR.rotationPointY += 10;
                 upperLegL.rotationPointY += 10;
@@ -1960,7 +1957,7 @@ public class ModelPurge extends MowzieModelBase
             }
 
             applyDefaultHoldingAnimation(upperArmR, upperArmL, lowerArmR, lowerArmL);
-            applyDefaultHittingAnimation(upperArmR, upperArmL, headbase, chestplate1, lowerArmR, lowerArmL);
+            applyDefaultHittingAnimation(torsobaseR, upperArmL, headbase, torsobase, lowerArmR, lowerArmL);
 
             if (isRiding)
             {
@@ -1991,26 +1988,30 @@ public class ModelPurge extends MowzieModelBase
 
                 if (playerOnGround || player.capabilities.isFlying)
                 {
+                    upperArmR.rotateAngleZ += 0.05F;
+                    upperArmL.rotateAngleZ -= 0.05F;
+                    lowerArmR.rotateAngleX -= 0.1F;
+                    lowerArmL.rotateAngleX -= 0.1F;
                     upperLegR.rotateAngleY += 0.2;
                     upperLegL.rotateAngleY -= 0.2;
-                    upperLegR.rotateAngleX -= 0.4;
-                    upperLegL.rotateAngleX -= 0.4;
-                    lowerlegR1.rotateAngleX += 0.6;
-                    lowerlegL1.rotateAngleX += 0.6;
-                    feetbaseR1.rotateAngleX -= 0.3;
-                    feetbaseL1.rotateAngleX -= 0.3;
-
-                    waist.rotateAngleX += 0.1;
-
-                    headbase.rotateAngleX += 0.1;
+                    upperLegR.rotateAngleX -= 0.2;
+                    upperLegL.rotateAngleX -= 0.2;
+                    lowerlegR1.rotateAngleX += 0.15;
+                    lowerlegL1.rotateAngleX += 0.15;                    
+                    waist.rotateAngleX += 0.1F;
+                    skirtR1.rotateAngleZ += 0.1F;
+                    skirtL1.rotateAngleZ -= 0.1F;
+                    
+                    MowzieModelRenderer armR = torsobaseR;
+                    MowzieModelRenderer armL = torsobaseL;
 
                     bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
                     waist.rotationPointY += 1.2 * par2;
                     walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                    walk(chestplate1, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                    swing(chestplate1, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
+                    walk(torsobase, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
+                    swing(torsobase, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
                     swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
-                    swing(headbase, 0.5F * globalSpeed, 0.6F * globalDegree, true, 0, 0, par1, par2);
+                    swing(headbase, 0.5F * globalSpeed, 0.2F * globalDegree, true, 0, 0, par1, par2);
                     walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
 
                     swing(headbase, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
@@ -2022,17 +2023,22 @@ public class ModelPurge extends MowzieModelBase
                     walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
                     walk(lowerlegR1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
                     walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
-                    walk(upperArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                    walk(upperArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(armR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
+                    walk(armL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
                     walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
                     walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
 
+                    flap(skirtR1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
+                    flap(skirtL1, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
                     walk(barrelbase1, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
 
+                    
                     int ticksExisted = entity.ticksExisted;
-
+                    
                     walk(torsoconnector, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(chestplate1, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+                    walk(torsobase, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
+                    flap(trackconnectorR3, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
+                    flap(trackconnectorL3, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                     walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
                     walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
                     walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
@@ -2056,8 +2062,6 @@ public class ModelPurge extends MowzieModelBase
                         lowerlegL1.rotateAngleX += 1.1;
                         feetbaseR1.rotateAngleX -= 0.3;
                         feetbaseL1.rotateAngleX -= 0.3;
-                        feetbaseR1.rotationPointY += 2;
-                        feetbaseL1.rotationPointY += 2;
                         upperArmR.rotateAngleX -= 0.5;
                         upperArmL.rotateAngleX -= 0.5;
                         upperArmR.rotateAngleZ += 0.5;
@@ -2166,7 +2170,7 @@ public class ModelPurge extends MowzieModelBase
             rotateTo(chestplateL1, vehicle33, f);
             rotateTo(chestplateR1, vehicle37, f);
 
-            rotateTo(SkirtL1, vehicle95, f);
+            rotateTo(skirtL1, vehicle95, f);
             rotateTo(skirtR1, vehicle97, f);
 
             rotateTo(barrel1, vehiclebarrel1, f);
@@ -2266,12 +2270,12 @@ public class ModelPurge extends MowzieModelBase
             headbase.rotationPointZ += f * 0.3F;
             vehicleturretbase_rotatehere.rotateAngleZ = -(par4 + 180) / (180f / (float) Math.PI);
 
-            if(par5 > 0)
+            if (par5 > 0)
             {
                 par5 = 0;
             }
 
-            if(par5 < -60)
+            if (par5 < -60)
             {
                 par5 = -60;
             }

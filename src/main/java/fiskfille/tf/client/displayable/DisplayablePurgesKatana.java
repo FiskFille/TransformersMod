@@ -16,7 +16,7 @@ public class DisplayablePurgesKatana extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/weapons/purges_katana.png"));
+        bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/purge/purge.png"));
 
         float f = 1.0F;
         float f1 = MathHelper.sin(mc.thePlayer.ticksExisted / 15.0F) * 0.1F;
