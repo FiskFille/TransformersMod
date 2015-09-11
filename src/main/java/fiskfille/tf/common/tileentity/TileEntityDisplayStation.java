@@ -38,8 +38,11 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         {
             Minecraft mc = Minecraft.getMinecraft();
 
-            fakePlayer = mc.playerController.func_147493_a(getWorldObj(), new StatFileWriter());
-            fakePlayer.movementInput = new MovementInputFromOptions(mc.gameSettings);
+            if(mc != null && mc.playerController != null && getWorldObj() != null)
+            {
+                fakePlayer = mc.playerController.func_147493_a(getWorldObj(), new StatFileWriter());
+                fakePlayer.movementInput = new MovementInputFromOptions(mc.gameSettings);
+            }
         }
     }
     
