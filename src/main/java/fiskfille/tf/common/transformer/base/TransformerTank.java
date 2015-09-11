@@ -34,7 +34,7 @@ public abstract class TransformerTank extends Transformer
 
     public float getVehicleCameraYOffset(EntityPlayer player)
     {
-        return -0.95F;
+        return -1.0F;
     }
 
     @Override
