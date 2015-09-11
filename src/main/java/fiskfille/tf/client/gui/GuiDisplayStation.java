@@ -50,6 +50,7 @@ public class GuiDisplayStation extends GuiContainer
         if (id == 0)
         {
             TFNetworkManager.networkWrapper.sendToServer(new MessageTransformDisplayStation(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord));
+            TFNetworkManager.networkWrapper.sendToAll(new MessageTransformDisplayStation(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord));
         }
     }
 
