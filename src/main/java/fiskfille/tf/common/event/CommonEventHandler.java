@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -29,12 +28,10 @@ import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageSendFlying;
@@ -137,27 +134,6 @@ public class CommonEventHandler
         if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
         {
             event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerPlaceBlock(BlockEvent.PlaceEvent event)
-    {
-        EntityPlayer player = event.player;
-        World world = event.world;
-
-        int x = event.x;
-        int y = event.y;
-        int z = event.z;
-
-        if (event.placedAgainst == TFBlocks.displayPillar)
-        {
-            ItemStack itemstack = event.itemInHand;
-
-            if (itemstack != null && TransformersAPI.getDisplayableFor(itemstack.getItem()) != null)
-            {
-                event.setCanceled(true);	
-            }
         }
     }
 

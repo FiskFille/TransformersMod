@@ -81,25 +81,23 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
         if (tileEntityDisplayPillar != null)
         {
             ItemStack heldItem = player.getHeldItem();
-
             ItemStack displayItem = tileEntityDisplayPillar.getDisplayItem();
 
             if (heldItem == null && displayItem != null)
             {
                 player.setCurrentItemOrArmor(0, displayItem);
-
                 tileEntityDisplayPillar.setDisplayItem(null, true);
+                
+                return true;
             }
-            else if (heldItem != null && TransformersAPI.getDisplayableFor(heldItem.getItem()) != null)
+            else if (heldItem != null && TransformersAPI.hasDisplayable(heldItem.getItem()))
             {
                 if (displayItem == null)
                 {
                     tileEntityDisplayPillar.setDisplayItem(heldItem, true);
-
-                    //if (!player.capabilities.isCreativeMode)
-                    {
-                        player.setCurrentItemOrArmor(0, null);
-                    }
+                    player.setCurrentItemOrArmor(0, null);
+                    
+                    return true;
                 }
             }
         }

@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.item.Item;
+
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.common.transformer.base.Transformer;
 
@@ -16,6 +21,7 @@ public class TransformersAPI
 {
     private static List<Transformer> transformers = new ArrayList<Transformer>();
     private static Map<Item, Displayable> displayables = new HashMap<Item, Displayable>();
+    private static List<Item> displayablesServer = Lists.newArrayList();
 
     /**
      * Used to register the specified Transformer.
@@ -67,9 +73,26 @@ public class TransformersAPI
      * @param item The item to be assigned to.
      * @param displayable The Displayable registered.
      */
-    public static void registerDisplayable(Item item, Displayable displayable)
+    public static void registerDisplayable(Item item, Class<? extends Displayable> displayableClass)
     {
-        displayables.put(item, displayable);
+        Side side = FMLCommonHandler.instance().getSide();
+        
+        if (side == Side.CLIENT)
+        {
+            try
+            {
+                Displayable displayable = displayableClass.newInstance();
+                displayables.put(item, displayable);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            displayablesServer.add(item);
+        }
     }
 
     /**
@@ -95,5 +118,23 @@ public class TransformersAPI
         }
 
         return null;
+    }
+    
+    /**
+     * @param item The item to query
+     * @return if the specific item has a Displayable on the client side.
+     */
+    public static boolean hasDisplayable(Item item)
+    {
+        Side side = FMLCommonHandler.instance().getSide();
+        
+        if (side == Side.CLIENT)
+        {
+            return getDisplayableFor(item) != null;
+        }
+        else
+        {
+            return displayablesServer.contains(item);
+        }
     }
 }

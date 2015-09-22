@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import fiskfille.tf.client.displayable.TFDisplayableManager;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.render.entity.RenderBassCharge;
@@ -119,7 +118,6 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.displayStation), new RenderItemDisplayStation());
 
         TFModelRegistry.registerModels();
-        TFDisplayableManager.registerDisplayables();
     }
 
     @Override
