@@ -25,8 +25,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -271,16 +271,54 @@ public class TFMotionManager
             {
                 forwardVelocity = idlingSpeedLimit;
             }
-
-            if (player.worldObj.getBlock((int) player.posX, (int) player.posY - 1, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ) != Blocks.air || player.worldObj.getBlock((int) player.posX, (int) player.posY - 3, (int) player.posZ) != Blocks.air)
+            
+            Block block = player.worldObj.getBlock((int)player.posX - 1, (int)(player.posY - 0.5F) - 2, (int)player.posZ - 1);
+            int landingTimer = transformedPlayer.getLandingTimer();
+            float f = (float)landingTimer / 20;
+            boolean pitch = true;
+            
+//            if (block == Blocks.air)
+            if (!player.onGround)
             {
-                player.setPosition(player.posX, player.posY + 0.8, player.posZ);
+                if (landingTimer < 20)
+                {
+                    ++landingTimer;
+                }
+            }
+            else
+            {
+                if (landingTimer > 0)
+                {
+                    --landingTimer;
+                }
+            }
+            
+            if (landingTimer == 0)
+            {
+                pitch = player.rotationPitch < 0;
+            }
+            
+            TFMotionManager.moveForward(player, forwardVelocity * Math.max(0.5F, f), pitch);
+            player.motionY -= 0.1 * f;
+            
+            if (landingTimer < 5 && player.rotationPitch < 0 && moveForward)
+            {
+                player.motionY += 0.5F;
+            }
+            
+            if (player.isCollidedHorizontally && forwardVelocity > 60)
+            {
+                landingTimer = 20;
+                transformedPlayer.setLandingTimer(20);
+                
+                if (TFDataManager.setInVehicleMode(player, false))
+                {
+                    player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
+                }
             }
 
-            TFMotionManager.moveForward(player, forwardVelocity, true);
-            player.motionY -= 0.1;
-
             transformedPlayer.setForwardVelocity(forwardVelocity);
+            transformedPlayer.setLandingTimer(landingTimer);
         }
     }
 

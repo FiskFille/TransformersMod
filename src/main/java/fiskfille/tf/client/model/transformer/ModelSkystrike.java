@@ -1,9 +1,11 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
@@ -1146,26 +1148,29 @@ public class ModelSkystrike extends MowzieModelBase
             }
 
             int t = TFDataManager.getTransformationTimer(player);
+            
+            ModelBiped modelBiped = TFModelHelper.modelBipedMain;
 
-            if (t == 0)
+            mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
+            mainbody1.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
+            
+            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+            int landingTimer = 20;
+            
+            if (transformedPlayer != null)
             {
-                ModelBiped modelBiped = TFModelHelper.modelBipedMain;
+                landingTimer = transformedPlayer.getLandingTimer();
+                float f = (float)landingTimer / 20;
+                float f1 = 1 - f;
 
-                mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
-                mainbody1.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
-
-                VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-                if (transformedPlayer != null)
-                {
-                    float f = (float) transformedPlayer.getJetRoll() / 360 * pi;
-                    //            		System.out.println(transformedPlayer.getJetRoll() + ", " + f);
-                    //            		transformedPlayer.setJetRoll((int)par4);
-                    //            		this.mainbody1.rotateAngleZ = -f * 2 - modelBiped.bipedHead.rotateAngleY;
-                }
-
+                wheel1.setRotationPoint(-4.5F, 13.5F, 3.9F + f1);
+                wheel2.setRotationPoint(4.5F, 13.5F, 3.9F + f1);
+                mainbody1.rotateAngleX = (par5 / (180F / (float) Math.PI)) * f;
+                mainbody1.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f;
+                mainbody1.setRotationPoint(0.0F, -5.0F + 20 * f1, -2.0F);
             }
-            else if (t != 20)
+            
+            if (t != 20)
             {
                 float f = 20 - t;
                 //            	float f = 20;
@@ -1203,7 +1208,7 @@ public class ModelSkystrike extends MowzieModelBase
                 setRotation(bodywingL1, -pi * f1, 0.9250245035569946F * f2 - 0.15F, 0.2792526803190927F * f2 + pi * f1);
                 setRotation(bodywingL2, -1.1519173063162573F * f2, 0.03490658503988659F * f2, 0.003490658503988659F * f2);
                 setRotation(waist, pi / 2 * f1, 0, pi * f1);
-                waist.rotationPointY -= 8 * f1;
+                waist.rotationPointY -= (8 - ((float)landingTimer / 20 + 1) * 5) * f1;
                 waist.rotationPointZ += 6 * f1;
                 rearstomach.setRotationPoint(0.0F, -8.6F - 10 * f1, 2.9F - 3 * f1);
                 setRotation(rearstomach, -0.46774823953448036F * f2 - 0.15F * f1, 0.0F, 0.0F);

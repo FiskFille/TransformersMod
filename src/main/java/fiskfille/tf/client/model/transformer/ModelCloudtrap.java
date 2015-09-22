@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -2139,10 +2141,24 @@ public class ModelCloudtrap extends MowzieModelBase
 
             ModelBiped modelBiped = TFModelHelper.modelBipedMain;
 
-            if(modelBiped != null)
+            if (modelBiped != null)
             {
                 vehicleBody.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
                 vehicleBody.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
+            }
+            
+            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+            int landingTimer = 20;
+            
+            if (transformedPlayer != null)
+            {
+                landingTimer = transformedPlayer.getLandingTimer();
+                float f1 = (float)landingTimer / 20;
+                float f2 = 1 - f1;
+                
+                vehicleBody.rotateAngleX = (rotationPitch / (180F / (float) Math.PI)) * f1;
+                vehicleBody.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f1;
+                vehicleBody.setRotationPoint(0.0F, 18 * f2, 0.0F);
             }
 
             rotateTo(waist, vehicleBody, f);

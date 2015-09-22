@@ -11,6 +11,8 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.proxy.CommonProxy;
@@ -47,6 +49,13 @@ public class TickHandler
             {
                 if (TFDataManager.setInVehicleMode(player, true))
                 {
+                    VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+                    
+                    if (transformedPlayer != null)
+                    {
+                        transformedPlayer.setLandingTimer(20);
+                    }
+                    
                     player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
                 }
             }

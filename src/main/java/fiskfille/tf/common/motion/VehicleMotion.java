@@ -11,6 +11,7 @@ public class VehicleMotion
     private boolean boosting;
 
     private int jetRoll;
+    private int landingTimer;
 
     public boolean isBoosting()
     {
@@ -65,5 +66,16 @@ public class VehicleMotion
     public int getJetRoll()
     {
         return jetRoll;
+    }
+    
+    public VehicleMotion setLandingTimer(int t)
+    {
+        landingTimer = t;
+        return this;
+    }
+
+    public int getLandingTimer()
+    {
+        return landingTimer;
     }
 }

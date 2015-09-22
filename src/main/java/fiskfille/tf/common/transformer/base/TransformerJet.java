@@ -11,6 +11,7 @@ import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
@@ -34,12 +35,28 @@ public abstract class TransformerJet extends Transformer
     @Override
     public float getCameraYOffset(EntityPlayer player)
     {
+        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+        
+        if (transformedPlayer != null)
+        {
+            float f = (float)transformedPlayer.getLandingTimer() / 20;
+            return -1 * (1 - f);
+        }
+        
         return 0;
     }
 
     @Override
     public float getVehicleCameraYOffset(EntityPlayer player)
     {
+        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+        
+        if (transformedPlayer != null)
+        {
+            float f = (float)transformedPlayer.getLandingTimer() / 20;
+            return -1 * (1 - f);
+        }
+        
         return 0;
     }
 
