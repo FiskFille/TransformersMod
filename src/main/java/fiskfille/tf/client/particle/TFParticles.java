@@ -1,10 +1,10 @@
 package fiskfille.tf.client.particle;
 
-import java.lang.reflect.Constructor;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
+
+import java.lang.reflect.Constructor;
 
 public class TFParticles
 {

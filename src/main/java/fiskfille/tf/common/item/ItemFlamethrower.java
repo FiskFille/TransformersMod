@@ -65,7 +65,7 @@ public class ItemFlamethrower extends ItemSword
                 Vec3 backCoords = TFVectorHelper.getFrontCoords(player, 0.5F, true);
                 float divider = 3;
 
-                if (!world.isRemote)
+                if (world.isRemote)
                 {
                     for (int i = 0; i < 50; ++i)
                     {
@@ -75,7 +75,9 @@ public class ItemFlamethrower extends ItemSword
 
                         TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, sideCoords.xCoord, sideCoords.yCoord - player.getEyeHeight(), sideCoords.zCoord, motionX, motionY, motionZ);
                     }
-
+                }
+                else
+                {
                     for (int i = 0; i < 5; ++i)
                     {
                         float motionX = (float)(backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
