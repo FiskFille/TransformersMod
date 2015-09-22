@@ -2,13 +2,8 @@ package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -57,8 +52,9 @@ public class MessageTransformDisplayStation implements IMessage
             
             if (tileentity != null)
             {
-                if (tileentity.transform() && ctx.side.isServer())
+                if (tileentity.transform())
                 {
+                    world.markBlockForUpdate(message.x, message.y, message.z);
 //                    Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(TransformersMod.modid, "transform_" + (tileentity.getStackInSlot(4) == null ? "robot" : "vehicle")), 1.0F));
                 }
             }
