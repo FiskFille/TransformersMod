@@ -2,29 +2,24 @@ package fiskfille.tf.common.item;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.entity.EntityBassCharge;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 
-public class ItemBassBlaster extends ItemSword
+public class ItemBassBlaster extends Item
 {
-    public static IIcon bassChargeIcon;
-
-    public ItemBassBlaster(ToolMaterial material)
+    public ItemBassBlaster()
     {
-        super(material);
+        super();
         setMaxDamage(1500);
     }
 
@@ -100,12 +95,5 @@ public class ItemBassBlaster extends ItemSword
     {
         List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
         return list;
-    }
-
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        super.registerIcons(iconRegister);
-
-        bassChargeIcon = iconRegister.registerIcon(TransformersMod.modid + ":bass_charge");
     }
 }

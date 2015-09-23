@@ -8,8 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -19,11 +19,11 @@ import fiskfille.tf.common.entity.EntityFlamethrowerFire;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFVectorHelper;
 
-public class ItemFlamethrower extends ItemSword
+public class ItemFlamethrower extends Item
 {
-    public ItemFlamethrower(ToolMaterial material)
+    public ItemFlamethrower()
     {
-        super(material);
+        super();
         setMaxDamage(1500);
         setCreativeTab(null);
     }

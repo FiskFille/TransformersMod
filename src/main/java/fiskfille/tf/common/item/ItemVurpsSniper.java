@@ -3,7 +3,6 @@ package fiskfille.tf.common.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.network.MessageLaserShoot;
@@ -12,11 +11,11 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFShootManager;
 
-public class ItemVurpsSniper extends ItemSword
+public class ItemVurpsSniper extends Item
 {
-    public ItemVurpsSniper(ToolMaterial material)
+    public ItemVurpsSniper()
     {
-        super(material);
+        super();
         setMaxDamage(800);
     }
 

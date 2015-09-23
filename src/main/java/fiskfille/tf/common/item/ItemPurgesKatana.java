@@ -23,9 +23,9 @@ import fiskfille.tf.helper.TFVectorHelper;
 
 public class ItemPurgesKatana extends ItemSword
 {
-    public ItemPurgesKatana(ToolMaterial material)
+    public ItemPurgesKatana()
     {
-        super(material);
+        super(ToolMaterial.EMERALD);
         setMaxDamage(1500);
     }
 

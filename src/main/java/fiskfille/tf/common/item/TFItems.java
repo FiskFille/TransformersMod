@@ -85,11 +85,11 @@ public class TFItems
         jetThruster = new Item().setCreativeTab(null);
         smallThruster = new Item();
 
-        skystrikesCrossbow = new ItemSkystrikesCrossbow(ToolMaterial.WOOD);
-        purgesKatana = new ItemPurgesKatana(ToolMaterial.EMERALD);
-        vurpsSniper = new ItemVurpsSniper(ToolMaterial.WOOD);
-        cloudtrapsFlamethrower = new ItemFlamethrower(ToolMaterial.WOOD);
-        subwoofersBassBlaster = new ItemBassBlaster(ToolMaterial.WOOD);
+        skystrikesCrossbow = new ItemSkystrikesCrossbow();
+        purgesKatana = new ItemPurgesKatana();
+        vurpsSniper = new ItemVurpsSniper();
+        cloudtrapsFlamethrower = new ItemFlamethrower();
+        subwoofersBassBlaster = new ItemBassBlaster();
 
         skystrikeHelmet = new ItemSkystrikeArmor(0);
         skystrikeChestplate = new ItemSkystrikeArmor(1);

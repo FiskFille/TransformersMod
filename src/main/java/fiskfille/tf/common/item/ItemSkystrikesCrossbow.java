@@ -5,21 +5,26 @@ import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import com.google.common.collect.Multimap;
+
 import fiskfille.tf.common.entity.EntityLaserBeam;
 import fiskfille.tf.helper.TFHelper;
 
-public class ItemSkystrikesCrossbow extends ItemSword
+public class ItemSkystrikesCrossbow extends Item
 {
-    public ItemSkystrikesCrossbow(ToolMaterial material)
+    public ItemSkystrikesCrossbow()
     {
-        super(material);
+        super();
         setMaxDamage(1500);
     }
 
@@ -104,5 +109,13 @@ public class ItemSkystrikesCrossbow extends ItemSword
     {
         List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
         return list;
+    }
+    
+    public Multimap getItemAttributeModifiers()
+    {
+        Multimap multimap = super.getItemAttributeModifiers();
+        multimap.removeAll(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 4.0D, 0));
+        return multimap;
     }
 }
