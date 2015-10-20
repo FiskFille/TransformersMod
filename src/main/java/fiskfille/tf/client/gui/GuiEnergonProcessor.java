@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -40,10 +39,10 @@ public class GuiEnergonProcessor extends GuiContainer
     
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-    	int k = (width - xSize) / 2;
+        int k = (width - xSize) / 2;
         int l = (height - ySize) / 2;
         
-    	String s = tileentity.hasCustomInventoryName() ? tileentity.getInventoryName() : I18n.format(tileentity.getInventoryName(), new Object[0]);
+        String s = tileentity.hasCustomInventoryName() ? tileentity.getInventoryName() : I18n.format(tileentity.getInventoryName(), new Object[0]);
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
         
@@ -57,11 +56,11 @@ public class GuiEnergonProcessor extends GuiContainer
         {
             for (Map.Entry<String, Integer> e : tileentity.energonContentMap.entrySet())
             {
-            	String name = e.getKey().substring(0, 1).toUpperCase() + e.getKey().substring(1);
-            	int percent = Math.round(e.getValue() * percentMultiplier);
-            	
-            	text.add(name + " Energon: " + percent + "%");
-            	colors.add(TransformersAPI.getEnergonTypeByName(e.getKey()).getColor());
+                String name = e.getKey().substring(0, 1).toUpperCase() + e.getKey().substring(1);
+                int percent = Math.round(e.getValue() * percentMultiplier);
+                
+                text.add(name + " Energon: " + percent + "%");
+                colors.add(TransformersAPI.getEnergonTypeByName(e.getKey()).getColor());
             }
             
             text.add("");
@@ -69,8 +68,8 @@ public class GuiEnergonProcessor extends GuiContainer
         }
         else
         {
-        	text.add("Unidentified");
-        	colors.add(0xbf0000);
+            text.add("Unidentified");
+            colors.add(0xbf0000);
         }
         
         int percent = Math.round(tileentity.liquidAmount);
@@ -79,8 +78,8 @@ public class GuiEnergonProcessor extends GuiContainer
         colors.add(tileentity.liquidColor);
         
         if (mouseX > k + 77 && mouseX <= k + 77 + 52 && mouseY > l + 17 && mouseY <= l + 17 + 52)
-        {	
-        	drawHoveringText(text, colors, mouseX - k, mouseY - l, fontRendererObj);
+        {   
+            drawHoveringText(text, colors, mouseX - k, mouseY - l, fontRendererObj);
         }
     }
     
@@ -167,17 +166,17 @@ public class GuiEnergonProcessor extends GuiContainer
         
         if (tileentity.burnTime > 0)
         {
-        	int i = (int)((float)tileentity.burnTime * 0.12F);
-        	drawTexturedModalRect(k + 47, l + 35, 176, 14, i, 17);
+            int i = (int)((float)tileentity.burnTime * 0.12F);
+            drawTexturedModalRect(k + 47, l + 35, 176, 14, i, 17);
         }
         if (tileentity.fillTime > 0)
         {
-        	int i = (int)((float)tileentity.fillTime * 0.13F);
-        	drawTexturedModalRect(k + 135, l + 36, 176, 31, i, 12);
+            int i = (int)((float)tileentity.fillTime * 0.13F);
+            drawTexturedModalRect(k + 135, l + 36, 176, 31, i, 12);
         }
         if (tileentity.powerTime > 0)
         {
-        	int i = tileentity.powerTime * 13 / tileentity.currentMaxPowerTime;
+            int i = tileentity.powerTime * 13 / tileentity.currentMaxPowerTime;
             drawTexturedModalRect(k + 25, l + 48 - i, 176, 12 - i, 14, i + 2);
         }
         

@@ -7,12 +7,12 @@ import net.minecraft.inventory.Slot;
 
 public class ContainerBasic extends Container
 {
-	public void addPlayerInventory(InventoryPlayer inventoryPlayer, int yOffset)
-	{
-		int i;
-		int j;
-		
-		for (i = 0; i < 3; ++i)
+    public void addPlayerInventory(InventoryPlayer inventoryPlayer, int yOffset)
+    {
+        int i;
+        int j;
+
+        for (i = 0; i < 3; ++i)
         {
             for (j = 0; j < 9; ++j)
             {
@@ -24,10 +24,10 @@ public class ContainerBasic extends Container
         {
             this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142 + yOffset));
         }
-	}
+    }
 
-	public boolean canInteractWith(EntityPlayer entityplayer)
-	{
-		return true;
-	}
+    public boolean canInteractWith(EntityPlayer entityplayer)
+    {
+        return true;
+    }
 }

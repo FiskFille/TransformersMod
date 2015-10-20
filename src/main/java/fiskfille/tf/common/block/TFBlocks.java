@@ -8,6 +8,7 @@ import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
@@ -20,10 +21,13 @@ public class TFBlocks
     public static Block energonCube;
     public static Block transformiumStone;
     public static Block transformiumSeed;
+    public static Block transformiumBlock;
+    public static BlockCosmicRust cosmicRust;
+    public static Block displayStation;
     public static Block energonProcessor;
     public static Block groundBridgeFrame;
     public static BlockGroundBridgeTeleporter groundBridgeTeleporter;
-    
+
     public void register()
     {
         transformiumOre = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(10.0F).setResistance(1000.0F);
@@ -31,14 +35,17 @@ public class TFBlocks
         energonCrystal = new BlockEnergonCrystal(new DefaultEnergon());
         redEnergonCrystal = new BlockEnergonCrystal(new RedEnergon());
         energonCube = new BlockEnergonCube();
-        transformiumStone = new BlockTransformiumStone();
+        transformiumStone = new BlockTransformiumStone().setResistance(1000.0F);
         transformiumSeed = new BlockTransformiumSeed();
+        transformiumBlock = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
+        cosmicRust = new BlockCosmicRust();
+        displayStation = new BlockDisplayStation();
         energonProcessor = new BlockEnergonProcessor();
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         
+
         String modId = TransformersMod.modid;
-        
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore", modId);
         TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class, modId);
         TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class, modId);
@@ -46,11 +53,12 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube", modId);
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone", modId);
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
+        TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium", modId);
+        TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust", modId);
+        TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class, modId);
         TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class, modId);
-        
         TFBlockRegistry.registerBlock(groundBridgeFrame, "Ground Bridge Frame", modId);
         TFBlockRegistry.registerBlock(groundBridgeTeleporter, "Ground Bridge Teleporter", modId);
-        
         groundBridgeTeleporter.setCreativeTab(null);
     }
 }

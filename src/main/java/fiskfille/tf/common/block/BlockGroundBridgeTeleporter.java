@@ -73,20 +73,20 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public boolean spawnTeleporter(World world, int x, int y, int z)
     {
-    	if (isNorthSouthFacingFramePresent(world, x, y, z))
-    	{
-    		fillNorthFacingFrame(world, x, y, z, TFBlocks.groundBridgeTeleporter);
-    		return true;
-    	}
-    	else if (isEastWestFacingFramePresent(world, x, y, z))
-    	{
-    		fillEastFacingFrame(world, x, y, z, TFBlocks.groundBridgeTeleporter);
-    		return true;
-    	}
-    	else
-    	{
-    		return false;
-    	}
+        if (isNorthSouthFacingFramePresent(world, x, y, z))
+        {
+            fillNorthFacingFrame(world, x, y, z, TFBlocks.groundBridgeTeleporter);
+            return true;
+        }
+        else if (isEastWestFacingFramePresent(world, x, y, z))
+        {
+            fillEastFacingFrame(world, x, y, z, TFBlocks.groundBridgeTeleporter);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor)
@@ -138,7 +138,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
     {
-    	
+        
     }
     
     @SideOnly(Side.CLIENT)
@@ -188,34 +188,34 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public boolean isNorthSouthFacingFramePresent(World world, int x, int y, int z)
     {
-    	Block b = TFBlocks.groundBridgeFrame;
-    	boolean flag = false;
+        Block b = TFBlocks.groundBridgeFrame;
+        boolean flag = false;
         
         if (world.getBlock(x, y, z) == b && world.getBlock(x - 1, y, z) == b && world.getBlock(x + 1, y, z) == b)
         {
-        	if (world.getBlock(x - 2, y + 1, z) == b && world.getBlock(x + 2, y + 1, z) == b)
-        	{
-        		int j = 0;
-        		
-        		for (int i = 0; i < 3; ++i)
-        		{
-        			if (world.getBlock(x - 3, y + 2 + i, z) == b && world.getBlock(x + 3, y + 2 + i, z) == b)
-        			{
-        				++j;
-        			}
-        		}
-        		
-        		if (j == 3)
-        		{
-        			if (world.getBlock(x - 2, y + 5, z) == b && world.getBlock(x + 2, y + 5, z) == b)
-        			{
-        				if (world.getBlock(x, y + 6, z) == b && world.getBlock(x - 1, y + 6, z) == b && world.getBlock(x + 1, y + 6, z) == b)
-        				{
-        					flag = true;
-        				}
-        			}
-        		}
-        	}
+            if (world.getBlock(x - 2, y + 1, z) == b && world.getBlock(x + 2, y + 1, z) == b)
+            {
+                int j = 0;
+                
+                for (int i = 0; i < 3; ++i)
+                {
+                    if (world.getBlock(x - 3, y + 2 + i, z) == b && world.getBlock(x + 3, y + 2 + i, z) == b)
+                    {
+                        ++j;
+                    }
+                }
+                
+                if (j == 3)
+                {
+                    if (world.getBlock(x - 2, y + 5, z) == b && world.getBlock(x + 2, y + 5, z) == b)
+                    {
+                        if (world.getBlock(x, y + 6, z) == b && world.getBlock(x - 1, y + 6, z) == b && world.getBlock(x + 1, y + 6, z) == b)
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+            }
         }
         
         return flag;
@@ -223,34 +223,34 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public boolean isEastWestFacingFramePresent(World world, int x, int y, int z)
     {
-    	Block b = TFBlocks.groundBridgeFrame;
-    	boolean flag = false;
+        Block b = TFBlocks.groundBridgeFrame;
+        boolean flag = false;
         
         if (world.getBlock(x, y, z) == b && world.getBlock(x, y, z - 1) == b && world.getBlock(x, y, z + 1) == b)
         {
-        	if (world.getBlock(x, y + 1, z - 2) == b && world.getBlock(x, y + 1, z + 2) == b)
-        	{
-        		int j = 0;
-        		
-        		for (int i = 0; i < 3; ++i)
-        		{
-        			if (world.getBlock(x, y + 2 + i, z - 3) == b && world.getBlock(x, y + 2 + i, z + 3) == b)
-        			{
-        				++j;
-        			}
-        		}
-        		
-        		if (j == 3)
-        		{
-        			if (world.getBlock(x, y + 5, z - 2) == b && world.getBlock(x, y + 5, z + 2) == b)
-        			{
-        				if (world.getBlock(x, y + 6, z) == b && world.getBlock(x, y + 6, z - 1) == b && world.getBlock(x, y + 6, z + 1) == b)
-        				{
-        					flag = true;
-        				}
-        			}
-        		}
-        	}
+            if (world.getBlock(x, y + 1, z - 2) == b && world.getBlock(x, y + 1, z + 2) == b)
+            {
+                int j = 0;
+                
+                for (int i = 0; i < 3; ++i)
+                {
+                    if (world.getBlock(x, y + 2 + i, z - 3) == b && world.getBlock(x, y + 2 + i, z + 3) == b)
+                    {
+                        ++j;
+                    }
+                }
+                
+                if (j == 3)
+                {
+                    if (world.getBlock(x, y + 5, z - 2) == b && world.getBlock(x, y + 5, z + 2) == b)
+                    {
+                        if (world.getBlock(x, y + 6, z) == b && world.getBlock(x, y + 6, z - 1) == b && world.getBlock(x, y + 6, z + 1) == b)
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+            }
         }
         
         return flag;
@@ -258,25 +258,25 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable
     
     public void fillNorthFacingFrame(World world, int x, int y, int z, Block block)
     {
-    	for (int i = 0; i < 5; ++i)
-    	{
-    		for (int j = 0; j < 3; ++j)
-    		{
-    			world.setBlock(x - 1 + j, y + 1 + i, z, block);
-    			world.setBlock(x - 2 + i, y + 2 + j, z, block);
-    		}
-    	}
-	}
+        for (int i = 0; i < 5; ++i)
+        {
+            for (int j = 0; j < 3; ++j)
+            {
+                world.setBlock(x - 1 + j, y + 1 + i, z, block);
+                world.setBlock(x - 2 + i, y + 2 + j, z, block);
+            }
+        }
+    }
     
     public void fillEastFacingFrame(World world, int x, int y, int z, Block block)
     {
-    	for (int i = 0; i < 5; ++i)
-    	{
-    		for (int j = 0; j < 3; ++j)
-    		{
-    			world.setBlock(x, y + 1 + i, z - 1 + j, block);
-    			world.setBlock(x, y + 2 + j, z - 2 + i, block);
-    		}
-    	}
-	}
+        for (int i = 0; i < 5; ++i)
+        {
+            for (int j = 0; j < 3; ++j)
+            {
+                world.setBlock(x, y + 1 + i, z - 1 + j, block);
+                world.setBlock(x, y + 2 + j, z - 2 + i, block);
+            }
+        }
+    }
 }

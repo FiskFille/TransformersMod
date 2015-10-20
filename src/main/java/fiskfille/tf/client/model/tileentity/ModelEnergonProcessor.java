@@ -145,19 +145,19 @@ public class ModelEnergonProcessor extends MowzieModelBase
     
     public void render(TileEntityEnergonProcessor tileentity)
     {
-    	if (tileentity.burnTime == 0)
-    	{
-    		setToInitPose();
-    	}
-    	
-    	
-    	rotatingrod_top.rotateAngleY = tileentity.animationBurnTime * tileentity.animationTimer + tileentity.animationTimer * 10;
+        if (tileentity.burnTime == 0)
+        {
+            setToInitPose();
+        }
+        
+        
+        rotatingrod_top.rotateAngleY = tileentity.animationBurnTime * tileentity.animationTimer + tileentity.animationTimer * 10;
         rotatingrod_top.rotationPointY = 11 + tileentity.animationTimer * 4;
         flap1.rotateAngleX = (float)Math.PI / 2 * tileentity.animationTimer * 0.9F;
         flap2.rotateAngleX = (float)Math.PI / 2 * tileentity.animationTimer * 0.9F;
         rotatechamber_base.rotateAngleY = -tileentity.animationBurnTime * tileentity.animationTimer - tileentity.animationTimer * 10;
-    	
-    	float f5 = 0.0625F;
+        
+        float f5 = 0.0625F;
         this.shape14.render(f5);
         this.shape27.render(f5);
         this.shape27_1.render(f5);

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -16,7 +14,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 
 import com.google.common.collect.Maps;
 
@@ -52,13 +49,13 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     {
         if (burnTime > 0)
         {
-        	++animationBurnTime;
+            ++animationBurnTime;
             animationTimer += 0.001F;
             animationTimer *= 1.05F;
         }
         else
         {
-        	animationBurnTime = 0;
+            animationBurnTime = 0;
             animationTimer *= 0.95F;
         }
         
@@ -69,7 +66,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         
         if (!worldObj.isRemote)
         {
-//        	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+//          worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             ItemStack power = itemStacks[0];
             ItemStack crystal = itemStacks[1];
             ItemStack canister = itemStacks[2];
@@ -124,20 +121,20 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
                 }
                 else if (fillTime >= 100)
                 {
-                	ItemStack itemstack = new ItemStack(TFItems.filledFuelCanister);
-                	itemstack.setTagCompound(canister.getTagCompound());
-                	itemstack.stackSize = canister.stackSize;
-                	
-                	ItemFuelCanister.refreshNBT(itemstack);
-                	itemstack.getTagCompound().setString("Contents", energonContentMap.toString());
-                	ItemFuelCanister.setLiquidColor(itemstack, liquidColor);
-                	itemStacks[2] = itemstack.copy();
-                	fillTime = 0;
-                	energonContentMap.clear();
-                	liquidAmount = 0;
-                	liquidColor = 0xffffff;
-                	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                	notifyNeighborBlocksOfChange();
+                    ItemStack itemstack = new ItemStack(TFItems.filledFuelCanister);
+                    itemstack.setTagCompound(canister.getTagCompound());
+                    itemstack.stackSize = canister.stackSize;
+                    
+                    ItemFuelCanister.refreshNBT(itemstack);
+                    itemstack.getTagCompound().setString("Contents", energonContentMap.toString());
+                    ItemFuelCanister.setLiquidColor(itemstack, liquidColor);
+                    itemStacks[2] = itemstack.copy();
+                    fillTime = 0;
+                    energonContentMap.clear();
+                    liquidAmount = 0;
+                    liquidColor = 0xffffff;
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    notifyNeighborBlocksOfChange();
                 }
             }
             else if (fillTime > 0)
@@ -147,18 +144,18 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
             
             
             float percentMultiplier = 100F / liquidAmount;
-    		
-    		if (!energonContentMap.isEmpty())
+            
+            if (!energonContentMap.isEmpty())
             {
                 for (Map.Entry<String, Integer> e : energonContentMap.entrySet())
                 {
-                	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                	int percent = Math.round(e.getValue() * percentMultiplier);
-                	
-                	if (energon != null)
-                	{
-                		liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float)percent / 100);
-                	}
+                    Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                    int percent = Math.round(e.getValue() * percentMultiplier);
+                    
+                    if (energon != null)
+                    {
+                        liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float)percent / 100);
+                    }
                 }
             }
         }
@@ -170,9 +167,9 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
         worldObj.getBlock(xCoord - 1, yCoord, zCoord).onNeighborBlockChange(worldObj, xCoord - 1, yCoord, zCoord, blockType);
         worldObj.getBlock(xCoord, yCoord, zCoord + 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord + 1, blockType);
         worldObj.getBlock(xCoord, yCoord, zCoord - 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord - 1, blockType);
-	}
+    }
 
-	public boolean canBurnCrystal(ItemStack itemstack)
+    public boolean canBurnCrystal(ItemStack itemstack)
     {
         if (itemstack != null && isItemValidForSlot(1, itemstack))
         {
@@ -375,7 +372,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     
     public boolean canInsertItem(int slot, ItemStack stack, int p_102007_3_)
     {
-    	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return this.isItemValidForSlot(slot, stack);
     }
     

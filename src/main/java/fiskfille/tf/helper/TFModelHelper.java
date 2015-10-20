@@ -18,22 +18,22 @@ public class TFModelHelper
      * The main client player's model.
      */
     public static ModelBiped modelBipedMain;
-    
+
     private static Map<EntityPlayer, ModelOffset> offsets = new HashMap<EntityPlayer, ModelOffset>();
-    
+
     /**
      * @returns the model offsets for the specified player.
      */
     public static ModelOffset getOffsets(EntityPlayer player)
     {
         ModelOffset modelOffset = offsets.get(player);
-        
+
         if (modelOffset == null)
         {
             modelOffset = new ModelOffset();
             offsets.put(player, modelOffset);
         }
-        
+
         return modelOffset;
     }
 }

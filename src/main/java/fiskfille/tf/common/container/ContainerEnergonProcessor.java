@@ -3,7 +3,6 @@ package fiskfille.tf.common.container;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -15,9 +14,9 @@ import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 
 public class ContainerEnergonProcessor extends ContainerBasic
 {
-	public static final int FUEL = 0, INPUT = 1, OUTPUT_1 = 2;
-	
-	private TileEntityEnergonProcessor tileentity;
+    public static final int FUEL = 0, INPUT = 1, OUTPUT_1 = 2;
+    
+    private TileEntityEnergonProcessor tileentity;
     private int lastBurnTime;
     private int lastPowerTime;
     private int lastLiquidAmount;
@@ -27,7 +26,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
     
     public ContainerEnergonProcessor(InventoryPlayer inventoryPlayer, TileEntityEnergonProcessor tile)
     {
-    	this.tileentity = tile;
+        this.tileentity = tile;
         int i;
         int j;
         
@@ -35,10 +34,10 @@ public class ContainerEnergonProcessor extends ContainerBasic
         this.addSlotToContainer(new Slot(tile, 1, 24, 17));
         this.addSlotToContainer(new Slot(tile, 2, 138, 53)
         {
-        	public int getSlotStackLimit()
-        	{
-        		return 1;
-        	}
+            public int getSlotStackLimit()
+            {
+                return 1;
+            }
         });
 
         this.addPlayerInventory(inventoryPlayer, 0);
@@ -46,7 +45,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
     
     public boolean canInteractWith(EntityPlayer player)
     {
-    	return true;
+        return true;
     }
     
     public void addCraftingToCrafters(ICrafting icrafting)
@@ -112,114 +111,114 @@ public class ContainerEnergonProcessor extends ContainerBasic
     {
         if (par1 == 0)
         {
-        	this.tileentity.burnTime = par2;
+            this.tileentity.burnTime = par2;
         }
         
         if (par1 == 1)
         {
-        	this.tileentity.powerTime = par2;
+            this.tileentity.powerTime = par2;
         }
         
         if (par1 == 2)
         {
-        	this.tileentity.liquidAmount = par2;
+            this.tileentity.liquidAmount = par2;
         }
         
         if (par1 == 3)
         {
-        	this.tileentity.liquidColor = par2;
+            this.tileentity.liquidColor = par2;
         }
         
         if (par1 == 4)
         {
-        	this.tileentity.fillTime = par2;
+            this.tileentity.fillTime = par2;
         }
         
         if (par1 == 5)
         {
-        	this.tileentity.currentMaxPowerTime = par2;
+            this.tileentity.currentMaxPowerTime = par2;
         }
     }
     
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
-    	ItemStack itemstack = null;
-    	Slot slot = (Slot)this.inventorySlots.get(par2);
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(par2);
 
-    	if (slot != null && slot.getHasStack())
-    	{
-    		ItemStack itemstack1 = slot.getStack();
-    		itemstack = itemstack1.copy();
+        if (slot != null && slot.getHasStack())
+        {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
 
-    		// If itemstack is in Output stack
-    		if (par2 == OUTPUT_1)
-    		{
-    			// try to place in player inventory / action bar; add 36 + 1 because mergeItemStack uses < index,
-    			// so the last slot in the inventory won't get checked if you don't add 1
-    			if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 36 + 1, true))
-    			{
-    				return null;
-    			}
+            // If itemstack is in Output stack
+            if (par2 == OUTPUT_1)
+            {
+                // try to place in player inventory / action bar; add 36 + 1 because mergeItemStack uses < index,
+                // so the last slot in the inventory won't get checked if you don't add 1
+                if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 36 + 1, true))
+                {
+                    return null;
+                }
 
-    			slot.onSlotChange(itemstack1, itemstack);
-    		}
-    		// itemstack is in player inventory, try to place in appropriate furnace slot
-    		else if (par2 != FUEL && par2 != INPUT)
-    		{
-    			// if it can be smelted, place in the input slots
-    			if (itemstack1.getItem() instanceof IEnergon || Block.getBlockFromItem(itemstack1.getItem()) instanceof IEnergon)
-    			{
-    				// try to place in either Input slot; add 1 to final input slot because mergeItemStack uses < index
-    				if (!this.mergeItemStack(itemstack1, INPUT, INPUT + 1, false))
-    				{
-    					return null;
-    				}
-    			}
-    			// if it's an energy source, place in Fuel slot
-    			else if (PowerManager.isPowerSource(itemstack1))
-    			{
-    				if (!this.mergeItemStack(itemstack1, FUEL, FUEL + 1, false))
-    				{
-    					return null;
-    				}
-    			}
-    			// item in player's inventory, but not in action bar
-    			else if (par2 >= OUTPUT_1 + 1 && par2 < OUTPUT_1 + 28)
-    			{
-    				// place in action bar
-    				if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 28, OUTPUT_1 + 37, false))
-    				{
-    					return null;
-    				}
-    			}
-    			// item in action bar - place in player inventory
-    			else if (par2 >= OUTPUT_1 + 28 && par2 < OUTPUT_1 + 37 && !this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 28, false))
-    			{
-    				return null;
-    			}
-    		}
-    		// In one of the infuser slots; try to place in player inventory / action bar
-    		else if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 37, false))
-    		{
-    			return null;
-    		}
+                slot.onSlotChange(itemstack1, itemstack);
+            }
+            // itemstack is in player inventory, try to place in appropriate furnace slot
+            else if (par2 != FUEL && par2 != INPUT)
+            {
+                // if it can be smelted, place in the input slots
+                if (itemstack1.getItem() instanceof IEnergon || Block.getBlockFromItem(itemstack1.getItem()) instanceof IEnergon)
+                {
+                    // try to place in either Input slot; add 1 to final input slot because mergeItemStack uses < index
+                    if (!this.mergeItemStack(itemstack1, INPUT, INPUT + 1, false))
+                    {
+                        return null;
+                    }
+                }
+                // if it's an energy source, place in Fuel slot
+                else if (PowerManager.isPowerSource(itemstack1))
+                {
+                    if (!this.mergeItemStack(itemstack1, FUEL, FUEL + 1, false))
+                    {
+                        return null;
+                    }
+                }
+                // item in player's inventory, but not in action bar
+                else if (par2 >= OUTPUT_1 + 1 && par2 < OUTPUT_1 + 28)
+                {
+                    // place in action bar
+                    if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 28, OUTPUT_1 + 37, false))
+                    {
+                        return null;
+                    }
+                }
+                // item in action bar - place in player inventory
+                else if (par2 >= OUTPUT_1 + 28 && par2 < OUTPUT_1 + 37 && !this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 28, false))
+                {
+                    return null;
+                }
+            }
+            // In one of the infuser slots; try to place in player inventory / action bar
+            else if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 37, false))
+            {
+                return null;
+            }
 
-    		if (itemstack1.stackSize == 0)
-    		{
-    			slot.putStack((ItemStack)null);
-    		}
-    		else
-    		{
-    			slot.onSlotChanged();
-    		}
+            if (itemstack1.stackSize == 0)
+            {
+                slot.putStack((ItemStack)null);
+            }
+            else
+            {
+                slot.onSlotChanged();
+            }
 
-    		if (itemstack1.stackSize == itemstack.stackSize)
-    		{
-    			return null;
-    		}
+            if (itemstack1.stackSize == itemstack.stackSize)
+            {
+                return null;
+            }
 
-    		slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
-    	}
-    	return itemstack;
+            slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+        }
+        return itemstack;
     }
 }

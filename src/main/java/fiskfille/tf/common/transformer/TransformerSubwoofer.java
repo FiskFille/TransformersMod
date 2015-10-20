@@ -15,36 +15,36 @@ public class TransformerSubwoofer extends TransformerTruck
     {
         super("Subwoofer");
     }
-    
+
     @Override
     public Item getHelmet()
     {
         return TFItems.subwooferHelmet;
     }
-    
+
     @Override
     public Item getChestplate()
     {
         return TFItems.subwooferChestplate;
     }
-    
+
     @Override
     public Item getLeggings()
     {
         return TFItems.subwooferLeggings;
     }
-    
+
     @Override
     public Item getBoots()
     {
         return TFItems.subwooferBoots;
     }
-    
+
     @Override
     public void tick(EntityPlayer player, int timer)
     {
         super.tick(player, timer);
-        
+
         player.addStat(TFAchievements.subwoofer, 1);
     }
 }

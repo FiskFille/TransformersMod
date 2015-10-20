@@ -14,45 +14,45 @@ import java.util.List;
 public class WebHelper
 {
     private static String pastebinURLPrefix = "http://pastebin.com/raw.php?i=";
-    
+
     public static List<String> downloadFileList(String urlString) throws MalformedURLException, IOException
     {
         List<String> text = new ArrayList<String>();
-        
+
         URL url = new URL(urlString);
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-        
+
         String currentLine;
-        
+
         while ((currentLine = reader.readLine()) != null)
         {
             text.add(currentLine);
         }
-        
+
         reader.close();
-        
+
         return text;
     }
-    
+
     public static String downloadFile(String urlString) throws MalformedURLException, IOException
     {
         String text = "";
-        
+
         List<String> lines = downloadFileList(urlString);
-        
+
         for (String string : lines)
         {
             text += string + "\r\n";
         }
-        
+
         return text;
     }
-    
+
     public static List<String> readPastebinAsList(String pastebinFileName) throws MalformedURLException, IOException
     {
         return WebHelper.downloadFileList(pastebinURLPrefix + pastebinFileName);
     }
-    
+
     public static String readPastebin(String pastebinFileName) throws MalformedURLException, IOException
     {
         return WebHelper.downloadFile(pastebinURLPrefix + pastebinFileName);

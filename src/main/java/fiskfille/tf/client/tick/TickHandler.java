@@ -1,44 +1,43 @@
 package fiskfille.tf.client.tick;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.proxy.ClientProxy;
+import fiskfille.tf.common.proxy.CommonProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
 
 public class TickHandler
 {
     public static int time = 0;
-    
+
     private Minecraft mc = Minecraft.getMinecraft();
-    
+
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event)
     {
         EntityPlayer player = mc.thePlayer;
         ItemStack itemstack = player.getHeldItem();
-        
+
         boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
         int transformationTimer = TFDataManager.getTransformationTimer(player);
-        
-        if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && (TFHelper.isPlayerTransformer(player)) && player.ridingEntity == null)
+
+        if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && TFHelper.isPlayerTransformer(player) && player.ridingEntity == null)
         {
             GameSettings gameSettings = mc.gameSettings;
-            
+
             if (inVehicleMode && transformationTimer == 0)
             {
                 if (TFDataManager.setInVehicleMode(player, false))
@@ -50,12 +49,19 @@ public class TickHandler
             {
                 if (TFDataManager.setInVehicleMode(player, true))
                 {
+                    VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+                    
+                    if (transformedPlayer != null)
+                    {
+                        transformedPlayer.setLandingTimer(20);
+                    }
+                    
                     player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
                 }
             }
-            
+
             EntityRenderer entityRenderer = mc.entityRenderer;
-            
+
             try
             {
                 float camRoll = ClientProxy.camRollField.getFloat(entityRenderer);
@@ -70,17 +76,17 @@ public class TickHandler
                 e.printStackTrace();
             }
         }
-        
+
         if (TFKeyBinds.keyBindingStealthMode.getIsKeyPressed())
         {
             Transformer transformer = TFHelper.getTransformer(player);
-            
+
             if (transformer != null)
             {
                 if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player))
                 {
                     int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
-                    
+
                     if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
                     {
                         TFDataManager.setInStealthMode(player, false);
@@ -95,40 +101,39 @@ public class TickHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent event)
     {
         ++time;
         EntityPlayer player = event.player;
-        World world = player.worldObj;
         boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
         int transformationTimer = TFDataManager.getTransformationTimer(player);
-        
+
         if (player.worldObj.isRemote)
         {
             if (time % 2 == 0)
             {
-                TransformersMod.proxy.tickHandler.onPlayerTick(player);
+                CommonProxy.tickHandler.onPlayerTick(player);
             }
-            
-            TransformersMod.proxy.tickHandler.handleTransformation(player);
+
+            CommonProxy.tickHandler.handleTransformation(player);
         }
     }
 
-	@SubscribeEvent
+    @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         switch (event.phase)
         {
             case START:
             {
-                TransformersMod.proxy.tickHandler.onTickStart();
+                CommonProxy.tickHandler.onTickStart();
                 break;
             }
             case END:
             {
-                TransformersMod.proxy.tickHandler.onTickEnd();
+                CommonProxy.tickHandler.onTickEnd();
                 break;
             }
         }

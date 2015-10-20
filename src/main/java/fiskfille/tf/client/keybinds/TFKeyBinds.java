@@ -13,7 +13,7 @@ public class TFKeyBinds
     public static TFKeyBinding keyBindingStealthMode = new TFKeyBinding("Stealth Force Mode", Keyboard.KEY_V);
     public static TFKeyBinding keyBindingVehicleFirstPerson = new TFKeyBinding("Vehicle First Person", Keyboard.KEY_G);
     public static TFKeyBinding keyBindingViewFront = new TFKeyBinding("View Vehicle Front", Keyboard.KEY_R);
-    
+
     public static void register()
     {
         ClientRegistry.registerKeyBinding(keyBindingTransform);

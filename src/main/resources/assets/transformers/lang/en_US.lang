@@ -44,7 +44,7 @@ item.cloudtrap_feet.name=Cloudtrap Feet
 
 ------Display Vehicles------
 item.display_skystrike.name=AHD-2 Lamphyrade Dropship
-item.display_purge.name=M5 Scout Tank
+item.display_purge.name=Pzkfw 6 Tiger I/s Tank
 item.display_vurp.name=Porsche 918 Spyder
 item.display_subwoofer.name=Radar Van
 item.display_cloudtrap.name=T-50 Stealth Jet
@@ -64,6 +64,9 @@ tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed
+tile.block_of_transformium.name=Block of Transformium
+tile.cosmic_rust.name=Cosmic Rust
+tile.transformer_display_station.name=Transformer Display Station
 tile.energon_processor.name=Energon Processor
 
 -----Tab------
@@ -73,6 +76,9 @@ itemGroup.Transformers=Transformers
 stats.nitro.name=Nitro
 stats.shots_left.name=Shots Left
 stats.laser_charge.name=Laser Charge
+gui.display_pillar.name=Display Pillar
+gui.display_station=Transformer Display Station
+gui.display_station.transform=Transform
 gui.energon_processor=Energon Processor
 
 ------Achievements------
@@ -123,6 +129,31 @@ transformium_detector.no_fuel.message=You have run out of fuel for your Transfor
 stats.fuel.name=Fuel
 
 ------Tooltip------
-tooltip.tile.transformium_seed=Converts matter into Transformium when detonated.
-tooltip.tile.transformium_stone=Matter converted to Transformium from seed detonation.
-tooltip.tile.energon_cube=Compressed form of Energon.
+item-info.prompt=Hold SHIFT for info.
+tile.transformium_seed.desc=\lConverts matter into Transformium when detonated.
+tile.display_pillar.desc=Right click a displayable item on the pillar\nto put it on display.\n[key=38,name="<FORMAT_BLUE>Hold L for a list of displayable items.",content="\snDisplayable items:\snVAR_LIST_DISPLAYABLES"]
+tile.energon_crystal.desc=\lCan be obtained by either mining an Energon Crystal with a silk touch pickaxe, or mining the block the crystal is attached to. The latter yields a 1/9 chance of dropping the full crystal.
+tile.cosmic_rust.desc=Virus that spreads through physical\ncontact with <FORMAT_ITALIC>Transformium Stone<FORMAT_RESET><FORMAT_GRAY>. The\nvirus is naturally formed in transformium\nstone not exposed to direct sunlight.
+
+item.skystrikes_energon_crossbow.desc=Shoots out a beam of laser when used.\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear the full Skystrike set to use.
+item.purges_katana.desc=Hold right click to charge up dash,\nlet go to use.\n<FORMAT_RED>Must wear the full Purge set to use.
+item.vurps_sniper.desc=Shoots lasers upon right click.\nHold VAR_KEYBIND_ZOOM to aim.\nAmmo: Energon Cube\n<FORMAT_RED>Must wear full Vurp set to use.
+item.subwoofers_bass_blaster.desc=Shoots out bass charges that destroy glass\nand break armor when used. The closer to the\ntarget you are, the more damage it will deal\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear full Subwoofer set to use.
+
+------Tutorial------
+tutorial.accelerate.instructions=Press %s to accelerate.
+tutorial.accelerate.info1_line1=Your speed is indicated by the lower bar in the top
+tutorial.accelerate.info1_line2=left corner of your screen.
+tutorial.accelerate.info2=You can also reverse by pressing %s.
+tutorial.accelerate.info3_line1=On off-road materials like Sand and Gravel, cars move slower
+tutorial.accelerate.info3_line2=and become harder to control. (Trucks and Tanks are unaffected)
+tutorial.nitro.instructions=Accelerate while holding %s or %s to use nitro.
+tutorial.nitro.info1=Your nitro is indicated by the top bar.
+tutorial.nitro.info2=Nitro does not drain in Creative mode.
+tutorial.shoot.instructions=Press %s to shoot.
+tutorial.aim.instructions=Hold %s to aim.
+tutorial.stealthmode.instructions=Press %s to switch to Stealth Force mode.
+tutorial.stealthmode.strafe.instructions=Press %s or %s to strafe.
+tutorial.stealthmode.jump.instructions=Press %s to jump.
+tutorial.stealthmode.jump.info1_line1=Jumping and strafing can only be done when in
+tutorial.stealthmode.jump.info1_line2=Stealth Force mode or robot mode.

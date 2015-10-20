@@ -1,8 +1,5 @@
 package fiskfille.tf.common.energon;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fiskfille.tf.TransformersAPI;
 
 public class TFEnergonManager

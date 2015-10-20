@@ -1,64 +1,64 @@
 package fiskfille.tf.client.render.entity;
 
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.item.ItemBassBlaster;
+import fiskfille.tf.client.model.ModelBassCharge;
 
 @SideOnly(Side.CLIENT)
 public class RenderBassCharge extends Render
 {
-    public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float p_76986_9_)
+    private ModelBassCharge model = new ModelBassCharge();
+
+    public void doRender(Entity entity, double x, double y, double z, float f, float partialTicks)
     {
-        IIcon iicon = ItemBassBlaster.bassChargeIcon;
-        
-        if (iicon != null)
-        {
-            float scale = 0.5F;
-            GL11.glPushMatrix();
-            GL11.glTranslatef((float) x, (float) y, (float) z);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glScalef(scale, scale, scale);
-            this.bindEntityTexture(entity);
-            Tessellator tessellator = Tessellator.instance;
-            
-            this.renderIIcon(tessellator, iicon);
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glPopMatrix();
-        }
+        float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
+        float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
+
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float)x, (float)y, (float)z);
+        GL11.glRotatef(pitch, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
+
+        float f1 = 0.2F + (float)entity.ticksExisted / 10;
+        GL11.glScalef(f1, f1, f1);
+
+
+
+
+        GL11.glDepthMask(false);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+
+        float r = 112F / 255;
+        float g = 145F / 255;
+        float b = 1.0F;
+        float a = (float)(20 - entity.ticksExisted) / 20;
+        GL11.glColor4f(r, g, b, a);
+        model.render();
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        GL11.glDepthMask(true);
+
+
+
+        GL11.glPopMatrix();
     }
-    
+
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
         return TextureMap.locationItemsTexture;
-    }
-    
-    private void renderIIcon(Tessellator p_77026_1_, IIcon p_77026_2_)
-    {
-        float f = p_77026_2_.getMinU();
-        float f1 = p_77026_2_.getMaxU();
-        float f2 = p_77026_2_.getMinV();
-        float f3 = p_77026_2_.getMaxV();
-        float f4 = 1.0F;
-        float f5 = 0.5F;
-        float f6 = 0.25F;
-        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        p_77026_1_.startDrawingQuads();
-        p_77026_1_.setNormal(0.0F, 1.0F, 0.0F);
-        p_77026_1_.addVertexWithUV((double) (0.0F - f5), (double) (0.0F - f6), 0.0D, (double) f, (double) f3);
-        p_77026_1_.addVertexWithUV((double) (f4 - f5), (double) (0.0F - f6), 0.0D, (double) f1, (double) f3);
-        p_77026_1_.addVertexWithUV((double) (f4 - f5), (double) (f4 - f6), 0.0D, (double) f1, (double) f2);
-        p_77026_1_.addVertexWithUV((double) (0.0F - f5), (double) (f4 - f6), 0.0D, (double) f, (double) f2);
-        p_77026_1_.draw();
     }
 }

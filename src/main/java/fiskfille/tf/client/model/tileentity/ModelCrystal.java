@@ -5,76 +5,130 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelCrystal extends ModelBase
 {
-    ModelRenderer shape1;
-    ModelRenderer shape2;
-    ModelRenderer shape3;
-    ModelRenderer shape4;
-    ModelRenderer shape5;
-    ModelRenderer shape6;
-    
+    public ModelRenderer shape1;
+    public ModelRenderer shape2;
+    public ModelRenderer shape2_1;
+    public ModelRenderer shape5;
+    public ModelRenderer shape5_1;
+    public ModelRenderer shape7;
+    public ModelRenderer shape7_1;
+    public ModelRenderer shape7_2;
+    public ModelRenderer shape7_3;
+    public ModelRenderer shape39;
+    public ModelRenderer shape42;
+    public ModelRenderer shape42_1;
+    public ModelRenderer shape42_2;
+    public ModelRenderer shape42_3;
+    public ModelRenderer shape8;
+    public ModelRenderer shape8_1;
+    public ModelRenderer shape8_2;
+    public ModelRenderer shape8_3;
+    public ModelRenderer shape40;
+
     public ModelCrystal()
     {
-        textureWidth = 64;
-        textureHeight = 64;
-        
-        shape1 = new ModelRenderer(this, 0, 0);
-        shape1.addBox(-1F, -6F, -1F, 2, 6, 2);
-        shape1.setRotationPoint(-1F, 24F, -2F);
-        shape1.setTextureSize(16, 16);
-        shape1.mirror = true;
-        setRotation(shape1, 0.2443461F, 0F, -0.2443461F);
-        shape2 = new ModelRenderer(this, 0, 0);
-        shape2.addBox(-1F, -9F, -1F, 2, 9, 2);
-        shape2.setRotationPoint(-1F, 24F, -1F);
-        shape2.setTextureSize(16, 16);
-        shape2.mirror = true;
-        setRotation(shape2, -0.0523599F, 0F, 0.1047198F);
-        shape3 = new ModelRenderer(this, 0, 0);
-        shape3.addBox(-1F, -5F, -1F, 2, 5, 2);
-        shape3.setRotationPoint(0F, 24F, -1F);
-        shape3.setTextureSize(16, 16);
-        shape3.mirror = true;
-        setRotation(shape3, 0.4886922F, 0F, 0.3839724F);
-        shape4 = new ModelRenderer(this, 0, 0);
-        shape4.addBox(-1F, -6F, -1F, 2, 6, 2);
-        shape4.setRotationPoint(-1F, 24F, -1F);
-        shape4.setTextureSize(16, 16);
-        shape4.mirror = true;
-        setRotation(shape4, -0.3141593F, 0F, -0.4014257F);
+        textureWidth = 16;
+        textureHeight = 16;
+        shape7_2 = new ModelRenderer(this, 0, 0);
+        shape7_2.setRotationPoint(2.5F, 0.4F, -0.5F);
+        shape7_2.addBox(-1.0F, -5.0F, -1.0F, 2, 5, 2, 0.0F);
+        setRotateAngle(shape7_2, -0.15707963267948966F, 1.5707963267948966F, -0.08726646259971647F);
+        shape42_3 = new ModelRenderer(this, 0, 0);
+        shape42_3.setRotationPoint(2.3F, 0.5F, 2.1F);
+        shape42_3.addBox(-1.0F, -2.0F, -1.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(shape42_3, -0.3490658503988659F, 0.296705972839036F, 0.296705972839036F);
+        shape7 = new ModelRenderer(this, 0, 0);
+        shape7.setRotationPoint(0.5F, 0.4F, 2.5F);
+        shape7.addBox(-1.0F, -6.0F, -1.0F, 2, 6, 2, 0.0F);
+        setRotateAngle(shape7, -0.08726646259971647F, 0.0F, 0.08726646259971647F);
+        shape5_1 = new ModelRenderer(this, 0, 0);
+        shape5_1.setRotationPoint(-2.5F, 0.0F, 0.0F);
+        shape5_1.addBox(-1.0F, 0.0F, -1.5F, 1, 1, 3, 0.0F);
+        shape39 = new ModelRenderer(this, 0, -1);
+        shape39.setRotationPoint(0.0F, 0.2F, -0.2F);
+        shape39.addBox(-1.5F, -3.0F, -1.5F, 3, 3, 3, 0.0F);
+        setRotateAngle(shape39, -0.05235987755982988F, -0.5235987755982988F, 0.05235987755982988F);
+        shape8 = new ModelRenderer(this, 0, 0);
+        shape8.setRotationPoint(-1.0F, -0.1F, 0.4F);
+        shape8.addBox(-1.0F, -4.0F, -0.5F, 1, 4, 1, 0.0F);
+        setRotateAngle(shape8, -0.20943951023931953F, 0.0F, -0.20943951023931953F);
+        shape42_2 = new ModelRenderer(this, 0, 0);
+        shape42_2.setRotationPoint(-1.3F, 0.3F, 2.5F);
+        shape42_2.addBox(0.0F, -2.0F, -1.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(shape42_2, -0.20943951023931953F, 0.2617993877991494F, -0.4886921905584123F);
+        shape40 = new ModelRenderer(this, 0, 0);
+        shape40.setRotationPoint(0.0F, -2.7F, 0.0F);
+        shape40.addBox(-1.0F, -6.0F, -1.0F, 2, 6, 2, 0.0F);
+        setRotateAngle(shape40, 0.06981317007977318F, -0.20943951023931953F, 0.0F);
+        shape7_1 = new ModelRenderer(this, 0, 0);
+        shape7_1.setRotationPoint(-2.5F, 0.4F, 0.5F);
+        shape7_1.addBox(-1.0F, -7.0F, -1.0F, 2, 7, 2, 0.0F);
+        setRotateAngle(shape7_1, 0.017453292519943295F, -1.5707963267948966F, -0.08726646259971647F);
         shape5 = new ModelRenderer(this, 0, 0);
-        shape5.addBox(-1F, -4F, -1F, 2, 4, 2);
-        shape5.setRotationPoint(0F, 24F, 0F);
-        shape5.setTextureSize(16, 16);
-        shape5.mirror = true;
-        setRotation(shape5, -0.0698132F, 0F, 0.5235988F);
-        shape6 = new ModelRenderer(this, 0, 0);
-        shape6.addBox(-1F, -3F, -1F, 2, 3, 2);
-        shape6.setRotationPoint(0F, 24F, 0F);
-        shape6.setTextureSize(16, 16);
-        shape6.mirror = true;
-        setRotation(shape6, -0.6806784F, 0F, -0.2268928F);
+        shape5.setRotationPoint(2.5F, 0.0F, 0.0F);
+        shape5.addBox(0.0F, 0.0F, -1.5F, 1, 1, 3, 0.0F);
+        shape7_3 = new ModelRenderer(this, 0, 0);
+        shape7_3.setRotationPoint(-0.5F, 0.4F, -2.5F);
+        shape7_3.addBox(-1.0F, -4.0F, -1.0F, 2, 4, 2, 0.0F);
+        setRotateAngle(shape7_3, -0.15707963267948966F, 3.141592653589793F, -0.08726646259971647F);
+        shape42 = new ModelRenderer(this, 0, 0);
+        shape42.setRotationPoint(-2.0F, 0.3F, -2.0F);
+        shape42.addBox(0.0F, -2.0F, 0.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(shape42, 0.03490658503988659F, -0.19198621771937624F, -0.3141592653589793F);
+        shape8_1 = new ModelRenderer(this, 0, 0);
+        shape8_1.setRotationPoint(-1.0F, -0.1F, 0.4F);
+        shape8_1.addBox(-1.0F, -4.0F, -0.5F, 1, 4, 1, 0.0F);
+        setRotateAngle(shape8_1, -0.20943951023931953F, 0.0F, -0.20943951023931953F);
+        shape8_2 = new ModelRenderer(this, 0, 0);
+        shape8_2.setRotationPoint(-1.0F, -0.1F, 0.4F);
+        shape8_2.addBox(-1.0F, -4.0F, -0.5F, 1, 4, 1, 0.0F);
+        setRotateAngle(shape8_2, -0.20943951023931953F, 0.0F, -0.20943951023931953F);
+        shape2_1 = new ModelRenderer(this, 0, 0);
+        shape2_1.setRotationPoint(0.0F, 0.0F, -2.5F);
+        shape2_1.addBox(-1.5F, 0.0F, -1.0F, 3, 1, 1, 0.0F);
+        shape42_1 = new ModelRenderer(this, 0, 0);
+        shape42_1.setRotationPoint(1.6F, 0.3F, -2.4F);
+        shape42_1.addBox(-1.0F, -2.0F, 0.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(shape42_1, 0.12217304763960307F, 0.19198621771937624F, 0.3141592653589793F);
+        shape1 = new ModelRenderer(this, 0, 0);
+        shape1.setRotationPoint(0.0F, 23.0F, 0.0F);
+        shape1.addBox(-2.5F, 0.0F, -2.5F, 5, 1, 5, 0.0F);
+        shape2 = new ModelRenderer(this, 0, 0);
+        shape2.setRotationPoint(0.0F, 0.0F, 2.5F);
+        shape2.addBox(-1.5F, 0.0F, 0.0F, 3, 1, 1, 0.0F);
+        shape8_3 = new ModelRenderer(this, 0, 0);
+        shape8_3.setRotationPoint(-1.0F, -0.1F, 0.4F);
+        shape8_3.addBox(-1.0F, -4.0F, -0.5F, 1, 4, 1, 0.0F);
+        setRotateAngle(shape8_3, -0.20943951023931953F, 0.0F, -0.20943951023931953F);
+        shape1.addChild(shape7_2);
+        shape1.addChild(shape42_3);
+        shape1.addChild(shape7);
+        shape1.addChild(shape5_1);
+        shape1.addChild(shape39);
+        shape7.addChild(shape8);
+        shape1.addChild(shape42_2);
+        shape39.addChild(shape40);
+        shape1.addChild(shape7_1);
+        shape1.addChild(shape5);
+        shape1.addChild(shape7_3);
+        shape1.addChild(shape42);
+        shape7_1.addChild(shape8_1);
+        shape7_2.addChild(shape8_2);
+        shape1.addChild(shape2_1);
+        shape1.addChild(shape42_1);
+        shape1.addChild(shape2);
+        shape7_3.addChild(shape8_3);
     }
-    
-    public void renderAll()
+
+    public void render()
     {
-        float f5 = 0.0625F;
-        shape1.render(f5);
-        shape2.render(f5);
-        shape3.render(f5);
-        shape4.render(f5);
-        shape5.render(f5);
-        shape6.render(f5);
+        shape1.render(0.0625F);
     }
-    
-    private void setRotation(ModelRenderer model, float x, float y, float z)
+
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
-    }
-    
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        super.setRotationAngles(f, f1, f2, f3, f4, f5, null);
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
     }
 }

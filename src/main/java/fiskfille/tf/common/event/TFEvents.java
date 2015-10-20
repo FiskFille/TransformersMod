@@ -15,7 +15,7 @@ public class TFEvents
     {
         registerEventHandler(new CommonEventHandler());
         registerEventHandler(new TFShootManager());
-        
+
         if (side.isClient())
         {
             registerEventHandler(new TickHandler());
@@ -23,7 +23,7 @@ public class TFEvents
             MinecraftForge.EVENT_BUS.register(new GuiOverlay(Minecraft.getMinecraft()));
         }
     }
-    
+
     private static void registerEventHandler(Object obj)
     {
         FMLCommonHandler.instance().bus().register(obj);

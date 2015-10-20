@@ -25,7 +25,6 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
-import scala.collection.script.Update;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
@@ -43,28 +42,29 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.web.donator.Donators;
+import fiskfille.tf.web.update.Update;
 
 public class CommonEventHandler
 {
     public static double prevMove;
-    
+
     private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
-    
-    private boolean downloadedDonators;
-    
+
+    private boolean displayedUpdates;
+
     private double lastX;
     private double lastY;
     private double lastZ;
-    
+
     private Map<EntityPlayer, Boolean> prevFlying = new HashMap<EntityPlayer, Boolean>();
-    
+
     @SubscribeEvent
     public void onTransform(PlayerTransformEvent event)
     {
         EntityPlayer player = event.entityPlayer;
-        
+
         Transformer transformer = event.transformer;
-        
+
         if (transformer != null ? transformer.canTransform(player) : true)
         {
             //            if (!event.transformed)
@@ -79,24 +79,25 @@ public class CommonEventHandler
             event.setCanceled(true);
         }
     }
-    
+
     @SubscribeEvent
     public void onHit(LivingAttackEvent event)
     {
         EntityLivingBase entityLiving = event.entityLiving;
         Entity cause = event.source.getEntity();
-        
+
         if (cause instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) cause;
-            
-            if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile())
+            Transformer transformer = TFHelper.getTransformer(player);
+
+            if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile() && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
             {
                 event.setCanceled(true);
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onSmelt(ItemSmeltedEvent event)
     {
@@ -105,7 +106,7 @@ public class CommonEventHandler
             event.player.addStat(TFAchievements.transformium, 1);
         }
     }
-    
+
     @SubscribeEvent
     public void onCraft(ItemCraftedEvent event)
     {
@@ -114,7 +115,7 @@ public class CommonEventHandler
             event.player.addStat(TFAchievements.tracks, 1);
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityLoad(EntityEvent.EntityConstructing event)
     {
@@ -123,21 +124,24 @@ public class CommonEventHandler
             event.entity.registerExtendedProperties(TFPlayerData.IDENTIFIER, new TFPlayerData());
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerBreakBlock(BlockEvent.BreakEvent event)
     {
-        if (TFDataManager.isInVehicleMode(event.getPlayer()))
+        EntityPlayer player = event.getPlayer();
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
         {
             event.setCanceled(true);
         }
     }
-    
+
     @SubscribeEvent
     public void startTracking(StartTracking event)
     {
         EntityPlayer player = event.entityPlayer;
-        
+
         if (player != null)
         {
             if (!player.worldObj.isRemote)
@@ -145,29 +149,32 @@ public class CommonEventHandler
                 if (event.target instanceof EntityPlayer)
                 {
                     EntityPlayer beingTracked = (EntityPlayer) event.target;
-                    
+
                     EntityPlayerMP playerMP = (EntityPlayerMP) player;
                     EntityPlayerMP beingTrackedMP = (EntityPlayerMP) beingTracked;
-                    
+
                     TFNetworkManager.networkWrapper.sendTo(new MessageBroadcastState(player), beingTrackedMP);
                     TFNetworkManager.networkWrapper.sendTo(new MessageBroadcastState(beingTracked), playerMP);
-                    
+
                     TFNetworkManager.networkWrapper.sendTo(new MessageSendFlying(beingTracked, beingTracked.capabilities.isFlying), playerMP);
                     TFNetworkManager.networkWrapper.sendTo(new MessageSendFlying(player, player.capabilities.isFlying), beingTrackedMP);
                 }
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {
-        if (TFDataManager.isInVehicleMode(event.entityPlayer))
+        EntityPlayer player = event.entityPlayer;
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
         {
             event.setCanceled(true);
         }
     }
-    
+
     @SubscribeEvent
     public void formatName(NameFormat event)
     {
@@ -176,18 +183,18 @@ public class CommonEventHandler
             event.displayname = EnumChatFormatting.BOLD + "" + EnumChatFormatting.GOLD + "[Donator] " + event.displayname;
         }
     }
-    
+
     @SubscribeEvent
     public void onSpawn(EntityJoinWorldEvent event)
     {
         Entity entity = event.entity;
         World world = entity.worldObj;
-        
+
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
             player.addStat(TFAchievements.transformersMod, 1);
-            
+
             if (!world.isRemote)
             {
                 Donators.loadDonators();
@@ -196,39 +203,72 @@ public class CommonEventHandler
             else
             {
                 boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-                
+
                 if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) //Should also move to ClientEventHandler
                 {
                     ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
                 }
-                
-                if (!downloadedDonators && TFConfig.checkForUpdates)
+
+                if (!displayedUpdates && TFConfig.checkForUpdates)
                 {
+                    Update update = TransformersMod.latestUpdate;
+
+                    if (update != null && update.isAvailable())
+                    {
+                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "TransformersMod version " + update.getVersion() + " is now available!"));
+                        player.addChatMessage(new ChatComponentText(""));
+                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "" + EnumChatFormatting.BOLD + "What's New: "));
+
+                        String[] updates = update.getUpdateLog().split(Pattern.quote("(newline)"));
+
+                        for (String updatePart : updates)
+                        {
+                            EnumChatFormatting colour = EnumChatFormatting.RED;
+
+                            if (updatePart.trim().startsWith("*"))
+                            {
+                                colour = EnumChatFormatting.GOLD;
+                            }
+                            else if (updatePart.trim().startsWith("+"))
+                            {
+                                colour = EnumChatFormatting.GREEN;
+                            }
+                            else if (updatePart.trim().startsWith("-"))
+                            {
+                                colour = EnumChatFormatting.RED;
+                            }
+
+                            player.addChatMessage(new ChatComponentText(colour + updatePart));
+                        }
+
+                        player.addChatMessage(new ChatComponentText(""));
+                    }
+
                     if (Donators.isDonator(player))
                     {
                         player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("misc.donate.thanks") + Donators.getDonationAmount(player).toString().replaceAll(Pattern.quote("$"), "") + "!"));
                         player.addStat(TFAchievements.donate, 1);
                     }
-                    
-                    downloadedDonators = true;
+
+                    displayedUpdates = true;
                 }
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onLivingJump(LivingEvent.LivingJumpEvent event)
     {
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-            
+
             Transformer transformer = TFHelper.getTransformer(player);
-            
+
             if (transformer != null)
             {
                 transformer.onJump(player);
-                
+
                 if (!transformer.canJumpAsVehicle(player) && TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
                 {
                     player.motionY = 0D;
@@ -236,25 +276,25 @@ public class CommonEventHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent event)
     {
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-            
+
             Transformer transformer = TFHelper.getTransformer(player);
-            
+
             float yOffset = transformer != null ? transformer.getCameraYOffset(player) : 0;
-            
+
             boolean vehicleMode = TFDataManager.isInVehicleMode(player);
-            
+
             if (transformer != null)
             {
                 transformer.tick(player, TFDataManager.getTransformationTimer(player));
             }
-            
+
             if (player.worldObj.isRemote)
             {
                 if (player == Minecraft.getMinecraft().thePlayer)
@@ -262,7 +302,7 @@ public class CommonEventHandler
                     if (!vehicleMode)
                     {
                         float defaultEyeHeight = player.getDefaultEyeHeight();
-                        
+
                         if (player.eyeHeight != defaultEyeHeight)
                         {
                             player.eyeHeight = defaultEyeHeight;
@@ -279,15 +319,15 @@ public class CommonEventHandler
                 if (player.capabilities != null)
                 {
                     Boolean isFlying = prevFlying.get(player);
-                    
+
                     boolean capabilitiesFlying = player.capabilities.isFlying;
-                    
+
                     if (isFlying != null)
                     {
                         if (isFlying != capabilitiesFlying)
                         {
                             TFNetworkManager.networkWrapper.sendToDimension(new MessageSendFlying(player, capabilitiesFlying), player.dimension);
-                            
+
                             prevFlying.put(player, capabilitiesFlying);
                         }
                     }
@@ -298,11 +338,11 @@ public class CommonEventHandler
                     }
                 }
             }
-            
+
             // TODO-TF: Re-implement player resizing for version 0.6
             //			try 
             //			{
-            //				if (vehicleMode && yOffset != 0)
+                //				if (vehicleMode && yOffset != 0)
             //				{
             //					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
             //				}
@@ -323,7 +363,7 @@ public class CommonEventHandler
             //			{
             //				e.printStackTrace();
             //			}
-            
+
             if (!player.worldObj.isRemote)
             {
                 if (playersNotSunc.size() > 0 && playersNotSunc.contains(player))
@@ -334,19 +374,19 @@ public class CommonEventHandler
             }
             else if (TransformersMod.proxy.getPlayer() == player) //Should put this in ClientEventHandler
             {
-                double diffX = (player.posX - lastX);
-                double diffY = (player.posY - lastY);
-                double diffZ = (player.posZ - lastZ);
-                
-                double blocksMoved = Math.sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
-                
-                GuiOverlay.speed = (double) (blocksMoved / 50) * 60 * 60; //50 seems to be the average milliseconds between ticks
-                
+                double diffX = player.posX - lastX;
+                double diffY = player.posY - lastY;
+                double diffZ = player.posZ - lastZ;
+
+                double blocksMoved = Math.sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+
+                GuiOverlay.speed = blocksMoved / 50 * 60 * 60; //50 seems to be the average milliseconds between ticks
+
                 lastX = player.posX;
                 lastY = player.posY;
                 lastZ = player.posZ;
             }
-            
+
             if (!(TFDataManager.getTransformationTimer(player) <= 20))
             {
                 lastX = player.posX;
@@ -355,20 +395,20 @@ public class CommonEventHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onLivingFall(LivingFallEvent event)
     {
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-            
+
             Transformer transformer = TFHelper.getTransformer(player);
-            
+
             if (transformer != null)
             {
                 float newDist = transformer.fall(player, event.distance);
-                
+
                 if (newDist <= 0)
                 {
                     event.setCanceled(true);

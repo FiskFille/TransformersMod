@@ -10,7 +10,7 @@ public class ItemSubwooferArmor extends ItemTransformerArmor
     {
         super(TFItems.SUBWOOFERMATERIAL, 4, armorPiece);
     }
-    
+
     @Override
     public Transformer getTransformer()
     {

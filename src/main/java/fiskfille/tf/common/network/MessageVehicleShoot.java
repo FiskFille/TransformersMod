@@ -20,27 +20,27 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageVehicleShoot implements IMessage
 {
     public int id;
-    
+
     public MessageVehicleShoot()
     {
-        
+
     }
-    
+
     public MessageVehicleShoot(EntityPlayer player)
     {
         id = player.getEntityId();
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageVehicleShoot, IMessage>
     {
         public IMessage onMessage(MessageVehicleShoot message, MessageContext ctx)
@@ -49,20 +49,20 @@ public class MessageVehicleShoot implements IMessage
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity fromEntity = player.worldObj.getEntityByID(message.id);
-                
+
                 if (fromEntity instanceof EntityPlayer)
                 {
                     EntityPlayer from = (EntityPlayer) fromEntity;
-                    
+
                     Transformer transformer = TFHelper.getTransformer(from);
-                    
+
                     if (transformer != null)
                     {
                         String shootSound = transformer.getShootSound();
-                        
+
                         if (shootSound != null)
                         {
-                            from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
+                            from.worldObj.playSound(from.posX, from.posY - from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
                         }
                     }
                 }
@@ -70,7 +70,7 @@ public class MessageVehicleShoot implements IMessage
             else
             {
                 EntityPlayer from = null;
-                
+
                 for (World world : MinecraftServer.getServer().worldServers)
                 {
                     Entity entity = world.getEntityByID(message.id);
@@ -80,11 +80,11 @@ public class MessageVehicleShoot implements IMessage
                         break;
                     }
                 }
-                
+
                 if (from != null)
                 {
                     Transformer transformer = TFHelper.getTransformer(from);
-                    
+
                     if (transformer != null)
                     {
                         if (transformer.canShoot(from) && TFDataManager.isInVehicleMode(from))
@@ -92,32 +92,32 @@ public class MessageVehicleShoot implements IMessage
                             Item shootItem = transformer.getShootItem();
                             boolean isCreative = from.capabilities.isCreativeMode;
                             boolean hasAmmo = isCreative || from.inventory.hasItem(shootItem);
-                            
+
                             if (hasAmmo)
                             {
                                 World world = from.worldObj;
-                                
+
                                 if (transformer.getShootSound() != null)
                                 {
                                     TFNetworkManager.networkWrapper.sendToAllAround(new MessageVehicleShoot(from), new TargetPoint(from.dimension, from.posX, from.posY, from.posZ, 32));
                                 }
-                                
+
                                 Entity entity = transformer.getShootEntity(from);
                                 entity.posY--;
                                 world.spawnEntityInWorld(entity);
-                                
+
                                 if (!isCreative)
                                 {
                                     from.inventory.consumeInventoryItem(shootItem);
                                 }
-                                
+
                                 from.addStat(TFAchievements.firstMissile, 1);
                             }
                         }
                     }
                 }
             }
-            
+
             return null;
         }
     }
