@@ -40,7 +40,7 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
         float[] rgb = TFHelper.hexToRGB(energon.getColor());
-        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
+        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.75F);
 
         char c0 = 61680;
         int j = c0 % 65536;
