@@ -1,5 +1,7 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import fiskfille.tf.TransformersAPI;
@@ -42,7 +45,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
     public float animationTimer;
     public int animationBurnTime;
     
-    public HashMap<String, Integer> energonContentMap = Maps.newHashMap();
+    public Map<String, Integer> energonContentMap = Maps.newTreeMap();
     public int liquidColor = 0xffffff;
     
     public void updateEntity()
@@ -85,22 +88,34 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
             
             if (powerTime > 0 && canBurnCrystal(crystal))
             {
-                if (burnTime < 200)
-                {
-                    ++burnTime;
-                }
-                else if (burnTime >= 200)
+            	if (burnTime < 200)
+            	{
+            		++burnTime;
+            	}
+            	else if (burnTime >= 200)
                 {
                     IEnergon ienergon = (IEnergon)(crystal.getItem() instanceof ItemBlock ? Block.getBlockFromItem(crystal.getItem()) : crystal.getItem());
                     
-                    if (liquidColor == 0xffffff)
-                    {
-                        liquidColor = ienergon.getEnergonType().getColor();
-                    }
-
                     int num = energonContentMap.get(ienergon.getEnergonType().getId()) == null ? 0 : energonContentMap.get(ienergon.getEnergonType().getId());
                     energonContentMap.put(ienergon.getEnergonType().getId(), num + ienergon.getMass());
                     liquidAmount += ienergon.getMass();
+                    liquidColor = 0xffffff;
+                    
+                    ArrayList<String> list = Lists.newArrayList();
+
+                    for (Map.Entry<String, Integer> e : energonContentMap.entrySet())
+                    {
+                    	list.add(e.getKey() + ": " + e.getValue());
+                    }
+                    
+                    Collections.sort(list);
+                    energonContentMap.clear();
+                    
+                    for (String s : list)
+                    {
+                    	String[] astring = s.split(": ");
+                    	energonContentMap.put(astring[0], Integer.valueOf(astring[1]));
+                    }
                     
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     burnTime = 0;
@@ -115,11 +130,11 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
             
             if (liquidAmount > 0 && canister != null && canister.getItem() == TFItems.emptyFuelCanister && ItemFuelCanister.getContents(canister).isEmpty())
             {
-                if (fillTime < 100)
-                {
-                    ++fillTime;
-                }
-                else if (fillTime >= 100)
+            	if (fillTime < 100)
+            	{
+            		++fillTime;
+            	}
+            	else if (fillTime >= 100)
                 {
                     ItemStack itemstack = new ItemStack(TFItems.filledFuelCanister);
                     itemstack.setTagCompound(canister.getTagCompound());

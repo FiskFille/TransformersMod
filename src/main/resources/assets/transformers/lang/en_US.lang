@@ -80,6 +80,8 @@ gui.display_pillar.name=Display Pillar
 gui.display_station=Transformer Display Station
 gui.display_station.transform=Transform
 gui.energon_processor=Energon Processor
+recipe.energonProcessor=Energon Processor
+recipe.powerSource=Power Source
 
 ------Achievements------
 achievement.tf.shoot_missile=Directed by Michael Bay

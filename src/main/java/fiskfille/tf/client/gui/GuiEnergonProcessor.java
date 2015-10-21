@@ -83,7 +83,7 @@ public class GuiEnergonProcessor extends GuiContainer
         }
     }
     
-    protected void drawHoveringText(List text, List colors, int x, int y, FontRenderer font)
+    public void drawHoveringText(List text, List colors, int x, int y, FontRenderer font)
     {
         if (!text.isEmpty())
         {
@@ -194,7 +194,6 @@ public class GuiEnergonProcessor extends GuiContainer
         int textureX = (t % 16) / 5 * 26;
         int textureY = (t % 4) * 26;
 
-
         mc.getTextureManager().bindTexture(energonTextures);
         float[] rgb = TFHelper.hexToRGB(tileentity.liquidColor);
         int offsetY = (int)(tileentity.liquidAmount * 0.26F);
@@ -206,8 +205,6 @@ public class GuiEnergonProcessor extends GuiContainer
         drawTexturedModalRect((int)((k + 77) / scale), (int)((l + 17) / scale) + 26 - offsetY, textureX, textureY, 26, offsetY);
         GL11.glColor4f(1, 1, 1, 1);
         GL11.glPopMatrix();
-        
-        
         
         mc.getTextureManager().bindTexture(guiTextures);
         drawTexturedModalRect(k + 77, l + 17, 204, 52, 52, 52);

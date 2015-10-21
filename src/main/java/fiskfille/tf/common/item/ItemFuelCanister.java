@@ -1,6 +1,5 @@
 package fiskfille.tf.common.item;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,11 +87,11 @@ public class ItemFuelCanister extends Item
         }
     }
     
-    public static HashMap<String, Integer> getContents(ItemStack itemstack)
+    public static Map<String, Integer> getContents(ItemStack itemstack)
     {
         refreshNBT(itemstack);
         Map map = readMapFromString(itemstack.getTagCompound().getString("Contents"));
-        return (HashMap<String, Integer>)(map == null ? Maps.newHashMap() : map);
+        return (Map<String, Integer>)(map == null ? Maps.newHashMap() : map);
     }
     
     public static Map readMapFromString(String mapString)
