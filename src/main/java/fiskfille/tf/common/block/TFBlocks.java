@@ -27,6 +27,7 @@ public class TFBlocks
     public static Block energonProcessor;
     public static Block groundBridgeFrame;
     public static BlockGroundBridgeTeleporter groundBridgeTeleporter;
+    public static Block assemblyTable;
 
     public void register()
     {
@@ -43,6 +44,7 @@ public class TFBlocks
         energonProcessor = new BlockEnergonProcessor();
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
+        assemblyTable = new BlockAssemblyTable();
         
 
         String modId = TransformersMod.modid;
@@ -59,6 +61,8 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class, modId);
         TFBlockRegistry.registerBlock(groundBridgeFrame, "Ground Bridge Frame", modId);
         TFBlockRegistry.registerBlock(groundBridgeTeleporter, "Ground Bridge Teleporter", modId);
+        TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table", modId);
+        
         groundBridgeTeleporter.setCreativeTab(null);
     }
 }

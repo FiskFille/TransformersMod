@@ -1,5 +1,6 @@
 package fiskfille.tf.common.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -33,6 +34,7 @@ public class TFItems
     public static Item carWheel;
     public static Item emptyFuelCanister;
     public static Item filledFuelCanister;
+    public static Item dye;
 
     public static Item skystrikesCrossbow;
     public static Item purgesKatana;
@@ -90,6 +92,7 @@ public class TFItems
         smallThruster = new Item();
         emptyFuelCanister = new Item();
         filledFuelCanister = new ItemFuelCanister();
+        dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye");
 
         skystrikesCrossbow = new ItemSkystrikesCrossbow();
         purgesKatana = new ItemPurgesKatana();
@@ -148,6 +151,8 @@ public class TFItems
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector", modId);
         TFItemRegistry.registerItem(emptyFuelCanister, "Empty Fuel Canister", modId);
         TFItemRegistry.registerItemNoTab(filledFuelCanister, "Fuel Canister", modId);
+        TFItemRegistry.registerIngot(dye, "Dye", modId, "dye");
+        dye.setCreativeTab(CreativeTabs.tabMaterials);
 
         TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow", modId);
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);

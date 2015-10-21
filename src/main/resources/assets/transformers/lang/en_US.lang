@@ -19,6 +19,8 @@ item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
 item.empty_fuel_canister.name=Empty Fuel Canister
 item.fuel_canister.name=Fuel Canister
+item.dark_red_dye.name=Dark Red Dye
+item.beige_dye.name=Beige Dye
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head
@@ -68,6 +70,7 @@ tile.block_of_transformium.name=Block of Transformium
 tile.cosmic_rust.name=Cosmic Rust
 tile.transformer_display_station.name=Transformer Display Station
 tile.energon_processor.name=Energon Processor
+tile.transformer_assembly_table=Transformer Assembly Table
 
 -----Tab------
 itemGroup.Transformers=Transformers
@@ -80,8 +83,10 @@ gui.display_pillar.name=Display Pillar
 gui.display_station=Transformer Display Station
 gui.display_station.transform=Transform
 gui.energon_processor=Energon Processor
+gui.assembly_table=Transformer Assembly Table
 recipe.energonProcessor=Energon Processor
 recipe.powerSource=Power Source
+recipe.assembly_table=Assembly Table
 
 ------Achievements------
 achievement.tf.shoot_missile=Directed by Michael Bay

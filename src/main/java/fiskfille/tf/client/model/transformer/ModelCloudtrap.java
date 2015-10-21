@@ -1893,6 +1893,12 @@ public class ModelCloudtrap extends MowzieModelBase
             {
                 globalDegree = 1.5F;
                 globalSpeed = 1.3F;
+                
+                if (player.capabilities.isFlying)
+                {
+                	globalDegree = 0.6F;
+                    globalSpeed = 0.9F;
+                }
             }
 
             if (isRiding)

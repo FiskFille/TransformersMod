@@ -75,7 +75,7 @@ public class ContainerDisplayStation extends ContainerBasic
         return true;
     }
     
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot)inventorySlots.get(slotId);
@@ -174,7 +174,7 @@ public class ContainerDisplayStation extends ContainerBasic
                 return null;
             }
 
-            slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+            slot.onPickupFromSlot(player, itemstack1);
         }
         
         return itemstack;

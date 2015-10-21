@@ -185,7 +185,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 					recipe.energonContentMap.putAll(ingredients);
 					recipe.energonContentMap.put(id, recipe.energonContentMap.get(id) - mass);
 					
-					if (recipe.energonContentMap.get(id) == 0)
+					if (recipe.energonContentMap.get(id) <= 0)
 					{
 						recipe.energonContentMap.remove(id);
 					}
@@ -242,6 +242,8 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 			result.getTagCompound().setString("Contents", recipe.energonContentMap.toString());
 			ItemFuelCanister.setLiquidColor(result, recipe.liquidColor);
 			recipe.result.item = result;
+			recipe.energonContentMap.clear();
+			recipe.liquidColor = 0xffffff;
 			
 			recipe.computeVisuals();
 			arecipes.add(recipe);

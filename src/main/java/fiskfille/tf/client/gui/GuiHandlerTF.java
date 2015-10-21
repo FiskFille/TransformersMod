@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.container.ContainerAssemblyTable;
 import fiskfille.tf.common.container.ContainerDisplayStation;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
@@ -20,6 +21,7 @@ public class GuiHandlerTF implements IGuiHandler
         {
         	case 0: return world.getBlock(x, y, z) == TFBlocks.displayStation ? new ContainerDisplayStation(player.inventory, (TileEntityDisplayStation)tileEntity) : null;
         	case 1: return world.getBlock(x, y, z) == TFBlocks.energonProcessor ? new ContainerEnergonProcessor(player.inventory, (TileEntityEnergonProcessor)tileEntity) : null;
+        	case 2: return world.getBlock(x, y, z) == TFBlocks.assemblyTable ? new ContainerAssemblyTable(player.inventory, world, x, y, z) : null;
         }
         
         return null;
@@ -33,6 +35,7 @@ public class GuiHandlerTF implements IGuiHandler
         {
         	case 0: return world.getBlock(x, y, z) == TFBlocks.displayStation ? new GuiDisplayStation(player.inventory, (TileEntityDisplayStation)tileEntity) : null;
         	case 1: return world.getBlock(x, y, z) == TFBlocks.energonProcessor ? new GuiEnergonProcessor(player.inventory, (TileEntityEnergonProcessor)tileEntity) : null;
+        	case 2: return world.getBlock(x, y, z) == TFBlocks.assemblyTable ? new GuiAssemblyTable(player.inventory, world, x, y, z) : null;
         }
         
         return null;
