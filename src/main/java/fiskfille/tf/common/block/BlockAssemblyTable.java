@@ -1,12 +1,16 @@
 package fiskfille.tf.common.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 
-public class BlockAssemblyTable extends BlockBasic
+public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvider
 {
     public BlockAssemblyTable()
     {
@@ -15,7 +19,8 @@ public class BlockAssemblyTable extends BlockBasic
         setStepSound(Block.soundTypeMetal);
         setHardness(6.0F);
         setResistance(10.0F);
-        setLightLevel(0.75F);
+        setLightLevel(0.5F);
+        setBlockBounds(0, 0, 0, 1, 0.0625F * 13, 1);
     }
     
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
@@ -29,5 +34,35 @@ public class BlockAssemblyTable extends BlockBasic
         {
             return false;
         }
+    }
+    
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    public int getRenderType()
+    {
+        return -1;
+    }
+
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    public boolean hasTileEntity()
+    {
+        return true;
+    }
+
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
+        return new TileEntityAssemblyTable();
+    }
+    
+    public void registerBlockIcons(IIconRegister par1IIconRegister)
+    {
+    	blockIcon = par1IIconRegister.registerIcon("iron_block");
     }
 }

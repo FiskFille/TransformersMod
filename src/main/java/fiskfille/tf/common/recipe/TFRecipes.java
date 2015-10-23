@@ -117,6 +117,6 @@ public class TFRecipes
     	AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapHelmet, 1),  new Object[] {"bIII ", "ITTTI", " T T ", "I   I", " BGB ", 'b', new ItemStack(Items.dye, 3, 0), 'y', new ItemStack(Items.dye, 2, 11), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 5), 'B', Blocks.iron_block});
     	AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapChestplate, 1),  new Object[] {"gI Ip", "WT TW", "ITTTI", "ITTTB", "  C  ", 'g', new ItemStack(Items.dye, 7, 7), 'p', new ItemStack(Items.dye, 1, 5), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'W', TFItems.t50JetWing, 'C', TFItems.t50JetCockpit});
     	AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapLeggings, 1),  new Object[] {"gIII ", " TTT ", "IT TI", "IT TI", "     ", 'g', new ItemStack(Items.dye, 6, 7), 'T', TFItems.transformium, 'I', Items.iron_ingot});
-    	AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapBoots, 1),  new Object[] {"g   g", " T T ", " T T ", "     ", " J J ", 'g', new ItemStack(Items.dye, 3, 7), 'T', TFItems.transformium, 'J', TFItems.jetThruster});
+    	AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapBoots, 1),  new Object[] {"g    ", " T T ", " T T ", "     ", " J J ", 'g', new ItemStack(Items.dye, 3, 7), 'T', TFItems.transformium, 'J', TFItems.jetThruster});
     }
 }
