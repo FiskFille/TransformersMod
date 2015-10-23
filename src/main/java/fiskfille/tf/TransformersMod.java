@@ -59,7 +59,7 @@ public class TransformersMod
     {
         try
         {
-            WebHelper.readPastebin("LMH9PfAm");
+            WebHelper.readPastebin("Kyct1Dvz");
         }
         catch (Exception e)
         {

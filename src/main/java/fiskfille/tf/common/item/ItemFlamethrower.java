@@ -25,7 +25,8 @@ public class ItemFlamethrower extends Item
     {
         super();
         setMaxDamage(1500);
-        setCreativeTab(null);
+        setMaxStackSize(1);
+        setFull3D();
     }
 
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)

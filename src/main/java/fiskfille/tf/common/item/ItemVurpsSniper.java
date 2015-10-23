@@ -17,6 +17,8 @@ public class ItemVurpsSniper extends Item
     {
         super();
         setMaxDamage(800);
+        setMaxStackSize(1);
+        setFull3D();
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
