@@ -21,6 +21,8 @@ public class ItemBassBlaster extends Item
     {
         super();
         setMaxDamage(1500);
+        setMaxStackSize(1);
+        setFull3D();
     }
 
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)

@@ -26,6 +26,8 @@ public class ItemSkystrikesCrossbow extends Item
     {
         super();
         setMaxDamage(1500);
+        setMaxStackSize(1);
+        setFull3D();
     }
 
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean b)

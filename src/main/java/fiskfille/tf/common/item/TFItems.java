@@ -87,9 +87,9 @@ public class TFItems
         tankTracks = new Item();
         tankTurret = new Item();
         carWheel = new Item();
-        t50JetCockpit = new Item().setCreativeTab(null);
-        t50JetWing = new Item().setCreativeTab(null);
-        jetThruster = new Item().setCreativeTab(null);
+        t50JetCockpit = new Item();
+        t50JetWing = new Item();
+        jetThruster = new Item();
         smallThruster = new Item();
         emptyFuelCanister = new Item();
         filledFuelCanister = new ItemFuelCanister();
