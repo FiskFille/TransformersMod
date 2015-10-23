@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.ItemVurpsSniper;
@@ -19,7 +20,7 @@ import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
-public class ModelVurp extends MowzieModelBase
+public class ModelVurp extends ModelTransformerBase
 {
     public MowzieModelRenderer vehicleBase;
     public MowzieModelRenderer vehicleWaist1;
@@ -842,12 +843,8 @@ public class ModelVurp extends MowzieModelBase
         vehicleLowerlegR1.addChild(vehicleLowerlegR4);
         vehicleLowerlegR1.addChild(vehicleWheelBackR);
         vehicleLowerarmL1.addChild(vehicleLowerarmL2);
-    }
-
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+        
+        
         float scale = 1.25F;
         vehicleWheelR.setScale(1, scale, scale);
         vehicleWheelL.setScale(1, scale, scale);
@@ -858,41 +855,87 @@ public class ModelVurp extends MowzieModelBase
         shoulderpadL.setScale(scale, scale, scale);
         lowerlegR6.setScale(scale, scale, scale);
         lowerlegL6.setScale(scale, scale, scale);
-
-        if (entity instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerVurp;
-            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerVurp;
-            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerVurp;
-
-            if (TFDataManager.getTransformationTimer(player) == 0)
-            {
-                vehicleBase.render(f5);
-            }
-            else
-            {
-                if (!wearingChest)
-                {
-                    if (wearingHead)
-                    {
-                        head.render(f5);
-                    }
-
-                    if (wearingLegs)
-                    {
-                        upperLegL.render(f5);
-                        upperLegR.render(f5);
-                    }
-                }
-                else
-                {
-                    waist.render(f5);
-                }
-            }
-        }
     }
+
+//    @Override
+//    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+//    {
+//        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+//        float scale = 1.25F;
+//        vehicleWheelR.setScale(1, scale, scale);
+//        vehicleWheelL.setScale(1, scale, scale);
+//        vehicleWheelBackR.setScale(1, scale, scale);
+//        vehicleWheelBackL.setScale(1, scale, scale);
+//
+//        shoulderpadR.setScale(scale, scale, scale);
+//        shoulderpadL.setScale(scale, scale, scale);
+//        lowerlegR6.setScale(scale, scale, scale);
+//        lowerlegL6.setScale(scale, scale, scale);
+//
+//        if (entity instanceof EntityPlayer)
+//        {
+//            EntityPlayer player = (EntityPlayer) entity;
+//
+//            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerVurp;
+//            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerVurp;
+//            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerVurp;
+//
+//            if (TFDataManager.getTransformationTimer(player) == 0)
+//            {
+//                vehicleBase.render(f5);
+//            }
+//            else
+//            {
+//                if (!wearingChest)
+//                {
+//                    if (wearingHead)
+//                    {
+//                        head.render(f5);
+//                    }
+//
+//                    if (wearingLegs)
+//                    {
+//                        upperLegL.render(f5);
+//                        upperLegR.render(f5);
+//                    }
+//                }
+//                else
+//                {
+//                    waist.render(f5);
+//                }
+//            }
+//        }
+//    }
+    
+    public Transformer getTransformer()
+	{
+		return TransformerManager.transformerVurp;
+	}
+	
+	public ModelRenderer getWaist()
+	{
+		return waist;
+	}
+	
+	public ModelRenderer getVehicle()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getRightLeg()
+	{
+		return upperLegR;
+	}
+	
+	public ModelRenderer getLeftLeg()
+	{
+		return upperLegL;
+	}
+	
+	public ModelRenderer getHead()
+	{
+		return head;
+	}
 
     @Override
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)

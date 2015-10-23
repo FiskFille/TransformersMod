@@ -21,6 +21,7 @@ item.empty_fuel_canister.name=Empty Fuel Canister
 item.fuel_canister.name=Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
+item.color_component.name=Customization Component
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head
@@ -82,6 +83,11 @@ stats.laser_charge.name=Laser Charge
 gui.display_pillar.name=Display Pillar
 gui.display_station=Transformer Display Station
 gui.display_station.transform=Transform
+gui.display_station.color=Customize
+gui.display_station.color.red=Red
+gui.display_station.color.green=Green
+gui.display_station.color.blue=Blue
+gui.display_station.color.presets=Presets
 gui.energon_processor=Energon Processor
 gui.assembly_table=Transformer Assembly Table
 recipe.energonProcessor=Energon Processor

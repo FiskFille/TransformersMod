@@ -9,6 +9,7 @@ import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 
+import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
@@ -21,7 +22,7 @@ import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
-public class ModelCloudtrap extends MowzieModelBase
+public class ModelCloudtrap extends ModelTransformerBase
 {
     public MowzieModelRenderer waist;
     public MowzieModelRenderer torsoConnector;
@@ -1764,54 +1765,96 @@ public class ModelCloudtrap extends MowzieModelBase
         setInitPose();
     }
 
+//    @Override
+//    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+//    { 
+//        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+//
+//        GL11.glPushMatrix();
+//
+//        float scale = 1.1F;
+//        GL11.glScalef(scale, scale, scale);
+//        GL11.glTranslatef(0, -scale * 0.0625F, 0);
+//
+//        if (entity instanceof EntityPlayer)
+//        {
+//            EntityPlayer player = (EntityPlayer) entity;
+//
+//            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerCloudtrap;
+//            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerCloudtrap;
+//            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerCloudtrap;
+//
+//            if (TFDataManager.getTransformationTimer(player) == 0)
+//            {
+//                vehicleBody.render(f5);
+//            }
+//            else
+//            {
+//                if (!wearingChest)
+//                {
+//                    if (wearingHead)
+//                    {
+//                        head.render(f5);
+//                    }
+//
+//                    if (wearingLegs)
+//                    {
+//                        upperLegL.render(f5);
+//                        upperLegR.render(f5);
+//                    }
+//                }
+//                else
+//                {
+//                    waist.render(f5);
+//                }
+//            }
+//        }
+//
+//        GL11.glPopMatrix();
+//    }
+    
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    { 
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    {
+    	GL11.glPushMatrix();
 
-        GL11.glPushMatrix();
-
-        float scale = 1.1F;
-
-        GL11.glScalef(scale, scale, scale);
-        GL11.glTranslatef(0, -scale * 0.0625F, 0);
-
-        if (entity instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerCloudtrap;
-            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerCloudtrap;
-            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerCloudtrap;
-
-            if (TFDataManager.getTransformationTimer(player) == 0)
-            {
-                vehicleBody.render(f5);
-            }
-            else
-            {
-                if (!wearingChest)
-                {
-                    if (wearingHead)
-                    {
-                        head.render(f5);
-                    }
-
-                    if (wearingLegs)
-                    {
-                        upperLegL.render(f5);
-                        upperLegR.render(f5);
-                    }
-                }
-                else
-                {
-                    waist.render(f5);
-                }
-            }
-        }
-
-        GL11.glPopMatrix();
+    	float scale = 1.1F;
+    	GL11.glScalef(scale, scale, scale);
+    	GL11.glTranslatef(0, -scale * 0.0625F, 0);
+    	
+    	super.render(entity, f, f1, f2, f3, f4, f5);
+    	GL11.glPopMatrix();
     }
+    
+    public Transformer getTransformer()
+	{
+		return TransformerManager.transformerCloudtrap;
+	}
+	
+	public ModelRenderer getWaist()
+	{
+		return waist;
+	}
+	
+	public ModelRenderer getVehicle()
+	{
+		return vehicleBody;
+	}
+	
+	public ModelRenderer getRightLeg()
+	{
+		return upperLegR;
+	}
+	
+	public ModelRenderer getLeftLeg()
+	{
+		return upperLegL;
+	}
+	
+	public ModelRenderer getHead()
+	{
+		return head;
+	}
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float rotation, float rotationYaw, float rotationPitch, float partialTicks, Entity entity)

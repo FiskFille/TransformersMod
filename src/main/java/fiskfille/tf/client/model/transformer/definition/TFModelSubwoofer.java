@@ -93,4 +93,10 @@ public class TFModelSubwoofer extends TransformerModel
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/subwoofer/subwoofer.png");
     }
+    
+    @Override
+    public String getTextureDir()
+	{
+		return "subwoofer/subwoofer";
+	}
 }

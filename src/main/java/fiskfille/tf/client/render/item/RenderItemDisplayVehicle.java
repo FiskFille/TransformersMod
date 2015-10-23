@@ -52,7 +52,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 1.0F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.render();
+            vehicleModel.renderBase(item);
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.EQUIPPED)
@@ -65,7 +65,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 0.7F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.render();
+            vehicleModel.renderBase(item);
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.INVENTORY)
@@ -78,7 +78,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 1.0F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.render();
+            vehicleModel.renderBase(item);
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.ENTITY)
@@ -91,7 +91,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 0.5F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.render();
+            vehicleModel.renderBase(item);
             GL11.glPopMatrix();
         }
     }

@@ -84,4 +84,10 @@ public class TFModelSkystrike extends TransformerModel
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/skystrike/skystrike.png");
     }
+    
+    @Override
+    public String getTextureDir()
+	{
+		return "skystrike/skystrike";
+	}
 }

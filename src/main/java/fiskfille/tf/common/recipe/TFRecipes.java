@@ -3,6 +3,7 @@ package fiskfille.tf.common.recipe;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.block.TFBlocks;
@@ -73,6 +74,7 @@ public class TFRecipes
     {
         GameRegistry.addRecipe(new ItemStack(TFBlocks.displayPillar, 1), new Object[] {" - ", "SWS", '-', Blocks.stone_slab, 'S', Blocks.stone, 'W', Blocks.cobblestone_wall});
         GameRegistry.addRecipe(new ItemStack(TFBlocks.displayStation, 1), new Object[] {" L ", " I ", "-I-", '-', new ItemStack(Blocks.stone_slab, 1, 0), 'I', Items.iron_ingot, 'L', Blocks.redstone_lamp});
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFItems.colorComponent, new Object[] {"DDD", "DID", "DDD", 'D', "dye", 'I', Items.iron_ingot}));
         GameRegistry.addRecipe(new RecipesDisplayItems());
 
         int i = 0;

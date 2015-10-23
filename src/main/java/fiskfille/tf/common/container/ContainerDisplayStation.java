@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.component.IComponent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 
@@ -24,7 +25,7 @@ public class ContainerDisplayStation extends ContainerBasic
         for (int i = 0; i < 4; ++i)
         {
             final int k = i;
-            addSlotToContainer(new Slot(tile, i, 49, 18 + i * 18)
+            addSlotToContainer(new Slot(tile, i, 13, 18 + i * 18)
             {
                 public int getSlotStackLimit()
                 {
@@ -49,7 +50,9 @@ public class ContainerDisplayStation extends ContainerBasic
             });
         }
         
-        addSlotToContainer(new Slot(tile, 4, 111, 45)
+        addSlotToContainer(new SlotComponent(tile, 4, 147, 18));
+        addSlotToContainer(new SlotComponent(tile, 5, 147, 36));
+        addSlotToContainer(new Slot(tile, 6, 75, 45)
         {
             public int getSlotStackLimit()
             {
@@ -83,7 +86,9 @@ public class ContainerDisplayStation extends ContainerBasic
         int CHEST = 1;
         int LEGS = 2;
         int FEET = 3;
-        int VEHICLE = 4;
+        int COMPONENT1 = 4;
+        int COMPONENT2 = 5;
+        int VEHICLE = 6;
 
         if (slot != null && slot.getHasStack())
         {
@@ -139,6 +144,16 @@ public class ContainerDisplayStation extends ContainerBasic
                     {
                         return null;
                     }
+                }
+                else if (itemstack1.getItem() instanceof IComponent)
+                {
+                	if (!mergeItemStack(itemstack1, COMPONENT1, COMPONENT1 + 1, false))
+                	{
+                		if (!mergeItemStack(itemstack1, COMPONENT2, COMPONENT2 + 1, false))
+                		{
+                			return null;
+                		}
+                	}
                 }
                 else if (slotId >= VEHICLE + 1 && slotId < VEHICLE + 28)
                 {

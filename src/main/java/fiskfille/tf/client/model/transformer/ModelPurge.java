@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
+import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
@@ -16,7 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
-public class ModelPurge extends MowzieModelBase
+public class ModelPurge extends ModelTransformerBase
 {
     public MowzieModelRenderer waist;
     public MowzieModelRenderer torsoconnector;
@@ -1851,45 +1852,75 @@ public class ModelPurge extends MowzieModelBase
         setInitPose();
     }
 
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-
-        if (entity instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerPurge;
-            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerPurge;
-            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerPurge;
-
-            if (TFDataManager.getTransformationTimer(player) == 0)
-            {
-                vehiclebase.render(f5);
-            }
-            else
-            {
-                if (!wearingChest)
-                {
-                    if (wearingHead)
-                    {
-                        headbase.render(f5);
-                    }
-
-                    if (wearingLegs)
-                    {
-                        upperLegL.render(f5);
-                        upperLegR.render(f5);
-                    }
-                }
-                else
-                {
-                    waist.render(f5);
-                }
-            }
-        }
-    }
+//    @Override
+//    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+//    {
+//        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+//
+//        if (entity instanceof EntityPlayer)
+//        {
+//            EntityPlayer player = (EntityPlayer) entity;
+//
+//            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerPurge;
+//            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerPurge;
+//            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerPurge;
+//
+//            if (TFDataManager.getTransformationTimer(player) == 0)
+//            {
+//                vehiclebase.render(f5);
+//            }
+//            else
+//            {
+//                if (!wearingChest)
+//                {
+//                    if (wearingHead)
+//                    {
+//                        headbase.render(f5);
+//                    }
+//
+//                    if (wearingLegs)
+//                    {
+//                        upperLegL.render(f5);
+//                        upperLegR.render(f5);
+//                    }
+//                }
+//                else
+//                {
+//                    waist.render(f5);
+//                }
+//            }
+//        }
+//    }
+    
+    public Transformer getTransformer()
+	{
+		return TransformerManager.transformerPurge;
+	}
+	
+	public ModelRenderer getWaist()
+	{
+		return waist;
+	}
+	
+	public ModelRenderer getVehicle()
+	{
+		return vehiclebase;
+	}
+	
+	public ModelRenderer getRightLeg()
+	{
+		return upperLegR;
+	}
+	
+	public ModelRenderer getLeftLeg()
+	{
+		return upperLegL;
+	}
+	
+	public ModelRenderer getHead()
+	{
+		return headbase;
+	}
 
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
     {

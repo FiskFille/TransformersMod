@@ -2,6 +2,7 @@ package fiskfille.tf.client.model.transformer.vehicle;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 
 public class ModelCloudtrapVehicle extends ModelVehicleBase
 {
@@ -847,10 +848,10 @@ public class ModelCloudtrapVehicle extends ModelVehicleBase
         vehicleshoulderbase.addChild(vehicleleftshoulderbase);
     }
 
-    public void render()
+    public void render(ItemStack itemstack)
     {
         vehicleBody.rotationPointY = 16.5F;
-        vehicleBody.render(0.0625F);
+        setupRenderLayers(itemstack, vehicleBody);
     }
 
     @Override

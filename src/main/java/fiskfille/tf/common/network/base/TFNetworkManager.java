@@ -7,6 +7,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
+import fiskfille.tf.common.network.MessageColorArmor;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
 import fiskfille.tf.common.network.MessageHandleTransformation;
 import fiskfille.tf.common.network.MessageLaserShoot;
@@ -35,6 +36,7 @@ public class TFNetworkManager
         registerPacket(MessageLaserShoot.Handler.class, MessageLaserShoot.class);
         registerPacket(MessageSendFlying.Handler.class, MessageSendFlying.class);
         registerPacket(MessageTransformDisplayStation.Handler.class, MessageTransformDisplayStation.class);
+        registerPacket(MessageColorArmor.Handler.class, MessageColorArmor.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

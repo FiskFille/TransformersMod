@@ -1,5 +1,7 @@
 package fiskfille.tf.common.tileentity;
 
+import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,11 +23,12 @@ import fiskfille.tf.common.item.ItemDisplayVehicle;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityDisplayStation extends TileEntity implements IInventory
 {
-    private ItemStack[] itemStacks = new ItemStack[5];
+    private ItemStack[] itemStacks = new ItemStack[7];
     private String inventoryName;
     
     @SideOnly(Side.CLIENT)
@@ -38,7 +41,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         {
             Minecraft mc = Minecraft.getMinecraft();
 
-            if(mc != null && mc.playerController != null && getWorldObj() != null)
+            if (mc != null && mc.playerController != null && getWorldObj() != null)
             {
                 fakePlayer = mc.playerController.func_147493_a(getWorldObj(), new StatFileWriter());
                 fakePlayer.movementInput = new MovementInputFromOptions(mc.gameSettings);
@@ -48,7 +51,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     
     public boolean transform()
     {
-        ItemStack vehicle = getStackInSlot(4);
+        ItemStack vehicle = getStackInSlot(6);
         ItemDisplayVehicle item = (ItemDisplayVehicle)TFItems.displayVehicle;
         
         if (vehicle != null)
@@ -73,7 +76,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                     setInventorySlotContents(i, armorFromNBT[i]);
                 }
                 
-                setInventorySlotContents(4, null);
+                setInventorySlotContents(6, null);
                 getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
                 
                 return true;
@@ -136,7 +139,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                                 setInventorySlotContents(j, null);
                             }
                             
-                            setInventorySlotContents(4, itemstack);
+                            setInventorySlotContents(6, itemstack);
                             
                             return true;
                         }
@@ -148,6 +151,30 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         }
         
         return false;
+    }
+    
+    public boolean setColor(int primaryColor, int secondaryColor)
+    {
+    	ItemStack head = getStackInSlot(0);
+        ItemStack chest = getStackInSlot(1);
+        ItemStack legs = getStackInSlot(2);
+        ItemStack feet = getStackInSlot(3);
+        
+        if (head != null && chest != null && legs != null && feet != null)
+        {
+            TFArmorDyeHelper.setPrimaryColor(head, primaryColor);
+            TFArmorDyeHelper.setPrimaryColor(chest, primaryColor);
+            TFArmorDyeHelper.setPrimaryColor(legs, primaryColor);
+            TFArmorDyeHelper.setPrimaryColor(feet, primaryColor);
+            TFArmorDyeHelper.setSecondaryColor(head, secondaryColor);
+            TFArmorDyeHelper.setSecondaryColor(chest, secondaryColor);
+            TFArmorDyeHelper.setSecondaryColor(legs, secondaryColor);
+            TFArmorDyeHelper.setSecondaryColor(feet, secondaryColor);
+            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);            
+            return true;
+        }
+    	
+    	return false;
     }
     
     public int getSizeInventory()

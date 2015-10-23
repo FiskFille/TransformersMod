@@ -26,7 +26,7 @@ public class DisplayableVehicle extends Displayable
 
             float scale = 0.75F;
             GL11.glScalef(scale, scale, scale);
-            vehicle.render();
+            vehicle.renderBase(itemstack);
         }
     }
 

@@ -44,7 +44,7 @@ public class ItemDisplayVehicle extends Item
         info.add("Equippable");
     }
 
-    public void setNBTData(ItemStack itemstack)
+    public static void setNBTData(ItemStack itemstack)
     {
         int transformerIndex = 0;
 
@@ -156,7 +156,7 @@ public class ItemDisplayVehicle extends Item
         return itemstack;
     }
 
-    public ItemStack[] getArmorFromNBT(ItemStack itemstack)
+    public static ItemStack[] getArmorFromNBT(ItemStack itemstack)
     {
         if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("Items"))
         {

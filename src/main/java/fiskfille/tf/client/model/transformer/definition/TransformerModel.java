@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 
@@ -43,4 +44,14 @@ public abstract class TransformerModel
     public void renderFirstPersonArm(EntityPlayer player)
     {
     }
+	
+	public String getTextureDir()
+	{
+		return "";
+	}
+	
+	public String getTextureDirPrefix()
+	{
+		return TransformersMod.modid;
+	}
 }

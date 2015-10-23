@@ -1,9 +1,7 @@
 package fiskfille.tf.client.gui;
 
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,6 +16,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.component.Component;
+import fiskfille.tf.common.component.IComponent;
 import fiskfille.tf.common.container.ContainerDisplayStation;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
@@ -33,7 +33,12 @@ public class GuiDisplayStation extends GuiContainer
     public void initGui()
     {
         super.initGui();
-        buttonList.add(new GuiButton(0, width / 2 - 18, height / 2 - 28, 70, 20, StatCollector.translateToLocal("gui.display_station.transform")));
+        buttonList.add(new GuiButton(0, width / 2 - 50, height / 2 - 28, 70, 20, StatCollector.translateToLocal("gui.display_station.transform")));
+        buttonList.add(new GuiButtonInitComponent(1, width / 2 + 43, height / 2 - 73));
+        buttonList.add(new GuiButtonInitComponent(2, width / 2 + 43, height / 2 - 73 + 18));
+        
+        ((GuiButton)buttonList.get(1)).enabled = getComponent(0) != null ? getComponent(0).canLoad(tileentity, 0) : false;
+    	((GuiButton)buttonList.get(2)).enabled = getComponent(1) != null ? getComponent(1).canLoad(tileentity, 1) : false;
     }
 
     public GuiDisplayStation(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
@@ -41,6 +46,13 @@ public class GuiDisplayStation extends GuiContainer
         super(new ContainerDisplayStation(inventoryPlayer, tile));
         tileentity = tile;
         ySize = 186;
+    }
+    
+    public void updateScreen()
+    {
+    	super.updateScreen();
+    	((GuiButton)buttonList.get(1)).enabled = getComponent(0) != null ? getComponent(0).canLoad(tileentity, 0) : false;
+    	((GuiButton)buttonList.get(2)).enabled = getComponent(1) != null ? getComponent(1).canLoad(tileentity, 1) : false;
     }
     
     protected void actionPerformed(GuiButton button)
@@ -52,6 +64,28 @@ public class GuiDisplayStation extends GuiContainer
             TFNetworkManager.networkWrapper.sendToServer(new MessageTransformDisplayStation(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord));
             TFNetworkManager.networkWrapper.sendToAll(new MessageTransformDisplayStation(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord));
         }
+        else if (id == 1 || id == 2)
+        {
+        	Component component = getComponent(id - 1);
+        	
+        	if (component != null)
+        	{
+        		component.load(tileentity, id - 1);
+        	}
+        }
+    }
+    
+    public Component getComponent(int slot)
+    {
+    	ItemStack itemstack = tileentity.getStackInSlot(4 + slot);
+    	
+    	if (itemstack != null && itemstack.getItem() instanceof IComponent)
+    	{
+    		IComponent icomponent = (IComponent)itemstack.getItem();
+    		return icomponent.getComponent();
+    	}
+    	
+    	return null;
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
@@ -60,7 +94,7 @@ public class GuiDisplayStation extends GuiContainer
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 94, 4210752);
         
-        if (tileentity.getStackInSlot(4) == null)
+        if (tileentity.getStackInSlot(6) == null)
         {
             int i = mc.thePlayer.ticksExisted / 20;
             ItemStack itemstack = new ItemStack(TFItems.displayVehicle, 1, i % TransformersAPI.getTransformers().size());
@@ -72,7 +106,7 @@ public class GuiDisplayStation extends GuiContainer
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glColor4f(0, 0, 0, 0.5F);
-            itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 111, 45);
+            itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 75, 45);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthMask(true);

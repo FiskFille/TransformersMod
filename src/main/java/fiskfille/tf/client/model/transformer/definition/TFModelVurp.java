@@ -94,4 +94,10 @@ public class TFModelVurp extends TransformerModel
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/vurp/vurp.png");
     }
+    
+    @Override
+    public String getTextureDir()
+	{
+		return "vurp/vurp";
+	}
 }

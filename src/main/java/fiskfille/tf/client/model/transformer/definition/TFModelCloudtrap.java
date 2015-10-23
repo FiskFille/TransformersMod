@@ -87,4 +87,10 @@ public class TFModelCloudtrap extends TransformerModel
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/cloudtrap/cloudtrap.png");
     }
+    
+    @Override
+    public String getTextureDir()
+	{
+		return "cloudtrap/cloudtrap";
+	}
 }

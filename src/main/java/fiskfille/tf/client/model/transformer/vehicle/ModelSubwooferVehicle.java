@@ -1,7 +1,7 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 
 public class ModelSubwooferVehicle extends ModelVehicleBase
 {
@@ -270,15 +270,9 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
         vehicleLowerLegR1.addChild(vehicleRearWheel1);
     }
 
-    public void render()
+    public void render(ItemStack itemstack)
     {
-        vehicleBase.render(0.0625F);
-    }
-
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        vehicleBase.render(f5);
+    	setupRenderLayers(itemstack, vehicleBase);
     }
 
     /**

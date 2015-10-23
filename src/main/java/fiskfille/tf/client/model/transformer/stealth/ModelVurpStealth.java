@@ -4,13 +4,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
 
-public class ModelVurpStealth extends MowzieModelBase
+public class ModelVurpStealth extends ModelTransformerBase
 {
     public MowzieModelRenderer vehicleBase;
     public MowzieModelRenderer vehicleWaist1;
@@ -371,19 +373,43 @@ public class ModelVurpStealth extends MowzieModelBase
         vehicleLowerLegR1.addChild(vehicleWheelBackR);
         vehicleKneeL2.addChild(vehicleLowerLegL1);
         vehicleBasePlate.addChild(vehicleGun4);
-    }
-
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        vehicleBase.render(0.0625F);
-
+        
         float scale = 1.25F;
         vehicleWheelR.setScale(scale, scale, scale);
         vehicleWheelL.setScale(scale, scale, scale);
         vehicleWheelBackR.setScale(scale, scale, scale);
         vehicleWheelBackL.setScale(scale, scale, scale);
     }
+    
+    public Transformer getTransformer()
+	{
+		return TransformerManager.transformerVurp;
+	}
+	
+	public ModelRenderer getWaist()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getVehicle()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getRightLeg()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getLeftLeg()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getHead()
+	{
+		return vehicleBase;
+	}
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {

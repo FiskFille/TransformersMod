@@ -1,6 +1,7 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 
 public class ModelVurpVehicle extends ModelVehicleBase
@@ -329,17 +330,10 @@ public class ModelVurpVehicle extends ModelVehicleBase
         vehicleLowerlegR1.addChild(vehicleWheelBackR);
         vehicleLowerarmL1.addChild(vehicleLowerarmL2);
     }
-
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    
+    public void render(ItemStack itemstack)
     {
-        vehicleBase.render(f5);
-    }
-
-    @Override
-    public void render()
-    {
-        vehicleBase.render(0.0625F);
+        setupRenderLayers(itemstack, vehicleBase);
 
         float scale = 1.25F;
         vehicleWheelR.setScale(1, scale, scale);

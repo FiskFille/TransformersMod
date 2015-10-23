@@ -1,23 +1,30 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.block.Block;
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import fiskfille.tf.TransformerManager;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
-public class ModelSkystrike extends MowzieModelBase
+public class ModelSkystrike extends ModelTransformerBase
 {
     public MowzieModelRenderer waist;
     public MowzieModelRenderer stomach;
@@ -814,50 +821,40 @@ public class ModelSkystrike extends MowzieModelBase
         rearR1.addChild(wheel1);
         mainbody1.addChild(mainbody6);
 
-        //parts = new MowzieModelRenderer[]{waist, stomach, chestcenter, rearstomach, crotch1, crotchfront, buttflapL, buttflapR, crotchBack, upperLegR, upperLegL, middlelegR, lowerLegR, legarmorR, feetconnectorR, wheelconnectorR, feetbaseR, wheelR, feetpartR1, feetpartR2, toeR1, toeR2, middlelegL, lowerlegL, legarmorL, feetconnectorL, wheelconnectorL, feetbaseL, wheelL, toeL1, toeL2, feetpartL2, feetpartL1, chest1, bodywingR1, bodywingL1, neck, upperchestR, cockpit1, cockpit2, lowerchestR, LowerchestL, upperchestL, upperchestM, lowerchestM, energyUP, energyDOWN, collarR, collarL, collarM, shoulderL, shoulderR, bodywingR2, bodywingL2, headbase, headnose, headhelmet1, headwingR, headhelmet2, headwingL, headintakeR1, headintakeL2, headintakeR2, headintakeL1, wingL1biped, intakeL, upperArmL, wingL2biped, lowerArmL1, lowerarmL2, lowerarmL3, lowerarmL4, fistL, wingR1biped, intakeR1, upperArmR, wingR2biped, lowerArmR1, lowerarmR4, lowerarmR3, lowerarmR2, fistR};
         setInitPose();
     }
 
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    public Transformer getTransformer()
+	{
+		return TransformerManager.transformerSkystrike;
+	}
+	
+	public ModelRenderer getWaist()
+	{
+		return waist;
+	}
+	
+	public ModelRenderer getVehicle()
+	{
+		return mainbody1;
+	}
+	
+	public ModelRenderer getRightLeg()
+	{
+		return upperLegR;
+	}
+	
+	public ModelRenderer getLeftLeg()
+	{
+		return upperLegL;
+	}
+	
+	public ModelRenderer getHead()
+	{
+		return headbase;
+	}
 
-        if (entity instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerSkystrike;
-            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike;
-            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerSkystrike;
-
-            if (TFDataManager.getTransformationTimer(player) == 0)
-            {
-                mainbody1.render(f5);
-            }
-            else
-            {
-                if (!wearingChest)
-                {
-                    if (wearingHead)
-                    {
-                        headbase.render(f5);
-                    }
-
-                    if (wearingLegs)
-                    {
-                        upperLegL.render(f5);
-                        upperLegR.render(f5);
-                    }
-                }
-                else
-                {
-                    waist.render(f5);
-                }
-            }
-        }
-    }
-
-    public void setRotation(MowzieModelRenderer model, float x, float y, float z)
+	public void setRotation(MowzieModelRenderer model, float x, float y, float z)
     {
         model.rotateAngleX = x;
         model.rotateAngleY = y;

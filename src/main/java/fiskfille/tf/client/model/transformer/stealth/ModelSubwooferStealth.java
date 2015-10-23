@@ -4,12 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
 
-public class ModelSubwooferStealth extends MowzieModelBase
+public class ModelSubwooferStealth extends ModelTransformerBase
 {
     public ModelRenderer vehicleBase;
     public ModelRenderer vehicleStomach;
@@ -304,12 +306,36 @@ public class ModelSubwooferStealth extends MowzieModelBase
         vehicleChestMain1.addChild(vehicleShoulderBaseR);
         vehicleDish1.addChild(vehicleDish2);
     }
-
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        vehicleBase.render(0.0625F);
-    }
+    
+    public Transformer getTransformer()
+	{
+		return TransformerManager.transformerSubwoofer;
+	}
+	
+	public ModelRenderer getWaist()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getVehicle()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getRightLeg()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getLeftLeg()
+	{
+		return vehicleBase;
+	}
+	
+	public ModelRenderer getHead()
+	{
+		return vehicleBase;
+	}
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {

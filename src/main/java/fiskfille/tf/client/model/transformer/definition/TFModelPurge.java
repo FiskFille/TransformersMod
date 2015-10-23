@@ -84,4 +84,10 @@ public class TFModelPurge extends TransformerModel
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/purge/purge.png");
     }
+    
+    @Override
+    public String getTextureDir()
+	{
+		return "purge/purge";
+	}
 }
