@@ -78,6 +78,7 @@ public class GuiColorPresets extends GuiScreen
            	new ColorPreset(0xff880000, 0xff4f0000, "Warpath"),
            	new ColorPreset(0xff4f00b2, 0xff656565, "Vehicon"),
             new ColorPreset(0xffa51919, 0xffcf6300, "Hot-Rod"),
+			new ColorPreset(0x737A80, 0x2F3B47, "Starscream"),
         };        
         
         int maxPresetsPerPage = columnsPerPage * linesPerPage;
