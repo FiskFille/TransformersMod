@@ -35,7 +35,7 @@ public class GuiColorPresets extends GuiScreen
     
     public ColorPreset[] presets = {};
     public int columnsPerPage = 5;
-    public int linesPerPage = 2;
+    public int rowsPerPage = 2;
     
     public int maxPages = 0;
 	public int page = 0;    
@@ -50,38 +50,41 @@ public class GuiColorPresets extends GuiScreen
         presets = new ColorPreset[]
         {
         	// TFMod
-            new ColorPreset(0xffffffff, 0xffcd0000, "Skystrike"),
-            new ColorPreset(0xffa7a180, 0xff672222, "Purge"),
-            new ColorPreset(0xffa0a0a0, 0xff651212, "Skystrike (Weathered)"),
-            	
-           	// Abstract
-           	new ColorPreset(0xff2b0051, 0xffbdbdbd, "Indigo"),
-           	new ColorPreset(0xff3b1458, 0xff322277, "Eclipse"),
-           	new ColorPreset(0xff3db4d6, 0xffb2ffff, "Cold"),
-           	new ColorPreset(0xff090909, 0xff000000, "Bat"),
-           	new ColorPreset(0xff3d87ff, 0xff003dff, "Ocean Blue"),
-            new ColorPreset(0xffa7a180, 0xff686653, "Desert"),
-           	new ColorPreset(0xffffffff, 0xffffffff, "Blank"),
-           	new ColorPreset(0xff687893, 0xff711010, "Perception"),
-            
-           	// Canon
-           	new ColorPreset(0xff0000ff, 0xffff0000, "G1 Optimus Prime"),
-           	new ColorPreset(0xffd7d7d7, 0xff666868, "G1 Megatron"),
-           	new ColorPreset(0xffa0ff36, 0xff9a009a, "G1 Constructicon"),
-           	new ColorPreset(0xfffe3978, 0xff198014, "G1 Scorponok"),
-           	new ColorPreset(0xff7148d6, 0xfffe6c6c, "G1 Galvatron"),
-           	new ColorPreset(0xffcdcdcd, 0xff0e0e0e, "G1 Prowl"),
-           	new ColorPreset(0xff000083, 0xffbb0000, "Movie Optimus Prime"),       	
-           	new ColorPreset(0xffa7a7a7, 0xff810000, "Movie Wreckage"),    
-           	new ColorPreset(0xffddc600, 0xff101010, "Bumblebee"),
-           	new ColorPreset(0xff173f17, 0xff513838, "Brawl"),
-           	new ColorPreset(0xff880000, 0xff4f0000, "Warpath"),
-           	new ColorPreset(0xff4f00b2, 0xff656565, "Vehicon"),
-            new ColorPreset(0xffa51919, 0xffcf6300, "Hot-Rod"),
-			new ColorPreset(0x737A80, 0x2F3B47, "Starscream"),
+        	new ColorPreset(0xffffffff, 0xffcd0000, "Skystrike"),
+        	new ColorPreset(0xffa7a180, 0xff672222, "Purge"),
+        	new ColorPreset(0xffa0a0a0, 0xff651212, "Skystrike (Weathered)"),
+        	new ColorPreset(0xffff0000, 0xff101010, "Purge (Classic)"),
+
+        	// Abstract
+        	new ColorPreset(0xffff4a00, 0xff000000, "Halloween"),
+        	new ColorPreset(0xff2b0051, 0xffbdbdbd, "Indigo"),
+        	new ColorPreset(0xff3b1458, 0xff322277, "Eclipse"),
+        	new ColorPreset(0xff3db4d6, 0xffb2ffff, "Cold"),
+        	new ColorPreset(0xff090909, 0xff000000, "Bat"),
+        	new ColorPreset(0xff3d87ff, 0xff003dff, "Ocean Blue"),
+        	new ColorPreset(0xffa7a180, 0xff686653, "Desert"),
+        	new ColorPreset(0xffffffff, 0xffffffff, "Blank"),
+        	new ColorPreset(0xff687893, 0xff711010, "Perception"),
+
+        	// Canon
+        	new ColorPreset(0xff0000ff, 0xffff0000, "G1 Optimus Prime"),
+        	new ColorPreset(0xffd7d7d7, 0xff666868, "G1 Megatron"),
+        	new ColorPreset(0xffe4160e, 0xff3636e8, "G1 Starscream"),
+        	new ColorPreset(0xffa0ff36, 0xff9a009a, "G1 Constructicon"),
+        	new ColorPreset(0xfffe3978, 0xff198014, "G1 Scorponok"),
+        	new ColorPreset(0xff7148d6, 0xfffe6c6c, "G1 Galvatron"),
+        	new ColorPreset(0xffcdcdcd, 0xff0e0e0e, "G1 Prowl"),
+        	new ColorPreset(0xff000083, 0xffbb0000, "Movie Optimus Prime"),
+        	new ColorPreset(0xffa7a7a7, 0xff810000, "Movie Wreckage"),
+        	new ColorPreset(0xffddc600, 0xff101010, "Bumblebee"),
+        	new ColorPreset(0xff173f17, 0xff513838, "Brawl"),
+        	new ColorPreset(0xff880000, 0xff4f0000, "Warpath"),
+        	new ColorPreset(0xff4f00b2, 0xff656565, "Vehicon"),
+        	new ColorPreset(0xffa51919, 0xffcf6300, "Hot-Rod"),
+        	new ColorPreset(0xff737a80, 0xff2f3b47, "Starscream"),
         };        
         
-        int maxPresetsPerPage = columnsPerPage * linesPerPage;
+        int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;
         int yOffset = 0;
         maxPages = presets.length / (maxPresetsPerPage);
@@ -200,7 +203,7 @@ public class GuiColorPresets extends GuiScreen
     	drawDefaultBackground();
     	drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.display_station.color.presets"), width / 2, 15, 16777215);
     	
-    	int maxPresetsPerPage = columnsPerPage * linesPerPage;
+    	int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;
         int yOffset = 0;
 
