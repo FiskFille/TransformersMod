@@ -1,13 +1,13 @@
 package fiskfille.tf.common.event;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.tick.TickHandler;
 import fiskfille.tf.helper.TFShootManager;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TFEvents
 {

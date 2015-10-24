@@ -1,16 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -21,6 +11,13 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelCloudtrap extends ModelTransformerBase
 {
@@ -1812,49 +1809,49 @@ public class ModelCloudtrap extends ModelTransformerBase
 //
 //        GL11.glPopMatrix();
 //    }
-    
+
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
-    	GL11.glPushMatrix();
+        GL11.glPushMatrix();
 
-    	float scale = 1.1F;
-    	GL11.glScalef(scale, scale, scale);
-    	GL11.glTranslatef(0, -scale * 0.0625F, 0);
-    	
-    	super.render(entity, f, f1, f2, f3, f4, f5);
-    	GL11.glPopMatrix();
+        float scale = 1.1F;
+        GL11.glScalef(scale, scale, scale);
+        GL11.glTranslatef(0, -scale * 0.0625F, 0);
+
+        super.render(entity, f, f1, f2, f3, f4, f5);
+        GL11.glPopMatrix();
     }
-    
+
     public Transformer getTransformer()
-	{
-		return TransformerManager.transformerCloudtrap;
-	}
-	
-	public ModelRenderer getWaist()
-	{
-		return waist;
-	}
-	
-	public ModelRenderer getVehicle()
-	{
-		return vehicleBody;
-	}
-	
-	public ModelRenderer getRightLeg()
-	{
-		return upperLegR;
-	}
-	
-	public ModelRenderer getLeftLeg()
-	{
-		return upperLegL;
-	}
-	
-	public ModelRenderer getHead()
-	{
-		return head;
-	}
+    {
+        return TransformerManager.transformerCloudtrap;
+    }
+
+    public ModelRenderer getWaist()
+    {
+        return waist;
+    }
+
+    public ModelRenderer getVehicle()
+    {
+        return vehicleBody;
+    }
+
+    public ModelRenderer getRightLeg()
+    {
+        return upperLegR;
+    }
+
+    public ModelRenderer getLeftLeg()
+    {
+        return upperLegL;
+    }
+
+    public ModelRenderer getHead()
+    {
+        return head;
+    }
 
     @Override
     public void renderArmorPiece(int armorPiece)
@@ -1944,7 +1941,7 @@ public class ModelCloudtrap extends ModelTransformerBase
                 upperLegL.rotationPointY += 8.55F;
             }
 
-            if(!wearingLegs && wearingChest)
+            if (!wearingLegs && wearingChest)
             {
                 waist.rotationPointY += 0.6F;
             }
@@ -1977,10 +1974,10 @@ public class ModelCloudtrap extends ModelTransformerBase
             {
                 globalDegree = 1.5F;
                 globalSpeed = 1.3F;
-                
+
                 if (player.capabilities.isFlying)
                 {
-                	globalDegree = 0.6F;
+                    globalDegree = 0.6F;
                     globalSpeed = 0.9F;
                 }
             }
@@ -2087,7 +2084,7 @@ public class ModelCloudtrap extends ModelTransformerBase
                         upperLegR.rotateAngleZ += 0.1;
                         upperLegL.rotateAngleZ -= 0.1;
                         upperLegR.rotateAngleY += 0.2;
-                        upperLegL.rotateAngleY -= 0.2;                        
+                        upperLegL.rotateAngleY -= 0.2;
                         lowerlegRbase.rotateAngleX += 0.7;
                         lowerlegLbase.rotateAngleX += 0.7;
                         feetbaseR.rotateAngleX -= 0.15;
@@ -2236,16 +2233,16 @@ public class ModelCloudtrap extends ModelTransformerBase
                 vehicleBody.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
                 vehicleBody.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
             }
-            
+
             VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
             int landingTimer = 20;
-            
+
             if (transformedPlayer != null)
             {
                 landingTimer = transformedPlayer.getLandingTimer();
-                float f1 = (float)landingTimer / 20;
+                float f1 = (float) landingTimer / 20;
                 float f2 = 1 - f1;
-                
+
                 vehicleBody.rotateAngleX = (rotationPitch / (180F / (float) Math.PI)) * f1;
                 vehicleBody.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f1;
                 vehicleBody.setRotationPoint(0.0F, 18 * f2, 0.0F);

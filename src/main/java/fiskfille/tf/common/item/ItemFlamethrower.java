@@ -1,8 +1,10 @@
 package fiskfille.tf.common.item;
 
-import java.util.List;
-import java.util.Random;
-
+import fiskfille.tf.client.particle.TFParticleType;
+import fiskfille.tf.client.particle.TFParticles;
+import fiskfille.tf.common.entity.EntityFlamethrowerFire;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,11 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import fiskfille.tf.client.particle.TFParticleType;
-import fiskfille.tf.client.particle.TFParticles;
-import fiskfille.tf.common.entity.EntityFlamethrowerFire;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFVectorHelper;
+
+import java.util.List;
+import java.util.Random;
 
 public class ItemFlamethrower extends Item
 {
@@ -70,9 +70,9 @@ public class ItemFlamethrower extends Item
                 {
                     for (int i = 0; i < 50; ++i)
                     {
-                        float motionX = (float)(backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
-                        float motionY = (float)(backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
-                        float motionZ = (float)(backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionX = (float) (backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionY = (float) (backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionZ = (float) (backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
 
                         TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, sideCoords.xCoord, sideCoords.yCoord - player.getEyeHeight(), sideCoords.zCoord, motionX, motionY, motionZ);
                     }
@@ -81,9 +81,9 @@ public class ItemFlamethrower extends Item
                 {
                     for (int i = 0; i < 5; ++i)
                     {
-                        float motionX = (float)(backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
-                        float motionY = (float)(backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
-                        float motionZ = (float)(backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionX = (float) (backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionY = (float) (backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionZ = (float) (backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
 
                         EntityFlamethrowerFire entity = new EntityFlamethrowerFire(world, player);
                         entity.motionX = motionX;

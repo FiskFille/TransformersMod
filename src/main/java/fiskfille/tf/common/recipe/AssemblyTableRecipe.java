@@ -55,7 +55,7 @@ public class AssemblyTableRecipe implements IRecipe
 
                 if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth && j1 < this.recipeHeight)
                 {
-                	itemstack = this.recipeItems[i1 + j1 * this.recipeWidth];
+                    itemstack = this.recipeItems[i1 + j1 * this.recipeWidth];
                 }
 
                 ItemStack itemstack1 = inventoryCrafting.getStackInRowAndColumn(k, l);
@@ -71,10 +71,10 @@ public class AssemblyTableRecipe implements IRecipe
                     {
                         return false;
                     }
-                    
+
                     if (itemstack1.stackSize < itemstack.stackSize)
                     {
-                    	return false;
+                        return false;
                     }
 
                     if (itemstack.getItemDamage() != 32767 && itemstack.getItemDamage() != itemstack1.getItemDamage())
@@ -100,7 +100,7 @@ public class AssemblyTableRecipe implements IRecipe
 
                 if (itemstack1 != null && itemstack1.hasTagCompound())
                 {
-                    itemstack.setTagCompound((NBTTagCompound)itemstack1.stackTagCompound.copy());
+                    itemstack.setTagCompound((NBTTagCompound) itemstack1.stackTagCompound.copy());
                 }
             }
         }

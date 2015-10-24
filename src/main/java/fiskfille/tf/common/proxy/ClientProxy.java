@@ -1,16 +1,5 @@
 package fiskfille.tf.common.proxy;
 
-import java.lang.reflect.Field;
-
-import fiskfille.tf.client.render.item.RenderItemArmor;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
@@ -23,6 +12,7 @@ import fiskfille.tf.client.render.entity.RenderTankShell;
 import fiskfille.tf.client.render.entity.RenderTransformer;
 import fiskfille.tf.client.render.entity.RenderTransformiumSeedEntity;
 import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
+import fiskfille.tf.client.render.item.RenderItemArmor;
 import fiskfille.tf.client.render.item.RenderItemBassBlaster;
 import fiskfille.tf.client.render.item.RenderItemDisplayStation;
 import fiskfille.tf.client.render.item.RenderItemDisplayVehicle;
@@ -49,13 +39,22 @@ import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.entity.EntityTransformer;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
+
+import java.lang.reflect.Field;
 
 public class ClientProxy extends CommonProxy
 {

@@ -1,11 +1,11 @@
 package fiskfille.tf.common.registry;
 
 import com.google.common.collect.Lists;
+import cpw.mods.fml.common.registry.GameRegistry;
+import fiskfille.tf.TransformersMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
-import fiskfille.tf.TransformersMod;
 
 import java.util.List;
 

@@ -1,18 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
@@ -20,9 +8,14 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelSkystrike extends ModelTransformerBase
 {
@@ -825,36 +818,36 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     public Transformer getTransformer()
-	{
-		return TransformerManager.transformerSkystrike;
-	}
-	
-	public ModelRenderer getWaist()
-	{
-		return waist;
-	}
-	
-	public ModelRenderer getVehicle()
-	{
-		return mainbody1;
-	}
-	
-	public ModelRenderer getRightLeg()
-	{
-		return upperLegR;
-	}
-	
-	public ModelRenderer getLeftLeg()
-	{
-		return upperLegL;
-	}
-	
-	public ModelRenderer getHead()
-	{
-		return headbase;
-	}
+    {
+        return TransformerManager.transformerSkystrike;
+    }
 
-	public void setRotation(MowzieModelRenderer model, float x, float y, float z)
+    public ModelRenderer getWaist()
+    {
+        return waist;
+    }
+
+    public ModelRenderer getVehicle()
+    {
+        return mainbody1;
+    }
+
+    public ModelRenderer getRightLeg()
+    {
+        return upperLegR;
+    }
+
+    public ModelRenderer getLeftLeg()
+    {
+        return upperLegL;
+    }
+
+    public ModelRenderer getHead()
+    {
+        return headbase;
+    }
+
+    public void setRotation(MowzieModelRenderer model, float x, float y, float z)
     {
         model.rotateAngleX = x;
         model.rotateAngleY = y;
@@ -1145,19 +1138,19 @@ public class ModelSkystrike extends ModelTransformerBase
             }
 
             int t = TFDataManager.getTransformationTimer(player);
-            
+
             ModelBiped modelBiped = TFModelHelper.modelBipedMain;
 
             mainbody1.rotateAngleX = par5 / (180F / (float) Math.PI);
             mainbody1.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
-            
+
             VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
             int landingTimer = 20;
-            
+
             if (transformedPlayer != null)
             {
                 landingTimer = transformedPlayer.getLandingTimer();
-                float f = (float)landingTimer / 20;
+                float f = (float) landingTimer / 20;
                 float f1 = 1 - f;
 
                 wheel1.setRotationPoint(-4.5F, 13.5F, 3.9F + f1);
@@ -1166,7 +1159,7 @@ public class ModelSkystrike extends ModelTransformerBase
                 mainbody1.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f;
                 mainbody1.setRotationPoint(0.0F, -5.0F + 20 * f1, -2.0F);
             }
-            
+
             if (t != 20)
             {
                 float f = 20 - t;
@@ -1205,7 +1198,7 @@ public class ModelSkystrike extends ModelTransformerBase
                 setRotation(bodywingL1, -pi * f1, 0.9250245035569946F * f2 - 0.15F, 0.2792526803190927F * f2 + pi * f1);
                 setRotation(bodywingL2, -1.1519173063162573F * f2, 0.03490658503988659F * f2, 0.003490658503988659F * f2);
                 setRotation(waist, pi / 2 * f1, 0, pi * f1);
-                waist.rotationPointY -= (8 - ((float)landingTimer / 20 + 1) * 5) * f1;
+                waist.rotationPointY -= (8 - ((float) landingTimer / 20 + 1) * 5) * f1;
                 waist.rotationPointZ += 6 * f1;
                 rearstomach.setRotationPoint(0.0F, -8.6F - 10 * f1, 2.9F - 3 * f1);
                 setRotation(rearstomach, -0.46774823953448036F * f2 - 0.15F * f1, 0.0F, 0.0F);

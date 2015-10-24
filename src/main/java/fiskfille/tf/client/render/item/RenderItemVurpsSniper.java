@@ -1,17 +1,15 @@
 package fiskfille.tf.client.render.item;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.item.ModelVurpsSniper;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.item.ModelVurpsSniper;
-import fiskfille.tf.common.playerdata.TFDataManager;
 
 public class RenderItemVurpsSniper implements IItemRenderer
 {

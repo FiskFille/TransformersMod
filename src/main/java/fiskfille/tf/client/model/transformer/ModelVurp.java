@@ -1,13 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -19,6 +12,12 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class ModelVurp extends ModelTransformerBase
@@ -844,8 +843,8 @@ public class ModelVurp extends ModelTransformerBase
         vehicleLowerlegR1.addChild(vehicleLowerlegR4);
         vehicleLowerlegR1.addChild(vehicleWheelBackR);
         vehicleLowerarmL1.addChild(vehicleLowerarmL2);
-        
-        
+
+
         float scale = 1.25F;
         vehicleWheelR.setScale(1, scale, scale);
         vehicleWheelL.setScale(1, scale, scale);
@@ -907,36 +906,36 @@ public class ModelVurp extends ModelTransformerBase
 //            }
 //        }
 //    }
-    
+
     public Transformer getTransformer()
-	{
-		return TransformerManager.transformerVurp;
-	}
-	
-	public ModelRenderer getWaist()
-	{
-		return waist;
-	}
-	
-	public ModelRenderer getVehicle()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getRightLeg()
-	{
-		return upperLegR;
-	}
-	
-	public ModelRenderer getLeftLeg()
-	{
-		return upperLegL;
-	}
-	
-	public ModelRenderer getHead()
-	{
-		return head;
-	}
+    {
+        return TransformerManager.transformerVurp;
+    }
+
+    public ModelRenderer getWaist()
+    {
+        return waist;
+    }
+
+    public ModelRenderer getVehicle()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getRightLeg()
+    {
+        return upperLegR;
+    }
+
+    public ModelRenderer getLeftLeg()
+    {
+        return upperLegL;
+    }
+
+    public ModelRenderer getHead()
+    {
+        return head;
+    }
 
     @Override
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
@@ -1276,7 +1275,7 @@ public class ModelVurp extends ModelTransformerBase
                 setRotateAngle(shoulderpadL, -0.20943951023931953F * f2, 0.0F, 1.064650843716541F * f2);
             }
 
-            for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL })
+            for (ModelRenderer modelRenderer : new ModelRenderer[]{vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
             {
                 VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 

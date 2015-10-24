@@ -1,13 +1,11 @@
 package fiskfille.tf.client.displayable;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.item.ModelSkystrikesCrossbow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.item.ModelSkystrikesCrossbow;
 
 public class DisplayableSkystrikesCrossbow extends Displayable
 {

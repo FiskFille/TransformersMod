@@ -1,22 +1,17 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
-import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 
 public class RenderDisplayStation extends TileEntitySpecialRenderer
 {
@@ -32,7 +27,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
         }
 
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
         GL11.glRotatef(metadata * 90, 0.0F, 1.0F, 0.0F);
 
@@ -86,7 +81,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
             }
             catch (Exception e)
             {
-                
+
             }
         }
 
@@ -97,11 +92,11 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
     {
         int j = c0 % 65536;
         int k = c0 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
     }
 
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        render((TileEntityDisplayStation)tileentity, d, d1, d2, f);
-    } 
+        render((TileEntityDisplayStation) tileentity, d, d1, d2, f);
+    }
 }

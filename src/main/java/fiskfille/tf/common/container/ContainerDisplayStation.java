@@ -1,27 +1,27 @@
 package fiskfille.tf.common.container;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.component.IComponent;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.component.IComponent;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 
 public class ContainerDisplayStation extends ContainerBasic
 {
     private TileEntityDisplayStation tileentity;
     private EntityPlayer player;
-    
+
     public ContainerDisplayStation(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
     {
         tileentity = tile;
         player = inventoryPlayer.player;
-        
+
         for (int i = 0; i < 4; ++i)
         {
             final int k = i;
@@ -38,7 +38,7 @@ public class ContainerDisplayStation extends ContainerBasic
                     {
                         return false;
                     }
-                    
+
                     return itemstack.getItem().isValidArmor(itemstack, k, player);
                 }
 
@@ -49,7 +49,7 @@ public class ContainerDisplayStation extends ContainerBasic
                 }
             });
         }
-        
+
         addSlotToContainer(new SlotComponent(tile, 4, 147, 18));
         addSlotToContainer(new SlotComponent(tile, 5, 147, 36));
         addSlotToContainer(new Slot(tile, 6, 75, 45)
@@ -65,23 +65,23 @@ public class ContainerDisplayStation extends ContainerBasic
                 {
                     return false;
                 }
-                
+
                 return itemstack.getItem() == TFItems.displayVehicle;
             }
         });
 
         addPlayerInventory(inventoryPlayer, 20);
     }
-    
+
     public boolean canInteractWith(EntityPlayer player)
     {
         return true;
     }
-    
+
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot)inventorySlots.get(slotId);
+        Slot slot = (Slot) inventorySlots.get(slotId);
         int HEAD = 0;
         int CHEST = 1;
         int LEGS = 2;
@@ -147,13 +147,13 @@ public class ContainerDisplayStation extends ContainerBasic
                 }
                 else if (itemstack1.getItem() instanceof IComponent)
                 {
-                	if (!mergeItemStack(itemstack1, COMPONENT1, COMPONENT1 + 1, false))
-                	{
-                		if (!mergeItemStack(itemstack1, COMPONENT2, COMPONENT2 + 1, false))
-                		{
-                			return null;
-                		}
-                	}
+                    if (!mergeItemStack(itemstack1, COMPONENT1, COMPONENT1 + 1, false))
+                    {
+                        if (!mergeItemStack(itemstack1, COMPONENT2, COMPONENT2 + 1, false))
+                        {
+                            return null;
+                        }
+                    }
                 }
                 else if (slotId >= VEHICLE + 1 && slotId < VEHICLE + 28)
                 {
@@ -177,7 +177,7 @@ public class ContainerDisplayStation extends ContainerBasic
 
             if (itemstack1.stackSize == 0)
             {
-                slot.putStack((ItemStack)null);
+                slot.putStack((ItemStack) null);
             }
             else
             {
@@ -191,7 +191,7 @@ public class ContainerDisplayStation extends ContainerBasic
 
             slot.onPickupFromSlot(player, itemstack1);
         }
-        
+
         return itemstack;
     }
 }

@@ -1,8 +1,8 @@
 package fiskfille.tf.common.block;
 
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,9 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockCosmicRust extends Block
 {
@@ -42,9 +42,9 @@ public class BlockCosmicRust extends Block
      * Metadata and fortune sensitive version, this replaces the old (int meta, Random rand)
      * version in 1.1.
      *
-     * @param meta Blocks Metadata
+     * @param meta    Blocks Metadata
      * @param fortune Current item fortune level
-     * @param random Random number generator
+     * @param random  Random number generator
      * @return The number of items to drop
      */
     public int quantityDropped(int meta, int fortune, Random random)
@@ -55,7 +55,7 @@ public class BlockCosmicRust extends Block
     public int tickRate(World world)
     {
         float f = 1F;
-        return (int)(1000000000F * f);
+        return (int) (1000000000F * f);
     }
 
     public void updateTick(World world, int x, int y, int z, Random rand)

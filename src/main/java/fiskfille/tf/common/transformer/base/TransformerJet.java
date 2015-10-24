@@ -1,12 +1,5 @@
 package fiskfille.tf.common.transformer.base;
 
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.item.TFItems;
@@ -15,6 +8,13 @@ import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
+
+import java.util.Random;
 
 /**
  * @author gegy1000
@@ -36,13 +36,13 @@ public abstract class TransformerJet extends Transformer
     public float getCameraYOffset(EntityPlayer player)
     {
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-        
+
         if (transformedPlayer != null)
         {
-            float f = (float)transformedPlayer.getLandingTimer() / 20;
+            float f = (float) transformedPlayer.getLandingTimer() / 20;
             return -1 * (1 - f);
         }
-        
+
         return 0;
     }
 
@@ -50,13 +50,13 @@ public abstract class TransformerJet extends Transformer
     public float getVehicleCameraYOffset(EntityPlayer player)
     {
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-        
+
         if (transformedPlayer != null)
         {
-            float f = (float)transformedPlayer.getLandingTimer() / 20;
+            float f = (float) transformedPlayer.getLandingTimer() / 20;
             return -1 * (1 - f);
         }
-        
+
         return 0;
     }
 

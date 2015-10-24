@@ -57,9 +57,9 @@ public class EntityFlamethrowerFire extends EntityThrowable
     {
         if (mop.entityHit != null)
         {
-            float multiplier = (float)(particleMaxAge - ticksExisted) / particleMaxAge;
+            float multiplier = (float) (particleMaxAge - ticksExisted) / particleMaxAge;
 
-            mop.entityHit.setFire((int)(20F * multiplier));
+            mop.entityHit.setFire((int) (20F * multiplier));
 
             if (getThrower() instanceof EntityPlayer)
             {

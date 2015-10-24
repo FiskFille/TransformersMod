@@ -6,10 +6,10 @@ import net.minecraft.item.Item;
 public abstract class Energon
 {
     public abstract Block getCrystal();
-    
+
     public abstract Item getCrystalPiece();
-    
+
     public abstract int getColor();
-    
+
     public abstract String getId();
 }

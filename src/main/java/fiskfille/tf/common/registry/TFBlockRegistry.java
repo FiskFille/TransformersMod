@@ -1,10 +1,10 @@
 package fiskfille.tf.common.registry;
 
-import net.minecraft.block.Block;
-import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.ItemBlockWithMetadata;
+import net.minecraft.block.Block;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TFBlockRegistry
 {

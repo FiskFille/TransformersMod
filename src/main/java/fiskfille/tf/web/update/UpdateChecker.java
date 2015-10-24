@@ -1,9 +1,9 @@
 package fiskfille.tf.web.update;
 
-import java.util.List;
-
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.web.WebHelper;
+
+import java.util.List;
 
 public class UpdateChecker extends Thread
 {

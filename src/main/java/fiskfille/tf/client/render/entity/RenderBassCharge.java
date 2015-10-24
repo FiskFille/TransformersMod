@@ -1,15 +1,13 @@
 package fiskfille.tf.client.render.entity;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.ModelBassCharge;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.ModelBassCharge;
 
 @SideOnly(Side.CLIENT)
 public class RenderBassCharge extends Render
@@ -22,14 +20,12 @@ public class RenderBassCharge extends Render
         float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
 
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)z);
+        GL11.glTranslatef((float) x, (float) y, (float) z);
         GL11.glRotatef(pitch, 1.0F, 0.0F, 0.0F);
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
 
-        float f1 = 0.2F + (float)entity.ticksExisted / 10;
+        float f1 = 0.2F + (float) entity.ticksExisted / 10;
         GL11.glScalef(f1, f1, f1);
-
-
 
 
         GL11.glDepthMask(false);
@@ -42,7 +38,7 @@ public class RenderBassCharge extends Render
         float r = 112F / 255;
         float g = 145F / 255;
         float b = 1.0F;
-        float a = (float)(20 - entity.ticksExisted) / 20;
+        float a = (float) (20 - entity.ticksExisted) / 20;
         GL11.glColor4f(r, g, b, a);
         model.render();
 
@@ -51,7 +47,6 @@ public class RenderBassCharge extends Render
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         GL11.glDepthMask(true);
-
 
 
         GL11.glPopMatrix();

@@ -6,25 +6,25 @@ import fiskfille.tf.TransformersMod;
 
 public class NEITransformersModConfig implements IConfigureNEI
 {
-	@Override
-	public void loadConfig()
-	{
-		API.registerRecipeHandler(new EnergonProcessorRecipeHandler());
-		API.registerUsageHandler(new EnergonProcessorRecipeHandler());
-		API.registerUsageHandler(new PowerSourceRecipeHandler());
-		API.registerRecipeHandler(new AssemblyTableRecipeHandler());
-		API.registerUsageHandler(new AssemblyTableRecipeHandler());
-	}
+    @Override
+    public void loadConfig()
+    {
+        API.registerRecipeHandler(new EnergonProcessorRecipeHandler());
+        API.registerUsageHandler(new EnergonProcessorRecipeHandler());
+        API.registerUsageHandler(new PowerSourceRecipeHandler());
+        API.registerRecipeHandler(new AssemblyTableRecipeHandler());
+        API.registerUsageHandler(new AssemblyTableRecipeHandler());
+    }
 
-	@Override
-	public String getName()
-	{
-		return "TransformersMod NEI Plugin";
-	}
+    @Override
+    public String getName()
+    {
+        return "TransformersMod NEI Plugin";
+    }
 
-	@Override
-	public String getVersion()
-	{
-		return TransformersMod.version;
-	}
+    @Override
+    public String getVersion()
+    {
+        return TransformersMod.version;
+    }
 }

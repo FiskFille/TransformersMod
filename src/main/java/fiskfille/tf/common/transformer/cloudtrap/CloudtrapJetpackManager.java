@@ -1,16 +1,16 @@
 package fiskfille.tf.common.transformer.cloudtrap;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFVectorHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * @author gegy1000

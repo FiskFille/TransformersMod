@@ -40,8 +40,8 @@ public class EntityLaser extends EntityThrowable
         motionY = p_70186_3_;
         motionZ = p_70186_5_;
         float f3 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_5_ * p_70186_5_);
-        prevRotationYaw = rotationYaw = (float)(Math.atan2(p_70186_1_, p_70186_5_) * 180.0D / Math.PI);
-        prevRotationPitch = rotationPitch = (float)(Math.atan2(p_70186_3_, f3) * 180.0D / Math.PI);
+        prevRotationYaw = rotationYaw = (float) (Math.atan2(p_70186_1_, p_70186_5_) * 180.0D / Math.PI);
+        prevRotationPitch = rotationPitch = (float) (Math.atan2(p_70186_3_, f3) * 180.0D / Math.PI);
     }
 
     protected float getGravityVelocity()

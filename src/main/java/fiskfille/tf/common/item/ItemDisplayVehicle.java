@@ -1,7 +1,9 @@
 package fiskfille.tf.common.item;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,10 +13,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.transformer.base.Transformer;
+
+import java.util.List;
 
 public class ItemDisplayVehicle extends Item
 {
@@ -57,7 +57,7 @@ public class ItemDisplayVehicle extends Item
                 ItemStack legs = new ItemStack(transformer.getLeggings());
                 ItemStack feet = new ItemStack(transformer.getBoots());
 
-                ItemStack[] itemstacks = { head, chest, legs, feet };
+                ItemStack[] itemstacks = {head, chest, legs, feet};
 
                 NBTTagList itemsList = new NBTTagList();
 

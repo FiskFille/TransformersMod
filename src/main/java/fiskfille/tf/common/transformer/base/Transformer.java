@@ -1,13 +1,13 @@
 package fiskfille.tf.common.transformer.base;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 
 /**
  * @author gegy1000, FiskFille
@@ -26,7 +26,7 @@ public abstract class Transformer
 
     /**
      * Override to specify whether this Transformer can use nitro.
-     * 
+     *
      * @param player The player trying to use nitro.
      * @returns whether the player can use nitro.
      */
@@ -58,9 +58,9 @@ public abstract class Transformer
 
     /**
      * Called every tick while wearing the armor.
-     * 
+     *
      * @param player The player wearing the armor.
-     * @param timer The transformation timer.
+     * @param timer  The transformation timer.
      */
     public void tick(EntityPlayer player, int timer)
     {
@@ -144,7 +144,7 @@ public abstract class Transformer
 
     /**
      * Called every tick while using nitro on the client side, used to make nitro particles.
-     * 
+     *
      * @param player The player making the particles
      */
     public void doNitroParticles(EntityPlayer player)
@@ -153,8 +153,8 @@ public abstract class Transformer
 
     /**
      * Called when this transformer hits the ground.
-     * 
-     * @param player The player who is falling.
+     *
+     * @param player   The player who is falling.
      * @param distance The distance fell.
      * @return The damage to take.
      */

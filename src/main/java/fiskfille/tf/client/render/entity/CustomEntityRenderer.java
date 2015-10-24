@@ -1,11 +1,11 @@
 package fiskfille.tf.client.render.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomEntityRenderer extends EntityRenderer
 {

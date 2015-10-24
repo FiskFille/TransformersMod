@@ -1,7 +1,8 @@
 package fiskfille.tf.common.item;
 
-import java.util.List;
-
+import com.google.common.collect.Multimap;
+import fiskfille.tf.common.entity.EntityLaserBeam;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,10 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Multimap;
-
-import fiskfille.tf.common.entity.EntityLaserBeam;
-import fiskfille.tf.helper.TFHelper;
+import java.util.List;
 
 public class ItemSkystrikesCrossbow extends Item
 {
@@ -112,7 +110,7 @@ public class ItemSkystrikesCrossbow extends Item
         List<Entity> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - par4, y - par4, z - par4, x + par4, y + par4, z + par4), IEntitySelector.selectAnything);
         return list;
     }
-    
+
     public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();

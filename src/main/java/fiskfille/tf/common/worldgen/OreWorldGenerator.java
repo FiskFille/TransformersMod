@@ -1,7 +1,7 @@
 package fiskfille.tf.common.worldgen;
 
-import java.util.Random;
-
+import cpw.mods.fml.common.IWorldGenerator;
+import fiskfille.tf.common.block.TFBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import cpw.mods.fml.common.IWorldGenerator;
-import fiskfille.tf.common.block.TFBlocks;
+
+import java.util.Random;
 
 public class OreWorldGenerator implements IWorldGenerator
 {

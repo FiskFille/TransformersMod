@@ -1,7 +1,5 @@
 package fiskfille.tf.common.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.DefaultEnergon;
 import fiskfille.tf.common.energon.RedEnergon;
@@ -11,6 +9,8 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 
 public class TFBlocks
 {
@@ -45,7 +45,7 @@ public class TFBlocks
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         assemblyTable = new BlockAssemblyTable();
-        
+
 
         String modId = TransformersMod.modid;
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore", modId);
@@ -62,7 +62,7 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(groundBridgeFrame, "Ground Bridge Frame", modId);
         TFBlockRegistry.registerBlock(groundBridgeTeleporter, "Ground Bridge Teleporter", modId);
         TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table", modId);
-        
+
         groundBridgeTeleporter.setCreativeTab(null);
     }
 }

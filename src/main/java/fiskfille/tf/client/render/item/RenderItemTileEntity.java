@@ -8,22 +8,22 @@ import net.minecraftforge.client.IItemRenderer;
 public class RenderItemTileEntity implements IItemRenderer
 {
     private TileEntity tileentity;
-    
+
     public RenderItemTileEntity(TileEntity tile)
     {
         this.tileentity = tile;
     }
-    
+
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
         return true;
     }
-    
+
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return true;
     }
-    
+
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         if (type == type.ENTITY || type == type.INVENTORY)

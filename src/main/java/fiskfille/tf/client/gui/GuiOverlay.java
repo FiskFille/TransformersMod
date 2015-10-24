@@ -1,22 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,6 +16,21 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFShootManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class GuiOverlay extends Gui
 {
@@ -144,7 +142,7 @@ public class GuiOverlay extends Gui
             float scale = 0.5F;
             GL11.glPushMatrix();
             GL11.glScalef(scale, scale, scale);
-            drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem().getUnlocalizedName() + ".name"), (int)((x - 1) / scale), (int)((y + 17) / scale), 0xffffff);
+            drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem().getUnlocalizedName() + ".name"), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
             GL11.glPopMatrix();
         }
     }
@@ -229,7 +227,7 @@ public class GuiOverlay extends Gui
                 drawTexturedModalRect(x - 95 - transformationOffsetX, y - 1, 0, 0, 16, 16);
                 drawTexturedModalRect(x - 94 - transformationOffsetX, y, 0, 0, 14, 14);
                 GL11.glColor4f(1F, 0F, 0F, 0.25F);
-                drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int) d, 10);                
+                drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int) d, 10);
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
 
                 GL11.glDisable(GL11.GL_LIGHTING);
@@ -244,7 +242,7 @@ public class GuiOverlay extends Gui
                 float scale = 0.5F;
                 GL11.glPushMatrix();
                 GL11.glScalef(scale, scale, scale);
-                drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem().getUnlocalizedName() + ".name"), (int)((x - 95 - transformationOffsetX) / scale), (int)((y + 16) / scale), 0xffffff);
+                drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem().getUnlocalizedName() + ".name"), (int) ((x - 95 - transformationOffsetX) / scale), (int) ((y + 16) / scale), 0xffffff);
                 GL11.glPopMatrix();
             }
         }
@@ -312,7 +310,8 @@ public class GuiOverlay extends Gui
                 if (TFConfig.purgeDashTop)
                 {
                     y = 5;
-                } else
+                }
+                else
                 {
                     y = height / 2 + 9;
                 }
@@ -336,7 +335,7 @@ public class GuiOverlay extends Gui
         if (TutorialHandler.completedTutorial != null)
         {
             mc.getTextureManager().bindTexture(new ResourceLocation("textures/gui/achievement/achievement_background.png"));
-            int i = (int)(TutorialHandler.animationTimer > 90 ? (100 - TutorialHandler.animationTimer) * 3.2F : TutorialHandler.animationTimer < 10 ? TutorialHandler.animationTimer * 3.2F : 32) - 32;
+            int i = (int) (TutorialHandler.animationTimer > 90 ? (100 - TutorialHandler.animationTimer) * 3.2F : TutorialHandler.animationTimer < 10 ? TutorialHandler.animationTimer * 3.2F : 32) - 32;
             String s = TutorialHandler.completedTutorial.name();
 
             drawTexturedModalRect(width - 160, i, 96, 202, 160, 32);

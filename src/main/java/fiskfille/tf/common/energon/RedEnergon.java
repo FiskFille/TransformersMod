@@ -1,9 +1,9 @@
 package fiskfille.tf.common.energon;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 
 public class RedEnergon extends Energon
 {
@@ -18,16 +18,16 @@ public class RedEnergon extends Energon
     {
         return TFItems.redEnergonCrystalPiece;
     }
-    
+
     @Override
     public int getColor()
     {
-    	return 0xFF0000;
+        return 0xFF0000;
     }
-    
+
     @Override
     public String getId()
     {
-    	return "red";
+        return "red";
     }
 }

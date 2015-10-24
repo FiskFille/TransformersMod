@@ -1,10 +1,9 @@
 package fiskfille.tf.client.displayable;
 
-import net.minecraft.item.Item;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.TFItems;
+import net.minecraft.item.Item;
 
 public class TFDisplayableManager
 {

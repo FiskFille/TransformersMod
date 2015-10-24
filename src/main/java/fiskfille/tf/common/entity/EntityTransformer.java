@@ -1,5 +1,6 @@
 package fiskfille.tf.common.entity;
 
+import fiskfille.tf.common.entity.ai.EntityAITransform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import fiskfille.tf.common.entity.ai.EntityAITransform;
 
 public class EntityTransformer extends EntityCreature
 {
@@ -96,7 +96,8 @@ public class EntityTransformer extends EntityCreature
         if (transformed && transformationTimer > 0)
         {
             transformationTimer -= 2;
-        } else if (!transformed && transformationTimer < 20)
+        }
+        else if (!transformed && transformationTimer < 20)
         {
             transformationTimer += 2;
         }
@@ -150,7 +151,7 @@ public class EntityTransformer extends EntityCreature
     @Override
     public ItemStack[] getLastActiveItems()
     {
-        return new ItemStack[] {};
+        return new ItemStack[]{};
     }
 
     public void readEntityFromNBT(NBTTagCompound nbt)

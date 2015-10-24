@@ -1,7 +1,9 @@
 package fiskfille.tf.common.block;
 
-import java.util.Random;
-
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -16,10 +18,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+
+import java.util.Random;
 
 public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvider
 {
@@ -87,7 +87,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
             {
                 player.setCurrentItemOrArmor(0, displayItem);
                 tileEntityDisplayPillar.setDisplayItem(null, true);
-                
+
                 return true;
             }
             else if (heldItem != null && TransformersAPI.hasDisplayable(heldItem.getItem()))
@@ -96,7 +96,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
                 {
                     tileEntityDisplayPillar.setDisplayItem(heldItem, true);
                     player.setCurrentItemOrArmor(0, null);
-                    
+
                     return true;
                 }
             }

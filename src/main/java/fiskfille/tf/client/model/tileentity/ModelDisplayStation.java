@@ -191,8 +191,8 @@ public class ModelDisplayStation extends ModelBase
         shape4_1.addChild(shape6_2);
     }
 
-    public void render() 
-    { 
+    public void render()
+    {
         shape1.render(0.0625F);
     }
 

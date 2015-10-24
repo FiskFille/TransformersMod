@@ -1,19 +1,17 @@
 package fiskfille.tf.common.recipe;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipesArmorDyes;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Maps;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AssemblyTableCraftingManager
 {
@@ -25,7 +23,7 @@ public class AssemblyTableCraftingManager
         return instance;
     }
 
-    public AssemblyTableRecipe addRecipe(ItemStack result, Object ... ingredients)
+    public AssemblyTableRecipe addRecipe(ItemStack result, Object... ingredients)
     {
         String s = "";
         int i = 0;
@@ -34,7 +32,7 @@ public class AssemblyTableCraftingManager
 
         if (ingredients[i] instanceof String[])
         {
-            String[] astring = (String[])((String[])ingredients[i++]);
+            String[] astring = (String[]) ((String[]) ingredients[i++]);
 
             for (int l = 0; l < astring.length; ++l)
             {
@@ -48,7 +46,7 @@ public class AssemblyTableCraftingManager
         {
             while (ingredients[i] instanceof String)
             {
-                String s2 = (String)ingredients[i++];
+                String s2 = (String) ingredients[i++];
                 ++k;
                 j = s2.length();
                 s = s + s2;
@@ -59,20 +57,20 @@ public class AssemblyTableCraftingManager
 
         for (hashmap = new HashMap(); i < ingredients.length; i += 2)
         {
-            Character character = (Character)ingredients[i];
+            Character character = (Character) ingredients[i];
             ItemStack itemstack1 = null;
 
             if (ingredients[i + 1] instanceof Item)
             {
-                itemstack1 = new ItemStack((Item)ingredients[i + 1]);
+                itemstack1 = new ItemStack((Item) ingredients[i + 1]);
             }
             else if (ingredients[i + 1] instanceof Block)
             {
-                itemstack1 = new ItemStack((Block)ingredients[i + 1], 1, 32767);
+                itemstack1 = new ItemStack((Block) ingredients[i + 1], 1, 32767);
             }
             else if (ingredients[i + 1] instanceof ItemStack)
             {
-                itemstack1 = (ItemStack)ingredients[i + 1];
+                itemstack1 = (ItemStack) ingredients[i + 1];
             }
 
             hashmap.put(character, itemstack1);
@@ -86,7 +84,7 @@ public class AssemblyTableCraftingManager
 
             if (hashmap.containsKey(Character.valueOf(c0)))
             {
-                aitemstack[i1] = ((ItemStack)hashmap.get(Character.valueOf(c0))).copy();
+                aitemstack[i1] = ((ItemStack) hashmap.get(Character.valueOf(c0))).copy();
             }
             else
             {
@@ -145,7 +143,7 @@ public class AssemblyTableCraftingManager
         {
             for (j = 0; j < this.recipes.size(); ++j)
             {
-                IRecipe irecipe = (IRecipe)this.recipes.get(j);
+                IRecipe irecipe = (IRecipe) this.recipes.get(j);
 
                 if (irecipe.matches(inventoryCrafting, world))
                 {
@@ -156,32 +154,32 @@ public class AssemblyTableCraftingManager
             return null;
         }
     }
-    
+
     public Map<Integer, Integer> getDecrMap(ItemStack result)
     {
-    	Map<Integer, Integer> map = Maps.newHashMap();
-    	
-    	for (IRecipe recipe : (List<IRecipe>)getRecipeList())
-    	{
-    		ItemStack itemstack = recipe.getRecipeOutput();
-    		
-    		if (itemstack != null && result != null && itemstack.getItem() == result.getItem() && itemstack.getItemDamage() == result.getItemDamage())
-    		{
-    			AssemblyTableRecipe recipe1 = (AssemblyTableRecipe)recipe;
-    			
-    			for (int i = 0; i < recipe1.recipeItems.length; ++i)
-    			{
-    				ItemStack itemstack1 = recipe1.recipeItems[i];
-    				
-    				if (itemstack1 != null)
-    				{
-    					map.put(i, itemstack1.stackSize);
-    				}
-    			}
-    		}
-    	}
-    	
-    	return map;
+        Map<Integer, Integer> map = Maps.newHashMap();
+
+        for (IRecipe recipe : (List<IRecipe>) getRecipeList())
+        {
+            ItemStack itemstack = recipe.getRecipeOutput();
+
+            if (itemstack != null && result != null && itemstack.getItem() == result.getItem() && itemstack.getItemDamage() == result.getItemDamage())
+            {
+                AssemblyTableRecipe recipe1 = (AssemblyTableRecipe) recipe;
+
+                for (int i = 0; i < recipe1.recipeItems.length; ++i)
+                {
+                    ItemStack itemstack1 = recipe1.recipeItems[i];
+
+                    if (itemstack1 != null)
+                    {
+                        map.put(i, itemstack1.stackSize);
+                    }
+                }
+            }
+        }
+
+        return map;
     }
 
     public List getRecipeList()

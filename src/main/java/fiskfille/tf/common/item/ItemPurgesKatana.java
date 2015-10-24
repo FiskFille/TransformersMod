@@ -1,7 +1,9 @@
 package fiskfille.tf.common.item;
 
-import java.util.List;
-
+import com.google.common.collect.Multimap;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,11 +17,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Multimap;
-
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFVectorHelper;
+import java.util.List;
 
 public class ItemPurgesKatana extends ItemSword
 {
@@ -40,7 +38,7 @@ public class ItemPurgesKatana extends ItemSword
             {
                 force = 2.0D;
             }
-            
+
             stack.damageItem(1, player);
             Vec3 vec3 = TFVectorHelper.getFrontCoords(player, player.onGround ? force : force * 0.75D, true);
             player.motionX += vec3.xCoord - player.posX;

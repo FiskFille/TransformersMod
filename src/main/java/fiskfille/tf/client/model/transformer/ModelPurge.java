@@ -1,7 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.playerdata.TFDataManager;
@@ -330,7 +329,7 @@ public class ModelPurge extends ModelTransformerBase
     public ModelRenderer vehicle107;
     public ModelRenderer vehicle108;
     public ModelRenderer vehicle109;
-    
+
     public ModelPurge()
     {
         this.textureWidth = 128;
@@ -1892,36 +1891,36 @@ public class ModelPurge extends ModelTransformerBase
 //            }
 //        }
 //    }
-    
+
     public Transformer getTransformer()
-	{
-		return TransformerManager.transformerPurge;
-	}
-	
-	public ModelRenderer getWaist()
-	{
-		return waist;
-	}
-	
-	public ModelRenderer getVehicle()
-	{
-		return vehiclebase;
-	}
-	
-	public ModelRenderer getRightLeg()
-	{
-		return upperLegR;
-	}
-	
-	public ModelRenderer getLeftLeg()
-	{
-		return upperLegL;
-	}
-	
-	public ModelRenderer getHead()
-	{
-		return headbase;
-	}
+    {
+        return TransformerManager.transformerPurge;
+    }
+
+    public ModelRenderer getWaist()
+    {
+        return waist;
+    }
+
+    public ModelRenderer getVehicle()
+    {
+        return vehiclebase;
+    }
+
+    public ModelRenderer getRightLeg()
+    {
+        return upperLegR;
+    }
+
+    public ModelRenderer getLeftLeg()
+    {
+        return upperLegL;
+    }
+
+    public ModelRenderer getHead()
+    {
+        return headbase;
+    }
 
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
     {
@@ -2029,11 +2028,11 @@ public class ModelPurge extends ModelTransformerBase
                     upperLegR.rotateAngleX -= 0.2;
                     upperLegL.rotateAngleX -= 0.2;
                     lowerlegR1.rotateAngleX += 0.15;
-                    lowerlegL1.rotateAngleX += 0.15;                    
+                    lowerlegL1.rotateAngleX += 0.15;
                     waist.rotateAngleX += 0.1F;
                     skirtR1.rotateAngleZ += 0.1F;
                     skirtL1.rotateAngleZ -= 0.1F;
-                    
+
                     MowzieModelRenderer armR = torsobaseR;
                     MowzieModelRenderer armL = torsobaseL;
 
@@ -2064,9 +2063,9 @@ public class ModelPurge extends ModelTransformerBase
                     flap(skirtL1, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
                     walk(barrelbase1, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
 
-                    
+
                     int ticksExisted = entity.ticksExisted;
-                    
+
                     walk(torsoconnector, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
                     walk(torsobase, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
                     flap(trackconnectorR3, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);

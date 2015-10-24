@@ -1,7 +1,7 @@
 package fiskfille.tf.common.container;
 
-import java.util.Map;
-
+import cpw.mods.fml.common.FMLCommonHandler;
+import fiskfille.tf.common.recipe.AssemblyTableCraftingManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -15,8 +15,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
-import fiskfille.tf.common.recipe.AssemblyTableCraftingManager;
+
+import java.util.Map;
 
 public class SlotAssembly extends Slot
 {
@@ -87,7 +87,7 @@ public class SlotAssembly extends Slot
             this.thePlayer.addStat(AchievementList.bakeCake, 1);
         }
 
-        if (itemstack.getItem() instanceof ItemPickaxe && ((ItemPickaxe)itemstack.getItem()).func_150913_i() != Item.ToolMaterial.WOOD)
+        if (itemstack.getItem() instanceof ItemPickaxe && ((ItemPickaxe) itemstack.getItem()).func_150913_i() != Item.ToolMaterial.WOOD)
         {
             this.thePlayer.addStat(AchievementList.buildBetterPickaxe, 1);
         }
@@ -119,7 +119,7 @@ public class SlotAssembly extends Slot
 
             if (itemstack1 != null)
             {
-            	Map<Integer, Integer> map = AssemblyTableCraftingManager.getInstance().getDecrMap(itemstack);
+                Map<Integer, Integer> map = AssemblyTableCraftingManager.getInstance().getDecrMap(itemstack);
                 this.craftMatrix.decrStackSize(i, map.get(i) == null ? 0 : map.get(i));
 
                 if (itemstack1.getItem().hasContainerItem(itemstack1))

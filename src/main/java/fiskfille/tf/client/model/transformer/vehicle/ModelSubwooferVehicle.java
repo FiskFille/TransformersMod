@@ -272,7 +272,7 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
 
     public void render(ItemStack itemstack)
     {
-    	setupRenderLayers(itemstack, vehicleBase);
+        setupRenderLayers(itemstack, vehicleBase);
     }
 
     /**

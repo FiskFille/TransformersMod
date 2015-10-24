@@ -1,19 +1,17 @@
 package fiskfille.tf;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.item.Item;
-
 import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.transformer.base.Transformer;
+import net.minecraft.item.Item;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author gegy1000, FiskFille
@@ -27,7 +25,7 @@ public class TransformersAPI
 
     /**
      * Used to register the specified Transformer.
-     * 
+     *
      * @param transformer The Transformer registered.
      */
     public static void registerTransformer(Transformer transformer)
@@ -52,7 +50,7 @@ public class TransformersAPI
 
     /**
      * Gets an instance of a Transformer by name.
-     * 
+     *
      * @param name The name of the Transformer
      * @return the Transformer with the specified name, or null if there is none.
      */
@@ -68,10 +66,10 @@ public class TransformersAPI
 
         return null;
     }
-    
+
     /**
      * Used to register the specified energon type.
-     * 
+     *
      * @param energon The energon type being registered.
      */
     public static void registerEnergonType(Energon energon)
@@ -85,7 +83,7 @@ public class TransformersAPI
             System.err.println("[TransformersAPI] A mod is trying to register an energon type twice!");
         }
     }
-    
+
     /**
      * @returns a list of registered Energon Types.
      */
@@ -93,10 +91,10 @@ public class TransformersAPI
     {
         return energonTypes;
     }
-    
+
     /**
-     * @param name The name of the energon type 
-     * @return an instance of an energon type with the specified name 
+     * @param name The name of the energon type
+     * @return an instance of an energon type with the specified name
      */
     public static Energon getEnergonTypeByName(String name)
     {
@@ -107,20 +105,20 @@ public class TransformersAPI
                 return energon;
             }
         }
-        
+
         return null;
     }
 
     /**
      * Used to register the specified Displayable.
-     * 
-     * @param item The item to be assigned to.
+     *
+     * @param item        The item to be assigned to.
      * @param displayable The Displayable registered.
      */
     public static void registerDisplayable(Item item, Class<? extends Displayable> displayableClass)
     {
         Side side = FMLCommonHandler.instance().getSide();
-        
+
         if (side == Side.CLIENT)
         {
             try
@@ -163,7 +161,7 @@ public class TransformersAPI
 
         return null;
     }
-    
+
     /**
      * @param item The item to query
      * @return if the specific item has a Displayable on the client side.
@@ -171,7 +169,7 @@ public class TransformersAPI
     public static boolean hasDisplayable(Item item)
     {
         Side side = FMLCommonHandler.instance().getSide();
-        
+
         if (side == Side.CLIENT)
         {
             return getDisplayableFor(item) != null;

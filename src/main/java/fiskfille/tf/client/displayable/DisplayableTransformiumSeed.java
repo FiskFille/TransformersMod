@@ -1,12 +1,10 @@
 package fiskfille.tf.client.displayable;
 
+import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
 public class DisplayableTransformiumSeed extends Displayable
 {

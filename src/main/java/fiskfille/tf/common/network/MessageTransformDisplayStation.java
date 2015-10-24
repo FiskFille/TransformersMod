@@ -1,13 +1,13 @@
 package fiskfille.tf.common.network;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageTransformDisplayStation implements IMessage
 {
@@ -47,9 +47,9 @@ public class MessageTransformDisplayStation implements IMessage
         {
             EntityPlayer player = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
             World world = player.worldObj;
-            
-            TileEntityDisplayStation tileentity = (TileEntityDisplayStation)world.getTileEntity(message.x, message.y, message.z);
-            
+
+            TileEntityDisplayStation tileentity = (TileEntityDisplayStation) world.getTileEntity(message.x, message.y, message.z);
+
             if (tileentity != null)
             {
                 if (tileentity.transform())

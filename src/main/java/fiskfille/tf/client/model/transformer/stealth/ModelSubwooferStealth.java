@@ -1,15 +1,15 @@
 package fiskfille.tf.client.model.transformer.stealth;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelSubwooferStealth extends ModelTransformerBase
 {
@@ -306,36 +306,36 @@ public class ModelSubwooferStealth extends ModelTransformerBase
         vehicleChestMain1.addChild(vehicleShoulderBaseR);
         vehicleDish1.addChild(vehicleDish2);
     }
-    
+
     public Transformer getTransformer()
-	{
-		return TransformerManager.transformerSubwoofer;
-	}
-	
-	public ModelRenderer getWaist()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getVehicle()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getRightLeg()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getLeftLeg()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getHead()
-	{
-		return vehicleBase;
-	}
+    {
+        return TransformerManager.transformerSubwoofer;
+    }
+
+    public ModelRenderer getWaist()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getVehicle()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getRightLeg()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getLeftLeg()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getHead()
+    {
+        return vehicleBase;
+    }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
@@ -377,7 +377,7 @@ public class ModelSubwooferStealth extends ModelTransformerBase
 
             if (transformedPlayer != null)
             {
-                for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2 })
+                for (ModelRenderer modelRenderer : new ModelRenderer[]{vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2})
                 {
                     float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
                     modelRenderer.rotateAngleX = wheelSpinSpeed;

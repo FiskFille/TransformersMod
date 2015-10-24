@@ -1,11 +1,9 @@
 package fiskfille.tf.client.model.tileentity;
 
+import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.common.entity.EntityTransformiumSeed;
 
 public class ModelTransformiumSeed extends ModelBase
 {

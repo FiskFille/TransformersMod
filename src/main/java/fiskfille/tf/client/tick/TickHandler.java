@@ -1,10 +1,5 @@
 package fiskfille.tf.client.tick;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -18,6 +13,11 @@ import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.proxy.CommonProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class TickHandler
 {
@@ -50,12 +50,12 @@ public class TickHandler
                 if (TFDataManager.setInVehicleMode(player, true))
                 {
                     VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-                    
+
                     if (transformedPlayer != null)
                     {
                         transformedPlayer.setLandingTimer(20);
                     }
-                    
+
                     player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
                 }
             }

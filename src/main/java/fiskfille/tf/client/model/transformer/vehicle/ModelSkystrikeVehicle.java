@@ -312,7 +312,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
 
     public void render(ItemStack itemstack)
     {
-    	vehicleBody.offsetY = 1.2F;
+        vehicleBody.offsetY = 1.2F;
         setupRenderLayers(itemstack, vehicleBody);
     }
 

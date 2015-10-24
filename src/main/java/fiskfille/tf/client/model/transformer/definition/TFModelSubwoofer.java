@@ -1,20 +1,18 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.ModelSubwoofer;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.stealth.ModelSubwooferStealth;
+import fiskfille.tf.client.model.transformer.vehicle.ModelSubwooferVehicle;
+import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.client.model.transformer.ModelSubwoofer;
-import fiskfille.tf.client.model.transformer.stealth.ModelSubwooferStealth;
-import fiskfille.tf.client.model.transformer.vehicle.ModelSubwooferVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 
 public class TFModelSubwoofer extends TransformerModel
 {
@@ -96,12 +94,12 @@ public class TFModelSubwoofer extends TransformerModel
     {
         return new ResourceLocation(TransformersMod.modid, "textures/models/subwoofer/subwoofer.png");
     }
-    
+
     @Override
     public String getTextureDir()
-	{
-		return "subwoofer/subwoofer";
-	}
+    {
+        return "subwoofer/subwoofer";
+    }
 
     @Override
     public ModelTransformerBase getItemInventoryModel()

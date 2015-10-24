@@ -1,10 +1,10 @@
 package fiskfille.tf.client.model.transformer.definition;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TFModelRegistry
 {

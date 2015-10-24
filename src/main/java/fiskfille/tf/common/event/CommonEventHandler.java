@@ -1,11 +1,23 @@
 package fiskfille.tf.common.event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.gui.GuiOverlay;
+import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageBroadcastState;
+import fiskfille.tf.common.network.MessageSendFlying;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.playerdata.TFPlayerData;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.web.donator.Donators;
+import fiskfille.tf.web.update.Update;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,24 +37,12 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.event.ClientEventHandler;
-import fiskfille.tf.client.gui.GuiOverlay;
-import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageBroadcastState;
-import fiskfille.tf.common.network.MessageSendFlying;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.playerdata.TFPlayerData;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.config.TFConfig;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.web.donator.Donators;
-import fiskfille.tf.web.update.Update;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CommonEventHandler
 {
@@ -342,7 +342,7 @@ public class CommonEventHandler
             // TODO-TF: Re-implement player resizing for version 0.6
             //			try 
             //			{
-                //				if (vehicleMode && yOffset != 0)
+            //				if (vehicleMode && yOffset != 0)
             //				{
             //					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
             //				}

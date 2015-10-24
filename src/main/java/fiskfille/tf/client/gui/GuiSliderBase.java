@@ -1,13 +1,10 @@
 package fiskfille.tf.client.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.MathHelper;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiSliderBase extends GuiButton
@@ -34,7 +31,7 @@ public class GuiSliderBase extends GuiButton
         {
             if (this.dragging)
             {
-                this.percentage = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+                this.percentage = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
 
                 if (this.percentage < 0.0F)
                 {
@@ -48,8 +45,8 @@ public class GuiSliderBase extends GuiButton
             }
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.percentage * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.percentage * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.percentage * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.percentage * (float) (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -57,7 +54,7 @@ public class GuiSliderBase extends GuiButton
     {
         if (super.mousePressed(mc, mouseX, mouseY))
         {
-            this.percentage = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+            this.percentage = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
 
             if (this.percentage < 0.0F)
             {
@@ -68,7 +65,7 @@ public class GuiSliderBase extends GuiButton
             {
                 this.percentage = 1.0F;
             }
-            
+
             this.dragging = true;
             return true;
         }

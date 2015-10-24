@@ -1,17 +1,15 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.client.model.tileentity.ModelDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class RenderDisplayPillar extends TileEntitySpecialRenderer
 {
@@ -39,10 +37,10 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         }
 
         GL11.glPopMatrix();
-    }    
+    }
 
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
-        renderModelAt((TileEntityDisplayPillar)tileentity, x, y, z, partialTicks);
+        renderModelAt((TileEntityDisplayPillar) tileentity, x, y, z, partialTicks);
     }
 }

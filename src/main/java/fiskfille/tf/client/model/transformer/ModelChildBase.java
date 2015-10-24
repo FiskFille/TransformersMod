@@ -1,5 +1,7 @@
 package fiskfille.tf.client.model.transformer;
 
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.playerdata.TFDataManager;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -7,8 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.playerdata.TFDataManager;
 
 public class ModelChildBase
 {

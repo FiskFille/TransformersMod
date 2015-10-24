@@ -1,10 +1,10 @@
 package fiskfille.tf.common.achievement;
 
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.item.TFItems;
 import net.minecraft.init.Items;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.item.TFItems;
 
 public class TFAchievements
 {

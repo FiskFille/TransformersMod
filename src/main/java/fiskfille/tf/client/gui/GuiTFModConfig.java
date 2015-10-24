@@ -1,14 +1,14 @@
 package fiskfille.tf.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
 import cpw.mods.fml.client.config.DummyConfigElement;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import fiskfille.tf.TransformersMod;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.common.config.ConfigElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiTFModConfig extends GuiConfig
 {
@@ -22,7 +22,9 @@ public class GuiTFModConfig extends GuiConfig
         super(parent, getConfigElements(), TransformersMod.modid, false, false, "Transformers Mod Configuration");
     }
 
-    /** Compiles a list of config elements */
+    /**
+     * Compiles a list of config elements
+     */
     private static List<IConfigElement> getConfigElements()
     {
         List<IConfigElement> elements = new ArrayList<IConfigElement>();
@@ -35,7 +37,9 @@ public class GuiTFModConfig extends GuiConfig
         return elements;
     }
 
-    /** Creates a button linking to another screen where all options of the category are available */
+    /**
+     * Creates a button linking to another screen where all options of the category are available
+     */
     private static IConfigElement categoryElement(String category, String name, String tooltip_key)
     {
         return new DummyConfigElement.DummyCategoryElement(name, tooltip_key, new ConfigElement(TransformersMod.configFile.getCategory(category.toLowerCase())).getChildElements());

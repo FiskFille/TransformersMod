@@ -1,17 +1,17 @@
 package fiskfille.tf.client.model.tools;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.transformer.ModelChildBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.transformer.ModelChildBase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author BobMowzie, gegy1000
@@ -140,7 +140,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
         if (invert)
         {
             return -MathHelper.cos(f * speed + offset) * degree * f1 + weight * f1;
-        } else
+        }
+        else
         {
             return MathHelper.cos(f * speed + offset) * degree * f1 + weight * f1;
         }
@@ -162,7 +163,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
         if (bounce)
         {
             return -MathHelper.abs(MathHelper.sin(f * speed) * f1 * degree);
-        } else
+        }
+        else
         {
             return MathHelper.sin(f * speed) * f1 * degree - f1 * degree;
         }
@@ -364,8 +366,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
 
     /**
      * @param rotating The ModelRenderer you are moving.
-     * @param to The ModelRenderer you are moving to
-     * @param t The timer (20-0)
+     * @param to       The ModelRenderer you are moving to
+     * @param t        The timer (20-0)
      */
     protected void rotateTo(ModelRenderer rotating, ModelRenderer to, float t)
     {

@@ -1,8 +1,7 @@
 package fiskfille.tf.client.keybinds;
 
-import org.lwjgl.input.Keyboard;
-
 import cpw.mods.fml.client.registry.ClientRegistry;
+import org.lwjgl.input.Keyboard;
 
 public class TFKeyBinds
 {

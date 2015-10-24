@@ -1,37 +1,22 @@
 package fiskfille.tf.common.motion;
 
-import static net.minecraft.block.material.Material.cactus;
-import static net.minecraft.block.material.Material.cake;
-import static net.minecraft.block.material.Material.clay;
-import static net.minecraft.block.material.Material.coral;
-import static net.minecraft.block.material.Material.craftedSnow;
-import static net.minecraft.block.material.Material.gourd;
-import static net.minecraft.block.material.Material.ground;
-import static net.minecraft.block.material.Material.ice;
-import static net.minecraft.block.material.Material.leaves;
-import static net.minecraft.block.material.Material.packedIce;
-import static net.minecraft.block.material.Material.plants;
-import static net.minecraft.block.material.Material.sand;
-import static net.minecraft.block.material.Material.snow;
-import static net.minecraft.block.material.Material.sponge;
-import static net.minecraft.block.material.Material.vine;
-import static net.minecraft.block.material.Material.web;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFVectorHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import static net.minecraft.block.material.Material.*;
 
 /**
  * @author FiskFille
@@ -43,16 +28,16 @@ public class TFMotionManager
 
     /**
      * Method used to apply realistic vehicle motion to the player.
-     * 
-     * @param player The player the motion should be applied to
-     * @param speedLimit How many km/h the vehicle can go moving normally 
-     * @param nitroSpeedLimit How many km/h the vehicle can go while using nitro
-     * @param sidewaysSpeedLimit How many km/h the vehicle can go while in Stealth Force mode
+     *
+     * @param player              The player the motion should be applied to
+     * @param speedLimit          How many km/h the vehicle can go moving normally
+     * @param nitroSpeedLimit     How many km/h the vehicle can go while using nitro
+     * @param sidewaysSpeedLimit  How many km/h the vehicle can go while in Stealth Force mode
      * @param reversingSpeedLimit How many km/h the vehicle can go backwards while reversing
-     * @param canDrift If the vehicle can drift
-     * @param canDriveOffroad If the vehicle can drive off-road
-     * @param canMoveSideways If the vehicle can move to the left or to the right
-     * @param faceForward If the vehicle should face forward or not. Used by tanks to make the head and body rotations different.
+     * @param canDrift            If the vehicle can drift
+     * @param canDriveOffroad     If the vehicle can drive off-road
+     * @param canMoveSideways     If the vehicle can move to the left or to the right
+     * @param faceForward         If the vehicle should face forward or not. Used by tanks to make the head and body rotations different.
      */
     public static void motion(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double sidewaysSpeedLimit, double reversingSpeedLimit, boolean canDrift, boolean canDriveOffroad, boolean canMoveSideways, boolean faceForward)
     {
@@ -178,7 +163,7 @@ public class TFMotionManager
 
             if (!canDriveOffroad)
             {
-                Material[] offroadMaterials = { cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web };
+                Material[] offroadMaterials = {cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web};
                 Block block = player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ - 1);
                 boolean isDrivingOffroad = false;
 
@@ -223,11 +208,11 @@ public class TFMotionManager
 
     /**
      * Method used to apply realistic jet motion to the player.
-     * 
-     * @param player The player the motion should be applied to
-     * @param speedLimit How many km/h the jet can go moving normally 
-     * @param nitroSpeedLimit How many km/h the jet can go while using nitro
-     * @param idlingSpeedLimit How many km/h the jet goes while idling 
+     *
+     * @param player           The player the motion should be applied to
+     * @param speedLimit       How many km/h the jet can go moving normally
+     * @param nitroSpeedLimit  How many km/h the jet can go while using nitro
+     * @param idlingSpeedLimit How many km/h the jet goes while idling
      */
     public static void motionJet(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double idlingSpeedLimit)
     {
@@ -271,12 +256,12 @@ public class TFMotionManager
             {
                 forwardVelocity = idlingSpeedLimit;
             }
-            
-            Block block = player.worldObj.getBlock((int)player.posX - 1, (int)(player.posY - 0.5F) - 2, (int)player.posZ - 1);
+
+            Block block = player.worldObj.getBlock((int) player.posX - 1, (int) (player.posY - 0.5F) - 2, (int) player.posZ - 1);
             int landingTimer = transformedPlayer.getLandingTimer();
-            float f = (float)landingTimer / 20;
+            float f = (float) landingTimer / 20;
             boolean pitch = true;
-            
+
 //            if (block == Blocks.air)
             if (!player.onGround)
             {
@@ -292,25 +277,25 @@ public class TFMotionManager
                     --landingTimer;
                 }
             }
-            
+
             if (landingTimer == 0)
             {
                 pitch = player.rotationPitch < 0;
             }
-            
+
             TFMotionManager.moveForward(player, forwardVelocity * Math.max(0.5F, f), pitch);
             player.motionY -= 0.1 * f;
-            
+
             if (landingTimer < 5 && player.rotationPitch < 0 && moveForward)
             {
                 player.motionY += 0.5F;
             }
-            
+
             if (player.isCollidedHorizontally && forwardVelocity > 60)
             {
                 landingTimer = 20;
                 transformedPlayer.setLandingTimer(20);
-                
+
                 if (TFDataManager.setInVehicleMode(player, false))
                 {
                     player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);

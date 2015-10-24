@@ -1,7 +1,8 @@
 package fiskfille.tf.common.entity;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.block.TFBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -13,9 +14,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.block.TFBlocks;
+
+import java.util.List;
 
 public class EntityTransformiumSeed extends Entity
 {
@@ -98,16 +98,16 @@ public class EntityTransformiumSeed extends Entity
                 {
                     int y = 256;
 
-                    while (worldObj.getBlock((int)posX - 1, y, (int)posZ - 1) == Blocks.air)
+                    while (worldObj.getBlock((int) posX - 1, y, (int) posZ - 1) == Blocks.air)
                     {
                         --y;
                     }
 
-                    Block block = worldObj.getBlock((int)posX - 1, y - j, (int)posZ - 1);
+                    Block block = worldObj.getBlock((int) posX - 1, y - j, (int) posZ - 1);
 
                     if (block != TFBlocks.transformiumStone && block != Blocks.air && block != Blocks.bedrock)
                     {
-                        worldObj.setBlock((int)posX - 1, y - j, (int)posZ - 1, TFBlocks.transformiumStone);
+                        worldObj.setBlock((int) posX - 1, y - j, (int) posZ - 1, TFBlocks.transformiumStone);
                     }
                 }
 

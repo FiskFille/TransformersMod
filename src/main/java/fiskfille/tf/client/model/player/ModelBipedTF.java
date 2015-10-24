@@ -1,15 +1,13 @@
 package fiskfille.tf.client.model.player;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.transformer.ModelChildBase;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class ModelBipedTF extends ModelChildBase.Biped

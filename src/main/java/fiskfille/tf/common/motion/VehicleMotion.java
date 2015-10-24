@@ -67,7 +67,7 @@ public class VehicleMotion
     {
         return jetRoll;
     }
-    
+
     public VehicleMotion setLandingTimer(int t)
     {
         landingTimer = t;

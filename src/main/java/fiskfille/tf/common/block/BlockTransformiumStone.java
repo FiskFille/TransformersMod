@@ -1,12 +1,12 @@
 package fiskfille.tf.common.block;
 
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockTransformiumStone extends BlockBasic
 {
@@ -22,7 +22,7 @@ public class BlockTransformiumStone extends BlockBasic
     public int tickRate(World world)
     {
         float f = 1F;
-        return (int)(100000000000F * f);
+        return (int) (100000000000F * f);
     }
 
     public void updateTick(World world, int x, int y, int z, Random rand)

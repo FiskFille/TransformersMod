@@ -1,7 +1,5 @@
 package fiskfille.tf.client.particle;
 
-import java.util.List;
-
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
@@ -12,9 +10,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class EntityTFFlameFX extends EntityFX
 {
-    /** the scale of the flame FX */
+    /**
+     * the scale of the flame FX
+     */
     private float flameScale;
 
     public EntityTFFlameFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ)
@@ -110,7 +112,7 @@ public class EntityTFFlameFX extends EntityFX
         {
             motionX *= 0.699999988079071D;
             motionZ *= 0.699999988079071D;
-        }        
+        }
 
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         Vec3 vec31 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
@@ -132,7 +134,7 @@ public class EntityTFFlameFX extends EntityFX
 
             for (int j = 0; j < list.size(); ++j)
             {
-                Entity entity1 = (Entity)list.get(j);
+                Entity entity1 = (Entity) list.get(j);
 
                 if (entity1.canBeCollidedWith() && (entity1 != entitylivingbase || particleAge >= 5))
                 {

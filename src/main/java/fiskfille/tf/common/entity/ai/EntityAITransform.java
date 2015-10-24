@@ -1,14 +1,14 @@
 package fiskfille.tf.common.entity.ai;
 
-import java.util.List;
-
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.entity.EntityTransformer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.entity.EntityTransformer;
+
+import java.util.List;
 
 public class EntityAITransform extends EntityAIBase
 {

@@ -50,13 +50,15 @@ public class TutorialObjective
             {
                 try
                 {
-                    sleep((long)(seconds * 1000F));
+                    sleep((long) (seconds * 1000F));
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }
-            };
+            }
+
+            ;
         }.start();
     }
 }

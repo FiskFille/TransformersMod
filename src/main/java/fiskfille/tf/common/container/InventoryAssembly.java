@@ -1,13 +1,9 @@
 package fiskfille.tf.common.container;
 
-import java.util.Map;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-
-import com.google.common.collect.Maps;
 
 public class InventoryAssembly extends InventoryCrafting
 {
@@ -17,7 +13,7 @@ public class InventoryAssembly extends InventoryCrafting
 
     public InventoryAssembly(Container container, int width, int height)
     {
-    	super(container, width, height);
+        super(container, width, height);
         int k = width * height;
         this.stackList = new ItemStack[k];
         this.eventHandler = container;

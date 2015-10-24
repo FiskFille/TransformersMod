@@ -1,5 +1,7 @@
 package fiskfille.tf.common.entity;
 
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import fiskfille.tf.common.achievement.TFAchievements;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityBat;
@@ -9,8 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import fiskfille.tf.common.achievement.TFAchievements;
 
 public class EntityMissile extends EntityThrowable implements IEntityAdditionalSpawnData
 {

@@ -1,15 +1,14 @@
 package fiskfille.tf.client.tutorial.ticker;
 
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-
 import org.lwjgl.opengl.GL11;
+
+import java.awt.Color;
 
 public abstract class TutorialTicker extends Gui
 {
@@ -20,7 +19,7 @@ public abstract class TutorialTicker extends Gui
     {
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
-        drawString(mc.fontRenderer, text, (int)(x / scale), (int)(y / scale), color);
+        drawString(mc.fontRenderer, text, (int) (x / scale), (int) (y / scale), color);
         GL11.glPopMatrix();
     }
 
@@ -28,7 +27,7 @@ public abstract class TutorialTicker extends Gui
     {
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
-        drawCenteredString(mc.fontRenderer, text, (int)(x / scale), (int)(y / scale), color);
+        drawCenteredString(mc.fontRenderer, text, (int) (x / scale), (int) (y / scale), color);
         GL11.glPopMatrix();
     }
 
@@ -52,22 +51,24 @@ public abstract class TutorialTicker extends Gui
             {
                 try
                 {
-                    sleep((long)(seconds * 1000F));
+                    sleep((long) (seconds * 1000F));
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }
-            };
+            }
+
+            ;
         }.start();
     }
 
     public void drawBlinkingBox(int x, int y, int width, int height, int color)
     {
         Color color1 = new Color(color);
-        float r = (float)color1.getRed() / 255;
-        float g = (float)color1.getGreen() / 255;
-        float b = (float)color1.getBlue() / 255;
+        float r = (float) color1.getRed() / 255;
+        float g = (float) color1.getGreen() / 255;
+        float b = (float) color1.getBlue() / 255;
 
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);

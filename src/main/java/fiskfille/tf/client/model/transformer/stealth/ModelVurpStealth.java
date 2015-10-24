@@ -1,9 +1,5 @@
 package fiskfille.tf.client.model.transformer.stealth;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
@@ -11,6 +7,10 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelVurpStealth extends ModelTransformerBase
 {
@@ -373,43 +373,43 @@ public class ModelVurpStealth extends ModelTransformerBase
         vehicleLowerLegR1.addChild(vehicleWheelBackR);
         vehicleKneeL2.addChild(vehicleLowerLegL1);
         vehicleBasePlate.addChild(vehicleGun4);
-        
+
         float scale = 1.25F;
         vehicleWheelR.setScale(scale, scale, scale);
         vehicleWheelL.setScale(scale, scale, scale);
         vehicleWheelBackR.setScale(scale, scale, scale);
         vehicleWheelBackL.setScale(scale, scale, scale);
     }
-    
+
     public Transformer getTransformer()
-	{
-		return TransformerManager.transformerVurp;
-	}
-	
-	public ModelRenderer getWaist()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getVehicle()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getRightLeg()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getLeftLeg()
-	{
-		return vehicleBase;
-	}
-	
-	public ModelRenderer getHead()
-	{
-		return vehicleBase;
-	}
+    {
+        return TransformerManager.transformerVurp;
+    }
+
+    public ModelRenderer getWaist()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getVehicle()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getRightLeg()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getLeftLeg()
+    {
+        return vehicleBase;
+    }
+
+    public ModelRenderer getHead()
+    {
+        return vehicleBase;
+    }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
@@ -455,7 +455,7 @@ public class ModelVurpStealth extends ModelTransformerBase
 
             if (transformedPlayer != null)
             {
-                for (ModelRenderer modelRenderer : new ModelRenderer[] { vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL })
+                for (ModelRenderer modelRenderer : new ModelRenderer[]{vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
                 {
 
                     float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;

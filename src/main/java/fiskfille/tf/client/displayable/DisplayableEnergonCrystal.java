@@ -1,16 +1,14 @@
 package fiskfille.tf.client.displayable;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
 import fiskfille.tf.common.block.BlockEnergonCrystal;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 public class DisplayableEnergonCrystal extends Displayable
 {
@@ -20,8 +18,8 @@ public class DisplayableEnergonCrystal extends Displayable
     public void render(ItemStack itemstack)
     {
         renderTag("x" + itemstack.stackSize, 0, 0.1F, 0);
-        
-        BlockEnergonCrystal block = (BlockEnergonCrystal)Block.getBlockFromItem(itemstack.getItem());
+
+        BlockEnergonCrystal block = (BlockEnergonCrystal) Block.getBlockFromItem(itemstack.getItem());
         Energon energon = block.getEnergonType();
 
         GL11.glPushMatrix();
@@ -34,15 +32,15 @@ public class DisplayableEnergonCrystal extends Displayable
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        
+
         float[] rgb = TFHelper.hexToRGB(energon.getColor());
         GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
-        
+
         char c0 = 61680;
         int j = c0 % 65536;
         int k = c0 / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j / 1.0F, k / 1.0F);
-        
+
         model.render();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();

@@ -1,14 +1,12 @@
 package fiskfille.tf.client.render.item;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.item.ModelPurgesKatana;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.item.ModelPurgesKatana;
 
 public class RenderItemPurgesKatana implements IItemRenderer
 {

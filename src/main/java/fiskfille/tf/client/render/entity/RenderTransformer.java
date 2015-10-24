@@ -1,11 +1,11 @@
 package fiskfille.tf.client.render.entity;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.transformer.ModelTransformer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelTransformer;
 
 public class RenderTransformer extends RendererLivingEntity
 {

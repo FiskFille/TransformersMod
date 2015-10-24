@@ -1,7 +1,14 @@
 package fiskfille.tf.common.tileentity;
 
-import java.awt.Color;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.item.ItemDisplayVehicle;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFArmorDyeHelper;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,24 +23,15 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovementInputFromOptions;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.item.ItemDisplayVehicle;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.TFArmorDyeHelper;
-import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityDisplayStation extends TileEntity implements IInventory
 {
     private ItemStack[] itemStacks = new ItemStack[7];
     private String inventoryName;
-    
+
     @SideOnly(Side.CLIENT)
     public EntityClientPlayerMP fakePlayer;
-    
+
     @SideOnly(Side.CLIENT)
     public void updateEntity()
     {
@@ -48,12 +46,12 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
             }
         }
     }
-    
+
     public boolean transform()
     {
         ItemStack vehicle = getStackInSlot(6);
-        ItemDisplayVehicle item = (ItemDisplayVehicle)TFItems.displayVehicle;
-        
+        ItemDisplayVehicle item = (ItemDisplayVehicle) TFItems.displayVehicle;
+
         if (vehicle != null)
         {
             if (getStackInSlot(0) == null && getStackInSlot(1) == null && getStackInSlot(2) == null && getStackInSlot(3) == null)
@@ -62,7 +60,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                 {
                     vehicle.setTagCompound(new NBTTagCompound());
                 }
-                
+
                 ItemStack[] armorFromNBT = item.getArmorFromNBT(vehicle);
 
                 if (armorFromNBT == null)
@@ -70,15 +68,15 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                     item.setNBTData(vehicle);
                     armorFromNBT = item.getArmorFromNBT(vehicle);
                 }
-                
+
                 for (int i = 0; i < armorFromNBT.length; ++i)
                 {
                     setInventorySlotContents(i, armorFromNBT[i]);
                 }
-                
+
                 setInventorySlotContents(6, null);
                 getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-                
+
                 return true;
             }
         }
@@ -92,12 +90,12 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
             Transformer chestTransformer = TFHelper.getTransformerFromArmor(chest);
             Transformer legsTransformer = TFHelper.getTransformerFromArmor(legs);
             Transformer feetTransformer = TFHelper.getTransformerFromArmor(feet);
-            
+
             if (helmetTransformer != null && helmetTransformer == chestTransformer && chestTransformer == legsTransformer && legsTransformer == feetTransformer)
             {
                 ItemStack itemstack = new ItemStack(TFItems.displayVehicle, 1);
                 itemstack.setTagCompound(new NBTTagCompound());
-                
+
                 if (head != null && chest != null && legs != null && feet != null)
                 {
                     Item headItem = head.getItem();
@@ -116,8 +114,8 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
 
                         if (headItem == helmet && chestItem == chestplate && legsItem == leggings && feetItem == boots)
                         {
-                            itemstack.setItemDamage(i);                            
-                            
+                            itemstack.setItemDamage(i);
+
                             ItemStack[] itemstacks = {head, chest, legs, feet};
                             NBTTagList itemsList = new NBTTagList();
 
@@ -133,14 +131,14 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                             }
 
                             itemstack.getTagCompound().setTag("Items", itemsList);
-                            
+
                             for (int j = 0; j < 4; ++j)
                             {
                                 setInventorySlotContents(j, null);
                             }
-                            
+
                             setInventorySlotContents(6, itemstack);
-                            
+
                             return true;
                         }
 
@@ -149,17 +147,17 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     public boolean setColor(int primaryColor, int secondaryColor)
     {
-    	ItemStack head = getStackInSlot(0);
+        ItemStack head = getStackInSlot(0);
         ItemStack chest = getStackInSlot(1);
         ItemStack legs = getStackInSlot(2);
         ItemStack feet = getStackInSlot(3);
-        
+
         if (head != null && chest != null && legs != null && feet != null)
         {
             TFArmorDyeHelper.setPrimaryColor(head, primaryColor);
@@ -170,29 +168,29 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
             TFArmorDyeHelper.setSecondaryColor(chest, secondaryColor);
             TFArmorDyeHelper.setSecondaryColor(legs, secondaryColor);
             TFArmorDyeHelper.setSecondaryColor(feet, secondaryColor);
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);            
+            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
             return true;
         }
-    	
-    	return false;
+
+        return false;
     }
-    
+
     public int getSizeInventory()
     {
         return this.itemStacks.length;
     }
-    
+
     public ItemStack getStackInSlot(int slot)
     {
         return this.itemStacks[slot];
     }
-    
+
     public ItemStack decrStackSize(int slot, int amount)
     {
         if (this.itemStacks[slot] != null)
         {
             ItemStack itemstack;
-            
+
             if (this.itemStacks[slot].stackSize <= amount)
             {
                 itemstack = this.itemStacks[slot];
@@ -202,12 +200,12 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
             else
             {
                 itemstack = this.itemStacks[slot].splitStack(amount);
-                
+
                 if (this.itemStacks[slot].stackSize == 0)
                 {
                     this.itemStacks[slot] = null;
                 }
-                
+
                 return itemstack;
             }
         }
@@ -216,7 +214,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
             return null;
         }
     }
-    
+
     public ItemStack getStackInSlotOnClosing(int slot)
     {
         if (this.itemStacks[slot] != null)
@@ -230,107 +228,107 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
             return null;
         }
     }
-    
+
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         this.itemStacks[slot] = itemstack;
-        
+
         if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
         {
             itemstack.stackSize = this.getInventoryStackLimit();
         }
     }
-    
+
     public String getInventoryName()
     {
         return this.hasCustomInventoryName() ? this.inventoryName : "gui.display_station";
     }
-    
+
     public boolean hasCustomInventoryName()
     {
         return this.inventoryName != null && this.inventoryName.length() > 0;
     }
-    
+
     public void func_145951_a(String p_145951_1_)
     {
         this.inventoryName = p_145951_1_;
     }
-    
+
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
         NBTTagList nbttaglist = nbt.getTagList("Items", 10);
         this.itemStacks = new ItemStack[this.getSizeInventory()];
-        
+
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             byte slot = nbttagcompound1.getByte("Slot");
-            
+
             if (slot >= 0 && slot < this.itemStacks.length)
             {
                 this.itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
-        
+
         if (nbt.hasKey("CustomName", 8))
         {
             this.inventoryName = nbt.getString("CustomName");
         }
     }
-    
+
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
         NBTTagList nbttaglist = new NBTTagList();
-        
+
         for (int i = 0; i < this.itemStacks.length; ++i)
         {
             if (this.itemStacks[i] != null)
             {
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte)i);
+                nbttagcompound1.setByte("Slot", (byte) i);
                 this.itemStacks[i].writeToNBT(nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
-        
+
         nbt.setTag("Items", nbttaglist);
-        
+
         if (this.hasCustomInventoryName())
         {
             nbt.setString("CustomName", this.inventoryName);
         }
     }
-    
+
     public int getInventoryStackLimit()
     {
         return 64;
     }
-    
+
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
-    
+
     public void openInventory() {}
-    
+
     public void closeInventory() {}
-    
+
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return stack.getItem() instanceof ItemTransformerArmor;
     }
-    
+
     @Override
     public Packet getDescriptionPacket()
     {
         NBTTagCompound syncData = new NBTTagCompound();
         this.writeToNBT(syncData);
-        
+
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
     }
-    
+
     @Override
     public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
     {

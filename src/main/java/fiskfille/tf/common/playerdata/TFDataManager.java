@@ -1,11 +1,5 @@
 package fiskfille.tf.common.playerdata;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.MinecraftForge;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
@@ -15,6 +9,12 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author FiskFille, gegy1000
@@ -142,7 +142,7 @@ public class TFDataManager
     }
 
     /**
-     * Sets the Vurp's Sniper zoom for the specified player. 
+     * Sets the Vurp's Sniper zoom for the specified player.
      */
     public static void setZoomTimer(EntityPlayer player, int timer)
     {

@@ -1,12 +1,11 @@
 package fiskfille.tf.web.donator;
 
-import java.util.UUID;
-
 import com.google.gson.Gson;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.web.WebHelper;
+
+import java.util.UUID;
 
 public class DonatorLoader extends Thread
 {

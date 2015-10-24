@@ -1,7 +1,8 @@
 package fiskfille.tf.common.item;
 
-import java.util.List;
-
+import fiskfille.tf.common.entity.EntityBassCharge;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,9 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import fiskfille.tf.common.entity.EntityBassCharge;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.helper.TFHelper;
+
+import java.util.List;
 
 public class ItemBassBlaster extends Item
 {

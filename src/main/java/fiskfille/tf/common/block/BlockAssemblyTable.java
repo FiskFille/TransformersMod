@@ -1,5 +1,7 @@
 package fiskfille.tf.common.block;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -7,8 +9,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 
 public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvider
 {
@@ -22,7 +22,7 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
         setLightLevel(0.5F);
         setBlockBounds(0, 0, 0, 1, 0.0625F * 13, 1);
     }
-    
+
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
     {
         if (!player.isSneaking())
@@ -35,7 +35,7 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
             return false;
         }
     }
-    
+
     public boolean renderAsNormalBlock()
     {
         return false;
@@ -60,9 +60,9 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
     {
         return new TileEntityAssemblyTable();
     }
-    
+
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
-    	blockIcon = par1IIconRegister.registerIcon("iron_block");
+        blockIcon = par1IIconRegister.registerIcon("iron_block");
     }
 }

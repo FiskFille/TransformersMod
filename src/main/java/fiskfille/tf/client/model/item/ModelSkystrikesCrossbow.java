@@ -1,10 +1,10 @@
 package fiskfille.tf.client.model.item;
 
+import fiskfille.tf.client.model.transformer.ModelChildBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import fiskfille.tf.client.model.transformer.ModelChildBase;
 
 public class ModelSkystrikesCrossbow extends ModelChildBase.Base
 {

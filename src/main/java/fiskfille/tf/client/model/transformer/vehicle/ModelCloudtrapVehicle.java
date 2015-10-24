@@ -142,7 +142,7 @@ public class ModelCloudtrapVehicle extends ModelVehicleBase
     public ModelRenderer vehiclewaist3;
     public ModelRenderer vehiclewaist2;
 
-    public ModelCloudtrapVehicle() 
+    public ModelCloudtrapVehicle()
     {
         textureWidth = 128;
         textureHeight = 128;
@@ -855,15 +855,15 @@ public class ModelCloudtrapVehicle extends ModelVehicleBase
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) 
-    { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    {
         vehicleBody.render(f5);
     }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) 
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

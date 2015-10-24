@@ -1,14 +1,14 @@
 package fiskfille.tf.client.tutorial.ticker;
 
+import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.client.tutorial.TutorialObjective;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.tutorial.EnumTutorialType;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.client.tutorial.TutorialObjective;
 
 public class TutorialTickerJet extends TutorialTicker
 {

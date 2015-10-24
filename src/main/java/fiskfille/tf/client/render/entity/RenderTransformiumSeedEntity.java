@@ -1,14 +1,12 @@
 package fiskfille.tf.client.render.entity;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class RenderTransformiumSeedEntity extends Render
 {

@@ -1,17 +1,15 @@
 package fiskfille.tf.client.render.tileentity;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
+import fiskfille.tf.common.entity.EntityTransformiumSeed;
+import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
-import fiskfille.tf.common.entity.EntityTransformiumSeed;
-import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 
 public class RenderTransformiumSeed extends TileEntitySpecialRenderer
 {
