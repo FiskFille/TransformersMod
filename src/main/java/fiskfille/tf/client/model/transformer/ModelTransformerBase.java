@@ -20,7 +20,7 @@ import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 
-public class ModelTransformerBase extends MowzieModelBase
+public abstract class ModelTransformerBase extends MowzieModelBase
 {
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
 	{
@@ -132,4 +132,6 @@ public class ModelTransformerBase extends MowzieModelBase
 	{
 		return null;
 	}
+
+	public void renderArmorPiece(int armorPiece) {}
 }

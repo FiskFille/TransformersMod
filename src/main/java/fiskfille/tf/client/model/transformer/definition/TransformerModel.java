@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,4 +55,6 @@ public abstract class TransformerModel
 	{
 		return TransformersMod.modid;
 	}
+
+    public abstract ModelTransformerBase getItemInventoryModel();
 }

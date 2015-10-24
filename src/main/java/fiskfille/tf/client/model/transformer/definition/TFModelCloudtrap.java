@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,11 +18,13 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 public class TFModelCloudtrap extends TransformerModel
 {
     private ModelCloudtrap model;
+    private ModelCloudtrap modelItem;
     private ModelCloudtrapVehicle vehicle;
 
     public TFModelCloudtrap()
     {
         model = new ModelCloudtrap();
+        modelItem = new ModelCloudtrap();
         vehicle = new ModelCloudtrapVehicle();
     }
 
@@ -93,4 +96,10 @@ public class TFModelCloudtrap extends TransformerModel
 	{
 		return "cloudtrap/cloudtrap";
 	}
+
+    @Override
+    public ModelTransformerBase getItemInventoryModel()
+    {
+        return modelItem;
+    }
 }

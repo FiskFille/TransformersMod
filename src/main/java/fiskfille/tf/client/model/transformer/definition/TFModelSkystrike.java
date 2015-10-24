@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,11 +18,13 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 public class TFModelSkystrike extends TransformerModel
 {
     private ModelSkystrike model;
+    private ModelSkystrike modelItem;
     private ModelSkystrikeVehicle vehicle;
 
     public TFModelSkystrike()
     {
         model = new ModelSkystrike();
+        modelItem = new ModelSkystrike();
         vehicle = new ModelSkystrikeVehicle();
     }
 
@@ -90,4 +93,10 @@ public class TFModelSkystrike extends TransformerModel
 	{
 		return "skystrike/skystrike";
 	}
+
+    @Override
+    public ModelTransformerBase getItemInventoryModel()
+    {
+        return modelItem;
+    }
 }

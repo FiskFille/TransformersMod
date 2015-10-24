@@ -19,6 +19,7 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelSubwoofer extends ModelTransformerBase
 {
@@ -1155,6 +1156,47 @@ public class ModelSubwoofer extends ModelTransformerBase
 			{
 				vehicleBase.rotateAngleX = -(float) (player.posY - player.prevPosY) * 1.5F;
 			}
+		}
+	}
+
+	@Override
+	public void renderArmorPiece(int armorPiece)
+	{
+		setToInitPose();
+
+		if (armorPiece == 0)
+		{
+			GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+			this.head.render(0.0625F);
+		}
+		else if (armorPiece == 1)
+		{
+			this.upperLegL.showModel = false;
+			this.upperLegR.showModel = false;
+			this.head.showModel = false;
+			this.waist.render(0.0625F);
+			this.upperLegL.showModel = true;
+			this.upperLegR.showModel = true;
+			this.head.showModel = true;
+		}
+		else if (armorPiece == 2)
+		{
+			this.upperLegL.rotationPointY += 2;
+			this.upperLegR.rotationPointY += 2;
+			this.legbaseL.showModel = false;
+			this.legbaseR.showModel = false;
+			this.upperLegL.render(0.0625F);
+			this.upperLegR.render(0.0625F);
+			this.legbaseL.showModel = true;
+			this.legbaseR.showModel = true;
+		}
+		else if (armorPiece == 3)
+		{
+			GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+			this.legbaseL.rotationPointX -= 4;
+			this.legbaseR.rotationPointX += 4;
+			this.legbaseL.renderWithParentRotations(0.0625F);
+			this.legbaseR.renderWithParentRotations(0.0625F);
 		}
 	}
 }

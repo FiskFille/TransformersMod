@@ -1,5 +1,6 @@
 package fiskfille.tf.common.item;
 
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -43,26 +44,26 @@ public class TFItems
     public static Item cloudtrapsFlamethrower;
     public static Item subwoofersBassBlaster;
 
-    public static Item skystrikeHelmet;
-    public static Item skystrikeChestplate;
-    public static Item skystrikeLeggings;
-    public static Item skystrikeBoots;
-    public static Item purgeHelmet;
-    public static Item purgeChestplate;
-    public static Item purgeLeggings;
-    public static Item purgeBoots;
-    public static Item vurpHelmet;
-    public static Item vurpChestplate;
-    public static Item vurpLeggings;
-    public static Item vurpBoots;
-    public static Item subwooferHelmet;
-    public static Item subwooferChestplate;
-    public static Item subwooferLeggings;
-    public static Item subwooferBoots;
-    public static Item cloudtrapHelmet;
-    public static Item cloudtrapChestplate;
-    public static Item cloudtrapLeggings;
-    public static Item cloudtrapBoots;
+    public static ItemTransformerArmor skystrikeHelmet;
+    public static ItemTransformerArmor skystrikeChestplate;
+    public static ItemTransformerArmor skystrikeLeggings;
+    public static ItemTransformerArmor skystrikeBoots;
+    public static ItemTransformerArmor purgeHelmet;
+    public static ItemTransformerArmor purgeChestplate;
+    public static ItemTransformerArmor purgeLeggings;
+    public static ItemTransformerArmor purgeBoots;
+    public static ItemTransformerArmor vurpHelmet;
+    public static ItemTransformerArmor vurpChestplate;
+    public static ItemTransformerArmor vurpLeggings;
+    public static ItemTransformerArmor vurpBoots;
+    public static ItemTransformerArmor subwooferHelmet;
+    public static ItemTransformerArmor subwooferChestplate;
+    public static ItemTransformerArmor subwooferLeggings;
+    public static ItemTransformerArmor subwooferBoots;
+    public static ItemTransformerArmor cloudtrapHelmet;
+    public static ItemTransformerArmor cloudtrapChestplate;
+    public static ItemTransformerArmor cloudtrapLeggings;
+    public static ItemTransformerArmor cloudtrapBoots;
 
     public static Item displayVehicle;
     public static Item energonCrystalPiece;

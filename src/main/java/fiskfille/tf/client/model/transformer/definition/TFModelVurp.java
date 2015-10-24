@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,12 +19,14 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
 public class TFModelVurp extends TransformerModel
 {
     private ModelVurp model;
+    private ModelVurp modelItem;
     private ModelVurpVehicle vehicle;
     private ModelVurpStealth stealth;
 
     public TFModelVurp()
     {
         model = new ModelVurp();
+        modelItem = new ModelVurp();
         vehicle = new ModelVurpVehicle();
         stealth = new ModelVurpStealth();
     }
@@ -100,4 +103,10 @@ public class TFModelVurp extends TransformerModel
 	{
 		return "vurp/vurp";
 	}
+
+    @Override
+    public ModelTransformerBase getItemInventoryModel()
+    {
+        return modelItem;
+    }
 }

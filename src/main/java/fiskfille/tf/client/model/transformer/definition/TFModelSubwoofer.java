@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,12 +19,14 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 public class TFModelSubwoofer extends TransformerModel
 {
     private ModelSubwoofer model;
+    private ModelSubwoofer modelItem;
     private ModelSubwooferVehicle vehicle;
     private ModelSubwooferStealth stealth;
 
     public TFModelSubwoofer()
     {
         model = new ModelSubwoofer();
+        modelItem = new ModelSubwoofer();
         vehicle = new ModelSubwooferVehicle();
         stealth = new ModelSubwooferStealth();
     }
@@ -99,4 +102,10 @@ public class TFModelSubwoofer extends TransformerModel
 	{
 		return "subwoofer/subwoofer";
 	}
+
+    @Override
+    public ModelTransformerBase getItemInventoryModel()
+    {
+        return modelItem;
+    }
 }

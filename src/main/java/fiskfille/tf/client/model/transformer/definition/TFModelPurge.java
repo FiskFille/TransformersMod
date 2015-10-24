@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,11 +18,13 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 public class TFModelPurge extends TransformerModel
 {
     private ModelPurge model;
+    private ModelPurge modelItem;
     private ModelPurgeVehicle vehicle;
 
     public TFModelPurge()
     {
         model = new ModelPurge();
+        modelItem = new ModelPurge();
         vehicle = new ModelPurgeVehicle();
     }
 
@@ -90,4 +93,10 @@ public class TFModelPurge extends TransformerModel
 	{
 		return "purge/purge";
 	}
+
+    @Override
+    public ModelTransformerBase getItemInventoryModel()
+    {
+        return modelItem;
+    }
 }

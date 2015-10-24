@@ -19,6 +19,7 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelVurp extends ModelTransformerBase
 {
@@ -1336,4 +1337,44 @@ public class ModelVurp extends ModelTransformerBase
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
+
+    @Override
+    public void renderArmorPiece(int armorPiece)
+    {
+        setToInitPose();
+
+        if (armorPiece == 0)
+        {
+            this.head.rotationPointY += 1.5;
+            this.head.render(0.0625F);
+        }
+        else if (armorPiece == 1)
+        {
+            this.upperLegL.showModel = false;
+            this.upperLegR.showModel = false;
+            this.head.showModel = false;
+            this.waist.render(0.0625F);
+            this.upperLegL.showModel = true;
+            this.upperLegR.showModel = true;
+            this.head.showModel = true;
+        }
+        else if (armorPiece == 2)
+        {
+            this.footbaseL.showModel = false;
+            this.footbaseR.showModel = false;
+            this.upperLegL.render(0.0625F);
+            this.upperLegR.render(0.0625F);
+            this.footbaseL.showModel = true;
+            this.footbaseR.showModel = true;
+        }
+        else if (armorPiece == 3)
+        {
+            GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+            this.footbaseL.rotationPointX -= 4;
+            this.footbaseR.rotationPointX += 4;
+            this.footbaseL.renderWithParentRotations(0.0625F);
+            this.footbaseR.renderWithParentRotations(0.0625F);
+        }
+    }
+
 }

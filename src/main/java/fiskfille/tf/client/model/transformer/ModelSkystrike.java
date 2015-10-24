@@ -1222,4 +1222,46 @@ public class ModelSkystrike extends ModelTransformerBase
             }
         }
     }
+
+    @Override
+    public void renderArmorPiece(int armorPiece)
+    {
+        setToInitPose();
+
+        if (armorPiece == 0)
+        {
+            GL11.glScalef(0.85F, 0.85F, 0.85F);
+            GL11.glTranslatef(0.0F, 0.05F, -0.18F);
+            this.headbase.render(0.0625F);
+        }
+        else if (armorPiece == 1)
+        {
+            GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+            this.upperLegL.showModel = false;
+            this.upperLegR.showModel = false;
+            this.headbase.showModel = false;
+            this.waist.render(0.0625F);
+            this.upperLegL.showModel = true;
+            this.upperLegR.showModel = true;
+            this.headbase.showModel = true;
+        }
+        else if (armorPiece == 2)
+        {
+            this.feetconnectorL.showModel = false;
+            this.feetconnectorR.showModel = false;
+            this.upperLegL.render(0.0625F);
+            this.upperLegR.render(0.0625F);
+            this.feetconnectorL.showModel = true;
+            this.feetconnectorR.showModel = true;
+        }
+        else if (armorPiece == 3)
+        {
+            this.feetconnectorL.rotationPointX -= 4;
+            this.feetconnectorR.rotationPointX += 4;
+            GL11.glRotatef(-90, 1.0F, 0.0F, 0.0F);
+            GL11.glTranslatef(0.5F, -0.1F, 0.0F);
+            this.feetconnectorL.renderWithParentRotations(0.0625F);
+            this.feetconnectorR.renderWithParentRotations(0.0625F);
+        }
+    }
 }

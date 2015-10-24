@@ -379,4 +379,51 @@ public class MowzieModelRenderer extends ModelRenderer
          GL11.glEndList();
          compiled = true;
      }
+
+    public void renderWithParentRotations(float partialTicks)
+    {
+        float x = getParentRotX();
+        float y = getParentRotY();
+        float z = getParentRotZ();
+
+        this.rotateAngleX -= x;
+        this.rotateAngleY -= y;
+        this.rotateAngleZ -= z;
+
+        this.render(partialTicks);
+
+        this.rotateAngleX += x;
+        this.rotateAngleY += y;
+        this.rotateAngleZ += z;
+    }
+
+    public float getParentRotX()
+    {
+        if (getParent() instanceof MowzieModelRenderer)
+        {
+            return ((MowzieModelRenderer) this.getParent()).getParentRotX() + this.rotateAngleX;
+        }
+
+        return this.rotateAngleX;
+    }
+
+    public float getParentRotY()
+    {
+        if (getParent() instanceof MowzieModelRenderer)
+        {
+            return ((MowzieModelRenderer) this.getParent()).getParentRotY() + this.rotateAngleY;
+        }
+
+        return this.rotateAngleY;
+    }
+
+    public float getParentRotZ()
+    {
+        if (getParent() instanceof MowzieModelRenderer)
+        {
+            return ((MowzieModelRenderer) this.getParent()).getParentRotZ() + this.rotateAngleZ;
+        }
+
+        return this.rotateAngleZ;
+    }
 }

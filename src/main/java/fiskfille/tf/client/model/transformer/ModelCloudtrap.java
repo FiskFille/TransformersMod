@@ -1857,6 +1857,47 @@ public class ModelCloudtrap extends ModelTransformerBase
 	}
 
     @Override
+    public void renderArmorPiece(int armorPiece)
+    {
+        setToInitPose();
+
+        if (armorPiece == 0)
+        {
+            this.head.rotationPointX = 0;
+            this.head.rotationPointY = 0;
+            this.head.rotationPointZ = 0;
+            this.head.render(0.0625F);
+        }
+        else if (armorPiece == 1)
+        {
+            this.upperLegL.showModel = false;
+            this.upperLegR.showModel = false;
+            this.head.showModel = false;
+            this.waist.render(0.0625F);
+            this.upperLegL.showModel = true;
+            this.upperLegR.showModel = true;
+            this.head.showModel = true;
+        }
+        else if (armorPiece == 2)
+        {
+            this.feetbaseL.showModel = false;
+            this.feetbaseR.showModel = false;
+            this.upperLegL.render(0.0625F);
+            this.upperLegR.render(0.0625F);
+            this.feetbaseL.showModel = true;
+            this.feetbaseR.showModel = true;
+        }
+        else if (armorPiece == 3)
+        {
+            GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+            this.feetbaseL.rotationPointX -= 4;
+            this.feetbaseR.rotationPointX += 4;
+            this.feetbaseL.renderWithParentRotations(0.0625F);
+            this.feetbaseR.renderWithParentRotations(0.0625F);
+        }
+    }
+
+    @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float rotation, float rotationYaw, float rotationPitch, float partialTicks, Entity entity)
     {
         super.setRotationAngles(limbSwing, limbSwingAmount, rotation, rotationYaw, rotationPitch, partialTicks, entity);

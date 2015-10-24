@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ModelPurge extends ModelTransformerBase
 {
@@ -2327,5 +2328,43 @@ public class ModelPurge extends ModelTransformerBase
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
+    }
+
+    @Override
+    public void renderArmorPiece(int armorPiece)
+    {
+        setToInitPose();
+
+        if (armorPiece == 0)
+        {
+            this.headbase.render(0.0625F);
+        }
+        else if (armorPiece == 1)
+        {
+            this.upperLegL.showModel = false;
+            this.upperLegR.showModel = false;
+            this.headbase.showModel = false;
+            this.waist.render(0.0625F);
+            this.upperLegL.showModel = true;
+            this.upperLegR.showModel = true;
+            this.headbase.showModel = true;
+        }
+        else if (armorPiece == 2)
+        {
+            this.feetbaseL1.showModel = false;
+            this.feetbaseR1.showModel = false;
+            this.upperLegL.render(0.0625F);
+            this.upperLegR.render(0.0625F);
+            this.feetbaseL1.showModel = true;
+            this.feetbaseR1.showModel = true;
+        }
+        else if (armorPiece == 3)
+        {
+            GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+            this.feetbaseL1.rotationPointX -= 4;
+            this.feetbaseR1.rotationPointX += 4;
+            this.feetbaseL1.renderWithParentRotations(0.0625F);
+            this.feetbaseR1.renderWithParentRotations(0.0625F);
+        }
     }
 }
