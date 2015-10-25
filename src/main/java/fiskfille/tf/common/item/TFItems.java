@@ -36,6 +36,7 @@ public class TFItems
     public static Item emptyFuelCanister;
     public static Item filledFuelCanister;
     public static Item dye;
+    public static Item componentBase;
     public static Item colorComponent;
 
     public static Item skystrikesCrossbow;
@@ -95,6 +96,7 @@ public class TFItems
         emptyFuelCanister = new Item();
         filledFuelCanister = new ItemFuelCanister();
         dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye");
+        componentBase = new Item();
         colorComponent = new ItemColorComponent();
 
         skystrikesCrossbow = new ItemSkystrikesCrossbow();
@@ -156,6 +158,7 @@ public class TFItems
         TFItemRegistry.registerItemNoTab(filledFuelCanister, "Fuel Canister", modId);
         TFItemRegistry.registerIngot(dye, "Dye", modId, "dye");
         TFItemRegistry.registerItem(colorComponent, "Color Component", modId);
+        TFItemRegistry.registerItem(componentBase, "Component Base", modId);
 
         TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow", modId);
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);

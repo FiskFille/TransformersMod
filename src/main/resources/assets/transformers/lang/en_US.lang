@@ -21,6 +21,7 @@ item.empty_fuel_canister.name=Empty Fuel Canister
 item.fuel_canister.name=Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
+item.component_base.name=Base Component
 item.color_component.name=Customization Component
 
 ------Armor------
