@@ -1,5 +1,14 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
@@ -8,16 +17,11 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public abstract class ModelTransformerBase extends MowzieModelBase
 {
+	public int layerToRender;
+	
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
@@ -36,7 +40,10 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
             if (TFDataManager.getTransformationTimer(player) == 0)
             {
-                setupRenderLayers(head, getVehicle());
+            	if (layerToRender == 1)
+            	{
+            		setupRenderLayers(head, getVehicle());
+            	}
             }
             else
             {
@@ -59,7 +66,10 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 }
                 else
                 {
-                    setupRenderLayers(head, getWaist());
+                	if (layerToRender == 1)
+                	{
+                		setupRenderLayers(head, getWaist());
+                	}
                 }
             }
         }
