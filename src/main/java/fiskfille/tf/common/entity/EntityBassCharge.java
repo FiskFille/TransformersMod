@@ -56,11 +56,6 @@ public class EntityBassCharge extends EntityThrowable
             float f = 2.0F * (1.0F - (float) ticksExisted / 20);
             mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), f);
             mop.entityHit.hurtResistantTime = 0;
-
-            if (!worldObj.isRemote)
-            {
-                //            	setDead();
-            }
         }
         else if (mop.typeOfHit == MovingObjectType.BLOCK)
         {

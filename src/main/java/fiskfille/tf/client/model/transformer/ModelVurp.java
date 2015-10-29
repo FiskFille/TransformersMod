@@ -1,5 +1,14 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.ItemVurpsSniper;
@@ -12,13 +21,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelVurp extends ModelTransformerBase
 {
@@ -576,7 +578,6 @@ public class ModelVurp extends ModelTransformerBase
 
         setInitPose();
 
-        //	this.parts = new MowzieModelRenderer[]{armbaseL1, armbaseR1, backplate1, backplate2};
 
         vehiclebackplate2 = new MowzieModelRenderer(this, 51, 74);
         vehiclebackplate2.mirror = true;
@@ -856,56 +857,6 @@ public class ModelVurp extends ModelTransformerBase
         lowerlegR6.setScale(scale, scale, scale);
         lowerlegL6.setScale(scale, scale, scale);
     }
-
-//    @Override
-//    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-//    {
-//        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-//        float scale = 1.25F;
-//        vehicleWheelR.setScale(1, scale, scale);
-//        vehicleWheelL.setScale(1, scale, scale);
-//        vehicleWheelBackR.setScale(1, scale, scale);
-//        vehicleWheelBackL.setScale(1, scale, scale);
-//
-//        shoulderpadR.setScale(scale, scale, scale);
-//        shoulderpadL.setScale(scale, scale, scale);
-//        lowerlegR6.setScale(scale, scale, scale);
-//        lowerlegL6.setScale(scale, scale, scale);
-//
-//        if (entity instanceof EntityPlayer)
-//        {
-//            EntityPlayer player = (EntityPlayer) entity;
-//
-//            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerVurp;
-//            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerVurp;
-//            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerVurp;
-//
-//            if (TFDataManager.getTransformationTimer(player) == 0)
-//            {
-//                vehicleBase.render(f5);
-//            }
-//            else
-//            {
-//                if (!wearingChest)
-//                {
-//                    if (wearingHead)
-//                    {
-//                        head.render(f5);
-//                    }
-//
-//                    if (wearingLegs)
-//                    {
-//                        upperLegL.render(f5);
-//                        upperLegR.render(f5);
-//                    }
-//                }
-//                else
-//                {
-//                    waist.render(f5);
-//                }
-//            }
-//        }
-//    }
 
     public Transformer getTransformer()
     {
@@ -1211,7 +1162,6 @@ public class ModelVurp extends ModelTransformerBase
             if (t != 20)
             {
                 float f = 20 - t;
-                //				float f = 20;
                 float f1 = f / 20;
                 float f2 = 1.0F - f1;
 
@@ -1369,11 +1319,11 @@ public class ModelVurp extends ModelTransformerBase
         else if (armorPiece == 3)
         {
             GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+            GL11.glRotatef(12, 1.0F, 0.0F, 0.0F);
             this.footbaseL.rotationPointX -= 4;
             this.footbaseR.rotationPointX += 4;
             this.footbaseL.renderWithParentRotations(0.0625F);
             this.footbaseR.renderWithParentRotations(0.0625F);
         }
     }
-
 }

@@ -17,11 +17,6 @@ public class TFArmorDyeHelper
             if (!itemstack.hasTagCompound())
             {
                 itemstack.setTagCompound(new NBTTagCompound());
-                NBTTagCompound nbt = new NBTTagCompound();
-//	            nbt.setInteger("PrimaryColor", 0xFFFFFF);
-//	            nbt.setInteger("SecondaryColor", 0xFFFFFF);
-
-                itemstack.getTagCompound().setTag("CustomColor", nbt);
             }
 
             NBTTagCompound nbt = itemstack.getTagCompound().getCompoundTag("CustomColor");
@@ -42,11 +37,6 @@ public class TFArmorDyeHelper
             if (!itemstack.hasTagCompound())
             {
                 itemstack.setTagCompound(new NBTTagCompound());
-                NBTTagCompound nbt = new NBTTagCompound();
-//	            nbt.setInteger("PrimaryColor", 0xFFFFFF);
-//	            nbt.setInteger("SecondaryColor", 0xFFFFFF);
-
-                itemstack.getTagCompound().setTag("CustomColor", nbt);
             }
 
             NBTTagCompound nbt = itemstack.getTagCompound().getCompoundTag("CustomColor");

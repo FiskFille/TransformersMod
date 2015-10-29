@@ -492,10 +492,6 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onRenderPlayerPost(RenderPlayerEvent.Specials.Post event)
     {
-        //After rendered everything
-
-        //        System.out.println(mc.thePlayer.getCommandSenderName() + ":" + event.entityPlayer.getCommandSenderName());
-
         EntityPlayer player = event.entityPlayer;
 
         ModelOffset offsets = TFModelHelper.getOffsets(player);

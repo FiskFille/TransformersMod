@@ -1,17 +1,18 @@
 package fiskfille.tf.client.model.transformer.definition;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.client.model.transformer.ModelPurge;
-import fiskfille.tf.client.model.transformer.ModelTransformerBase;
-import fiskfille.tf.client.model.transformer.vehicle.ModelPurgeVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.transformer.ModelPurge;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.vehicle.ModelPurgeVehicle;
+import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 
 public class TFModelPurge extends TransformerModel
 {
@@ -27,7 +28,7 @@ public class TFModelPurge extends TransformerModel
     }
 
     @Override
-    public Biped getMainModel()
+    public ModelTransformerBase getMainModel()
     {
         return model;
     }

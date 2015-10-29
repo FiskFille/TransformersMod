@@ -1,6 +1,21 @@
 package fiskfille.tf.client.gui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import com.google.common.collect.Lists;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
@@ -8,18 +23,6 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergonProcessor extends GuiContainer
@@ -175,14 +178,6 @@ public class GuiEnergonProcessor extends GuiContainer
             int i = tileentity.powerTime * 13 / tileentity.currentMaxPowerTime;
             drawTexturedModalRect(k + 25, l + 48 - i, 176, 12 - i, 14, i + 2);
         }
-
-
-//        float[] rgb = TFHelper.hexToRGB(tileentity.liquidColor);
-//        int offsetY = tileentity.liquidAmount;
-//        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
-//        drawTexturedModalRect(k + 77, l + 17 + 52 - offsetY, 204, 0, 52, offsetY);
-//        GL11.glColor4f(1, 1, 1, 1);
-
 
         int t = mc.thePlayer.ticksExisted / 2;
         t = t <= 0 ? 1 : t;

@@ -1,5 +1,14 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
@@ -11,13 +20,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelCloudtrap extends ModelTransformerBase
 {
@@ -1762,54 +1764,6 @@ public class ModelCloudtrap extends ModelTransformerBase
         setInitPose();
     }
 
-//    @Override
-//    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-//    { 
-//        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-//
-//        GL11.glPushMatrix();
-//
-//        float scale = 1.1F;
-//        GL11.glScalef(scale, scale, scale);
-//        GL11.glTranslatef(0, -scale * 0.0625F, 0);
-//
-//        if (entity instanceof EntityPlayer)
-//        {
-//            EntityPlayer player = (EntityPlayer) entity;
-//
-//            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerCloudtrap;
-//            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerCloudtrap;
-//            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerCloudtrap;
-//
-//            if (TFDataManager.getTransformationTimer(player) == 0)
-//            {
-//                vehicleBody.render(f5);
-//            }
-//            else
-//            {
-//                if (!wearingChest)
-//                {
-//                    if (wearingHead)
-//                    {
-//                        head.render(f5);
-//                    }
-//
-//                    if (wearingLegs)
-//                    {
-//                        upperLegL.render(f5);
-//                        upperLegR.render(f5);
-//                    }
-//                }
-//                else
-//                {
-//                    waist.render(f5);
-//                }
-//            }
-//        }
-//
-//        GL11.glPopMatrix();
-//    }
-
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
@@ -1887,6 +1841,7 @@ public class ModelCloudtrap extends ModelTransformerBase
         else if (armorPiece == 3)
         {
             GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+            GL11.glRotatef(5.5F, 1.0F, 0.0F, 0.0F);
             this.feetbaseL.rotationPointX -= 4;
             this.feetbaseR.rotationPointX += 4;
             this.feetbaseL.renderWithParentRotations(0.0625F);

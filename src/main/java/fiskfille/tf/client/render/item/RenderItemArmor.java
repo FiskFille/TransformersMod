@@ -84,13 +84,17 @@ public class RenderItemArmor implements IItemRenderer
             GL11.glRotatef(10, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(-0.9F, -1.0F, 0.2F);
 
-            if (armorPiece == 1)
+            if (armorPiece == 0)
             {
-                GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+            	GL11.glTranslatef(0.5F, 0.5F, 0.1F);
             }
-            else if (armorPiece == 0)
+            else if (armorPiece == 1)
             {
-                GL11.glTranslatef(0.5F, 0.5F, 0.0F);
+                GL11.glTranslatef(-0.2F, -0.4F, 0.0F);
+            }
+            else if (armorPiece == 2)
+            {
+                GL11.glTranslatef(0.0F, -0.2F, 0.0F);
             }
 
             float scale = 1.0F;
@@ -106,18 +110,22 @@ public class RenderItemArmor implements IItemRenderer
             GL11.glRotatef(-45, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(0.5F, -0.5F, 0.0F);
 
-            if (armorPiece == 1)
+            if (armorPiece == 0)
             {
-                GL11.glTranslatef(-0.2F, 0.1F, 0.0F);
+            	GL11.glTranslatef(-0.25F, 0.6F, -0.2F);
+            }
+            else if (armorPiece == 1)
+            {
+                GL11.glTranslatef(-0.1F, 0.1F, -0.4F);
             }
             else if (armorPiece == 2)
             {
-                GL11.glTranslatef(-0.1F, 0.4F, -0.2F);
+                GL11.glTranslatef(0.1F, 0.3F, -0.35F);
                 GL11.glRotatef(35, 0.0F, 0.0F, 1.0F);
             }
             else if (armorPiece == 3)
             {
-                GL11.glTranslatef(-0.2F, 0.3F, -0.3F);
+                GL11.glTranslatef(-0.05F, 0.3F, -0.3F);
                 GL11.glRotatef(35, 0.0F, 0.0F, 1.0F);
             }
 
@@ -146,7 +154,7 @@ public class RenderItemArmor implements IItemRenderer
             }
             else if (armorPiece == 3)
             {
-                GL11.glTranslatef(0.2F, -0.3F, 0.0F);
+                GL11.glTranslatef(0.2F, -0.2F, 0.0F);
             }
 
             float scale = 1.5F;
@@ -159,23 +167,23 @@ public class RenderItemArmor implements IItemRenderer
             GL11.glPushMatrix();
             GL11.glRotatef(180, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(-90, 0.0F, 1.0F, 0.0F);
-            GL11.glTranslatef(0F, -1.0F, 0.1F);
+            GL11.glTranslatef(0.0F, -1.0F, 0.1F);
 
             if (armorPiece == 0)
             {
-                GL11.glTranslatef(0.0F, 1.1F, -0.25F);
-            }
-            else if (armorPiece == 2)
-            {
-                GL11.glTranslatef(0.0F, 0.4F, 0.0F);
-            }
-            else if (armorPiece == 3)
-            {
-                GL11.glTranslatef(0.0F, 0.25F, 0.0F);
+                GL11.glTranslatef(0.0F, 1.05F, -0.15F);
             }
             else if (armorPiece == 1)
             {
-                GL11.glTranslatef(0.0F, 0.3F, 0.0F);
+                GL11.glTranslatef(0.0F, 0.4F, -0.2F);
+            }
+            else if (armorPiece == 2)
+            {
+                GL11.glTranslatef(0.0F, 0.45F, -0.1F);
+            }
+            else if (armorPiece == 3)
+            {
+                GL11.glTranslatef(-0.1F, 0.5F, -0.1F);
             }
 
             float scale = 1.0F;

@@ -134,7 +134,6 @@ public class EntityTransformer extends EntityCreature
     public ItemStack getHeldItem()
     {
         return null;
-        //return new ItemStack(TFItems.purgesKatana);
     }
 
     @Override

@@ -1,5 +1,13 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.item.TFItems;
@@ -10,12 +18,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelPurge extends ModelTransformerBase
 {
@@ -1852,46 +1854,6 @@ public class ModelPurge extends ModelTransformerBase
         setInitPose();
     }
 
-//    @Override
-//    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-//    {
-//        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-//
-//        if (entity instanceof EntityPlayer)
-//        {
-//            EntityPlayer player = (EntityPlayer) entity;
-//
-//            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) instanceof TransformerPurge;
-//            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerPurge;
-//            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) instanceof TransformerPurge;
-//
-//            if (TFDataManager.getTransformationTimer(player) == 0)
-//            {
-//                vehiclebase.render(f5);
-//            }
-//            else
-//            {
-//                if (!wearingChest)
-//                {
-//                    if (wearingHead)
-//                    {
-//                        headbase.render(f5);
-//                    }
-//
-//                    if (wearingLegs)
-//                    {
-//                        upperLegL.render(f5);
-//                        upperLegR.render(f5);
-//                    }
-//                }
-//                else
-//                {
-//                    waist.render(f5);
-//                }
-//            }
-//        }
-//    }
-
     public Transformer getTransformer()
     {
         return TransformerManager.transformerPurge;
@@ -2360,6 +2322,7 @@ public class ModelPurge extends ModelTransformerBase
         else if (armorPiece == 3)
         {
             GL11.glTranslatef(0.1F, 0.0F, 0.0F);
+            GL11.glRotatef(5, 1.0F, 0.0F, 0.0F);
             this.feetbaseL1.rotationPointX -= 4;
             this.feetbaseR1.rotationPointX += 4;
             this.feetbaseL1.renderWithParentRotations(0.0625F);

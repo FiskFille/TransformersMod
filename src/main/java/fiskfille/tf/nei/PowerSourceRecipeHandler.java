@@ -1,27 +1,29 @@
 package fiskfille.tf.nei;
 
-import codechicken.nei.ItemList;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.Lists;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.item.TFItems;
-import net.minecraft.block.Block;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import static codechicken.nei.NEIClientUtils.translate;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static codechicken.nei.NEIClientUtils.translate;
+import net.minecraft.block.Block;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import codechicken.nei.ItemList;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
+import codechicken.nei.recipe.TemplateRecipeHandler;
+
+import com.google.common.collect.Lists;
+
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
 
 public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 {
@@ -186,17 +188,6 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
             }
         }
     }
-
-//    @Override
-//	public void drawExtras(int recipe)
-//	{
-//		drawProgressBar(20, 25, 176, 0, 14, 14, 48, 7);
-//		drawProgressBar(42, 24, 176, 14, 24, 17, 48, 0);
-//		drawProgressBar(130, 25, 176, 31, 13, 12, 48, 0);
-//		
-//		GuiDraw.changeTexture(getGuiTexture());
-//		GuiDraw.drawTexturedModalRect(72, 6, 204, 52, 52, 52);
-//	}
 
     @Override
     public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe)

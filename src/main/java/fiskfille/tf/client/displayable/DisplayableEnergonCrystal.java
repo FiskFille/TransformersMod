@@ -36,11 +36,7 @@ public class DisplayableEnergonCrystal extends Displayable
         float[] rgb = TFHelper.hexToRGB(energon.getColor());
         GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
 
-        char c0 = 61680;
-        int j = c0 % 65536;
-        int k = c0 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j / 1.0F, k / 1.0F);
-
+        TFHelper.setLighting(61680);
         model.render();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();

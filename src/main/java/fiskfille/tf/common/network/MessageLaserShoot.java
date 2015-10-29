@@ -1,8 +1,5 @@
 package fiskfille.tf.common.network;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
@@ -17,6 +14,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageLaserShoot implements IMessage
 {
@@ -50,29 +50,7 @@ public class MessageLaserShoot implements IMessage
     {
         public IMessage onMessage(MessageLaserShoot message, MessageContext ctx)
         {
-            if (ctx.side.isClient())
-            {
-                //				EntityPlayer player = TransformersMod.proxy.getPlayer(); TODO-TF laser sound
-                //				Entity fromEntity = player.worldObj.getEntityByID(message.id);
-                //
-                //				if (fromEntity instanceof EntityPlayer)
-                //				{
-                //					EntityPlayer from = (EntityPlayer) fromEntity;
-                //
-                //					Transformer transformer = TFHelper.getTransformer(from);
-                //
-                //					if (transformer != null)
-                //					{
-                //						String shootSound = transformer.getShootSound();
-                //
-                //						if (shootSound != null)
-                //						{
-                //							from.worldObj.playSound(from.posX, from.posY - (double) from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
-                //						}
-                //					}
-                //				}
-            }
-            else
+            if (!ctx.side.isClient())
             {
                 EntityPlayer from = null;
 

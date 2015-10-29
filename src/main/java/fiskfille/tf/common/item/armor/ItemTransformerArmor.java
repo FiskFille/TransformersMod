@@ -1,6 +1,7 @@
 package fiskfille.tf.common.item.armor;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -81,5 +82,10 @@ public abstract class ItemTransformerArmor extends ItemArmor
         }
 
         return null;
+    }
+    
+    public void registerIcons(IIconRegister par1IIconRegister)
+    {
+    	
     }
 }

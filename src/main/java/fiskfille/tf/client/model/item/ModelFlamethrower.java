@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 
 public class ModelFlamethrower extends ModelBase
 {
-    //......
     ModelRenderer box1;
     ModelRenderer box2;
     ModelRenderer box3;

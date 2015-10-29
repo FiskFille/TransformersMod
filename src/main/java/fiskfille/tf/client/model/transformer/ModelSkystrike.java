@@ -1,5 +1,13 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -10,12 +18,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelSkystrike extends ModelTransformerBase
 {
@@ -846,6 +848,11 @@ public class ModelSkystrike extends ModelTransformerBase
     {
         return headbase;
     }
+    
+    public boolean hasLightsLayer()
+    {
+    	return true;
+    }
 
     public void setRotation(MowzieModelRenderer model, float x, float y, float z)
     {
@@ -989,7 +996,6 @@ public class ModelSkystrike extends ModelTransformerBase
                     swing(waist, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
                     walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
                     swing(headbase, 0.5F * globalSpeed, -0.4F * globalDegree, false, 0, 0, par1, par2);
-                    //						headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
 
                     swing(upperLegL, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
                     swing(upperLegR, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0F, par1, par2);
@@ -1058,8 +1064,6 @@ public class ModelSkystrike extends ModelTransformerBase
                     float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
 
                     double speed = Math.sqrt(motionX * motionX + motionZ * motionZ) * 1.2D;
-
-                    //                	waist.rotateAngleX -= 0.1 * par2 * backwardInverter;
 
                     chestcenter.rotateAngleX -= 0.2 * upwardPose;
                     headbase.rotateAngleX -= 0.2 * upwardPose;
@@ -1163,7 +1167,6 @@ public class ModelSkystrike extends ModelTransformerBase
             if (t != 20)
             {
                 float f = 20 - t;
-                //            	float f = 20;
                 float f1 = f / 20;
                 float f2 = 1.0F - f1;
 
@@ -1242,6 +1245,7 @@ public class ModelSkystrike extends ModelTransformerBase
         {
             this.feetconnectorL.showModel = false;
             this.feetconnectorR.showModel = false;
+            GL11.glTranslatef(0.0F, 0.1F, 0.0F);
             this.upperLegL.render(0.0625F);
             this.upperLegR.render(0.0625F);
             this.feetconnectorL.showModel = true;
@@ -1251,9 +1255,11 @@ public class ModelSkystrike extends ModelTransformerBase
         {
             this.feetconnectorL.rotationPointX -= 4;
             this.feetconnectorR.rotationPointX += 4;
-            GL11.glRotatef(-90, 1.0F, 0.0F, 0.0F);
-            GL11.glTranslatef(0.5F, -0.1F, 0.0F);
+            GL11.glTranslatef(0.1F, 0.3F, 0.5F);
+            GL11.glRotatef(-88, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(-2.5F, 0.0F, 1.0F, 0.0F);
             this.feetconnectorL.renderWithParentRotations(0.0625F);
+            GL11.glRotatef(5, 0.0F, 1.0F, 0.0F);
             this.feetconnectorR.renderWithParentRotations(0.0625F);
         }
     }

@@ -1,12 +1,10 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class BlockTransformiumStone extends BlockBasic
 {
@@ -45,11 +43,5 @@ public class BlockTransformiumStone extends BlockBasic
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         onBlockAdded(world, x, y, z);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
-    {
-        //        world.spawnParticle("smoke", x + 0.5F + (rand.nextFloat() - 0.5F), y + 1.0F, z + 0.5F + (rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
     }
 }

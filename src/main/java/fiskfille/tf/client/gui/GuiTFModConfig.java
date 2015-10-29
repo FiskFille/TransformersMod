@@ -1,22 +1,17 @@
 package fiskfille.tf.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.common.config.ConfigElement;
 import cpw.mods.fml.client.config.DummyConfigElement;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import fiskfille.tf.TransformersMod;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiTFModConfig extends GuiConfig
 {
-    //    public GuiTFModConfig(GuiScreen parent)
-    //    {
-    //        super(parent, new ConfigElement(TransformersMod.configFile.getCategory("options")).getChildElements(), TransformersMod.modid, false, false, GuiConfig.getAbridgedConfigPath(TransformersMod.configFile.toString()));
-    //    }
-
     public GuiTFModConfig(GuiScreen parent)
     {
         super(parent, getConfigElements(), TransformersMod.modid, false, false, "Transformers Mod Configuration");

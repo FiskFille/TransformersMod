@@ -1,7 +1,8 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import net.minecraft.item.ItemStack;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.helper.TFHelper;
 
 public class ModelVurpVehicle extends ModelVehicleBase
 {
@@ -332,7 +333,7 @@ public class ModelVurpVehicle extends ModelVehicleBase
 
     public void render(ItemStack itemstack)
     {
-        setupRenderLayers(itemstack, vehicleBase);
+    	TFHelper.setupRenderLayers(itemstack, vehicleBase, false);
 
         float scale = 1.25F;
         vehicleWheelR.setScale(1, scale, scale);
