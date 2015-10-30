@@ -72,6 +72,7 @@ tile.block_of_transformium.name=Block of Transformium
 tile.cosmic_rust.name=Cosmic Rust
 tile.transformer_display_station.name=Transformer Display Station
 tile.energon_processor.name=Energon Processor
+tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.transformer_assembly_table.name=Transformer Assembly Table
 
 -----Tab------
