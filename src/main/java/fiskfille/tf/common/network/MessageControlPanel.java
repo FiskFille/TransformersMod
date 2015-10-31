@@ -54,7 +54,7 @@ public class MessageControlPanel implements IMessage
     {
         public IMessage onMessage(MessageControlPanel message, MessageContext ctx)
         {
-            EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
+            EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer(ctx) : ctx.getServerHandler().playerEntity;
             EntityPlayer player = null;
             World world = clientPlayer.worldObj;
             

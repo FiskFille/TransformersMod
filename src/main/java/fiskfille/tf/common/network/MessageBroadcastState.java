@@ -46,9 +46,10 @@ public class MessageBroadcastState implements IMessage
     {
         public IMessage onMessage(MessageBroadcastState message, MessageContext ctx)
         {
+            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
+
             if (ctx.side.isClient())
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity lookupEntity = player.worldObj.getEntityByID(message.id);
 
                 if (lookupEntity instanceof EntityPlayer && player != lookupEntity)
@@ -63,7 +64,6 @@ public class MessageBroadcastState implements IMessage
             }
             else
             {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
                 TFNetworkManager.networkWrapper.sendToDimension(new MessageBroadcastState(player), player.dimension);
                 TFDataManager.setInVehicleModeWithoutNotify(player, message.vehicle);
                 TFDataManager.setInStealthModeWithoutNotify(player, message.stealth);

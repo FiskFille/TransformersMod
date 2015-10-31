@@ -45,7 +45,7 @@ public class MessageTransformDisplayStation implements IMessage
     {
         public IMessage onMessage(MessageTransformDisplayStation message, MessageContext ctx)
         {
-            EntityPlayer player = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
+            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
             World world = player.worldObj;
 
             TileEntityDisplayStation tileentity = (TileEntityDisplayStation) world.getTileEntity(message.x, message.y, message.z);

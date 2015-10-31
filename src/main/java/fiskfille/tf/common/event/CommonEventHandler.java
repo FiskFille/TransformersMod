@@ -204,7 +204,7 @@ public class CommonEventHandler
             {
                 boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
 
-                if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) //Should also move to ClientEventHandler
+                if (!inVehicleMode && TransformersMod.proxy.getPlayer(null) == player) //Should also move to ClientEventHandler
                 {
                     ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
                 }
@@ -372,7 +372,7 @@ public class CommonEventHandler
                     playersNotSunc.remove(player);
                 }
             }
-            else if (TransformersMod.proxy.getPlayer() == player) //Should put this in ClientEventHandler
+            else if (TransformersMod.proxy.getPlayer(null) == player) //Should put this in ClientEventHandler
             {
                 double diffX = player.posX - lastX;
                 double diffY = player.posY - lastY;

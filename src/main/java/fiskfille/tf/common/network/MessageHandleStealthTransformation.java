@@ -43,9 +43,10 @@ public class MessageHandleStealthTransformation implements IMessage
     {
         public IMessage onMessage(MessageHandleStealthTransformation message, MessageContext ctx)
         {
+            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
+
             if (ctx.side.isClient())
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
@@ -64,7 +65,6 @@ public class MessageHandleStealthTransformation implements IMessage
             }
             else
             {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
                 EntityPlayer from = null;
 
                 for (World world : MinecraftServer.getServer().worldServers)

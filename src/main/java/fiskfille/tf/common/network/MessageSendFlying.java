@@ -40,9 +40,10 @@ public class MessageSendFlying implements IMessage
     {
         public IMessage onMessage(MessageSendFlying message, MessageContext ctx)
         {
+            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
+
             if (ctx.side.isClient())
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 

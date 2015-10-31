@@ -42,9 +42,10 @@ public class MessageCloudtrapJetpack implements IMessage
     {
         public IMessage onMessage(MessageCloudtrapJetpack message, MessageContext ctx)
         {
+            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
+
             if (ctx.side.isClient())
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
@@ -60,8 +61,6 @@ public class MessageCloudtrapJetpack implements IMessage
             }
             else
             {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
-
                 TFNetworkManager.networkWrapper.sendToDimension(new MessageCloudtrapJetpack(player, message.jetpacking), player.dimension);
             }
 

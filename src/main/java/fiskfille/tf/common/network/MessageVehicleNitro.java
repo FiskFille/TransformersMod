@@ -42,9 +42,10 @@ public class MessageVehicleNitro implements IMessage
     {
         public IMessage onMessage(MessageVehicleNitro message, MessageContext ctx)
         {
+            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
+
             if (ctx.side.isClient())
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
                 if (entity instanceof EntityPlayer)
@@ -58,7 +59,6 @@ public class MessageVehicleNitro implements IMessage
             }
             else
             {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
                 TFNetworkManager.networkWrapper.sendToDimension(new MessageVehicleNitro(player, message.nitroOn), player.dimension);
             }
 

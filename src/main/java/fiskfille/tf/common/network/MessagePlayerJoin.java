@@ -63,7 +63,7 @@ public class MessagePlayerJoin implements IMessage
         {
             if (ctx.side.isClient())
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
+                EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
 
                 TFDataManager.setInVehicleModeWithoutNotify(player, message.vehicleMode);
                 TFDataManager.setInStealthModeWithoutNotify(player, message.stealthForce);
