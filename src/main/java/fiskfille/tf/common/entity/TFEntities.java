@@ -1,8 +1,8 @@
 package fiskfille.tf.common.entity;
 
-import net.minecraft.entity.Entity;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import fiskfille.tf.TransformersMod;
+import net.minecraft.entity.Entity;
 
 public class TFEntities
 {

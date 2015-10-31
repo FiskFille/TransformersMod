@@ -1,5 +1,9 @@
 package fiskfille.tf.client.render.tileentity;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -7,13 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
-import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.helper.TFHelper;
 
 public class RenderDisplayStation extends TileEntitySpecialRenderer
 {

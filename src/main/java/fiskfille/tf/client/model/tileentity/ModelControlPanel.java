@@ -1,9 +1,9 @@
 package fiskfille.tf.client.model.tileentity;
 
-import net.minecraft.client.model.ModelRenderer;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import net.minecraft.client.model.ModelRenderer;
 
 public class ModelControlPanel extends MowzieModelBase
 {
@@ -295,29 +295,29 @@ public class ModelControlPanel extends MowzieModelBase
 
     public void render(TileEntityControlPanel tileentity)
     {
-    	setToInitPose();
-    	
-    	if (tileentity != null && tileentity.getWorldObj() != null)
+        setToInitPose();
+
+        if (tileentity != null && tileentity.getWorldObj() != null)
         {
-        	ModelRenderer[][] models = {{switchtop_1, switchtop_2, switchtop_3, switchtop_4}, {switchmiddle_1, switchmiddle_2, switchmiddle_3, switchmiddle_4}, {switchbottom_1, switchbottom_2, switchbottom_3, switchbottom_4}};
-        	
-        	for (int i = 0; i < models.length; ++i)
-        	{
-        		for (int j = 0; j < models[i].length; ++j)
-        		{
-        			models[i][j].rotateAngleX = -(float)tileentity.switches[i][j] / 10;
-        		}
-        	}
-        	
-        	needle_1.rotateAngleY = (float)Math.PI / 2 * tileentity.portalDirection;
-        	levercover1.rotateAngleX = 0.45378560551852565F - 1.9F * tileentity.activationLeverCoverTimer;
-        	levercover2.rotateAngleX = 1.4311699866353502F - 0.5F * tileentity.activationLeverCoverTimer;
-        	lever1.rotateAngleX = 0.17453292519943295F + 2.5F * tileentity.activationLeverTimer;
+            ModelRenderer[][] models = {{switchtop_1, switchtop_2, switchtop_3, switchtop_4}, {switchmiddle_1, switchmiddle_2, switchmiddle_3, switchmiddle_4}, {switchbottom_1, switchbottom_2, switchbottom_3, switchbottom_4}};
+
+            for (int i = 0; i < models.length; ++i)
+            {
+                for (int j = 0; j < models[i].length; ++j)
+                {
+                    models[i][j].rotateAngleX = -(float) tileentity.switches[i][j] / 10;
+                }
+            }
+
+            needle_1.rotateAngleY = (float) Math.PI / 2 * tileentity.portalDirection;
+            levercover1.rotateAngleX = 0.45378560551852565F - 1.9F * tileentity.activationLeverCoverTimer;
+            levercover2.rotateAngleX = 1.4311699866353502F - 0.5F * tileentity.activationLeverCoverTimer;
+            lever1.rotateAngleX = 0.17453292519943295F + 2.5F * tileentity.activationLeverTimer;
         }
-    	
+
         this.table1.render(0.0625F);
     }
-    
+
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;

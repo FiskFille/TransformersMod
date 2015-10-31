@@ -1,29 +1,27 @@
 package fiskfille.tf.nei;
 
-import static codechicken.nei.NEIClientUtils.translate;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import codechicken.nei.ItemList;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
+import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.google.common.collect.Lists;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import codechicken.nei.ItemList;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.item.TFItems;
+import static codechicken.nei.NEIClientUtils.translate;
 
 public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 {

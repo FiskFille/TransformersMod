@@ -1,13 +1,5 @@
 package fiskfille.tf.common.transformer.base;
 
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityTankShell;
@@ -16,6 +8,14 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
+
+import java.util.Random;
 
 /**
  * @author gegy1000

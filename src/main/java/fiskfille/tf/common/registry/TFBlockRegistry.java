@@ -1,10 +1,10 @@
 package fiskfille.tf.common.registry;
 
-import net.minecraft.block.Block;
-import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.ItemBlockWithMetadata;
+import net.minecraft.block.Block;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TFBlockRegistry
 {
@@ -29,10 +29,10 @@ public class TFBlockRegistry
 
         GameRegistry.registerBlock(block, clazz, unlocalizedName);
     }
-    
+
     public static void registerItemBlock(Block block, String name, String modId)
     {
-    	registerItemBlock(block, name, ItemBlockWithMetadata.class, modId);
+        registerItemBlock(block, name, ItemBlockWithMetadata.class, modId);
     }
 
     public static void registerOre(Block block, String name, String oreDictName, String modId)
@@ -52,10 +52,10 @@ public class TFBlockRegistry
         registerBlock(block, name, modId);
         GameRegistry.registerTileEntity(clazz, name);
     }
-    
+
     public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz, Class clazz1, String modId)
     {
-    	registerItemBlock(block, name, clazz1, modId);
+        registerItemBlock(block, name, clazz1, modId);
         GameRegistry.registerTileEntity(clazz, name);
     }
 }

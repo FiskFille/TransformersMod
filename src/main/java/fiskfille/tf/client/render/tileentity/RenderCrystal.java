@@ -1,17 +1,15 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
 import fiskfille.tf.common.block.BlockEnergonCrystal;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import org.lwjgl.opengl.GL11;
 
 public class RenderCrystal extends TileEntitySpecialRenderer
 {

@@ -1,15 +1,5 @@
 package fiskfille.tf.helper;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -19,6 +9,14 @@ import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 /**
  * @author FiskFille, gegy1000
@@ -171,18 +169,18 @@ public class TFHelper
 
         return A << 24 | R << 16 | G << 8 | B;
     }
-    
+
     public static void setLighting(int c0)
     {
         int j = c0 % 65536;
         int k = c0 / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
     }
-    
+
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
     {
-    	Minecraft mc = Minecraft.getMinecraft();
-    	
+        Minecraft mc = Minecraft.getMinecraft();
+
         if (itemstack != null && itemstack.getItem() instanceof ItemTransformerArmor)
         {
             Transformer transformer = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
@@ -190,7 +188,7 @@ public class TFHelper
 
             if (TFArmorDyeHelper.isDyed(itemstack))
             {
-            	GL11.glEnable(GL11.GL_BLEND);
+                GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 float[] afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
 
@@ -206,10 +204,10 @@ public class TFHelper
                 GL11.glColor4f(1, 1, 1, 1);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
                 model.render(0.0625F);
-                
+
                 if (hasLightsLayer)
                 {
-                	TFHelper.setLighting(61680);
+                    TFHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
                 }
@@ -217,10 +215,10 @@ public class TFHelper
             else
             {
                 model.render(0.0625F);
-                
+
                 if (hasLightsLayer)
                 {
-                	TFHelper.setLighting(61680);
+                    TFHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
                 }

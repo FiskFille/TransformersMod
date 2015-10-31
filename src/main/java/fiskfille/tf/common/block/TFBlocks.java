@@ -1,7 +1,5 @@
 package fiskfille.tf.common.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.DefaultEnergon;
 import fiskfille.tf.common.energon.RedEnergon;
@@ -13,6 +11,8 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 
 public class TFBlocks
 {

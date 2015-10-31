@@ -7,7 +7,6 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 

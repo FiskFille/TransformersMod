@@ -1,10 +1,10 @@
 package fiskfille.tf.common.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockTransformiumStone extends BlockBasic
 {

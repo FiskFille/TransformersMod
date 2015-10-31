@@ -1,7 +1,9 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Color;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.helper.TFArmorDyeHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -15,14 +17,10 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.helper.TFArmorDyeHelper;
+import java.awt.Color;
 
 @SideOnly(Side.CLIENT)
 public class GuiColorPresets extends GuiScreen
@@ -48,41 +46,41 @@ public class GuiColorPresets extends GuiScreen
         buttonList.add(new GuiButton(2, width / 2 + 65, height / 6 + 130, 20, 20, ">"));
 
         presets = new ColorPreset[]
-        {
-       		// TFMod
-        	new ColorPreset(0xffffffff, 0xffcd0000, "Skystrike"),
-        	new ColorPreset(0xffa7a180, 0xff672222, "Purge"),
-        	new ColorPreset(0xffa0a0a0, 0xff651212, "Skystrike (Weathered)"),
-       		new ColorPreset(0xffff0000, 0xff101010, "Purge (Classic)"),
+                {
+                        // TFMod
+                        new ColorPreset(0xffffffff, 0xffcd0000, "Skystrike"),
+                        new ColorPreset(0xffa7a180, 0xff672222, "Purge"),
+                        new ColorPreset(0xffa0a0a0, 0xff651212, "Skystrike (Weathered)"),
+                        new ColorPreset(0xffff0000, 0xff101010, "Purge (Classic)"),
 
-       		// Abstract
-       		new ColorPreset(0xffff4a00, 0xff000000, "Halloween"),
-       		new ColorPreset(0xff2b0051, 0xffbdbdbd, "Indigo"),
-       		new ColorPreset(0xff3b1458, 0xff322277, "Eclipse"),
-       		new ColorPreset(0xff3db4d6, 0xffb2ffff, "Cold"),
-       		new ColorPreset(0xff090909, 0xff000000, "Bat"),
-       		new ColorPreset(0xff3d87ff, 0xff003dff, "Ocean Blue"),
-       		new ColorPreset(0xffa7a180, 0xff686653, "Desert"),
-       		new ColorPreset(0xffffffff, 0xffffffff, "Blank"),
-       		new ColorPreset(0xff687893, 0xff711010, "Perception"),
+                        // Abstract
+                        new ColorPreset(0xffff4a00, 0xff000000, "Halloween"),
+                        new ColorPreset(0xff2b0051, 0xffbdbdbd, "Indigo"),
+                        new ColorPreset(0xff3b1458, 0xff322277, "Eclipse"),
+                        new ColorPreset(0xff3db4d6, 0xffb2ffff, "Cold"),
+                        new ColorPreset(0xff090909, 0xff000000, "Bat"),
+                        new ColorPreset(0xff3d87ff, 0xff003dff, "Ocean Blue"),
+                        new ColorPreset(0xffa7a180, 0xff686653, "Desert"),
+                        new ColorPreset(0xffffffff, 0xffffffff, "Blank"),
+                        new ColorPreset(0xff687893, 0xff711010, "Perception"),
 
-       		// Canon
-       		new ColorPreset(0xff0000ff, 0xffff0000, "G1 Optimus Prime"),
-       		new ColorPreset(0xffd7d7d7, 0xff666868, "G1 Megatron"),
-       		new ColorPreset(0xffe4160e, 0xff3636e8, "G1 Starscream"),
-       		new ColorPreset(0xffa0ff36, 0xff9a009a, "G1 Constructicon"),
-       		new ColorPreset(0xfffe3978, 0xff198014, "G1 Scorponok"),
-       		new ColorPreset(0xff7148d6, 0xfffe6c6c, "G1 Galvatron"),
-       		new ColorPreset(0xffcdcdcd, 0xff0e0e0e, "G1 Prowl"),
-       		new ColorPreset(0xff000083, 0xffbb0000, "Movie Optimus Prime"),
-       		new ColorPreset(0xffa7a7a7, 0xff810000, "Movie Wreckage"),
-       		new ColorPreset(0xffddc600, 0xff101010, "Bumblebee"),
-       		new ColorPreset(0xff173f17, 0xff513838, "Brawl"),
-       		new ColorPreset(0xff880000, 0xff4f0000, "Warpath"),
-       		new ColorPreset(0xff4f00b2, 0xff656565, "Vehicon"),
-       		new ColorPreset(0xffa51919, 0xffcf6300, "Hot-Rod"),
-       		new ColorPreset(0xff737a80, 0xff2f3b47, "Starscream"),
-        };
+                        // Canon
+                        new ColorPreset(0xff0000ff, 0xffff0000, "G1 Optimus Prime"),
+                        new ColorPreset(0xffd7d7d7, 0xff666868, "G1 Megatron"),
+                        new ColorPreset(0xffe4160e, 0xff3636e8, "G1 Starscream"),
+                        new ColorPreset(0xffa0ff36, 0xff9a009a, "G1 Constructicon"),
+                        new ColorPreset(0xfffe3978, 0xff198014, "G1 Scorponok"),
+                        new ColorPreset(0xff7148d6, 0xfffe6c6c, "G1 Galvatron"),
+                        new ColorPreset(0xffcdcdcd, 0xff0e0e0e, "G1 Prowl"),
+                        new ColorPreset(0xff000083, 0xffbb0000, "Movie Optimus Prime"),
+                        new ColorPreset(0xffa7a7a7, 0xff810000, "Movie Wreckage"),
+                        new ColorPreset(0xffddc600, 0xff101010, "Bumblebee"),
+                        new ColorPreset(0xff173f17, 0xff513838, "Brawl"),
+                        new ColorPreset(0xff880000, 0xff4f0000, "Warpath"),
+                        new ColorPreset(0xff4f00b2, 0xff656565, "Vehicon"),
+                        new ColorPreset(0xffa51919, 0xffcf6300, "Hot-Rod"),
+                        new ColorPreset(0xff737a80, 0xff2f3b47, "Starscream"),
+                };
 
         int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;

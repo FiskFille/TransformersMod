@@ -763,7 +763,7 @@ public class ModelPurgeVehicle extends ModelVehicleBase
 
     public void render(ItemStack itemstack)
     {
-    	TFHelper.setupRenderLayers(itemstack, vehiclebase, false);
+        TFHelper.setupRenderLayers(itemstack, vehiclebase, false);
     }
 
     /**

@@ -1,9 +1,9 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import fiskfille.tf.helper.TFHelper;
 
 public class ModelCloudtrapVehicle extends ModelVehicleBase
 {

@@ -1,10 +1,10 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import fiskfille.tf.client.model.transformer.ModelChildBase;
 import fiskfille.tf.common.item.ItemDisplayVehicle;
 import fiskfille.tf.helper.TFArmorDyeHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ModelVehicleBase extends ModelChildBase.Base
 {

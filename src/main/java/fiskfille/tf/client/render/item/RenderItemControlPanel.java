@@ -1,12 +1,10 @@
 package fiskfille.tf.client.render.item;
 
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 
 public class RenderItemControlPanel implements IItemRenderer
 {
@@ -35,7 +33,7 @@ public class RenderItemControlPanel implements IItemRenderer
         }
         if (type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
         {
-        	TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), 0.5F, 0.75F, 0.5F, 0.0F);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), 0.5F, 0.75F, 0.5F, 0.0F);
         }
     }
 }

@@ -1,14 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
@@ -17,11 +8,18 @@ import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public abstract class ModelTransformerBase extends MowzieModelBase
 {
-	public int layerToRender;
-	
+    public int layerToRender;
+
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
@@ -40,10 +38,10 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
             if (TFDataManager.getTransformationTimer(player) == 0)
             {
-            	if (layerToRender == 2)
-            	{
-            		TFHelper.setupRenderLayers(head, getVehicle(), hasLightsLayer());
-            	}
+                if (layerToRender == 2)
+                {
+                    TFHelper.setupRenderLayers(head, getVehicle(), hasLightsLayer());
+                }
             }
             else
             {
@@ -51,28 +49,28 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 {
                     if (wearingHead)
                     {
-                    	TFHelper.setupRenderLayers(head, getHead(), hasLightsLayer());
+                        TFHelper.setupRenderLayers(head, getHead(), hasLightsLayer());
                     }
 
                     if (wearingLegs)
                     {
-                    	TFHelper.setupRenderLayers(legs, getRightLeg(), hasLightsLayer());
+                        TFHelper.setupRenderLayers(legs, getRightLeg(), hasLightsLayer());
                         TFHelper.setupRenderLayers(legs, getLeftLeg(), hasLightsLayer());
                     }
                 }
                 else if (!TFArmorDyeHelper.areColorsIdentical(head, chest, legs))
                 {
-                	if (layerToRender == 2)
-                	{
-                		getWaist().render(0.0625F);
-                	}
+                    if (layerToRender == 2)
+                    {
+                        getWaist().render(0.0625F);
+                    }
                 }
                 else
                 {
-                	if (layerToRender == 2)
-                	{
-                		TFHelper.setupRenderLayers(head, getWaist(), hasLightsLayer());
-                	}
+                    if (layerToRender == 2)
+                    {
+                        TFHelper.setupRenderLayers(head, getWaist(), hasLightsLayer());
+                    }
                 }
             }
         }
@@ -80,8 +78,8 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
     private void setupRenderLayers(ItemStack itemstack, ModelRenderer model)
     {
-    	Minecraft mc = Minecraft.getMinecraft();
-    	
+        Minecraft mc = Minecraft.getMinecraft();
+
         if (itemstack != null && itemstack.getItem() instanceof ItemTransformerArmor)
         {
             Transformer transformer = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
@@ -89,7 +87,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
             if (TFArmorDyeHelper.isDyed(itemstack))
             {
-            	GL11.glEnable(GL11.GL_BLEND);
+                GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 float[] afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
 
@@ -105,10 +103,10 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 GL11.glColor4f(1, 1, 1, 1);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
                 model.render(0.0625F);
-                
+
                 if (hasLightsLayer())
                 {
-                	TFHelper.setLighting(61680);
+                    TFHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
                 }
@@ -116,10 +114,10 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             else
             {
                 model.render(0.0625F);
-                
+
                 if (hasLightsLayer())
                 {
-                	TFHelper.setLighting(61680);
+                    TFHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
                 }
@@ -156,10 +154,10 @@ public abstract class ModelTransformerBase extends MowzieModelBase
     {
         return null;
     }
-    
+
     public boolean hasLightsLayer()
     {
-    	return false;
+        return false;
     }
 
     public void renderArmorPiece(int armorPiece) {}

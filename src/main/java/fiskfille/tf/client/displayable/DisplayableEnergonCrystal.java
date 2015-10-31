@@ -5,7 +5,6 @@ import fiskfille.tf.common.block.BlockEnergonCrystal;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;

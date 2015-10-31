@@ -86,7 +86,7 @@ public class RenderItemArmor implements IItemRenderer
 
             if (armorPiece == 0)
             {
-            	GL11.glTranslatef(0.5F, 0.5F, 0.1F);
+                GL11.glTranslatef(0.5F, 0.5F, 0.1F);
             }
             else if (armorPiece == 1)
             {
@@ -112,7 +112,7 @@ public class RenderItemArmor implements IItemRenderer
 
             if (armorPiece == 0)
             {
-            	GL11.glTranslatef(-0.25F, 0.6F, -0.2F);
+                GL11.glTranslatef(-0.25F, 0.6F, -0.2F);
             }
             else if (armorPiece == 1)
             {

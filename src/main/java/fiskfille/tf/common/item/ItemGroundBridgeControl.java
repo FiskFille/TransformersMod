@@ -1,23 +1,22 @@
 package fiskfille.tf.common.item;
 
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.TFBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.TFBlocks;
 
 public class ItemGroundBridgeControl extends ItemBlock
 {
     public ItemGroundBridgeControl(Block block)
     {
-		super(block);
-	}
+        super(block);
+    }
 
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float f, float f1, float f2)
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float f, float f1, float f2)
     {
         if (world.isRemote)
         {
@@ -25,7 +24,7 @@ public class ItemGroundBridgeControl extends ItemBlock
         }
         else
         {
-        	if (side == 0)
+            if (side == 0)
             {
                 --y;
             }
@@ -54,9 +53,9 @@ public class ItemGroundBridgeControl extends ItemBlock
             {
                 ++x;
             }
-        	
-            BlockGroundBridgeControl block = (BlockGroundBridgeControl)TFBlocks.groundBridgeControlPanel;
-            int direction = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+            BlockGroundBridgeControl block = (BlockGroundBridgeControl) TFBlocks.groundBridgeControlPanel;
+            int direction = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             byte x1 = 0;
             byte z1 = 0;
 
@@ -90,8 +89,8 @@ public class ItemGroundBridgeControl extends ItemBlock
                     {
                         world.setBlock(x + x1, y, z + z1, block, direction + 8, 3);
                     }
-                    
-                    world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), TFBlocks.groundBridgeControlPanel.stepSound.func_150496_b(), (TFBlocks.groundBridgeControlPanel.stepSound.getVolume() + 1.0F) / 2.0F, TFBlocks.groundBridgeControlPanel.stepSound.getPitch() * 0.8F);
+
+                    world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), TFBlocks.groundBridgeControlPanel.stepSound.func_150496_b(), (TFBlocks.groundBridgeControlPanel.stepSound.getVolume() + 1.0F) / 2.0F, TFBlocks.groundBridgeControlPanel.stepSound.getPitch() * 0.8F);
                     --itemstack.stackSize;
                     return true;
                 }
