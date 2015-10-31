@@ -1,6 +1,5 @@
 package fiskfille.tf.common.proxy;
 
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.client.tick.ClientTickHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -9,14 +8,14 @@ public class CommonProxy
 {
     public static ClientTickHandler tickHandler;
 
-    public World getWorld(MessageContext ctx)
+    public World getWorld()
     {
-        return getPlayer(ctx).worldObj;
+        return null;
     }
 
-    public EntityPlayer getPlayer(MessageContext ctx)
+    public EntityPlayer getPlayer()
     {
-        return ctx.getServerHandler().playerEntity;
+        return null;
     }
 
     public void preInit()

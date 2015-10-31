@@ -2,7 +2,6 @@ package fiskfille.tf.common.proxy;
 
 import java.lang.reflect.Field;
 
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -68,13 +67,13 @@ public class ClientProxy extends CommonProxy
     public static RenderCustomPlayer renderCustomPlayer;
 
     @Override
-    public World getWorld(MessageContext ctx)
+    public World getWorld()
     {
         return mc.theWorld;
     }
 
     @Override
-    public EntityPlayer getPlayer(MessageContext ctx)
+    public EntityPlayer getPlayer()
     {
         return mc.thePlayer;
     }

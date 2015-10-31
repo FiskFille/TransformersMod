@@ -43,10 +43,9 @@ public class MessageHandleTransformation implements IMessage
         {
             boolean isTransformed = message.transformed;
 
-            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
-
             if (ctx.side.isClient())
             {
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 EntityPlayer from = null;
                 Entity entity = player.worldObj.getEntityByID(message.id);
 
@@ -66,6 +65,8 @@ public class MessageHandleTransformation implements IMessage
             }
             else
             {
+                EntityPlayer player = ctx.getServerHandler().playerEntity;
+
                 if (player != null)
                 {
                     TFDataManager.setInVehicleMode(player, isTransformed);

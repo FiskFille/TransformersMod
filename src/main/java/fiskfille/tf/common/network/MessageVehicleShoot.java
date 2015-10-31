@@ -45,10 +45,9 @@ public class MessageVehicleShoot implements IMessage
     {
         public IMessage onMessage(MessageVehicleShoot message, MessageContext ctx)
         {
-            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
-
             if (ctx.side.isClient())
             {
+                EntityPlayer player = TransformersMod.proxy.getPlayer();
                 Entity fromEntity = player.worldObj.getEntityByID(message.id);
 
                 if (fromEntity instanceof EntityPlayer)
@@ -75,7 +74,6 @@ public class MessageVehicleShoot implements IMessage
                 for (World world : MinecraftServer.getServer().worldServers)
                 {
                     Entity entity = world.getEntityByID(message.id);
-
                     if (entity instanceof EntityPlayer)
                     {
                         from = (EntityPlayer) entity;

@@ -53,7 +53,7 @@ public class MessageColorArmor implements IMessage
     {
         public IMessage onMessage(MessageColorArmor message, MessageContext ctx)
         {
-            EntityPlayer player = TransformersMod.proxy.getPlayer(ctx);
+            EntityPlayer player = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
             World world = player.worldObj;
 
             TileEntityDisplayStation tileentity = (TileEntityDisplayStation) world.getTileEntity(message.x, message.y, message.z);
