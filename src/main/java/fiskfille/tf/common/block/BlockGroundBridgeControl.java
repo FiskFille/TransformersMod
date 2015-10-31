@@ -15,6 +15,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.network.MessageControlPanel;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 
 public class BlockGroundBridgeControl extends BlockDirectional implements ITileEntityProvider
@@ -70,7 +72,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
     {
     	int direction = getDirection(metadata);
         int i = isBlockSideOfPanel(metadata) ? 0 : 1;
-        float f = 1.0F;
+        float f = 0.9575F;
         
         if (direction == 0)
         {
@@ -265,7 +267,115 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
     public boolean onRightClick(World world, int x, int y, int z, TileEntityControlPanel tile, EntityPlayer player, int face, float hitX, float hitY)
     {
     	// 0 = front, 1 = back, 2 = right, 3 = left, 4 = top, 5 = bottom
+    	float f = 0.0625F;
+    	
+    	if (world.isRemote)
+    	{
+    		if (face == 4)
+    		{
+    			if (hitY > f * 2 && hitY <= f * 4.5F)
+    			{
+    				if (hitX > f * 1.15F && hitX <= f * 3.21F)
+    				{
+    					sendActionPacket(tile, player, 1);
+    					return true;
+    				}
+    				if (hitX > f * 3.25F && hitX <= f * 5.39F)
+    				{
+    					sendActionPacket(tile, player, 2);
+    					return true;
+    				}
+    				if (hitX > f * 5.55F && hitX <= f * 7.6F)
+    				{
+    					sendActionPacket(tile, player, 3);
+    					return true;
+    				}
+    				if (hitX > f * 7.6F && hitX <= f * 10F)
+    				{
+    					sendActionPacket(tile, player, 4);
+    					return true;
+    				}
+    			}
+    			if (hitY > f * 6.2F && hitY <= f * 8.8F)
+    			{
+    				if (hitX > f * 1.15F && hitX <= f * 3.21F)
+    				{
+    					sendActionPacket(tile, player, 5);
+    					return true;
+    				}
+    				if (hitX > f * 3.25F && hitX <= f * 5.39F)
+    				{
+    					sendActionPacket(tile, player, 6);
+    					return true;
+    				}
+    				if (hitX > f * 5.55F && hitX <= f * 7.6F)
+    				{
+    					sendActionPacket(tile, player, 7);
+    					return true;
+    				}
+    				if (hitX > f * 7.6F && hitX <= f * 10F)
+    				{
+    					sendActionPacket(tile, player, 8);
+    					return true;
+    				}
+    			}
+    			if (hitY > f * 10F && hitY <= f * 13F)
+    			{
+    				if (hitX > f * 1.15F && hitX <= f * 3.21F)
+    				{
+    					sendActionPacket(tile, player, 9);
+    					return true;
+    				}
+    				if (hitX > f * 3.25F && hitX <= f * 5.39F)
+    				{
+    					sendActionPacket(tile, player, 10);
+    					return true;
+    				}
+    				if (hitX > f * 5.55F && hitX <= f * 7.6F)
+    				{
+    					sendActionPacket(tile, player, 11);
+    					return true;
+    				}
+    				if (hitX > f * 7.6F && hitX <= f * 10F)
+    				{
+    					sendActionPacket(tile, player, 12);
+    					return true;
+    				}
+    			}
+    			if (hitX > f * 13.5F && hitX <= f * 18.5F && hitY > f * 5.65F && hitY <= f * 10.85F)
+    			{
+    				if (!tile.activationLeverState)
+    				{
+    					sendActionPacket(tile, player, 13);
+    				}
+
+    				return true;
+    			}
+    			if (hitX > f * 23F && hitX <= f * 31F && hitY > f * 4F && hitY <= f * 12.75F)
+    			{
+    				if (tile.activationLeverCoverState && (tile.activationLeverTimer == 0 || tile.activationLeverTimer == 1))
+    				{
+    					sendActionPacket(tile, player, 14);
+    				}
+
+    				return true;
+    			}
+    		}
+    	}
+    	
     	return false;
+    }
+    
+    public void sendActionPacket(TileEntityControlPanel tile, EntityPlayer player, int action)
+    {
+//    	if (player.worldObj.isRemote)
+        {
+    		TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
+        }
+//    	else
+//    	{
+//    		TFNetworkManager.networkWrapper.sendToDimension(new MessageControlPanelAction(player, tile.xCoord, tile.yCoord, tile.zCoord, action), player.dimension);
+//    	}
     }
     
     public TileEntity createNewTileEntity(World world, int metadata)

@@ -135,6 +135,13 @@ achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away
 
 ------Miscellaneous------
 misc.donate.thanks=Thanks for donating $
+ground_bridge.destination=Destination:
+ground_bridge.error=Error:
+ground_bridge.error.other_error=%s more error was detected.
+ground_bridge.error.other_errors=%s more errors were detected.
+ground_bridge.error.no_other_errors=No other errors were detected.
+ground_bridge.error.invalid_coords=Invalid coordinates! Destination must\nbe at least 100 blocks from point of\norigin!
+ground_bridge.error.not_enough_space=Not enough space! Destination does\nnot have have enough empty space to\nfit a ground bridge portal!
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!

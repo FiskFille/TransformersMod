@@ -1,5 +1,12 @@
 package fiskfille.tf;
 
+import java.lang.reflect.Method;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -11,6 +18,7 @@ import fiskfille.tf.client.displayable.TFDisplayableManager;
 import fiskfille.tf.client.gui.GuiHandlerTF;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.TFLoadingCallback;
 import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.TFEvents;
@@ -25,11 +33,6 @@ import fiskfille.tf.web.WebHelper;
 import fiskfille.tf.web.donator.Donators;
 import fiskfille.tf.web.update.Update;
 import fiskfille.tf.web.update.UpdateChecker;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.common.config.Configuration;
-
-import java.lang.reflect.Method;
 
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
@@ -54,6 +57,8 @@ public class TransformersMod
     public static Method setSizeMethod;
 
     public static Update latestUpdate;
+    
+    public static Ticket ticket;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -120,5 +125,8 @@ public class TransformersMod
         TFEvents.registerEvents(event.getSide());
         TFNetworkManager.registerPackets();
         TFDisplayableManager.registerDisplayables();
+        
+        ForgeChunkManager.setForcedChunkLoadingCallback(this, new TFLoadingCallback());
+//        ticket = ForgeChunkManager.requestTicket(this, world, type)
     }
 }
