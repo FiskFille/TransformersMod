@@ -1,5 +1,13 @@
 package fiskfille.tf.common.transformer.base;
 
+import java.util.Random;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.item.TFItems;
@@ -7,14 +15,6 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
-
-import java.util.Random;
 
 /**
  * @author gegy1000
@@ -36,12 +36,6 @@ public abstract class TransformerCar extends Transformer
     public void tick(EntityPlayer player, int timer)
     {
         boolean vehicle = TFDataManager.isInVehicleMode(player);
-
-        //        if (timer >= 14 && vehicle)
-        //        {
-        //            player.motionY += 0.225;
-        //        }
-
         IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
         if (vehicle && timer == 0)

@@ -1,8 +1,8 @@
 package fiskfille.tf.common.entity;
 
+import net.minecraft.entity.Entity;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import fiskfille.tf.TransformersMod;
-import net.minecraft.entity.Entity;
 
 public class TFEntities
 {
@@ -15,7 +15,7 @@ public class TFEntities
         registerEntity(EntityFlamethrowerFire.class, "flamethrower_fire", 20, 10, true);
         registerEntity(EntityBassCharge.class, "bass_charge", 20, 10, true);
         registerEntity(EntityLaserBeam.class, "laser_beam", 20, 10, true);
-        		registerEntityWithEgg(EntityTransformer.class, "transformer", 80, 1, true, 0, 0);
+        registerEntityWithEgg(EntityTransformer.class, "transformer", 80, 1, true, 0, 0);
     }
 
     private static void registerEntityWithEgg(Class<? extends Entity> entityClass, String name, int trackingRange, int updateFrequency, boolean sendVelocityUpdates, int primary, int secondary)

@@ -1,22 +1,37 @@
 package fiskfille.tf.common.motion;
 
+import static net.minecraft.block.material.Material.cactus;
+import static net.minecraft.block.material.Material.cake;
+import static net.minecraft.block.material.Material.clay;
+import static net.minecraft.block.material.Material.coral;
+import static net.minecraft.block.material.Material.craftedSnow;
+import static net.minecraft.block.material.Material.gourd;
+import static net.minecraft.block.material.Material.ground;
+import static net.minecraft.block.material.Material.ice;
+import static net.minecraft.block.material.Material.leaves;
+import static net.minecraft.block.material.Material.packedIce;
+import static net.minecraft.block.material.Material.plants;
+import static net.minecraft.block.material.Material.sand;
+import static net.minecraft.block.material.Material.snow;
+import static net.minecraft.block.material.Material.sponge;
+import static net.minecraft.block.material.Material.vine;
+import static net.minecraft.block.material.Material.web;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import static net.minecraft.block.material.Material.*;
 
 /**
  * @author FiskFille
@@ -262,7 +277,6 @@ public class TFMotionManager
             float f = (float) landingTimer / 20;
             boolean pitch = true;
 
-//            if (block == Blocks.air)
             if (!player.onGround)
             {
                 if (landingTimer < 20)

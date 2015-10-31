@@ -1,5 +1,10 @@
 package fiskfille.tf.client.tick;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
@@ -13,11 +18,6 @@ import fiskfille.tf.common.playerdata.TFPlayerData;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 public class ClientTickHandler
 {
@@ -215,14 +215,6 @@ public class ClientTickHandler
                 }
 
                 ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[]{"thirdPersonDistance", "E", "field_78490_B"});
-
-
-                //            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-                //            if (transformedPlayer != null)
-                //            {
-                //                float f = player.rotationYaw;
-                //                //                ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, transformedPlayer.getJetRoll() / 5, new String[] {"camRoll"});
-                //            }
             }
         }
     }

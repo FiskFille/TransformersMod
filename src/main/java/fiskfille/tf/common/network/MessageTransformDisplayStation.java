@@ -55,7 +55,6 @@ public class MessageTransformDisplayStation implements IMessage
                 if (tileentity.transform())
                 {
                     world.markBlockForUpdate(message.x, message.y, message.z);
-//                    Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(TransformersMod.modid, "transform_" + (tileentity.getStackInSlot(4) == null ? "robot" : "vehicle")), 1.0F));
                 }
             }
 

@@ -1,16 +1,17 @@
 package fiskfille.tf.client.render.tileentity;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
 import fiskfille.tf.common.block.BlockEnergonCrystal;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
 
 public class RenderCrystal extends TileEntitySpecialRenderer
 {
@@ -40,11 +41,7 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         float[] rgb = TFHelper.hexToRGB(energon.getColor());
         GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
 
-        char c0 = 61680;
-        int j = c0 % 65536;
-        int k = c0 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j / 1.0F, k / 1.0F);
-
+        TFHelper.setLighting(61680);
         model.render();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();

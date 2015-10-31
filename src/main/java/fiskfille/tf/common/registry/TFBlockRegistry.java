@@ -1,10 +1,10 @@
 package fiskfille.tf.common.registry;
 
+import net.minecraft.block.Block;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.ItemBlockWithMetadata;
-import net.minecraft.block.Block;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TFBlockRegistry
 {
@@ -19,7 +19,7 @@ public class TFBlockRegistry
         GameRegistry.registerBlock(block, unlocalizedName);
     }
 
-    public static void registerItemBlock(Block block, String name, String modId)
+    public static void registerItemBlock(Block block, String name, Class clazz, String modId)
     {
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
 
@@ -27,7 +27,12 @@ public class TFBlockRegistry
         block.setBlockTextureName(modId + ":" + unlocalizedName);
         block.setCreativeTab(TransformersMod.tabTransformers);
 
-        GameRegistry.registerBlock(block, ItemBlockWithMetadata.class, unlocalizedName);
+        GameRegistry.registerBlock(block, clazz, unlocalizedName);
+    }
+    
+    public static void registerItemBlock(Block block, String name, String modId)
+    {
+    	registerItemBlock(block, name, ItemBlockWithMetadata.class, modId);
     }
 
     public static void registerOre(Block block, String name, String oreDictName, String modId)
@@ -45,6 +50,12 @@ public class TFBlockRegistry
     public static void registerTileEntity(Block block, String name, Class clazz, String modId)
     {
         registerBlock(block, name, modId);
+        GameRegistry.registerTileEntity(clazz, name);
+    }
+    
+    public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz, Class clazz1, String modId)
+    {
+    	registerItemBlock(block, name, clazz1, modId);
         GameRegistry.registerTileEntity(clazz, name);
     }
 }

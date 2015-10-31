@@ -88,8 +88,6 @@ public class EntityFlamethrowerFire extends EntityThrowable
             motionY *= f;
             motionZ *= f;
         }
-
-        //        setDead();
     }
 
     public boolean setFire(World world, int x, int y, int z, int sideHit)

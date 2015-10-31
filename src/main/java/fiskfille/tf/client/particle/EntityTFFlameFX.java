@@ -1,5 +1,7 @@
 package fiskfille.tf.client.particle;
 
+import java.util.List;
+
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
@@ -9,8 +11,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class EntityTFFlameFX extends EntityFX
 {
@@ -176,8 +176,6 @@ public class EntityTFFlameFX extends EntityFX
 
     protected void onImpact(MovingObjectPosition mop)
     {
-        //        setDead();
-
         float f = 0.25F;
         motionX *= f;
         motionY *= f;

@@ -1,5 +1,21 @@
 package fiskfille.tf.client.render.entity.player;
 
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.player.ModelBipedTF;
@@ -10,24 +26,8 @@ import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelBox;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-
-import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer
@@ -81,79 +81,14 @@ public class RenderCustomPlayer extends RenderPlayer
 
                 model.renderFirstPersonArm(player);
                 GL11.glTranslatef(0.0f, 0.35f, 0.0f);
-
-                if (upperArm instanceof MowzieModelRenderer)
-                {
-                    setupRenderLayers(player.getCurrentArmor(2), (MowzieModelRenderer) upperArm, model);
-                }
-                else
-                {
-                    setupRenderLayers(player.getCurrentArmor(2), upperArm, model);
-                }
+                
+                TFHelper.setupRenderLayers(player.getCurrentArmor(2), upperArm, model.getMainModel().hasLightsLayer());
             }
             else
             {
                 modelBipedMain.bipedRightArm.showModel = true;
                 super.renderFirstPersonArm(player);
             }
-        }
-    }
-
-    private void setupRenderLayers(ItemStack itemstack, ModelRenderer model, TransformerModel tfModel)
-    {
-        if (itemstack != null && TFArmorDyeHelper.isDyed(itemstack))
-        {
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-            Minecraft mc = Minecraft.getMinecraft();
-            float[] afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
-
-            GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
-            mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_primary.png"));
-            model.render(0.0625F);
-
-            afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
-            GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
-            mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_secondary.png"));
-            model.render(0.0625F);
-
-            GL11.glColor4f(1, 1, 1, 1);
-            mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
-            model.render(0.0625F);
-        }
-        else
-        {
-            model.render(0.0625F);
-        }
-    }
-
-    private void setupRenderLayers(ItemStack itemstack, MowzieModelRenderer model, TransformerModel tfModel)
-    {
-        if (itemstack != null && TFArmorDyeHelper.isDyed(itemstack))
-        {
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-            Minecraft mc = Minecraft.getMinecraft();
-            float[] afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
-
-            GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
-            mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_primary.png"));
-            model.render(0.0625F);
-
-            afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
-            GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
-            mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_secondary.png"));
-            model.render(0.0625F);
-
-            GL11.glColor4f(1, 1, 1, 1);
-            mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
-            model.render(0.0625F);
-        }
-        else
-        {
-            model.render(0.0625F);
         }
     }
 
@@ -182,7 +117,7 @@ public class RenderCustomPlayer extends RenderPlayer
     {
         GL11.glPushMatrix();
 
-        Transformer transformer = TFHelper.getTransformerFromArmor((EntityPlayer) entity, 2); //It's a player >:)
+        Transformer transformer = TFHelper.getTransformerFromArmor((EntityPlayer) entity, 2);
 
         TransformerModel model = TFModelRegistry.getModel(transformer);
 

@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.item.ItemStack;
 
@@ -313,7 +314,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
     public void render(ItemStack itemstack)
     {
         vehicleBody.offsetY = 1.2F;
-        setupRenderLayers(itemstack, vehicleBody);
+        TFHelper.setupRenderLayers(itemstack, vehicleBody, true);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z)

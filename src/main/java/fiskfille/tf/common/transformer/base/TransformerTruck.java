@@ -1,5 +1,13 @@
 package fiskfille.tf.common.transformer.base;
 
+import java.util.Random;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.item.TFItems;
@@ -7,14 +15,6 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
-
-import java.util.Random;
 
 /**
  * @author gegy1000
@@ -77,10 +77,7 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player)
     {
-        //        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, 3, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
         EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
-        //        entityMissile.posY--;
-
         return entityMissile;
     }
 
@@ -121,18 +118,6 @@ public abstract class TransformerTruck extends Transformer
         {
             entityAttribute.setBaseValue(0.1D);
         }
-        //            if (!TFPlayerData.getData(player).stealthForce)
-        //            {
-        //                CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
-        //                entityAttribute.setBaseValue(0.0D);
-        //            }
-        //            else
-        //            {
-        //                if (CommonEventHandler.prevMove != 0)
-        //                {
-        //                    entityAttribute.setBaseValue(CommonEventHandler.prevMove);
-        //                }
-        //            }
     }
 
     @Override

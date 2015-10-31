@@ -1,17 +1,19 @@
 package fiskfille.tf.common.item.armor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.common.playerdata.TFDataManager;
-import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public abstract class ItemTransformerArmor extends ItemArmor
 {
@@ -49,6 +51,12 @@ public abstract class ItemTransformerArmor extends ItemArmor
 
             if (armorModel != null)
             {
+            	if (armorModel instanceof ModelTransformerBase)
+            	{
+            		ModelTransformerBase model = (ModelTransformerBase)armorModel;
+            		model.layerToRender = armorSlot + 1;
+            	}
+            	
                 armorModel.bipedHead.showModel = armorSlot == 0;
                 armorModel.bipedHeadwear.showModel = armorSlot == 0;
                 armorModel.bipedBody.showModel = armorSlot == 1;
@@ -74,5 +82,10 @@ public abstract class ItemTransformerArmor extends ItemArmor
         }
 
         return null;
+    }
+    
+    public void registerIcons(IIconRegister par1IIconRegister)
+    {
+    	
     }
 }

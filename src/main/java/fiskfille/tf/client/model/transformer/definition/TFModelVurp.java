@@ -1,5 +1,13 @@
 package fiskfille.tf.client.model.transformer.definition;
 
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
@@ -7,12 +15,6 @@ import fiskfille.tf.client.model.transformer.ModelVurp;
 import fiskfille.tf.client.model.transformer.stealth.ModelVurpStealth;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class TFModelVurp extends TransformerModel
 {
@@ -30,7 +32,7 @@ public class TFModelVurp extends TransformerModel
     }
 
     @Override
-    public Biped getMainModel()
+    public ModelTransformerBase getMainModel()
     {
         return model;
     }
