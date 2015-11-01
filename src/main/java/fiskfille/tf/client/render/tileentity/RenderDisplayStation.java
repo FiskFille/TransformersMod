@@ -1,9 +1,5 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
-import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -11,7 +7,13 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.helper.TFHelper;
 
 public class RenderDisplayStation extends TileEntitySpecialRenderer
 {
@@ -38,18 +40,8 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/display_station_lamp.png"));
             GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glColor4f(1, 1, 1, 1);
             TFHelper.setLighting(61680);
-            GL11.glPushMatrix();
-            GL11.glColor4f(1, 1, 1, 1);
-            GL11.glDepthMask(false);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
             model.render();
-            GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-            GL11.glPopMatrix();
-            GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_LIGHTING);
 
             try

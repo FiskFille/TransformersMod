@@ -1,15 +1,18 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelControlPanel;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelControlPanel;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFHelper;
 
 public class RenderControlPanel extends TileEntitySpecialRenderer
 {
@@ -32,11 +35,15 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
 
         if (!BlockGroundBridgeControl.isBlockSideOfPanel(metadata))
         {
-            bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel.png"));
-
             GL11.glTranslatef(0.5F, 0, 0);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            
+            bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel.png"));
+            model.render(tileentity);
+            
+            TFHelper.setLighting(61680);
+            bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel_lights.png"));
             model.render(tileentity);
             model.table1.postRender(0.0625F);
             model.table2.postRender(0.0625F);

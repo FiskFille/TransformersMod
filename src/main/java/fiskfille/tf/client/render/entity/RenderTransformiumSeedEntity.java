@@ -3,9 +3,11 @@ package fiskfille.tf.client.render.entity;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class RenderTransformiumSeedEntity extends Render
@@ -26,6 +28,11 @@ public class RenderTransformiumSeedEntity extends Render
         GL11.glRotatef(180, 1, 0, 0);
         model.render(seed);
 
+        GL11.glDisable(GL11.GL_LIGHTING);
+        TFHelper.setLighting(61680);
+        bindTexture(new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/transformium_seed_lights.png"));
+        model.render(seed);
+        GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }
 
