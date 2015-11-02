@@ -8,7 +8,7 @@ import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
@@ -23,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.Random;

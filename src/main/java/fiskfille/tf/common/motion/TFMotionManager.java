@@ -3,7 +3,7 @@ package fiskfille.tf.common.motion;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.player.ModelBipedTF;
-import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.block.Block;

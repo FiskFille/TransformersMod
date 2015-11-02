@@ -3,7 +3,7 @@ package fiskfille.tf.common.transformer.base;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
-import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

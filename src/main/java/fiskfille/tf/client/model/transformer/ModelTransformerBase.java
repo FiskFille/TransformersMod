@@ -3,8 +3,8 @@ package fiskfille.tf.client.model.transformer;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class ModelTransformerBase extends MowzieModelBase

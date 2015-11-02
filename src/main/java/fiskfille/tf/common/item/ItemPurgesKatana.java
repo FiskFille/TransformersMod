@@ -1,7 +1,8 @@
 package fiskfille.tf.common.item;
 
 import com.google.common.collect.Multimap;
-import fiskfille.tf.common.playerdata.TFDataManager;
+
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.command.IEntitySelector;

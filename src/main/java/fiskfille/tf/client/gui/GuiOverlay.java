@@ -6,11 +6,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
@@ -29,6 +29,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 

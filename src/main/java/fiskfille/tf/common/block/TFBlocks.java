@@ -1,18 +1,20 @@
 package fiskfille.tf.common.block;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.DefaultEnergon;
 import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.ItemGroundBridgeControl;
 import fiskfille.tf.common.registry.TFBlockRegistry;
+import fiskfille.tf.common.tileentity.TileEntityCable;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
+import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 
 public class TFBlocks
 {
@@ -31,6 +33,7 @@ public class TFBlocks
     public static BlockGroundBridgeTeleporter groundBridgeTeleporter;
     public static Block assemblyTable;
     public static Block groundBridgeControlPanel;
+    public static Block cable;
 
     public void register()
     {
@@ -49,6 +52,7 @@ public class TFBlocks
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         groundBridgeControlPanel = new BlockGroundBridgeControl();
         assemblyTable = new BlockAssemblyTable();
+        cable = new BlockCable();
 
 
         String modId = TransformersMod.modid;
@@ -64,9 +68,10 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class, modId);
         TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class, modId);
         TFBlockRegistry.registerBlock(groundBridgeFrame, "Ground Bridge Frame", modId);
-        TFBlockRegistry.registerBlock(groundBridgeTeleporter, "Ground Bridge Teleporter", modId);
+        TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class, modId);
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class, modId);
         TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table", modId);
+        TFBlockRegistry.registerTileEntity(cable, "Cable", TileEntityCable.class, modId);
 
         groundBridgeTeleporter.setCreativeTab(null);
     }

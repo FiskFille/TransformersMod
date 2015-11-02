@@ -2,9 +2,9 @@ package fiskfille.tf.client.model.transformer.stealth;
 
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;

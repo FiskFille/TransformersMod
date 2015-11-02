@@ -2,6 +2,7 @@ package fiskfille.tf.client.event;
 
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -17,12 +18,12 @@ import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
 import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
@@ -62,6 +63,7 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 

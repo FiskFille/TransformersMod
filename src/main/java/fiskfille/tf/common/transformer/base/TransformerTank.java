@@ -2,10 +2,10 @@ package fiskfille.tf.common.transformer.base;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.entity.Entity;

@@ -2,10 +2,10 @@ package fiskfille.tf.client.model.transformer;
 
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+
 import org.lwjgl.opengl.GL11;
 
 public class ModelSubwoofer extends ModelTransformerBase

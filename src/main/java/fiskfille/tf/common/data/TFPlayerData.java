@@ -1,4 +1,4 @@
-package fiskfille.tf.common.playerdata;
+package fiskfille.tf.common.data;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +17,10 @@ public class TFPlayerData implements IExtendedEntityProperties
     public static TFPlayerData getData(EntityPlayer player)
     {
         return (TFPlayerData) player.getExtendedProperties(IDENTIFIER);
+    }
+    
+    public void onUpdate()
+    {
     }
 
     @Override

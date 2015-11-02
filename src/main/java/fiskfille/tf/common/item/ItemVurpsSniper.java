@@ -1,9 +1,9 @@
 package fiskfille.tf.common.item;
 
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFShootManager;
 import net.minecraft.entity.player.EntityPlayer;

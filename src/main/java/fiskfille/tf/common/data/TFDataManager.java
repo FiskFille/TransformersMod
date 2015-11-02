@@ -1,4 +1,4 @@
-package fiskfille.tf.common.playerdata;
+package fiskfille.tf.common.data;
 
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;

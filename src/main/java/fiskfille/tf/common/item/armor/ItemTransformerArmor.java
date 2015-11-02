@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;

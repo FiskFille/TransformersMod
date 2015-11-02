@@ -1,7 +1,7 @@
 package fiskfille.tf.common.item;
 
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.entity.EntityBassCharge;
-import fiskfille.tf.common.playerdata.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;

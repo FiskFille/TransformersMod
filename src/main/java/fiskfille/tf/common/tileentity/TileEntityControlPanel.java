@@ -1,9 +1,9 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.groundbridge.EnumError;
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -14,7 +14,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import fiskfille.tf.common.block.BlockCoordinates;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.groundbridge.CableSignal;
+import fiskfille.tf.common.groundbridge.EnumError;
 
 public class TileEntityControlPanel extends TileEntity
 {
@@ -30,6 +36,8 @@ public class TileEntityControlPanel extends TileEntity
 
     public List<EnumError> errors = Lists.newArrayList();
     public boolean hasSpace;
+    
+    public BlockCoordinates groundBridgeFramePos;
 
     public void updateEntity()
     {
@@ -56,10 +64,15 @@ public class TileEntityControlPanel extends TileEntity
             {
                 destZ += switches[2][i] * aint[i];
             }
+            
+            if (groundBridgeFramePos == null)
+            {
+            	errors.add(EnumError.NO_PORTAL_LINKED);
+            }
 
             if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 100)
             {
-                errors.add(EnumError.INVALID_COORDS);
+//                errors.add(EnumError.INVALID_COORDS);
             }
 
             if (!worldObj.isRemote)
@@ -122,12 +135,34 @@ public class TileEntityControlPanel extends TileEntity
 
             activationLeverTimer = MathHelper.clamp_float(activationLeverTimer, 0, 1);
             activationLeverCoverTimer = MathHelper.clamp_float(activationLeverCoverTimer, 0, 1);
+            
+            
+            int direction = BlockGroundBridgeControl.getDirection(getBlockMetadata());
+            TileEntity tile = worldObj.getTileEntity(xCoord + BlockBed.field_149981_a[direction][0], yCoord, zCoord + BlockBed.field_149981_a[direction][1]);
+
+            if (tile instanceof TileEntityCable)
+            {
+            	TileEntityCable cable = (TileEntityCable)tile;
+
+            	if (activationLeverState)
+            	{
+            		cable.signalStrength = 64;
+            		cable.signal = new CableSignal(this, "ground_bridge_activate");
+            	}
+            	else
+            	{
+            		cable.signal = new CableSignal(this, "ground_bridge_deactivate");
+            	}
+            }
         }
+        
+//        groundBridgeFramePos = null;
     }
 
     public boolean checkForSpace()
     {
-        Block block = Blocks.air;
+        Block b = Blocks.air;
+        Block b1 = TFBlocks.groundBridgeTeleporter;
 
         if (portalDirection % 2 == 0)
         {
@@ -135,7 +170,7 @@ public class TileEntityControlPanel extends TileEntity
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) != block || worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) != block)
+                    if (!(worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b || worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b1) || !(worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b || worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b1))
                     {
                         return false;
                     }
@@ -148,7 +183,7 @@ public class TileEntityControlPanel extends TileEntity
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) != block || worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) != block)
+                    if (!(worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b || worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b1) || !(worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b || worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b1))
                     {
                         return false;
                     }
