@@ -3,10 +3,12 @@ package fiskfille.tf.common.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -141,10 +143,15 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     {
         return 0;
     }
+    
+    public int getRenderType()
+    {
+    	return -1;
+    }
 
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
     {
-    	if (entity.ridingEntity == null && entity.riddenByEntity == null)
+    	if (entity.ridingEntity == null && entity.riddenByEntity == null && entity instanceof EntityLivingBase)
         {
     		TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter)world.getTileEntity(x, y, z);
     		
@@ -170,10 +177,15 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
             			float yaw = tile.portalDirection * 90 + 180;
             			
             			entity.setLocationAndAngles(posX, posY, posZ, yaw, entity.rotationPitch);
+            			
+            			int i = BlockBed.field_149981_a[tile.portalDirection][0];
+            			int i1 = BlockBed.field_149981_a[tile.portalDirection][1];
+            			entity.motionX *= i == 0 ? 1 : i;
+            			entity.motionZ *= i1 == 0 ? 1 : i;
         			}
     			}
     			
-    			TFEntityData.getData(entity).groundBridgeCooldown = 2;
+    			TFEntityData.getData(entity).groundBridgeCooldown = 20;
     		}
         }
     }
@@ -338,6 +350,8 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                 }
             }
         }
+        
+        world.setBlockMetadataWithNotify(x, y + 2, z, 1, 2);
     }
 
     public static void fillEastFacingFrame(World world, int x, int y, int z, Block block, TileEntityControlPanel tile, boolean returnPortal)
@@ -363,6 +377,8 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                 }
             }
         }
+        
+        world.setBlockMetadataWithNotify(x, y + 2, z, 1, 2);
     }
 
     public TileEntity createNewTileEntity(World world, int metadata)

@@ -1,5 +1,14 @@
 package fiskfille.tf.common.proxy;
 
+import java.lang.reflect.Field;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
@@ -29,6 +38,7 @@ import fiskfille.tf.client.render.tileentity.RenderCrystal;
 import fiskfille.tf.client.render.tileentity.RenderDisplayPillar;
 import fiskfille.tf.client.render.tileentity.RenderDisplayStation;
 import fiskfille.tf.client.render.tileentity.RenderEnergonProcessor;
+import fiskfille.tf.client.render.tileentity.RenderGroundBridgeTeleporter;
 import fiskfille.tf.client.render.tileentity.RenderTransformiumSeed;
 import fiskfille.tf.client.tick.ClientTickHandler;
 import fiskfille.tf.client.tutorial.TutorialHandler;
@@ -50,16 +60,8 @@ import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
+import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
-
-import java.lang.reflect.Field;
 
 public class ClientProxy extends CommonProxy
 {
@@ -123,6 +125,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssemblyTable.class, new RenderAssemblyTable());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityControlPanel.class, new RenderControlPanel());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundBridgeTeleporter.class, new RenderGroundBridgeTeleporter());
 
         MinecraftForgeClient.registerItemRenderer(TFItems.skystrikesCrossbow, new RenderItemSkystrikesCrossbow());
         MinecraftForgeClient.registerItemRenderer(TFItems.purgesKatana, new RenderItemPurgesKatana());

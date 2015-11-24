@@ -151,12 +151,13 @@ public class TileEntityControlPanel extends TileEntity
             	}
             	else
             	{
+            		cable.signalStrength = 64;
             		cable.signal = new CableSignal(this, "ground_bridge_deactivate");
             	}
             }
         }
         
-//        groundBridgeFramePos = null;
+//        groundBridgeFramePos = null; TODO
     }
 
     public boolean checkForSpace()

@@ -30,7 +30,7 @@ public class TileEntityCable extends TileEntity
     	    	
     	if (signal != null && signal.message.equals("ground_bridge_activate"))
     	{
-    		worldObj.spawnParticle("flame", x + 0.5F, y + 0.5F, z + 0.5F, 0, 0, 0);
+//    		worldObj.spawnParticle("flame", x + 0.5F, y + 0.5F, z + 0.5F, 0, 0, 0);
     	}
     	
     	signal = null;

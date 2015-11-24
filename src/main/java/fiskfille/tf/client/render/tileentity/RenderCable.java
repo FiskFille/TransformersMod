@@ -1,21 +1,23 @@
 package fiskfille.tf.client.render.tileentity;
 
+import net.minecraft.block.BlockHopper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Facing;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fiskfille.tf.client.model.tileentity.ModelControlPanel;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelCable;
 import fiskfille.tf.common.tileentity.TileEntityCable;
 
 public class RenderCable extends TileEntitySpecialRenderer
 {
     private Minecraft mc = Minecraft.getMinecraft();
-    private ModelControlPanel model = new ModelControlPanel();
+    private ModelCable.Straight modelStraight = new ModelCable.Straight();
+    private ModelCable.Turned modelTurned = new ModelCable.Turned();
 
     public void render(TileEntityCable tileentity, double x, double y, double z, float partialTicks)
     {
@@ -31,15 +33,56 @@ public class RenderCable extends TileEntitySpecialRenderer
         GL11.glScalef(1.0F, -1F, -1F);
         adjustRotation(metadata);
         
+        bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/cable.png"));
         
-        ItemRenderer itemRenderer = new ItemRenderer(mc);
-        GL11.glTranslatef(0, 1, 0);
-        GL11.glScalef(1F, -1F, -1F);
-        GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
-        itemRenderer.renderItem(null, new ItemStack(Blocks.fence), 0);
+        
+//        int i = BlockHopper.getDirectionFromMetadata(metadata);
+//        TileEntityCable cable = tileentity.getCable(tileentity.xCoord + Facing.offsetsXForSide[i], tileentity.yCoord + Facing.offsetsYForSide[i], tileentity.zCoord + Facing.offsetsZForSide[i]);
+        
+        boolean flag = true;
+        int x1 = tileentity.xCoord;
+        int y1 = tileentity.yCoord;
+        int z1 = tileentity.zCoord;
+//        boolean cablePosX = isCableAtConnectingTo(x1 + 1, y1, z1, tileentity);
+//        boolean cableNegX = isCableAtConnectingTo(x1 - 1, y1, z1, tileentity);
+//        boolean cablePosZ = isCableAtConnectingTo(x1, y1, z1 + 1, tileentity);
+//        boolean cableNegZ = isCableAtConnectingTo(x1, y1, z1 - 1, tileentity);
+        
+        if (isCableAtConnectingTo(x1, y1, z1, tileentity.getCable(x1 - 1, y1, z1)))
+        {
+        	modelTurned.render(true);
+        	flag = false;
+        }
+        
+        if (flag)
+        {
+        	modelStraight.render(true);
+        }
+        
         
 
         GL11.glPopMatrix();
+    }
+    
+    public boolean isCableAtConnectingTo(int x, int y, int z, TileEntityCable tileentity)
+    {
+    	if (tileentity != null)
+    	{
+    		TileEntityCable cable = tileentity.getCable(x, y, z);
+        	
+        	if (cable != null)
+        	{
+        		int i = BlockHopper.getDirectionFromMetadata(cable.getBlockMetadata());
+        		TileEntityCable cable1 = cable.getCable(x + Facing.offsetsXForSide[i], y + Facing.offsetsYForSide[i], z + Facing.offsetsZForSide[i]);
+        		    		
+        		if (cable1 != null && cable1.xCoord == tileentity.xCoord && cable1.yCoord == tileentity.yCoord && cable1.zCoord == tileentity.zCoord)
+        		{
+        			return true;
+        		}
+        	}
+    	}
+    	
+    	return false;
     }
     
     public void adjustRotation(int metadata)

@@ -141,7 +141,7 @@ public class TFItems
         SUBWOOFERMATERIAL.customCraftingMaterial = transformium;
 
         TFItemRegistry.registerItem(transformium, "Transformium", modId);
-        TFItemRegistry.registerItemNoTab(transformiumArmorMolds, "Transformium Armor Molds", modId);
+        TFItemRegistry.registerItem(transformiumArmorMolds, "Transformium Armor Molds", modId);
         TFItemRegistry.registerItem(standardEngine, "Standard Engine", modId);
         TFItemRegistry.registerItem(jetTurbine, "Jet Turbine", modId);
         TFItemRegistry.registerItem(ahd2JetWing, "AHD-2 Jet Wing", modId);

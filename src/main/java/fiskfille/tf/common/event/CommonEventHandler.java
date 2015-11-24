@@ -28,6 +28,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.gui.GuiOverlay;
@@ -278,6 +280,11 @@ public class CommonEventHandler
                 }
             }
         }
+    }
+    
+    @SubscribeEvent
+    public void onWorldTick(WorldTickEvent event)
+    {
     }
 
     @SubscribeEvent
