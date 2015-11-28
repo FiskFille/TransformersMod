@@ -2,6 +2,8 @@ package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.playerdata.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,9 +60,13 @@ public class MessageHandleTransformation implements IMessage
                 {
                     TFDataManager.setInVehicleModeWithoutNotify(from, isTransformed);
                     TFDataManager.setTransformationTimer(from, isTransformed ? 20 : 0);
-
-                    String suffix = isTransformed ? "vehicle" : "robot";
-                    from.worldObj.playSound(from.posX, from.posY - from.yOffset, from.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
+                    
+                    Transformer transformer = TFHelper.getTransformer(player);
+                    
+                    if (transformer != null)
+                    {
+                        from.worldObj.playSound(from.posX, from.posY - from.yOffset, from.posZ, transformer.getTransformationSound(isTransformed), 1, 1, false);
+                    }
                 }
             }
             else
