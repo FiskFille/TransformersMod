@@ -21,121 +21,120 @@ import fiskfille.tf.helper.TFHelper;
 
 public class TickHandler
 {
-    public static int time = 0;
+	public static int time = 0;
 
-    private Minecraft mc = Minecraft.getMinecraft();
+	private Minecraft mc = Minecraft.getMinecraft();
 
-    @SubscribeEvent
-    public void onKeyInput(KeyInputEvent event)
-    {
-        EntityPlayer player = mc.thePlayer;
-        ItemStack itemstack = player.getHeldItem();
+	@SubscribeEvent
+	public void onKeyInput(KeyInputEvent event)
+	{
+		EntityPlayer player = mc.thePlayer;
+		ItemStack itemstack = player.getHeldItem();
+		Transformer transformer = TFHelper.getTransformer(player);
 
-        boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-        int transformationTimer = TFDataManager.getTransformationTimer(player);
+		if (transformer != null)
+		{
+			boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+			int transformationTimer = TFDataManager.getTransformationTimer(player);
 
-        if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && TFHelper.isPlayerTransformer(player) && player.ridingEntity == null)
-        {
-            GameSettings gameSettings = mc.gameSettings;
+			if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && TFHelper.isPlayerTransformer(player) && player.ridingEntity == null)
+			{
+				GameSettings gameSettings = mc.gameSettings;
 
-            if (inVehicleMode && transformationTimer == 0)
-            {
-                if (TFDataManager.setInVehicleMode(player, false))
-                {
-                    player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
-                }
-            }
-            else if (!inVehicleMode && transformationTimer == 20)
-            {
-                if (TFDataManager.setInVehicleMode(player, true))
-                {
-                    VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-                    
-                    if (transformedPlayer != null)
-                    {
-                        transformedPlayer.setLandingTimer(20);
-                    }
-                    
-                    player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
-                }
-            }
+				if (inVehicleMode && transformationTimer == 0)
+				{
+					if (TFDataManager.setInVehicleMode(player, false))
+					{
+						player.playSound(transformer.getTransformationSound(false), 1.0F, 1.0F);
+					}
+				}
+				else if (!inVehicleMode && transformationTimer == 20)
+				{
+					if (TFDataManager.setInVehicleMode(player, true))
+					{
+						VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
-            EntityRenderer entityRenderer = mc.entityRenderer;
+						if (transformedPlayer != null)
+						{
+							transformedPlayer.setLandingTimer(20);
+						}
 
-            try
-            {
-                float camRoll = ClientProxy.camRollField.getFloat(entityRenderer);
-                ClientProxy.camRollField.set(entityRenderer, 0);
-            }
-            catch (IllegalArgumentException e)
-            {
-                e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-        }
+						player.playSound(transformer.getTransformationSound(true), 1.0F, 1.0F);
+					}
+				}
 
-        if (TFKeyBinds.keyBindingStealthMode.getIsKeyPressed())
-        {
-            Transformer transformer = TFHelper.getTransformer(player);
+				EntityRenderer entityRenderer = mc.entityRenderer;
 
-            if (transformer != null)
-            {
-                if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player))
-                {
-                    int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+				try
+				{
+					float camRoll = ClientProxy.camRollField.getFloat(entityRenderer);
+					ClientProxy.camRollField.set(entityRenderer, 0);
+				}
+				catch (IllegalArgumentException e)
+				{
+					e.printStackTrace();
+				}
+				catch (IllegalAccessException e)
+				{
+					e.printStackTrace();
+				}
+			}
 
-                    if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
-                    {
-                        TFDataManager.setInStealthMode(player, false);
-                        player.playSound(TransformersMod.modid + ":transform_stealth_in", 1.0F, 1.25F);
-                    }
-                    else if (!TFDataManager.isInStealthMode(player) && stealthModeTimer == 5)
-                    {
-                        TFDataManager.setInStealthMode(player, true);
-                        player.playSound(TransformersMod.modid + ":transform_stealth", 1.0F, 1.25F);
-                    }
-                }
-            }
-        }
-    }
+			if (TFKeyBinds.keyBindingStealthMode.getIsKeyPressed())
+			{
+				if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player))
+				{
+					int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
-    @SubscribeEvent
-    public void onPlayerTick(PlayerTickEvent event)
-    {
-        ++time;
-        EntityPlayer player = event.player;
-        boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-        int transformationTimer = TFDataManager.getTransformationTimer(player);
+					if (TFDataManager.isInStealthMode(player) && stealthModeTimer == 0)
+					{
+						TFDataManager.setInStealthMode(player, false);
+						player.playSound(TransformersMod.modid + ":transform_stealth_in", 1.0F, 1.25F);
+					}
+					else if (!TFDataManager.isInStealthMode(player) && stealthModeTimer == 5)
+					{
+						TFDataManager.setInStealthMode(player, true);
+						player.playSound(TransformersMod.modid + ":transform_stealth", 1.0F, 1.25F);
+					}
+				}
+			}
+		}
+	}
 
-        if (player.worldObj.isRemote)
-        {
-            if (time % 2 == 0)
-            {
-                CommonProxy.tickHandler.onPlayerTick(player);
-            }
+	@SubscribeEvent
+	public void onPlayerTick(PlayerTickEvent event)
+	{
+		++time;
+		EntityPlayer player = event.player;
+		boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+		int transformationTimer = TFDataManager.getTransformationTimer(player);
 
-            CommonProxy.tickHandler.handleTransformation(player);
-        }
-    }
+		if (player.worldObj.isRemote)
+		{
+			if (time % 2 == 0)
+			{
+				CommonProxy.tickHandler.onPlayerTick(player);
+			}
 
-    @SubscribeEvent
-    public void onClientTick(ClientTickEvent event)
-    {
-        switch (event.phase)
-        {
-            case START:
-            {
-                CommonProxy.tickHandler.onTickStart();
-                break;
-            }
-            case END:
-            {
-                CommonProxy.tickHandler.onTickEnd();
-                break;
-            }
-        }
-    }
+			CommonProxy.tickHandler.handleTransformation(player);
+		}
+	}
+
+	@SubscribeEvent
+	public void onClientTick(ClientTickEvent event)
+	{
+		switch (event.phase)
+		{
+		case START:
+		{
+			CommonProxy.tickHandler.onTickStart();
+			break;
+		}
+		case END:
+		{
+			CommonProxy.tickHandler.onTickEnd();
+			break;
+		}
+		}
+	}
 }

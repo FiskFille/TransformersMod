@@ -61,7 +61,7 @@ public class MessageHandleTransformation implements IMessage
                     TFDataManager.setInVehicleModeWithoutNotify(from, isTransformed);
                     TFDataManager.setTransformationTimer(from, isTransformed ? 20 : 0);
                     
-                    Transformer transformer = TFHelper.getTransformer(player);
+                    Transformer transformer = TFHelper.getTransformer(from);
                     
                     if (transformer != null)
                     {
