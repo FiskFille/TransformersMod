@@ -164,7 +164,7 @@ public class TFShootManager
         {
             if (transformer != null && TFDataManager.isInVehicleMode(player))
             {
-                if (transformer.canShoot(player) && !transformer.hasRapidFire())
+                if (transformer.canShoot(player) && !transformer.hasRapidFire() && player.worldObj.isRemote)
                 {
                     stealthForceShoot(transformer, player);
                     event.setCanceled(true);
