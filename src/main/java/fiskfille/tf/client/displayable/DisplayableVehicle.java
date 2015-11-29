@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.transformer.base.Transformer;
 
@@ -16,7 +16,7 @@ public class DisplayableVehicle extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromStack(itemstack)));
+    	bindTexture(getTextureFromStack(itemstack));
         ModelVehicleBase vehicle = getModelFromStack(itemstack);
 
         if (vehicle != null)
@@ -30,7 +30,7 @@ public class DisplayableVehicle extends Displayable
         }
     }
 
-    public ModelVehicleBase getModelFromStack(ItemStack displayItem)
+	public ModelVehicleBase getModelFromStack(ItemStack displayItem)
     {
         Transformer transformer = TransformersAPI.getTransformers().get(displayItem.getItemDamage());
 
@@ -41,19 +41,19 @@ public class DisplayableVehicle extends Displayable
 
         return null;
     }
-
-    public String getTextureFromStack(ItemStack displayItem)
+	
+    public ResourceLocation getTextureFromStack(ItemStack displayItem)
     {
-        Transformer transformer = TransformersAPI.getTransformers().get(displayItem.getItemDamage());
-
-        if (transformer != null)
+    	Transformer transformer = TransformersAPI.getTransformers().get(displayItem.getItemDamage());
+    	TransformerModel model = TFModelRegistry.getModel(transformer);
+    	
+        if (model != null)
         {
-            String name = transformer.getName().toLowerCase().replaceAll(" ", "_");
-            return name + "/" + name + ".png";
+            return model.getTexture(null);
         }
-
-        return null;
-    }
+    	
+		return null;
+	}
 
     public float getBlockHeight(ItemStack itemstack)
     {

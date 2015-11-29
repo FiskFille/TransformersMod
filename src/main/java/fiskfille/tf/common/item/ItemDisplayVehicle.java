@@ -41,7 +41,12 @@ public class ItemDisplayVehicle extends Item
 
     public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_)
     {
-        info.add("Equippable");
+		Transformer transformer = TransformersAPI.getTransformers().get(itemstack.getItemDamage());
+
+        if (transformer != null)
+        {
+			info.add(transformer.getName());
+		}
     }
 
     public void setNBTData(ItemStack itemstack)
