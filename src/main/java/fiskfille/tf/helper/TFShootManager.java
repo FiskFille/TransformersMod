@@ -163,7 +163,7 @@ public class TFShootManager
 
         if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
         {
-            if (transformer != null && TFDataManager.isInVehicleMode(player))
+            if (transformer != null && TFDataManager.isInVehicleMode(player) && player.worldObj.isRemote)
             {
                 if (transformer.canShoot(player) && !transformer.hasRapidFire())
                 {
