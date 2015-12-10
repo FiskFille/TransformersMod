@@ -47,6 +47,20 @@ public class TransformersAPI
     {
         return transformers;
     }
+    
+    /**
+     * @returns a list of default TransformersMod characters.
+     */
+    public static List<Transformer> getDefaultTransformers()
+    {
+    	List<Transformer> list = Lists.newArrayList();
+    	list.add(TransformerManager.transformerSkystrike);
+    	list.add(TransformerManager.transformerPurge);
+    	list.add(TransformerManager.transformerVurp);
+    	list.add(TransformerManager.transformerSubwoofer);
+    	list.add(TransformerManager.transformerCloudtrap);
+        return list;
+    }
 
     /**
      * Gets an instance of a Transformer by name.

@@ -41,7 +41,7 @@ public class MessagePlayerJoin implements IMessage
 
         canTransform = new HashMap<Transformer, Boolean>();
 
-        for (Transformer transformer : TransformersAPI.getTransformers())
+        for (Transformer transformer : TransformersAPI.getDefaultTransformers())
         {
             canTransform.put(transformer, buf.readBoolean());
         }

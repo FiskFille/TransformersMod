@@ -63,6 +63,6 @@ public class TFConfig
 
     public static Boolean canTransform(Transformer transformer)
     {
-        return transformer != null ? TFConfig.canTransform.get(transformer) : true;
+        return transformer != null && TransformersAPI.getDefaultTransformers().contains(transformer) ? TFConfig.canTransform.get(transformer) : true;
     }
 }
