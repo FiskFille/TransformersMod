@@ -1,34 +1,11 @@
 package fiskfille.tf.client.event;
 
-import com.google.common.collect.Lists;
-import com.mojang.authlib.GameProfile;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.client.render.entity.CustomEntityRenderer;
-import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.event.PlayerTransformEvent;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.proxy.ClientProxy;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -67,11 +44,35 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
+
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.client.render.entity.CustomEntityRenderer;
+import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.proxy.ClientProxy;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
 
 public class ClientEventHandler
 {

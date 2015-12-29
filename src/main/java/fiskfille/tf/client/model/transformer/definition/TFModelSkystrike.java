@@ -40,19 +40,19 @@ public class TFModelSkystrike extends TransformerModel
     @Override
     public ModelRenderer getLowerArm()
     {
-        return model.lowerArmR;
+        return model.lowerarmR1;
     }
 
     @Override
     public ModelRenderer getUpperArm()
     {
-        return model.shoulderR;
+        return model.shoulderRbase;
     }
 
     @Override
     public ModelRenderer getBody()
     {
-        return model.chest1;
+        return model.torsobase1;
     }
 
     @Override
@@ -64,19 +64,19 @@ public class TFModelSkystrike extends TransformerModel
     @Override
     public void renderItem(EntityPlayer player, ItemStack stack)
     {
-        GL11.glTranslatef(0.05F, 0.1F, -0.05F);
+    	GL11.glTranslatef(0.15F, -0.1F, 0.1F);
     }
 
     @Override
     public void renderCape(EntityPlayer player)
     {
-        GL11.glTranslatef(0, 0F, 0.25F);
+    	GL11.glTranslatef(0, -0.1F, 0.1F);
     }
 
     @Override
     public void renderFirstPersonArm(EntityPlayer player)
     {
-        GL11.glTranslatef(0.2F, -0.2F, -0.0F);
+    	GL11.glTranslatef(0, -0.05F, 0.1F);
     }
 
     @Override

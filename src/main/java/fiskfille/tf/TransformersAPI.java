@@ -1,19 +1,18 @@
 package fiskfille.tf;
 
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.item.Item;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.client.gui.ColorPreset;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.item.Item;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author gegy1000, FiskFille
@@ -24,7 +23,6 @@ public class TransformersAPI
     private static List<Energon> energonTypes = Lists.newArrayList();
     private static Map<Item, Displayable> displayables = Maps.newHashMap();
     private static List<Item> displayablesServer = Lists.newArrayList();
-    private static List<ColorPreset> colorPresets = Lists.newArrayList();
 
     /**
      * Used to register the specified Transformer.
@@ -181,22 +179,5 @@ public class TransformersAPI
         {
             return displayablesServer.contains(item);
         }
-    }
-
-    /**
-     * Registers the given color preset
-     * @param preset The preset to register
-     */
-    public static void registerColorPreset(ColorPreset preset)
-    {
-        colorPresets.add(preset);
-    }
-
-    /**
-     * @returns a list of all the registered color presets
-     */
-    public static List<ColorPreset> getColorPresets()
-    {
-        return colorPresets;
     }
 }
