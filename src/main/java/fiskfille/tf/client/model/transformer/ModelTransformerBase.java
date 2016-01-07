@@ -70,7 +70,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 {
                     if (layerToRender == 2)
                     {
-                        TFHelper.setupRenderLayers(head, getWaist(), hasLightsLayer());
+                        TFHelper.setupRenderLayers(chest, getWaist(), hasLightsLayer());
                     }
                 }
             }
