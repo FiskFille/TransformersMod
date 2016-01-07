@@ -2243,7 +2243,7 @@ public class ModelSkystrike extends ModelTransformerBase
         return waistbase;
     }
 
-    public ModelRenderer getVehicle()
+    public ModelRenderer getVehicle(EntityPlayer player)
     {
         return vehiclewaistbase;
     }

@@ -4,6 +4,7 @@ import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
 import net.minecraft.init.Items;
 import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatBase;
 import net.minecraftforge.common.AchievementPage;
 
 public class TFAchievements
@@ -20,8 +21,9 @@ public class TFAchievements
     public static Achievement vurp = new Achievement("achievement.tf.vurp", "tf.vurp", -7, -3, TFItems.vurpHelmet, null).setSpecial().registerStat();
     public static Achievement subwoofer = new Achievement("achievement.tf.subwoofer", "tf.subwoofer", -7, -2, TFItems.subwooferHelmet, null).setSpecial().registerStat();
     public static Achievement sharpshooter = new Achievement("achievement.tf.sharpshooter", "tf.sharpshooter", 6, 1, TFItems.vurpsSniper, firstMissile).setSpecial().registerStat();
+    public static Achievement warden = new Achievement("achievement.tf.warden", "tf.warden", 7, 3, TFItems.wardenHelmet, null).setSpecial().registerStat();
 
-    public static AchievementPage transformersPage = new AchievementPage("Transformers", transformersMod, transformium, firstMissile, transform, donate, tracks, skystrike, purge, vurp, subwoofer, detonateSeed, sharpshooter);
+    public static AchievementPage transformersPage = new AchievementPage("Transformers", transformersMod, transformium, firstMissile, transform, donate, tracks, skystrike, purge, vurp, subwoofer, detonateSeed, sharpshooter, warden);
 
     public static void register()
     {

@@ -12,6 +12,7 @@ public class TFPlayerData implements IExtendedEntityProperties
     private EntityPlayer player;
 
     public int altMode;
+    public int prevAltMode;
     public boolean stealthForce;
 
     public static TFPlayerData getData(EntityPlayer player)

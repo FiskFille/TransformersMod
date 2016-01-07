@@ -45,6 +45,10 @@ item.cloudtrap_head.name=Cloudtrap Head
 item.cloudtrap_torso.name=Cloudtrap Torso
 item.cloudtrap_legs.name=Cloudtrap Legs
 item.cloudtrap_feet.name=Cloudtrap Feet
+item.warden_head.name=Warden Head
+item.warden_torso.name=Warden Torso
+item.warden_legs.name=Warden Legs
+item.warden_feet.name=Warden Feet
 
 ------Display Vehicles------
 item.display_skystrike.name=AHD-2 Lamphyrade Dropship
@@ -129,6 +133,9 @@ achievement.tf.vurp.desc=Wear the full Vurp set
 
 achievement.tf.subwoofer=Sound Waves
 achievement.tf.subwoofer.desc=Wear the full Subwoofer set
+
+achievement.tf.warden=Biformer
+achievement.tf.warden.desc=Wear the full Warden set
 
 achievement.tf.sharpshooter=Sharpshooter
 achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away

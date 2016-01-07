@@ -1786,7 +1786,7 @@ public class ModelCloudtrap extends ModelTransformerBase
         return waist;
     }
 
-    public ModelRenderer getVehicle()
+    public ModelRenderer getVehicle(EntityPlayer player)
     {
         return vehicleBody;
     }

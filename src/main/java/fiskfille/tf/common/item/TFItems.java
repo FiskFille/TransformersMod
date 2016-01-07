@@ -9,6 +9,7 @@ import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
 import fiskfille.tf.common.item.armor.ItemSubwooferArmor;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.item.armor.ItemVurpArmor;
+import fiskfille.tf.common.item.armor.ItemWardenArmor;
 import fiskfille.tf.common.registry.TFItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -65,6 +66,10 @@ public class TFItems
     public static ItemTransformerArmor cloudtrapChestplate;
     public static ItemTransformerArmor cloudtrapLeggings;
     public static ItemTransformerArmor cloudtrapBoots;
+    public static ItemTransformerArmor wardenHelmet;
+    public static ItemTransformerArmor wardenChestplate;
+    public static ItemTransformerArmor wardenLeggings;
+    public static ItemTransformerArmor wardenBoots;
 
     public static Item displayVehicle;
     public static Item energonCrystalPiece;
@@ -125,6 +130,10 @@ public class TFItems
         cloudtrapChestplate = new ItemCloudtrapArmor(1);
         cloudtrapLeggings = new ItemCloudtrapArmor(2);
         cloudtrapBoots = new ItemCloudtrapArmor(3);
+        wardenHelmet = new ItemWardenArmor(0);
+        wardenChestplate = new ItemWardenArmor(1);
+        wardenLeggings = new ItemWardenArmor(2);
+        wardenBoots = new ItemWardenArmor(3);
 
         transformiumDetector = new ItemTransformiumDetector();
 
@@ -186,6 +195,10 @@ public class TFItems
         TFItemRegistry.registerItem(cloudtrapChestplate, "Cloudtrap Torso", modId);
         TFItemRegistry.registerItem(cloudtrapLeggings, "Cloudtrap Legs", modId);
         TFItemRegistry.registerItem(cloudtrapBoots, "Cloudtrap Feet", modId);
+        TFItemRegistry.registerItem(wardenHelmet, "Warden Head", modId);
+        TFItemRegistry.registerItem(wardenChestplate, "Warden Torso", modId);
+        TFItemRegistry.registerItem(wardenLeggings, "Warden Legs", modId);
+        TFItemRegistry.registerItem(wardenBoots, "Warden Feet", modId);
 
         TFItemRegistry.registerItem(displayVehicle, "Display Vehicle", modId);
         TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece", modId);

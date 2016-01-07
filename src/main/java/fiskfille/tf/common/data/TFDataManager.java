@@ -32,6 +32,8 @@ public class TFDataManager
     {
         TFPlayerData data = TFPlayerData.getData(player);
 
+        data.prevAltMode = data.altMode;
+
         if (altMode != data.altMode)
         {
             if (!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, TFHelper.getTransformer(player), altMode, data.stealthForce)))
@@ -59,6 +61,20 @@ public class TFDataManager
         }
 
         return false;
+    }
+
+    public static int getAltForTransformAnimation(EntityPlayer player)
+    {
+        int alt = getAltMode(player);
+
+        if (alt != -1)
+        {
+            return alt;
+        }
+        else
+        {
+            return TFPlayerData.getData(player).prevAltMode;
+        }
     }
 
     /**

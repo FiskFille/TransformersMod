@@ -41,7 +41,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             {
                 if (layerToRender == 2)
                 {
-                    TFHelper.setupRenderLayers(head, getVehicle(), hasLightsLayer());
+                    TFHelper.setupRenderLayers(head, getVehicle(player), hasLightsLayer());
                 }
             }
             else
@@ -136,7 +136,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
         return null;
     }
 
-    public ModelRenderer getVehicle()
+    public ModelRenderer getVehicle(EntityPlayer player)
     {
         return null;
     }

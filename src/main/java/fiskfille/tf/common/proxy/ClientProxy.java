@@ -144,6 +144,7 @@ public class ClientProxy extends CommonProxy
         registerArmorRenderer(TFItems.purgeHelmet, TFItems.purgeChestplate, TFItems.purgeLeggings, TFItems.purgeBoots);
         registerArmorRenderer(TFItems.vurpHelmet, TFItems.vurpChestplate, TFItems.vurpLeggings, TFItems.vurpBoots);
         registerArmorRenderer(TFItems.subwooferHelmet, TFItems.subwooferChestplate, TFItems.subwooferLeggings, TFItems.subwooferBoots);
+        registerArmorRenderer(TFItems.wardenHelmet, TFItems.wardenChestplate, TFItems.wardenLeggings, TFItems.wardenBoots);
 
         TFModelRegistry.registerModels();
     }

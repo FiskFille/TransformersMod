@@ -5,6 +5,7 @@ import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.TransformerWarden;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 /**
@@ -17,6 +18,7 @@ public class TransformerManager
     public static Transformer transformerVurp = new TransformerVurp();
     public static Transformer transformerSubwoofer = new TransformerSubwoofer();
     public static Transformer transformerCloudtrap = new TransformerCloudtrap();
+    public static Transformer transformerWarden = new TransformerWarden();
 
     public static void register()
     {
@@ -25,5 +27,6 @@ public class TransformerManager
         TransformersAPI.registerTransformer(transformerVurp);
         TransformersAPI.registerTransformer(transformerSubwoofer);
         TransformersAPI.registerTransformer(transformerCloudtrap);
+        TransformersAPI.registerTransformer(transformerWarden);
     }
 }

@@ -764,7 +764,7 @@ public class ModelSubwoofer extends ModelTransformerBase
         return waist;
     }
 
-    public ModelRenderer getVehicle()
+    public ModelRenderer getVehicle(EntityPlayer player)
     {
         return vehicleBase;
     }
