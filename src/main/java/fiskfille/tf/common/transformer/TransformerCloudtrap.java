@@ -70,13 +70,13 @@ public class TransformerCloudtrap extends TransformerJet
     }
 
     @Override
-    public void updateMovement(EntityPlayer player)
+    public void updateMovement(EntityPlayer player, int altMode)
     {
         TFMotionManager.motionJet(player, 140, 200, 50);
     }
 
     @Override
-    public void doNitroParticles(EntityPlayer player)
+    public void doNitroParticles(EntityPlayer player, int altMode)
     {
         for (int i = 0; i < 4; ++i)
         {

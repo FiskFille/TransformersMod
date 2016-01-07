@@ -68,7 +68,7 @@ public class CommonEventHandler
 
         Transformer transformer = event.transformer;
 
-        if (transformer != null ? transformer.canTransform(player) : true)
+        if (transformer == null || transformer.canTransform(player))
         {
             //            if (!event.transformed)
             //            {
@@ -94,7 +94,9 @@ public class CommonEventHandler
             EntityPlayer player = (EntityPlayer) cause;
             Transformer transformer = TFHelper.getTransformer(player);
 
-            if (TFDataManager.isInVehicleMode(player) && !event.source.isProjectile() && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
+            int altMode = TFDataManager.getAltMode(player);
+
+            if (TFDataManager.isTransformed(player) && !event.source.isProjectile() && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
             {
                 event.setCanceled(true);
             }
@@ -136,7 +138,9 @@ public class CommonEventHandler
         EntityPlayer player = event.getPlayer();
         Transformer transformer = TFHelper.getTransformer(player);
 
-        if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
+        int altMode = TFDataManager.getAltMode(player);
+
+        if (TFDataManager.isTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
         {
             event.setCanceled(true);
         }
@@ -174,7 +178,9 @@ public class CommonEventHandler
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
 
-        if (TFDataManager.isInVehicleMode(player) && (transformer == null || transformer != null && transformer.canInteractInVehicleMode(player)))
+        int altMode = TFDataManager.getAltMode(player);
+
+        if (TFDataManager.isTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
         {
             event.setCanceled(true);
         }
@@ -207,7 +213,7 @@ public class CommonEventHandler
             }
             else
             {
-                boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+                boolean inVehicleMode = TFDataManager.isTransformed(player);
 
                 if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) //Should also move to ClientEventHandler
                 {
@@ -274,7 +280,9 @@ public class CommonEventHandler
             {
                 transformer.onJump(player);
 
-                if (!transformer.canJumpAsVehicle(player) && TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
+                int altMode = TFDataManager.getAltMode(player);
+
+                if (!transformer.canJumpAsVehicle(player, altMode) && TFDataManager.isTransformed(player) && TFDataManager.getTransformationTimer(player) < 10)
                 {
                     player.motionY = 0D;
                 }
@@ -296,8 +304,9 @@ public class CommonEventHandler
         {
             EntityPlayer player = (EntityPlayer) event.entity;
             Transformer transformer = TFHelper.getTransformer(player);
-            float yOffset = transformer != null ? transformer.getCameraYOffset(player) : 0;
-            boolean vehicleMode = TFDataManager.isInVehicleMode(player);
+
+            float yOffset = transformer != null ? transformer.getCameraYOffset(player, TFDataManager.getAltMode(player)) : 0;
+            boolean vehicleMode = TFDataManager.isTransformed(player);
 
             if (transformer != null)
             {
@@ -418,7 +427,7 @@ public class CommonEventHandler
 
             if (transformer != null)
             {
-                float newDist = transformer.fall(player, event.distance);
+                float newDist = transformer.fall(player, event.distance, TFDataManager.getAltMode(player));
 
                 if (newDist <= 0)
                 {

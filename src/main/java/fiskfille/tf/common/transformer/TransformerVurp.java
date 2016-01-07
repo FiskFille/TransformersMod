@@ -50,38 +50,38 @@ public class TransformerVurp extends TransformerCar
     }
 
     @Override
-    public Item getShootItem()
+    public Item getShootItem(int altMode)
     {
         return Item.getItemFromBlock(TFBlocks.energonCube);
     }
 
     @Override
-    public Entity getShootEntity(EntityPlayer player)
+    public Entity getShootEntity(EntityPlayer player, int altMode)
     {
         EntityLaser entityLaser = new EntityLaser(player.worldObj, player);
         return entityLaser;
     }
 
     @Override
-    public String getShootSound()
+    public String getShootSound(int altMode)
     {
         return "random.fizz";
     }
 
     @Override
-    public float getShootVolume()
+    public float getShootVolume(int altMode)
     {
         return 0.3F;
     }
 
     @Override
-    public int getShots()
+    public int getShots(int altMode)
     {
         return 64;
     }
 
     @Override
-    public boolean hasRapidFire()
+    public boolean hasRapidFire(int altMode)
     {
         return true;
     }
@@ -113,7 +113,7 @@ public class TransformerVurp extends TransformerCar
 
         if (player.worldObj.isRemote)
         {
-            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFDataManager.isInVehicleMode(player))
+            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFDataManager.isTransformed(player))
             {
                 if (zoomTimer < 10)
                 {

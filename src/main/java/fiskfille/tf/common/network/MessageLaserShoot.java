@@ -73,7 +73,9 @@ public class MessageLaserShoot implements IMessage
 
                     boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(from) == 20;
 
-                    if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(from)))
+                    int altMode = TFDataManager.getAltMode(from);
+
+                    if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(from, altMode)))
                     {
                         Item shootItem = Item.getItemFromBlock(TFBlocks.energonCube);
                         boolean isCreative = from.capabilities.isCreativeMode;
@@ -85,7 +87,7 @@ public class MessageLaserShoot implements IMessage
 
                             Entity entity = new EntityLaser(world, from);
 
-                            if (TFDataManager.isInVehicleMode(from))
+                            if (TFDataManager.isTransformed(from))
                             {
                                 entity.posY -= 1.1F;
                             }

@@ -26,33 +26,33 @@ public class TFDataManager
     private static Map<EntityPlayer, Integer> zoomTimerClient = new HashMap<EntityPlayer, Integer>();
 
     /**
-     * Used to set whether the player is in vehicle mode or not. Keep Note that this will notify other clients / the server depending which side you are currently on.
+     * Used to set which alt mode this player is in, -1 if not transformed. Keep Note that this will notify other clients / the server depending which side you are currently on.
      */
-    public static boolean setInVehicleMode(EntityPlayer player, boolean vehicleMode)
+    public static boolean setAltMode(EntityPlayer player, int altMode)
     {
         TFPlayerData data = TFPlayerData.getData(player);
 
-        if (vehicleMode != data.vehicle)
+        if (altMode != data.altMode)
         {
-            if (!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, TFHelper.getTransformer(player), vehicleMode, data.stealthForce)))
+            if (!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, TFHelper.getTransformer(player), altMode, data.stealthForce)))
             {
                 player.triggerAchievement(TFAchievements.transform);
 
-                if (!vehicleMode)
+                if (altMode == -1)
                 {
                     data.stealthForce = false;
                 }
 
                 if (player.worldObj.isRemote)
                 {
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageHandleTransformation(player, vehicleMode));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageHandleTransformation(player, altMode));
                 }
                 else
                 {
-                    TFNetworkManager.networkWrapper.sendToDimension(new MessageHandleTransformation(player, vehicleMode), player.dimension);
+                    TFNetworkManager.networkWrapper.sendToDimension(new MessageHandleTransformation(player, altMode), player.dimension);
                 }
 
-                data.vehicle = vehicleMode;
+                data.altMode = altMode;
 
                 return true;
             }
@@ -68,7 +68,7 @@ public class TFDataManager
     {
         if (stealthMode != TFPlayerData.getData(player).stealthForce)
         {
-            if (isInVehicleMode(player))
+            if (isTransformed(player))
             {
                 if (player.worldObj.isRemote)
                 {
@@ -95,7 +95,7 @@ public class TFDataManager
     {
         if (stealthMode != TFPlayerData.getData(player).stealthForce)
         {
-            if (isInVehicleMode(player))
+            if (isTransformed(player))
             {
                 TFPlayerData.getData(player).stealthForce = stealthMode;
             }
@@ -103,24 +103,24 @@ public class TFDataManager
     }
 
     /**
-     * Used to set whether the player is in vehicle mode or not. This will not notify any other players.
+     * Used to set which alt mode this player is in, -1 if not transformed. This will not notify any other players.
      */
-    public static void setInVehicleModeWithoutNotify(EntityPlayer player, boolean vehicleMode)
+    public static void setAltModeWithoutNotify(EntityPlayer player, int altMode)
     {
         TFPlayerData data = TFPlayerData.getData(player);
 
-        if (vehicleMode != data.vehicle)
+        if (altMode != data.altMode)
         {
-            if (!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, TFHelper.getTransformer(player), vehicleMode, data.stealthForce)))
+            if (!MinecraftForge.EVENT_BUS.post(new PlayerTransformEvent(player, TFHelper.getTransformer(player), altMode, data.stealthForce)))
             {
                 player.triggerAchievement(TFAchievements.transform);
 
-                if (!vehicleMode)
+                if (altMode != -1)
                 {
                     data.stealthForce = false;
                 }
 
-                data.vehicle = vehicleMode;
+                data.altMode = altMode;
             }
         }
     }
@@ -152,9 +152,9 @@ public class TFDataManager
     /**
      * @returns whether the specified player is currently in vehicle mode.
      */
-    public static boolean isInVehicleMode(EntityPlayer player)
+    public static int getAltMode(EntityPlayer player)
     {
-        return TFPlayerData.getData(player).vehicle && TFHelper.isPlayerTransformer(player);
+        return TFHelper.isPlayerTransformer(player) ? TFPlayerData.getData(player).altMode : -1;
     }
 
     /**
@@ -166,7 +166,7 @@ public class TFDataManager
 
         if (transformer != null)
         {
-            return transformer.hasStealthForce(player) && isInVehicleMode(player) && TFPlayerData.getData(player).stealthForce;
+            return transformer.hasStealthForce(player, getAltMode(player)) && (getAltMode(player) != -1) && TFPlayerData.getData(player).stealthForce;
         }
 
         return false;
@@ -209,7 +209,12 @@ public class TFDataManager
     {
         if (!player.worldObj.isRemote)
         {
-            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(isInVehicleMode(player), isInStealthMode(player), TFConfig.canTransform), (EntityPlayerMP) player);
+            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(getAltMode(player), isInStealthMode(player), TFConfig.canTransform), (EntityPlayerMP) player);
         }
+    }
+
+    public static boolean isTransformed(EntityPlayer player)
+    {
+        return getAltMode(player) != -1;
     }
 }

@@ -5,7 +5,8 @@ import org.lwjgl.input.Keyboard;
 
 public class TFKeyBinds
 {
-    public static TFKeyBinding keyBindingTransform = new TFKeyBinding("Transform", Keyboard.KEY_C);
+    public static TFKeyBinding keyBindingTransform1 = new TFKeyBinding("Transform-Alt-1", Keyboard.KEY_C);
+    public static TFKeyBinding keyBindingTransform2 = new TFKeyBinding("Transform-Alt-2", Keyboard.KEY_F);
     public static TFKeyBinding keyBindingNitro = new TFKeyBinding("Nitro Boost", Keyboard.KEY_X);
     public static TFKeyBinding keyBindingBrake = new TFKeyBinding("Brake", Keyboard.KEY_Z);
     public static TFKeyBinding keyBindingZoom = new TFKeyBinding("Aim", Keyboard.KEY_B);
@@ -15,7 +16,8 @@ public class TFKeyBinds
 
     public static void register()
     {
-        ClientRegistry.registerKeyBinding(keyBindingTransform);
+        ClientRegistry.registerKeyBinding(keyBindingTransform1);
+        ClientRegistry.registerKeyBinding(keyBindingTransform2);
         ClientRegistry.registerKeyBinding(keyBindingStealthMode);
         ClientRegistry.registerKeyBinding(keyBindingNitro);
         ClientRegistry.registerKeyBinding(keyBindingBrake);

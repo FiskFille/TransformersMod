@@ -57,7 +57,7 @@ public class ItemBassBlaster extends Item
                 {
                     EntityBassCharge entity = new EntityBassCharge(world, player);
 
-                    if (TFDataManager.isInVehicleMode(player))
+                    if (TFDataManager.isTransformed(player))
                     {
                         entity.posY -= 1.;
                     }

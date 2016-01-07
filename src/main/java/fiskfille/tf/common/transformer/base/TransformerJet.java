@@ -27,27 +27,13 @@ public abstract class TransformerJet extends Transformer
     }
 
     @Override
-    public float fall(EntityPlayer player, float distance)
+    public float fall(EntityPlayer player, float distance, int altMode)
     {
         return 0;
     }
 
     @Override
-    public float getCameraYOffset(EntityPlayer player)
-    {
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-        if (transformedPlayer != null)
-        {
-            float f = (float) transformedPlayer.getLandingTimer() / 20;
-            return -1 * (1 - f);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public float getVehicleCameraYOffset(EntityPlayer player)
+    public float getCameraYOffset(EntityPlayer player, int altMode)
     {
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
@@ -61,38 +47,52 @@ public abstract class TransformerJet extends Transformer
     }
 
     @Override
-    public float getThirdPersonDistance(EntityPlayer player)
+    public float getVehicleCameraYOffset(EntityPlayer player, int altMode)
+    {
+        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+
+        if (transformedPlayer != null)
+        {
+            float f = (float) transformedPlayer.getLandingTimer() / 20;
+            return -1 * (1 - f);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public float getThirdPersonDistance(EntityPlayer player, int altMode)
     {
         return 4.0F;
     }
 
     @Override
-    public void updateMovement(EntityPlayer player)
+    public void updateMovement(EntityPlayer player, int altMode)
     {
         TFMotionManager.motionJet(player, 100, 140, 20);
     }
 
     @Override
-    public boolean canShoot(EntityPlayer player)
+    public boolean canShoot(EntityPlayer player, int altMode)
     {
         return true;
     }
 
     @Override
-    public Item getShootItem()
+    public Item getShootItem(int altMode)
     {
         return TFItems.missile;
     }
 
     @Override
-    public Entity getShootEntity(EntityPlayer player)
+    public Entity getShootEntity(EntityPlayer player, int altMode)
     {
         EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
         return entityMissile;
     }
 
     @Override
-    public void doNitroParticles(EntityPlayer player)
+    public void doNitroParticles(EntityPlayer player, int altMode)
     {
         for (int i = 0; i < 4; ++i)
         {
@@ -109,7 +109,7 @@ public abstract class TransformerJet extends Transformer
     }
 
     @Override
-    public EnumTutorialType getTutorialType()
+    public EnumTutorialType getTutorialType(int altMode)
     {
         return EnumTutorialType.JET;
     }

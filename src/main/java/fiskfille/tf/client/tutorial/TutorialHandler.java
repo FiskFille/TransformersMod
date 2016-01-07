@@ -1,6 +1,7 @@
 package fiskfille.tf.client.tutorial;
 
 import com.google.common.collect.Maps;
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -44,7 +45,7 @@ public class TutorialHandler
 
     public static void openTutorial(EntityPlayer player, Transformer transformer)
     {
-        EnumTutorialType type = transformer.getTutorialType();
+        EnumTutorialType type = transformer.getTutorialType(TFDataManager.getAltMode(player));
 
         if (type != null && !isCompleted(type))
         {

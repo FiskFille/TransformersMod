@@ -58,11 +58,12 @@ public class MessageVehicleShoot implements IMessage
 
                     if (transformer != null)
                     {
-                        String shootSound = transformer.getShootSound();
+                        int altMode = TFDataManager.getAltMode(player);
+                        String shootSound = transformer.getShootSound(altMode);
 
                         if (shootSound != null)
                         {
-                            from.worldObj.playSound(from.posX, from.posY - from.yOffset, from.posZ, shootSound, transformer.getShootVolume(), 1, false);
+                            from.worldObj.playSound(from.posX, from.posY - from.yOffset, from.posZ, shootSound, transformer.getShootVolume(altMode), 1, false);
                         }
                     }
                 }
@@ -87,9 +88,11 @@ public class MessageVehicleShoot implements IMessage
 
                     if (transformer != null)
                     {
-                        if (transformer.canShoot(from) && TFDataManager.isInVehicleMode(from))
+                        int altMode = TFDataManager.getAltMode(from);
+
+                        if (transformer.canShoot(from, altMode) && TFDataManager.isTransformed(from))
                         {
-                            Item shootItem = transformer.getShootItem();
+                            Item shootItem = transformer.getShootItem(altMode);
                             boolean isCreative = from.capabilities.isCreativeMode;
                             boolean hasAmmo = isCreative || from.inventory.hasItem(shootItem);
 
@@ -97,12 +100,12 @@ public class MessageVehicleShoot implements IMessage
                             {
                                 World world = from.worldObj;
 
-                                if (transformer.getShootSound() != null)
+                                if (transformer.getShootSound(altMode) != null)
                                 {
                                     TFNetworkManager.networkWrapper.sendToAllAround(new MessageVehicleShoot(from), new TargetPoint(from.dimension, from.posX, from.posY, from.posZ, 32));
                                 }
 
-                                Entity entity = transformer.getShootEntity(from);
+                                Entity entity = transformer.getShootEntity(from, altMode);
                                 entity.posY--;
                                 world.spawnEntityInWorld(entity);
 

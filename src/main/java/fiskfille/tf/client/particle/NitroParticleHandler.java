@@ -20,13 +20,15 @@ public class NitroParticleHandler
 
         if (nitro)
         {
-            if (TFDataManager.isInVehicleMode(player))
+            int altMode = TFDataManager.getAltMode(player);
+
+            if (TFDataManager.isTransformed(player))
             {
                 Transformer transformer = TFHelper.getTransformer(player);
 
                 if (transformer != null)
                 {
-                    transformer.doNitroParticles(player);
+                    transformer.doNitroParticles(player, altMode);
                 }
             }
         }
@@ -39,8 +41,6 @@ public class NitroParticleHandler
 
     public static boolean getNitro(EntityPlayer player)
     {
-        boolean nitro = false;
-
         Boolean nitroObj = nitroOnMap.get(player);
 
         if (nitroObj == null)
@@ -49,7 +49,7 @@ public class NitroParticleHandler
             nitroObj = false;
         }
 
-        nitro = nitroObj;
+        boolean nitro = nitroObj;
 
         if (player == Minecraft.getMinecraft().thePlayer)
         {

@@ -43,7 +43,7 @@ public abstract class ItemTransformerArmor extends ItemArmor
                 EntityPlayer player = (EntityPlayer) entityLiving;
                 ModelBiped model = getTransformer().getModel().getStealthModel();
 
-                if (TFDataManager.getStealthModeTimer(player) != 5 && model != null && TFDataManager.isInVehicleMode(player))
+                if (TFDataManager.getStealthModeTimer(player) != 5 && model != null && TFDataManager.isTransformed(player))
                 {
                     armorModel = model;
                 }

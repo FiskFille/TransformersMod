@@ -30,7 +30,7 @@ public class ItemPurgesKatana extends ItemSword
 
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (!TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerPurge(player))
+        if (!TFDataManager.isTransformed(player) && TFHelper.isPlayerPurge(player))
         {
             int timeLeft = getMaxItemUseDuration(stack) - time;
             double force = (double) timeLeft / 10;
@@ -69,7 +69,7 @@ public class ItemPurgesKatana extends ItemSword
     {
         if (TFHelper.isPlayerPurge(player))
         {
-            if (!TFDataManager.isInVehicleMode(player))
+            if (!TFDataManager.isTransformed(player))
             {
                 player.setItemInUse(stack, getMaxItemUseDuration(stack));
             }

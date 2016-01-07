@@ -27,30 +27,32 @@ public abstract class TransformerTank extends Transformer
         super(name);
     }
 
+    @Override
     public boolean canZoom(EntityPlayer player)
     {
         return true;
     }
 
-    public float getVehicleCameraYOffset(EntityPlayer player)
+    @Override
+    public float getVehicleCameraYOffset(EntityPlayer player, int altMode)
     {
         return -1.0F;
     }
 
     @Override
-    public String getShootSound()
+    public String getShootSound(int altMode)
     {
         return TransformersMod.modid + ":tankfire";
     }
 
     @Override
-    public float fall(EntityPlayer player, float distance)
+    public float fall(EntityPlayer player, float distance, int altMode)
     {
-        return TFDataManager.isInVehicleMode(player) ? 0 : super.fall(player, distance);
+        return TFDataManager.isTransformed(player) ? 0 : super.fall(player, distance, altMode);
     }
 
     @Override
-    public void updateMovement(EntityPlayer player)
+    public void updateMovement(EntityPlayer player, int altMode)
     {
         TFMotionManager.motion(player, 20, 30, 0, 20, false, true, false, false);
     }
@@ -60,7 +62,7 @@ public abstract class TransformerTank extends Transformer
     {
         IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
-        if (TFDataManager.isInVehicleMode(player) && timer == 0)
+        if (TFDataManager.isTransformed(player) && timer == 0)
         {
             entityAttribute.setBaseValue(0.0D);
         }
@@ -71,25 +73,25 @@ public abstract class TransformerTank extends Transformer
     }
 
     @Override
-    public boolean canShoot(EntityPlayer player)
+    public boolean canShoot(EntityPlayer player, int altMode)
     {
         return true;
     }
 
     @Override
-    public Item getShootItem()
+    public Item getShootItem(int altMode)
     {
         return TFItems.tankShell;
     }
 
     @Override
-    public Entity getShootEntity(EntityPlayer player)
+    public Entity getShootEntity(EntityPlayer player, int altMode)
     {
         return new EntityTankShell(player.worldObj, player, TFConfig.allowTankShellExplosions);
     }
 
     @Override
-    public void doNitroParticles(EntityPlayer player)
+    public void doNitroParticles(EntityPlayer player, int altMode)
     {
         for (int i = 0; i < 4; ++i)
         {
@@ -100,7 +102,7 @@ public abstract class TransformerTank extends Transformer
     }
 
     @Override
-    public EnumTutorialType getTutorialType()
+    public EnumTutorialType getTutorialType(int altMode)
     {
         return EnumTutorialType.TANK;
     }

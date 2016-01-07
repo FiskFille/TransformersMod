@@ -8,14 +8,14 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 @Cancelable
 public class PlayerTransformEvent extends PlayerEvent
 {
-    public final boolean transformed;
+    public final int altMode;
     public final boolean stealthForce;
     public final Transformer transformer;
 
-    public PlayerTransformEvent(EntityPlayer player, Transformer transformer, boolean transformed, boolean stealthForce)
+    public PlayerTransformEvent(EntityPlayer player, Transformer transformer, int altMode, boolean stealthForce)
     {
         super(player);
-        this.transformed = transformed;
+        this.altMode = altMode;
         this.stealthForce = stealthForce;
         this.transformer = transformer;
     }

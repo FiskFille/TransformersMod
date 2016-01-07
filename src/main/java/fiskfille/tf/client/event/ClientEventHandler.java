@@ -107,9 +107,11 @@ public class ClientEventHandler
 
         if (player == mc.thePlayer)
         {
-            if (transformer == null || transformer != null && transformer.disableViewBobbing(player))
+            boolean isTransformed = event.altMode != -1;
+
+            if (transformer == null || transformer.disableViewBobbing(player, event.altMode))
             {
-                if (event.transformed)
+                if (isTransformed)
                 {
                     GameSettings gameSettings = mc.gameSettings;
                     prevViewBobbing = gameSettings.viewBobbing;
@@ -121,7 +123,7 @@ public class ClientEventHandler
                 }
             }
 
-            if (event.transformed)
+            if (isTransformed)
             {
                 TutorialHandler.openTutorial(player, transformer);
             }
@@ -139,11 +141,13 @@ public class ClientEventHandler
         {
             EntityPlayer player = (EntityPlayer) event.entity;
 
-            if (event.name.startsWith("step.") && TFDataManager.isInVehicleMode(player))
+            if (event.name.startsWith("step.") && TFDataManager.isTransformed(player))
             {
                 Transformer transformer = TFHelper.getTransformer(player);
 
-                if (transformer != null && transformer.disableStepSounds(player))
+                int altMode = TFDataManager.getAltMode(player);
+
+                if (transformer != null && transformer.disableStepSounds(player, altMode))
                 {
                     event.setCanceled(true);
                 }
@@ -596,7 +600,9 @@ public class ClientEventHandler
 
         if (transformer != null)
         {
-            cameraYOffset = transformer.getCameraYOffset(player);
+            int altMode = TFDataManager.getAltMode(player);
+
+            cameraYOffset = transformer.getCameraYOffset(player, altMode);
         }
 
         if (isClientPlayer && cameraYOffset != 0)
@@ -631,7 +637,9 @@ public class ClientEventHandler
 
         if (transformer != null)
         {
-            if (isClientPlayer && transformer.getCameraYOffset(player) != 0.0F)
+            int altMode = TFDataManager.getAltMode(player);
+
+            if (isClientPlayer && transformer.getCameraYOffset(player, altMode) != 0.0F)
             {
                 GL11.glPopMatrix();
             }
@@ -662,7 +670,9 @@ public class ClientEventHandler
 
                 if (transformer != null)
                 {
-                    if (transformer.getCameraYOffset(player) != 0.0F)
+                    int altMode = TFDataManager.getAltMode(player);
+
+                    if (transformer.getCameraYOffset(player, altMode) != 0.0F)
                     {
                         if (renderer == null)
                         {
@@ -699,9 +709,11 @@ public class ClientEventHandler
         boolean moveForward = Minecraft.getMinecraft().gameSettings.keyBindForward.getIsKeyPressed();
         boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed();
 
-        if (TFDataManager.isInVehicleMode(player))
+        int altMode = TFDataManager.getAltMode(player);
+
+        if (TFDataManager.isTransformed(player))
         {
-            if ((transformer == null || transformer != null && transformer.canUseNitro(player)) && nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
+            if ((transformer == null || transformer != null && transformer.canUseNitro(player, altMode)) && nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player))
             {
                 event.newfov = 1.3F;
             }

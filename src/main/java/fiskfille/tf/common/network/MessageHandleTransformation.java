@@ -12,36 +12,36 @@ import net.minecraft.entity.player.EntityPlayer;
 public class MessageHandleTransformation implements IMessage
 {
     public int id;
-    private boolean transformed;
+    private byte mode;
 
     public MessageHandleTransformation()
     {
 
     }
 
-    public MessageHandleTransformation(EntityPlayer player, boolean mode)
+    public MessageHandleTransformation(EntityPlayer player, int altMode)
     {
         id = player.getEntityId();
-        transformed = mode;
+        mode = (byte) altMode;
     }
 
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
-        transformed = buf.readBoolean();
+        mode = buf.readByte();
     }
 
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
-        buf.writeBoolean(transformed);
+        buf.writeByte(mode);
     }
 
     public static class Handler implements IMessageHandler<MessageHandleTransformation, IMessage>
     {
         public IMessage onMessage(MessageHandleTransformation message, MessageContext ctx)
         {
-            boolean isTransformed = message.transformed;
+            byte altMode = message.mode;
 
             if (ctx.side.isClient())
             {
@@ -56,7 +56,9 @@ public class MessageHandleTransformation implements IMessage
 
                 if (from != null && from != player)
                 {
-                    TFDataManager.setInVehicleModeWithoutNotify(from, isTransformed);
+                    TFDataManager.setAltModeWithoutNotify(from, altMode);
+                    boolean isTransformed = altMode != -1;
+
                     TFDataManager.setTransformationTimer(from, isTransformed ? 20 : 0);
 
                     String suffix = isTransformed ? "vehicle" : "robot";
@@ -69,7 +71,7 @@ public class MessageHandleTransformation implements IMessage
 
                 if (player != null)
                 {
-                    TFDataManager.setInVehicleMode(player, isTransformed);
+                    TFDataManager.setAltMode(player, altMode);
                 }
             }
 

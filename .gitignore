@@ -10,3 +10,7 @@ idea/
 minecraft/
 
 libs/
+
+gradlew
+gradlew.bat
+gradle/

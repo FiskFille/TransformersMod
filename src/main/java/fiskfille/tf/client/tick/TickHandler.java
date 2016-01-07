@@ -16,6 +16,7 @@ import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -31,59 +32,56 @@ public class TickHandler
         EntityPlayer player = mc.thePlayer;
         ItemStack itemstack = player.getHeldItem();
 
-        boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
+        int altMode = TFDataManager.getAltMode(player);
+        boolean isTranformed = TFDataManager.isTransformed(player);
+
         int transformationTimer = TFDataManager.getTransformationTimer(player);
 
-        if (TFKeyBinds.keyBindingTransform.getIsKeyPressed() && mc.currentScreen == null && TFHelper.isPlayerTransformer(player) && player.ridingEntity == null)
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        if (mc.currentScreen == null && TFHelper.isPlayerTransformer(player) && player.ridingEntity == null)
         {
-            GameSettings gameSettings = mc.gameSettings;
+            KeyBinding[] keys = new KeyBinding[] { TFKeyBinds.keyBindingTransform1, TFKeyBinds.keyBindingTransform2 };
 
-            if (inVehicleMode && transformationTimer == 0)
+            for (int keyAlt = 0; keyAlt < keys.length; keyAlt++)
             {
-                if (TFDataManager.setInVehicleMode(player, false))
+                if (keyAlt < transformer.getAltModeCount())
                 {
-                    player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
-                }
-            }
-            else if (!inVehicleMode && transformationTimer == 20)
-            {
-                if (TFDataManager.setInVehicleMode(player, true))
-                {
-                    VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+                    KeyBinding key = keys[keyAlt];
 
-                    if (transformedPlayer != null)
+                    if (key.getIsKeyPressed())
                     {
-                        transformedPlayer.setLandingTimer(20);
+                        if (keyAlt == altMode && transformationTimer == 0)
+                        {
+                            if (TFDataManager.setAltMode(player, -1))
+                            {
+                                player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
+                            }
+                        }
+                        else if (altMode == -1 && transformationTimer == 20)
+                        {
+                            if (TFDataManager.setAltMode(player, keyAlt))
+                            {
+                                VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+
+                                if (transformedPlayer != null)
+                                {
+                                    transformedPlayer.setLandingTimer(20);
+                                }
+
+                                player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
+                            }
+                        }
                     }
-
-                    player.playSound(TransformersMod.modid + ":transform_vehicle", 1.0F, 1.0F);
                 }
-            }
-
-            EntityRenderer entityRenderer = mc.entityRenderer;
-
-            try
-            {
-                float camRoll = ClientProxy.camRollField.getFloat(entityRenderer);
-                ClientProxy.camRollField.set(entityRenderer, 0);
-            }
-            catch (IllegalArgumentException e)
-            {
-                e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
             }
         }
 
         if (TFKeyBinds.keyBindingStealthMode.getIsKeyPressed())
         {
-            Transformer transformer = TFHelper.getTransformer(player);
-
             if (transformer != null)
             {
-                if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player))
+                if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player, altMode))
                 {
                     int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
@@ -107,8 +105,6 @@ public class TickHandler
     {
         ++time;
         EntityPlayer player = event.player;
-        boolean inVehicleMode = TFDataManager.isInVehicleMode(player);
-        int transformationTimer = TFDataManager.getTransformationTimer(player);
 
         if (player.worldObj.isRemote)
         {

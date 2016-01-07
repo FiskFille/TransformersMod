@@ -25,7 +25,7 @@ public class ItemVurpsSniper extends Item
     {
         boolean isCreativeMode = player.capabilities.isCreativeMode;
 
-        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isInVehicleMode(player))
+        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isTransformed(player))
         {
             if (world.isRemote)
             {

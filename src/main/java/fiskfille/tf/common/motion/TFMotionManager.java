@@ -295,7 +295,7 @@ public class TFMotionManager
                 landingTimer = 20;
                 transformedPlayer.setLandingTimer(20);
 
-                if (TFDataManager.setInVehicleMode(player, false))
+                if (TFDataManager.setAltMode(player, -1))
                 {
                     player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
                 }

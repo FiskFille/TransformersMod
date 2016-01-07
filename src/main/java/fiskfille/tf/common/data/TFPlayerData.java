@@ -11,7 +11,7 @@ public class TFPlayerData implements IExtendedEntityProperties
     public static final String IDENTIFIER = "TFPLAYERDATA";
     private EntityPlayer player;
 
-    public boolean vehicle;
+    public int altMode;
     public boolean stealthForce;
 
     public static TFPlayerData getData(EntityPlayer player)
@@ -26,14 +26,14 @@ public class TFPlayerData implements IExtendedEntityProperties
     @Override
     public void saveNBTData(NBTTagCompound compound)
     {
-        compound.setBoolean("mode", vehicle);
+        compound.setByte("mode", (byte) altMode);
         compound.setBoolean("stealth", stealthForce);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound)
     {
-        vehicle = compound.getBoolean("mode");
+        altMode = compound.getByte("mode");
         stealthForce = compound.getBoolean("stealth");
     }
 

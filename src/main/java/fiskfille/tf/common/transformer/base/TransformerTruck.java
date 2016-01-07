@@ -27,68 +27,68 @@ public abstract class TransformerTruck extends Transformer
     }
 
     @Override
-    public float fall(EntityPlayer player, float distance)
+    public float fall(EntityPlayer player, float distance, int altMode)
     {
-        return TFDataManager.isInVehicleMode(player) ? distance / 4 : super.fall(player, distance);
+        return TFDataManager.isTransformed(player) ? distance / 4 : super.fall(player, distance, altMode);
     }
 
     @Override
-    public boolean hasStealthForce(EntityPlayer player)
+    public boolean hasStealthForce(EntityPlayer player, int altMode)
     {
         return true;
     }
 
     @Override
-    public boolean canJumpAsVehicle(EntityPlayer player)
+    public boolean canJumpAsVehicle(EntityPlayer player, int altMode)
     {
         return TFDataManager.isInStealthMode(player);
     }
 
     @Override
-    public float getCameraYOffset(EntityPlayer player)
+    public float getCameraYOffset(EntityPlayer player, int altMode)
     {
         return -1F;
     }
 
     @Override
-    public boolean canUseNitro(EntityPlayer player)
+    public boolean canUseNitro(EntityPlayer player, int altMode)
     {
         return !TFDataManager.isInStealthMode(player);
     }
 
     @Override
-    public void updateMovement(EntityPlayer player)
+    public void updateMovement(EntityPlayer player, int altMode)
     {
         TFMotionManager.motion(player, 40, 60, 20, 10, false, true, TFDataManager.isInStealthMode(player), true);
     }
 
     @Override
-    public boolean canShoot(EntityPlayer player)
+    public boolean canShoot(EntityPlayer player, int altMode)
     {
         return player.worldObj.isRemote ? TFDataManager.getStealthModeTimer(player) < 5 : TFDataManager.isInStealthMode(player);
     }
 
     @Override
-    public Item getShootItem()
+    public Item getShootItem(int altMode)
     {
         return TFItems.missile;
     }
 
     @Override
-    public Entity getShootEntity(EntityPlayer player)
+    public Entity getShootEntity(EntityPlayer player, int altMode)
     {
         EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
         return entityMissile;
     }
 
     @Override
-    public int getShots()
+    public int getShots(int altMode)
     {
         return 8;
     }
 
     @Override
-    public void doNitroParticles(EntityPlayer player)
+    public void doNitroParticles(EntityPlayer player, int altMode)
     {
         for (int i = 0; i < 4; ++i)
         {
@@ -110,7 +110,7 @@ public abstract class TransformerTruck extends Transformer
     {
         IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
-        if (TFDataManager.isInVehicleMode(player) && timer == 0)
+        if (TFDataManager.isTransformed(player) && timer == 0)
         {
             entityAttribute.setBaseValue(0.0D);
         }
@@ -121,7 +121,7 @@ public abstract class TransformerTruck extends Transformer
     }
 
     @Override
-    public EnumTutorialType getTutorialType()
+    public EnumTutorialType getTutorialType(int altMode)
     {
         return EnumTutorialType.TRUCK;
     }

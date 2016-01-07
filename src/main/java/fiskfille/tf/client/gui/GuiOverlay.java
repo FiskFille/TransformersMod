@@ -61,7 +61,7 @@ public class GuiOverlay extends Gui
             if (event.type == ElementType.HOTBAR)
             {
                 Transformer transformer = TFHelper.getTransformer(player);
-                boolean flag = transformer == null || transformer != null && transformer.renderSpeedAndNitro(player);
+                boolean flag = transformer == null || transformer.renderSpeedAndNitro(player, TFDataManager.getAltMode(player));
 
                 if (flag)
                 {
@@ -78,11 +78,13 @@ public class GuiOverlay extends Gui
 
     public void renderLaserCharge(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
+        int altMode = TFDataManager.getAltMode(player);
+
         ItemStack heldItem = player.getHeldItem();
         Transformer transformer = TFHelper.getTransformer(player);
         boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(player) == 20;
 
-        if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(player)))
+        if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(player, altMode)))
         {
             int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
@@ -134,7 +136,7 @@ public class GuiOverlay extends Gui
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(transformer.getShootItem()), x - 1, y);
+            itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(transformer.getShootItem(altMode)), x - 1, y);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -142,7 +144,7 @@ public class GuiOverlay extends Gui
             float scale = 0.5F;
             GL11.glPushMatrix();
             GL11.glScalef(scale, scale, scale);
-            drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem().getUnlocalizedName() + ".name"), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
+            drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name"), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
             GL11.glPopMatrix();
         }
     }
@@ -187,16 +189,18 @@ public class GuiOverlay extends Gui
     {
         Transformer transformer = TFHelper.getTransformer(player);
 
+        int altMode = TFDataManager.getAltMode(player);
+
         if (transformer != null && !(transformer instanceof TransformerVurp))
         {
             int transformationTimer = TFDataManager.getTransformationTimer(player);
             int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
-            if (transformationTimer <= 20 && transformer.canShoot(player))
+            if (transformationTimer <= 20 && transformer.canShoot(player, altMode))
             {
                 int transformationOffsetX = 0;
 
-                if (transformer.hasStealthForce(player) && stealthModeTimer <= 5)
+                if (transformer.hasStealthForce(player, altMode) && stealthModeTimer <= 5)
                 {
                     transformationOffsetX = stealthModeTimer * 25;
                 }
@@ -234,7 +238,7 @@ public class GuiOverlay extends Gui
                 GL11.glEnable(GL12.GL_RESCALE_NORMAL);
                 GL11.glEnable(GL11.GL_COLOR_MATERIAL);
                 GL11.glEnable(GL11.GL_LIGHTING);
-                itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(transformer.getShootItem()), x - 95 - transformationOffsetX, y - 1);
+                itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(transformer.getShootItem(altMode)), x - 95 - transformationOffsetX, y - 1);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDepthMask(true);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -242,7 +246,7 @@ public class GuiOverlay extends Gui
                 float scale = 0.5F;
                 GL11.glPushMatrix();
                 GL11.glScalef(scale, scale, scale);
-                drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem().getUnlocalizedName() + ".name"), (int) ((x - 95 - transformationOffsetX) / scale), (int) ((y + 16) / scale), 0xffffff);
+                drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name"), (int) ((x - 95 - transformationOffsetX) / scale), (int) ((y + 16) / scale), 0xffffff);
                 GL11.glPopMatrix();
             }
         }
@@ -260,7 +264,7 @@ public class GuiOverlay extends Gui
                     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                     GL11.glColor4f(0F, 0F, 0F, 0.15F);
 
-                    if (mc.gameSettings.thirdPersonView == 0 && heldItem != null && heldItem.getItem() == TFItems.vurpsSniper && TFDataManager.getZoomTimer(player) > 7)
+                    if (mc.gameSettings.thirdPersonView == 0 && heldItem.getItem() == TFItems.vurpsSniper && TFDataManager.getZoomTimer(player) > 7)
                     {
                         GL11.glDisable(GL11.GL_DEPTH_TEST);
                         GL11.glDepthMask(false);
@@ -287,7 +291,7 @@ public class GuiOverlay extends Gui
 
     public void renderKatanaDash(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.purgesKatana && !TFDataManager.isInVehicleMode(player) && TFHelper.isPlayerPurge(player))
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.purgesKatana && !TFDataManager.isTransformed(player) && TFHelper.isPlayerPurge(player))
         {
             if (player.isUsingItem())
             {
@@ -348,7 +352,9 @@ public class GuiOverlay extends Gui
             {
                 Transformer transformer = TransformersAPI.getTransformers().get(j);
 
-                if (transformer.getTutorialType() == TutorialHandler.completedTutorial && itemstack == null)
+                int altMode = TFDataManager.getAltMode(player);
+
+                if (transformer.getTutorialType(altMode) == TutorialHandler.completedTutorial && itemstack == null)
                 {
                     itemstack = new ItemStack(TFItems.displayVehicle, 1, j);
                 }

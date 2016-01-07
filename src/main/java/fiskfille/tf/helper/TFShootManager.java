@@ -38,6 +38,9 @@ public class TFShootManager
 
             if (event.entity.worldObj.isRemote)
             {
+                int altMode = TFDataManager.getAltMode(player);
+                boolean isTransfromed = altMode != -1;
+
                 if (player == Minecraft.getMinecraft().thePlayer)
                 {
                     Transformer transformer = TFHelper.getTransformer(player);
@@ -64,13 +67,13 @@ public class TFShootManager
                             shootCooldown--;
                         }
 
-                        Item ammo = transformer.getShootItem();
+                        Item ammo = transformer.getShootItem(altMode);
 
                         if (ammo != null)
                         {
-                            int ammoCount = getShotsLeft(player, transformer, ammo);
+                            int ammoCount = getShotsLeft(player, transformer, ammo, altMode);
 
-                            if (TFDataManager.isInVehicleMode(player))
+                            if (isTransfromed)
                             {
                                 if (reloading && shootCooldown <= 0)
                                 {
@@ -95,11 +98,11 @@ public class TFShootManager
 
                 if (Mouse.isButtonDown(1))
                 {
-                    if (transformer != null && TFDataManager.isInVehicleMode(player))
+                    if (transformer != null && isTransfromed)
                     {
-                        if (transformer.canShoot(player) && transformer.hasRapidFire() && player.ticksExisted % 2 == 0)
+                        if (transformer.canShoot(player, altMode) && transformer.hasRapidFire(altMode) && player.ticksExisted % 2 == 0)
                         {
-                            stealthForceShoot(transformer, player);
+                            stealthForceShoot(transformer, player, altMode);
                         }
                     }
                 }
@@ -107,9 +110,9 @@ public class TFShootManager
         }
     }
 
-    private int getShotsLeft(EntityPlayer player, Transformer transformer, Item shootItem)
+    private int getShotsLeft(EntityPlayer player, Transformer transformer, Item shootItem, int altMode)
     {
-        int maxAmmo = transformer.getShots();
+        int maxAmmo = transformer.getShots(altMode);
         int ammoCount;
 
         if (player.capabilities.isCreativeMode)
@@ -162,24 +165,27 @@ public class TFShootManager
 
         if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
         {
-            if (transformer != null && TFDataManager.isInVehicleMode(player))
+            int altMode = TFDataManager.getAltMode(player);
+            boolean isTransformed = altMode != -1;
+
+            if (transformer != null && isTransformed)
             {
-                if (transformer.canShoot(player) && !transformer.hasRapidFire() && player.worldObj.isRemote)
+                if (transformer.canShoot(player, altMode) && !transformer.hasRapidFire(altMode) && player.worldObj.isRemote)
                 {
-                    stealthForceShoot(transformer, player);
+                    stealthForceShoot(transformer, player, altMode);
                     event.setCanceled(true);
                 }
             }
         }
     }
 
-    private void stealthForceShoot(Transformer transformer, EntityPlayer player)
+    private void stealthForceShoot(Transformer transformer, EntityPlayer player, int altMode)
     {
         if (player == Minecraft.getMinecraft().thePlayer)
         {
             if (transformer instanceof TransformerVurp)
             {
-                if (transformer.canShoot(player))
+                if (transformer.canShoot(player, altMode))
                 {
                     if (!laserFilling && laserCharge > 0)
                     {
@@ -190,7 +196,7 @@ public class TFShootManager
                     }
                     else
                     {
-                        if (!laserFilling && (player.inventory.hasItem(transformer.getShootItem()) || player.capabilities.isCreativeMode))
+                        if (!laserFilling && (player.inventory.hasItem(transformer.getShootItem(altMode)) || player.capabilities.isCreativeMode))
                         {
                             TFNetworkManager.networkWrapper.sendToServer(new MessageLaserShoot(player, true));
                             TutorialHandler.shoot(player);
@@ -205,9 +211,9 @@ public class TFShootManager
                 {
                     if (shootCooldown <= 0)
                     {
-                        if (transformer.canShoot(player))
+                        if (transformer.canShoot(player, altMode))
                         {
-                            Item shootItem = transformer.getShootItem();
+                            Item shootItem = transformer.getShootItem(altMode);
 
                             boolean isCreative = player.capabilities.isCreativeMode;
                             boolean hasAmmo = isCreative || player.inventory.hasItem(shootItem);
@@ -224,9 +230,9 @@ public class TFShootManager
                             }
                         }
 
-                        if (shotsLeft > transformer.getShots())
+                        if (shotsLeft > transformer.getShots(altMode))
                         {
-                            shotsLeft = transformer.getShots();
+                            shotsLeft = transformer.getShots(altMode);
                         }
 
                         shotsLeft--;
