@@ -17,17 +17,16 @@ public class TFVectorHelper
 
     public static Vec3 getSideCoords(EntityPlayer player, double amount, int side)
     {
-        float f = 1.0F;
-        float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) + side;
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float rotationPitch = player.rotationPitch;
+        float rotationYaw = player.rotationYaw + side;
+        double posX = player.posX;
+        double posY = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posZ = player.posZ;
+        Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
+        float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f5 = -MathHelper.cos(-rotationPitch * 0.017453292F);
+        float f6 = MathHelper.sin(-rotationPitch * 0.017453292F);
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         Vec3 vec31 = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);
@@ -36,15 +35,14 @@ public class TFVectorHelper
 
     public static Vec3 getSideCoords(EntityPlayer player, double amount, boolean side)
     {
-        float f = 1.0F;
         float f1 = 0;
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) + (side ? -90 : 90);
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
+        float rotationYaw = player.rotationYaw + (side ? -90 : 90);
+        double posX = player.posX;
+        double posY = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posZ = player.posZ;
+        Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
+        float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
         float f5 = -MathHelper.cos(-f1 * 0.017453292F);
         float f6 = MathHelper.sin(-f1 * 0.017453292F);
         float f7 = f4 * f5;
@@ -55,23 +53,22 @@ public class TFVectorHelper
 
     public static Vec3 getSideCoords(EntityPlayer player, double amount, boolean side, boolean pitch)
     {
-        float f = 1.0F;
-        float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
+        float rotationPitch = player.rotationPitch;
 
         if (!pitch)
         {
-            f1 = 0;
+            rotationPitch = 0;
         }
 
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) + (side ? -90 : 90);
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float rotationYaw = player.rotationYaw + (side ? -90 : 90);
+        double posX = player.posX;
+        double posY = player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posZ = player.posZ;
+        Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
+        float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f5 = -MathHelper.cos(-rotationPitch * 0.017453292F);
+        float f6 = MathHelper.sin(-rotationPitch * 0.017453292F);
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         Vec3 vec31 = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);
@@ -80,23 +77,22 @@ public class TFVectorHelper
 
     public static Vec3 getFrontCoords(EntityPlayer player, double amount, boolean pitch)
     {
-        float f = 1.0F;
-        float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
+        float rotationPitch = player.rotationPitch;
+        float rotationYaw = player.rotationYaw;
+        double posX = player.posX;
+        double posY = player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posZ = player.posZ;
+        Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
 
         if (!pitch)
         {
-            f1 = 0;
+            rotationPitch = 0;
         }
 
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f5 = -MathHelper.cos(-rotationPitch * 0.017453292F);
+        float f6 = MathHelper.sin(-rotationPitch * 0.017453292F);
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         Vec3 vec31 = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);
@@ -105,17 +101,16 @@ public class TFVectorHelper
 
     public static Vec3 getFrontCoords(EntityPlayer player, float angle, double amount)
     {
-        float f = 1.0F;
-        float f1 = angle * f;
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float rotationPitch = angle;
+        float rotationYaw = player.rotationYaw;
+        double posX = player.posX;
+        double posY = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posZ = player.posZ;
+        Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
+        float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f5 = -MathHelper.cos(-rotationPitch * 0.017453292F);
+        float f6 = MathHelper.sin(-rotationPitch * 0.017453292F);
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         Vec3 vec31 = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);
@@ -124,17 +119,16 @@ public class TFVectorHelper
 
     public static Vec3 getAboveCoords(EntityPlayer player, float angle, double amount)
     {
-        float f = 1.0F;
-        float f1 = angle * f;
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
+        float rotationPitch = angle;
+        float rotationYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
+        double d0 = player.posX;
+        double d1 = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double d2 = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float f5 = -MathHelper.cos(-rotationPitch * 0.017453292F);
+        float f6 = MathHelper.sin(-rotationPitch * 0.017453292F);
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         Vec3 vec31 = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);
@@ -143,17 +137,16 @@ public class TFVectorHelper
 
     public static Vec3 getVerticalCoords(EntityPlayer player, float angle, double amount)
     {
-        float f = 1.0F;
-        float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f - angle;
-        float f2 = angle * f;
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + (player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight());
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
+        float pitch = player.rotationPitch - angle;
+        float yaw = angle;
+        double d0 = player.posX;
+        double d1 = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double d2 = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float f3 = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float f4 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
+        float f5 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f6 = MathHelper.sin(-pitch * 0.017453292F);
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         Vec3 vec31 = vec3.addVector(f7 * amount, f6 * amount, f8 * amount);

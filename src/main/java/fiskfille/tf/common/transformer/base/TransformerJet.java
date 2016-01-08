@@ -96,15 +96,10 @@ public abstract class TransformerJet extends Transformer
     {
         for (int i = 0; i < 4; ++i)
         {
-            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.2F, i < 2, -1.5, true);
+            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -1, true);
             Random rand = new Random();
 
-            if (player != Minecraft.getMinecraft().thePlayer)
-            {
-                side.yCoord += 0.8F;
-            }
-
-            player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.2F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
+            player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.4F, side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
 
