@@ -51,7 +51,7 @@ public class TFDataManager
                 }
                 else
                 {
-                    TFNetworkManager.networkWrapper.sendToDimension(new MessageHandleTransformation(player, altMode), player.dimension);
+                    TFNetworkManager.networkWrapper.sendToAll(new MessageHandleTransformation(player, altMode));
                 }
 
                 data.altMode = altMode;
@@ -92,7 +92,7 @@ public class TFDataManager
                 }
                 else
                 {
-                    TFNetworkManager.networkWrapper.sendToDimension(new MessageHandleStealthTransformation(player, stealthMode), player.dimension);
+                    TFNetworkManager.networkWrapper.sendToAll(new MessageHandleStealthTransformation(player, stealthMode));
                 }
 
                 TFPlayerData.getData(player).stealthForce = stealthMode;

@@ -21,7 +21,7 @@ import fiskfille.tf.helper.TFModelHelper;
 
 public class ModelSkystrike extends ModelTransformerBase
 {
-	public MowzieModelRenderer waistbase;
+    public MowzieModelRenderer waistbase;
     public MowzieModelRenderer upperlegL1;
     public MowzieModelRenderer crotchL1;
     public MowzieModelRenderer crotchR1;
@@ -383,7 +383,7 @@ public class ModelSkystrike extends ModelTransformerBase
 
     public ModelSkystrike()
     {
-    	this.textureWidth = 128;
+        this.textureWidth = 128;
         this.textureHeight = 128;
         this.feetL4 = new MowzieModelRenderer(this, 39, 36);
         this.feetL4.setRotationPoint(-1.0F, -1.5F, -2.0F);
@@ -2334,10 +2334,10 @@ public class ModelSkystrike extends ModelTransformerBase
                 backwardInverter = -1;
                 globalDegree = 0.5F;
             }
-            
+
             if (player.isSneaking())
             {
-            	globalSpeed = 1.5F;
+                globalSpeed = 1.5F;
             }
 
             applyDefaultHoldingAnimation(upperarmR1, upperarmL1, lowerarmR1, lowerarmL1);
@@ -2531,7 +2531,7 @@ public class ModelSkystrike extends ModelTransformerBase
 
             int t = TFDataManager.getTransformationTimer(player);
             float f = 20 - t;
-            
+
             ModelBiped modelBiped = TFModelHelper.modelBipedMain;
 
             if (modelBiped != null)
@@ -2539,13 +2539,13 @@ public class ModelSkystrike extends ModelTransformerBase
                 vehiclewaistbase.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
                 vehiclewaistbase.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
             }
-            
+
             VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-            int landingTimer = 20;
 
             if (transformedPlayer != null)
             {
-                landingTimer = transformedPlayer.getLandingTimer();
+                int landingTimer = transformedPlayer.getLandingTimer();
+
                 float f1 = (float) landingTimer / 20;
                 float f2 = 1 - f1;
 
@@ -2553,7 +2553,7 @@ public class ModelSkystrike extends ModelTransformerBase
                 vehiclewaistbase.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f1;
                 vehiclewaistbase.setRotationPoint(0.0F, 18 * f2, 0.0F);
             }
-            
+
             rotateTo(waistbase, vehiclewaistbase, f);
             rotateTo(upperlegL1, vehicleupperlegL1, f);
             rotateTo(torsoconnectorbase1, vehicletorsoconnectorbase1, f);
@@ -2723,8 +2723,8 @@ public class ModelSkystrike extends ModelTransformerBase
         }
         else if (armorPiece == 3)
         {
-        	this.feetbaseL1.rotationPointX -= 4;
-        	this.feetbaseR1.rotationPointX += 4;
+            this.feetbaseL1.rotationPointX -= 4;
+            this.feetbaseR1.rotationPointX += 4;
             GL11.glTranslatef(0.1F, 0.0F, 0.0F);
             GL11.glRotatef(2, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(-2.5F, 0.0F, 1.0F, 0.0F);

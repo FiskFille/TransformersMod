@@ -107,7 +107,7 @@ public class TransformerWarden extends TransformerJet
         {
             for (int i = 0; i < 4; ++i)
             {
-                Vec3 side = TFVectorHelper.getBackSideCoords(player, i % 2 == 0 ? 0.15F : 0.25, i < 2, -1.5, true);
+                Vec3 side = TFVectorHelper.getBackSideCoords(player, i % 2 == 0 ? 0.15F : 0.25, i < 2, -2.5, true);
                 Random rand = new Random();
 
                 if (player != Minecraft.getMinecraft().thePlayer)

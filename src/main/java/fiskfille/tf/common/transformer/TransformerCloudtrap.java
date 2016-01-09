@@ -80,7 +80,7 @@ public class TransformerCloudtrap extends TransformerJet
     {
         for (int i = 0; i < 4; ++i)
         {
-            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.135F, i < 2, -1.5, true);
+            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.135F, i < 2, -2.5, true);
             Random rand = new Random();
 
             if (player != Minecraft.getMinecraft().thePlayer)
