@@ -23,6 +23,7 @@ item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
+item.armor_component.name=Armor Component
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head
@@ -94,6 +95,8 @@ gui.display_station.color.red=Red
 gui.display_station.color.green=Green
 gui.display_station.color.blue=Blue
 gui.display_station.color.presets=Presets
+gui.display_station.armor=+%s protection
+gui.display_station.armor.neg=-%s protection
 gui.energon_processor=Energon Processor
 gui.assembly_table=Transformer Assembly Table
 recipe.energonProcessor=Energon Processor

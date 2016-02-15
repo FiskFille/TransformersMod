@@ -1,11 +1,12 @@
 package fiskfille.tf.common.component;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.gui.GuiColor;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
 
 public class ComponentColor extends Component
 {
@@ -30,7 +31,7 @@ public class ComponentColor extends Component
     }
 
     @Override
-    public void load(TileEntityDisplayStation tile, int slot)
+    public void load(TileEntityDisplayStation tile, int slot, EntityPlayer player)
     {
         Minecraft.getMinecraft().displayGuiScreen(new GuiColor(tile));
     }

@@ -1,11 +1,7 @@
 package fiskfille.tf.common.item.armor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.transformer.ModelTransformerBase;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.transformer.base.Transformer;
+import java.util.List;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -14,8 +10,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFArmorHelper;
 
-public abstract class ItemTransformerArmor extends ItemArmor
+public abstract class ItemTransformerArmor extends ItemArmor implements ISpecialArmor
 {
     public ItemTransformerArmor(ArmorMaterial material, int renderIndex, int armorPiece)
     {
@@ -25,6 +30,16 @@ public abstract class ItemTransformerArmor extends ItemArmor
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
         return TFModelRegistry.getModel(getTransformer()).getTexture(entity).toString();
+    }
+    
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_)
+    {
+    	ItemStack itemstack1 = TFArmorHelper.getArmorShell(itemstack);
+    	
+    	if (itemstack1 != null)
+    	{
+    		info.add(itemstack1.getDisplayName());
+    	}
     }
 
     public abstract Transformer getTransformer();
@@ -88,4 +103,45 @@ public abstract class ItemTransformerArmor extends ItemArmor
     {
 
     }
+    
+    @Override
+	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
+    {
+    	if (!source.isUnblockable())
+    	{
+    		ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
+    		
+    		if (itemstack != null)
+    		{
+    			ItemArmor item = (ItemArmor)itemstack.getItem();
+    			return new ArmorProperties(0, item.damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
+    		}
+    		else
+    		{
+    			return new ArmorProperties(0, damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
+    		}
+    	}
+    	
+    	return null;
+	}
+
+	@Override
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
+	{
+		ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
+		
+		if (itemstack != null)
+		{
+			ItemArmor item = (ItemArmor)itemstack.getItem();
+			return item.damageReduceAmount;
+		}
+		
+		return damageReduceAmount;
+	}
+
+	@Override
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
+	{
+		stack.damageItem(damage, entity);
+	}
 }

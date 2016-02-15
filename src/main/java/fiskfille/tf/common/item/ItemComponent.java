@@ -1,27 +1,28 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.component.Component;
-import fiskfille.tf.common.component.ComponentColor;
-import fiskfille.tf.common.component.IComponent;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.component.Component;
+import fiskfille.tf.common.component.IComponent;
 
-public class ItemColorComponent extends Item implements IComponent
+public class ItemComponent extends Item implements IComponent
 {
     public static IIcon outline;
+    private Component component;
 
-    public ItemColorComponent()
+    public ItemComponent(Component c)
     {
         super();
         setMaxStackSize(1);
+        component = c;
     }
 
     @Override
     public Component getComponent()
     {
-        return new ComponentColor();
+        return component;
     }
 
     @Override

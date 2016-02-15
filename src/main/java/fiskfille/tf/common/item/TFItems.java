@@ -1,6 +1,12 @@
 package fiskfille.tf.common.item;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.component.ComponentArmor;
+import fiskfille.tf.common.component.ComponentColor;
 import fiskfille.tf.common.energon.DefaultEnergon;
 import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
@@ -11,10 +17,6 @@ import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.item.armor.ItemVurpArmor;
 import fiskfille.tf.common.item.armor.ItemWardenArmor;
 import fiskfille.tf.common.registry.TFItemRegistry;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.common.util.EnumHelper;
 
 public class TFItems
 {
@@ -39,6 +41,7 @@ public class TFItems
     public static Item dye;
     public static Item componentBase;
     public static Item colorComponent;
+    public static Item armorComponent;
 
     public static Item skystrikesCrossbow;
     public static Item purgesKatana;
@@ -102,7 +105,8 @@ public class TFItems
         filledFuelCanister = new ItemFuelCanister();
         dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye");
         componentBase = new Item();
-        colorComponent = new ItemColorComponent();
+        colorComponent = new ItemComponent(new ComponentColor());
+        armorComponent = new ItemComponent(new ComponentArmor());
 
         skystrikesCrossbow = new ItemSkystrikesCrossbow();
         purgesKatana = new ItemPurgesKatana();
@@ -166,8 +170,9 @@ public class TFItems
         TFItemRegistry.registerItem(emptyFuelCanister, "Empty Fuel Canister", modId);
         TFItemRegistry.registerItemNoTab(filledFuelCanister, "Fuel Canister", modId);
         TFItemRegistry.registerIngot(dye, "Dye", modId, "dye");
-        TFItemRegistry.registerItem(colorComponent, "Color Component", modId);
         TFItemRegistry.registerItem(componentBase, "Component Base", modId);
+        TFItemRegistry.registerItem(colorComponent, "Color Component", modId);
+        TFItemRegistry.registerItem(armorComponent, "Armor Component", modId);
 
         TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow", modId);
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana", modId);

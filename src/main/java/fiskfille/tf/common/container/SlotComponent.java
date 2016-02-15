@@ -1,7 +1,7 @@
 package fiskfille.tf.common.container;
 
 import fiskfille.tf.common.component.IComponent;
-import fiskfille.tf.common.item.ItemColorComponent;
+import fiskfille.tf.common.item.ItemComponent;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -31,6 +31,6 @@ public class SlotComponent extends Slot
 
     public IIcon getBackgroundIconIndex()
     {
-        return ItemColorComponent.outline;
+        return ItemComponent.outline;
     }
 }
