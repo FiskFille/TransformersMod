@@ -20,7 +20,7 @@ public class TFVectorHelper
         float rotationPitch = player.rotationPitch;
         float rotationYaw = player.rotationYaw + side;
         double posX = player.posX;
-        double posY = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posY = player.posY + 0.1;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -38,7 +38,7 @@ public class TFVectorHelper
         float f1 = 0;
         float rotationYaw = player.rotationYaw + (side ? -90 : 90);
         double posX = player.posX;
-        double posY = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posY = player.posY + 0.1;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -62,7 +62,7 @@ public class TFVectorHelper
 
         float rotationYaw = player.rotationYaw + (side ? -90 : 90);
         double posX = player.posX;
-        double posY = player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posY = player.posY+ 0.1;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -80,7 +80,7 @@ public class TFVectorHelper
         float rotationPitch = player.rotationPitch;
         float rotationYaw = player.rotationYaw;
         double posX = player.posX;
-        double posY = player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posY = player.posY + 0.1;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
 
@@ -104,7 +104,7 @@ public class TFVectorHelper
         float rotationPitch = angle;
         float rotationYaw = player.rotationYaw;
         double posX = player.posX;
-        double posY = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double posY = player.posY + 0.1;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -122,7 +122,7 @@ public class TFVectorHelper
         float rotationPitch = angle;
         float rotationYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
         double d0 = player.posX;
-        double d1 = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double d1 = player.posY + 0.1;
         double d2 = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -140,7 +140,7 @@ public class TFVectorHelper
         float pitch = player.rotationPitch - angle;
         float yaw = angle;
         double d0 = player.posX;
-        double d1 = player.posY+ (player.getEyeHeight() - player.getDefaultEyeHeight());
+        double d1 = player.posY + 0.1;
         double d2 = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
         float f3 = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);

@@ -93,7 +93,6 @@ public class TransformerWarden extends TransformerJet
         return true;
     }
 
-
     @Override
     public int getAltModeCount()
     {
@@ -118,5 +117,27 @@ public class TransformerWarden extends TransformerJet
                 player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - (i % 2 == 0 ? 0.3F : 0.45F), side.zCoord, rand.nextFloat() / 20, -0.2F + rand.nextFloat() / 20, rand.nextFloat() / 20);
             }
         }
+    }
+
+    @Override
+    public float getVehicleCameraYOffset(EntityPlayer player, int altMode)
+    {
+        if (altMode == 1)
+        {
+            return -1;
+        }
+
+        return super.getVehicleCameraYOffset(player, altMode);
+    }
+
+    @Override
+    public float getCameraYOffset(EntityPlayer player, int altMode)
+    {
+        if (altMode == 1)
+        {
+            return -1;
+        }
+
+        return super.getCameraYOffset(player, altMode);
     }
 }
