@@ -42,7 +42,7 @@ public class TFModelVurp extends TransformerModel
     }
 
     @Override
-    public Biped getStealthModel()
+    public ModelTransformerBase getStealthModel()
     {
         return stealth;
     }

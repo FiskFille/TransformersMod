@@ -29,7 +29,7 @@ public abstract class TransformerModel
 
     public abstract ResourceLocation getTexture(Entity entity);
 
-    public Biped getStealthModel()
+    public ModelTransformerBase getStealthModel()
     {
         return null;
     }

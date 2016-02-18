@@ -391,7 +391,7 @@ public class ModelVurpStealth extends ModelTransformerBase
         return vehicleBase;
     }
 
-    public ModelRenderer getVehicle()
+    public ModelRenderer getVehicle(EntityPlayer player)
     {
         return vehicleBase;
     }
