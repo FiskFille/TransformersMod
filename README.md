@@ -1,4 +1,4 @@
-# Transformers Mod OFFICIAL > [![Build Status](https://travis-ci.org/FiskFille/TransformersMod.svg?branch=master)](https://travis-ci.org/FiskFille/TransformersMod)
+# Transformers Mod
 
 This is not the Official GitHub Repository for the Transformers Mod for Minecraft. 
 This mod originally is developed by FiskFille and gegy1000. 
