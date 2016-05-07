@@ -108,16 +108,16 @@ public abstract class TransformerCar extends Transformer
     {
         for (int i = 0; i < 4; ++i)
         {
-            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
+            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -1.4, false);
             Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.35F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord - 1.6F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
 
         for (int i = 0; i < 10; ++i)
         {
-            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -0.9, false);
+            Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -1.4, false);
             Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.35F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
+            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord - 1.6F, side.zCoord, rand.nextFloat() / 10, rand.nextFloat() / 10 + 0.05F, rand.nextFloat() / 10);
         }
     }
 

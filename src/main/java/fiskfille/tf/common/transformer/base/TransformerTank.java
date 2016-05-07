@@ -97,7 +97,7 @@ public abstract class TransformerTank extends Transformer
         {
             Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -0.6, false);
             Random rand = new Random();
-            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord + 0.3F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
+            player.worldObj.spawnParticle("smoke", side.xCoord, side.yCoord - 1.6F, side.zCoord, rand.nextFloat() / 20, rand.nextFloat() / 20, rand.nextFloat() / 20);
         }
     }
 

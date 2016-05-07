@@ -62,7 +62,7 @@ public class TFVectorHelper
 
         float rotationYaw = player.rotationYaw + (side ? -90 : 90);
         double posX = player.posX;
-        double posY = player.posY+ 0.1;
+        double posY = player.posY + 0.1;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
