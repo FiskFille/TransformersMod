@@ -278,13 +278,11 @@ public class CommonEventHandler
 
             if (transformer != null)
             {
-                transformer.onJump(player);
-
                 int altMode = TFDataManager.getAltMode(player);
 
-                if (!transformer.canJumpAsVehicle(player, altMode) && TFDataManager.isTransformed(player) && TFDataManager.getTransformationTimer(player) < 10)
+                if (!transformer.onJump(player) || (!transformer.canJumpAsVehicle(player, altMode) && TFDataManager.isTransformed(player) && TFDataManager.getTransformationTimer(player) < 10))
                 {
-                    player.motionY = 0D;
+                    player.motionY = 0;
                 }
             }
         }

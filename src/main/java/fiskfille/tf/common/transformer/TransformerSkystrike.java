@@ -42,9 +42,10 @@ public class TransformerSkystrike extends TransformerJet
     }
 
     @Override
-    public void onJump(EntityPlayer player)
+    public boolean onJump(EntityPlayer player)
     {
         player.motionY += 0.205D;
+        return true;
     }
 
     @Override

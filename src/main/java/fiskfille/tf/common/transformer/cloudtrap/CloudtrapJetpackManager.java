@@ -62,7 +62,12 @@ public class CloudtrapJetpackManager
 
         if (jetpacking)
         {
-            player.motionY += 0.088F;
+            player.motionY += 0.1F;
+
+            if (player.motionY > 0.6F)
+            {
+                player.motionY = 0.6F;
+            }
 
             if (isClientPlayer)
             {

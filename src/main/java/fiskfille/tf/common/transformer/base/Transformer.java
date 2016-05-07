@@ -133,8 +133,9 @@ public abstract class Transformer
         return false;
     }
 
-    public void onJump(EntityPlayer player)
+    public boolean onJump(EntityPlayer player)
     {
+        return true;
     }
 
     public float getThirdPersonDistance(EntityPlayer player, int altMode)

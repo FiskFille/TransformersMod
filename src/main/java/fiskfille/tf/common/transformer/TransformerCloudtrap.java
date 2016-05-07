@@ -1,5 +1,6 @@
 package fiskfille.tf.common.transformer;
 
+import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
@@ -67,6 +68,12 @@ public class TransformerCloudtrap extends TransformerJet
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onJump(EntityPlayer player)
+    {
+        return !player.isSneaking();
     }
 
     @Override
