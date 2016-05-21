@@ -54,11 +54,9 @@ public class TFRenderHelper
         return A << 24 | R << 16 | G << 8 | B;
     }
 
-    public static void setLighting(int c0)
+    public static void setLighting(int lighting)
     {
-        int j = c0 % 65536;
-        int k = c0 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (lighting % 65536) / 255.0F, (lighting / 65536) / 255.0F);
     }
 
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
