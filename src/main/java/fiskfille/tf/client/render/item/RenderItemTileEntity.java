@@ -1,5 +1,7 @@
 package fiskfille.tf.client.render.item;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -28,9 +30,18 @@ public class RenderItemTileEntity implements IItemRenderer
     {
         if (type == type.ENTITY || type == type.INVENTORY)
         {
+        	if (type == type.INVENTORY)
+        	{
+        		GL11.glRotatef(90, 0, 1, 0);
+        	}
+        	else
+        	{
+        		GL11.glRotatef(180, 0, 1, 0);
+        	}
+        	
             TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, -0.5F, -0.5F, -0.5F, 0.0F);
         }
-        if (type == type.EQUIPPED || type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
+        else if (type == type.EQUIPPED || type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
         {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
         }

@@ -20,19 +20,22 @@ public class RenderItemControlPanel implements IItemRenderer
 
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
-        float scale = 0.6F;
+        float scale = 0.65F;
         GL11.glScalef(scale, scale, scale);
 
         if (type == type.ENTITY || type == type.INVENTORY)
         {
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), 0.0F, -0.5F, -0.5F, 0.0F);
+        	GL11.glRotatef(-90, 0, 1, 0);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), 0.0F, -0.75F, -0.5F, 0.0F);
         }
-        if (type == type.EQUIPPED)
+        else if (type == type.EQUIPPED)
         {
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), 0.7F, 0.3F, 0.6F, 0.0F);
+        	GL11.glRotatef(180, 0, 1, 0);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), -0.5F, 0.0F, -1.5F, 0.0F);
         }
-        if (type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
+        else if (type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
         {
+//        	GL11.glRotatef(180, 0, 1, 0);
             TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityControlPanel(), 0.5F, 0.75F, 0.5F, 0.0F);
         }
     }
