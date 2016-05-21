@@ -34,11 +34,19 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
+        controlPanel = new TileEntityControlPanel();
+        controlPanel.readFromNBT(nbt.getCompoundTag("ControlPanel"));
+        controlPanel.setWorldObj(worldObj);
+        returnPortal = nbt.getBoolean("ReturnPortal");
     }
 
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
+        NBTTagCompound controlPanel = new NBTTagCompound();
+        this.controlPanel.writeToNBT(controlPanel);
+        nbt.setTag("ControlPanel", controlPanel);
+        nbt.setBoolean("ReturnPortal", returnPortal);
     }
 
     @Override

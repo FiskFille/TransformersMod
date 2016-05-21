@@ -321,6 +321,9 @@ public class TileEntityControlPanel extends TileEntity
 		activationLeverState = nbt.getBoolean("Lever");
 		activationLeverCoverState = nbt.getBoolean("LeverCover");
 		hasSpace = nbt.getBoolean("HasSpace");
+		destX = nbt.getInteger("DestX");
+		destY = nbt.getInteger("DestY");
+		destZ = nbt.getInteger("DestZ");
 
 		if (nbt.getBoolean("ReadFramePos"))
 		{
@@ -333,7 +336,7 @@ public class TileEntityControlPanel extends TileEntity
 
 			for (int i = 0; i < nbttaglist.tagCount(); i++)
 			{
-				NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+				NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
 
 				for (int j = 0; j < 4; ++j)
 				{
@@ -352,6 +355,9 @@ public class TileEntityControlPanel extends TileEntity
 		nbt.setBoolean("LeverCover", activationLeverCoverState);
 		nbt.setBoolean("HasSpace", hasSpace);
 		nbt.setBoolean("ReadFramePos", groundBridgeFramePos != null);
+		nbt.setInteger("DestX", destX);
+		nbt.setInteger("DestY", destY);
+		nbt.setInteger("DestZ", destZ);
 
 		if (groundBridgeFramePos != null)
 		{

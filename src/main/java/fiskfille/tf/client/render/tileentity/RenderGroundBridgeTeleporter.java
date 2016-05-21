@@ -46,7 +46,6 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
 
-
 		bindTexture(new ResourceLocation("textures/blocks/log_oak_top.png"));
 
 		if (metadata == 1)

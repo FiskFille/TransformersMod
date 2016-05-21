@@ -145,39 +145,39 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     {
     	if (entity.ridingEntity == null && entity.riddenByEntity == null && entity instanceof EntityLivingBase)
         {
-    		TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter)world.getTileEntity(x, y, z);
+    		TileEntityGroundBridgeTeleporter teleporter = (TileEntityGroundBridgeTeleporter)world.getTileEntity(x, y, z);
     		
-    		if (tileentity != null && tileentity.controlPanel != null)
+    		if (teleporter != null && teleporter.controlPanel != null)
     		{
-    			TileEntityControlPanel tile = tileentity.controlPanel;
+    			TileEntityControlPanel controlPanel = teleporter.controlPanel;
     			
-    			if (TFEntityData.getData(entity).groundBridgeCooldown == 0 && tile.groundBridgeFramePos != null)
+    			if (TFEntityData.getData(entity).groundBridgeCooldown == 0 && controlPanel.groundBridgeFramePos != null)
     			{
-    				if (tileentity.returnPortal)
+    				if (teleporter.returnPortal)
         			{
-    					double posX = tile.groundBridgeFramePos.x + 0.5F;
-            			double posY = tile.groundBridgeFramePos.y + 1;
-            			double posZ = tile.groundBridgeFramePos.z + 0.5F;
-            			float yaw = tile.getSrcPortalDirection() * 90 + 180;
+    					double posX = controlPanel.groundBridgeFramePos.x + 0.5F;
+            			double posY = controlPanel.groundBridgeFramePos.y + 1;
+            			double posZ = controlPanel.groundBridgeFramePos.z + 0.5F;
+            			float yaw = controlPanel.getSrcPortalDirection() * 90 + 180;
             			
             			entity.setLocationAndAngles(posX, posY, posZ, yaw, entity.rotationPitch);
             			
-            			int i = BlockBed.field_149981_a[tile.portalDirection][0];
-            			int i1 = BlockBed.field_149981_a[tile.portalDirection][1];
+            			int i = BlockBed.field_149981_a[controlPanel.portalDirection][0];
+            			int i1 = BlockBed.field_149981_a[controlPanel.portalDirection][1];
             			entity.motionX *= i == 0 ? -1 : 1;
             			entity.motionZ *= i1 == 0 ? -1 : 1;
         			}
         			else
         			{
-        				double posX = tile.destX + 0.5F;
-            			double posY = tile.destY - 2;
-            			double posZ = tile.destZ + 0.5F;
-            			float yaw = tile.portalDirection * 90 + 180;
+        				double posX = controlPanel.destX + 0.5F;
+            			double posY = controlPanel.destY - 2;
+            			double posZ = controlPanel.destZ + 0.5F;
+            			float yaw = controlPanel.portalDirection * 90 + 180;
             			
             			entity.setLocationAndAngles(posX, posY, posZ, yaw, entity.rotationPitch);
             			
-            			int i = BlockBed.field_149981_a[tile.portalDirection][0];
-            			int i1 = BlockBed.field_149981_a[tile.portalDirection][1];
+            			int i = BlockBed.field_149981_a[controlPanel.portalDirection][0];
+            			int i1 = BlockBed.field_149981_a[controlPanel.portalDirection][1];
             			entity.motionX *= i == 0 ? -1 : 1;
             			entity.motionZ *= i1 == 0 ? -1 : 1;
         			}
@@ -369,12 +369,14 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                 	TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter)world.getTileEntity(x, y + 1 + i, z - 1 + j);
                 	tileentity.controlPanel = tile;
                 	tileentity.returnPortal = returnPortal;
+                    tileentity.lastUpdate = 0;
                 }
                 if (world.getTileEntity(x, y + 2 + j, z - 2 + i) instanceof TileEntityGroundBridgeTeleporter)
                 {
                 	TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter)world.getTileEntity(x, y + 2 + j, z - 2 + i);
                 	tileentity.controlPanel = tile;
                 	tileentity.returnPortal = returnPortal;
+                    tileentity.lastUpdate = 0;
                 }
             }
         }

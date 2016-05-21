@@ -122,7 +122,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     		}
     	}
     	
-    	return null;
+    	return new ArmorProperties(0, 0, 0);
 	}
 
 	@Override
