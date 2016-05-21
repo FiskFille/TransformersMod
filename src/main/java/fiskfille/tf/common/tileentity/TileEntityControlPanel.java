@@ -1,9 +1,11 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -13,13 +15,15 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
 import fiskfille.tf.common.block.BlockCoordinates;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
 import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.groundbridge.CableSignal;
 import fiskfille.tf.common.groundbridge.EnumError;
 
 public class TileEntityControlPanel extends TileEntity
@@ -28,6 +32,7 @@ public class TileEntityControlPanel extends TileEntity
     public int destY;
     public int destZ;
     public int portalDirection;
+    public int srcPortalDirection;
     public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
     public boolean activationLeverState = false;
     public boolean activationLeverCoverState = false;
@@ -65,12 +70,53 @@ public class TileEntityControlPanel extends TileEntity
                 destZ += switches[2][i] * aint[i];
             }
             
+            if (groundBridgeFramePos != null)
+            {
+            	int x = groundBridgeFramePos.x;
+            	int y = groundBridgeFramePos.y;
+            	int z = groundBridgeFramePos.z;
+            	
+            	if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == null)
+            	{
+            		groundBridgeFramePos = null;
+            	}
+            }
+            
+            if (!activationLeverState)
+            {
+            	List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
+            	Collections.sort(list, new Comparator<TileEntity>()
+            	{
+            		public int compare(TileEntity arg0, TileEntity arg1)
+            		{
+            			return Integer.compare((int)Math.sqrt(getDistanceFrom(arg0.xCoord, arg0.zCoord, arg0.yCoord)), (int)Math.sqrt(getDistanceFrom(arg1.xCoord, arg1.zCoord, arg1.yCoord)));
+            		}
+            	});
+            	
+            	for (TileEntity tileentity : list)
+            	{
+            		if (Math.sqrt(getDistanceFrom(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)) <= 20)
+            		{
+            			if (tileentity instanceof TileEntityGroundBridgeFrame)
+                		{
+                			TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame)tileentity;
+                			
+                			if (BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord) != null)
+                			{
+                				groundBridgeFramePos = new BlockCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
+                				break;
+                			}
+                		}
+            		}
+            	}
+            }
+            
             if (groundBridgeFramePos == null)
             {
             	errors.add(EnumError.NO_PORTAL_LINKED);
             }
 
-            if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 100)
+            if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
             {
 //                errors.add(EnumError.INVALID_COORDS);
             }
@@ -88,10 +134,7 @@ public class TileEntityControlPanel extends TileEntity
 
             if (!hasSpace)
             {
-                if (!errors.contains(EnumError.NOT_ENOUGH_SPACE))
-                {
-                    errors.add(EnumError.NOT_ENOUGH_SPACE);
-                }
+            	errors.add(EnumError.NOT_ENOUGH_SPACE);
             }
 
             if (!errors.isEmpty() && !activationLeverState)
@@ -136,28 +179,53 @@ public class TileEntityControlPanel extends TileEntity
             activationLeverTimer = MathHelper.clamp_float(activationLeverTimer, 0, 1);
             activationLeverCoverTimer = MathHelper.clamp_float(activationLeverCoverTimer, 0, 1);
             
-            
-            int direction = BlockGroundBridgeControl.getDirection(getBlockMetadata());
-            TileEntity tile = worldObj.getTileEntity(xCoord + BlockBed.field_149981_a[direction][0], yCoord, zCoord + BlockBed.field_149981_a[direction][1]);
-
-            if (tile instanceof TileEntityCable)
+            if (!activationLeverState && groundBridgeFramePos != null)
             {
-            	TileEntityCable cable = (TileEntityCable)tile;
-
-            	if (activationLeverState)
-            	{
-            		cable.signalStrength = 64;
-            		cable.signal = new CableSignal(this, "ground_bridge_activate");
-            	}
-            	else
-            	{
-            		cable.signalStrength = 64;
-            		cable.signal = new CableSignal(this, "ground_bridge_deactivate");
-            	}
+            	int x = groundBridgeFramePos.x;
+            	int y = groundBridgeFramePos.y;
+            	int z = groundBridgeFramePos.z;
+            	srcPortalDirection = worldObj.getBlockMetadata(x, y, z);
             }
+            
+            if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
+            {
+            	int x = groundBridgeFramePos.x;
+            	int y = groundBridgeFramePos.y;
+            	int z = groundBridgeFramePos.z;
+            	BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
+    			
+    			if (portalDirection % 2 == 0)
+    	        {
+    				BlockGroundBridgeTeleporter.fillNorthFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+    	        }
+    	        else
+    	        {
+    	        	BlockGroundBridgeTeleporter.fillEastFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+    	        }
+            }
+//            else
+//            {
+////            	int x = groundBridgeFramePos.x;
+////            	int y = groundBridgeFramePos.y;
+////            	int z = groundBridgeFramePos.z;
+//            	
+//            	for (int i = 0; i < 5; ++i)
+//		        {
+//		            for (int j = 0; j < 3; ++j)
+//		            {
+////    	                TFHelper.replaceBlock(worldObj, x - 1 + j, y + 1 + i, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
+////    	                TFHelper.replaceBlock(worldObj, x - 2 + i, y + 2 + j, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
+////    	                TFHelper.replaceBlock(worldObj, x, y + 1 + i, z - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
+////    	            	TFHelper.replaceBlock(worldObj, x, y + 2 + j, z - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
+//		            	
+//		                TFHelper.replaceBlock(worldObj, destX - 1 + j, destY + 1 + i - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
+//		                TFHelper.replaceBlock(worldObj, destX - 2 + i, destY + 2 + j - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
+//		                TFHelper.replaceBlock(worldObj, destX, destY + 1 + i - 3, destZ - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
+//		            	TFHelper.replaceBlock(worldObj, destX, destY + 2 + j - 3, destZ - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
+//		            }
+//		        }
+//            }
         }
-        
-//        groundBridgeFramePos = null; TODO
     }
 
     public boolean checkForSpace()
@@ -194,6 +262,25 @@ public class TileEntityControlPanel extends TileEntity
 
         return true;
     }
+    
+    public int getSrcPortalDirection()
+    {
+    	int i = 0;
+		
+		if (groundBridgeFramePos != null)
+		{
+        	int x = groundBridgeFramePos.x;
+        	int y = groundBridgeFramePos.y;
+        	int z = groundBridgeFramePos.z;
+			
+			if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == ForgeDirection.EAST)
+			{
+				i = 1;
+			}
+		}
+		
+		return i + srcPortalDirection * 2;
+    }
 
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -222,9 +309,15 @@ public class TileEntityControlPanel extends TileEntity
     {
         super.readFromNBT(nbt);
         portalDirection = nbt.getInteger("PortalDirection");
+        srcPortalDirection = nbt.getInteger("SrcPortalDirection");
         activationLeverState = nbt.getBoolean("Lever");
         activationLeverCoverState = nbt.getBoolean("LeverCover");
         hasSpace = nbt.getBoolean("HasSpace");
+        
+        if (nbt.getBoolean("ReadFramePos"))
+        {
+        	groundBridgeFramePos = new BlockCoordinates(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"));
+        }
 
         if (nbt.hasKey("Switches"))
         {
@@ -246,10 +339,19 @@ public class TileEntityControlPanel extends TileEntity
     {
         super.writeToNBT(nbt);
         nbt.setInteger("PortalDirection", portalDirection);
+        nbt.setInteger("SrcPortalDirection", srcPortalDirection);
         nbt.setBoolean("Lever", activationLeverState);
         nbt.setBoolean("LeverCover", activationLeverCoverState);
         nbt.setBoolean("HasSpace", hasSpace);
-
+        nbt.setBoolean("ReadFramePos", groundBridgeFramePos != null);
+        
+        if (groundBridgeFramePos != null)
+        {
+        	nbt.setInteger("FrameX", groundBridgeFramePos.x);
+        	nbt.setInteger("FrameY", groundBridgeFramePos.y);
+        	nbt.setInteger("FrameZ", groundBridgeFramePos.z);
+        }
+        
         NBTTagList nbttaglist = new NBTTagList();
 
         for (int i = 0; i < switches.length; ++i)

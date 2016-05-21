@@ -1,9 +1,9 @@
 package fiskfille.tf.client.model.tileentity;
 
+import net.minecraft.client.model.ModelRenderer;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import net.minecraft.client.model.ModelRenderer;
 
 public class ModelControlPanel extends MowzieModelBase
 {

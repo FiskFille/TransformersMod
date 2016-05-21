@@ -1,6 +1,5 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -26,9 +25,16 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glScalef(1F, -1F, -1F);
 
-		if (tileentity.controlPanel != null && tileentity.returnPortal)
+		if (tileentity.controlPanel != null)
 		{
-			GL11.glRotatef(90 * tileentity.controlPanel.portalDirection, 0, 1, 0);
+			if (tileentity.returnPortal)
+			{
+				GL11.glRotatef(90 * tileentity.controlPanel.portalDirection, 0, 1, 0);
+			}
+			else
+			{
+				GL11.glRotatef(90 * tileentity.controlPanel.getSrcPortalDirection(), 0, 1, 0);
+			}
 		}
 
 		GL11.glDisable(GL11.GL_LIGHTING);

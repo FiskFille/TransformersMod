@@ -100,6 +100,8 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             renderCenteredText("E", 0, 0.1475F, -0.0625F, -1, 0.00725F);
             GL11.glPopMatrix();
             GL11.glPopMatrix();
+            
+            GL11.glDisable(GL11.GL_BLEND);
         }
 
         GL11.glPopMatrix();
@@ -112,47 +114,34 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
 
     protected void renderText(String s, int line, float x, float y, int color, float scale)
     {
-        for (String s1 : s.split("\\\\n"))
-        {
-            float left = 0.05F;
-            float top = 0.0375F;
-            GL11.glPushMatrix();
-            GL11.glTranslatef(x + left, y + top + 0.05F * line, -0.001F);
-            GL11.glScalef(scale, scale, -scale);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            mc.fontRenderer.drawString(s1, 0, 0, color);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glPopMatrix();
-            ++line;
-        }
-    }
-
-    protected void renderCenteredText(String s, int line, float x, float y, int color)
-    {
-        renderText(s, line, x, y, color, 0.004F);
+    	float left = 0.05F;
+        float top = 0.0375F;
+        GL11.glPushMatrix();
+        GL11.glTranslatef(x + left, y + top + 0.05F * line, -0.001F);
+        GL11.glScalef(scale, scale, -scale);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        mc.fontRenderer.drawSplitString(s, 0, 0, 200, color);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glPopMatrix();
     }
 
     protected void renderCenteredText(String s, int line, float x, float y, int color, float scale)
     {
-        for (String s1 : s.split("\\\\n"))
-        {
-            float left = 0.05F;
-            float top = 0.0375F;
-            GL11.glPushMatrix();
-            GL11.glTranslatef(x + left, y + top + 0.05F * line, -0.001F);
-            GL11.glScalef(scale, scale, -scale);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            mc.fontRenderer.drawString(s1, -mc.fontRenderer.getStringWidth(s1) / 2, 0, color);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glPopMatrix();
-            ++line;
-        }
+    	float left = 0.05F;
+        float top = 0.0375F;
+        GL11.glPushMatrix();
+        GL11.glTranslatef(x + left, y + top + 0.05F * line, -0.001F);
+        GL11.glScalef(scale, scale, -scale);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        mc.fontRenderer.drawString(s, -mc.fontRenderer.getStringWidth(s) / 2, 0, color);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glPopMatrix();
     }
 
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        render((TileEntityControlPanel) tileentity, d, d1, d2, f);
+        render((TileEntityControlPanel)tileentity, d, d1, d2, f);
     }
 }

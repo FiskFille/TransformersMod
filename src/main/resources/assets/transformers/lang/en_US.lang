@@ -150,8 +150,8 @@ ground_bridge.error=Error:
 ground_bridge.error.other_error=%s more error was detected.
 ground_bridge.error.other_errors=%s more errors were detected.
 ground_bridge.error.no_other_errors=No other errors were detected.
-ground_bridge.error.invalid_coords=Invalid coordinates! Destination must\nbe at least 100 blocks from point of\norigin!
-ground_bridge.error.not_enough_space=Not enough space! Destination does\nnot have have enough empty space to\nfit a ground bridge portal!
+ground_bridge.error.invalid_coords=Invalid coordinates! Destination must be at least 64 blocks from point of origin!
+ground_bridge.error.not_enough_space=Not enough space! Destination does not have have enough empty space to fit a ground bridge portal!
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!

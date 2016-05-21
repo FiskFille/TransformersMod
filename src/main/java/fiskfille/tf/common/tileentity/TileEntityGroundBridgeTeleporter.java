@@ -10,9 +10,16 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
 {
 	public TileEntityControlPanel controlPanel;
 	public boolean returnPortal = false;
+	public int lastUpdate;
 
     public void updateEntity()
     {
+    	if (lastUpdate > 0)
+    	{
+    		worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+    	}
+    	
+    	++lastUpdate;
     }
 
     public void markBlockForUpdate()
