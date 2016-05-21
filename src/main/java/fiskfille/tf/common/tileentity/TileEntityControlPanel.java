@@ -15,10 +15,15 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.block.BlockCoordinates;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
@@ -28,360 +33,401 @@ import fiskfille.tf.common.groundbridge.EnumError;
 
 public class TileEntityControlPanel extends TileEntity
 {
-    public int destX;
-    public int destY;
-    public int destZ;
-    public int portalDirection;
-    public int srcPortalDirection;
-    public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    public boolean activationLeverState = false;
-    public boolean activationLeverCoverState = false;
-    public float activationLeverTimer;
-    public float activationLeverCoverTimer;
+	public int destX;
+	public int destY;
+	public int destZ;
+	public int portalDirection;
+	public int srcPortalDirection;
+	public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+	public boolean activationLeverState = false;
+	public boolean activationLeverCoverState = false;
+	public float activationLeverTimer;
+	public float activationLeverCoverTimer;
 
-    public List<EnumError> errors = Lists.newArrayList();
-    public boolean hasSpace;
-    
-    public BlockCoordinates groundBridgeFramePos;
+	public List<EnumError> errors = Lists.newArrayList();
+	public boolean hasSpace;
 
-    public void updateEntity()
-    {
-        if (!BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata()))
-        {
-            errors.clear();
-            destX = xCoord;
-            destY = yCoord;
-            destZ = zCoord;
+	public BlockCoordinates groundBridgeFramePos;
+	private Ticket chunkTicket;
 
-            int[] aint = {1, 10, 100, 1000};
+	public void updateEntity()
+	{
+		if (!BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata()))
+		{
+			loadChunks();
+//			System.out.println(errors);
+			errors.clear();
+			destX = xCoord;
+			destY = yCoord;
+			destZ = zCoord;
 
-            for (int i = 0; i < switches[0].length; ++i)
-            {
-                destX += switches[0][i] * aint[i];
-            }
+			int[] aint = {1, 10, 100, 1000};
 
-            for (int i = 0; i < switches[1].length; ++i)
-            {
-                destY += switches[1][i] * aint[i];
-            }
+			for (int i = 0; i < switches[0].length; ++i)
+			{
+				destX += switches[0][i] * aint[i];
+			}
 
-            for (int i = 0; i < switches[2].length; ++i)
-            {
-                destZ += switches[2][i] * aint[i];
-            }
-            
-            if (groundBridgeFramePos != null)
-            {
-            	int x = groundBridgeFramePos.x;
-            	int y = groundBridgeFramePos.y;
-            	int z = groundBridgeFramePos.z;
-            	
-            	if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == null)
-            	{
-            		groundBridgeFramePos = null;
-            	}
-            }
-            
-            if (!activationLeverState)
-            {
-            	List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
-            	Collections.sort(list, new Comparator<TileEntity>()
-            	{
-            		public int compare(TileEntity arg0, TileEntity arg1)
-            		{
-            			return Integer.compare((int)Math.sqrt(getDistanceFrom(arg0.xCoord, arg0.zCoord, arg0.yCoord)), (int)Math.sqrt(getDistanceFrom(arg1.xCoord, arg1.zCoord, arg1.yCoord)));
-            		}
-            	});
-            	
-            	for (TileEntity tileentity : list)
-            	{
-            		if (Math.sqrt(getDistanceFrom(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)) <= 20)
-            		{
-            			if (tileentity instanceof TileEntityGroundBridgeFrame)
-                		{
-                			TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame)tileentity;
-                			
-                			if (BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord) != null)
-                			{
-                				groundBridgeFramePos = new BlockCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
-                				break;
-                			}
-                		}
-            		}
-            	}
-            }
-            
-            if (groundBridgeFramePos == null)
-            {
-            	errors.add(EnumError.NO_PORTAL_LINKED);
-            }
+			for (int i = 0; i < switches[1].length; ++i)
+			{
+				destY += switches[1][i] * aint[i];
+			}
 
-            if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
-            {
-//                errors.add(EnumError.INVALID_COORDS);
-            }
+			for (int i = 0; i < switches[2].length; ++i)
+			{
+				destZ += switches[2][i] * aint[i];
+			}
 
-            if (!worldObj.isRemote)
-            {
-                boolean newSpace = checkForSpace();
+			if (groundBridgeFramePos != null)
+			{
+				int x = groundBridgeFramePos.x;
+				int y = groundBridgeFramePos.y;
+				int z = groundBridgeFramePos.z;
 
-                if (newSpace != hasSpace)
-                {
-                    markBlockForUpdate();
-                    hasSpace = newSpace;
-                }
-            }
+				if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == null)
+				{
+					groundBridgeFramePos = null;
+				}
+			}
 
-            if (!hasSpace)
-            {
-            	errors.add(EnumError.NOT_ENOUGH_SPACE);
-            }
+			if (!activationLeverState)
+			{
+				List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
+				Collections.sort(list, new Comparator<TileEntity>()
+						{
+					public int compare(TileEntity arg0, TileEntity arg1)
+					{
+						return Integer.compare((int)Math.sqrt(getDistanceFrom(arg0.xCoord, arg0.zCoord, arg0.yCoord)), (int)Math.sqrt(getDistanceFrom(arg1.xCoord, arg1.zCoord, arg1.yCoord)));
+					}
+						});
 
-            if (!errors.isEmpty() && !activationLeverState)
-            {
-                activationLeverCoverState = false;
-            }
-            else
-            {
-                activationLeverCoverState = true;
-            }
+				for (TileEntity tileentity : list)
+				{
+					if (Math.sqrt(getDistanceFrom(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)) <= 20)
+					{
+						if (tileentity instanceof TileEntityGroundBridgeFrame)
+						{
+							TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame)tileentity;
 
-            if (activationLeverState)
-            {
-                if (activationLeverTimer < 1)
-                {
-                    activationLeverTimer += 0.125F;
-                }
-            }
-            else
-            {
-                if (activationLeverTimer > 0)
-                {
-                    activationLeverTimer -= 0.125F;
-                }
-            }
+							if (BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord) != null)
+							{
+								groundBridgeFramePos = new BlockCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
+								break;
+							}
+						}
+					}
+				}
+			}
 
-            if (activationLeverCoverState)
-            {
-                if (activationLeverCoverTimer < 1)
-                {
-                    activationLeverCoverTimer += 0.1F;
-                }
-            }
-            else
-            {
-                if (activationLeverCoverTimer > 0)
-                {
-                    activationLeverCoverTimer -= 0.1F;
-                }
-            }
+			if (groundBridgeFramePos == null)
+			{
+				errors.add(EnumError.NO_PORTAL_LINKED);
+			}
 
-            activationLeverTimer = MathHelper.clamp_float(activationLeverTimer, 0, 1);
-            activationLeverCoverTimer = MathHelper.clamp_float(activationLeverCoverTimer, 0, 1);
-            
-            if (!activationLeverState && groundBridgeFramePos != null)
-            {
-            	int x = groundBridgeFramePos.x;
-            	int y = groundBridgeFramePos.y;
-            	int z = groundBridgeFramePos.z;
-            	srcPortalDirection = worldObj.getBlockMetadata(x, y, z);
-            }
-            
-            if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
-            {
-            	int x = groundBridgeFramePos.x;
-            	int y = groundBridgeFramePos.y;
-            	int z = groundBridgeFramePos.z;
-            	BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
-    			
-    			if (portalDirection % 2 == 0)
-    	        {
-    				BlockGroundBridgeTeleporter.fillNorthFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
-    	        }
-    	        else
-    	        {
-    	        	BlockGroundBridgeTeleporter.fillEastFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
-    	        }
-            }
-//            else
-//            {
-////            	int x = groundBridgeFramePos.x;
-////            	int y = groundBridgeFramePos.y;
-////            	int z = groundBridgeFramePos.z;
-//            	
-//            	for (int i = 0; i < 5; ++i)
-//		        {
-//		            for (int j = 0; j < 3; ++j)
-//		            {
-////    	                TFHelper.replaceBlock(worldObj, x - 1 + j, y + 1 + i, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
-////    	                TFHelper.replaceBlock(worldObj, x - 2 + i, y + 2 + j, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
-////    	                TFHelper.replaceBlock(worldObj, x, y + 1 + i, z - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
-////    	            	TFHelper.replaceBlock(worldObj, x, y + 2 + j, z - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		            	
-//		                TFHelper.replaceBlock(worldObj, destX - 1 + j, destY + 1 + i - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		                TFHelper.replaceBlock(worldObj, destX - 2 + i, destY + 2 + j - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		                TFHelper.replaceBlock(worldObj, destX, destY + 1 + i - 3, destZ - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		            	TFHelper.replaceBlock(worldObj, destX, destY + 2 + j - 3, destZ - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		            }
-//		        }
-//            }
-        }
-    }
+			if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
+			{
+				//                errors.add(EnumError.INVALID_COORDS);
+			}
 
-    public boolean checkForSpace()
-    {
-        Block b = Blocks.air;
-        Block b1 = TFBlocks.groundBridgeTeleporter;
+			if (!worldObj.isRemote)
+			{
+				boolean newSpace = checkForSpace();
 
-        if (portalDirection % 2 == 0)
-        {
-            for (int i = 0; i < 5; ++i)
-            {
-                for (int j = 0; j < 3; ++j)
-                {
-                    if (!(worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b || worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b1) || !(worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b || worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b1))
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < 5; ++i)
-            {
-                for (int j = 0; j < 3; ++j)
-                {
-                    if (!(worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b || worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b1) || !(worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b || worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b1))
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
+				if (newSpace != hasSpace)
+				{
+					markBlockForUpdate();
+					hasSpace = newSpace;
+				}
+			}
 
-        return true;
-    }
-    
-    public int getSrcPortalDirection()
-    {
-    	int i = 0;
-		
+			if (!hasSpace)
+			{
+				errors.add(EnumError.NOT_ENOUGH_SPACE);
+			}
+
+			if (!errors.isEmpty() && !activationLeverState)
+			{
+				activationLeverCoverState = false;
+			}
+			else
+			{
+				activationLeverCoverState = true;
+			}
+
+			if (activationLeverState)
+			{
+				if (activationLeverTimer < 1)
+				{
+					activationLeverTimer += 0.125F;
+				}
+			}
+			else
+			{
+				if (activationLeverTimer > 0)
+				{
+					activationLeverTimer -= 0.125F;
+				}
+			}
+
+			if (activationLeverCoverState)
+			{
+				if (activationLeverCoverTimer < 1)
+				{
+					activationLeverCoverTimer += 0.1F;
+				}
+			}
+			else
+			{
+				if (activationLeverCoverTimer > 0)
+				{
+					activationLeverCoverTimer -= 0.1F;
+				}
+			}
+
+			activationLeverTimer = MathHelper.clamp_float(activationLeverTimer, 0, 1);
+			activationLeverCoverTimer = MathHelper.clamp_float(activationLeverCoverTimer, 0, 1);
+
+			if (!activationLeverState && groundBridgeFramePos != null)
+			{
+				int x = groundBridgeFramePos.x;
+				int y = groundBridgeFramePos.y;
+				int z = groundBridgeFramePos.z;
+				srcPortalDirection = worldObj.getBlockMetadata(x, y, z);
+			}
+
+			if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
+			{
+				int x = groundBridgeFramePos.x;
+				int y = groundBridgeFramePos.y;
+				int z = groundBridgeFramePos.z;
+				BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
+
+				if (portalDirection % 2 == 0)
+				{
+					BlockGroundBridgeTeleporter.fillNorthFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+				}
+				else
+				{
+					BlockGroundBridgeTeleporter.fillEastFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+				}
+			}
+			//            else
+				//            {
+				////            	int x = groundBridgeFramePos.x;
+				////            	int y = groundBridgeFramePos.y;
+				////            	int z = groundBridgeFramePos.z;
+				//            	
+				//            	for (int i = 0; i < 5; ++i)
+					//		        {
+					//		            for (int j = 0; j < 3; ++j)
+						//		            {
+						////    	                TFHelper.replaceBlock(worldObj, x - 1 + j, y + 1 + i, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			////    	                TFHelper.replaceBlock(worldObj, x - 2 + i, y + 2 + j, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			////    	                TFHelper.replaceBlock(worldObj, x, y + 1 + i, z - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			////    	            	TFHelper.replaceBlock(worldObj, x, y + 2 + j, z - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			//		            	
+			//		                TFHelper.replaceBlock(worldObj, destX - 1 + j, destY + 1 + i - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			//		                TFHelper.replaceBlock(worldObj, destX - 2 + i, destY + 2 + j - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			//		                TFHelper.replaceBlock(worldObj, destX, destY + 1 + i - 3, destZ - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			//		            	TFHelper.replaceBlock(worldObj, destX, destY + 2 + j - 3, destZ - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
+			//		            }
+			//		        }
+			//            }
+		}
+	}
+
+	public boolean checkForSpace()
+	{
+		Block b = Blocks.air;
+		Block b1 = TFBlocks.groundBridgeTeleporter;
+
+		if (portalDirection % 2 == 0)
+		{
+			for (int i = 0; i < 5; ++i)
+			{
+				for (int j = 0; j < 3; ++j)
+				{
+					if (!(worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b || worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b1) || !(worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b || worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b1))
+					{
+						return false;
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 5; ++i)
+			{
+				for (int j = 0; j < 3; ++j)
+				{
+					if (!(worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b || worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b1) || !(worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b || worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b1))
+					{
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public int getSrcPortalDirection()
+	{
+		int i = 0;
+
 		if (groundBridgeFramePos != null)
 		{
-        	int x = groundBridgeFramePos.x;
-        	int y = groundBridgeFramePos.y;
-        	int z = groundBridgeFramePos.z;
-			
+			int x = groundBridgeFramePos.x;
+			int y = groundBridgeFramePos.y;
+			int z = groundBridgeFramePos.z;
+
 			if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == ForgeDirection.EAST)
 			{
 				i = 1;
 			}
 		}
-		
+
 		return i + srcPortalDirection * 2;
-    }
+	}
 
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-        return INFINITE_EXTENT_AABB;
-    }
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
+	}
 
-    public void changeSwitch(int group, int id, int amount)
-    {
-        if (!activationLeverState)
-        {
-            markBlockForUpdate();
+	public void changeSwitch(int group, int id, int amount)
+	{
+		if (!activationLeverState)
+		{
+			markBlockForUpdate();
 
-            if (switches[group][id] + amount <= 10 && switches[group][id] + amount >= -10)
-            {
-                switches[group][id] += amount;
-            }
-        }
-    }
+			if (switches[group][id] + amount <= 10 && switches[group][id] + amount >= -10)
+			{
+				switches[group][id] += amount;
+			}
+		}
+	}
 
-    public void markBlockForUpdate()
-    {
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
+	public void markBlockForUpdate()
+	{
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
 
-    public void readFromNBT(NBTTagCompound nbt)
-    {
-        super.readFromNBT(nbt);
-        portalDirection = nbt.getInteger("PortalDirection");
-        srcPortalDirection = nbt.getInteger("SrcPortalDirection");
-        activationLeverState = nbt.getBoolean("Lever");
-        activationLeverCoverState = nbt.getBoolean("LeverCover");
-        hasSpace = nbt.getBoolean("HasSpace");
-        
-        if (nbt.getBoolean("ReadFramePos"))
-        {
-        	groundBridgeFramePos = new BlockCoordinates(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"));
-        }
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		portalDirection = nbt.getInteger("PortalDirection");
+		srcPortalDirection = nbt.getInteger("SrcPortalDirection");
+		activationLeverState = nbt.getBoolean("Lever");
+		activationLeverCoverState = nbt.getBoolean("LeverCover");
+		hasSpace = nbt.getBoolean("HasSpace");
 
-        if (nbt.hasKey("Switches"))
-        {
-            NBTTagList nbttaglist = nbt.getTagList("Switches", 10);
+		if (nbt.getBoolean("ReadFramePos"))
+		{
+			groundBridgeFramePos = new BlockCoordinates(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"));
+		}
 
-            for (int i = 0; i < nbttaglist.tagCount(); i++)
-            {
-                NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+		if (nbt.hasKey("Switches"))
+		{
+			NBTTagList nbttaglist = nbt.getTagList("Switches", 10);
 
-                for (int j = 0; j < 4; ++j)
-                {
-                    switches[i][j] = nbttagcompound.getInteger("Switch" + (j + 1));
-                }
-            }
-        }
-    }
+			for (int i = 0; i < nbttaglist.tagCount(); i++)
+			{
+				NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
 
-    public void writeToNBT(NBTTagCompound nbt)
-    {
-        super.writeToNBT(nbt);
-        nbt.setInteger("PortalDirection", portalDirection);
-        nbt.setInteger("SrcPortalDirection", srcPortalDirection);
-        nbt.setBoolean("Lever", activationLeverState);
-        nbt.setBoolean("LeverCover", activationLeverCoverState);
-        nbt.setBoolean("HasSpace", hasSpace);
-        nbt.setBoolean("ReadFramePos", groundBridgeFramePos != null);
-        
-        if (groundBridgeFramePos != null)
-        {
-        	nbt.setInteger("FrameX", groundBridgeFramePos.x);
-        	nbt.setInteger("FrameY", groundBridgeFramePos.y);
-        	nbt.setInteger("FrameZ", groundBridgeFramePos.z);
-        }
-        
-        NBTTagList nbttaglist = new NBTTagList();
+				for (int j = 0; j < 4; ++j)
+				{
+					switches[i][j] = nbttagcompound.getInteger("Switch" + (j + 1));
+				}
+			}
+		}
+	}
 
-        for (int i = 0; i < switches.length; ++i)
-        {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		nbt.setInteger("PortalDirection", portalDirection);
+		nbt.setInteger("SrcPortalDirection", srcPortalDirection);
+		nbt.setBoolean("Lever", activationLeverState);
+		nbt.setBoolean("LeverCover", activationLeverCoverState);
+		nbt.setBoolean("HasSpace", hasSpace);
+		nbt.setBoolean("ReadFramePos", groundBridgeFramePos != null);
 
-            for (int j = 0; j < switches[i].length; ++j)
-            {
-                int value = switches[i][j];
-                nbttagcompound.setInteger("Switch" + (j + 1), value);
-            }
+		if (groundBridgeFramePos != null)
+		{
+			nbt.setInteger("FrameX", groundBridgeFramePos.x);
+			nbt.setInteger("FrameY", groundBridgeFramePos.y);
+			nbt.setInteger("FrameZ", groundBridgeFramePos.z);
+		}
 
-            nbttaglist.appendTag(nbttagcompound);
-        }
+		NBTTagList nbttaglist = new NBTTagList();
 
-        nbt.setTag("Switches", nbttaglist);
-    }
+		for (int i = 0; i < switches.length; ++i)
+		{
+			NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
+			for (int j = 0; j < switches[i].length; ++j)
+			{
+				int value = switches[i][j];
+				nbttagcompound.setInteger("Switch" + (j + 1), value);
+			}
 
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
+			nbttaglist.appendTag(nbttagcompound);
+		}
 
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
-    }
+		nbt.setTag("Switches", nbttaglist);
+	}
+
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound syncData = new NBTTagCompound();
+		writeToNBT(syncData);
+
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
+	{
+		readFromNBT(packet.func_148857_g());
+	}
+
+	public void loadChunks()
+	{
+		if (!worldObj.isRemote)
+		{
+			while (chunkTicket == null)
+			{
+				chunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, worldObj, Type.NORMAL);
+			}
+			
+			if (chunkTicket == null)
+			{
+				System.err.println("Unable to load chunks!");
+			}
+			
+			chunkTicket.getModData().setInteger("blockX", xCoord);
+			chunkTicket.getModData().setInteger("blockY", yCoord);
+			chunkTicket.getModData().setInteger("blockZ", zCoord);
+
+			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+		}
+	}
+
+	public void unloadChunks()
+	{
+		ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+	}
+	
+	public void loadTicket(Ticket ticket)
+	{
+		if (chunkTicket == null)
+		{
+			chunkTicket = ticket;
+		}
+		
+		ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
+		ForgeChunkManager.forceChunk(ticket, loadChunk);
+	}
 }

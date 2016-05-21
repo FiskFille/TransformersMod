@@ -14,12 +14,16 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
 
     public void updateEntity()
     {
-    	if (lastUpdate > 0)
+    	if (!worldObj.isRemote)
     	{
-    		worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+    		if (lastUpdate > 0)
+    		{
+    			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+    			markBlockForUpdate();
+    		}
+
+    		++lastUpdate;
     	}
-    	
-    	++lastUpdate;
     }
 
     public void markBlockForUpdate()

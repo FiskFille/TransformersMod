@@ -1,5 +1,9 @@
 package fiskfille.tf.client.tick;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -9,16 +13,9 @@ import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.proxy.CommonProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 public class TickHandler
 {

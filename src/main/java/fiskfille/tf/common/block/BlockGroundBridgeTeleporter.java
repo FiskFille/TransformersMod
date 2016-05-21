@@ -97,14 +97,6 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         return false;
     }
 
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor)
-    {
-    	if (neighbor == this || neighbor == TFBlocks.groundBridgeFrame)
-    	{
-    		world.setBlockToAir(x, y, z);
-    	}
-    }
-
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {
