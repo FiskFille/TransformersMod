@@ -3,14 +3,14 @@ package fiskfille.tf.client.render.entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.HashMap;
-import java.util.Map;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
 
 public class CustomEntityRenderer extends EntityRenderer
 {
     private final Minecraft mc;
-    private static Map<EntityPlayer, Float> offsetY = new HashMap<EntityPlayer, Float>();
 
     public CustomEntityRenderer(Minecraft mc)
     {
@@ -29,32 +29,35 @@ public class CustomEntityRenderer extends EntityRenderer
             return;
         }
 
-        Float offsetForPlayer = offsetY.get(player);
-
-        if (offsetForPlayer == null)
-        {
-            offsetForPlayer = 1.62F;
-            offsetY.put(player, 1.62F);
-        }
-
-        player.yOffset -= offsetForPlayer;
+        player.yOffset -= getOffsetY(player); // TODO
         super.updateCameraAndRender(partialTick);
         player.yOffset = 1.62F;
     }
 
-    @Override
-    public void getMouseOver(float partialTick)
+    public static float getOffsetY(EntityPlayer player)
     {
-        super.getMouseOver(partialTick);
+    	Transformer transformer = TFHelper.getTransformer(player);
+        return getCameraOffset(player, transformer) + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 20;
     }
-
-    public static void setOffsetY(EntityPlayer player, float f)
+    
+    public static float getCameraOffset(EntityPlayer player, Transformer transformer)
     {
-        offsetY.put(player, f);
-    }
+        if (transformer != null)
+        {
+            int altMode = TFDataManager.getAltMode(player);
 
-    public static float getOffsetY(EntityPlayer entityPlayer)
-    {
-        return offsetY != null ? offsetY.get(entityPlayer) : null;
+            if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) > 10)
+            {
+                return transformer.getCameraYOffset(player, altMode);
+            }
+            else
+            {
+                return transformer.getVehicleCameraYOffset(player, altMode);
+            }
+        }
+        else
+        {
+            return -1;
+        }
     }
 }

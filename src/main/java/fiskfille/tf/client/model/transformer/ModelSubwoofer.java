@@ -1,6 +1,16 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
@@ -12,14 +22,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-
-import org.lwjgl.opengl.GL11;
 
 public class ModelSubwoofer extends ModelTransformerBase
 {
@@ -1051,14 +1053,14 @@ public class ModelSubwoofer extends ModelTransformerBase
 
             ItemStack heldItem = player.getHeldItem();
 
-            if (heldItem != null && heldItem.getItem() == TFItems.subwoofersBassBlaster && TFDataManager.getTransformationTimer(player) == 20)
+            if (heldItem != null && heldItem.getItem() == TFItems.subwoofersBassBlaster && TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 20)
             {
                 setRotateAngle(shoulderbaseR, 0.0F, 0.0F, 0.0F);
                 setRotateAngle(upperArmR, 0.0F, 0.0F, 0.2F);
                 setRotateAngle(lowerArmR, bipedHead.rotateAngleX - pi / 2, bipedHead.rotateAngleY, 0.0F);
             }
 
-            int t = TFDataManager.getTransformationTimer(player);
+            float t = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
             float f = 20 - t;
 
             rotateTo(waist, vehicleBase, f);

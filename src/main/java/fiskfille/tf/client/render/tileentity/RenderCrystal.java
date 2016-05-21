@@ -1,15 +1,17 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.client.model.tileentity.ModelCrystal;
-import fiskfille.tf.common.block.BlockEnergonCrystal;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.tileentity.TileEntityCrystal;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.client.model.tileentity.ModelCrystal;
+import fiskfille.tf.common.block.BlockEnergonCrystal;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.tileentity.TileEntityCrystal;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderCrystal extends TileEntitySpecialRenderer
 {
@@ -36,10 +38,10 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        float[] rgb = TFHelper.hexToRGB(energon.getColor());
+        float[] rgb = TFRenderHelper.hexToRGB(energon.getColor());
         GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
 
-        TFHelper.setLighting(61680);
+        TFRenderHelper.setLighting(61680);
         model.render();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();

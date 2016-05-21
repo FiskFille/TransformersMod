@@ -1,25 +1,11 @@
 package fiskfille.tf.nei;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.ItemList;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.guihook.GuiContainerManager;
-import codechicken.nei.guihook.IContainerDrawHandler;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.IRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.gui.GuiEnergonProcessor;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.helper.TFHelper;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -29,13 +15,31 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.ItemList;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.guihook.GuiContainerManager;
+import codechicken.nei.guihook.IContainerDrawHandler;
+import codechicken.nei.recipe.GuiRecipe;
+import codechicken.nei.recipe.IRecipeHandler;
+import codechicken.nei.recipe.TemplateRecipeHandler;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiEnergonProcessor;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler implements IContainerDrawHandler
 {
@@ -260,7 +264,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
                 if (energon != null)
                 {
-                    liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float) percent / 100);
+                    liquidColor = TFRenderHelper.blend(liquidColor, energon.getColor(), (float) percent / 100);
                 }
             }
         }
@@ -301,7 +305,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         int textureY = (t % 4) * 26;
 
         GuiDraw.changeTexture(TransformersMod.modid + ":textures/gui/container/energon_flow.png");
-        float[] rgb = TFHelper.hexToRGB(recipe1.liquidColor);
+        float[] rgb = TFRenderHelper.hexToRGB(recipe1.liquidColor);
         int offsetY = (int) (recipe1.liquidAmount * 0.26F);
         float scale = 2;
 

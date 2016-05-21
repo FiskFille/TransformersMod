@@ -1,7 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.item.TFItems;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -9,6 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.item.TFItems;
 
 public class ModelChildBase
 {
@@ -133,7 +134,7 @@ public class ModelChildBase
                 EntityPlayer player = (EntityPlayer) entity;
                 ItemStack itemstack = player.getHeldItem();
 
-                if (TFDataManager.getTransformationTimer(player) == 20)
+                if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 20)
                 {
                     if (itemstack != null && itemstack.getItem() == TFItems.vurpsSniper)
                     {

@@ -1,6 +1,16 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
@@ -11,14 +21,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-
-import org.lwjgl.opengl.GL11;
 
 public class ModelCloudtrap extends ModelTransformerBase
 {
@@ -2171,13 +2173,13 @@ public class ModelCloudtrap extends ModelTransformerBase
 
             ItemStack heldItem = player.getHeldItem();
 
-            if (heldItem != null && heldItem.getItem() == TFItems.cloudtrapsFlamethrower && TFDataManager.getTransformationTimer(player) == 20 && player.isUsingItem())
+            if (heldItem != null && heldItem.getItem() == TFItems.cloudtrapsFlamethrower && TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 20 && player.isUsingItem())
             {
                 setRotation(upperArmR, bipedHead.rotateAngleX - pi / 2 + 0.2F, bipedHead.rotateAngleY, 0.1F);
                 setRotation(lowerArmR, -0.2F, 0, 0);
             }
 
-            int t = TFDataManager.getTransformationTimer(player);
+            float t = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
             float f = 20 - t;
 
             ModelBiped modelBiped = TFModelHelper.modelBipedMain;

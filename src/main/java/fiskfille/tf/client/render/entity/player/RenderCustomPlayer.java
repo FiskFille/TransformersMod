@@ -1,17 +1,7 @@
 package fiskfille.tf.client.render.entity.player;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.player.ModelBipedTF;
-import fiskfille.tf.client.model.tools.MowzieModelBase;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
@@ -26,7 +16,20 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import java.util.Random;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.model.player.ModelBipedTF;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class RenderCustomPlayer extends RenderPlayer
@@ -42,7 +45,7 @@ public class RenderCustomPlayer extends RenderPlayer
     @Override
     public void renderFirstPersonArm(EntityPlayer player)
     {
-        if (TFDataManager.getTransformationTimer(player) == 20)
+        if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 20)
         {
             Transformer transformer = TFHelper.getTransformerFromArmor(player, 2);
 
@@ -81,7 +84,7 @@ public class RenderCustomPlayer extends RenderPlayer
                 model.renderFirstPersonArm(player);
                 GL11.glTranslatef(0.0f, 0.35f, 0.0f);
 
-                TFHelper.setupRenderLayers(player.getCurrentArmor(2), upperArm, model.getMainModel().hasLightsLayer());
+                TFRenderHelper.setupRenderLayers(player.getCurrentArmor(2), upperArm, model.getMainModel().hasLightsLayer());
             }
             else
             {

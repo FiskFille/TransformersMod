@@ -1,10 +1,5 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
-import fiskfille.tf.common.entity.EntityTransformiumSeed;
-import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -12,6 +7,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelTransformiumSeed;
+import fiskfille.tf.common.entity.EntityTransformiumSeed;
+import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderTransformiumSeed extends TileEntitySpecialRenderer
 {
@@ -34,7 +35,7 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
         model.render(new EntityTransformiumSeed(seed.getWorldObj()));
         
         GL11.glDisable(GL11.GL_LIGHTING);
-        TFHelper.setLighting(61680);
+        TFRenderHelper.setLighting(61680);
         bindTexture(new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/transformium_seed_lights.png"));
         model.render(new EntityTransformiumSeed(seed.getWorldObj()));
         GL11.glEnable(GL11.GL_LIGHTING);

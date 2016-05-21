@@ -1,13 +1,15 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelAssemblyTable;
-import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelAssemblyTable;
+import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderAssemblyTable extends TileEntitySpecialRenderer
 {
@@ -26,7 +28,7 @@ public class RenderAssemblyTable extends TileEntitySpecialRenderer
         bindTexture(textureLights);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glColor4f(1, 1, 1, 1);
-        TFHelper.setLighting(61680);
+        TFRenderHelper.setLighting(61680);
         GL11.glPushMatrix();
         GL11.glColor4f(1, 1, 1, 1);
         GL11.glDepthMask(false);

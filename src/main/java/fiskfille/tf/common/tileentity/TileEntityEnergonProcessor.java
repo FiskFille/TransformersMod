@@ -1,14 +1,10 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.helper.TFHelper;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -21,10 +17,16 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class TileEntityEnergonProcessor extends TileEntity implements ISidedInventory
 {
@@ -167,7 +169,7 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
 
                     if (energon != null)
                     {
-                        liquidColor = TFHelper.blend(liquidColor, energon.getColor(), (float) percent / 100);
+                        liquidColor = TFRenderHelper.blend(liquidColor, energon.getColor(), (float) percent / 100);
                     }
                 }
             }

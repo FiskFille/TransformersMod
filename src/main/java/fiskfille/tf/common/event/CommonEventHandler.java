@@ -272,7 +272,6 @@ public class CommonEventHandler
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-
             Transformer transformer = TFHelper.getTransformer(player);
 
             if (transformer != null)
@@ -304,7 +303,9 @@ public class CommonEventHandler
 
             float yOffset = transformer != null ? transformer.getCameraYOffset(player, TFDataManager.getAltMode(player)) : 0;
             boolean vehicleMode = TFDataManager.isTransformed(player);
-
+            
+            TFDataManager.setPrevTransformationTimer(player, TFDataManager.getTransformationTimer(player));
+            
             if (transformer != null)
             {
                 transformer.tick(player, TFDataManager.getTransformationTimer(player));

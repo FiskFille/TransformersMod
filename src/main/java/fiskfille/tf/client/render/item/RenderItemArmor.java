@@ -1,16 +1,18 @@
 package fiskfille.tf.client.render.item;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorDyeHelper;
-import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-import org.lwjgl.opengl.GL11;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderItemArmor implements IItemRenderer
 {
@@ -61,8 +63,8 @@ public class RenderItemArmor implements IItemRenderer
 
         if (TFArmorDyeHelper.isDyed(item))
         {
-            float[] primaryColor = TFHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(item));
-            float[] secondaryColor = TFHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(item));
+            float[] primaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(item));
+            float[] secondaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(item));
 
             GL11.glColor4f(primaryColor[0], primaryColor[1], primaryColor[2], 1.0F);
             Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_primary.png"));

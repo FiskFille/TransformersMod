@@ -1,8 +1,8 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.item.ItemStack;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class ModelSubwooferVehicle extends ModelVehicleBase
 {
@@ -273,7 +273,7 @@ public class ModelSubwooferVehicle extends ModelVehicleBase
 
     public void render(ItemStack itemstack)
     {
-        TFHelper.setupRenderLayers(itemstack, vehicleBase, false);
+    	TFRenderHelper.setupRenderLayers(itemstack, vehicleBase, false);
     }
 
     /**

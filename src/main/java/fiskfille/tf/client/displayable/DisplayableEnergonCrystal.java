@@ -1,13 +1,15 @@
 package fiskfille.tf.client.displayable;
 
-import fiskfille.tf.client.model.tileentity.ModelCrystal;
-import fiskfille.tf.common.block.BlockEnergonCrystal;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.client.model.tileentity.ModelCrystal;
+import fiskfille.tf.common.block.BlockEnergonCrystal;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class DisplayableEnergonCrystal extends Displayable
 {
@@ -32,10 +34,10 @@ public class DisplayableEnergonCrystal extends Displayable
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        float[] rgb = TFHelper.hexToRGB(energon.getColor());
+        float[] rgb = TFRenderHelper.hexToRGB(energon.getColor());
         GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
 
-        TFHelper.setLighting(61680);
+        TFRenderHelper.setLighting(61680);
         model.render();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();

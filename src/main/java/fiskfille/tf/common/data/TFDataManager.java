@@ -1,5 +1,11 @@
 package fiskfille.tf.common.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
@@ -9,12 +15,7 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.util.HashMap;
-import java.util.Map;
+import fiskfille.tf.helper.TFRenderHelper;
 
 /**
  * @author FiskFille, gegy1000
@@ -22,6 +23,7 @@ import java.util.Map;
 public class TFDataManager
 {
     private static Map<EntityPlayer, Integer> transformationTimerClient = new HashMap<EntityPlayer, Integer>();
+    private static Map<EntityPlayer, Integer> prevTransformationTimerClient = new HashMap<EntityPlayer, Integer>();
     private static Map<EntityPlayer, Integer> stealthModeTimerClient = new HashMap<EntityPlayer, Integer>();
     private static Map<EntityPlayer, Integer> zoomTimerClient = new HashMap<EntityPlayer, Integer>();
 
@@ -148,6 +150,14 @@ public class TFDataManager
     {
         transformationTimerClient.put(player, timer);
     }
+    
+    /**
+     * Sets the previous transformation timer for the specified player.
+     */
+    public static void setPrevTransformationTimer(EntityPlayer player, int timer)
+    {
+        prevTransformationTimerClient.put(player, timer);
+    }
 
     /**
      * Sets the stealth force timer for the specified player.
@@ -196,6 +206,24 @@ public class TFDataManager
         Integer timer = transformationTimerClient.get(player);
 
         return timer != null ? timer : 20;
+    }
+    
+    /**
+     * @returns the previous frame of the transformation animation for the specified player. (0 = Fully Transformed : 20 = Normal Robot Mode)
+     */
+    public static int getPrevTransformationTimer(EntityPlayer player)
+    {
+        Integer timer = prevTransformationTimerClient.get(player);
+
+        return timer != null ? timer : 20;
+    }
+    
+    /**
+     * @returns the current frame of the transformation animation for the specified player, modified for animation. (0 = Fully Transformed : 20 = Normal Robot Mode)
+     */
+    public static float getTransformationTimer(EntityPlayer player, float partialTicks)
+    {
+    	return TFRenderHelper.median(getTransformationTimer(player), getPrevTransformationTimer(player), partialTicks);
     }
 
     /**

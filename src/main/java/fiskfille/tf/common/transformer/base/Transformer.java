@@ -1,13 +1,14 @@
 package fiskfille.tf.common.transformer.base;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.config.TFConfig;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 
 /**
  * @author gegy1000, FiskFille
@@ -140,7 +141,7 @@ public abstract class Transformer
 
     public float getThirdPersonDistance(EntityPlayer player, int altMode)
     {
-        return 2.0F - -(float) TFDataManager.getTransformationTimer(player) / 10;
+        return 2.0F + (float)TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10;
     }
 
     /**

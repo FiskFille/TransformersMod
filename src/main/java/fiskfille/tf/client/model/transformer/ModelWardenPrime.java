@@ -1,6 +1,15 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -10,12 +19,6 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelWardenPrime extends ModelTransformerBase
 {
@@ -3114,7 +3117,7 @@ public class ModelWardenPrime extends ModelTransformerBase
                 }
             }
 
-            int t = TFDataManager.getTransformationTimer(player);
+            float t = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
             int altMode = TFDataManager.getAltForTransformAnimation(player);
             float f = 20 - t;
 

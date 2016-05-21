@@ -1,13 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import fiskfille.tf.client.model.tools.MowzieModelBase;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.TFArmorDyeHelper;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -16,6 +8,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFArmorDyeHelper;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public abstract class ModelTransformerBase extends MowzieModelBase
 {
@@ -37,11 +40,11 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) == getTransformer();
             boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) == getTransformer();
 
-            if (TFDataManager.getTransformationTimer(player) == 0)
+            if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 0)
             {
                 if (layerToRender == 2)
                 {
-                    TFHelper.setupRenderLayers(head, getVehicle(player), hasLightsLayer());
+                	TFRenderHelper.setupRenderLayers(head, getVehicle(player), hasLightsLayer());
                 }
             }
             else
@@ -50,13 +53,13 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 {
                     if (wearingHead)
                     {
-                        TFHelper.setupRenderLayers(head, getHead(), hasLightsLayer());
+                    	TFRenderHelper.setupRenderLayers(head, getHead(), hasLightsLayer());
                     }
 
                     if (wearingLegs)
                     {
-                        TFHelper.setupRenderLayers(legs, getRightLeg(), hasLightsLayer());
-                        TFHelper.setupRenderLayers(legs, getLeftLeg(), hasLightsLayer());
+                    	TFRenderHelper.setupRenderLayers(legs, getRightLeg(), hasLightsLayer());
+                    	TFRenderHelper.setupRenderLayers(legs, getLeftLeg(), hasLightsLayer());
                     }
                 }
                 else if (!TFArmorDyeHelper.areColorsIdentical(head, chest, legs))
@@ -70,7 +73,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 {
                     if (layerToRender == 2)
                     {
-                        TFHelper.setupRenderLayers(chest, getWaist(), hasLightsLayer());
+                    	TFRenderHelper.setupRenderLayers(chest, getWaist(), hasLightsLayer());
                     }
                 }
             }
@@ -90,13 +93,13 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             {
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                float[] afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
+                float[] afloat = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
 
                 GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_primary.png"));
                 model.render(0.0625F);
 
-                afloat = TFHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
+                afloat = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
                 GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_secondary.png"));
                 model.render(0.0625F);
@@ -107,7 +110,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
                 if (hasLightsLayer())
                 {
-                    TFHelper.setLighting(61680);
+                	TFRenderHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
                 }
@@ -118,7 +121,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
                 if (hasLightsLayer())
                 {
-                    TFHelper.setLighting(61680);
+                	TFRenderHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
                 }

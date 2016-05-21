@@ -1,11 +1,11 @@
 package fiskfille.tf.common.transformer;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.TransformerJet;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 
 /**
  * @author gegy1000

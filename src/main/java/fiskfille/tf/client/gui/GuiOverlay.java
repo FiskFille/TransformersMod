@@ -1,21 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.item.ItemVurpsSniper;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.transformer.TransformerVurp;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.config.TFConfig;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFShootManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -32,6 +16,24 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.item.ItemVurpsSniper;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFShootManager;
 
 public class GuiOverlay extends Gui
 {
@@ -82,7 +84,7 @@ public class GuiOverlay extends Gui
 
         ItemStack heldItem = player.getHeldItem();
         Transformer transformer = TFHelper.getTransformer(player);
-        boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(player) == 20;
+        boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 20;
 
         if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(player, altMode)))
         {
@@ -153,13 +155,13 @@ public class GuiOverlay extends Gui
     {
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
-        int transformationTimer = TFDataManager.getTransformationTimer(player);
+        float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
 
         if (transformedPlayer != null && transformationTimer <= 20)
         {
             int nitro = transformedPlayer.getNitro();
-
-            int i = transformationTimer * 10;
+            int i = (int)(transformationTimer * 10);
+            
             if (transformationTimer <= 19)
             {
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -193,7 +195,7 @@ public class GuiOverlay extends Gui
 
         if (transformer != null && !(transformer instanceof TransformerVurp))
         {
-            int transformationTimer = TFDataManager.getTransformationTimer(player);
+            float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
             int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
             if (transformationTimer <= 20 && transformer.canShoot(player, altMode))
@@ -256,7 +258,7 @@ public class GuiOverlay extends Gui
 
             if (heldItem != null)
             {
-                int transformationTimer = TFDataManager.getTransformationTimer(player);
+                float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
 
                 if (transformationTimer == 20 && heldItem.getItem() == TFItems.vurpsSniper && TFHelper.isPlayerVurp(player))
                 {

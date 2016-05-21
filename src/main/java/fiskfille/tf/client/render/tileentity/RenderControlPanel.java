@@ -12,20 +12,20 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelControlPanel;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderControlPanel extends TileEntitySpecialRenderer
 {
     private Minecraft mc = Minecraft.getMinecraft();
     private ModelControlPanel model = new ModelControlPanel();
 
-    public void render(TileEntityControlPanel tileentity, double x, double y, double z, float partialTicks)
+    public void render(TileEntityControlPanel tile, double x, double y, double z, float partialTicks)
     {
         int metadata = 0;
 
-        if (tileentity.getWorldObj() != null)
+        if (tile.getWorldObj() != null)
         {
-            metadata = tileentity.getBlockMetadata();
+            metadata = tile.getBlockMetadata();
         }
 
         GL11.glPushMatrix();
@@ -40,11 +40,11 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel.png"));
-            model.render(tileentity);
+            model.render(tile, partialTicks);
             
-            TFHelper.setLighting(61680);
+            TFRenderHelper.setLighting(61680);
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel_lights.png"));
-            model.render(tileentity);
+            model.render(tile, partialTicks);
             model.table1.postRender(0.0625F);
             model.table2.postRender(0.0625F);
 
@@ -52,20 +52,20 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.screen1.postRender(0.0625F);
             model.screen2.postRender(0.0625F);
             renderText(StatCollector.translateToLocal("ground_bridge.destination"), 0, 0, 0, -1);
-            renderText("x: " + tileentity.destX + ", y: " + tileentity.destY + ", z: " + tileentity.destZ, 1, 0, 0, -1);
+            renderText("x: " + tile.destX + ", y: " + tile.destY + ", z: " + tile.destZ, 1, 0, 0, -1);
 
-            if (!tileentity.errors.isEmpty())
+            if (!tile.errors.isEmpty())
             {
                 renderText(StatCollector.translateToLocal("ground_bridge.error"), 2, 0, 0.025F, 0xC10000);
-                renderText(StatCollector.translateToLocal("ground_bridge.error." + tileentity.errors.get(0).displayKey), 3, 0, 0.025F, 0xC10000);
+                renderText(StatCollector.translateToLocal("ground_bridge.error." + tile.errors.get(0).displayKey), 3, 0, 0.025F, 0xC10000);
 
-                if (tileentity.errors.size() == 1)
+                if (tile.errors.size() == 1)
                 {
                     renderText(StatCollector.translateToLocal("ground_bridge.error.no_other_errors"), 7, 0, 0, -1);
                 }
                 else
                 {
-                    renderText(StatCollector.translateToLocalFormatted("ground_bridge.error.other_error" + (tileentity.errors.size() == 2 ? "" : "s"), tileentity.errors.size() - 1), 7, 0, 0, 0xC10000);
+                    renderText(StatCollector.translateToLocalFormatted("ground_bridge.error.other_error" + (tile.errors.size() == 2 ? "" : "s"), tile.errors.size() - 1), 7, 0, 0, 0xC10000);
                 }
             }
 

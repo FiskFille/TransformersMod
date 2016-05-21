@@ -78,6 +78,7 @@ public class ClientEventHandler
 {
     private final Minecraft mc = Minecraft.getMinecraft();
     private EntityRenderer renderer, prevRenderer;
+    public static float renderTick;
 
     public static boolean prevViewBobbing;
 
@@ -160,7 +161,7 @@ public class ClientEventHandler
     {
         AbstractClientPlayer player = (AbstractClientPlayer) event.entityPlayer;
 
-        if (TFDataManager.getTransformationTimer(player) < 10)
+        if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) < 10)
         {
             event.setCanceled(true);
         }
@@ -659,6 +660,7 @@ public class ClientEventHandler
     public void renderTick(TickEvent.RenderTickEvent event)
     {
         Minecraft mc = Minecraft.getMinecraft();
+        renderTick = event.renderTickTime;
 
         if (mc.theWorld != null)
         {
@@ -730,7 +732,7 @@ public class ClientEventHandler
 
         IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
-        if (TFDataManager.getTransformationTimer(player) < 20 && !(nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player)))
+        if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) < 20 && !(nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player)))
         {
             event.newfov = 1.0F;
         }

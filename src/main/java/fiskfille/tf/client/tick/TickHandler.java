@@ -9,6 +9,7 @@ import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -30,9 +31,9 @@ public class TickHandler
         ItemStack itemstack = player.getHeldItem();
 
         int altMode = TFDataManager.getAltMode(player);
-        boolean isTranformed = TFDataManager.isTransformed(player);
+        boolean isTransformed = TFDataManager.isTransformed(player);
 
-        int transformationTimer = TFDataManager.getTransformationTimer(player);
+        float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
 
         Transformer transformer = TFHelper.getTransformer(player);
 
@@ -78,7 +79,7 @@ public class TickHandler
         {
             if (transformer != null)
             {
-                if (TFDataManager.getTransformationTimer(player) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player, altMode))
+                if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 0 && mc.currentScreen == null && transformer.hasStealthForce(player, altMode))
                 {
                     int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 

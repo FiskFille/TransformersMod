@@ -2,7 +2,7 @@ package fiskfille.tf.client.model.transformer.vehicle;
 
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class ModelSkystrikeVehicle extends ModelVehicleBase
 {
@@ -1091,7 +1091,7 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
     public void render(ItemStack itemstack)
     {
     	vehiclewaistbase.offsetY = 1.1F;
-        TFHelper.setupRenderLayers(itemstack, vehiclewaistbase, false);
+    	TFRenderHelper.setupRenderLayers(itemstack, vehiclewaistbase, false);
     }
 
     private void setRotateAngle(MowzieModelRenderer model, float x, float y, float z)

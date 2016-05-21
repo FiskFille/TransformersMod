@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderDisplayStation extends TileEntitySpecialRenderer
 {
@@ -40,7 +40,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/display_station_lamp.png"));
             GL11.glDisable(GL11.GL_LIGHTING);
-            TFHelper.setLighting(61680);
+            TFRenderHelper.setLighting(61680);
             model.render();
             GL11.glEnable(GL11.GL_LIGHTING);
 
@@ -67,7 +67,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
                 {
                     GL11.glRotatef(180, 1, 0, 0);
                     GL11.glTranslatef(0, 0.0625F * 3, 0);
-                    TFHelper.setLighting(tileentity.getWorldObj().getLightBrightnessForSkyBlocks(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, 0));
+                    TFRenderHelper.setLighting(tileentity.getWorldObj().getLightBrightnessForSkyBlocks(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, 0));
                     render.doRender(entity, 0, 0, 0, 0, 0.0625F);
                 }
             }

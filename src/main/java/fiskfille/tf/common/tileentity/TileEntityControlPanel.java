@@ -42,7 +42,9 @@ public class TileEntityControlPanel extends TileEntity
 	public boolean activationLeverState = false;
 	public boolean activationLeverCoverState = false;
 	public float activationLeverTimer;
+	public float prevActivationLeverTimer;
 	public float activationLeverCoverTimer;
+	public float prevActivationLeverCoverTimer;
 
 	public List<EnumError> errors = Lists.newArrayList();
 	public boolean hasSpace;
@@ -52,10 +54,12 @@ public class TileEntityControlPanel extends TileEntity
 
 	public void updateEntity()
 	{
+		prevActivationLeverTimer = activationLeverTimer;
+		prevActivationLeverCoverTimer = activationLeverCoverTimer;
+		
 		if (!BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata()))
 		{
 			loadChunks();
-//			System.out.println(errors);
 			errors.clear();
 			destX = xCoord;
 			destY = yCoord;

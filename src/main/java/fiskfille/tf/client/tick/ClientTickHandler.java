@@ -1,6 +1,12 @@
 package fiskfille.tf.client.tick;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.particle.NitroParticleHandler;
 import fiskfille.tf.client.render.entity.CustomEntityRenderer;
@@ -13,11 +19,6 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 public class ClientTickHandler
 {
@@ -30,7 +31,7 @@ public class ClientTickHandler
 
         int altMode = TFDataManager.getAltMode(player);
         boolean isTransformed = altMode != -1;
-        int transformationTimer = TFDataManager.getTransformationTimer(player);
+        float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
         int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
         if (stealthModeTimer < 5 && !TFDataManager.isInStealthMode(player))
@@ -139,27 +140,6 @@ public class ClientTickHandler
         }
     }
 
-    private float getCameraOffset(EntityPlayer player, Transformer transformer)
-    {
-        if (transformer != null)
-        {
-            int altMode = TFDataManager.getAltMode(player);
-
-            if (TFDataManager.getTransformationTimer(player) > 10)
-            {
-                return transformer.getCameraYOffset(player, altMode);
-            }
-            else
-            {
-                return transformer.getVehicleCameraYOffset(player, altMode);
-            }
-        }
-        else
-        {
-            return -1;
-        }
-    }
-
     public void handleTransformation(EntityPlayer player)
     {
         Transformer transformer = TFHelper.getTransformer(player);
@@ -168,10 +148,6 @@ public class ClientTickHandler
         int altMode = TFDataManager.getAltMode(player);
         boolean isTransformed = altMode != -1;
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-        float offsetY = getCameraOffset(player, transformer) + (float) transformationTimer / 20;
-
-        CustomEntityRenderer.setOffsetY(player, offsetY);
 
         if (transformationTimer < 20 && !isTransformed)
         {
@@ -207,7 +183,7 @@ public class ClientTickHandler
 
             if (player.ridingEntity == null)
             {
-                float thirdPersonDistance = 2.0F - -(float) TFDataManager.getTransformationTimer(player) / 10;
+                float thirdPersonDistance = 2.0F + (float)TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10;
 
                 int altMode = TFDataManager.getAltMode(player);
                 boolean isTransformed = altMode != -1;

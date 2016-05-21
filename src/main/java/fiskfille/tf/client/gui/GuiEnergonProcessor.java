@@ -1,25 +1,28 @@
 package fiskfille.tf.client.gui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import com.google.common.collect.Lists;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
-import fiskfille.tf.helper.TFHelper;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergonProcessor extends GuiContainer
@@ -182,7 +185,7 @@ public class GuiEnergonProcessor extends GuiContainer
         int textureY = (t % 4) * 26;
 
         mc.getTextureManager().bindTexture(energonTextures);
-        float[] rgb = TFHelper.hexToRGB(tileentity.liquidColor);
+        float[] rgb = TFRenderHelper.hexToRGB(tileentity.liquidColor);
         int offsetY = (int) (tileentity.liquidAmount * 0.26F);
         float scale = 2;
 

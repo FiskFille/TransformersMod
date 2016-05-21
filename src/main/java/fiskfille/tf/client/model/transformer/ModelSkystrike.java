@@ -9,6 +9,7 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -2529,7 +2530,7 @@ public class ModelSkystrike extends ModelTransformerBase
                 }
             }
 
-            int t = TFDataManager.getTransformationTimer(player);
+            float t = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
             float f = 20 - t;
 
             ModelBiped modelBiped = TFModelHelper.modelBipedMain;
