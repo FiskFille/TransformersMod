@@ -93,17 +93,19 @@ public class TileEntityControlPanel extends TileEntity
 					groundBridgeFramePos = null;
 				}
 			}
+			
+			boolean flag = false;
 
 			if (!activationLeverState)
 			{
 				List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
 				Collections.sort(list, new Comparator<TileEntity>()
-						{
+				{
 					public int compare(TileEntity arg0, TileEntity arg1)
 					{
 						return Integer.compare((int)Math.sqrt(getDistanceFrom(arg0.xCoord, arg0.zCoord, arg0.yCoord)), (int)Math.sqrt(getDistanceFrom(arg1.xCoord, arg1.zCoord, arg1.yCoord)));
 					}
-						});
+				});
 
 				for (TileEntity tileentity : list)
 				{
@@ -112,9 +114,11 @@ public class TileEntityControlPanel extends TileEntity
 						if (tileentity instanceof TileEntityGroundBridgeFrame)
 						{
 							TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame)tileentity;
-
-							if (BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord) != null)
+							ForgeDirection direction = BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
+							
+							if (direction != null)
 							{
+								flag = isPortalObstructed(tile.xCoord, tile.yCoord, tile.zCoord, direction);
 								groundBridgeFramePos = new BlockCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
 								break;
 							}
@@ -127,10 +131,20 @@ public class TileEntityControlPanel extends TileEntity
 			{
 				errors.add(EnumError.NO_PORTAL_LINKED);
 			}
+			
+			if (flag)
+			{
+				errors.add(EnumError.PORTAL_OBSTRUCTED);
+			}
 
 			if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
 			{
-				//                errors.add(EnumError.INVALID_COORDS);
+//				errors.add(EnumError.INVALID_COORDS);
+			}
+			
+			if (destY - 2 <= 0 || destY + 2 >= 256)
+			{
+				errors.add(EnumError.OUT_OF_BOUNDS);
 			}
 
 			if (!worldObj.isRemote)
@@ -215,29 +229,39 @@ public class TileEntityControlPanel extends TileEntity
 					BlockGroundBridgeTeleporter.fillEastFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
 				}
 			}
-			//            else
-				//            {
-				////            	int x = groundBridgeFramePos.x;
-				////            	int y = groundBridgeFramePos.y;
-				////            	int z = groundBridgeFramePos.z;
-				//            	
-				//            	for (int i = 0; i < 5; ++i)
-					//		        {
-					//		            for (int j = 0; j < 3; ++j)
-						//		            {
-						////    	                TFHelper.replaceBlock(worldObj, x - 1 + j, y + 1 + i, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			////    	                TFHelper.replaceBlock(worldObj, x - 2 + i, y + 2 + j, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			////    	                TFHelper.replaceBlock(worldObj, x, y + 1 + i, z - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			////    	            	TFHelper.replaceBlock(worldObj, x, y + 2 + j, z - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			//		            	
-			//		                TFHelper.replaceBlock(worldObj, destX - 1 + j, destY + 1 + i - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			//		                TFHelper.replaceBlock(worldObj, destX - 2 + i, destY + 2 + j - 3, destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			//		                TFHelper.replaceBlock(worldObj, destX, destY + 1 + i - 3, destZ - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			//		            	TFHelper.replaceBlock(worldObj, destX, destY + 2 + j - 3, destZ - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
-			//		            }
-			//		        }
-			//            }
 		}
+	}
+	
+	public boolean isPortalObstructed(int x, int y, int z, ForgeDirection direction)
+	{
+		if (direction == ForgeDirection.NORTH)
+		{
+			for (int i = 0; i < 5; ++i)
+	        {
+	            for (int j = 0; j < 3; ++j)
+	            {
+	            	if (!(worldObj.getBlock(x - 1 + j, y + 1 + i, z) == Blocks.air || worldObj.getBlock(x - 1 + j, y + 1 + i, z) == TFBlocks.groundBridgeTeleporter) || !(worldObj.getBlock(x - 2 + i, y + 2 + j, z) == Blocks.air || worldObj.getBlock(x - 2 + i, y + 2 + j, z) == TFBlocks.groundBridgeTeleporter))
+	                {
+	                	return true;
+	                }
+	            }
+	        }
+		}
+		else
+		{
+			for (int i = 0; i < 5; ++i)
+	        {
+	            for (int j = 0; j < 3; ++j)
+	            {
+	            	if (!(worldObj.getBlock(x, y + 1 + i, z - 1 + j) == Blocks.air || worldObj.getBlock(x, y + 1 + i, z - 1 + j) == TFBlocks.groundBridgeTeleporter) || !(worldObj.getBlock(x, y + 2 + j, z - 2 + i) == Blocks.air || worldObj.getBlock(x, y + 2 + j, z - 2 + i) == TFBlocks.groundBridgeTeleporter))
+	                {
+	                	return true;
+	                }
+	            }
+	        }
+		}
+		
+		return false;
 	}
 
 	public boolean checkForSpace()

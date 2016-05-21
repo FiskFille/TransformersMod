@@ -51,69 +51,6 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
     	return null;
     }
     
-    
-//    @Override
-//	public void updatePoweredState(World world, int x, int y, int z, CableSignal signal)
-//    {
-//    	if (signal == null || signal.message.equals("ground_bridge_deactivate"))
-//		{
-//			for (int i = 0; i < 5; ++i)
-//	        {
-//	            for (int j = 0; j < 3; ++j)
-//	            {
-//	                replaceBlock(world, x - 1 + j, y + 1 + i, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//	                replaceBlock(world, x - 2 + i, y + 2 + j, z, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//	                replaceBlock(world, x, y + 1 + i, z - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//	            	replaceBlock(world, x, y + 2 + j, z - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//	            }
-//	        }
-//		}
-//    	else if (signal != null && signal.source instanceof TileEntityControlPanel && signal.message.equals("ground_bridge_activate"))
-//		{
-//    		TileEntityControlPanel tile = (TileEntityControlPanel)signal.source;
-//    		
-//    		if (tile.errors.isEmpty())
-//    		{
-//    			TFBlocks.groundBridgeTeleporter.spawnTeleporter(world, x, y, z, tile);
-//    			
-//    			if (tile.portalDirection % 2 == 0)
-//    	        {
-//    				BlockGroundBridgeTeleporter.fillNorthFacingFrame(world, tile.destX, tile.destY - 3, tile.destZ, TFBlocks.groundBridgeTeleporter, tile, true);
-//    	        }
-//    	        else
-//    	        {
-//    	        	BlockGroundBridgeTeleporter.fillEastFacingFrame(world, tile.destX, tile.destY - 3, tile.destZ, TFBlocks.groundBridgeTeleporter, tile, true);
-//    	        }
-//    		}
-//		}
-//		
-//		if (signal != null && signal.source instanceof TileEntityControlPanel)
-//		{
-//			TileEntityControlPanel tile = (TileEntityControlPanel)signal.source;
-//			tile.groundBridgeFramePos = new BlockCoordinates(x, y, z);
-//			
-//			if (signal.message.equals("ground_bridge_deactivate"))
-//			{
-//				for (int i = 0; i < 5; ++i)
-//		        {
-//		            for (int j = 0; j < 3; ++j)
-//		            {
-//		                replaceBlock(world, tile.destX - 1 + j, tile.destY + 1 + i - 3, tile.destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		                replaceBlock(world, tile.destX - 2 + i, tile.destY + 2 + j - 3, tile.destZ, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		                replaceBlock(world, tile.destX, tile.destY + 1 + i - 3, tile.destZ - 1 + j, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		            	replaceBlock(world, tile.destX, tile.destY + 2 + j - 3, tile.destZ - 2 + i, TFBlocks.groundBridgeTeleporter, Blocks.air);
-//		            }
-//		        }
-//			}
-//		}
-//	}
-//
-//	@Override
-//	public boolean connectTo(TileEntityCable cable, int x, int y, int z)
-//	{
-//		return getFrameDirection(cable.getWorldObj(), x, y, z) != null;
-//	}
-    
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityGroundBridgeFrame();

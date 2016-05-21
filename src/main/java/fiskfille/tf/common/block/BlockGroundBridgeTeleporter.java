@@ -9,7 +9,6 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -236,7 +235,6 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     public static boolean isNorthSouthFacingFramePresent(World world, int x, int y, int z)
     {
         Block b = TFBlocks.groundBridgeFrame;
-        boolean flag = false;
 
         if (world.getBlock(x, y, z) == b && world.getBlock(x - 1, y, z) == b && world.getBlock(x + 1, y, z) == b)
         {
@@ -258,31 +256,19 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     {
                         if (world.getBlock(x, y + 6, z) == b && world.getBlock(x - 1, y + 6, z) == b && world.getBlock(x + 1, y + 6, z) == b)
                         {
-                            flag = true;
+                            return true;
                         }
                     }
                 }
             }
         }
-        
-        for (int i = 0; i < 5; ++i)
-        {
-            for (int j = 0; j < 3; ++j)
-            {
-            	if (!(world.getBlock(x - 1 + j, y + 1 + i, z) == Blocks.air || world.getBlock(x - 1 + j, y + 1 + i, z) == TFBlocks.groundBridgeTeleporter) || !(world.getBlock(x - 2 + i, y + 2 + j, z) == Blocks.air || world.getBlock(x - 2 + i, y + 2 + j, z) == TFBlocks.groundBridgeTeleporter))
-                {
-                	flag = false;
-                }
-            }
-        }
 
-        return flag;
+        return false;
     }
 
     public static boolean isEastWestFacingFramePresent(World world, int x, int y, int z)
     {
         Block b = TFBlocks.groundBridgeFrame;
-        boolean flag = false;
 
         if (world.getBlock(x, y, z) == b && world.getBlock(x, y, z - 1) == b && world.getBlock(x, y, z + 1) == b)
         {
@@ -304,25 +290,14 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     {
                         if (world.getBlock(x, y + 6, z) == b && world.getBlock(x, y + 6, z - 1) == b && world.getBlock(x, y + 6, z + 1) == b)
                         {
-                            flag = true;
+                            return true;
                         }
                     }
                 }
             }
         }
-        
-        for (int i = 0; i < 5; ++i)
-        {
-            for (int j = 0; j < 3; ++j)
-            {
-            	if (!(world.getBlock(x, y + 1 + i, z - 1 + j) == Blocks.air || world.getBlock(x, y + 1 + i, z - 1 + j) == TFBlocks.groundBridgeTeleporter) || !(world.getBlock(x, y + 2 + j, z - 2 + i) == Blocks.air || world.getBlock(x, y + 2 + j, z - 2 + i) == TFBlocks.groundBridgeTeleporter))
-                {
-                	flag = false;
-                }
-            }
-        }
 
-        return flag;
+        return false;
     }
 
     public static void fillNorthFacingFrame(World world, int x, int y, int z, Block block, TileEntityControlPanel tile, boolean returnPortal)
