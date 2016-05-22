@@ -38,6 +38,7 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
         TFRenderHelper.setLighting(61680);
         bindTexture(new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/transformium_seed_lights.png"));
         model.render(new EntityTransformiumSeed(seed.getWorldObj()));
+        TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }

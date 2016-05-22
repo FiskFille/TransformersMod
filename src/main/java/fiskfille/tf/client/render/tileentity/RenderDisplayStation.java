@@ -42,38 +42,40 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
             GL11.glDisable(GL11.GL_LIGHTING);
             TFRenderHelper.setLighting(61680);
             model.render();
+            TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);
 
             try
             {
                 EntityClientPlayerMP entity = tileentity.fakePlayer;
-
                 ItemStack head = tileentity.getStackInSlot(0);
                 ItemStack chest = tileentity.getStackInSlot(1);
                 ItemStack legs = tileentity.getStackInSlot(2);
                 ItemStack feet = tileentity.getStackInSlot(3);
-
-                entity.setCurrentItemOrArmor(4, head);
-                entity.setCurrentItemOrArmor(3, chest);
-                entity.setCurrentItemOrArmor(2, legs);
-                entity.setCurrentItemOrArmor(1, feet);
-                entity.capabilities.isFlying = true;
-                entity.rotationYawHead = 0;
-                entity.setInvisible(true);
-
-                Render render = RenderManager.instance.getEntityRenderObject(entity);
-
-                if (render != null)
+                
+                if (entity != null)
                 {
-                    GL11.glRotatef(180, 1, 0, 0);
-                    GL11.glTranslatef(0, 0.0625F * 3, 0);
-                    TFRenderHelper.setLighting(tileentity.getWorldObj().getLightBrightnessForSkyBlocks(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, 0));
-                    render.doRender(entity, 0, 0, 0, 0, 0.0625F);
+                	entity.setCurrentItemOrArmor(4, head);
+                    entity.setCurrentItemOrArmor(3, chest);
+                    entity.setCurrentItemOrArmor(2, legs);
+                    entity.setCurrentItemOrArmor(1, feet);
+                    entity.capabilities.isFlying = true;
+                    entity.rotationYawHead = 0;
+                    entity.setInvisible(true);
+
+                    Render render = RenderManager.instance.getEntityRenderObject(entity);
+
+                    if (render != null)
+                    {
+                        GL11.glRotatef(180, 1, 0, 0);
+                        GL11.glTranslatef(0, 0.0625F * 3, 0);
+                        render.doRender(entity, 0, 0, 0, 0, 0.0625F);
+                    }
                 }
             }
             catch (Exception e)
             {
-
+            	e.printStackTrace();
             }
         }
 

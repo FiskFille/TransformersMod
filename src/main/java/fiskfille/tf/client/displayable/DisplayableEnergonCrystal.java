@@ -39,6 +39,7 @@ public class DisplayableEnergonCrystal extends Displayable
 
         TFRenderHelper.setLighting(61680);
         model.render();
+        TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
     }

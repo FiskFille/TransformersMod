@@ -39,6 +39,7 @@ public class RenderAssemblyTable extends TileEntitySpecialRenderer
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         GL11.glPopMatrix();
         GL11.glDepthMask(true);
+        TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }

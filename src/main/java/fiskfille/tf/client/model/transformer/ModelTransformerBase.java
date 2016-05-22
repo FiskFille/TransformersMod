@@ -113,6 +113,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 	TFRenderHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
+                    TFRenderHelper.resetLighting();
                 }
             }
             else
@@ -124,6 +125,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 	TFRenderHelper.setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
+                    TFRenderHelper.resetLighting();
                 }
             }
         }

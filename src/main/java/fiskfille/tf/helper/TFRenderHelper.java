@@ -16,6 +16,27 @@ import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRenderHelper
 {
+	private static Minecraft mc = Minecraft.getMinecraft();
+	private static float lastBrightnessX;
+	private static float lastBrightnessY;
+	
+	public static void setLighting(int lighting)
+    {
+		storeLighting();
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (lighting % 65536) / 255.0F, (lighting / 65536) / 255.0F);
+    }
+	
+    public static void storeLighting()
+	{
+		lastBrightnessX = OpenGlHelper.lastBrightnessX;
+		lastBrightnessY = OpenGlHelper.lastBrightnessY;
+	}
+	
+	public static void resetLighting()
+	{
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
+	}
+    
     public static float[] hexToRGB(int hex)
     {
         float r = (float) ((hex & 0xFF0000) >> 16) / 255F;
@@ -55,11 +76,6 @@ public class TFRenderHelper
         return A << 24 | R << 16 | G << 8 | B;
     }
 
-    public static void setLighting(int lighting)
-    {
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (lighting % 65536) / 255.0F, (lighting / 65536) / 255.0F);
-    }
-
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
     {
         Minecraft mc = Minecraft.getMinecraft();
@@ -93,6 +109,7 @@ public class TFRenderHelper
                     setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
+                    TFRenderHelper.resetLighting();
                 }
             }
             else
@@ -104,6 +121,7 @@ public class TFRenderHelper
                     setLighting(61680);
                     mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                     model.render(0.0625F);
+                    TFRenderHelper.resetLighting();
                 }
             }
         }
