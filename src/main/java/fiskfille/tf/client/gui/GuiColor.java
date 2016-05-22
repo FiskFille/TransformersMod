@@ -1,12 +1,7 @@
 package fiskfille.tf.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.network.MessageColorArmor;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.helper.TFArmorDyeHelper;
+import java.awt.Color;
+
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,11 +13,20 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import java.awt.Color;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.common.network.MessageColorArmor;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.helper.TFArmorDyeHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiColor extends GuiScreen
@@ -258,11 +262,11 @@ public class GuiColor extends GuiScreen
         RenderHelper.enableStandardItemLighting();
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
-        GL11.glRotatef((float) ticks / 2, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((float) (ticks + ClientEventHandler.renderTick) / 2, 0.0F, 1.0F, 0.0F);
         RenderManager.instance.playerViewY = 180.0F;
-        GuiColorPresets.startGlScissor(width / 2 - 128, height / 6, 100, 150);
+        TFRenderHelper.startGlScissor(width / 2 - 128, height / 6, 100, 150);
         RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-        GuiColorPresets.endGlScissor();
+        TFRenderHelper.endGlScissor();
         GL11.glPopMatrix();
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);

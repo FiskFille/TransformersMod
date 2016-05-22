@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.Items;
@@ -14,6 +15,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
@@ -296,30 +299,63 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         drawProgressBar(42, 24, 176, 14, 24, 17, 48, 0);
         drawProgressBar(130, 25, 176, 31, 13, 12, 48, 0);
 
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiRecipe)
+        {
+        	GuiRecipe gui = (GuiRecipe)Minecraft.getMinecraft().currentScreen;
+        	CachedProcessorRecipe recipe1 = getProcessorRecipes(null).get(recipe);
+            int x = (gui.width - 176) / 2 + gui.getRecipePosition(recipe).x;
+            int y = (gui.height - 166) / 2 + gui.getRecipePosition(recipe).y;
+            
+            if (recipe1.liquidAmount > 0)
+            {
+            	GuiDraw.changeTexture(Minecraft.getMinecraft().getTextureMapBlocks().locationBlocksTexture);
+            	IIcon icon = GuiEnergonProcessor.energonIcon;
+            	float[] rgb = TFRenderHelper.hexToRGB(recipe1.liquidColor);
+            	float f = (float)recipe1.liquidAmount / 100;
 
-        CachedProcessorRecipe recipe1 = getProcessorRecipes(null).get(recipe);
+            	GL11.glPushMatrix();
+            	GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
+            	GL11.glTranslatef(74, 8, 0);
+            	GL11.glScalef(3.0F, 3.0F, 3.0F);
+            	TFRenderHelper.startGlScissor(74 + x, 8 + y + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
+            	GuiDraw.gui.drawTexturedModelRectFromIcon(0, 0, GuiEnergonProcessor.energonIcon, 16, 16);
+            	TFRenderHelper.endGlScissor();
+            	GL11.glColor4f(1, 1, 1, 1);
+            	GL11.glPopMatrix();
+            }
+        }
 
-        int t = cycleticks / 2;
-        t = t <= 0 ? 1 : t;
-        int textureX = (t % 16) / 5 * 26;
-        int textureY = (t % 4) * 26;
-
-        GuiDraw.changeTexture(TransformersMod.modid + ":textures/gui/container/energon_flow.png");
-        float[] rgb = TFRenderHelper.hexToRGB(recipe1.liquidColor);
-        int offsetY = (int) (recipe1.liquidAmount * 0.26F);
-        float scale = 2;
-
-        GL11.glPushMatrix();
-        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
-        GL11.glScalef(scale, scale, scale);
-        GuiDraw.drawTexturedModalRect((int) (72 / scale), (int) (17 / scale) + 21 - offsetY, textureX, textureY, 26, offsetY);
-        GL11.glColor4f(1, 1, 1, 1);
-        GL11.glPopMatrix();
-
+//        int t = cycleticks / 2;
+//        t = t <= 0 ? 1 : t;
+//        int textureX = (t % 16) / 5 * 26;
+//        int textureY = (t % 4) * 26;
+//
+//        GuiDraw.changeTexture(TransformersMod.modid + ":textures/gui/container/energon_flow.png");
+//        float[] rgb = TFRenderHelper.hexToRGB(recipe1.liquidColor);
+//        int offsetY = (int) (recipe1.liquidAmount * 0.26F);
+//        float scale = 2;
+//
+//        GL11.glPushMatrix();
+//        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
+//        GL11.glScalef(scale, scale, scale);
+//        GuiDraw.drawTexturedModalRect((int) (72 / scale), (int) (17 / scale) + 21 - offsetY, textureX, textureY, 26, offsetY);
+//        GL11.glColor4f(1, 1, 1, 1);
+//        GL11.glPopMatrix();
 
         GuiDraw.changeTexture(getGuiTexture());
-        GuiDraw.drawTexturedModalRect(72, 6, 204, 52, 52, 52);
+        GuiDraw.drawTexturedModalRect(72, 6, 204, 0, 52, 52);
     }
+    
+//    public void drawTexturedModelRectFromIcon(int x, int y, IIcon icon, int p_94065_4_, int p_94065_5_)
+//    {
+//        Tessellator tessellator = Tessellator.instance;
+//        tessellator.startDrawingQuads();
+//        tessellator.addVertexWithUV((double)(x + 0), (double)(y + p_94065_5_), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMaxV());
+//        tessellator.addVertexWithUV((double)(x + p_94065_4_), (double)(y + p_94065_5_), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMaxV());
+//        tessellator.addVertexWithUV((double)(x + p_94065_4_), (double)(y + 0), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMinV());
+//        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMinV());
+//        tessellator.draw();
+//    }
 
     @Override
     public void onPreDraw(GuiContainer gui)

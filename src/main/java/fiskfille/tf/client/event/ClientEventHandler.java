@@ -38,6 +38,7 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
@@ -55,6 +56,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.client.gui.GuiEnergonProcessor;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
@@ -154,6 +156,15 @@ public class ClientEventHandler
                 }
             }
         }
+    }
+    
+    @SubscribeEvent
+    public void onTextureStitch(TextureStitchEvent.Pre event)
+    {
+    	if (event.map.getTextureType() == 0)
+    	{
+    		GuiEnergonProcessor.energonIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
+    	}
     }
 
     @SubscribeEvent

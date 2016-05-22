@@ -2,13 +2,11 @@ package fiskfille.tf.client.gui;
 
 import java.awt.Color;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -23,6 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.helper.TFArmorDyeHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiColorPresets extends GuiScreen
@@ -320,9 +319,9 @@ public class GuiColorPresets extends GuiScreen
             GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
             GL11.glRotatef((float) ticks / 2, 0.0F, 1.0F, 0.0F);
             RenderManager.instance.playerViewY = 180.0F;
-            startGlScissor(width / 2 - 200, height / 6, 100, 150);
+            TFRenderHelper.startGlScissor(width / 2 - 200, height / 6, 100, 150);
             RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-            endGlScissor();
+            TFRenderHelper.endGlScissor();
             GL11.glPopMatrix();
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -350,36 +349,6 @@ public class GuiColorPresets extends GuiScreen
         tempLayerColors[1][0] = 0;
         tempLayerColors[1][1] = 0;
         tempLayerColors[1][2] = 0;
-    }
-
-    public static void startGlScissor(int x, int y, int width, int height)
-    {
-        Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution reso = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-
-        double scaleW = (double) mc.displayWidth / reso.getScaledWidth_double();
-        double scaleH = (double) mc.displayHeight / reso.getScaledHeight_double();
-
-        if (width <= 0 || height <= 0)
-        {
-            return;
-        }
-        if (x < 0)
-        {
-            x = 0;
-        }
-        if (y < 0)
-        {
-            y = 0;
-        }
-
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor((int) Math.floor((double) x * scaleW), (int) Math.floor((double) mc.displayHeight - ((double) (y + height) * scaleH)), (int) Math.floor((double) (x + width) * scaleW) - (int) Math.floor((double) x * scaleW), (int) Math.floor((double) mc.displayHeight - ((double) y * scaleH)) - (int) Math.floor((double) mc.displayHeight - ((double) (y + height) * scaleH)));
-    }
-
-    public static void endGlScissor()
-    {
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
 
     public static class ColorPreset extends Gui

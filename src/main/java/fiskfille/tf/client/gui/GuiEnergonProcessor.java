@@ -9,6 +9,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -29,6 +31,7 @@ public class GuiEnergonProcessor extends GuiContainer
 {
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/energon_processor.png");
     private static final ResourceLocation energonTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/energon_flow.png");
+    public static IIcon energonIcon;
     private TileEntityEnergonProcessor tileentity;
 
     public GuiEnergonProcessor(InventoryPlayer inventoryPlayer, TileEntityEnergonProcessor tile)
@@ -45,7 +48,6 @@ public class GuiEnergonProcessor extends GuiContainer
         String s = tileentity.hasCustomInventoryName() ? tileentity.getInventoryName() : I18n.format(tileentity.getInventoryName(), new Object[0]);
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
-
 
         float percentMultiplier = 100F / tileentity.liquidAmount;
         ArrayList text = Lists.newArrayList();
@@ -179,24 +181,24 @@ public class GuiEnergonProcessor extends GuiContainer
             drawTexturedModalRect(k + 25, l + 48 - i, 176, 12 - i, 14, i + 2);
         }
 
-        int t = mc.thePlayer.ticksExisted / 2;
-        t = t <= 0 ? 1 : t;
-        int textureX = (t % 16) / 5 * 26;
-        int textureY = (t % 4) * 26;
+        if (tileentity.liquidAmount > 0)
+        {
+        	mc.getTextureManager().bindTexture(mc.getTextureMapBlocks().locationBlocksTexture);
+        	float[] rgb = TFRenderHelper.hexToRGB(tileentity.liquidColor);
+        	float f = (float)tileentity.liquidAmount / 100;
 
-        mc.getTextureManager().bindTexture(energonTextures);
-        float[] rgb = TFRenderHelper.hexToRGB(tileentity.liquidColor);
-        int offsetY = (int) (tileentity.liquidAmount * 0.26F);
-        float scale = 2;
-
-        GL11.glPushMatrix();
-        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
-        GL11.glScalef(scale, scale, scale);
-        drawTexturedModalRect((int) ((k + 77) / scale), (int) ((l + 17) / scale) + 26 - offsetY, textureX, textureY, 26, offsetY);
-        GL11.glColor4f(1, 1, 1, 1);
-        GL11.glPopMatrix();
+        	GL11.glPushMatrix();
+        	GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
+        	GL11.glTranslatef(k + 79, l + 19, 0);
+        	GL11.glScalef(3.0F, 3.0F, 3.0F);
+        	TFRenderHelper.startGlScissor(k + 79, l + 19 + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
+        	drawTexturedModelRectFromIcon(0, 0, energonIcon, 16, 16);
+        	TFRenderHelper.endGlScissor();
+        	GL11.glColor4f(1, 1, 1, 1);
+        	GL11.glPopMatrix();
+        }
 
         mc.getTextureManager().bindTexture(guiTextures);
-        drawTexturedModalRect(k + 77, l + 17, 204, 52, 52, 52);
+        drawTexturedModalRect(k + 77, l + 17, 204, 0, 52, 52);
     }
 }
