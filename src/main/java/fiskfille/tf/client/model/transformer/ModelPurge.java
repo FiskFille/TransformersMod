@@ -1885,9 +1885,9 @@ public class ModelPurge extends ModelTransformerBase
         return headbase;
     }
 
-    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float yaw, float pitch, float scale, Entity entity)
     {
-        super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
+        super.setRotationAngles(limbSwing, limbSwingAmount, ticks, yaw, pitch, scale, entity);
 
         if (entity instanceof EntityPlayer)
         {
@@ -1920,7 +1920,7 @@ public class ModelPurge extends ModelTransformerBase
 
             if (wearingHead)
             {
-                faceTarget(headbase, 1, par4, par5);
+                faceTarget(headbase, 1, yaw, pitch);
 
                 if (!wearingChest)
                 {
@@ -1970,10 +1970,10 @@ public class ModelPurge extends ModelTransformerBase
                 upperArmL.rotateAngleY += 0.1F + headbase.rotateAngleY + 0.4F;
                 upperArmR.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
                 upperArmL.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
-                upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
-                upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
-                upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
-                upperArmL.rotateAngleX -= MathHelper.sin(par3 * 0.067F) * 0.05F;
+                upperArmR.rotateAngleZ += MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
+                upperArmL.rotateAngleZ -= MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
+                upperArmR.rotateAngleX += MathHelper.sin(ticks * 0.067F) * 0.05F;
+                upperArmL.rotateAngleX -= MathHelper.sin(ticks * 0.067F) * 0.05F;
             }
 
             if (wearingChest && wearingHead && wearingLegs)
@@ -1999,48 +1999,45 @@ public class ModelPurge extends ModelTransformerBase
                     MowzieModelRenderer armR = torsobaseR;
                     MowzieModelRenderer armL = torsobaseL;
 
-                    bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, par1, par2);
-                    waist.rotationPointY += 1.2 * par2;
-                    walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                    walk(torsobase, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * par2 * backwardInverter, par1, par2);
-                    swing(torsobase, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, par1, par2);
-                    swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, par1, par2);
-                    swing(headbase, 0.5F * globalSpeed, 0.2F * globalDegree, true, 0, 0, par1, par2);
-                    walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * par2 * backwardInverter, par1, par2);
+                    bob(waist, 1F * globalSpeed, 1.7F * globalDegree, false, limbSwing, limbSwingAmount);
+                    waist.rotationPointY += 1.2 * limbSwingAmount;
+                    walk(waist, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * limbSwingAmount * backwardInverter, limbSwing, limbSwingAmount);
+                    walk(torsobase, 1F * globalSpeed, 0.05F * globalDegree, false, 1, 0.15F * limbSwingAmount * backwardInverter, limbSwing, limbSwingAmount);
+                    swing(torsobase, 0.5F * globalSpeed, 0.4F * globalDegree, true, 0, 0, limbSwing, limbSwingAmount);
+                    swing(waist, 0.5F * globalSpeed, 0.2F * globalDegree, false, 0, 0, limbSwing, limbSwingAmount);
+                    swing(headbase, 0.5F * globalSpeed, 0.2F * globalDegree, true, 0, 0, limbSwing, limbSwingAmount);
+                    walk(headbase, 1F * globalSpeed, -0.1F * globalDegree, false, 1F, -0.3F * limbSwingAmount * backwardInverter, limbSwing, limbSwingAmount);
 
-                    swing(headbase, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, par1, par2);
-                    headbase.rotationPointX += 0.6 * globalDegree * par2 * Math.cos(par1 * 0.5F * globalSpeed);
+                    swing(headbase, 0.5F * globalSpeed, 0.4F * globalDegree, false, 0, 0, limbSwing, limbSwingAmount);
+                    headbase.rotationPointX += 0.6 * globalDegree * limbSwingAmount * Math.cos(limbSwing * 0.5F * globalSpeed);
 
-                    swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, par1, par2);
-                    swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, par1, par2);
-                    walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, par1, par2);
-                    walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, par1, par2);
-                    walk(lowerlegR1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, par1, par2);
-                    walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, par1, par2);
-                    walk(armR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                    walk(armL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * par2 * backwardInverter, par1, par2);
-                    walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * par2, par1, par2);
-                    walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * par2, par1, par2);
+                    swing(upperLegR, 0.5F * globalSpeed, 0F * globalDegree, false, 0, -0.15F, limbSwing, limbSwingAmount);
+                    swing(upperLegL, 0.5F * globalSpeed, 0F * globalDegree, false, 0, 0.15F, limbSwing, limbSwingAmount);
+                    walk(upperLegR, 0.5F * globalSpeed, 1.2F * globalDegree, false, 0, 0, limbSwing, limbSwingAmount);
+                    walk(upperLegL, 0.5F * globalSpeed, 1.2F * globalDegree, true, 0, 0, limbSwing, limbSwingAmount);
+                    walk(lowerlegR1, 0.5F * globalSpeed, 1.2F * globalDegree, false, -2.2F * backwardInverter, 0.6F, limbSwing, limbSwingAmount);
+                    walk(lowerlegL1, 0.5F * globalSpeed, 1.2F * globalDegree, true, -2.2F * backwardInverter, 0.6F, limbSwing, limbSwingAmount);
+                    walk(armR, 0.5F * globalSpeed, 0.5F * globalDegree, true, 0F, -0.3F * limbSwingAmount * backwardInverter, limbSwing, limbSwingAmount);
+                    walk(armL, 0.5F * globalSpeed, 0.5F * globalDegree, false, 0F, -0.3F * limbSwingAmount * backwardInverter, limbSwing, limbSwingAmount);
+                    walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * limbSwingAmount, limbSwing, limbSwingAmount);
+                    walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * limbSwingAmount, limbSwing, limbSwingAmount);
 
-                    flap(skirtR1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, par1, par2);
-                    flap(skirtL1, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, par1, par2);
-                    walk(barrelbase1, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
+                    flap(skirtR1, 1F * globalSpeed, 0.2F * globalDegree, false, -1, 0, limbSwing, limbSwingAmount);
+                    flap(skirtL1, 1F * globalSpeed, 0.2F * globalDegree, true, -1, 0, limbSwing, limbSwingAmount);
+                    walk(barrelbase1, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, limbSwing, limbSwingAmount);
 
+                    walk(torsoconnector, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
+                    walk(torsobase, 0.08F, 0.15F, false, 1, 0, ticks, 1F);
+                    flap(trackconnectorR3, 0.08F, 0.1F, false, 1, 0, ticks, 1F);
+                    flap(trackconnectorL3, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
+                    walk(headbase, 0.08F, 0.05F, true, 1, 0, ticks, 1F);
+                    walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticks, 1F);
+                    walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticks, 1F);
 
-                    int ticksExisted = entity.ticksExisted;
-
-                    walk(torsoconnector, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(torsobase, 0.08F, 0.15F, false, 1, 0, ticksExisted, 1F);
-                    flap(trackconnectorR3, 0.08F, 0.1F, false, 1, 0, ticksExisted, 1F);
-                    flap(trackconnectorL3, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(headbase, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                    walk(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                    walk(upperArmL, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-
-                    flap(upperArmR, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                    flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
-                    walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    flap(upperArmR, 0.08F, 0.05F, true, 1, 0, ticks, 1F);
+                    flap(upperArmL, 0.08F, 0.05F, false, 1, 0, ticks, 1F);
+                    walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
+                    walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
 
                     if (player.isSneaking())
                     {
@@ -2071,7 +2068,7 @@ public class ModelPurge extends ModelTransformerBase
                     float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
                     float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));
 
-                    waist.rotateAngleX += 0.2 * par2 * backwardInverter;
+                    waist.rotateAngleX += 0.2 * limbSwingAmount * backwardInverter;
 
                     stomach1.rotateAngleX += 0.2 * upwardPose;
                     chestplate1.rotateAngleX -= 0.4 * upwardPose;
@@ -2089,10 +2086,10 @@ public class ModelPurge extends ModelTransformerBase
                     lowerlegR1.rotateAngleX += 0.3 * upwardPose;
                     lowerlegL1.rotateAngleX += 1.5 * upwardPose;
 
-                    walk(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, par1, par2);
-                    walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, par1, par2);
-                    walk(lowerlegR1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, par1, par2);
-                    walk(lowerlegL1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, par1, par2);
+                    walk(upperLegR, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, 0, 0, limbSwing, limbSwingAmount);
+                    walk(upperLegL, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, 0, 0, limbSwing, limbSwingAmount);
+                    walk(lowerlegR1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, false, -2.2F * backwardInverter, 0F, limbSwing, limbSwingAmount);
+                    walk(lowerlegL1, 0.5F * globalSpeed, 0.2F * globalDegree * downwardPose, true, -2.2F * backwardInverter, 0F, limbSwing, limbSwingAmount);
 
                     waist.rotateAngleX -= 0.2 * downwardPose;
                     stomach1.rotateAngleX += 0.3 * downwardPose;
@@ -2110,14 +2107,14 @@ public class ModelPurge extends ModelTransformerBase
             }
             else
             {
-                upperArmL.rotateAngleX += MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 / 2;
-                upperArmR.rotateAngleX += MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2 / 2;
+                upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
+                upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
 
-                lowerArmL.rotateAngleX += MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 / 4;
-                lowerArmR.rotateAngleX += MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2 / 4;
+                lowerArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 4;
+                lowerArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 4;
 
-                upperLegR.rotateAngleX += MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 / 2;
-                upperLegL.rotateAngleX += MathHelper.cos(par1 * 0.6662F + (float) Math.PI) * 1.4F * par2 / 2;
+                upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
+                upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
 
                 if (isSneak)
                 {
@@ -2262,19 +2259,19 @@ public class ModelPurge extends ModelTransformerBase
 
             headbase.rotationPointY += f * 0.15F;
             headbase.rotationPointZ += f * 0.3F;
-            vehicleturretbase_rotatehere.rotateAngleZ = -(par4 + 180) / (180f / (float) Math.PI);
+            vehicleturretbase_rotatehere.rotateAngleZ = -(yaw + 180) / (180f / (float) Math.PI);
 
-            if (par5 > 0)
+            if (pitch > 0)
             {
-                par5 = 0;
+                pitch = 0;
             }
 
-            if (par5 < -60)
+            if (pitch < -60)
             {
-                par5 = -60;
+                pitch = -60;
             }
 
-            vehiclebarrelbase1_rotatehere.rotateAngleX = -par5 / (180f / (float) Math.PI);
+            vehiclebarrelbase1_rotatehere.rotateAngleX = -pitch / (180f / (float) Math.PI);
 
             ItemStack heldItem = player.getHeldItem();
 

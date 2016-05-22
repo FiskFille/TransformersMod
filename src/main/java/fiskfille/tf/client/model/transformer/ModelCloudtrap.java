@@ -1851,9 +1851,9 @@ public class ModelCloudtrap extends ModelTransformerBase
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float rotation, float rotationYaw, float rotationPitch, float partialTicks, Entity entity)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
     {
-        super.setRotationAngles(limbSwing, limbSwingAmount, rotation, rotationYaw, rotationPitch, partialTicks, entity);
+        super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
 
         if (entity instanceof EntityPlayer)
         {
@@ -1961,10 +1961,10 @@ public class ModelCloudtrap extends ModelTransformerBase
                 upperArmL.rotateAngleY += 0.1F + head.rotateAngleY + 0.4F;
                 upperArmR.rotateAngleX += -((float) Math.PI / 2F) + head.rotateAngleX;
                 upperArmL.rotateAngleX += -((float) Math.PI / 2F) + head.rotateAngleX;
-                upperArmR.rotateAngleZ += MathHelper.cos(rotation * 0.09F) * 0.05F + 0.05F;
-                upperArmL.rotateAngleZ -= MathHelper.cos(rotation * 0.09F) * 0.05F + 0.05F;
-                upperArmR.rotateAngleX += MathHelper.sin(rotation * 0.067F) * 0.05F;
-                upperArmL.rotateAngleX -= MathHelper.sin(rotation * 0.067F) * 0.05F;
+                upperArmR.rotateAngleZ += MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
+                upperArmL.rotateAngleZ -= MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
+                upperArmR.rotateAngleX += MathHelper.sin(ticks * 0.067F) * 0.05F;
+                upperArmL.rotateAngleX -= MathHelper.sin(ticks * 0.067F) * 0.05F;
 
                 upperArmR.rotateAngleX += 0.25F;
                 upperArmL.rotateAngleX += 0.25F;
@@ -2005,28 +2005,25 @@ public class ModelCloudtrap extends ModelTransformerBase
                     walk(lowerArmL, 0.5F * globalSpeed, 0.5F * globalDegree, true, -1F * backwardInverter, -0.5F * limbSwingAmount, limbSwing, limbSwingAmount);
                     walk(lowerArmR, 0.5F * globalSpeed, 0.5F * globalDegree, false, -1F * backwardInverter, -0.5F * limbSwingAmount, limbSwing, limbSwingAmount);
 
-                    //Idle animation
-                    int ticksExisted = entity.ticksExisted;
+                    walk(torsoConnector, 0.08F, 0.05F, true, 1, 0, ticks, 1F);
+                    walk(upperBodyBase, 0.08F, 0.05F, false, 1, 0, ticks, 1F);
+                    walk(head, 0.08F, 0.04F, true, 1, 0, ticks, 1F);
+                    walk(upperArmR, 0.08F, 0.04F, true, 1, 0, ticks, 1F);
+                    walk(upperArmL, 0.08F, 0.04F, true, 1, 0, ticks, 1F);
 
-                    walk(torsoConnector, 0.08F, 0.05F, true, 1, 0, ticksExisted, 1F);
-                    walk(upperBodyBase, 0.08F, 0.05F, false, 1, 0, ticksExisted, 1F);
-                    walk(head, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                    walk(upperArmR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                    walk(upperArmL, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
+                    flap(upperArmR, 0.08F, 0.04F, true, 1, 0, ticks, 1F);
+                    flap(upperArmL, 0.08F, 0.04F, false, 1, 0, ticks, 1F);
+                    walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
+                    walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
 
-                    flap(upperArmR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                    flap(upperArmL, 0.08F, 0.04F, false, 1, 0, ticksExisted, 1F);
-                    walk(lowerArmR, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(lowerArmL, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    flap(wingbaseR, 0.08F, 0.04F, true, 1, 0, ticks, 1F);
+                    flap(wingbaseL, 0.08F, 0.04F, false, 1, 0, ticks, 1F);
 
-                    flap(wingbaseR, 0.08F, 0.04F, true, 1, 0, ticksExisted, 1F);
-                    flap(wingbaseL, 0.08F, 0.04F, false, 1, 0, ticksExisted, 1F);
+                    walk(wingstrutR1, 0.08F, 0.08F, true, 2.5F, 0, ticks, 1F);
+                    walk(wingstrutL1, 0.08F, 0.08F, true, 2.5F, 0, ticks, 1F);
 
-                    walk(wingstrutR1, 0.08F, 0.08F, true, 2.5F, 0, ticksExisted, 1F);
-                    walk(wingstrutL1, 0.08F, 0.08F, true, 2.5F, 0, ticksExisted, 1F);
-
-                    walk(wingstrutR3, 0.08F, 0.08F, false, 2.5F, 0, ticksExisted, 1F);
-                    walk(wingstrutL3, 0.08F, 0.08F, false, 2.5F, 0, ticksExisted, 1F);
+                    walk(wingstrutR3, 0.08F, 0.08F, false, 2.5F, 0, ticks, 1F);
+                    walk(wingstrutL3, 0.08F, 0.08F, false, 2.5F, 0, ticks, 1F);
 
                     if (entity.isSneaking())
                     {

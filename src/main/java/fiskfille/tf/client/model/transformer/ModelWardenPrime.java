@@ -2858,9 +2858,9 @@ public class ModelWardenPrime extends ModelTransformerBase
         model.rotateAngleZ = z;
     }
 
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float rotation, float rotationYaw, float rotationPitch, float partialTicks, Entity entity)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
     {
-        super.setRotationAngles(limbSwing, limbSwingAmount, rotation, rotationYaw, rotationPitch, partialTicks, entity);
+        super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
 
         if (entity instanceof EntityPlayer)
         {
@@ -2898,12 +2898,6 @@ public class ModelWardenPrime extends ModelTransformerBase
                 if (!wearingChest)
                 {
                     headbase.rotationPointY += 0.5F;
-//                    headbase.rotationPointZ -= 0.5;
-
-                    if (transformerChest instanceof TransformerWarden)
-                    {
-                        headbase.rotationPointY -= 1.5;
-                    }
                 }
             }
 
@@ -2948,10 +2942,10 @@ public class ModelWardenPrime extends ModelTransformerBase
                 upperarmL1.rotateAngleY += 0.1F + headbase.rotateAngleY + 0.4F;
                 upperarmR1.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
                 upperarmL1.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
-                upperarmR1.rotateAngleZ += MathHelper.cos(rotation * 0.09F) * 0.05F + 0.05F;
-                upperarmL1.rotateAngleZ -= MathHelper.cos(rotation * 0.09F) * 0.05F + 0.05F;
-                upperarmR1.rotateAngleX += MathHelper.sin(rotation * 0.067F) * 0.05F;
-                upperarmL1.rotateAngleX -= MathHelper.sin(rotation * 0.067F) * 0.05F;
+                upperarmR1.rotateAngleZ += MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
+                upperarmL1.rotateAngleZ -= MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
+                upperarmR1.rotateAngleX += MathHelper.sin(ticks * 0.067F) * 0.05F;
+                upperarmL1.rotateAngleX -= MathHelper.sin(ticks * 0.067F) * 0.05F;
             }
 
             if (wearingChest && wearingHead && wearingLegs)
@@ -3003,18 +2997,16 @@ public class ModelWardenPrime extends ModelTransformerBase
 //                    walk(barrelbase1, 1F * globalSpeed, -0.3F * globalDegree, false, -1, 0, par1, par2);
 
 
-                    int ticksExisted = entity.ticksExisted;
+                    walk(torsoconnectorbase, 0.08F, 0.1F / 2, true, 1, 0, ticks, 1F);
+                    walk(torsobase, 0.08F, 0.15F / 2, false, 1, 0, ticks, 1F);
+                    walk(headbase, 0.08F, 0.05F / 2, true, 1, 0, ticks, 1F);
+                    walk(upperarmR1, 0.08F, 0.05F / 2, true, 1, 0, ticks, 1F);
+                    walk(upperarmL1, 0.08F, 0.05F / 2, true, 1, 0, ticks, 1F);
 
-                    walk(torsoconnectorbase, 0.08F, 0.1F / 2, true, 1, 0, ticksExisted, 1F);
-                    walk(torsobase, 0.08F, 0.15F / 2, false, 1, 0, ticksExisted, 1F);
-                    walk(headbase, 0.08F, 0.05F / 2, true, 1, 0, ticksExisted, 1F);
-                    walk(upperarmR1, 0.08F, 0.05F / 2, true, 1, 0, ticksExisted, 1F);
-                    walk(upperarmL1, 0.08F, 0.05F / 2, true, 1, 0, ticksExisted, 1F);
-
-                    flap(upperarmR1, 0.08F, 0.05F / 2, true, 1, 0, ticksExisted, 1F);
-                    flap(upperarmL1, 0.08F, 0.05F / 2, false, 1, 0, ticksExisted, 1F);
-                    walk(lowerarmR1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
-                    walk(lowerarmL1, 0.08F, 0.1F, true, 1, 0, ticksExisted, 1F);
+                    flap(upperarmR1, 0.08F, 0.05F / 2, true, 1, 0, ticks, 1F);
+                    flap(upperarmL1, 0.08F, 0.05F / 2, false, 1, 0, ticks, 1F);
+                    walk(lowerarmR1, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
+                    walk(lowerarmL1, 0.08F, 0.1F, true, 1, 0, ticks, 1F);
 
                     if (player.isSneaking())
                     {

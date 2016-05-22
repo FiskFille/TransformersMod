@@ -37,7 +37,7 @@ public class CustomEntityRenderer extends EntityRenderer
     public static float getOffsetY(EntityPlayer player)
     {
     	Transformer transformer = TFHelper.getTransformer(player);
-        return getCameraOffset(player, transformer) + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 20;
+        return getCameraOffset(player, transformer) + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 20.0F;
     }
     
     public static float getCameraOffset(EntityPlayer player, Transformer transformer)

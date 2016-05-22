@@ -141,7 +141,7 @@ public abstract class Transformer
 
     public float getThirdPersonDistance(EntityPlayer player, int altMode)
     {
-        return 2.0F + (float)TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10;
+        return 2.0F + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10.0F;
     }
 
     /**
