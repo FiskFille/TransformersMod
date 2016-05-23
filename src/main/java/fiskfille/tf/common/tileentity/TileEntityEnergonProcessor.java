@@ -16,6 +16,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -175,6 +176,11 @@ public class TileEntityEnergonProcessor extends TileEntity implements ISidedInve
             }
         }
     }
+    
+    public AxisAlignedBB getRenderBoundingBox()
+	{
+		return super.getRenderBoundingBox().copy().expand(0, 0.5D, 0);
+	}
 
     private void notifyNeighborBlocksOfChange()
     {

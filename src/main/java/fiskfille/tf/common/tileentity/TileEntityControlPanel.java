@@ -15,6 +15,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -24,14 +25,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.google.common.collect.Lists;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.render.tileentity.RenderControlPanel;
+import fiskfille.tf.client.render.tileentity.RenderGroundBridgeTeleporter;
 import fiskfille.tf.common.block.BlockCoordinates;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.energon.IEnergonPowered;
 import fiskfille.tf.common.groundbridge.EnumError;
 
-public class TileEntityControlPanel extends TileEntity
+public class TileEntityControlPanel extends TileEntity implements IEnergonPowered
 {
 	public int destX;
 	public int destY;
@@ -142,7 +146,7 @@ public class TileEntityControlPanel extends TileEntity
 //				errors.add(EnumError.INVALID_COORDS);
 			}
 			
-			if (destY - 2 <= 0 || destY + 2 >= 256)
+			if (destY - 2 <= 0 || destY + 2 >= worldObj.getHeight())
 			{
 				errors.add(EnumError.OUT_OF_BOUNDS);
 			}
@@ -320,7 +324,7 @@ public class TileEntityControlPanel extends TileEntity
 
 	public AxisAlignedBB getRenderBoundingBox()
 	{
-		return INFINITE_EXTENT_AABB;
+		return super.getRenderBoundingBox().copy().addCoord(0, 0.5D, 0);
 	}
 
 	public void changeSwitch(int group, int id, int amount)
@@ -463,5 +467,23 @@ public class TileEntityControlPanel extends TileEntity
 		
 		ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
 		ForgeChunkManager.forceChunk(ticket, loadChunk);
+	}
+
+	@Override
+	public boolean canBePowered()
+	{
+		return !BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata());
+	}
+
+	@Override
+	public Vec3 getPowerInputOffset()
+	{
+		Vec3 vec3 = Vec3.createVectorHelper(-0.055F, 0.175F, -0.5F);
+        float pitch = 0;
+        float yaw = getBlockMetadata() * 90 + 180;
+        vec3.rotateAroundX(-pitch * (float)Math.PI / 180.0F);
+        vec3.rotateAroundY(-yaw * (float)Math.PI / 180.0F);
+        
+		return vec3;
 	}
 }

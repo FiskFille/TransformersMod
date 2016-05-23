@@ -1,20 +1,21 @@
 package fiskfille.tf.common.container;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 
 public class ContainerEnergonProcessor extends ContainerBasic
 {
-    public static final int FUEL = 0, INPUT = 1, OUTPUT_1 = 2;
+    public static final int FUEL = 0, INPUT = 1, OUTPUT = 2;
 
     private TileEntityEnergonProcessor tileentity;
     private int lastBurnTime;
@@ -26,13 +27,13 @@ public class ContainerEnergonProcessor extends ContainerBasic
 
     public ContainerEnergonProcessor(InventoryPlayer inventoryPlayer, TileEntityEnergonProcessor tile)
     {
-        this.tileentity = tile;
+        tileentity = tile;
         int i;
         int j;
 
-        this.addSlotToContainer(new Slot(tile, 0, 24, 53));
-        this.addSlotToContainer(new Slot(tile, 1, 24, 17));
-        this.addSlotToContainer(new Slot(tile, 2, 138, 53)
+        addSlotToContainer(new Slot(tile, 0, 24, 53));
+        addSlotToContainer(new Slot(tile, 1, 24, 17));
+        addSlotToContainer(new Slot(tile, 2, 138, 53)
         {
             public int getSlotStackLimit()
             {
@@ -40,7 +41,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
             }
         });
 
-        this.addPlayerInventory(inventoryPlayer, 0);
+        addPlayerInventory(inventoryPlayer, 0);
     }
 
     public boolean canInteractWith(EntityPlayer player)
@@ -51,59 +52,59 @@ public class ContainerEnergonProcessor extends ContainerBasic
     public void addCraftingToCrafters(ICrafting icrafting)
     {
         super.addCraftingToCrafters(icrafting);
-        icrafting.sendProgressBarUpdate(this, 0, this.tileentity.burnTime);
-        icrafting.sendProgressBarUpdate(this, 1, this.tileentity.powerTime);
-        icrafting.sendProgressBarUpdate(this, 2, this.tileentity.liquidAmount);
-        icrafting.sendProgressBarUpdate(this, 3, this.tileentity.liquidColor);
-        icrafting.sendProgressBarUpdate(this, 4, this.tileentity.fillTime);
-        icrafting.sendProgressBarUpdate(this, 5, this.tileentity.currentMaxPowerTime);
+        icrafting.sendProgressBarUpdate(this, 0, tileentity.burnTime);
+        icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
+        icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidAmount);
+        icrafting.sendProgressBarUpdate(this, 3, tileentity.liquidColor);
+        icrafting.sendProgressBarUpdate(this, 4, tileentity.fillTime);
+        icrafting.sendProgressBarUpdate(this, 5, tileentity.currentMaxPowerTime);
     }
 
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
+        for (int i = 0; i < crafters.size(); ++i)
         {
-            ICrafting icrafting = (ICrafting) this.crafters.get(i);
+            ICrafting icrafting = (ICrafting) crafters.get(i);
 
-            if (this.lastBurnTime != this.tileentity.burnTime)
+            if (lastBurnTime != tileentity.burnTime)
             {
-                icrafting.sendProgressBarUpdate(this, 0, this.tileentity.burnTime);
+                icrafting.sendProgressBarUpdate(this, 0, tileentity.burnTime);
             }
 
-            if (this.lastPowerTime != this.tileentity.powerTime)
+            if (lastPowerTime != tileentity.powerTime)
             {
-                icrafting.sendProgressBarUpdate(this, 1, this.tileentity.powerTime);
+                icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
             }
 
-            if (this.lastLiquidAmount != this.tileentity.liquidAmount)
+            if (lastLiquidAmount != tileentity.liquidAmount)
             {
-                icrafting.sendProgressBarUpdate(this, 2, this.tileentity.liquidAmount);
+                icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidAmount);
             }
 
-            if (this.lastLiquidColor != this.tileentity.liquidColor)
+            if (lastLiquidColor != tileentity.liquidColor)
             {
-                icrafting.sendProgressBarUpdate(this, 3, this.tileentity.liquidColor);
+                icrafting.sendProgressBarUpdate(this, 3, tileentity.liquidColor);
             }
 
-            if (this.lastFillTime != this.tileentity.fillTime)
+            if (lastFillTime != tileentity.fillTime)
             {
-                icrafting.sendProgressBarUpdate(this, 4, this.tileentity.fillTime);
+                icrafting.sendProgressBarUpdate(this, 4, tileentity.fillTime);
             }
 
-            if (this.lastCurrentMaxPowerTime != this.tileentity.currentMaxPowerTime)
+            if (lastCurrentMaxPowerTime != tileentity.currentMaxPowerTime)
             {
-                icrafting.sendProgressBarUpdate(this, 5, this.tileentity.currentMaxPowerTime);
+                icrafting.sendProgressBarUpdate(this, 5, tileentity.currentMaxPowerTime);
             }
         }
 
-        this.lastBurnTime = this.tileentity.burnTime;
-        this.lastPowerTime = this.tileentity.powerTime;
-        this.lastLiquidAmount = this.tileentity.liquidAmount;
-        this.lastLiquidColor = this.tileentity.liquidColor;
-        this.lastFillTime = this.tileentity.fillTime;
-        this.lastCurrentMaxPowerTime = this.tileentity.currentMaxPowerTime;
+        lastBurnTime = tileentity.burnTime;
+        lastPowerTime = tileentity.powerTime;
+        lastLiquidAmount = tileentity.liquidAmount;
+        lastLiquidColor = tileentity.liquidColor;
+        lastFillTime = tileentity.fillTime;
+        lastCurrentMaxPowerTime = tileentity.currentMaxPowerTime;
     }
 
     @SideOnly(Side.CLIENT)
@@ -111,39 +112,39 @@ public class ContainerEnergonProcessor extends ContainerBasic
     {
         if (par1 == 0)
         {
-            this.tileentity.burnTime = par2;
+            tileentity.burnTime = par2;
         }
 
         if (par1 == 1)
         {
-            this.tileentity.powerTime = par2;
+            tileentity.powerTime = par2;
         }
 
         if (par1 == 2)
         {
-            this.tileentity.liquidAmount = par2;
+            tileentity.liquidAmount = par2;
         }
 
         if (par1 == 3)
         {
-            this.tileentity.liquidColor = par2;
+            tileentity.liquidColor = par2;
         }
 
         if (par1 == 4)
         {
-            this.tileentity.fillTime = par2;
+            tileentity.fillTime = par2;
         }
 
         if (par1 == 5)
         {
-            this.tileentity.currentMaxPowerTime = par2;
+            tileentity.currentMaxPowerTime = par2;
         }
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot) this.inventorySlots.get(par2);
+        Slot slot = (Slot) inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack())
         {
@@ -151,11 +152,11 @@ public class ContainerEnergonProcessor extends ContainerBasic
             itemstack = itemstack1.copy();
 
             // If itemstack is in Output stack
-            if (par2 == OUTPUT_1)
+            if (slotId == OUTPUT)
             {
                 // try to place in player inventory / action bar; add 36 + 1 because mergeItemStack uses < index,
                 // so the last slot in the inventory won't get checked if you don't add 1
-                if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 36 + 1, true))
+                if (!mergeItemStack(itemstack1, OUTPUT + 1, OUTPUT + 36 + 1, true))
                 {
                     return null;
                 }
@@ -163,42 +164,49 @@ public class ContainerEnergonProcessor extends ContainerBasic
                 slot.onSlotChange(itemstack1, itemstack);
             }
             // itemstack is in player inventory, try to place in appropriate furnace slot
-            else if (par2 != FUEL && par2 != INPUT)
+            else if (slotId > OUTPUT)
             {
                 // if it can be smelted, place in the input slots
                 if (itemstack1.getItem() instanceof IEnergon || Block.getBlockFromItem(itemstack1.getItem()) instanceof IEnergon)
                 {
                     // try to place in either Input slot; add 1 to final input slot because mergeItemStack uses < index
-                    if (!this.mergeItemStack(itemstack1, INPUT, INPUT + 1, false))
+                    if (!mergeItemStack(itemstack1, INPUT, INPUT + 1, false))
                     {
                         return null;
                     }
                 }
                 // if it's an energy source, place in Fuel slot
+                else if (itemstack1.getItem() == TFItems.emptyFuelCanister)
+                {
+                    if (!mergeItemStack(itemstack1, OUTPUT, OUTPUT + 1, false))
+                    {
+                        return null;
+                    }
+                }
                 else if (PowerManager.isPowerSource(itemstack1))
                 {
-                    if (!this.mergeItemStack(itemstack1, FUEL, FUEL + 1, false))
+                    if (!mergeItemStack(itemstack1, FUEL, FUEL + 1, false))
                     {
                         return null;
                     }
                 }
                 // item in player's inventory, but not in action bar
-                else if (par2 >= OUTPUT_1 + 1 && par2 < OUTPUT_1 + 28)
+                else if (slotId >= OUTPUT + 1 && slotId < OUTPUT + 28)
                 {
                     // place in action bar
-                    if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 28, OUTPUT_1 + 37, false))
+                    if (!mergeItemStack(itemstack1, OUTPUT + 28, OUTPUT + 37, false))
                     {
                         return null;
                     }
                 }
                 // item in action bar - place in player inventory
-                else if (par2 >= OUTPUT_1 + 28 && par2 < OUTPUT_1 + 37 && !this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 28, false))
+                else if (slotId >= OUTPUT + 28 && slotId < OUTPUT + 37 && !mergeItemStack(itemstack1, OUTPUT + 1, OUTPUT + 28, false))
                 {
                     return null;
                 }
             }
             // In one of the infuser slots; try to place in player inventory / action bar
-            else if (!this.mergeItemStack(itemstack1, OUTPUT_1 + 1, OUTPUT_1 + 37, false))
+            else if (!mergeItemStack(itemstack1, OUTPUT + 1, OUTPUT + 37, false))
             {
                 return null;
             }
@@ -219,6 +227,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
 
             slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
         }
+        
         return itemstack;
     }
 }

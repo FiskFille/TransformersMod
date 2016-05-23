@@ -2,7 +2,6 @@ package fiskfille.tf.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.DefaultEnergon;
 import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.ItemGroundBridgeControl;
@@ -15,6 +14,7 @@ import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeFrame;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
+import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class TFBlocks
 {
@@ -26,9 +26,10 @@ public class TFBlocks
     public static Block transformiumStone;
     public static Block transformiumSeed;
     public static Block transformiumBlock;
-    public static BlockCosmicRust cosmicRust;
+    public static Block cosmicRust;
     public static Block displayStation;
     public static Block energonProcessor;
+    public static Block transmitter;
     public static Block groundBridgeFrame;
     public static Block groundBridgeTeleporter;
     public static Block assemblyTable;
@@ -47,28 +48,29 @@ public class TFBlocks
         cosmicRust = new BlockCosmicRust();
         displayStation = new BlockDisplayStation();
         energonProcessor = new BlockEnergonProcessor();
+        transmitter = new BlockTransmitter();
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         groundBridgeControlPanel = new BlockGroundBridgeControl();
         assemblyTable = new BlockAssemblyTable();
 
 
-        String modId = TransformersMod.modid;
-        TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore", modId);
-        TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class, modId);
-        TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class, modId);
-        TFBlockRegistry.registerTileEntity(redEnergonCrystal, "Red Energon Crystal", TileEntityCrystal.class, modId);
-        TFBlockRegistry.registerBlock(energonCube, "Energon Cube", modId);
-        TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone", modId);
-        TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class, modId);
-        TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium", modId);
-        TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust", modId);
-        TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class, modId);
-        TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class, modId);
-        TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class, modId);
-        TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class, modId);
-        TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class, modId);
-        TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table", modId);
+        TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore");
+        TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class);
+        TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class);
+        TFBlockRegistry.registerTileEntity(redEnergonCrystal, "Red Energon Crystal", TileEntityCrystal.class);
+        TFBlockRegistry.registerBlock(energonCube, "Energon Cube");
+        TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone");
+        TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class);
+        TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium");
+        TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust");
+        TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class);
+        TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class);
+        TFBlockRegistry.registerTileEntity(transmitter, "Energon Transmitter", TileEntityTransmitter.class);
+        TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class);
+        TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);
+        TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);
+        TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table");
 
         groundBridgeTeleporter.setCreativeTab(null);
     }

@@ -45,7 +45,6 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             TFRenderHelper.setLighting(61680);
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel_lights.png"));
             model.render(tile, partialTicks);
-            TFRenderHelper.resetLighting();
             model.table1.postRender(0.0625F);
             model.table2.postRender(0.0625F);
 
@@ -103,6 +102,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             GL11.glPopMatrix();
             
             GL11.glDisable(GL11.GL_BLEND);
+            TFRenderHelper.resetLighting();
         }
 
         GL11.glPopMatrix();
