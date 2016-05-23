@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
+import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -968,7 +969,7 @@ public class ModelSubwoofer extends ModelTransformerBase
                 }
                 else
                 {
-                    double motionY = entity.posY - entity.prevPosY;
+                    double motionY = TFRenderHelper.getMotionY(player);
 
                     float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
                     float downwardPose = (float) (1 / (1 + Math.exp(10 * (motionY + 0.2))));

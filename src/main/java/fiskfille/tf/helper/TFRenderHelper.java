@@ -1,9 +1,11 @@
 package fiskfille.tf.helper;
 
+import fiskfille.tf.client.event.ClientEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -14,11 +16,15 @@ import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
 public class TFRenderHelper
 {
 	private static Minecraft mc = Minecraft.getMinecraft();
 	private static float lastBrightnessX;
 	private static float lastBrightnessY;
+    private static final Map<EntityPlayer, Double> previousMotionY = new WeakHashMap<EntityPlayer, Double>();
 	
 	public static void setLighting(int lighting)
     {
@@ -131,6 +137,11 @@ public class TFRenderHelper
 	{
         return prev + (curr - prev) * partialTicks;
 	}
+
+    public static double median(double curr, double prev, float partialTicks)
+    {
+        return prev + (curr - prev) * partialTicks;
+    }
     
     public static void startGlScissor(int x, int y, int width, int height)
     {
@@ -160,5 +171,13 @@ public class TFRenderHelper
     public static void endGlScissor()
     {
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
+    }
+
+    public static double getMotionY(EntityPlayer player) {
+        return player == mc.thePlayer ? player.motionY : median(player.posY - player.prevPosY, TFRenderHelper.previousMotionY.containsKey(player) ? TFRenderHelper.previousMotionY.get(player) : 0.0, ClientEventHandler.renderTick);
+    }
+
+    public static void updateMotionY(EntityPlayer player) {
+        TFRenderHelper.previousMotionY.put(player, player.posY - player.prevPosY);
     }
 }
