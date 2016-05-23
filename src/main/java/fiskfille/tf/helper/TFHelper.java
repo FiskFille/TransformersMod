@@ -1,19 +1,11 @@
 package fiskfille.tf.helper;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
@@ -137,5 +129,16 @@ public class TFHelper
 		{
 			world.setBlock(x, y, z, replacement);
 		}
+	}
+	
+	public static AxisAlignedBB wrapAroundAABB(AxisAlignedBB aabb, AxisAlignedBB aabb1)
+	{
+		double d0 = Math.min(aabb.minX, aabb1.minX);
+        double d1 = Math.min(aabb.minY, aabb1.minY);
+        double d2 = Math.min(aabb.minZ, aabb1.minZ);
+        double d3 = Math.max(aabb.maxX, aabb1.maxX);
+        double d4 = Math.max(aabb.maxY, aabb1.maxY);
+        double d5 = Math.max(aabb.maxZ, aabb1.maxZ);
+        return AxisAlignedBB.getBoundingBox(d0, d1, d2, d3, d4, d5);
 	}
 }

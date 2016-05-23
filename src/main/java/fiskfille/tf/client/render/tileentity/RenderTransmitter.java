@@ -104,6 +104,18 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 				}
 				
 				GL11.glLineWidth(prevWidth);
+				
+				/**
+				 * Debugging tool that outlines the render frustum for this
+				 * block.
+				 */
+//				float f4 = 0.002F;
+//				GL11.glDisable(GL11.GL_TEXTURE_2D);
+//				AxisAlignedBB aabb = tileentity.getRenderBoundingBox().expand(f4, f4, f4).getOffsetBoundingBox(-tileentity.xCoord, -tileentity.yCoord, -tileentity.zCoord);
+//				RenderGlobal.drawOutlinedBoundingBox(aabb, 0xffffff);
+//				GL11.glEnable(GL11.GL_TEXTURE_2D);
+//				GL11.glColor4f(1, 1, 1, 1);
+				
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				GL11.glDisable(GL11.GL_BLEND);
 				GL11.glPopMatrix();

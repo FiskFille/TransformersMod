@@ -10,6 +10,7 @@ import net.minecraft.util.Vec3;
 import com.google.common.collect.Lists;
 
 import fiskfille.tf.common.energon.IEnergonPowered;
+import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityTransmitter extends TileEntity
 {
@@ -104,7 +105,16 @@ public class TileEntityTransmitter extends TileEntity
 	
 	public AxisAlignedBB getRenderBoundingBox()
 	{
-		float radius = getRadius();
-		return super.getRenderBoundingBox().copy().expand(0.5D, 0, 0.5D).addCoord(0, 2, 0).expand(radius, radius, radius);
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(0.35D, 0, 0.35D).addCoord(0, 2, 0);
+		
+		if (getBlockMetadata() < 4)
+		{
+			for (TileEntity tile : getTilesToTryPower())
+			{
+				aabb = TFHelper.wrapAroundAABB(aabb, tile.getRenderBoundingBox());
+			}
+		}
+		
+		return aabb;
 	}
 }

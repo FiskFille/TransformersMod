@@ -324,7 +324,7 @@ public class TileEntityControlPanel extends TileEntity implements IEnergonPowere
 
 	public AxisAlignedBB getRenderBoundingBox()
 	{
-		return super.getRenderBoundingBox().copy().addCoord(0, 0.5D, 0);
+		return super.getRenderBoundingBox().addCoord(0, 0.5D, 0);
 	}
 
 	public void changeSwitch(int group, int id, int amount)

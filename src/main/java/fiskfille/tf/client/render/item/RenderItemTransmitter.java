@@ -22,7 +22,7 @@ public class RenderItemTransmitter implements IItemRenderer
 
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
-    	float scale = 0.45F;
+    	float scale = 0.4F;
         GL11.glScalef(scale, scale, scale);
         
         if (type == type.ENTITY || type == type.INVENTORY)
@@ -36,7 +36,7 @@ public class RenderItemTransmitter implements IItemRenderer
         		GL11.glRotatef(180, 0, 1, 0);
         	}
         	
-        	GL11.glTranslatef(-0.5F, -1.25F, -0.5F);
+        	GL11.glTranslatef(-0.5F, -1.35F, -0.5F);
         }
         else if (type == type.EQUIPPED)
         {
