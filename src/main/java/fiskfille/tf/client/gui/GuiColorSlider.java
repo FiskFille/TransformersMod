@@ -5,6 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
@@ -63,7 +65,7 @@ public class GuiColorSlider extends GuiSliderBase
                 l = 16777120;
             }
 
-            drawCenteredString(fontrenderer, displayString + ": " + (int) (percentage * 100) + "%", xPosition + width / 2, yPosition + (height - 8) / 2, l);
+            drawCenteredString(fontrenderer, StatCollector.translateToLocalFormatted("gui.display_station.color.amount", displayString, (int)(percentage * 100)), xPosition + width / 2, yPosition + (height - 8) / 2, l);
         }
     }
 

@@ -52,12 +52,12 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.screen1.postRender(0.0625F);
             model.screen2.postRender(0.0625F);
             renderText(StatCollector.translateToLocal("ground_bridge.destination"), 0, 0, 0, -1);
-            renderText("x: " + tile.destX + ", y: " + tile.destY + ", z: " + tile.destZ, 1, 0, 0, -1);
+            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", tile.destX, tile.destY, tile.destZ), 1, 0, 0, -1);
 
             if (!tile.errors.isEmpty())
             {
                 renderText(StatCollector.translateToLocal("ground_bridge.error"), 2, 0, 0.025F, 0xC10000);
-                renderText(StatCollector.translateToLocal("ground_bridge.error." + tile.errors.get(0).displayKey), 3, 0, 0.025F, 0xC10000);
+                renderText(tile.errors.get(0).translate(tile.getWorldObj().getHeight()), 3, 0, 0.025F, 0xC10000);
 
                 if (tile.errors.size() == 1)
                 {
@@ -76,28 +76,28 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.compass_1.postRender(0.0625F);
             GL11.glTranslatef(0, -0.032F, 0);
             GL11.glRotatef(-90, 1, 0, 0);
-            renderCenteredText("S", 0, -0.0465F, 0.13F, -1, 0.00725F);
+            renderCenteredText(StatCollector.translateToLocalFormatted("ground_bridge.direction.south"), 0, -0.0465F, 0.13F, -1, 0.00725F);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
             model.compass_2.postRender(0.0625F);
             GL11.glTranslatef(0, -0.032F, 0);
             GL11.glRotatef(-90, 0, 1, 0);
             GL11.glRotatef(-90, 1, 0, 0);
-            renderCenteredText("W", 0, -0.2395F, -0.0625F, -1, 0.00725F);
+            renderCenteredText(StatCollector.translateToLocalFormatted("ground_bridge.direction.west"), 0, -0.2395F, -0.0625F, -1, 0.00725F);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
             model.compass_3.postRender(0.0625F);
             GL11.glTranslatef(0, -0.032F, 0);
             GL11.glRotatef(180, 0, 1, 0);
             GL11.glRotatef(-90, 1, 0, 0);
-            renderCenteredText("N", 0, -0.0465F, -0.2575F, -1, 0.00725F);
+            renderCenteredText(StatCollector.translateToLocalFormatted("ground_bridge.direction.north"), 0, -0.0465F, -0.2575F, -1, 0.00725F);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
             model.compass_4.postRender(0.0625F);
             GL11.glTranslatef(0, -0.032F, 0);
             GL11.glRotatef(90, 0, 1, 0);
             GL11.glRotatef(-90, 1, 0, 0);
-            renderCenteredText("E", 0, 0.1475F, -0.0625F, -1, 0.00725F);
+            renderCenteredText(StatCollector.translateToLocalFormatted("ground_bridge.direction.east"), 0, 0.1475F, -0.0625F, -1, 0.00725F);
             GL11.glPopMatrix();
             GL11.glPopMatrix();
             

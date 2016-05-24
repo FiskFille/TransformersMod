@@ -146,7 +146,7 @@ public class GuiOverlay extends Gui
             float scale = 0.5F;
             GL11.glPushMatrix();
             GL11.glScalef(scale, scale, scale);
-            drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name"), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
+            drawString(mc.fontRenderer, StatCollector.translateToLocalFormatted("stats.ammo.name", StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
             GL11.glPopMatrix();
         }
     }
@@ -248,7 +248,7 @@ public class GuiOverlay extends Gui
                 float scale = 0.5F;
                 GL11.glPushMatrix();
                 GL11.glScalef(scale, scale, scale);
-                drawString(mc.fontRenderer, "Ammo: " + StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name"), (int) ((x - 95 - transformationOffsetX) / scale), (int) ((y + 16) / scale), 0xffffff);
+                drawString(mc.fontRenderer, StatCollector.translateToLocalFormatted("stats.ammo.name", StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), (int) ((x - 95 - transformationOffsetX) / scale), (int) ((y + 16) / scale), 0xffffff);
                 GL11.glPopMatrix();
             }
         }

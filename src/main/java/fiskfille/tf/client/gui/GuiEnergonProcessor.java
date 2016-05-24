@@ -12,6 +12,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -23,6 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
+import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.helper.TFRenderHelper;
 
@@ -57,11 +59,11 @@ public class GuiEnergonProcessor extends GuiContainer
         {
             for (Map.Entry<String, Integer> e : tileentity.energonContentMap.entrySet())
             {
-                String name = e.getKey().substring(0, 1).toUpperCase() + e.getKey().substring(1);
-                int percent = Math.round(e.getValue() * percentMultiplier);
+            	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                int percent = (int) Math.round(e.getValue() * percentMultiplier);
 
-                text.add(name + " Energon: " + percent + "%");
-                colors.add(TransformersAPI.getEnergonTypeByName(e.getKey()).getColor());
+                text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
+                colors.add(energon.getColor());
             }
 
             text.add("");
@@ -69,13 +71,13 @@ public class GuiEnergonProcessor extends GuiContainer
         }
         else
         {
-            text.add("Unidentified");
+        	text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
             colors.add(0xbf0000);
         }
 
         int percent = Math.round(tileentity.liquidAmount);
-        float litres = (float) Math.round(tileentity.liquidAmount) / 50;
-        text.add(percent + "% filled (" + litres + "L)");
+        float liters = (float) Math.round(tileentity.liquidAmount) / 50;
+        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", percent, liters));
         colors.add(tileentity.liquidColor);
 
         if (mouseX > k + 77 && mouseX <= k + 77 + 52 && mouseY > l + 17 && mouseY <= l + 17 + 52)

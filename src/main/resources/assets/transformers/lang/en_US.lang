@@ -67,6 +67,7 @@ item.flame_thrower.name=Cloudtrap's Flamethrower
 
 ------Blocks------
 tile.display_pillar.name=Display Pillar
+tile.display_pillar.amount=x%s
 tile.transformium_ore.name=Transformium Ore
 tile.energon_crystal.name=Energon Crystal
 tile.red_energon_crystal.name=Red Energon Crystal
@@ -79,13 +80,19 @@ tile.transformer_display_station.name=Transformer Display Station
 tile.energon_processor.name=Energon Processor
 tile.energon_transmitter.name=Energon Transmitter
 tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
+tile.ground_bridge_frame.name=Ground Bridge Frame
 tile.transformer_assembly_table.name=Transformer Assembly Table
 
 -----Tab------
 itemGroup.Transformers=Transformers
 
+-----Energon------
+energon.default=Default Energon
+energon.red=Red Energon
+
 -----GUI------
 stats.nitro.name=Nitro
+stats.ammo.name=Ammo: %s
 stats.shots_left.name=Shots Left
 stats.laser_charge.name=Laser Charge
 gui.display_pillar.name=Display Pillar
@@ -95,14 +102,30 @@ gui.display_station.color=Customize
 gui.display_station.color.red=Red
 gui.display_station.color.green=Green
 gui.display_station.color.blue=Blue
+gui.display_station.color.amount=%s: %s%%
 gui.display_station.color.presets=Presets
+gui.display_station.color.presets.page=Page %s/%s
 gui.display_station.armor=+%s protection
 gui.display_station.armor.neg=-%s protection
 gui.energon_processor=Energon Processor
+gui.energon_processor.content=%s: %s%%
+gui.energon_processor.unidentified=Unidentified
+gui.energon_processor.filled=%s%% filled (%sL)
 gui.assembly_table=Transformer Assembly Table
 recipe.energonProcessor=Energon Processor
 recipe.powerSource=Power Source
 recipe.assembly_table=Assembly Table
+
+------Keybinds------
+key.category.transformers=Transformers
+key.transform1=Transform-Alt-1
+key.transform2=Transform-Alt-2
+key.nitro=Nitro Boost
+key.brake=Brake
+key.aim=Aim
+key.stealth_force=Stealth Force Mode
+key.first_person=Vehicle First Person
+key.rear_view=View Vehicle Front
 
 ------Achievements------
 achievement.tf.shoot_missile=Directed by Michael Bay
@@ -147,12 +170,20 @@ achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away
 ------Miscellaneous------
 misc.donate.thanks=Thanks for donating $
 ground_bridge.destination=Destination:
+ground_bridge.destination.format=x: %s, y: %s, z: %s
+ground_bridge.direction.south=S
+ground_bridge.direction.west=W
+ground_bridge.direction.north=N
+ground_bridge.direction.east=E
 ground_bridge.error=Error:
 ground_bridge.error.other_error=%s more error was detected.
 ground_bridge.error.other_errors=%s more errors were detected.
 ground_bridge.error.no_other_errors=No other errors were detected.
 ground_bridge.error.invalid_coords=Invalid coordinates! Destination must be at least 64 blocks from point of origin!
 ground_bridge.error.not_enough_space=Not enough space! Destination does not have have enough empty space to fit a ground bridge portal!
+ground_bridge.error.no_portal_linked=No portal linked! Locator was unable to find a functioning Ground Bridge portal frame within range!
+ground_bridge.error.portal_obstructed=Portal obstructed! The linked Ground Bridge portal frame is being obscured by adjacent blocks!
+ground_bridge.error.out_of_bounds=Out of bounds! Destination cannot be lower than y=0 or higher than y=%s!
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!

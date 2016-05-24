@@ -3,6 +3,7 @@ package fiskfille.tf.client.displayable;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,7 +19,7 @@ public class DisplayableEnergonCrystal extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        renderTag("x" + itemstack.stackSize, 0, 0.1F, 0);
+        renderTag(StatCollector.translateToLocalFormatted("tile.display_pillar.amount", itemstack.stackSize), 0, 0.1F, 0);
 
         BlockEnergonCrystal block = (BlockEnergonCrystal) Block.getBlockFromItem(itemstack.getItem());
         Energon energon = block.getEnergonType();

@@ -325,23 +325,6 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
             }
         }
 
-//        int t = cycleticks / 2;
-//        t = t <= 0 ? 1 : t;
-//        int textureX = (t % 16) / 5 * 26;
-//        int textureY = (t % 4) * 26;
-//
-//        GuiDraw.changeTexture(TransformersMod.modid + ":textures/gui/container/energon_flow.png");
-//        float[] rgb = TFRenderHelper.hexToRGB(recipe1.liquidColor);
-//        int offsetY = (int) (recipe1.liquidAmount * 0.26F);
-//        float scale = 2;
-//
-//        GL11.glPushMatrix();
-//        GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
-//        GL11.glScalef(scale, scale, scale);
-//        GuiDraw.drawTexturedModalRect((int) (72 / scale), (int) (17 / scale) + 21 - offsetY, textureX, textureY, 26, offsetY);
-//        GL11.glColor4f(1, 1, 1, 1);
-//        GL11.glPopMatrix();
-
         GuiDraw.changeTexture(getGuiTexture());
         GuiDraw.drawTexturedModalRect(72, 6, 204, 0, 52, 52);
     }
@@ -392,11 +375,11 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                     {
                         for (Map.Entry<String, Integer> e : recipe1.energonContentMap.entrySet())
                         {
-                            String name = e.getKey().substring(0, 1).toUpperCase() + e.getKey().substring(1);
+                        	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
                             int percent = (int) Math.round(e.getValue() * percentMultiplier);
 
-                            text.add(name + " Energon: " + percent + "%");
-                            colors.add(TransformersAPI.getEnergonTypeByName(e.getKey()).getColor());
+                            text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
+                            colors.add(energon.getColor());
                         }
 
                         text.add("");
@@ -404,13 +387,13 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                     }
                     else
                     {
-                        text.add("Unidentified");
+                        text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
                         colors.add(0xbf0000);
                     }
 
                     int percent = Math.round(recipe1.liquidAmount);
-                    float litres = (float) Math.round(recipe1.liquidAmount) / 50;
-                    text.add(percent + "% filled (" + litres + "L)");
+                    float liters = (float) Math.round(recipe1.liquidAmount) / 50;
+                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", percent, liters));
                     colors.add(recipe1.liquidColor);
 
 

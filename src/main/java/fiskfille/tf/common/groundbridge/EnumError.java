@@ -1,5 +1,7 @@
 package fiskfille.tf.common.groundbridge;
 
+import net.minecraft.util.StatCollector;
+
 public enum EnumError
 {
     INVALID_COORDS("invalid_coords"),
@@ -13,5 +15,15 @@ public enum EnumError
     private EnumError(String displayKey)
     {
         this.displayKey = displayKey;
+    }
+    
+    public String translate(Object... args)
+    {
+    	if (this == OUT_OF_BOUNDS)
+    	{
+    		return StatCollector.translateToLocalFormatted("ground_bridge.error." + displayKey, args[0]);
+    	}
+    	
+    	return StatCollector.translateToLocal("ground_bridge.error." + displayKey);
     }
 }

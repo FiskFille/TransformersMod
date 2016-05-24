@@ -4,6 +4,8 @@ import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 
 public class DisplayableTransformiumSeed extends Displayable
@@ -11,7 +13,7 @@ public class DisplayableTransformiumSeed extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        renderTag("x" + itemstack.stackSize, 0, 0.05F, 0);
+        renderTag(StatCollector.translateToLocalFormatted("tile.display_pillar.amount", itemstack.stackSize), 0, 0.05F, 0);
 
         GL11.glPushMatrix();
         float f = 0.5F;

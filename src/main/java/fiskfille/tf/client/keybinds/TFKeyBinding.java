@@ -6,6 +6,6 @@ public class TFKeyBinding extends KeyBinding
 {
     public TFKeyBinding(String name, int key)
     {
-        super(name, key, "Transformers");
+        super(name, key, "key.category.transformers");
     }
 }

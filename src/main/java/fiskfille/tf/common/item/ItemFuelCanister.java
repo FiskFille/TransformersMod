@@ -1,9 +1,12 @@
 package fiskfille.tf.common.item;
 
 import com.google.common.collect.Maps;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.energon.Energon;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -11,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 import java.util.List;
 import java.util.Map;
@@ -40,22 +44,22 @@ public class ItemFuelCanister extends Item
         {
             for (Map.Entry<String, Integer> e : getContents(itemstack).entrySet())
             {
-                String name = e.getKey().substring(0, 1).toUpperCase() + e.getKey().substring(1);
+            	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
                 int percent = Math.round(e.getValue() * percentMultiplier);
 
-                list.add(EnumChatFormatting.YELLOW + name + " Energon: " + percent + "%");
+                list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
             }
 
             list.add("");
         }
         else
         {
-            list.add(EnumChatFormatting.RED + "Unidentified");
+            list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
         }
 
         int percent = Math.round(liquidAmount);
-        float litres = (float) percent / 50;
-        list.add(EnumChatFormatting.YELLOW + "" + percent + "% filled (" + litres + "L)");
+        float liters = (float) percent / 50;
+        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("gui.energon_processor.filled", percent, liters));
     }
 
     @SideOnly(Side.CLIENT)
