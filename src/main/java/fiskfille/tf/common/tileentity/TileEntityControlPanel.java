@@ -343,6 +343,24 @@ public class TileEntityControlPanel extends TileEntity implements IEnergonPowere
 	public void markBlockForUpdate()
 	{
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+
+        boolean updateTicket = true;
+
+        if (chunkTicket != null)
+        {
+            NBTTagCompound modData = chunkTicket.getModData();
+
+            if (destX == modData.getInteger("destX") && destZ == modData.getInteger("destZ"))
+            {
+                updateTicket = false;
+            }
+        }
+
+        if (updateTicket)
+        {
+            ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));
+            chunkTicket = null;
+        }
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)
@@ -444,12 +462,19 @@ public class TileEntityControlPanel extends TileEntity implements IEnergonPowere
 			{
 				System.err.println("Unable to load chunks!");
 			}
-			
-			chunkTicket.getModData().setInteger("blockX", xCoord);
-			chunkTicket.getModData().setInteger("blockY", yCoord);
-			chunkTicket.getModData().setInteger("blockZ", zCoord);
+			else
+            {
+                NBTTagCompound modData = chunkTicket.getModData();
 
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+                modData.setInteger("blockX", xCoord);
+                modData.setInteger("blockY", yCoord);
+                modData.setInteger("blockZ", zCoord);
+                modData.setInteger("destX", destX);
+                modData.setInteger("destZ", destZ);
+
+                ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+                ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));
+            }
 		}
 	}
 
@@ -467,6 +492,9 @@ public class TileEntityControlPanel extends TileEntity implements IEnergonPowere
 		
 		ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
 		ForgeChunkManager.forceChunk(ticket, loadChunk);
+        NBTTagCompound modData = chunkTicket.getModData();
+        ChunkCoordIntPair destChunk = new ChunkCoordIntPair(modData.getInteger("destX") >> 4, modData.getInteger("destZ") >> 4);
+        ForgeChunkManager.forceChunk(ticket, destChunk);
 	}
 
 	@Override

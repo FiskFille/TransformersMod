@@ -3,6 +3,7 @@ package fiskfille.tf.common.chunk;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -15,28 +16,31 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 public class TFLoadingCallback implements ForgeChunkManager.OrderedLoadingCallback
 {
 	@Override
-	public void ticketsLoaded(List<Ticket> tickets, World world) 
+	public void ticketsLoaded(List<Ticket> tickets, World world)
 	{
-		for (Ticket ticket: tickets)
+		for (Ticket ticket : tickets)
 		{
-			int blockX = ticket.getModData().getInteger("blockX");
-			int blockY = ticket.getModData().getInteger("blockY");
-			int blockZ = ticket.getModData().getInteger("blockZ");
-			TileEntityControlPanel tile = (TileEntityControlPanel)world.getTileEntity(blockX, blockY, blockZ);
+            NBTTagCompound modData = ticket.getModData();
+            int blockX = modData.getInteger("blockX");
+			int blockY = modData.getInteger("blockY");
+			int blockZ = modData.getInteger("blockZ");
+			TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(blockX, blockY, blockZ);
 			tile.loadTicket(ticket);
 		}
 	}
 
 	@Override
-	public List<Ticket> ticketsLoaded(List<Ticket> tickets, World world, int maxTicketCount) 
+	public List<Ticket> ticketsLoaded(List<Ticket> tickets, World world, int maxTicketCount)
 	{
 		List<Ticket> validTickets = Lists.newArrayList();
 
-		for (Ticket ticket: tickets)
+		for (Ticket ticket : tickets)
 		{
-			int blockX = ticket.getModData().getInteger("blockX");
-			int blockY = ticket.getModData().getInteger("blockY");
-			int blockZ = ticket.getModData().getInteger("blockZ");
+            NBTTagCompound modData = ticket.getModData();
+
+            int blockX = modData.getInteger("blockX");
+			int blockY = modData.getInteger("blockY");
+			int blockZ = modData.getInteger("blockZ");
 			Block block = world.getBlock(blockX, blockY, blockZ);
 
 			if (block == TFBlocks.groundBridgeControlPanel)
@@ -46,5 +50,5 @@ public class TFLoadingCallback implements ForgeChunkManager.OrderedLoadingCallba
 		}
 
 		return validTickets;
-	}	
+	}
 }
