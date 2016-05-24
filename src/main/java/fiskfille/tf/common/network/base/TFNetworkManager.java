@@ -9,6 +9,7 @@ import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.MessageColorArmor;
 import fiskfille.tf.common.network.MessageControlPanel;
+import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
 import fiskfille.tf.common.network.MessageHandleTransformation;
 import fiskfille.tf.common.network.MessageLaserShoot;
@@ -41,6 +42,7 @@ public class TFNetworkManager
         registerPacket(MessageColorArmor.Handler.class, MessageColorArmor.class);
         registerPacket(MessageControlPanel.Handler.class, MessageControlPanel.class);
         registerPacket(MessageOpenGui.Handler.class, MessageOpenGui.class);
+        registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)
