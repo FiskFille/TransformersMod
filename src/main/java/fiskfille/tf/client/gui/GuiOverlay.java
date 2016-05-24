@@ -88,14 +88,14 @@ public class GuiOverlay extends Gui
 
         if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(player, altMode)))
         {
-            int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+            float stealthModeTimer = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
 
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glColor4f(0F, 0F, 0F, 0.3F);
 
-            int x = (5 - stealthModeTimer) * 20 - 94;
+            int x = (int) ((5 - stealthModeTimer) * 20 - 94);
 
             if (hasSniper)
             {
@@ -196,7 +196,7 @@ public class GuiOverlay extends Gui
         if (transformer != null && !(transformer instanceof TransformerVurp))
         {
             float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
-            int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
+            float stealthModeTimer = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
 
             if (transformationTimer <= 20 && transformer.canShoot(player, altMode))
             {
@@ -204,7 +204,7 @@ public class GuiOverlay extends Gui
 
                 if (transformer.hasStealthForce(player, altMode) && stealthModeTimer <= 5)
                 {
-                    transformationOffsetX = stealthModeTimer * 25;
+                    transformationOffsetX = (int) (stealthModeTimer * 25);
                 }
                 else
                 {

@@ -28,12 +28,10 @@ public class TickHandler
     public void onKeyInput(KeyInputEvent event)
     {
         EntityPlayer player = mc.thePlayer;
-        ItemStack itemstack = player.getHeldItem();
 
         int altMode = TFDataManager.getAltMode(player);
-        boolean isTransformed = TFDataManager.isTransformed(player);
 
-        float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
+        int transformationTimer = TFDataManager.getTransformationTimer(player);
 
         Transformer transformer = TFHelper.getTransformer(player);
 

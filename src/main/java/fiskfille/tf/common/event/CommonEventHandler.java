@@ -305,6 +305,7 @@ public class CommonEventHandler
             boolean vehicleMode = TFDataManager.isTransformed(player);
             
             TFDataManager.setPrevTransformationTimer(player, TFDataManager.getTransformationTimer(player));
+            TFDataManager.setPrevStealthModeTimer(player, TFDataManager.getStealthModeTimer(player));
             
             if (transformer != null)
             {

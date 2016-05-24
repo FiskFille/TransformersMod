@@ -1,6 +1,7 @@
 package fiskfille.tf.client.model.transformer.stealth;
 
 import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.common.data.TFDataManager;
@@ -426,24 +427,24 @@ public class ModelVurpStealth extends ModelTransformerBase
         {
             EntityPlayer player = (EntityPlayer) entity;
 
-            int t = TFDataManager.getStealthModeTimer(player);
-            float f = (float) (5 - t) / 5;
-            float f1 = (float) t / 5;
+            float t = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
+            float f = (5 - t) / 5;
+            float f1 = t / 5;
 
             vehicleRPlate1.rotateAngleY = f * 0.593411945678072F;
             vehicleLPlate1.rotateAngleY = f * -0.593411945678072F;
-            vehicleRpg1.rotationPointZ = 2F + (float) t / 2;
-            vehicleRpg2.rotationPointZ = 2F + (float) t / 2;
+            vehicleRpg1.rotationPointZ = 2F + t / 2;
+            vehicleRpg2.rotationPointZ = 2F + t / 2;
             vehicleLowerLegR4.rotateAngleX = 1.239183768915974F * f;
             vehicleLowerLegL4.rotateAngleX = 1.239183768915974F * f;
             vehicleFrontR1.rotateAngleY = 0.9599310885968813F * f;
             vehicleFrontL1.rotateAngleY = -0.9599310885968813F * f;
             vehicleFrontR2.rotateAngleX = 0.24434609527920614F * f1;
             vehicleFrontL2.rotateAngleX = 0.24434609527920614F * f1;
-            vehicleGun1.setRotationPoint(-1.5F + f1, -2 + 1 * f1, 2.2F + (float) t / 2);
-            vehicleGun2.setRotationPoint(6.5F - f1, -2 + 1 * f1, 2.2F + (float) t / 2);
-            vehicleGun3.setRotationPoint(6.5F - f1, -0.5F, 2.2F + (float) t / 2);
-            vehicleGun4.setRotationPoint(-1.5F + f1, -0.5F, 2.2F + (float) t / 2);
+            vehicleGun1.setRotationPoint(-1.5F + f1, -2 + 1 * f1, 2.2F + t / 2);
+            vehicleGun2.setRotationPoint(6.5F - f1, -2 + 1 * f1, 2.2F + t / 2);
+            vehicleGun3.setRotationPoint(6.5F - f1, -0.5F, 2.2F + t / 2);
+            vehicleGun4.setRotationPoint(-1.5F + f1, -0.5F, 2.2F + t / 2);
 
             vehicleWheelR.setRotationPoint(-3.7F + f1, 0.3F, -1.0F - f1);
             vehicleWheelL.setRotationPoint(3.7F - f1, 0.3F, -1.0F - f1);
@@ -457,9 +458,7 @@ public class ModelVurpStealth extends ModelTransformerBase
             {
                 for (ModelRenderer modelRenderer : new ModelRenderer[]{vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
                 {
-
-                    float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
-                    modelRenderer.rotateAngleX = wheelSpinSpeed;
+                    modelRenderer.rotateAngleX = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
                 }
 
                 float vel = (float) transformedPlayer.getHorizontalVelocity();

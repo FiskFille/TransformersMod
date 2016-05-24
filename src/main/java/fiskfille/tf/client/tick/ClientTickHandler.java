@@ -26,12 +26,11 @@ public class ClientTickHandler
 
     public void onPlayerTick(EntityPlayer player)
     {
-        ItemStack heldItem = player.getHeldItem();
         Transformer transformer = TFHelper.getTransformer(player);
 
         int altMode = TFDataManager.getAltMode(player);
         boolean isTransformed = altMode != -1;
-        float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
+        int transformationTimer = TFDataManager.getTransformationTimer(player);
         int stealthModeTimer = TFDataManager.getStealthModeTimer(player);
 
         if (stealthModeTimer < 5 && !TFDataManager.isInStealthMode(player))
@@ -142,12 +141,9 @@ public class ClientTickHandler
 
     public void handleTransformation(EntityPlayer player)
     {
-        Transformer transformer = TFHelper.getTransformer(player);
-
         int transformationTimer = TFDataManager.getTransformationTimer(player);
         int altMode = TFDataManager.getAltMode(player);
         boolean isTransformed = altMode != -1;
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
         if (transformationTimer < 20 && !isTransformed)
         {
@@ -183,7 +179,7 @@ public class ClientTickHandler
 
             if (player.ridingEntity == null)
             {
-                float thirdPersonDistance = 2.0F + (float)TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10;
+                float thirdPersonDistance = 2.0F + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10;
 
                 int altMode = TFDataManager.getAltMode(player);
                 boolean isTransformed = altMode != -1;
@@ -197,7 +193,7 @@ public class ClientTickHandler
                     thirdPersonDistance = transformer.getThirdPersonDistance(player, altMode);
                 }
 
-                ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, new String[]{"thirdPersonDistance", "E", "field_78490_B"});
+                ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, mc.entityRenderer, thirdPersonDistance, "thirdPersonDistance", "E", "field_78490_B");
             }
         }
     }

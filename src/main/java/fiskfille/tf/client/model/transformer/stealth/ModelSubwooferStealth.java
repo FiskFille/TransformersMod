@@ -1,6 +1,7 @@
 package fiskfille.tf.client.model.transformer.stealth;
 
 import fiskfille.tf.TransformerManager;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -352,26 +353,26 @@ public class ModelSubwooferStealth extends ModelTransformerBase
         {
             EntityPlayer player = (EntityPlayer) entity;
 
-            int t = TFDataManager.getStealthModeTimer(player);
-            float f = (float) (5 - t) / 5;
+            float t = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
+            float f = (5 - t) / 5.0F;
 
             vehicleAntenna1.rotateAngleX = -f;
             vehicleAntenna2.rotateAngleX = -f;
             vehicleCover1.rotateAngleX = -0.2844886680750757F * f;
-            vehicleRpg1.rotationPointZ = -6.7F + (float) t / 2;
-            vehicleRpg2.rotationPointZ = -6.7F + (float) t / 2;
+            vehicleRpg1.rotationPointZ = -6.7F + t / 2;
+            vehicleRpg2.rotationPointZ = -6.7F + t / 2;
             vehicleUpperLegR.rotationPointX = -4 * f;
             vehicleUpperLegL.rotationPointX = 4 * f;
             vehicleLowerLegR3.rotateAngleY = 0.5235987755982988F * f;
             vehicleLowerLegL3.rotateAngleY = -0.5235987755982988F * f;
-            vehicleUpperLegR.rotationPointZ = 3 * (float) t / 5;
-            vehicleLowerLegR1.rotationPointY = 2.5F - 3 * (float) t / 5;
-            vehicleUpperLegL.rotationPointZ = 3 * (float) t / 5;
-            vehicleLowerLegL1.rotationPointY = 2.5F - 3 * (float) t / 5;
-            vehicleCannonR1.rotationPointY = -0.5F + 8 * (float) t / 5;
-            vehicleCannonR2.rotationPointY = -0.5F + 8 * (float) t / 5;
-            vehicleCannonL1.rotationPointY = -0.5F + 8 * (float) t / 5;
-            vehicleCannonL2.rotationPointY = -0.5F + 8 * (float) t / 5;
+            vehicleUpperLegR.rotationPointZ = 3 * t / 5;
+            vehicleLowerLegR1.rotationPointY = 2.5F - 3 * t / 5;
+            vehicleUpperLegL.rotationPointZ = 3 * t / 5;
+            vehicleLowerLegL1.rotationPointY = 2.5F - 3 * t / 5;
+            vehicleCannonR1.rotationPointY = -0.5F + 8 * t / 5;
+            vehicleCannonR2.rotationPointY = -0.5F + 8 * t / 5;
+            vehicleCannonL1.rotationPointY = -0.5F + 8 * t / 5;
+            vehicleCannonL2.rotationPointY = -0.5F + 8 * t / 5;
 
             VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
@@ -379,8 +380,7 @@ public class ModelSubwooferStealth extends ModelTransformerBase
             {
                 for (ModelRenderer modelRenderer : new ModelRenderer[]{vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2})
                 {
-                    float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
-                    modelRenderer.rotateAngleX = wheelSpinSpeed;
+                    modelRenderer.rotateAngleX = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
                 }
 
                 float vel = (float) transformedPlayer.getHorizontalVelocity();

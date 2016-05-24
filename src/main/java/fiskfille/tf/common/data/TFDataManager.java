@@ -25,6 +25,7 @@ public class TFDataManager
     private static Map<EntityPlayer, Integer> transformationTimerClient = new HashMap<EntityPlayer, Integer>();
     private static Map<EntityPlayer, Integer> prevTransformationTimerClient = new HashMap<EntityPlayer, Integer>();
     private static Map<EntityPlayer, Integer> stealthModeTimerClient = new HashMap<EntityPlayer, Integer>();
+    private static Map<EntityPlayer, Integer> prevStealthModeTimerClient = new HashMap<EntityPlayer, Integer>();
     private static Map<EntityPlayer, Integer> zoomTimerClient = new HashMap<EntityPlayer, Integer>();
 
     /**
@@ -168,6 +169,14 @@ public class TFDataManager
     }
 
     /**
+     * Sets the previous transformation timer for the specified player.
+     */
+    public static void setPrevStealthModeTimer(EntityPlayer player, int timer)
+    {
+        prevStealthModeTimerClient.put(player, timer);
+    }
+
+    /**
      * Sets the Vurp's Sniper zoom for the specified player.
      */
     public static void setZoomTimer(EntityPlayer player, int timer)
@@ -223,7 +232,7 @@ public class TFDataManager
      */
     public static float getTransformationTimer(EntityPlayer player, float partialTicks)
     {
-    	return TFRenderHelper.median(getTransformationTimer(player), getPrevTransformationTimer(player), partialTicks);
+        return TFRenderHelper.median(getTransformationTimer(player), getPrevTransformationTimer(player), partialTicks);
     }
 
     /**
@@ -234,6 +243,24 @@ public class TFDataManager
         Integer timer = stealthModeTimerClient.get(player);
 
         return timer != null ? timer : 5;
+    }
+
+    /**
+     * @returns the previous frame of the stealth animation for the specified player. (0 = Fully Transformed : 20 = Normal Robot Mode)
+     */
+    public static int getPrevStealthModeTimer(EntityPlayer player)
+    {
+        Integer timer = prevStealthModeTimerClient.get(player);
+
+        return timer != null ? timer : 20;
+    }
+
+    /**
+     * @returns the current frame of the transformation animation for the specified player, modified for animation. (0 = Fully Transformed : 20 = Normal Robot Mode)
+     */
+    public static float getStealthModeTimer(EntityPlayer player, float partialTicks)
+    {
+        return TFRenderHelper.median(getStealthModeTimer(player), getPrevStealthModeTimer(player), partialTicks);
     }
 
     /**
