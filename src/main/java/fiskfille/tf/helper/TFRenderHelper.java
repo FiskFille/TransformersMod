@@ -1,23 +1,27 @@
 package fiskfille.tf.helper;
 
-import fiskfille.tf.client.event.ClientEventHandler;
+import java.awt.Color;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
-
-import java.util.Map;
-import java.util.WeakHashMap;
 
 public class TFRenderHelper
 {
@@ -80,6 +84,32 @@ public class TFRenderHelper
         int B = (int) ((aB * iRatio) + (bB * ratio));
 
         return A << 24 | R << 16 | G << 8 | B;
+    }
+    
+    public static int brighter(int hex, float factor)
+    {
+    	float[] afloat = hexToRGB(hex);
+    	
+    	for (int i = 0; i < afloat.length; ++i)
+    	{
+    		afloat[i] = 1 - (1 - afloat[i]) * factor;
+    	}
+    	
+    	Color color = new Color((int)(afloat[0] * 255), (int)(afloat[1] * 255), (int)(afloat[2] * 255));
+    	return color.getRGB();
+    }
+    
+    public static int darker(int hex, float factor)
+    {
+    	float[] afloat = hexToRGB(hex);
+    	
+    	for (int i = 0; i < afloat.length; ++i)
+    	{
+    		afloat[i] *= factor;
+    	}
+    	
+    	Color color = new Color((int)(afloat[0] * 255), (int)(afloat[1] * 255), (int)(afloat[2] * 255));
+    	return color.getRGB();
     }
 
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
@@ -173,11 +203,47 @@ public class TFRenderHelper
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
 
-    public static double getMotionY(EntityPlayer player) {
+    public static double getMotionY(EntityPlayer player)
+    {
         return player == mc.thePlayer ? player.motionY : median(player.posY - player.prevPosY, TFRenderHelper.previousMotionY.containsKey(player) ? TFRenderHelper.previousMotionY.get(player) : 0.0, ClientEventHandler.renderTick);
     }
 
-    public static void updateMotionY(EntityPlayer player) {
+    public static void updateMotionY(EntityPlayer player)
+    {
         TFRenderHelper.previousMotionY.put(player, player.posY - player.prevPosY);
+    }
+    
+    public static void renderTag(String s, float x, float y, float z)
+    {
+        RenderManager renderManager = RenderManager.instance;
+        FontRenderer fontrenderer = renderManager.getFontRenderer();
+        float f2 = -0.02F;
+        GL11.glPushMatrix();
+        GL11.glTranslatef(x, y, z);
+        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(mc.thePlayer.rotationYaw + 180, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-mc.thePlayer.rotationPitch, 1.0F, 0.0F, 0.0F);
+        GL11.glScalef(-f2, -f2, f2);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(false);
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        Tessellator tessellator = Tessellator.instance;
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        tessellator.startDrawingQuads();
+        int i = fontrenderer.getStringWidth(s) / 2;
+        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+        tessellator.addVertex(-i - 1, -1.0D, 0.0D);
+        tessellator.addVertex(-i - 1, 8.0D, 0.0D);
+        tessellator.addVertex(i + 1, 8.0D, 0.0D);
+        tessellator.addVertex(i + 1, -1.0D, 0.0D);
+        tessellator.draw();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDepthMask(true);
+        fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 0, -1);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glPopMatrix();
     }
 }

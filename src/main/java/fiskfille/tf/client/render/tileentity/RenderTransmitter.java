@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelTransmitter;
-import fiskfille.tf.common.energon.IEnergonPowered;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFRenderHelper;
 
@@ -62,11 +62,11 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 
 				for (TileEntity tile : tileentity.getTilesToTryPower())
 				{
-					IEnergonPowered energonPowered = (IEnergonPowered)tile;
-					Vec3 vec3 = energonPowered.getPowerInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
+					IEnergyReceiver receiver = (IEnergyReceiver)tile;
+					Vec3 vec3 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
 					Vec3 vec31 = Vec3.createVectorHelper(tileentity.xCoord + 0.5F, tileentity.yCoord + 2.5F, tileentity.zCoord + 0.5F);
 					
-					double d = 1.0F / vec3.distanceTo(vec31);
+					double d = 1F / vec3.distanceTo(vec31);
 					vec31 = Vec3.createVectorHelper(vec31.xCoord + (vec3.xCoord - vec31.xCoord) * d, vec31.yCoord + (vec3.yCoord - vec31.yCoord) * d, vec31.zCoord + (vec3.zCoord - vec31.zCoord) * d);
 					MovingObjectPosition mop = world.rayTraceBlocks(vec31, vec3);
 					
@@ -83,9 +83,12 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 					double z2 = vec3.zCoord - tileentity.zCoord;
 					
 					int segments = 128;
+//					float[] afloat = TFRenderHelper.hexToRGB(0x57ABAF);
+//					float[] afloat1 = TFRenderHelper.hexToRGB(0x7BF2F8);
+					int color = tileentity.prevEnergyColor;
+					float[] afloat = TFRenderHelper.hexToRGB(TFRenderHelper.brighter(color, 0.125F));
+					float[] afloat1 = TFRenderHelper.hexToRGB(TFRenderHelper.darker(TFRenderHelper.brighter(color, 0.2F), 0.9F));
 					float width = 0;
-					float[] afloat = TFRenderHelper.hexToRGB(0x57ABAF);
-					float[] afloat1 = TFRenderHelper.hexToRGB(0x7BF2F8);
 					tessellator.startDrawing(3);
 					
 					for (int i = 0; i <= segments; ++i)
@@ -96,7 +99,8 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 						float f3 = 1 - f2;
 						tessellator.setColorRGBA_F(afloat[0] * f2 + afloat1[0] * f3, afloat[1] * f2 + afloat1[1] * f3, afloat[2] * f2 + afloat1[2] * f3, 1);
 						tessellator.addVertex(x1 * f1 + x2 * f, y1 * f1 + y2 * f, z1 * f1 + z2 * f);
-						width = Math.max(width, (1F / (float)Math.sqrt(vec3.distanceTo(vec32) * vec3.distanceTo(vec32) + vec31.distanceTo(vec32) * vec31.distanceTo(vec32))) * 100);
+						width = Math.max(width, (1F / (float)vec3.distanceTo(vec32)) * 100);
+						width = Math.max(width, (1F / (float)vec31.distanceTo(vec32)) * 100);
 					}
 					
 					GL11.glLineWidth(width);

@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
@@ -140,5 +141,18 @@ public class TFHelper
         double d4 = Math.max(aabb.maxY, aabb1.maxY);
         double d5 = Math.max(aabb.maxZ, aabb1.maxZ);
         return AxisAlignedBB.getBoundingBox(d0, d1, d2, d3, d4, d5);
+	}
+	
+	public static float transferEnergy(IEnergyContainer to, IEnergyContainer from, float amount)
+	{
+		float f = from.extractEnergy(amount);
+		float f1 = to.receiveEnergy(f, from.getEnergyContents());
+		
+		if (f > f1)
+		{
+			return from.receiveEnergy(f - f1, from.getEnergyContents());
+		}
+		
+		return f1;
 	}
 }
