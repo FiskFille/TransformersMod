@@ -29,13 +29,12 @@ import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
-public class GuiEnergonProcessor extends GuiContainer
+public class GuiTransmitter extends GuiContainer
 {
-    private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/energon_processor.png");
-    public static IIcon energonIcon;
+    private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/transmitter.png");
     private TileEntityEnergonProcessor tileentity;
 
-    public GuiEnergonProcessor(InventoryPlayer inventoryPlayer, TileEntityEnergonProcessor tile)
+    public GuiTransmitter(InventoryPlayer inventoryPlayer, TileEntityEnergonProcessor tile)
     {
         super(new ContainerEnergonProcessor(inventoryPlayer, tile));
         tileentity = tile;
@@ -114,29 +113,29 @@ public class GuiEnergonProcessor extends GuiContainer
                 k1 += 2 + (text.size() - 1) * 10;
             }
 
-            if (i1 + k > this.width)
+            if (i1 + k > width)
             {
                 i1 -= 28 + k;
             }
 
-            if (j1 + k1 + 6 > this.height)
+            if (j1 + k1 + 6 > height)
             {
-                j1 = this.height - k1 - 6;
+                j1 = height - k1 - 6;
             }
 
-            this.zLevel = 300.0F;
+            zLevel = 300.0F;
             int l1 = -267386864;
-            this.drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
             int i2 = 1347420415;
             int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
             for (int k2 = 0; k2 < text.size(); ++k2)
             {
@@ -152,7 +151,7 @@ public class GuiEnergonProcessor extends GuiContainer
                 j1 += 10;
             }
 
-            this.zLevel = 0.0F;
+            zLevel = 0.0F;
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         }
@@ -193,7 +192,7 @@ public class GuiEnergonProcessor extends GuiContainer
         	GL11.glTranslatef(k + 79, l + 19, 0);
         	GL11.glScalef(3.0F, 3.0F, 3.0F);
         	TFRenderHelper.startGlScissor(k + 79, l + 19 + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
-        	drawTexturedModelRectFromIcon(0, 0, energonIcon, 16, 16);
+//        	drawTexturedModelRectFromIcon(0, 0, energonIcon, 16, 16);
         	TFRenderHelper.endGlScissor();
         	GL11.glColor4f(1, 1, 1, 1);
         	GL11.glPopMatrix();

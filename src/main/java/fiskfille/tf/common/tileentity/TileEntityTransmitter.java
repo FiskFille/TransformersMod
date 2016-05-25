@@ -3,6 +3,7 @@ package fiskfille.tf.common.tileentity;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -19,9 +20,10 @@ import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.helper.TFHelper;
 
-public class TileEntityTransmitter extends TileEntity implements IEnergyContainer
+public class TileEntityTransmitter extends TileEntityContainer implements IEnergyContainer
 {
 	public EnergyStorage storage = new EnergyStorage(32000);
+	public ItemStack[] itemstacks = new ItemStack[1];
 	
 	public int animationTimer;
 	public int prevEnergyColor;
@@ -185,6 +187,18 @@ public class TileEntityTransmitter extends TileEntity implements IEnergyContaine
 	public int getEnergyColor()
 	{
 		return storage.getEnergyColor();
+	}
+	
+	@Override
+	public ItemStack[] getItemStacks()
+	{
+		return itemstacks;
+	}
+
+	@Override
+	public ItemStack[] setItemStacks(ItemStack[] itemstacks)
+	{
+		return this.itemstacks = itemstacks;
 	}
 	
 	@Override

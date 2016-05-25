@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -17,6 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class BlockTransmitter extends Block implements ITileEntityProvider
@@ -111,6 +113,34 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         else
         {
         	setBlockBounds(0, -2, 0, 1, 1, 1);
+        }
+    }
+    
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        if (!player.isSneaking())
+        {
+            int metadata = world.getBlockMetadata(x, y, z);
+            
+            if (metadata >= 4)
+            {
+            	y -= 1;
+            }
+            else if (metadata >= 8)
+            {
+            	y -= 2;
+            }
+            
+            if (world.getTileEntity(x, y, z) instanceof TileEntityTransmitter)
+            {
+                player.openGui(TransformersMod.instance, 4, world, x, y, z);
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
