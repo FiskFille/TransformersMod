@@ -3,7 +3,6 @@ package fiskfille.tf.common.tileentity;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -15,15 +14,16 @@ import net.minecraft.util.Vec3;
 
 import com.google.common.collect.Lists;
 
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.helper.TFHelper;
 
-public class TileEntityTransmitter extends TileEntityContainer implements IEnergyContainer
+public class TileEntityTransmitter extends TileEntity implements IEnergyContainer
 {
 	public EnergyStorage storage = new EnergyStorage(32000);
-	public ItemStack[] itemstacks = new ItemStack[1];
 	
 	public int animationTimer;
 	public int prevEnergyColor;
@@ -38,6 +38,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 		if (getBlockMetadata() < 4)
 		{
 			storage.update();
+			receiveEnergy(10, Energon.createContentMap(1, TFEnergonManager.energon));
 			
 			for (TileEntity tile : getTilesToPower())
 			{
@@ -187,18 +188,6 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	public int getEnergyColor()
 	{
 		return storage.getEnergyColor();
-	}
-	
-	@Override
-	public ItemStack[] getItemStacks()
-	{
-		return itemstacks;
-	}
-
-	@Override
-	public ItemStack[] setItemStacks(ItemStack[] itemstacks)
-	{
-		return this.itemstacks = itemstacks;
 	}
 	
 	@Override

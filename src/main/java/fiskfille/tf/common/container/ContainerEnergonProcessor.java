@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 
@@ -171,14 +170,6 @@ public class ContainerEnergonProcessor extends ContainerBasic
                 {
                     // try to place in either Input slot; add 1 to final input slot because mergeItemStack uses < index
                     if (!mergeItemStack(itemstack1, INPUT, INPUT + 1, false))
-                    {
-                        return null;
-                    }
-                }
-                // if it's an energy source, place in Fuel slot
-                else if (itemstack1.getItem() == TFItems.emptyFuelCanister)
-                {
-                    if (!mergeItemStack(itemstack1, OUTPUT, OUTPUT + 1, false))
                     {
                         return null;
                     }
