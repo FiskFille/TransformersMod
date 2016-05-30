@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerGui;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFEnergyHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiTransmitter extends GuiContainer
@@ -46,10 +46,10 @@ public class GuiTransmitter extends GuiContainer
 
 		ArrayList text = Lists.newArrayList();
 		ArrayList colors = Lists.newArrayList();
-		text.add(StatCollector.translateToLocalFormatted("gui.eml", Math.round(tileentity.getEnergy()), Math.round(tileentity.getMaxEnergy())));
+		text.add(StatCollector.translateToLocalFormatted("gui.eml", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy())));
 		colors.add(-1);
 		
-		if (mouseX > k + 80 && mouseX <= k + 80 + 16 && mouseY > l + 17 && mouseY <= l + 17 + 52)
+		if (mouseX >= k + 80 && mouseX < k + 80 + 16 && mouseY >= l + 17 && mouseY < l + 17 + 52)
 		{
 			drawHoveringText(text, colors, mouseX - k, mouseY - l, fontRendererObj);
 		}
@@ -89,7 +89,7 @@ public class GuiTransmitter extends GuiContainer
 					k = l;
 				}
 			}
-
+			
 			int i1 = x + 12;
 			int j1 = y - 12;
 			int k1 = 8;

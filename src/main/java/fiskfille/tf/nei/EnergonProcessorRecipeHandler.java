@@ -42,6 +42,7 @@ import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.helper.LiquidHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler implements IContainerDrawHandler
@@ -51,7 +52,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         public PositionedStack ingredient;
         public PositionedStack result;
 
-        public Map<String, Integer> energonContentMap = Maps.newTreeMap();
+        public Map<String, Float> energonContentMap = Maps.newTreeMap();
         public int liquidColor = 0xffffff;
         public int liquidAmount;
 
@@ -174,12 +175,12 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
         if (item == TFItems.filledFuelCanister)
         {
-            Map<String, Integer> ingredients = ItemFuelCanister.getContents(result);
+            Map<String, Float> ingredients = ItemFuelCanister.getContents(result);
 
             for (CrystalPair crystal : crystals)
             {
                 String id = crystal.energon.getEnergonType().getId();
-                int mass = crystal.energon.getMass();
+                float mass = crystal.energon.getMass();
 
                 if (ingredients.containsKey(id) && ingredients.get(id) >= mass)
                 {
@@ -193,7 +194,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                         recipe.energonContentMap.remove(id);
                     }
 
-                    for (Map.Entry<String, Integer> e : recipe.energonContentMap.entrySet())
+                    for (Map.Entry<String, Float> e : recipe.energonContentMap.entrySet())
                     {
                         recipe.liquidAmount += e.getValue();
                     }
@@ -202,7 +203,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
                     ArrayList<String> list = Lists.newArrayList();
 
-                    for (Map.Entry<String, Integer> e : recipe.energonContentMap.entrySet())
+                    for (Map.Entry<String, Float> e : recipe.energonContentMap.entrySet())
                     {
                         list.add(e.getKey() + ": " + e.getValue());
                     }
@@ -213,7 +214,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                     for (String s : list)
                     {
                         String[] astring = s.split(": ");
-                        recipe.energonContentMap.put(astring[0], Integer.valueOf(astring[1]));
+                        recipe.energonContentMap.put(astring[0], Float.valueOf(astring[1]));
                     }
 
                     recipe.liquidColor = calculateLiquidColor(recipe);
@@ -260,7 +261,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
         if (!recipe.energonContentMap.isEmpty())
         {
-            for (Map.Entry<String, Integer> e : recipe.energonContentMap.entrySet())
+            for (Map.Entry<String, Float> e : recipe.energonContentMap.entrySet())
             {
                 Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
                 int percent = Math.round(e.getValue() * percentMultiplier);
@@ -311,7 +312,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
             	GuiDraw.changeTexture(Minecraft.getMinecraft().getTextureMapBlocks().locationBlocksTexture);
             	IIcon icon = GuiEnergonProcessor.energonIcon;
             	float[] rgb = TFRenderHelper.hexToRGB(recipe1.liquidColor);
-            	float f = (float)recipe1.liquidAmount / 100;
+            	float f = (float)recipe1.liquidAmount / LiquidHelper.ENERGON_PROCESSOR_STORAGE;
 
             	GL11.glPushMatrix();
             	GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
@@ -328,17 +329,6 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         GuiDraw.changeTexture(getGuiTexture());
         GuiDraw.drawTexturedModalRect(72, 6, 204, 0, 52, 52);
     }
-    
-//    public void drawTexturedModelRectFromIcon(int x, int y, IIcon icon, int p_94065_4_, int p_94065_5_)
-//    {
-//        Tessellator tessellator = Tessellator.instance;
-//        tessellator.startDrawingQuads();
-//        tessellator.addVertexWithUV((double)(x + 0), (double)(y + p_94065_5_), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMaxV());
-//        tessellator.addVertexWithUV((double)(x + p_94065_4_), (double)(y + p_94065_5_), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMaxV());
-//        tessellator.addVertexWithUV((double)(x + p_94065_4_), (double)(y + 0), (double)this.zLevel, (double)icon.getMaxU(), (double)icon.getMinV());
-//        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)icon.getMinU(), (double)icon.getMinV());
-//        tessellator.draw();
-//    }
 
     @Override
     public void onPreDraw(GuiContainer gui)
@@ -373,7 +363,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
                     if (!recipe1.energonContentMap.isEmpty())
                     {
-                        for (Map.Entry<String, Integer> e : recipe1.energonContentMap.entrySet())
+                        for (Map.Entry<String, Float> e : recipe1.energonContentMap.entrySet())
                         {
                         	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
                             int percent = (int) Math.round(e.getValue() * percentMultiplier);
@@ -391,9 +381,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                         colors.add(0xbf0000);
                     }
 
-                    int percent = Math.round(recipe1.liquidAmount);
-                    float liters = (float) Math.round(recipe1.liquidAmount) / 50;
-                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", percent, liters));
+                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", Math.round(recipe1.liquidAmount), Math.round(LiquidHelper.ENERGON_PROCESSOR_STORAGE)));
                     colors.add(recipe1.liquidColor);
 
 

@@ -1,5 +1,16 @@
 package fiskfille.tf.common.item;
 
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
+
 import com.google.common.collect.Maps;
 
 import cpw.mods.fml.relauncher.Side;
@@ -7,19 +18,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.Energon;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
+import fiskfille.tf.helper.LiquidHelper;
 
-import java.util.List;
-import java.util.Map;
-
-public class ItemFuelCanister extends Item
+public class ItemFuelCanister extends ItemLiquidContainer
 {
     @SideOnly(Side.CLIENT)
     private IIcon overlay;
@@ -28,12 +29,18 @@ public class ItemFuelCanister extends Item
     {
         super();
     }
+    
+    @Override
+    public float getMaxStorage()
+    {
+    	return LiquidHelper.FUEL_CANISTER_STORAGE;
+    }
 
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
     {
-        int liquidAmount = 0;
+        float liquidAmount = 0;
 
-        for (Map.Entry<String, Integer> e : getContents(itemstack).entrySet())
+        for (Map.Entry<String, Float> e : getContents(itemstack).entrySet())
         {
             liquidAmount += e.getValue();
         }
@@ -42,7 +49,7 @@ public class ItemFuelCanister extends Item
 
         if (!getContents(itemstack).isEmpty())
         {
-            for (Map.Entry<String, Integer> e : getContents(itemstack).entrySet())
+            for (Map.Entry<String, Float> e : getContents(itemstack).entrySet())
             {
             	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
                 int percent = Math.round(e.getValue() * percentMultiplier);
@@ -57,15 +64,13 @@ public class ItemFuelCanister extends Item
             list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
         }
 
-        int percent = Math.round(liquidAmount);
-        float liters = (float) percent / 50;
-        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("gui.energon_processor.filled", percent, liters));
+        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("gui.energon_processor.filled", Math.round(liquidAmount), Math.round(getMaxStorage())));
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int layer)
+    public IIcon getIconFromDamageForRenderPass(int metadata, int layer)
     {
-        return layer > 0 ? overlay : super.getIconFromDamageForRenderPass(p_77618_1_, layer);
+        return layer > 0 ? overlay : super.getIconFromDamageForRenderPass(metadata, layer);
     }
 
     @SideOnly(Side.CLIENT)
@@ -89,11 +94,15 @@ public class ItemFuelCanister extends Item
         }
     }
 
-    public static Map<String, Integer> getContents(ItemStack itemstack)
+    public static Map<String, Float> getContents(ItemStack itemstack)
     {
-        refreshNBT(itemstack);
+    	if (!itemstack.hasTagCompound())
+    	{
+    		return Maps.newHashMap();
+    	}
+    	
         Map map = readMapFromString(itemstack.getTagCompound().getString("Contents"));
-        return (Map<String, Integer>) (map == null ? Maps.newHashMap() : map);
+        return (Map<String, Float>) (map == null ? Maps.newHashMap() : map);
     }
 
     public static Map readMapFromString(String mapString)
@@ -110,7 +119,7 @@ public class ItemFuelCanister extends Item
             {
                 String key = keyValue[0];
                 String value = keyValue[1];
-                map.put(key, Integer.valueOf(value));
+                map.put(key, Float.valueOf(value));
             }
         }
 
@@ -125,8 +134,7 @@ public class ItemFuelCanister extends Item
 
     public static int getLiquidColor(ItemStack itemstack)
     {
-        refreshNBT(itemstack);
-        return itemstack.getTagCompound().getInteger("LiquidColor");
+        return itemstack.hasTagCompound() ? itemstack.getTagCompound().getInteger("LiquidColor") : 0;
     }
 
     @SideOnly(Side.CLIENT)

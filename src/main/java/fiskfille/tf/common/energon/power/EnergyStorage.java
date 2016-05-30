@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class EnergyStorage
@@ -29,35 +30,13 @@ public class EnergyStorage
 		for (Map.Entry<String, Float> e : contents.entrySet())
         {
             Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-            float percent = getPercentOf(e.getKey(), contents);
+            float percent = TFHelper.getPercentOf(e.getKey(), contents);
 
             if (energon != null && percent > 0)
             {
                 energyColor = TFRenderHelper.blend(energyColor, energon.getColor(), percent);
             }
         }
-	}
-	
-	public float getPercentOf(String s, Map<String, Float> map)
-	{
-		float f = 0;
-		
-		for (Map.Entry<String, Float> e : map.entrySet())
-        {
-			f += e.getValue();
-        }
-		
-		float percentMultiplier = 1.0F / f;
-
-		for (Map.Entry<String, Float> e : map.entrySet())
-        {
-            if (e.getKey().equals(s))
-            {
-            	return e.getValue() * percentMultiplier;
-            }
-        }
-		
-		return 0;
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)
@@ -127,7 +106,7 @@ public class EnergyStorage
 		for (Map.Entry<String, Float> e : contents.entrySet())
 		{
 			String s = e.getKey();
-			f += add(amount * getPercentOf(s, contents), TransformersAPI.getEnergonTypeByName(s));
+			f += add(amount * TFHelper.getPercentOf(s, contents), TransformersAPI.getEnergonTypeByName(s));
 		}
 		
 		return f;

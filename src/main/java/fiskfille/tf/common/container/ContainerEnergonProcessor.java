@@ -14,12 +14,9 @@ import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 
 public class ContainerEnergonProcessor extends ContainerBasic
 {
-    public static final int FUEL = 0, INPUT = 1, OUTPUT = 2;
-
     private TileEntityEnergonProcessor tileentity;
     private int lastBurnTime;
     private int lastPowerTime;
-    private int lastLiquidAmount;
     private int lastLiquidColor;
     private int lastFillTime;
     private int lastCurrentMaxPowerTime;
@@ -27,9 +24,6 @@ public class ContainerEnergonProcessor extends ContainerBasic
     public ContainerEnergonProcessor(InventoryPlayer inventoryPlayer, TileEntityEnergonProcessor tile)
     {
         tileentity = tile;
-        int i;
-        int j;
-
         addSlotToContainer(new Slot(tile, 0, 24, 53));
         addSlotToContainer(new Slot(tile, 1, 24, 17));
         addSlotToContainer(new Slot(tile, 2, 138, 53)
@@ -53,10 +47,9 @@ public class ContainerEnergonProcessor extends ContainerBasic
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 0, tileentity.burnTime);
         icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
-        icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidAmount);
-        icrafting.sendProgressBarUpdate(this, 3, tileentity.liquidColor);
-        icrafting.sendProgressBarUpdate(this, 4, tileentity.fillTime);
-        icrafting.sendProgressBarUpdate(this, 5, tileentity.currentMaxPowerTime);
+        icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
+        icrafting.sendProgressBarUpdate(this, 3, tileentity.fillTime);
+        icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
     }
 
     public void detectAndSendChanges()
@@ -77,66 +70,51 @@ public class ContainerEnergonProcessor extends ContainerBasic
                 icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
             }
 
-            if (lastLiquidAmount != tileentity.liquidAmount)
-            {
-                icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidAmount);
-            }
-
             if (lastLiquidColor != tileentity.liquidColor)
             {
-                icrafting.sendProgressBarUpdate(this, 3, tileentity.liquidColor);
+                icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
             }
 
             if (lastFillTime != tileentity.fillTime)
             {
-                icrafting.sendProgressBarUpdate(this, 4, tileentity.fillTime);
+                icrafting.sendProgressBarUpdate(this, 3, tileentity.fillTime);
             }
 
             if (lastCurrentMaxPowerTime != tileentity.currentMaxPowerTime)
             {
-                icrafting.sendProgressBarUpdate(this, 5, tileentity.currentMaxPowerTime);
+                icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
             }
         }
 
         lastBurnTime = tileentity.burnTime;
         lastPowerTime = tileentity.powerTime;
-        lastLiquidAmount = tileentity.liquidAmount;
         lastLiquidColor = tileentity.liquidColor;
         lastFillTime = tileentity.fillTime;
         lastCurrentMaxPowerTime = tileentity.currentMaxPowerTime;
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int par1, int par2)
+    public void updateProgressBar(int id, int value)
     {
-        if (par1 == 0)
+        if (id == 0)
         {
-            tileentity.burnTime = par2;
+            tileentity.burnTime = value;
         }
-
-        if (par1 == 1)
+        else if (id == 1)
         {
-            tileentity.powerTime = par2;
+            tileentity.powerTime = value;
         }
-
-        if (par1 == 2)
+        else if (id == 2)
         {
-            tileentity.liquidAmount = par2;
+            tileentity.liquidColor = value;
         }
-
-        if (par1 == 3)
+        else if (id == 3)
         {
-            tileentity.liquidColor = par2;
+            tileentity.fillTime = value;
         }
-
-        if (par1 == 4)
+        else if (id == 4)
         {
-            tileentity.fillTime = par2;
-        }
-
-        if (par1 == 5)
-        {
-            tileentity.currentMaxPowerTime = par2;
+            tileentity.currentMaxPowerTime = value;
         }
     }
 
@@ -144,6 +122,9 @@ public class ContainerEnergonProcessor extends ContainerBasic
     {
         ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
+        int FUEL = 0;
+        int INPUT = 1;
+        int OUTPUT = 2;
 
         if (slot != null && slot.getHasStack())
         {

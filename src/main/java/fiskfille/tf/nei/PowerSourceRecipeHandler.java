@@ -1,27 +1,29 @@
 package fiskfille.tf.nei;
 
-import codechicken.nei.ItemList;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.Lists;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.item.TFItems;
-import net.minecraft.block.Block;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import static codechicken.nei.NEIClientUtils.translate;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static codechicken.nei.NEIClientUtils.translate;
+import net.minecraft.block.Block;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import codechicken.nei.ItemList;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
+import codechicken.nei.recipe.TemplateRecipeHandler;
+
+import com.google.common.collect.Lists;
+
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
 
 public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 {
@@ -88,12 +90,12 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 
         if (item == TFItems.filledFuelCanister)
         {
-            Map<String, Integer> ingredients = ItemFuelCanister.getContents(result);
+            Map<String, Float> ingredients = ItemFuelCanister.getContents(result);
 
             for (CrystalPair crystal : crystals)
             {
                 String id = crystal.energon.getEnergonType().getId();
-                int mass = crystal.energon.getMass();
+                float mass = crystal.energon.getMass();
 
                 if (ingredients.containsKey(id) && ingredients.get(id) >= mass)
                 {
@@ -107,7 +109,7 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
                         recipe.energonContentMap.remove(id);
                     }
 
-                    for (Map.Entry<String, Integer> e : recipe.energonContentMap.entrySet())
+                    for (Map.Entry<String, Float> e : recipe.energonContentMap.entrySet())
                     {
                         recipe.liquidAmount += e.getValue();
                     }
@@ -116,7 +118,7 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 
                     ArrayList<String> list = Lists.newArrayList();
 
-                    for (Map.Entry<String, Integer> e : recipe.energonContentMap.entrySet())
+                    for (Map.Entry<String, Float> e : recipe.energonContentMap.entrySet())
                     {
                         list.add(e.getKey() + ": " + e.getValue());
                     }
@@ -127,7 +129,7 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
                     for (String s : list)
                     {
                         String[] astring = s.split(": ");
-                        recipe.energonContentMap.put(astring[0], Integer.valueOf(astring[1]));
+                        recipe.energonContentMap.put(astring[0], Float.valueOf(astring[1]));
                     }
 
                     recipe.liquidColor = calculateLiquidColor(recipe);

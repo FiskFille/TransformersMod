@@ -1,5 +1,7 @@
 package fiskfille.tf.helper;
 
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -154,5 +156,27 @@ public class TFHelper
 		}
 		
 		return f1;
+	}
+	
+	public static float getPercentOf(String s, Map<String, Float> map)
+	{
+		float f = 0;
+		
+		for (Map.Entry<String, Float> e : map.entrySet())
+        {
+			f += e.getValue();
+        }
+		
+		float percentMultiplier = 1.0F / f;
+
+		for (Map.Entry<String, Float> e : map.entrySet())
+        {
+            if (e.getKey().equals(s))
+            {
+            	return e.getValue() * percentMultiplier;
+            }
+        }
+		
+		return 0;
 	}
 }

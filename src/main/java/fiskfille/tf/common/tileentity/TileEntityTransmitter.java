@@ -23,7 +23,7 @@ import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityTransmitter extends TileEntity implements IEnergyContainer
 {
-	public EnergyStorage storage = new EnergyStorage(32000);
+	public EnergyStorage storage = new EnergyStorage(1000000000);
 	
 	public int animationTimer;
 	public int prevEnergyColor;
@@ -38,12 +38,12 @@ public class TileEntityTransmitter extends TileEntity implements IEnergyContaine
 		if (getBlockMetadata() < 4)
 		{
 			storage.update();
-			receiveEnergy(10, Energon.createContentMap(1, TFEnergonManager.energon));
+			receiveEnergy(100000, Energon.createContentMap(1, TFEnergonManager.energon));
 			
 			for (TileEntity tile : getTilesToPower())
 			{
 				IEnergyReceiver receiver = (IEnergyReceiver)tile;
-				TFHelper.transferEnergy(receiver, this, 100F / getTilesToPower().size());
+				TFHelper.transferEnergy(receiver, this, 1000F / getTilesToPower().size());
 			}
 		}
 	}

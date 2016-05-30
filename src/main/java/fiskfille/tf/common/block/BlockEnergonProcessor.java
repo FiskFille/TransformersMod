@@ -1,7 +1,8 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
+import java.util.Map;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -14,9 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import java.util.Map;
-import java.util.Random;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 
 public class BlockEnergonProcessor extends BlockContainer
 {
@@ -56,12 +56,12 @@ public class BlockEnergonProcessor extends BlockContainer
         {
             int liquidAmount = 0;
 
-            for (Map.Entry<String, Integer> e : tile.energonContentMap.entrySet())
+            for (Map.Entry<String, Float> e : tile.energonContentMap.entrySet())
             {
                 liquidAmount += e.getValue();
             }
 
-            return Math.round((float) liquidAmount * 0.15F);
+            return Math.round((float) liquidAmount * 0.15F); // TODO
         }
 
         return 0;

@@ -1,8 +1,8 @@
 package fiskfille.tf.common.item;
 
+import net.minecraft.item.Item;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
-import net.minecraft.item.Item;
 
 public class ItemEnergon extends Item implements IEnergon
 {
@@ -11,7 +11,7 @@ public class ItemEnergon extends Item implements IEnergon
     public ItemEnergon(Energon type)
     {
         super();
-        this.energonType = type;
+        energonType = type;
     }
 
     public Energon getEnergonType()
@@ -19,8 +19,8 @@ public class ItemEnergon extends Item implements IEnergon
         return energonType;
     }
 
-    public int getMass()
+    public float getMass()
     {
-        return 5;
+        return 144;
     }
 }

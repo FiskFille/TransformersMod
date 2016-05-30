@@ -124,11 +124,14 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
             
             if (metadata >= 4)
             {
-            	y -= 1;
-            }
-            else if (metadata >= 8)
-            {
-            	y -= 2;
+            	if (metadata < 8)
+            	{
+            		y -= 1;
+            	}
+            	else
+            	{
+            		y -= 2;
+            	}
             }
             
             if (world.getTileEntity(x, y, z) instanceof TileEntityTransmitter)

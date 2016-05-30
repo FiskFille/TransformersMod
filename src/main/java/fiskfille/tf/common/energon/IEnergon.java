@@ -4,5 +4,5 @@ public interface IEnergon
 {
     public Energon getEnergonType();
 
-    public int getMass();
+    public float getMass();
 }
