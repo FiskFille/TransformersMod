@@ -667,29 +667,55 @@ public class ClientEventHandler
 
                 Transformer transformer = TFHelper.getTransformer(player);
 
+//                if (transformer != null)
+//                {
+//                    if (transformer.getCameraYOffset(player) != 0.0F)
+//                    {
+//                        if (renderer == null)
+//                        {
+//                            renderer = new CustomEntityRenderer(mc);
+//                        }
+//
+//                        if (mc.entityRenderer != renderer)
+//                        {
+//                            prevRenderer = mc.entityRenderer;
+//                            mc.entityRenderer = renderer;
+//                        }
+//                    }
+//                    else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
+//                    {
+//                        mc.entityRenderer = prevRenderer;
+//                    }
+//                }
+//                else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
+//                {
+//                    mc.entityRenderer = prevRenderer;
+//                }
+                
+
                 if (transformer != null)
                 {
-                    if (transformer.getCameraYOffset(player) != 0.0F)
-                    {
-                        if (renderer == null)
-                        {
-                            renderer = new CustomEntityRenderer(mc);
-                        }
+                	if (transformer.getCameraYOffset(player) != 0.0F)
+                	{
+                		if (renderer == null)
+                		{
+                			renderer = new CustomEntityRenderer(mc);
+                		}
 
-                        if (mc.entityRenderer != renderer)
-                        {
-                            prevRenderer = mc.entityRenderer;
-                            mc.entityRenderer = renderer;
-                        }
-                    }
-                    else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
-                    {
-                        mc.entityRenderer = prevRenderer;
-                    }
+                		if (mc.entityRenderer != renderer)
+                		{
+                			prevRenderer = mc.entityRenderer;
+                			mc.entityRenderer = renderer;
+                		}
+                	}
+                	else if (prevRenderer != null && mc.entityRenderer == renderer)
+                	{
+                		mc.entityRenderer = prevRenderer;
+                	}
                 }
-                else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
+                else if (prevRenderer != null && mc.entityRenderer == renderer)
                 {
-                    mc.entityRenderer = prevRenderer;
+                	mc.entityRenderer = prevRenderer;
                 }
             }
         }
