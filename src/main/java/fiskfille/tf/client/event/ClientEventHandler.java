@@ -48,6 +48,7 @@ import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -544,14 +545,16 @@ public class ClientEventHandler
         {
             if (prevRenderPlayer != null)
             {
-                RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer);
+                RenderManager.instance.entityRenderMap.put(player.getClass(), prevRenderPlayer); // TODO
             }
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {
+//    	if (true)
+//    		return;
         Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
 
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
@@ -593,7 +596,7 @@ public class ClientEventHandler
                 if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper)
                 {
                     prevRenderPlayer = (RenderPlayer) entityRenderObject;
-                    RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);
+                    RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer); // TODO
                 }
             }
         }
@@ -605,8 +608,8 @@ public class ClientEventHandler
 
         if (isClientPlayer && cameraYOffset != 0)
         {
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
+//            GL11.glPushMatrix();
+//            GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
         }
     }
 
@@ -637,7 +640,7 @@ public class ClientEventHandler
         {
             if (isClientPlayer && transformer.getCameraYOffset(player) != 0.0F)
             {
-                GL11.glPopMatrix();
+//                GL11.glPopMatrix();
             }
         }
     }

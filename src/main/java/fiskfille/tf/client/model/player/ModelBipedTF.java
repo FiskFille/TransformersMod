@@ -29,30 +29,12 @@ public class ModelBipedTF extends ModelChildBase.Biped
 
             ModelOffset offsets = TFModelHelper.getOffsets(player);
 
-            bipedHead.rotationPointY = offsets.headOffsetY;
-            bipedHeadwear.rotationPointY = offsets.headOffsetY;
+            bipedHead.rotationPointY = offsets.headOffsetY + (isSneak ? 1 : 0);
+            bipedHeadwear.rotationPointY = offsets.headOffsetY + (isSneak ? 1 : 0);
             bipedHead.rotationPointX = offsets.headOffsetX;
             bipedHeadwear.rotationPointX = offsets.headOffsetX;
             bipedHead.rotationPointZ = offsets.headOffsetZ;
             bipedHeadwear.rotationPointZ = offsets.headOffsetZ;
-
-            //            ItemStack helm = player.getCurrentArmor(3);
-            //            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
-            //            ItemStack chest = player.getCurrentArmor(2);
-            //            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
-            //            ItemStack pants = player.getCurrentArmor(1);
-            //            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
-            //            
-            //            bipedHead.showModel = !wearingTransformerHelm;
-            //            bipedHeadwear.showModel = !wearingTransformerHelm;
-            //            bipedEars.showModel = !wearingTransformerHelm;
-            //            
-            //            bipedBody.showModel = !wearingTransformerChest;
-            //            bipedRightArm.showModel = !wearingTransformerChest;
-            //            bipedLeftArm.showModel = !wearingTransformerChest;
-            //            
-            //            bipedLeftLeg.showModel = !wearingTransformerPants;
-            //            bipedRightLeg.showModel = !wearingTransformerPants;
 
             if (isChild)
             {

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -53,10 +54,14 @@ public class TransformersMod
     public static Method setSizeMethod;
 
     public static Update latestUpdate;
+    
+    public static boolean isBattlegearLoaded;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+    	isBattlegearLoaded = Loader.isModLoaded("battlegear2");
+    	
         try
         {
             WebHelper.readPastebin("Kyct1Dvz");

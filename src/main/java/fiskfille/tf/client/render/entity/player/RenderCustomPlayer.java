@@ -35,9 +35,9 @@ public class RenderCustomPlayer extends RenderPlayer
     public RenderCustomPlayer()
     {
         super();
-        mainModel = new ModelBipedTF();
-        modelBipedMain = (ModelBiped) mainModel;
-        TFModelHelper.modelBipedMain = modelBipedMain;
+//        mainModel = new ModelBipedTF();
+//        modelBipedMain = (ModelBiped) mainModel;
+//        TFModelHelper.modelBipedMain = modelBipedMain;
     }
 
     @Override

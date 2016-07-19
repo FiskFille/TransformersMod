@@ -3,12 +3,7 @@ package fiskfille.tf.client.model.transformer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.playerdata.TFDataManager;
 
 public class ModelChildBase
 {
@@ -122,32 +117,6 @@ public class ModelChildBase
 
             lowerArmL.rotateAngleX -= heldItemLeft * 0.0625F;
             lowerArmR.rotateAngleX -= heldItemRight * 0.0625F;
-        }
-
-        public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
-        {
-            super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
-
-            if (entity instanceof EntityPlayer)
-            {
-                EntityPlayer player = (EntityPlayer) entity;
-                ItemStack itemstack = player.getHeldItem();
-
-                if (TFDataManager.getTransformationTimer(player) == 20)
-                {
-                    if (itemstack != null && itemstack.getItem() == TFItems.vurpsSniper)
-                    {
-                        setRotation(bipedRightArm, -1.3F, bipedHead.rotateAngleY - 0.45F, 0.0F);
-                        setRotation(bipedLeftArm, -1.2F, bipedHead.rotateAngleY + 0.4F, 0.0F);
-                        bipedLeftArm.setRotationPoint(3.0F, 3.0F, -2.5F);
-                    }
-                    else
-                    {
-                        bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-                        bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-                    }
-                }
-            }
         }
     }
 }

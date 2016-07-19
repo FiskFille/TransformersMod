@@ -1,15 +1,11 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -59,29 +55,33 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 
             try
             {
+            	GL11.glTranslatef(0, -0.0625F, 0);
                 EntityClientPlayerMP entity = tileentity.fakePlayer;
 
-                ItemStack head = tileentity.getStackInSlot(0);
-                ItemStack chest = tileentity.getStackInSlot(1);
-                ItemStack legs = tileentity.getStackInSlot(2);
-                ItemStack feet = tileentity.getStackInSlot(3);
+                if (entity != null)
+                {
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        entity.setCurrentItemOrArmor(4 - i, tileentity.getStackInSlot(i));
+                    }
 
-                entity.setCurrentItemOrArmor(4, head);
-                entity.setCurrentItemOrArmor(3, chest);
-                entity.setCurrentItemOrArmor(2, legs);
-                entity.setCurrentItemOrArmor(1, feet);
-                entity.capabilities.isFlying = true;
-                entity.rotationYawHead = 0;
-                entity.setInvisible(true);
+                    entity.capabilities.isFlying = true;
+                    entity.rotationYawHead = 0;
+                    entity.experience = -0.0085F;
+                    entity.setInvisible(true);
+                    entity.setDead();
+                    entity.setLocationAndAngles(tileentity.xCoord + 0.5F, tileentity.yCoord, tileentity.zCoord + 0.5F, 0, 0);
+                }
 
                 Render render = RenderManager.instance.getEntityRenderObject(entity);
 
                 if (render != null)
                 {
+                    GL11.glPushMatrix();
                     GL11.glRotatef(180, 1, 0, 0);
-                    GL11.glTranslatef(0, 0.0625F * 3, 0);
-                    setLighting(tileentity.getWorldObj().getLightBrightnessForSkyBlocks(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, 0));
+                    GL11.glTranslatef(0, -1.5F, 0);
                     render.doRender(entity, 0, 0, 0, 0, 0.0625F);
+                    GL11.glPopMatrix();
                 }
             }
             catch (Exception e)
