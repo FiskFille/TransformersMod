@@ -3,8 +3,6 @@ package fiskfille.tf.common.transformer.base;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
@@ -30,28 +28,6 @@ public abstract class TransformerCar extends Transformer
     public float fall(EntityPlayer player, float distance)
     {
         return TFDataManager.isInVehicleMode(player) ? distance / 2 : super.fall(player, distance);
-    }
-
-    @Override
-    public void tick(EntityPlayer player, int timer)
-    {
-        boolean vehicle = TFDataManager.isInVehicleMode(player);
-
-        //        if (timer >= 14 && vehicle)
-        //        {
-        //            player.motionY += 0.225;
-        //        }
-
-        IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-
-        if (vehicle && timer == 0)
-        {
-            entityAttribute.setBaseValue(0.0D);
-        }
-        else if (timer == 20)
-        {
-            entityAttribute.setBaseValue(0.1D);
-        }
     }
 
     @Override

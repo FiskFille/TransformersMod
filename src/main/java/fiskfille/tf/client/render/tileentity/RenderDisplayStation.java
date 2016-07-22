@@ -55,7 +55,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 
             try
             {
-            	GL11.glTranslatef(0, -0.0625F, 0);
+            	GL11.glTranslatef(0, -0.0625F * 3, 0);
                 EntityClientPlayerMP entity = tileentity.fakePlayer;
 
                 if (entity != null)
@@ -79,7 +79,6 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
                 {
                     GL11.glPushMatrix();
                     GL11.glRotatef(180, 1, 0, 0);
-                    GL11.glTranslatef(0, -1.5F, 0);
                     render.doRender(entity, 0, 0, 0, 0, 0.0625F);
                     GL11.glPopMatrix();
                 }

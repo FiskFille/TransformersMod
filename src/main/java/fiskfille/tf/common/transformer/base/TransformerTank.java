@@ -109,33 +109,6 @@ public abstract class TransformerTank extends Transformer
     }
 
     @Override
-    public void tick(EntityPlayer player, int timer)
-    {
-        IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-
-        if (TFDataManager.isInVehicleMode(player) && timer == 0)
-        {
-            entityAttribute.setBaseValue(0.0D);
-        }
-        else if (timer == 20)
-        {
-            entityAttribute.setBaseValue(0.1D);
-        }
-        //    		if (!TFPlayerData.getData(player).stealthForce)
-        //    		{
-        //    			CommonEventHandler.prevMove = entityAttribute.getAttributeValue();
-        //    			entityAttribute.setBaseValue(0.0D);
-        //    		}
-        //    		else
-        //    		{
-        //    			if (CommonEventHandler.prevMove != 0)
-        //    			{
-        //    				entityAttribute.setBaseValue(CommonEventHandler.prevMove);
-        //    			}
-        //    		}
-    }
-
-    @Override
     public boolean canShoot(EntityPlayer player)
     {
         return true;

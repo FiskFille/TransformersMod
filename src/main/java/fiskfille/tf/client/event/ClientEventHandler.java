@@ -20,8 +20,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -553,8 +551,6 @@ public class ClientEventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {
-//    	if (true)
-//    		return;
         Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
 
         ModelBiped modelBipedMain = event.renderer.modelBipedMain;
@@ -608,8 +604,8 @@ public class ClientEventHandler
 
         if (isClientPlayer && cameraYOffset != 0)
         {
-//            GL11.glPushMatrix();
-//            GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
+            GL11.glPushMatrix();
+            GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
         }
     }
 
@@ -640,7 +636,7 @@ public class ClientEventHandler
         {
             if (isClientPlayer && transformer.getCameraYOffset(player) != 0.0F)
             {
-//                GL11.glPopMatrix();
+                GL11.glPopMatrix();
             }
         }
     }
@@ -664,34 +660,7 @@ public class ClientEventHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 EntityClientPlayerMP player = mc.thePlayer;
-
                 Transformer transformer = TFHelper.getTransformer(player);
-
-//                if (transformer != null)
-//                {
-//                    if (transformer.getCameraYOffset(player) != 0.0F)
-//                    {
-//                        if (renderer == null)
-//                        {
-//                            renderer = new CustomEntityRenderer(mc);
-//                        }
-//
-//                        if (mc.entityRenderer != renderer)
-//                        {
-//                            prevRenderer = mc.entityRenderer;
-//                            mc.entityRenderer = renderer;
-//                        }
-//                    }
-//                    else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
-//                    {
-//                        mc.entityRenderer = prevRenderer;
-//                    }
-//                }
-//                else if (prevRenderer != null && mc.entityRenderer != prevRenderer)
-//                {
-//                    mc.entityRenderer = prevRenderer;
-//                }
-                
 
                 if (transformer != null)
                 {
@@ -748,8 +717,6 @@ public class ClientEventHandler
                 event.newfov = 1.0F - (float) TFDataManager.getZoomTimer(player) / 10;
             }
         }
-
-        IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
         if (TFDataManager.getTransformationTimer(player) < 20 && !(nitro > 0 && moveForward && nitroPressed && !TFDataManager.isInStealthMode(player)))
         {

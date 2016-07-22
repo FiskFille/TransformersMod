@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -28,6 +32,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.gui.GuiOverlay;
@@ -57,27 +62,31 @@ public class CommonEventHandler
     private double lastZ;
 
     private Map<EntityPlayer, Boolean> prevFlying = new HashMap<EntityPlayer, Boolean>();
-
+    
     @SubscribeEvent
-    public void onTransform(PlayerTransformEvent event)
+    public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        EntityPlayer player = event.entityPlayer;
+    	EntityPlayer player = event.player;
+    	
+    	if (event.phase == TickEvent.Phase.END)
+    	{
+    		IAttributeInstance speedAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+			
+			UUID speedModifierUUID = UUID.fromString("A2AB4DE4-8276-3A86-B448-220FA6FDC689");
+            AttributeModifier speedModifier = (new AttributeModifier(speedModifierUUID, "Transformer speed boost", -1, 1)).setSaved(false);
 
-        Transformer transformer = event.transformer;
-
-        if (transformer != null ? transformer.canTransform(player) : true)
-        {
-            //            if (!event.transformed)
-            //            {
-            //                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            //                
-            //                entityAttribute.setBaseValue(1);
-            //            }
-        }
-        else
-        {
-            event.setCanceled(true);
-        }
+            if (speedAttribute.getModifier(speedModifierUUID) != null)
+            {
+                speedAttribute.removeModifier(speedModifier);
+                player.stepHeight = 0.5F;
+            }
+            
+            if (TFDataManager.isInVehicleMode(player) && TFDataManager.getTransformationTimer(player) < 10)
+            {
+                speedAttribute.applyModifier(speedModifier);
+                player.stepHeight = 1.0F;
+            }
+    	}
     }
 
     @SubscribeEvent
@@ -283,11 +292,9 @@ public class CommonEventHandler
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-
             Transformer transformer = TFHelper.getTransformer(player);
 
             float yOffset = transformer != null ? transformer.getCameraYOffset(player) : 0;
-
             boolean vehicleMode = TFDataManager.isInVehicleMode(player);
 
             if (transformer != null)

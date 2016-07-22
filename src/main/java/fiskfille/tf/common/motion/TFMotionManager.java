@@ -73,7 +73,6 @@ public class TFMotionManager
         double forwardVelocity = 0;
         double horizontalVelocity = 0;
         double currentSpeedLimit = 0;
-        player.stepHeight = 1.0F;
 
         VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
 
