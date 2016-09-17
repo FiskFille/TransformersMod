@@ -5,17 +5,17 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import fiskfille.tf.common.tileentity.TileEntityEmlTest;
+import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 
-public class BlockEmlTest extends Block implements ITileEntityProvider
+public class BlockEmbTest extends Block implements ITileEntityProvider
 {
-	protected BlockEmlTest()
+	protected BlockEmbTest()
 	{
 		super(Material.rock);
 	}
 
 	public TileEntity createNewTileEntity(World world, int metadata)
 	{
-		return new TileEntityEmlTest();
+		return new TileEntityEmbTest();
 	}
 }

@@ -21,7 +21,6 @@ import org.lwjgl.opengl.GL12;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.common.network.MessageColorArmor;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
@@ -212,14 +211,12 @@ public class GuiColor extends GuiScreen
         inputField.drawTextBox();
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.display_station.color"), width / 2, 15, 16777215);
 
-
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(0, 0, 0, 0.4F);
         drawTexturedModalRect(width / 2 - 128, height / 6, 0, 0, 100, 150);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-
 
         EntityClientPlayerMP entity = tileentity.fakePlayer;
         ItemStack head = tileentity.getStackInSlot(0).copy();
@@ -262,7 +259,7 @@ public class GuiColor extends GuiScreen
         RenderHelper.enableStandardItemLighting();
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
-        GL11.glRotatef((float) (ticks + ClientEventHandler.renderTick) / 2, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((float) (ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
         RenderManager.instance.playerViewY = 180.0F;
         TFRenderHelper.startGlScissor(width / 2 - 128, height / 6, 100, 150);
         RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
@@ -274,7 +271,6 @@ public class GuiColor extends GuiScreen
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
-
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -284,18 +280,16 @@ public class GuiColor extends GuiScreen
         drawTexturedModalRect(width / 2 - 22 + 67, height / 6 + 84, 0, 0, 66, 66);
 
         float opacityMax = 20;
-        float opacity = ticks % opacityMax;
+        float opacity = (ticks + partialTicks) % opacityMax;
         opacity = opacity > opacityMax / 2 ? opacityMax / 2 - (opacity - opacityMax / 2) : opacity;
         GL11.glColor4f(1, 1, 0, opacity / opacityMax + 0.1F);
         drawTexturedModalRect(width / 2 - 23 + 67 * layerSelected, height / 6 + 83, 0, 0, 68, 68);
-
 
         GL11.glColor4f(layerColors[0][0], layerColors[0][1], layerColors[0][2], 1);
         drawTexturedModalRect(width / 2 - 21, height / 6 + 85, 0, 0, 64, 64);
 
         GL11.glColor4f(layerColors[1][0], layerColors[1][1], layerColors[1][2], 1);
         drawTexturedModalRect(width / 2 - 21 + 67, height / 6 + 85, 0, 0, 64, 64);
-
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         super.drawScreen(mouseX, mouseY, partialTicks);

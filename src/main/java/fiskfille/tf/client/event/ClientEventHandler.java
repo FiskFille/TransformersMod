@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -58,7 +57,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.client.gui.GuiEnergonProcessor;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
@@ -77,6 +75,7 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class ClientEventHandler
 {
@@ -165,7 +164,8 @@ public class ClientEventHandler
     {
     	if (event.map.getTextureType() == 0)
     	{
-    		GuiEnergonProcessor.energonIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
+    		TFRenderHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
+    		TFRenderHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
     	}
     }
 

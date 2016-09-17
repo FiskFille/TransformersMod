@@ -22,6 +22,7 @@ import fiskfille.tf.common.chunk.TFLoadingCallback;
 import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.TFEvents;
+import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.proxy.CommonProxy;
@@ -30,7 +31,6 @@ import fiskfille.tf.common.tab.CreativeTabTransformers;
 import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.web.WebHelper;
-import fiskfille.tf.web.donator.Donators;
 import fiskfille.tf.web.update.Update;
 import fiskfille.tf.web.update.UpdateChecker;
 
@@ -84,7 +84,6 @@ public class TransformersMod
         {
             UpdateChecker updateChecker = new UpdateChecker();
             updateChecker.handleUpdates();
-            Donators.loadDonators();
         }
 
         items.register();
@@ -122,6 +121,7 @@ public class TransformersMod
         TFEvents.registerEvents(event.getSide());
         TFNetworkManager.registerPackets();
         TFDisplayableManager.registerDisplayables();
+        TFFluids.register();
     }
     
     @EventHandler

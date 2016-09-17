@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -22,7 +21,6 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.NameFormat;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -43,7 +41,6 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.web.donator.Donators;
 import fiskfille.tf.web.update.Update;
 
 public class CommonEventHandler
@@ -186,15 +183,6 @@ public class CommonEventHandler
     }
 
     @SubscribeEvent
-    public void formatName(NameFormat event)
-    {
-        if (Donators.isDonator(event.entityPlayer))
-        {
-            event.displayname = EnumChatFormatting.BOLD + "" + EnumChatFormatting.GOLD + "[Donator] " + event.displayname;
-        }
-    }
-
-    @SubscribeEvent
     public void onSpawn(EntityJoinWorldEvent event)
     {
         Entity entity = event.entity;
@@ -207,7 +195,6 @@ public class CommonEventHandler
 
             if (!world.isRemote)
             {
-                Donators.loadDonators();
                 playersNotSunc.add(player);
             }
             else
@@ -252,12 +239,6 @@ public class CommonEventHandler
                         }
 
                         player.addChatMessage(new ChatComponentText(""));
-                    }
-
-                    if (Donators.isDonator(player))
-                    {
-                        player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("misc.donate.thanks") + Donators.getDonationAmount(player).toString().replaceAll(Pattern.quote("$"), "") + "!"));
-                        player.addStat(TFAchievements.donate, 1);
                     }
 
                     displayedUpdates = true;

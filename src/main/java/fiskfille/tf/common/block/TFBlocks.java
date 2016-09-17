@@ -10,7 +10,7 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.common.tileentity.TileEntityEmlTest;
+import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeFrame;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
@@ -36,7 +36,7 @@ public class TFBlocks
     public static Block assemblyTable;
     public static Block groundBridgeControlPanel;
     
-    public static Block emlTest;
+    public static Block embTest;
 
     public void register()
     {
@@ -57,7 +57,7 @@ public class TFBlocks
         groundBridgeControlPanel = new BlockGroundBridgeControl();
         assemblyTable = new BlockAssemblyTable();
         
-        emlTest = new BlockEmlTest();
+        embTest = new BlockEmbTest();
 
 
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore");
@@ -77,7 +77,7 @@ public class TFBlocks
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);
         TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table");
 
-        TFBlockRegistry.registerTileEntity(emlTest, "EmL Test", TileEntityEmlTest.class);
+        TFBlockRegistry.registerTileEntity(embTest, "EmB Test", TileEntityEmbTest.class);
         
         groundBridgeTeleporter.setCreativeTab(null);
     }

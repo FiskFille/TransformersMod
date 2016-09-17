@@ -3,17 +3,34 @@ package fiskfille.tf.common.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.render.block.RenderBlockGroundBridgeFrame;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeFrame;
 
 public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
 {
+	@SideOnly(Side.CLIENT)
+	public IIcon centerIcon;
+	
     public BlockGroundBridgeFrame()
     {
-        super(Material.circuits);
+        super(Material.iron);
+        setHarvestLevel(null, -1);
+        setHardness(1);
+        setResistance(5);
+    }
+
+    public int getRenderType()
+    {
+    	return RenderBlockGroundBridgeFrame.renderId;
     }
 
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
@@ -37,7 +54,7 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
         return false;
     }
     
-    public static ForgeDirection getFrameDirection(World world, int x, int y, int z)
+    public static ForgeDirection getFrameDirection(IBlockAccess world, int x, int y, int z)
     {
     	if (BlockGroundBridgeTeleporter.isNorthSouthFacingFramePresent(world, x, y, z))
     	{
@@ -54,5 +71,18 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityGroundBridgeFrame();
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
+    {
+    	return side == 1 && getFrameDirection(world, x, y, z) != null ? centerIcon : super.getIcon(world, x, y, z, side);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister par1IIconRegister)
+    {
+        blockIcon = par1IIconRegister.registerIcon(getTextureName());
+        centerIcon = par1IIconRegister.registerIcon(getTextureName() + "_center");
     }
 }

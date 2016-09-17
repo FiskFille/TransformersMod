@@ -245,7 +245,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         return meta & 3;
     }
 
-    public static boolean isNorthSouthFacingFramePresent(World world, int x, int y, int z)
+    public static boolean isNorthSouthFacingFramePresent(IBlockAccess world, int x, int y, int z)
     {
         Block b = TFBlocks.groundBridgeFrame;
 
@@ -279,7 +279,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         return false;
     }
 
-    public static boolean isEastWestFacingFramePresent(World world, int x, int y, int z)
+    public static boolean isEastWestFacingFramePresent(IBlockAccess world, int x, int y, int z)
     {
         Block b = TFBlocks.groundBridgeFrame;
 

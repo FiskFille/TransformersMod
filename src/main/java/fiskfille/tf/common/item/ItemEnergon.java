@@ -19,7 +19,7 @@ public class ItemEnergon extends Item implements IEnergon
         return energonType;
     }
 
-    public float getMass()
+    public int getMass()
     {
         return 144;
     }

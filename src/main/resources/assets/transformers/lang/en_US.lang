@@ -17,7 +17,6 @@ item.missile.name=Missile
 item.tank_shell.name=Tank Shell
 item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
-item.empty_fuel_canister.name=Empty Fuel Canister
 item.fuel_canister.name=Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
@@ -83,6 +82,9 @@ tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.ground_bridge_frame.name=Ground Bridge Frame
 tile.transformer_assembly_table.name=Transformer Assembly Table
 
+------Fluids------
+fluid.energon=Energon
+
 -----Tab------
 itemGroup.Transformers=Transformers
 
@@ -95,7 +97,7 @@ stats.nitro.name=Nitro
 stats.ammo.name=Ammo: %s
 stats.shots_left.name=Shots Left
 stats.laser_charge.name=Laser Charge
-gui.eml=%s/%s EmL
+gui.emb=%s/%s EmB
 gui.display_pillar.name=Display Pillar
 gui.display_station=Transformer Display Station
 gui.display_station.transform=Transform
@@ -110,6 +112,7 @@ gui.display_station.armor=+%s protection
 gui.display_station.armor.neg=-%s protection
 gui.energon_processor=Energon Processor
 gui.energon_processor.content=%s: %s%%
+gui.energon_processor.empty=Empty
 gui.energon_processor.unidentified=Unidentified
 gui.energon_processor.filled=%s/%s mB
 gui.transmitter=Energon Transmitter

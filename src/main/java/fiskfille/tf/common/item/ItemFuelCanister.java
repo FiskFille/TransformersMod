@@ -6,135 +6,155 @@ import java.util.Map;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-
-import com.google.common.collect.Maps;
-
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.ItemFluidContainer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.helper.LiquidHelper;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.TFFluids;
 
-public class ItemFuelCanister extends ItemLiquidContainer
+public class ItemFuelCanister extends ItemFluidContainer
 {
     @SideOnly(Side.CLIENT)
-    private IIcon overlay;
+    private IIcon[] overlays;
 
     public ItemFuelCanister()
     {
-        super();
+        super(0, 2000);
+    }
+    
+    public static boolean isEmpty(ItemStack itemstack)
+    {
+    	return getFluidAmount(itemstack) <= 0;
+    }
+    
+    public static boolean isFull(ItemStack itemstack)
+    {
+    	return getFluidAmount(itemstack) >= getContainerCapacity(itemstack);
+    }
+    
+    public static int getFluidAmount(ItemStack itemstack)
+    {
+    	if (itemstack.stackTagCompound == null || !itemstack.stackTagCompound.hasKey("Fluid"))
+        {
+            return 0;
+        }
+    	
+        return itemstack.stackTagCompound.getCompoundTag("Fluid").getInteger("Amount");
+    }
+    
+    public static FluidStack getContainerFluid(ItemStack itemstack)
+    {
+    	if (itemstack.stackTagCompound == null || !itemstack.stackTagCompound.hasKey("Fluid"))
+        {
+            return null;
+        }
+    	
+        return FluidStack.loadFluidStackFromNBT(itemstack.stackTagCompound.getCompoundTag("Fluid"));
+    }
+    
+    public static int getContainerCapacity(ItemStack itemstack)
+    {
+    	if (itemstack.getItem() instanceof IFluidContainerItem)
+    	{
+    		return ((IFluidContainerItem)itemstack.getItem()).getCapacity(itemstack);
+    	}
+    	
+    	return 0;
     }
     
     @Override
-    public float getMaxStorage()
+    public int fill(ItemStack container, FluidStack resource, boolean doFill)
     {
-    	return LiquidHelper.FUEL_CANISTER_STORAGE;
+    	if (resource == null || resource.getFluid() != TFFluids.energon)
+    	{
+    		return 0;
+    	}
+    	
+    	return super.fill(container, resource, doFill);
     }
 
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
     {
-        float liquidAmount = 0;
-
-        for (Map.Entry<String, Float> e : getContents(itemstack).entrySet())
-        {
-            liquidAmount += e.getValue();
-        }
-
-        float percentMultiplier = 100F / liquidAmount;
-
-        if (!getContents(itemstack).isEmpty())
-        {
-            for (Map.Entry<String, Float> e : getContents(itemstack).entrySet())
-            {
-            	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                int percent = Math.round(e.getValue() * percentMultiplier);
-
-                list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
-            }
-
-            list.add("");
-        }
-        else
-        {
-            list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
-        }
-
-        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("gui.energon_processor.filled", Math.round(liquidAmount), Math.round(getMaxStorage())));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int metadata, int layer)
-    {
-        return layer > 0 ? overlay : super.getIconFromDamageForRenderPass(metadata, layer);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemstack, int layer)
-    {
-        if (layer != 1)
-        {
-            return super.getColorFromItemStack(itemstack, layer);
-        }
-        else
-        {
-            return getLiquidColor(itemstack);
-        }
-    }
-
-    public static void refreshNBT(ItemStack itemstack)
-    {
-        if (!itemstack.hasTagCompound())
-        {
-            itemstack.setTagCompound(new NBTTagCompound());
-        }
-    }
-
-    public static Map<String, Float> getContents(ItemStack itemstack)
-    {
-    	if (!itemstack.hasTagCompound())
+    	FluidStack stack = getFluid(itemstack);
+    	int liquidAmount = 0;
+    	int liquidAmount1 = 0;
+    	
+    	if (stack != null && stack.amount > 0)
     	{
-    		return Maps.newHashMap();
+    		Map<String, Integer> contents = FluidEnergon.getContents(stack);
+    		
+    		for (Map.Entry<String, Integer> e : contents.entrySet())
+            {
+    			liquidAmount += e.getValue();
+            }
+    		
+        	float percentMultiplier = 100F / liquidAmount;
+        	liquidAmount1 = stack.amount;
+        	
+    		if (!contents.isEmpty())
+    		{
+    			for (Map.Entry<String, Integer> e : contents.entrySet())
+                {
+                	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                    int percent = Math.round(e.getValue() * percentMultiplier);
+
+                    list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
+                }
+
+                list.add("");
+    		}
+    		else
+    		{
+    			list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
+    		}
+    		
+    		list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount1, capacity));
+        }
+        else
+        {
+        	list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount1, capacity));
+        }
+    }
+
+    @Override
+    public IIcon getIcon(ItemStack itemstack, int pass)
+    {
+    	if (pass > 0)
+    	{
+    		FluidStack fluidStack = getFluid(itemstack);
+    		
+    		if (fluidStack != null && fluidStack.amount > 0)
+    		{
+    			int i = Math.round((float)fluidStack.amount / capacity * 4);
+    			return overlays[i % overlays.length];
+    		}
     	}
     	
-        Map map = readMapFromString(itemstack.getTagCompound().getString("Contents"));
-        return (Map<String, Float>) (map == null ? Maps.newHashMap() : map);
+    	return super.getIcon(itemstack, pass);
     }
 
-    public static Map readMapFromString(String mapString)
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack itemstack, int pass)
     {
-        mapString = mapString.replace("{", "").replace("}", "");
-        String[] entries = mapString.split(", ");
-        Map map = Maps.newHashMap();
-
-        for (String entry : entries)
+        if (pass == 1)
         {
-            String[] keyValue = entry.split("=");
-
-            if (keyValue.length == 2)
-            {
-                String key = keyValue[0];
-                String value = keyValue[1];
-                map.put(key, Float.valueOf(value));
-            }
+        	FluidStack fluidStack = getFluid(itemstack);
+        	
+        	if (fluidStack != null && fluidStack.amount > 0)
+        	{
+        		return FluidEnergon.getLiquidColor(fluidStack);
+        	}
         }
-
-        return map;
-    }
-
-    public static void setLiquidColor(ItemStack itemstack, int color)
-    {
-        refreshNBT(itemstack);
-        itemstack.getTagCompound().setInteger("LiquidColor", color);
-    }
-
-    public static int getLiquidColor(ItemStack itemstack)
-    {
-        return itemstack.hasTagCompound() ? itemstack.getTagCompound().getInteger("LiquidColor") : 0;
+        
+        return super.getColorFromItemStack(itemstack, pass);
     }
 
     @SideOnly(Side.CLIENT)
@@ -146,7 +166,12 @@ public class ItemFuelCanister extends ItemLiquidContainer
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IIconRegister)
     {
-        itemIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":empty_fuel_canister");
-        overlay = par1IIconRegister.registerIcon(TransformersMod.modid + ":fuel_canister_overlay");
+        itemIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":fuel_canister");
+        overlays = new IIcon[5];
+        
+        for (int i = 0; i < overlays.length; ++i)
+        {
+        	overlays[i] = par1IIconRegister.registerIcon(TransformersMod.modid + ":fuel_canister_overlay_" + i);
+        }
     }
 }

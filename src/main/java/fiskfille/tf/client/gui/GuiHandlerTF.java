@@ -9,7 +9,7 @@ import fiskfille.tf.common.container.ContainerAssemblyTable;
 import fiskfille.tf.common.container.ContainerDisplayStation;
 import fiskfille.tf.common.container.ContainerDisplayStationArmor;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
-import fiskfille.tf.common.container.ContainerGui;
+import fiskfille.tf.common.container.ContainerTransmitter;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
@@ -31,7 +31,7 @@ public class GuiHandlerTF implements IGuiHandler
             case 3:
                 return world.getBlock(x, y, z) == TFBlocks.displayStation ? new ContainerDisplayStationArmor(player.inventory, (TileEntityDisplayStation) tile) : null;
             case 4:
-                return world.getBlock(x, y, z) == TFBlocks.transmitter ? new ContainerGui(player.inventory) : null;
+                return world.getBlock(x, y, z) == TFBlocks.transmitter ? new ContainerTransmitter(player.inventory, (TileEntityTransmitter) tile) : null;
         }
 
         return null;

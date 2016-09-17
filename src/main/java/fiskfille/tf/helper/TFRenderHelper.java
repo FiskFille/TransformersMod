@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -30,6 +31,9 @@ public class TFRenderHelper
 	private static float lastBrightnessY;
     private static final Map<EntityPlayer, Double> previousMotionY = new WeakHashMap<EntityPlayer, Double>();
 	
+    public static IIcon energonFlowingIcon;
+    public static IIcon energonStillIcon;
+    
 	public static void setLighting(int lighting)
     {
 		storeLighting();
@@ -114,8 +118,6 @@ public class TFRenderHelper
 
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
     {
-        Minecraft mc = Minecraft.getMinecraft();
-
         if (itemstack != null && itemstack.getItem() instanceof ItemTransformerArmor)
         {
             Transformer transformer = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();

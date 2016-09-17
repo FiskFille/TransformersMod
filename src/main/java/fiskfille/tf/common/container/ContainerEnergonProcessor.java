@@ -47,7 +47,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 0, tileentity.burnTime);
         icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
-        icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
+//        icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
         icrafting.sendProgressBarUpdate(this, 3, tileentity.fillTime);
         icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
     }
@@ -70,10 +70,10 @@ public class ContainerEnergonProcessor extends ContainerBasic
                 icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
             }
 
-            if (lastLiquidColor != tileentity.liquidColor)
-            {
-                icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
-            }
+//            if (lastLiquidColor != tileentity.liquidColor)
+//            {
+//                icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
+//            }
 
             if (lastFillTime != tileentity.fillTime)
             {
@@ -88,7 +88,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
 
         lastBurnTime = tileentity.burnTime;
         lastPowerTime = tileentity.powerTime;
-        lastLiquidColor = tileentity.liquidColor;
+//        lastLiquidColor = tileentity.liquidColor;
         lastFillTime = tileentity.fillTime;
         lastCurrentMaxPowerTime = tileentity.currentMaxPowerTime;
     }
@@ -104,10 +104,10 @@ public class ContainerEnergonProcessor extends ContainerBasic
         {
             tileentity.powerTime = value;
         }
-        else if (id == 2)
-        {
-            tileentity.liquidColor = value;
-        }
+//        else if (id == 2)
+//        {
+//            tileentity.liquidColor = value;
+//        }
         else if (id == 3)
         {
             tileentity.fillTime = value;

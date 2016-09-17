@@ -1,15 +1,17 @@
 package fiskfille.tf.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiColorSlider extends GuiSliderBase
@@ -37,16 +39,22 @@ public class GuiColorSlider extends GuiSliderBase
             drawTexturedModalRect(xPosition, yPosition, 0, 46 + k * 20, width / 2, height);
             drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + k * 20, width / 2, height);
 
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
             Color color = sliderId == 1 ? Color.GREEN : (sliderId == 2 ? Color.BLUE : Color.RED);
-
-            for (int i = 0; i < width - 2; ++i)
-            {
-                float f = (float) i / (width - 2);
-                GL11.glColor4f((float) color.getRed() / 255 * f, (float) color.getGreen() / 255 * f, (float) color.getBlue() / 255 * f, 1);
-                drawTexturedModalRect(xPosition + 1 + i, yPosition + 1, 0, 0, 1, height - 2);
-            }
-
+            Tessellator tessellator = Tessellator.instance;
+            tessellator.startDrawingQuads();
+            tessellator.setColorOpaque_I(0);
+            tessellator.addVertex(0, height - 2, zLevel);
+            tessellator.setColorOpaque_I(color.getRGB());
+            tessellator.addVertex(width - 2, height - 2, zLevel);
+            tessellator.addVertex(width - 2, 0, zLevel);
+            tessellator.setColorOpaque_I(0);
+            tessellator.addVertex(0, 0, zLevel);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glShadeModel(GL11.GL_SMOOTH);
+            GL11.glPushMatrix();
+            GL11.glTranslatef(xPosition + 1, yPosition + 1, 0);
+            tessellator.draw();
+            GL11.glPopMatrix();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
 
             mouseDragged(mc, mouseX, mouseY);

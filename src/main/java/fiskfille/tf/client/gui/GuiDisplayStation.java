@@ -99,15 +99,15 @@ public class GuiDisplayStation extends GuiContainer
             int i = mc.thePlayer.ticksExisted / 20;
             ItemStack itemstack = new ItemStack(TFItems.displayVehicle, 1, i % TransformersAPI.getTransformers().size());
 
-            RenderItem itemRenderer = new RenderItem();
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glColor4f(0, 0, 0, 0.5F);
-            itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 75, 45);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glColor4f(0.6F, 0.6F, 0.6F, 0.25F);
+            itemRender.renderWithColor = false;
+            itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 75, 45);
+            GL11.glDisable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_DEPTH_TEST);

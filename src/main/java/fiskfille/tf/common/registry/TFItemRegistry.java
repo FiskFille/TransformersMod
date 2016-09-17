@@ -1,26 +1,28 @@
 package fiskfille.tf.common.registry;
 
-import com.google.common.collect.Lists;
-import cpw.mods.fml.common.registry.GameRegistry;
-import fiskfille.tf.TransformersMod;
+import java.util.List;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import fiskfille.tf.TransformersMod;
 
 public class TFItemRegistry
 {
-    public static void registerItem(Item item, String name, String modId)
+    public static void registerItem(Item item, String name)
     {
         item.setCreativeTab(TransformersMod.tabTransformers);
 
-        registerItemNoTab(item, name, modId);
+        registerItemNoTab(item, name);
     }
 
-    public static void registerIngot(Item item, String name, String modId, String oreDictName)
+    public static void registerIngot(Item item, String name, String oreDictName)
     {
-        registerItem(item, name, modId);
+        registerItem(item, name);
 
         if (item.getHasSubtypes())
         {
@@ -38,12 +40,12 @@ public class TFItemRegistry
         }
     }
 
-    public static void registerItemNoTab(Item item, String name, String modId)
+    public static void registerItemNoTab(Item item, String name)
     {
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
 
         item.setUnlocalizedName(unlocalizedName);
-        item.setTextureName(modId + ":" + unlocalizedName);
+        item.setTextureName(TransformersMod.modid + ":" + unlocalizedName);
 
         GameRegistry.registerItem(item, unlocalizedName);
     }

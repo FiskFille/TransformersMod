@@ -9,13 +9,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
@@ -145,6 +148,55 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         {
             return false;
         }
+    }
+    
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
+    {
+        TileEntityTransmitter tileentity = (TileEntityTransmitter) world.getTileEntity(x, y, z);
+
+        if (tileentity != null)
+        {
+            for (int j1 = 0; j1 < tileentity.getSizeInventory(); ++j1)
+            {
+                ItemStack itemstack = tileentity.getStackInSlot(j1);
+
+                if (itemstack != null)
+                {
+                    float f = rand.nextFloat() * 0.8F + 0.1F;
+                    float f1 = rand.nextFloat() * 0.8F + 0.1F;
+                    float f2 = rand.nextFloat() * 0.8F + 0.1F;
+
+                    while (itemstack.stackSize > 0)
+                    {
+                        int k1 = rand.nextInt(21) + 10;
+
+                        if (k1 > itemstack.stackSize)
+                        {
+                            k1 = itemstack.stackSize;
+                        }
+
+                        itemstack.stackSize -= k1;
+                        EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+
+                        if (itemstack.hasTagCompound())
+                        {
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                        }
+
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double) ((float) rand.nextGaussian() * f3);
+                        entityitem.motionY = (double) ((float) rand.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double) ((float) rand.nextGaussian() * f3);
+                        world.spawnEntityInWorld(entityitem);
+                    }
+                }
+            }
+
+            world.func_147453_f(x, y, z, block);
+            FluidEvent.fireEvent(new FluidEvent.FluidSpilledEvent(tileentity.tank.getFluid(), world, x, y, z));
+        }
+
+        super.breakBlock(world, x, y, z, block, metadata);
     }
 
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)

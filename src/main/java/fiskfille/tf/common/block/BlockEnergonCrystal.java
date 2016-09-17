@@ -46,7 +46,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         return energonType;
     }
 
-    public float getMass()
+    public int getMass()
     {
         return 576;
     }

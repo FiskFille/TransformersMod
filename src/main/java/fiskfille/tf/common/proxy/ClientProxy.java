@@ -13,6 +13,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.render.block.RenderBlockGroundBridgeFrame;
 import fiskfille.tf.client.render.entity.RenderBassCharge;
 import fiskfille.tf.client.render.entity.RenderBlank;
 import fiskfille.tf.client.render.entity.RenderLaser;
@@ -60,7 +61,7 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.common.tileentity.TileEntityEmlTest;
+import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
@@ -130,7 +131,10 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityControlPanel.class, new RenderControlPanel());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundBridgeTeleporter.class, new RenderGroundBridgeTeleporter());
         
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmlTest.class, new RenderEmlTest());
+        RenderBlockGroundBridgeFrame.renderId = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(RenderBlockGroundBridgeFrame.instance);
+        
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmbTest.class, new RenderEmlTest());
 
         
         MinecraftForgeClient.registerItemRenderer(TFItems.skystrikesCrossbow, new RenderItemSkystrikesCrossbow());

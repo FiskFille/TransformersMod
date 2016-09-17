@@ -1,6 +1,5 @@
 package fiskfille.tf.common.block;
 
-import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -15,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 
@@ -25,7 +25,6 @@ public class BlockEnergonProcessor extends BlockContainer
     public BlockEnergonProcessor()
     {
         super(Material.iron);
-        this.setTickRandomly(true);
     }
 
     public boolean renderAsNormalBlock()
@@ -54,14 +53,7 @@ public class BlockEnergonProcessor extends BlockContainer
 
         if (tile != null)
         {
-            int liquidAmount = 0;
-
-            for (Map.Entry<String, Float> e : tile.energonContentMap.entrySet())
-            {
-                liquidAmount += e.getValue();
-            }
-
-            return Math.round((float) liquidAmount * 0.15F); // TODO
+            return Math.round((tile.tank.getFluidAmount() / tile.tank.getCapacity()) * 15);
         }
 
         return 0;
@@ -123,6 +115,7 @@ public class BlockEnergonProcessor extends BlockContainer
             }
 
             world.func_147453_f(x, y, z, block);
+            FluidEvent.fireEvent(new FluidEvent.FluidSpilledEvent(tileentity.tank.getFluid(), world, x, y, z));
         }
 
         super.breakBlock(world, x, y, z, block, metadata);

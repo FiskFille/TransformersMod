@@ -3,6 +3,8 @@ package fiskfille.tf.common.tileentity;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -11,41 +13,94 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.IFluidHandler;
 
 import com.google.common.collect.Lists;
 
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.helper.TFHelper;
 
-public class TileEntityTransmitter extends TileEntity implements IEnergyContainer
+public class TileEntityTransmitter extends TileEntityContainer implements IEnergyContainer, IFluidHandler, ISidedInventory
 {
-	public EnergyStorage storage = new EnergyStorage(1000000000);
+	public EnergyStorage storage = new EnergyStorage(8000);
+	public FluidTank tank = new FluidTank(2000);
+	
+	public ItemStack[] inventory = new ItemStack[1];
 	
 	public int animationTimer;
-	public int prevEnergyColor;
 	public float prevEnergy;
 	
 	public void updateEntity()
 	{
-		prevEnergyColor = storage.getEnergyColor();
 		prevEnergy = storage.getEnergy();
 		++animationTimer;
 		
 		if (getBlockMetadata() < 4)
 		{
-			storage.update();
-			receiveEnergy(100000, Energon.createContentMap(1, TFEnergonManager.energon));
+			FluidStack stack = tank.getFluid();
 			
 			for (TileEntity tile : getTilesToPower())
 			{
 				IEnergyReceiver receiver = (IEnergyReceiver)tile;
-				TFHelper.transferEnergy(receiver, this, 1000F / getTilesToPower().size());
+				TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / getTilesToPower().size());
+			}
+			
+			if (stack != null && stack.amount > 0)
+			{
+				Map<String, Integer> contents = FluidEnergon.getContents(stack);
+				int i = 1;
+				
+				for (Map.Entry<String, Integer> e : contents.entrySet())
+				{
+					String s = e.getKey();
+					float factor = 1;
+					drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(TFHelper.getPercentOf(s, contents) * factor) * i) / factor), true);
+				}
+			}
+			
+			if (inventory[0] != null)
+			{
+				ItemStack itemstack = inventory[0];
+				
+				if (itemstack.getItem() instanceof IFluidContainerItem)
+				{
+					IFluidContainerItem container = (IFluidContainerItem)itemstack.getItem();
+					FluidStack stack1 = container.getFluid(itemstack);
+					
+					if (stack1 != null && stack1.amount > 0)
+					{
+						if (stack1.getFluid() == TFFluids.energon)
+						{
+							int amount = Math.min(ItemFuelCanister.getFluidAmount(itemstack), tank.getCapacity() - tank.getFluidAmount());
+							fill(ForgeDirection.UNKNOWN, container.drain(itemstack, amount, true), true);
+						}
+					}
+				}
 			}
 		}
+	}
+	
+	@Override
+	public ItemStack[] getItemStacks()
+	{
+		return inventory;
+	}
+
+	@Override
+	public void setItemStacks(ItemStack[] itemstacks)
+	{
+		inventory = itemstacks;
 	}
 	
 	public List<TileEntity> getTilesToPower()
@@ -145,6 +200,7 @@ public class TileEntityTransmitter extends TileEntity implements IEnergyContaine
 	{
 		super.readFromNBT(nbt);
 		storage.readFromNBT(nbt);
+		tank.readFromNBT(nbt);
 	}
 
 	@Override
@@ -152,12 +208,13 @@ public class TileEntityTransmitter extends TileEntity implements IEnergyContaine
 	{
 		super.writeToNBT(nbt);
 		storage.writeToNBT(nbt);
+		tank.writeToNBT(nbt);
 	}
 	
 	@Override
-	public float receiveEnergy(float amount, Map<String, Float> contents)
+	public float receiveEnergy(float amount)
 	{
-		return storage.add(amount, contents);
+		return storage.add(amount);
 	}
 	
 	@Override
@@ -179,16 +236,70 @@ public class TileEntityTransmitter extends TileEntity implements IEnergyContaine
 	}
 	
 	@Override
-	public Map<String, Float> getEnergyContents()
-	{
-		return storage.getContents();
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    {
+        return tank.fill(resource, doFill);
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+    {
+        if (resource == null || !resource.isFluidEqual(tank.getFluid()))
+        {
+            return null;
+        }
+        
+        return tank.drain(resource.amount, doDrain);
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
+    {
+        return tank.drain(maxDrain, doDrain);
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid)
+    {
+        return fluid == TFFluids.energon;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid)
+    {
+        return true;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from)
+    {
+        return new FluidTankInfo[] { tank.getInfo() };
+    }
+    
+    @Override
+	public int[] getAccessibleSlotsFromSide(int side)
+    {
+		return new int[] {0};
 	}
-	
+
 	@Override
-	public int getEnergyColor()
+	public boolean canInsertItem(int slot, ItemStack itemstack, int side)
 	{
-		return storage.getEnergyColor();
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		return isItemValidForSlot(slot, itemstack);
 	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemstack, int side)
+	{
+		return ItemFuelCanister.isEmpty(itemstack);
+	}
+    
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemstack)
+    {
+        return getBlockMetadata() < 4 && itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
+    }
 	
 	@Override
 	public Packet getDescriptionPacket()

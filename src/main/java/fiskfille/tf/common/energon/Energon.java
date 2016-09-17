@@ -23,31 +23,22 @@ public abstract class Energon
     	return StatCollector.translateToLocal("energon." + getId());
     }
     
-    public static Map<String, Float> createContentMap(Object... args)
+    public static Map<String, Integer> createContentMap(Object... args)
     {
-    	Map<String, Float> map = Maps.newHashMap();
-    	float f = 0;
+    	Map<String, Integer> map = Maps.newHashMap();
+    	int i = 0;
     	
-    	for (int i = 0; i < args.length; ++i)
+    	for (int j = 0; j < args.length; ++j)
     	{
-    		Object object = args[i];
+    		Object object = args[j];
     		
-    		if (object instanceof Float)
+    		if (object instanceof Integer)
     		{
-    			f = (Float)object;
-    		}
-    		else if (object instanceof Double)
-    		{
-    			double d = (Double)object;
-    			f = (float)d;
-    		}
-    		else if (object instanceof Integer)
-    		{
-    			f = (Integer)object;
+    			i = (Integer)object;
     		}
     		else if (object instanceof Energon)
     		{
-    			map.put(((Energon)object).getId(), f);
+    			map.put(((Energon)object).getId(), i);
     		}
     	}
     	

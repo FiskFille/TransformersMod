@@ -148,28 +148,28 @@ public class TFHelper
 	public static float transferEnergy(IEnergyContainer to, IEnergyContainer from, float amount)
 	{
 		float f = from.extractEnergy(amount);
-		float f1 = to.receiveEnergy(f, from.getEnergyContents());
+		float f1 = to.receiveEnergy(f);
 		
 		if (f > f1)
 		{
-			return from.receiveEnergy(f - f1, from.getEnergyContents());
+			return from.receiveEnergy(f - f1);
 		}
 		
 		return f1;
 	}
 	
-	public static float getPercentOf(String s, Map<String, Float> map)
+	public static float getPercentOf(String s, Map<String, Integer> map)
 	{
 		float f = 0;
 		
-		for (Map.Entry<String, Float> e : map.entrySet())
+		for (Map.Entry<String, Integer> e : map.entrySet())
         {
 			f += e.getValue();
         }
 		
 		float percentMultiplier = 1.0F / f;
 
-		for (Map.Entry<String, Float> e : map.entrySet())
+		for (Map.Entry<String, Integer> e : map.entrySet())
         {
             if (e.getKey().equals(s))
             {

@@ -83,11 +83,8 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 					double z2 = vec3.zCoord - tileentity.zCoord;
 					
 					int segments = 128;
-//					float[] afloat = TFRenderHelper.hexToRGB(0x57ABAF);
-//					float[] afloat1 = TFRenderHelper.hexToRGB(0x7BF2F8);
-					int color = tileentity.prevEnergyColor;
-					float[] afloat = TFRenderHelper.hexToRGB(TFRenderHelper.brighter(color, 0.125F));
-					float[] afloat1 = TFRenderHelper.hexToRGB(TFRenderHelper.darker(TFRenderHelper.brighter(color, 0.2F), 0.9F));
+					float[] afloat = TFRenderHelper.hexToRGB(0x57ABAF);
+					float[] afloat1 = TFRenderHelper.hexToRGB(0x7BF2F8);
 					float width = 0;
 					tessellator.startDrawing(3);
 					

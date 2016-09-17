@@ -1,7 +1,5 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.Map;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -11,14 +9,9 @@ import net.minecraft.util.Vec3;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 
-public class TileEntityEmlTest extends TileEntity implements IEnergyReceiver
+public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
 {
 	public EnergyStorage storage = new EnergyStorage(32000);
-	
-	public void updateEntity()
-	{
-		storage.update();
-	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
@@ -35,9 +28,9 @@ public class TileEntityEmlTest extends TileEntity implements IEnergyReceiver
 	}
 	
 	@Override
-	public float receiveEnergy(float amount, Map<String, Float> contents)
+	public float receiveEnergy(float amount)
 	{
-		return storage.add(amount, contents);
+		return storage.add(amount);
 	}
 	
 	@Override
@@ -56,18 +49,6 @@ public class TileEntityEmlTest extends TileEntity implements IEnergyReceiver
 	public float getMaxEnergy()
 	{
 		return storage.getMaxEnergy();
-	}
-	
-	@Override
-	public Map<String, Float> getEnergyContents()
-	{
-		return storage.getContents();
-	}
-	
-	@Override
-	public int getEnergyColor()
-	{
-		return storage.getEnergyColor();
 	}
 
 	@Override

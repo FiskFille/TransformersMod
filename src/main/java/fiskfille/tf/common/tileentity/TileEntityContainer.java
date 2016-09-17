@@ -11,7 +11,7 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
 {    
     public abstract ItemStack[] getItemStacks();
     
-    public abstract ItemStack[] setItemStacks(ItemStack[] itemstacks);
+    public abstract void setItemStacks(ItemStack[] itemstacks);
 
     public int getSizeInventory()
     {
@@ -79,7 +79,7 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
 
     public String getInventoryName()
     {
-        return "gui.display_station";
+        return "";
     }
 
     public boolean hasCustomInventoryName()
@@ -131,7 +131,7 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
 
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) != this ? false : player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
     }
 
     public void openInventory() {}

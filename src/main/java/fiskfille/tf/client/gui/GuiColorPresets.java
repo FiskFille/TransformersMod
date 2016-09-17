@@ -223,7 +223,7 @@ public class GuiColorPresets extends GuiScreen
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                     float opacityMax = 20;
-                    float opacity = ticks % opacityMax;
+                    float opacity = (ticks + partialTicks) % opacityMax;
                     opacity = opacity > opacityMax / 2 ? opacityMax / 2 - (opacity - opacityMax / 2) : opacity;
                     GL11.glColor4f(1, 1, 0, opacity / opacityMax + 0.1F);
                     drawTexturedModalRect(preset.posX - 2, preset.posY - 2, 0, 0, 54, 2);
@@ -317,7 +317,7 @@ public class GuiColorPresets extends GuiScreen
             RenderHelper.enableStandardItemLighting();
             GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
-            GL11.glRotatef((float) ticks / 2, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef((float) (ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
             RenderManager.instance.playerViewY = 180.0F;
             TFRenderHelper.startGlScissor(width / 2 - 200, height / 6, 100, 150);
             RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
