@@ -53,7 +53,7 @@ public class BlockEnergonProcessor extends BlockContainer
 
         if (tile != null)
         {
-            return Math.round((tile.tank.getFluidAmount() / tile.tank.getCapacity()) * 15);
+            return Math.round(((float)tile.tank.getFluidAmount() / tile.tank.getCapacity()) * 15);
         }
 
         return 0;

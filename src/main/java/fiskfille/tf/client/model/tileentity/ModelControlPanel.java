@@ -310,7 +310,7 @@ public class ModelControlPanel extends MowzieModelBase
                 }
             }
 
-            needle_1.rotateAngleY = (float) Math.PI / 2 * tile.portalDirection;
+            needle_1.rotateAngleY = (float) Math.PI / 2 * TFRenderHelper.median(tile.animPortalDirection, tile.prevAnimPortalDirection, partialTicks);
             levercover1.rotateAngleX = 0.45378560551852565F - 1.9F * TFRenderHelper.median(tile.activationLeverCoverTimer, tile.prevActivationLeverCoverTimer, partialTicks);
             levercover2.rotateAngleX = 1.4311699866353502F - 0.5F * TFRenderHelper.median(tile.activationLeverCoverTimer, tile.prevActivationLeverCoverTimer, partialTicks);
             lever1.rotateAngleX = 0.17453292519943295F + 2.5F * TFRenderHelper.median(tile.activationLeverTimer, tile.prevActivationLeverTimer, partialTicks);

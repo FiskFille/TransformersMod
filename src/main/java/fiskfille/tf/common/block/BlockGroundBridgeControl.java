@@ -1,10 +1,7 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.network.MessageControlPanel;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
@@ -16,8 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.Random;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.network.MessageControlPanel;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 
 public class BlockGroundBridgeControl extends BlockDirectional implements ITileEntityProvider
 {
@@ -416,14 +416,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
 
     public void sendActionPacket(TileEntityControlPanel tile, EntityPlayer player, int action)
     {
-//    	if (player.worldObj.isRemote)
-        {
-            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
-        }
-//    	else
-//    	{
-//    		TFNetworkManager.networkWrapper.sendToDimension(new MessageControlPanelAction(player, tile.xCoord, tile.yCoord, tile.zCoord, action), player.dimension);
-//    	}
+    	TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
     }
 
     public TileEntity createNewTileEntity(World world, int metadata)

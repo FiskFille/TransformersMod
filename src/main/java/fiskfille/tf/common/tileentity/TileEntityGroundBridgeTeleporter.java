@@ -11,19 +11,24 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
 	public TileEntityControlPanel controlPanel;
 	public boolean returnPortal = false;
 	public int lastUpdate;
+	public int ticks;
 
     public void updateEntity()
     {
-    	if (!worldObj.isRemote)
-    	{
-    		if (lastUpdate > 0)
-    		{
-    			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-    			markBlockForUpdate();
-    		}
+    	if (lastUpdate >= 6)
+		{
+			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			markBlockForUpdate();
+		}
 
-    		++lastUpdate;
-    	}
+		++lastUpdate;
+		++ticks;
+    }
+    
+    @Override
+    public double getMaxRenderDistanceSquared()
+    {
+    	return super.getMaxRenderDistanceSquared() * 2;
     }
 
     public void markBlockForUpdate()

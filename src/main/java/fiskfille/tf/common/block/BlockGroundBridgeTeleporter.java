@@ -1,13 +1,12 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFEntityData;
-import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+import static net.minecraftforge.common.util.ForgeDirection.EAST;
+import static net.minecraftforge.common.util.ForgeDirection.NORTH;
+import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
+import static net.minecraftforge.common.util.ForgeDirection.WEST;
+
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockBreakable;
@@ -20,57 +19,58 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.Random;
+import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.data.TFEntityData;
+import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 
 public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITileEntityProvider
 {
     public BlockGroundBridgeTeleporter()
     {
         super(TransformersMod.modid + ":ground_bridge_teleporter", Material.portal, false);
-        this.setTickRandomly(true);
+        setTickRandomly(true);
+//        setLightLevel(1);
     }
 
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         return null;
     }
-
+    
+    public boolean canPaneConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir)
+    {
+        return world.getBlock(x, y, z) == TFBlocks.groundBridgeTeleporter;
+    }
+    
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
-        int l = func_149999_b(world.getBlockMetadata(x, y, z));
+    	float thickness = 0.125F;
+        float f = 0.5F - thickness;
+        float f1 = 0.5F + thickness;
+        float f2 = 0.5F - thickness;
+        float f3 = 0.5F + thickness;
+        boolean flag  = canPaneConnectTo(world, x, y, z - 1, NORTH) || canPaneConnectTo(world, x, y, z + 1, SOUTH);
+        boolean flag1 = canPaneConnectTo(world, x - 1, y, z, WEST ) || canPaneConnectTo(world, x + 1, y, z, EAST );
 
-        if (l == 0)
+        if (!flag && flag1)
         {
-            if (world.getBlock(x - 1, y, z) != this && world.getBlock(x + 1, y, z) != this)
-            {
-                l = 2;
-            }
-            else
-            {
-                l = 1;
-            }
-
-            if (world instanceof World && !((World) world).isRemote)
-            {
-                ((World) world).setBlockMetadataWithNotify(x, y, z, l, 2);
-            }
+            f = 0.0F;
+            f1 = 1.0F;
         }
 
-        float f = 0.125F;
-        float f1 = 0.125F;
-
-        if (l == 1)
+        if (flag && !flag1)
         {
-            f = 0.5F;
+            f2 = 0.0F;
+            f3 = 1.0F;
         }
 
-        if (l == 2)
-        {
-            f1 = 0.5F;
-        }
-
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
+        setBlockBounds(f, 0.0F, f2, f1, 1.0F, f3);
     }
 
     public boolean renderAsNormalBlock()
@@ -177,7 +177,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                         else
                         {
                             int posX = controlPanel.destX;
-                            int posY = controlPanel.destY;
+                            int posY = controlPanel.destY - 3;
                             int posZ = controlPanel.destZ;
                             float yawDiff = entity.rotationYaw - (controlPanel.getSrcPortalDirection() * 90 + 180);
                             float yaw = (controlPanel.portalDirection * 90 + 180 * 90 + 180) + yawDiff;
@@ -319,6 +319,20 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         {
             for (int j = 0; j < 3; ++j)
             {
+            	int k = 0;
+            	int l = 0;
+            	
+            	if (world.getTileEntity(x - 1 + j, y + 1 + i, z) instanceof TileEntityGroundBridgeTeleporter)
+                {
+                    TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x - 1 + j, y + 1 + i, z);
+                    k = tileentity.ticks;
+                }
+                if (world.getTileEntity(x - 2 + i, y + 2 + j, z) instanceof TileEntityGroundBridgeTeleporter)
+                {
+                    TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x - 2 + i, y + 2 + j, z);
+                    l = tileentity.ticks;
+                }
+            	
                 world.setBlock(x - 1 + j, y + 1 + i, z, block);
                 world.setBlock(x - 2 + i, y + 2 + j, z, block);
 
@@ -328,14 +342,15 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     tileentity.controlPanel = tile;
                     tileentity.returnPortal = returnPortal;
                     tileentity.lastUpdate = 0;
+                    tileentity.ticks = ++k;
                 }
-
                 if (world.getTileEntity(x - 2 + i, y + 2 + j, z) instanceof TileEntityGroundBridgeTeleporter)
                 {
                     TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x - 2 + i, y + 2 + j, z);
                     tileentity.controlPanel = tile;
                     tileentity.returnPortal = returnPortal;
                     tileentity.lastUpdate = 0;
+                    tileentity.ticks = l;
                 }
             }
         }
@@ -349,6 +364,20 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         {
             for (int j = 0; j < 3; ++j)
             {
+            	int k = 0;
+            	int l = 0;
+            	
+            	if (world.getTileEntity(x, y + 1 + i, z - 1 + j) instanceof TileEntityGroundBridgeTeleporter)
+                {
+                    TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x, y + 1 + i, z - 1 + j);
+                    k = tileentity.ticks;
+                }
+                if (world.getTileEntity(x, y + 2 + j, z - 2 + i) instanceof TileEntityGroundBridgeTeleporter)
+                {
+                    TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x, y + 2 + j, z - 2 + i);
+                    l = tileentity.ticks;
+                }
+            	
                 world.setBlock(x, y + 1 + i, z - 1 + j, block);
                 world.setBlock(x, y + 2 + j, z - 2 + i, block);
 
@@ -358,6 +387,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     tileentity.controlPanel = tile;
                     tileentity.returnPortal = returnPortal;
                     tileentity.lastUpdate = 0;
+                    tileentity.ticks = ++k;
                 }
                 if (world.getTileEntity(x, y + 2 + j, z - 2 + i) instanceof TileEntityGroundBridgeTeleporter)
                 {
@@ -365,6 +395,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     tileentity.controlPanel = tile;
                     tileentity.returnPortal = returnPortal;
                     tileentity.lastUpdate = 0;
+                    tileentity.ticks = l;
                 }
             }
         }

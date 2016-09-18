@@ -37,6 +37,8 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 	public int destY;
 	public int destZ;
 	public int portalDirection;
+	public float animPortalDirection;
+	public float prevAnimPortalDirection;
 	public int srcPortalDirection;
 	public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 	public boolean activationLeverState = false;
@@ -56,6 +58,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 	{
 		prevActivationLeverTimer = activationLeverTimer;
 		prevActivationLeverCoverTimer = activationLeverCoverTimer;
+		prevAnimPortalDirection = animPortalDirection;
 		
 		if (!BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata()))
 		{
@@ -142,7 +145,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 //				errors.add(EnumError.INVALID_COORDS);
 			}
 			
-			if (destY - 2 <= 0 || destY + 2 >= worldObj.getHeight())
+			if (destY - 1 <= 0 || destY + 3 >= worldObj.getHeight())
 			{
 				errors.add(EnumError.OUT_OF_BOUNDS);
 			}
@@ -228,6 +231,26 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 				{
 					BlockGroundBridgeTeleporter.fillEastFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
 				}
+			}
+			
+			int dir = portalDirection == 0 && animPortalDirection > portalDirection ? (animPortalDirection == 0 ? 0 : 4) : portalDirection;
+			float incr = 0.2F;
+			
+			if (animPortalDirection < dir)
+			{
+				animPortalDirection += incr;
+			}
+			else if (animPortalDirection > dir)
+			{
+				animPortalDirection -= incr;
+			}
+			
+			animPortalDirection = (float)Math.round(animPortalDirection * 1000) / 1000;
+			
+			if (animPortalDirection > 3)
+			{
+				animPortalDirection -= 4;
+				prevAnimPortalDirection -= 4;
 			}
 		}
 	}
@@ -362,7 +385,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		portalDirection = nbt.getInteger("PortalDirection");
+		animPortalDirection = prevAnimPortalDirection = portalDirection = nbt.getInteger("PortalDirection");
 		srcPortalDirection = nbt.getInteger("SrcPortalDirection");
 		activationLeverState = nbt.getBoolean("Lever");
 		activationLeverCoverState = nbt.getBoolean("LeverCover");

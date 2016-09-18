@@ -3,6 +3,7 @@ package fiskfille.tf.client.render.tileentity;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -21,52 +22,57 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 			metadata = tileentity.getBlockMetadata();
 		}
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		GL11.glScalef(1F, -1F, -1F);
-
-		if (tileentity.controlPanel != null)
-		{
-			if (tileentity.returnPortal)
-			{
-				GL11.glRotatef(90 * tileentity.controlPanel.portalDirection, 0, 1, 0);
-			}
-			else
-			{
-				GL11.glRotatef(90 * tileentity.controlPanel.getSrcPortalDirection(), 0, 1, 0);
-			}
-		}
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glColor4f(1, 1, 1, 1);
-		TFRenderHelper.setLighting(61680);
-		GL11.glPushMatrix();
-		GL11.glColor4f(1, 1, 1, 1);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
-
-		bindTexture(new ResourceLocation("textures/blocks/log_oak_top.png"));
-
 		if (metadata == 1)
 		{
+			GL11.glPushMatrix();
+			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+			GL11.glScalef(1F, -1F, -1F);
+
+			if (tileentity.controlPanel != null)
+			{
+				if (tileentity.returnPortal)
+				{
+					GL11.glRotatef(90 * tileentity.controlPanel.portalDirection, 0, 1, 0);
+				}
+				else
+				{
+					GL11.glRotatef(90 * tileentity.controlPanel.getSrcPortalDirection(), 0, 1, 0);
+				}
+			}
+			
+			float f1 = 1 - (float)(tileentity.lastUpdate > 0 ? tileentity.lastUpdate + partialTicks - 1 : 0) / 6;
+			
+			if (tileentity.lastUpdate == 0)
+			{
+				f1 = MathHelper.clamp_float(tileentity.ticks + partialTicks, 0, 6) / 6;
+			}
+			
+			GL11.glScalef(MathHelper.clamp_float(f1 * 3, 0, 1), f1, 1);
+
+			GL11.glColor4f(1, 1, 1, 1);
+			TFRenderHelper.setLighting(61680);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
+
 			float zOffset = -1.5F;
 			float indent = 1.75F;
 			float edge = 1.5F;
 			float scale = 1.18F;
 			float radius = 2;
 			
+			bindTexture(new ResourceLocation("textures/blocks/log_oak_top.png"));
 			drawPortal(0, 0, zOffset, scale, radius, edge, indent, false);
 			float shade = 0.75F;
 			GL11.glColor4f(shade, shade, shade, 1);
 			drawPortal(0, 0, zOffset, scale, radius, edge, indent, true);
+			
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glEnable(GL11.GL_LIGHTING);
+			TFRenderHelper.resetLighting();
+			GL11.glPopMatrix();
 		}
-
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-		GL11.glPopMatrix();
-		TFRenderHelper.resetLighting();
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glPopMatrix();
 	}
 
 	public void drawPortal(float offsetX, float offsetY, float offsetZ, float scale, float radius, float edge, float indent, boolean invert)

@@ -25,6 +25,7 @@ import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandler, ISidedInventory
 {
@@ -186,6 +187,14 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 
 			if (i > 0)
 			{
+				Map<String, Integer> map = FluidEnergon.getContents(stack);
+				
+				for (Map.Entry<String, Integer> e : map.entrySet())
+				{
+					e.setValue(Math.round(stack.amount * TFHelper.getPercentOf(e.getKey(), map)));
+				}
+				
+				FluidEnergon.setContents(stack, map);
 				FluidEnergon.addContents(stack, Energon.createContentMap(energon.getMass(), energon.getEnergonType()));
 			}
 
@@ -321,7 +330,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 
 	public boolean canExtractItem(int slot, ItemStack stack, int side)
 	{
-		return side != 0 || slot == 0 || (slot == 2 && ItemFuelCanister.isEmpty(stack));
+		return side != 0 || slot == 0 || (slot == 2 && !ItemFuelCanister.isEmpty(stack));
 	}
 
 	@Override

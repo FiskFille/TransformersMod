@@ -40,9 +40,13 @@ public class FluidEnergon extends Fluid
 	
 	public static void setContents(FluidStack stack, Map<String, Integer> contents)
     {
+//		for (Map.Entry<String, Integer> e : contents.entrySet())
+//		{
+//			e.setValue(Math.round(stack.amount * TFHelper.getPercentOf(e.getKey(), contents)));
+//		}
+        
         refreshNBT(stack);
         stack.tag.setString("Contents", contents.toString());
-        
         calculateLiquidColor(stack, contents);
     }
 	
