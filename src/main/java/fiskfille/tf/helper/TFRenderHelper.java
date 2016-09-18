@@ -14,7 +14,9 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 import org.lwjgl.opengl.GL11;
 
@@ -247,5 +249,17 @@ public class TFRenderHelper
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
+    }
+    
+    public static void faceVec(Vec3 src, Vec3 dst)
+    {
+        double d0 = dst.xCoord - src.xCoord;
+        double d1 = dst.yCoord - src.yCoord;
+        double d2 = dst.zCoord - src.zCoord;
+        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+        float yaw = (float)(Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
+        float pitch = (float)(-(Math.atan2(d1, d3) * 180.0D / Math.PI));
+        GL11.glRotated(-yaw, 0, 1, 0);
+		GL11.glRotated(pitch, 1, 0, 0);
     }
 }
