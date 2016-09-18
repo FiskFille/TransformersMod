@@ -137,7 +137,7 @@ public class GuiEnergonProcessor extends GuiContainer
                 j1 = height - k1 - 6;
             }
 
-            zLevel = 300.0F;
+            zLevel = 300;
             int l1 = -267386864;
             drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
             drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
@@ -165,15 +165,17 @@ public class GuiEnergonProcessor extends GuiContainer
                 j1 += 10;
             }
 
-            zLevel = 0.0F;
+            zLevel = 0;
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         }
+        
+        GL11.glColor4f(1, 1, 1, 1);
     }
 
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
-    	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    	GL11.glColor4f(1, 1, 1, 1);
     	mc.getTextureManager().bindTexture(guiTextures);
     	int k = (width - xSize) / 2;
     	int l = (height - ySize) / 2;
@@ -208,7 +210,7 @@ public class GuiEnergonProcessor extends GuiContainer
         	GL11.glPushMatrix();
         	GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
         	GL11.glTranslatef(k + 79, l + 19, 0);
-        	GL11.glScalef(3.0F, 3.0F, 3.0F);
+        	GL11.glScalef(3, 3, 3);
         	TFRenderHelper.startGlScissor(k + 79, l + 19 + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
         	drawTexturedModelRectFromIcon(0, 0, TFRenderHelper.energonStillIcon, 16, 16);
         	TFRenderHelper.endGlScissor();

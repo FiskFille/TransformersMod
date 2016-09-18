@@ -18,6 +18,7 @@ public class RenderEmlTest extends TileEntitySpecialRenderer
         
         TFRenderHelper.setLighting(61680);
         TFRenderHelper.renderTag(String.format("Energy: %s", tile.getEnergy()), 0, -1, 0);
+        TFRenderHelper.resetLighting();
         
         GL11.glPopMatrix();
     }

@@ -6,6 +6,7 @@ import fiskfille.tf.common.energon.DefaultEnergon;
 import fiskfille.tf.common.energon.RedEnergon;
 import fiskfille.tf.common.item.ItemGroundBridgeControl;
 import fiskfille.tf.common.registry.TFBlockRegistry;
+import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
@@ -75,7 +76,7 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class);
         TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);
-        TFBlockRegistry.registerBlock(assemblyTable, "Transformer Assembly Table");
+        TFBlockRegistry.registerTileEntity(assemblyTable, "Transformer Assembly Table", TileEntityAssemblyTable.class);
 
         TFBlockRegistry.registerTileEntity(embTest, "EmB Test", TileEntityEmbTest.class);
         
