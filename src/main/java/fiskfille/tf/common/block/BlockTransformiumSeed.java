@@ -29,7 +29,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
 
         if (world.isBlockIndirectlyGettingPowered(x, y, z))
         {
-            ignite(world, x, y, z, world.getBlockMetadata(x, y, z), (EntityLivingBase) null);
+            ignite(world, x, y, z, world.getBlockMetadata(x, y, z), null);
             world.setBlockToAir(x, y, z);
         }
     }
@@ -38,7 +38,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
     {
         if (world.isBlockIndirectlyGettingPowered(x, y, z))
         {
-            ignite(world, x, y, z, block.getDamageValue(world, x, y, z), (EntityLivingBase) null);
+            ignite(world, x, y, z, block.getDamageValue(world, x, y, z), null);
             world.setBlockToAir(x, y, z);
         }
     }
@@ -52,7 +52,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
     {
         if (!world.isRemote)
         {
-            EntityTransformiumSeed seed = new EntityTransformiumSeed(world, x + 0.5F, y + 0.5F, z + 0.5F, entity);
+            EntityTransformiumSeed seed = new EntityTransformiumSeed(world, x + 0.5F, y, z + 0.5F, entity);
             world.spawnEntityInWorld(seed);
             world.playSoundAtEntity(seed, "note.pling", 1.0F, 0.5F);
         }

@@ -35,10 +35,7 @@ public class EntityTransformiumSeed extends Entity
     {
         this(world);
         setPosition(x, y, z);
-        float f = (float) (Math.random() * Math.PI * 2.0D);
-        motionX = -((float) Math.sin(f)) * 0.02F;
         motionY = 0.05D;
-        motionZ = -((float) Math.cos(f)) * 0.02F;
         prevPosX = x;
         prevPosY = y;
         prevPosZ = z;
@@ -61,12 +58,11 @@ public class EntityTransformiumSeed extends Entity
 
     public void onUpdate()
     {
-        motionX = 0;
-        motionZ = 0;
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-        moveEntity(motionX, motionY, motionZ);
+
+        moveEntity(0, motionY, 0);
 
         if (motionY > 0)
         {
@@ -94,70 +90,49 @@ public class EntityTransformiumSeed extends Entity
             }
             else
             {
-                for (int j = 0; j < 3; ++j)
+                int y = worldObj.getHeightValue((int) posX, (int) posZ);
+
+                for (int depth = 0; depth < 3; ++depth)
                 {
-                    int y = 256;
-
-                    while (worldObj.getBlock((int) posX - 1, y, (int) posZ - 1) == Blocks.air)
-                    {
-                        --y;
-                    }
-
-                    Block block = worldObj.getBlock((int) posX - 1, y - j, (int) posZ - 1);
+                    Block block = worldObj.getBlock((int) posX, y - depth, (int) posZ);
 
                     if (block != TFBlocks.transformiumStone && block != Blocks.air && block != Blocks.bedrock)
                     {
-                        worldObj.setBlock((int) posX - 1, y - j, (int) posZ - 1, TFBlocks.transformiumStone);
+                        worldObj.setBlock((int) posX, y - depth, (int) posZ, TFBlocks.transformiumStone);
                     }
                 }
 
-                for (int i = 0; i < 360; ++i)
+                Vec3 position = Vec3.createVectorHelper(posX, posY, posZ);
+
+                for (float angle = 0; angle < 360; ++angle)
                 {
-                    float f = 1.0F;
-                    float f1 = 0.0F;
-                    float f2 = i;
-                    double d0 = prevPosX + (posX - prevPosX) * f - 1;
-                    double d1 = prevPosY + (posY - prevPosY) * f;
-                    double d2 = prevPosZ + (posZ - prevPosZ) * f - 1;
-                    Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-                    float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-                    float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-                    float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-                    float f6 = MathHelper.sin(-f1 * 0.017453292F);
-                    float f7 = f4 * f5;
-                    float f8 = f3 * f5;
-                    double d3 = fuse * 0.9;
-                    Vec3 vec31 = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
+                    double range = fuse * 0.9;
+                    Vec3 blockPosition = position.addVector(MathHelper.sin(-angle * 0.017453292F - (float) Math.PI) * range, range, MathHelper.cos(-angle * 0.017453292F - (float) Math.PI) * range);
 
-                    double x = (int) vec31.xCoord;
-                    int y = 256;
-                    double z = (int) vec31.zCoord;
+                    double x = (int) blockPosition.xCoord;
+                    double z = (int) blockPosition.zCoord;
+                    y = worldObj.getHeightValue((int) posX, (int) posZ);
 
-                    while (worldObj.getBlock((int) x, y, (int) z) == Blocks.air)
+                    for (int depth = 0; depth < 3; ++depth)
                     {
-                        --y;
-                    }
+                        worldObj.spawnParticle("smoke", blockPosition.xCoord + rand.nextFloat() - 0.5F / 2, y + 1.2F, blockPosition.zCoord + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
+                        worldObj.spawnParticle("flame", blockPosition.xCoord + rand.nextFloat() - 0.5F / 2, y + 1.2F, blockPosition.zCoord + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
 
-                    for (int j = 0; j < 3; ++j)
-                    {
-                        worldObj.spawnParticle("smoke", x + rand.nextFloat() - 0.5F / 2, y + 1.2F, z + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
-                        worldObj.spawnParticle("flame", x + rand.nextFloat() - 0.5F / 2, y + 1.2F, z + rand.nextFloat() - 0.5F / 2, 0.0D, 0.0D, 0.0D);
-
-                        if (worldObj.getBlock((int) x, y - j, (int) z) != TFBlocks.transformiumStone && !worldObj.isAirBlock((int) x, y - j, (int) z) && worldObj.getBlock((int) x, y - j, (int) z) != Blocks.bedrock)
+                        if (worldObj.getBlock((int) x, y - depth, (int) z) != TFBlocks.transformiumStone && !worldObj.isAirBlock((int) x, y - depth, (int) z) && worldObj.getBlock((int) x, y - depth, (int) z) != Blocks.bedrock)
                         {
-                            worldObj.setBlock((int) x, y - j, (int) z, TFBlocks.transformiumStone);
+                            worldObj.setBlock((int) x, y - depth, (int) z, TFBlocks.transformiumStone);
                         }
 
-                        List<Entity> list = getEntitiesNear(worldObj, x, y - j, z, 5.0F);
+                        List<Entity> entities = getEntitiesNear(worldObj, x, y - depth, z, 5.0F);
 
-                        for (Entity entity : list)
+                        for (Entity entity : entities)
                         {
                             if (!entity.getUniqueID().equals(getUniqueID()))
                             {
                                 if (entity instanceof EntityLivingBase)
                                 {
-                                    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.onFire, Float.MAX_VALUE);
-                                    ((EntityLivingBase) entity).attackEntityFrom(DamageSource.generic, Float.MAX_VALUE);
+                                    entity.attackEntityFrom(DamageSource.onFire, Float.MAX_VALUE);
+                                    entity.attackEntityFrom(DamageSource.generic, Float.MAX_VALUE);
                                 }
                             }
                         }
@@ -169,16 +144,14 @@ public class EntityTransformiumSeed extends Entity
 
     public static List<Entity> getEntitiesNear(World world, double x, double y, double z, float radius)
     {
-        List list = world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius), IEntitySelector.selectAnything);
-        return list;
+        return world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius), IEntitySelector.selectAnything);
     }
 
     private void explode()
     {
         if (!worldObj.isRemote)
         {
-            float f = 10.0F;
-            worldObj.createExplosion(this, posX, posY, posZ, f, true);
+            worldObj.createExplosion(this, posX, posY, posZ, 10.0F, true);
         }
     }
 
@@ -198,6 +171,11 @@ public class EntityTransformiumSeed extends Entity
     public float getShadowSize()
     {
         return 0.0F;
+    }
+
+    @Override
+    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int steps)
+    {
     }
 
     public EntityLivingBase getSeedPlacedBy()
