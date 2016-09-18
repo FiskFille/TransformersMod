@@ -163,7 +163,7 @@ public class TFMotionManager
 
             if (!canDriveOffroad)
             {
-                Material[] offroadMaterials = {cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web};
+                Material[] offroadMaterials = { cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web };
                 Block block = player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ - 1);
                 boolean isDrivingOffroad = false;
 
@@ -349,7 +349,8 @@ public class TFMotionManager
         player.motionZ = frontCoords.zCoord - player.posZ;
     }
 
-    public static double fromKMPH(double speed) {
+    public static double fromKMPH(double speed)
+    {
         return (speed * 1000.0) / 60.0 / 60.0 / 20.0;
     }
 
