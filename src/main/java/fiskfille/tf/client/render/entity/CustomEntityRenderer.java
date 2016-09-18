@@ -29,24 +29,24 @@ public class CustomEntityRenderer extends EntityRenderer
             return;
         }
 
-        player.yOffset -= getOffsetY(player); // TODO
+        player.yOffset -= getOffsetY(player, partialTick); // TODO
         super.updateCameraAndRender(partialTick);
         player.yOffset = 1.62F;
     }
 
-    public static float getOffsetY(EntityPlayer player)
+    public static float getOffsetY(EntityPlayer player, float partialTick)
     {
     	Transformer transformer = TFHelper.getTransformer(player);
-        return getCameraOffset(player, transformer) + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 20.0F;
+        return getCameraOffset(player, transformer, partialTick) + TFDataManager.getTransformationTimer(player, partialTick) / 20.0F;
     }
-    
-    public static float getCameraOffset(EntityPlayer player, Transformer transformer)
+
+    public static float getCameraOffset(EntityPlayer player, Transformer transformer, float partialTick)
     {
         if (transformer != null)
         {
             int altMode = TFDataManager.getAltMode(player);
 
-            if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) > 10)
+            if (TFDataManager.getTransformationTimer(player, partialTick) > 10)
             {
                 return transformer.getCameraYOffset(player, altMode);
             }

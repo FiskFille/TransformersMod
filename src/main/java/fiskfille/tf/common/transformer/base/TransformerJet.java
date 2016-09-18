@@ -8,7 +8,6 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -87,8 +86,7 @@ public abstract class TransformerJet extends Transformer
     @Override
     public Entity getShootEntity(EntityPlayer player, int altMode)
     {
-        EntityMissile entityMissile = new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
-        return entityMissile;
+        return new EntityMissile(player.worldObj, player, TFConfig.allowMissileExplosions, TFDataManager.isInStealthMode(player));
     }
 
     @Override

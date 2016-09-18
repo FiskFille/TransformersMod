@@ -627,7 +627,7 @@ public class ClientEventHandler
         if (isClientPlayer && cameraYOffset != 0)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player), 0);
+            GL11.glTranslatef(0, -CustomEntityRenderer.getOffsetY(player, event.partialRenderTick), 0);
         }
     }
 

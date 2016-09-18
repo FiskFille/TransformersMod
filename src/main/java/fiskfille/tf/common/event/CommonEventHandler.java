@@ -11,6 +11,7 @@ import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.base.TFNetworkManager;
@@ -56,6 +57,11 @@ public class CommonEventHandler
         EntityPlayer player = event.entityPlayer;
 
         Transformer transformer = event.transformer;
+
+        if (transformer != null && event.altMode == -1)
+        {
+            TFMotionManager.getTransformerPlayer(player).setLandingTimer(0);
+        }
 
         if (transformer == null || transformer.canTransform(player))
         {
