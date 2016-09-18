@@ -129,7 +129,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	{
 		List<TileEntity> list = Lists.newArrayList();
 		
-		if (getBlockMetadata() < 4/* && getEnergy() > 0*/)
+		if (getBlockMetadata() < 4 && getEnergy() > 0)
 		{
 			for (TileEntity tile : (List<TileEntity>)worldObj.loadedTileEntityList)
 			{
