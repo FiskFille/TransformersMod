@@ -23,6 +23,8 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 import com.google.common.collect.Lists;
 
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
@@ -64,8 +66,13 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 				for (Map.Entry<String, Integer> e : contents.entrySet())
 				{
 					String s = e.getKey();
-					float factor = 1;
-					drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(TFHelper.getPercentOf(s, contents) * factor) * i) / factor), true);
+					Energon energon = TransformersAPI.getEnergonTypeByName(s);
+					
+					if (energon != null)
+					{
+						float factor = energon.getEnergyValue();
+						drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(TFHelper.getPercentOf(s, contents) * factor) * i) / factor), true);
+					}
 				}
 			}
 			

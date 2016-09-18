@@ -18,6 +18,11 @@ public abstract class Energon
 
     public abstract String getId();
     
+    public float getEnergyValue()
+    {
+    	return 1.0F;
+    }
+    
     public String getTranslatedName()
     {
     	return StatCollector.translateToLocal("energon." + getId());
