@@ -2,8 +2,7 @@ package fiskfille.tf.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import fiskfille.tf.common.energon.DefaultEnergon;
-import fiskfille.tf.common.energon.RedEnergon;
+import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.item.ItemGroundBridgeControl;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
@@ -25,6 +24,7 @@ public class TFBlocks
     public static Block energonCrystal;
     public static Block redEnergonCrystal;
     public static Block energonCube;
+    public static Block redEnergonCube;
     public static Block transformiumStone;
     public static Block transformiumSeed;
     public static Block transformiumBlock;
@@ -39,13 +39,14 @@ public class TFBlocks
     
     public static Block embTest;
 
-    public void register()
+    public static void register()
     {
         transformiumOre = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(10.0F).setResistance(1000.0F);
         displayPillar = new BlockDisplayPillar();
-        energonCrystal = new BlockEnergonCrystal(new DefaultEnergon());
-        redEnergonCrystal = new BlockEnergonCrystal(new RedEnergon());
-        energonCube = new BlockEnergonCube();
+        energonCrystal = new BlockEnergonCrystal(TFEnergonManager.energon);
+        redEnergonCrystal = new BlockEnergonCrystal(TFEnergonManager.redEnergon);
+        energonCube = new BlockEnergonCube(TFEnergonManager.energon);
+        redEnergonCube = new BlockEnergonCube(TFEnergonManager.redEnergon);
         transformiumStone = new BlockTransformiumStone().setResistance(1000.0F);
         transformiumSeed = new BlockTransformiumSeed();
         transformiumBlock = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
@@ -66,6 +67,7 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class);
         TFBlockRegistry.registerTileEntity(redEnergonCrystal, "Red Energon Crystal", TileEntityCrystal.class);
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube");
+        TFBlockRegistry.registerBlock(redEnergonCube, "Red Energon Cube");
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone");
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class);
         TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium");

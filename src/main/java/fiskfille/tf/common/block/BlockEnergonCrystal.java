@@ -32,13 +32,13 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     public BlockEnergonCrystal(Energon type)
     {
         super(Material.glass);
+        energonType = type;
+        
         setHarvestLvl("pickaxe", 1);
         setStepSound(Block.soundTypeGlass);
         setHardness(6.0F);
         setResistance(10.0F);
         setLightLevel(0.75F);
-
-        energonType = type;
     }
 
     public Energon getEnergonType()

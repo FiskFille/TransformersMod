@@ -1,7 +1,9 @@
 package fiskfille.tf.common.recipe;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -25,11 +27,9 @@ public class TFRecipes
         GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), "IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformium, 'R', Blocks.redstone_block, 'r', Items.redstone);
         GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), "TET", "TNT", "DND", 'T', TFBlocks.transformiumBlock, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block);
 
-        GameRegistry.addShapelessRecipe(new ItemStack(TFItems.energonCrystalPiece, 9), TFBlocks.energonCube);
-        GameRegistry.addShapelessRecipe(new ItemStack(TFItems.transformium, 9), TFBlocks.transformiumBlock);
-
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.energonCube, 1), "CCC", "CCC", "CCC", 'C', TFItems.energonCrystalPiece);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumBlock, 1), "CCC", "CCC", "CCC", 'C', TFItems.transformium);
+        addMaterialCompression(TFItems.energonCrystalPiece, TFBlocks.energonCube);
+        addMaterialCompression(TFItems.redEnergonCrystalPiece, TFBlocks.redEnergonCube);
+        addMaterialCompression(TFItems.transformium, TFBlocks.transformiumBlock);
     }
 
     private static void addSmelting()
@@ -120,5 +120,11 @@ public class TFRecipes
         AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapChestplate, 1), "gI Ip", "WT TW", "ITTTI", "ITTTB", "  C  ", 'g', new ItemStack(Items.dye, 7, 7), 'p', new ItemStack(Items.dye, 1, 5), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'W', TFItems.t50JetWing, 'C', TFItems.t50JetCockpit);
         AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapLeggings, 1), "gIII ", " TTT ", "IT TI", "IT TI", "     ", 'g', new ItemStack(Items.dye, 6, 7), 'T', TFItems.transformium, 'I', Items.iron_ingot);
         AssemblyTableCraftingManager.getInstance().addRecipe(new ItemStack(TFItems.cloudtrapBoots, 1), "g    ", " T T ", " T T ", "     ", " J J ", 'g', new ItemStack(Items.dye, 3, 7), 'T', TFItems.transformium, 'J', TFItems.jetThruster);
+    }
+    
+    private static void addMaterialCompression(Item item, Block block)
+    {
+    	GameRegistry.addShapelessRecipe(new ItemStack(item, 9), block);
+        GameRegistry.addRecipe(new ItemStack(block, 1), "###", "###", "###", '#', item);
     }
 }

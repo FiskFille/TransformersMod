@@ -1,21 +1,37 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
 
-public class BlockEnergonCube extends BlockBasic
+public class BlockEnergonCube extends BlockBasic implements IEnergon
 {
-    public BlockEnergonCube()
+	private Energon energonType;
+	
+    public BlockEnergonCube(Energon type)
     {
         super(Material.glass);
+        energonType = type;
+        
         setHarvestLvl("pickaxe", 1);
         setStepSound(Block.soundTypeGlass);
         setHardness(6.0F);
         setResistance(10.0F);
         setLightLevel(0.75F);
+    }
+    
+    public Energon getEnergonType()
+    {
+        return energonType;
+    }
+
+    public int getMass()
+    {
+        return 1296;
     }
 
     protected boolean canSilkHarvest()
@@ -23,10 +39,6 @@ public class BlockEnergonCube extends BlockBasic
         return true;
     }
 
-    /**
-     * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
-     * coordinates.  Args: blockAccess, x, y, z, side
-     */
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {
@@ -38,9 +50,6 @@ public class BlockEnergonCube extends BlockBasic
         return false;
     }
 
-    /**
-     * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
-     */
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass()
     {
@@ -52,10 +61,6 @@ public class BlockEnergonCube extends BlockBasic
         return false;
     }
 
-    /**
-     * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
-     * coordinates.  Args: blockAccess, x, y, z, side
-     */
     @SideOnly(Side.CLIENT)
     public boolean shouldRenderSide(IBlockAccess world, int x, int y, int z, int side)
     {

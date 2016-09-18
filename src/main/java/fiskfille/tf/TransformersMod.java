@@ -49,8 +49,6 @@ public class TransformersMod
     public static CommonProxy proxy;
 
     public static TFConfig config = new TFConfig();
-    public TFItems items = new TFItems();
-    public TFBlocks blocks = new TFBlocks();
 
     public static CreativeTabs tabTransformers = new CreativeTabTransformers();
 
@@ -86,13 +84,12 @@ public class TransformersMod
             updateChecker.handleUpdates();
         }
 
-        items.register();
-        blocks.register();
-
+        TFEnergonManager.registerEnergonTypes();
+        TFItems.register();
+        TFBlocks.register();
         TFAchievements.register();
         TFRecipes.registerRecipes();
         TFEntities.registerEntities();
-        TFEnergonManager.registerDefaultEnergonTypes();
 
         GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
 

@@ -61,7 +61,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 			if (stack != null && stack.amount > 0)
 			{
 				Map<String, Integer> contents = FluidEnergon.getContents(stack);
-				int i = 1;
+				int i = 10;
 				
 				for (Map.Entry<String, Integer> e : contents.entrySet())
 				{
@@ -85,7 +85,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 					IFluidContainerItem container = (IFluidContainerItem)itemstack.getItem();
 					FluidStack stack1 = container.getFluid(itemstack);
 					
-					if (stack1 != null && stack1.amount > 0)
+					if (stack1 != null && stack1.amount > 0 && (FluidStack.areFluidStackTagsEqual(stack, stack1) || (stack == null || stack.amount <= 0)))
 					{
 						if (stack1.getFluid() == TFFluids.energon)
 						{

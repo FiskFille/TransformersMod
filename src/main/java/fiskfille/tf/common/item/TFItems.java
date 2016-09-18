@@ -82,7 +82,7 @@ public class TFItems
 
     public static Item transformiumDetector;
 
-    public void register()
+    public static void register()
     {
         transformium = new Item();
         transformiumArmorMolds = new ItemMetaBasic("Transformium Head Mold", "Transformium Torso Mold", "Transformium Legs Mold", "Transformium Feet Mold");

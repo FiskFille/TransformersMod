@@ -71,6 +71,7 @@ tile.transformium_ore.name=Transformium Ore
 tile.energon_crystal.name=Energon Crystal
 tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
+tile.red_energon_cube.name=Red Energon Cube
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed
 tile.block_of_transformium.name=Block of Transformium

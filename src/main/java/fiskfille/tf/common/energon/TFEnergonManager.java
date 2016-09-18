@@ -7,7 +7,7 @@ public class TFEnergonManager
     public static Energon energon;
     public static Energon redEnergon;
 
-    public static void registerDefaultEnergonTypes()
+    public static void registerEnergonTypes()
     {
         energon = new DefaultEnergon();
         redEnergon = new RedEnergon();
