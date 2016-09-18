@@ -1,11 +1,23 @@
 package fiskfille.tf.common.event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.data.TFEntityData;
+import fiskfille.tf.common.data.TFPlayerData;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageBroadcastState;
+import fiskfille.tf.common.network.MessageSendFlying;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.web.update.Update;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,37 +35,18 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.event.ClientEventHandler;
-import fiskfille.tf.client.gui.GuiOverlay;
-import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.data.TFEntityData;
-import fiskfille.tf.common.data.TFPlayerData;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageBroadcastState;
-import fiskfille.tf.common.network.MessageSendFlying;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.config.TFConfig;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.web.update.Update;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CommonEventHandler
 {
-    public static double prevMove;
-
     private List<EntityPlayer> playersNotSunc = new ArrayList<EntityPlayer>();
 
     private boolean displayedUpdates;
-
-    private double lastX;
-    private double lastY;
-    private double lastZ;
 
     private Map<EntityPlayer, Boolean> prevFlying = new HashMap<EntityPlayer, Boolean>();
 
@@ -124,7 +117,7 @@ public class CommonEventHandler
         {
             event.entity.registerExtendedProperties(TFPlayerData.IDENTIFIER, new TFPlayerData());
         }
-        
+
         event.entity.registerExtendedProperties(TFEntityData.IDENTIFIER, new TFEntityData());
     }
 
@@ -266,7 +259,7 @@ public class CommonEventHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onWorldTick(WorldTickEvent event)
     {
@@ -275,8 +268,8 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent event)
     {
-    	TFEntityData.getData(event.entity).onUpdate();
-    	
+        TFEntityData.getData(event.entity).onUpdate();
+
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
@@ -284,15 +277,15 @@ public class CommonEventHandler
 
             float yOffset = transformer != null ? transformer.getCameraYOffset(player, TFDataManager.getAltMode(player)) : 0;
             boolean vehicleMode = TFDataManager.isTransformed(player);
-            
+
             TFDataManager.setPrevTransformationTimer(player, TFDataManager.getTransformationTimer(player));
             TFDataManager.setPrevStealthModeTimer(player, TFDataManager.getStealthModeTimer(player));
-            
+
             if (transformer != null)
             {
                 transformer.tick(player, TFDataManager.getTransformationTimer(player));
             }
-            
+
             TFPlayerData.getData(player).onUpdate();
 
             if (player.worldObj.isRemote)
@@ -371,27 +364,6 @@ public class CommonEventHandler
                     TFDataManager.updatePlayerWithServerInfo(player);
                     playersNotSunc.remove(player);
                 }
-            }
-            else if (TransformersMod.proxy.getPlayer() == player) //Should put this in ClientEventHandler
-            {
-                double diffX = player.posX - lastX;
-                double diffY = player.posY - lastY;
-                double diffZ = player.posZ - lastZ;
-
-                double blocksMoved = Math.sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
-
-                GuiOverlay.speed = blocksMoved / 50 * 60 * 60; //50 seems to be the average milliseconds between ticks
-
-                lastX = player.posX;
-                lastY = player.posY;
-                lastZ = player.posZ;
-            }
-
-            if (!(TFDataManager.getTransformationTimer(player) <= 20))
-            {
-                lastX = player.posX;
-                lastY = player.posY;
-                lastZ = player.posZ;
             }
         }
     }

@@ -8,6 +8,7 @@ public class VehicleMotion
     private double forwardVelocity;
     private double horizontalVelocity;
     private int nitro;
+    private int prevNitro;
     private boolean boosting;
 
     private int jetRoll;
@@ -52,9 +53,18 @@ public class VehicleMotion
         return this;
     }
 
+    public VehicleMotion setPrevNitro(int prevNitro) {
+        this.prevNitro = prevNitro;
+        return this;
+    }
+
     public int getNitro()
     {
         return nitro;
+    }
+
+    public int getPrevNitro() {
+        return prevNitro;
     }
 
     public VehicleMotion setJetRoll(int roll)

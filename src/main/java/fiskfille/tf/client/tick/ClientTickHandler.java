@@ -110,6 +110,7 @@ public class ClientTickHandler
                             transformedPlayer.setBoosting(false);
                         }
 
+                        transformedPlayer.setPrevNitro(transformedPlayer.getNitro());
                         transformedPlayer.setNitro(nitro);
                     }
                 }

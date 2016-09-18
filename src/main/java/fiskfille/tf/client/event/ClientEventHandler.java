@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import fiskfille.tf.client.gui.GuiOverlay;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -91,6 +92,10 @@ public class ClientEventHandler
     private Map<EntityPlayer, Item> prevBoots = new HashMap<EntityPlayer, Item>();
 
     private RenderPlayer prevRenderPlayer;
+
+    private double lastX;
+    private double lastY;
+    private double lastZ;
 
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
@@ -665,7 +670,25 @@ public class ClientEventHandler
     {
         if (event.phase == Phase.END)
         {
-            TutorialHandler.tick(event.player);
+            EntityPlayer player = event.player;
+
+            TutorialHandler.tick(player);
+
+            if (this.mc.thePlayer == player)
+            {
+                double diffX = player.posX - lastX;
+                double diffY = player.posY - lastY;
+                double diffZ = player.posZ - lastZ;
+
+                double blocksMoved = Math.sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+
+                GuiOverlay.prevSpeed = GuiOverlay.speed;
+                GuiOverlay.speed = ((blocksMoved * 20.0) * 60.0 * 60.0) / 1000.0;
+
+                lastX = player.posX;
+                lastY = player.posY;
+                lastZ = player.posZ;
+            }
         }
     }
 

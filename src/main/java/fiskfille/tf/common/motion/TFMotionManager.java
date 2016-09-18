@@ -331,17 +331,14 @@ public class TFMotionManager
 
     public static void moveWithVelocity(EntityPlayer player, double forwardVel, double horizontalVel)
     {
-        double d = forwardVel / 100 * 1.3898888673066752967899576429878D;
-        double d1 = horizontalVel / 100 * 1.3898888673066752967899576429878D;
-        Vec3 frontCoords = TFVectorHelper.getBackSideCoords(player, d1, false, d, false);
+        Vec3 frontCoords = TFVectorHelper.getBackSideCoords(player, fromKMPH(horizontalVel), false, fromKMPH(forwardVel), false);
         player.motionX = frontCoords.xCoord - player.posX;
         player.motionZ = frontCoords.zCoord - player.posZ;
     }
 
     public static void moveForward(EntityPlayer player, double vel, boolean pitch)
     {
-        double d = vel / 100 * 1.3898888673066752967899576429878D;
-        Vec3 frontCoords = TFVectorHelper.getFrontCoords(player, d, pitch);
+        Vec3 frontCoords = TFVectorHelper.getFrontCoords(player, fromKMPH(vel), pitch);
         player.motionX = frontCoords.xCoord - player.posX;
 
         if (pitch)
@@ -350,6 +347,10 @@ public class TFMotionManager
         }
 
         player.motionZ = frontCoords.zCoord - player.posZ;
+    }
+
+    public static double fromKMPH(double speed) {
+        return (speed * 1000.0) / 60.0 / 60.0 / 20.0;
     }
 
     public static void setForwardVelocity(EntityPlayer player, double vel)
