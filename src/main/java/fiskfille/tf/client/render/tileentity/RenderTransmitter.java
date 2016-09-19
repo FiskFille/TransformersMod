@@ -46,6 +46,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 
 			bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/transmitter_lights.png"));
 			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_BLEND);
 			TFRenderHelper.setLighting(61680);
 			model.render(tileentity, partialTicks);
 			GL11.glPopMatrix();
@@ -55,7 +56,6 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 				Tessellator tessellator = Tessellator.instance;
 				GL11.glPushMatrix();
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				GL11.glEnable(GL11.GL_BLEND);
 				
 				for (TileEntity tile : tileentity.getTilesToTryPower())
 				{
@@ -155,12 +155,12 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 //				GL11.glColor4f(1, 1, 1, 1);
 				
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				GL11.glDisable(GL11.GL_BLEND);
 				GL11.glPopMatrix();
 			}
 			
 			TFRenderHelper.resetLighting();
 			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}
 

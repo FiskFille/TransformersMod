@@ -197,6 +197,9 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 				FluidEnergon.setContents(stack, map);
 				FluidEnergon.addContents(stack, Energon.createContentMap(energon.getMass(), energon.getEnergonType()));
 			}
+			
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			notifyNeighborBlocksOfChange();
 
 			return true;
 		}

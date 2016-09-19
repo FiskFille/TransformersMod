@@ -1,13 +1,16 @@
 package fiskfille.tf.client.render.tileentity;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.helper.TFRenderHelper;
 
@@ -56,17 +59,18 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
 
-			float zOffset = -1.5F;
-			float indent = 1.75F;
+			float zOffset = -1.0F;
+			float indent = 1.25F;
 			float edge = 1.5F;
 			float scale = 1.18F;
 			float radius = 2;
+			float shade = 0.95F;
+			IIcon icon = TFBlocks.groundBridgeTeleporter.getBlockTextureFromSide(0);
 			
-			bindTexture(new ResourceLocation("textures/blocks/log_oak_top.png"));
-			drawPortal(0, 0, zOffset, scale, radius, edge, indent, false);
-			float shade = 0.75F;
+			bindTexture(TextureMap.locationBlocksTexture);
+			drawPortal(0, 0, zOffset, scale, radius, edge, indent, false, icon);
 			GL11.glColor4f(shade, shade, shade, 1);
-			drawPortal(0, 0, zOffset, scale, radius, edge, indent, true);
+			drawPortal(0, 0, zOffset, scale, radius, edge, indent, true, icon);
 			
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 			GL11.glEnable(GL11.GL_LIGHTING);
@@ -75,12 +79,14 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 		}
 	}
 
-	public void drawPortal(float offsetX, float offsetY, float offsetZ, float scale, float radius, float edge, float indent, boolean invert)
+	public void drawPortal(float offsetX, float offsetY, float offsetZ, float scale, float radius, float edge, float indent, boolean invert, IIcon icon)
 	{
 		GL11.glPushMatrix();
+		GL11.glRotatef(180, 0, 0, 10);
 		GL11.glTranslatef(offsetX, offsetY, offsetZ);
 		GL11.glScalef(scale, scale, 1);
 		Tessellator tessellator = Tessellator.instance;
+		
 		float size = 0.5F;
 		float f = 0.4F;
 		float f1 = 0.6F;
@@ -88,123 +94,123 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 		if (!invert)
 		{
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size, size, 0, f, f1);
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1);
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f);
-			tessellator.addVertexWithUV(size, -size, 0, f, f);
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size + radius, size, indent, 0, f1);
-			tessellator.addVertexWithUV(size, size, 0, f, f1);
-			tessellator.addVertexWithUV(size, -size, 0, f, f);
-			tessellator.addVertexWithUV(size + radius, -size, indent, 0, f);
+			tessellator.addVertexWithUV(size + radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(size + radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1);
-			tessellator.addVertexWithUV(-size - radius, size, indent, 1, f1);
-			tessellator.addVertexWithUV(-size - radius, -size, indent, 1, f);
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f);
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size - radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size - radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size, -size - radius, indent, f1, 0);
-			tessellator.addVertexWithUV(size, -size - radius, indent, f, 0);
-			tessellator.addVertexWithUV(size, -size, 0, f, f);
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f);
+			tessellator.addVertexWithUV(-size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0));
+			tessellator.addVertexWithUV(size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0));
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1);
-			tessellator.addVertexWithUV(size, size, 0, f, f1);
-			tessellator.addVertexWithUV(size, size + radius, indent, f, 1);
-			tessellator.addVertexWithUV(-size, size + radius, indent, f1, 1);
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1));
+			tessellator.addVertexWithUV(-size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1));
 			tessellator.draw();
 
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size, -size - radius, indent, 0, f); // Top right
-			tessellator.addVertexWithUV(size + radius / edge, -size - radius / edge, indent, 0, 0); // Top left
-			tessellator.addVertexWithUV(size + radius, -size, indent, f, 0); // Bottom left
-			tessellator.addVertexWithUV(size, -size, 0, f, f); // Bottom right
+			tessellator.addVertexWithUV(size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top right
+			tessellator.addVertexWithUV(size + radius / edge, -size - radius / edge, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top left
+			tessellator.addVertexWithUV(size + radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom left
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom right
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size, -size - radius, indent, f1, 0); // Top left
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f); // Bottom left
-			tessellator.addVertexWithUV(-size - radius, -size, indent, 1, f); // Bottom right
-			tessellator.addVertexWithUV(-size - radius / edge, 1.5F - radius / edge - 2, indent, 1, 0); // Top right
+			tessellator.addVertexWithUV(-size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top left
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom left
+			tessellator.addVertexWithUV(-size - radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom right
+			tessellator.addVertexWithUV(-size - radius / edge, 1.5F - radius / edge - 2, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top right
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size + radius, size, indent, f1, 0); // Top left
-			tessellator.addVertexWithUV(size + radius / edge, size + radius / edge, indent, 1, 0); // Bottom left
-			tessellator.addVertexWithUV(size, size + radius, indent, 1, f); // Bottom right
-			tessellator.addVertexWithUV(size, size, 0, f1, f); // Top right
+			tessellator.addVertexWithUV(size + radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top left
+			tessellator.addVertexWithUV(size + radius / edge, size + radius / edge, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom left
+			tessellator.addVertexWithUV(size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom right
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top right
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size, size + radius, indent, 1, f1); // Bottom left
-			tessellator.addVertexWithUV(-size - radius / edge, size + radius / edge, indent, 1, 1); // Bottom right
-			tessellator.addVertexWithUV(-size - radius, size, indent, f1, 1); // Top right
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1); // Top left
+			tessellator.addVertexWithUV(-size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom left
+			tessellator.addVertexWithUV(-size - radius / edge, size + radius / edge, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom right
+			tessellator.addVertexWithUV(-size - radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top right
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top left
 			tessellator.draw();
-			GL11.glPopMatrix();
 		}
 		else
 		{
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f);
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1);
-			tessellator.addVertexWithUV(size, size, 0, f, f1);
-			tessellator.addVertexWithUV(size, -size, 0, f, f);
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size, -size, 0, f, f);
-			tessellator.addVertexWithUV(size, size, 0, f, f1);
-			tessellator.addVertexWithUV(size + radius, size, indent, 0, f1);
-			tessellator.addVertexWithUV(size + radius, -size, indent, 0, f);
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size + radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(size + radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size - radius, -size, indent, 1, f);
-			tessellator.addVertexWithUV(-size - radius, size, indent, 1, f1);
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1);
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f);
+			tessellator.addVertexWithUV(-size - radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(-size - radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size, -size, 0, f, f);
-			tessellator.addVertexWithUV(size, -size - radius, indent, f, 0);
-			tessellator.addVertexWithUV(-size, -size - radius, indent, f1, 0);
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f);
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
+			tessellator.addVertexWithUV(size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0));
+			tessellator.addVertexWithUV(-size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0));
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f));
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size, size + radius, indent, f, 1);
-			tessellator.addVertexWithUV(size, size, 0, f, f1);
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1);
-			tessellator.addVertexWithUV(-size, size + radius, indent, f1, 1);
+			tessellator.addVertexWithUV(size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1));
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1));
+			tessellator.addVertexWithUV(-size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1));
 			tessellator.draw();
 
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size + radius, -size, indent, f, 0); // Bottom left
-			tessellator.addVertexWithUV(size + radius / edge, -size - radius / edge, indent, 0, 0); // Top left
-			tessellator.addVertexWithUV(size, -size - radius, indent, 0, f); // Top right
-			tessellator.addVertexWithUV(size, -size, 0, f, f); // Bottom right
+			tessellator.addVertexWithUV(size + radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom left
+			tessellator.addVertexWithUV(size + radius / edge, -size - radius / edge, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top left
+			tessellator.addVertexWithUV(size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top right
+			tessellator.addVertexWithUV(size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom right
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size - radius, -size, indent, 1, f); // Bottom right
-			tessellator.addVertexWithUV(-size, -size, 0, f1, f); // Bottom left
-			tessellator.addVertexWithUV(-size, -size - radius, indent, f1, 0); // Top left
-			tessellator.addVertexWithUV(-size - radius / edge, 1.5F - radius / edge - 2, indent, 1, 0); // Top right
+			tessellator.addVertexWithUV(-size - radius, -size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom right
+			tessellator.addVertexWithUV(-size, -size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f)); // Bottom left
+			tessellator.addVertexWithUV(-size, -size - radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top left
+			tessellator.addVertexWithUV(-size - radius / edge, 1.5F - radius / edge - 2, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 0)); // Top right
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(size, size + radius, indent, 1, f); // Bottom right
-			tessellator.addVertexWithUV(size + radius / edge, size + radius / edge, indent, 1, 0); // Bottom left
-			tessellator.addVertexWithUV(size + radius, size, indent, f1, 0); // Top left
-			tessellator.addVertexWithUV(size, size, 0, f1, f); // Top right
+			tessellator.addVertexWithUV(size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom right
+			tessellator.addVertexWithUV(size + radius / edge, size + radius / edge, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom left
+			tessellator.addVertexWithUV(size + radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 0), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top left
+			tessellator.addVertexWithUV(size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top right
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-size - radius, size, indent, f1, 1); // Top right
-			tessellator.addVertexWithUV(-size - radius / edge, size + radius / edge, indent, 1, 1); // Bottom right
-			tessellator.addVertexWithUV(-size, size + radius, indent, 1, f1); // Bottom left
-			tessellator.addVertexWithUV(-size, size, 0, f1, f1); // Top left
+			tessellator.addVertexWithUV(-size - radius, size, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top right
+			tessellator.addVertexWithUV(-size - radius / edge, size + radius / edge, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), 1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom right
+			tessellator.addVertexWithUV(-size, size + radius, indent, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), 1)); // Bottom left
+			tessellator.addVertexWithUV(-size, size, 0, TFRenderHelper.median(icon.getMinU(), icon.getMaxU(), f1), TFRenderHelper.median(icon.getMinV(), icon.getMaxV(), f1)); // Top left
 			tessellator.draw();
-			GL11.glPopMatrix();
 		}
+		
+		GL11.glPopMatrix();
 	}
 
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
