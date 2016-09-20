@@ -26,15 +26,18 @@ import com.google.common.collect.Lists;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
 
-public class TileEntityTransmitter extends TileEntityContainer implements IEnergyContainer, IFluidHandler, ISidedInventory
+public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory
 {
+	public ReceiverHandler receiverHandler = new ReceiverHandler();
 	public EnergyStorage storage = new EnergyStorage(8000);
 	public FluidTank tank = new FluidTank(2000);
 	
@@ -47,6 +50,8 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	{
 		prevEnergy = storage.getEnergy();
 		++animationTimer;
+		
+		receiverHandler.onUpdate(worldObj);
 		
 		if (getBlockMetadata() < 4)
 		{
@@ -129,17 +134,15 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	{
 		List<TileEntity> list = Lists.newArrayList();
 		
-		if (getBlockMetadata() < 4 && getEnergy() > 0)
+		if (getBlockMetadata() < 4/* && getEnergy() > 0*/)
 		{
 			for (TileEntity tile : (List<TileEntity>)worldObj.loadedTileEntityList)
 			{
-				if (tile instanceof IEnergyReceiver)
+				if (tile instanceof IEnergyReceiver && receiverHandler.receivers.contains(tile))
 				{
 					IEnergyReceiver receiver = (IEnergyReceiver)tile;
-					Vec3 vec3 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
-					Vec3 vec31 = Vec3.createVectorHelper(xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F);
 					
-					if (receiver.canReceiveEnergy() && receiver.getEnergy() < receiver.getMaxEnergy() && vec3.distanceTo(vec31) <= getRadius())
+					if (receiver.canReceiveEnergy() && receiver.getEnergy() < receiver.getMaxEnergy() && TFEnergyHelper.isInRange(this, tile))
 					{
 						list.add(tile);
 					}
@@ -157,7 +160,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 			IEnergyReceiver receiver = (IEnergyReceiver)tile;
 			Vec3 vec3 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
 			Vec3 vec31 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
-			Vec3 vec32 = Vec3.createVectorHelper(xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F);
+			Vec3 vec32 = getEnergyOutputOffset().addVector(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F);
 			
 			double d = 1F / vec3.distanceTo(vec32);
 			vec32 = Vec3.createVectorHelper(vec32.xCoord + (vec3.xCoord - vec32.xCoord) * d, vec32.yCoord + (vec3.yCoord - vec32.yCoord) * d, vec32.zCoord + (vec3.zCoord - vec32.zCoord) * d);
@@ -182,11 +185,6 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 		return getTilesToPower().contains(tile);
 	}
 	
-	public float getRadius()
-	{
-		return 20;
-	}
-	
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(0.35D, 0, 0.35D).addCoord(0, 2, 0);
@@ -206,6 +204,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
+		receiverHandler.readFromNBT(nbt);
 		storage.readFromNBT(nbt);
 		tank.readFromNBT(nbt);
 	}
@@ -214,8 +213,27 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+		receiverHandler.writeToNBT(nbt);
 		storage.writeToNBT(nbt);
 		tank.writeToNBT(nbt);
+	}
+
+	@Override
+	public ReceiverHandler getReceiverHandler()
+	{
+		return receiverHandler;
+	}
+
+	@Override
+	public float getRange()
+	{
+		return 20;
+	}
+	
+	@Override
+	public Vec3 getEnergyOutputOffset()
+	{
+		return Vec3.createVectorHelper(0, 2, 0);
 	}
 	
 	@Override

@@ -124,6 +124,160 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         if (!player.isSneaking())
         {
             int metadata = world.getBlockMetadata(x, y, z);
+            int direction = metadata % 4;
+            int face = -1;
+
+            if (side == 0)
+            {
+                face = 5;
+            }
+            else if (side == 1)
+            {
+                face = 4;
+            }
+
+            if (direction == 0)
+            {
+                if (side == 2)
+                {
+                    face = 0;
+                }
+                else if (side == 3)
+                {
+                    face = 1;
+                }
+                else if (side == 4)
+                {
+                    face = 2;
+                }
+                else if (side == 5)
+                {
+                    face = 3;
+                }
+            }
+            else if (direction == 1)
+            {
+                if (side == 5)
+                {
+                    face = 0;
+                }
+                else if (side == 4)
+                {
+                    face = 1;
+                }
+                else if (side == 2)
+                {
+                    face = 2;
+                }
+                else if (side == 3)
+                {
+                    face = 3;
+                }
+            }
+            else if (direction == 2)
+            {
+                if (side == 3)
+                {
+                    face = 0;
+                }
+                else if (side == 2)
+                {
+                    face = 1;
+                }
+                else if (side == 5)
+                {
+                    face = 2;
+                }
+                else if (side == 4)
+                {
+                    face = 3;
+                }
+            }
+            else if (direction == 3)
+            {
+                if (side == 4)
+                {
+                    face = 0;
+                }
+                else if (side == 5)
+                {
+                    face = 1;
+                }
+                else if (side == 3)
+                {
+                    face = 2;
+                }
+                else if (side == 2)
+                {
+                    face = 3;
+                }
+            }
+
+            if (face != -1)
+            {
+                if (side == 1 || side == 0)
+                {
+                    if (direction == 0)
+                    {
+                        hitX = 1 - hitX;
+                        hitY = (side == 1 ? 1 : hitZ * 2) - hitZ;
+                    }
+                    else if (direction == 1)
+                    {
+                        hitY = (side == 0 ? 1 : hitX * 2) - hitX;
+                        hitX = 1 - hitZ;
+                    }
+                    else if (direction == 2)
+                    {
+                        hitY = (side == 0 ? 1 : hitZ * 2) - hitZ;
+                    }
+                    else if (direction == 3)
+                    {
+                        hitY = (side == 1 ? 1 : hitX * 2) - hitX;
+                        hitX = hitZ;
+                    }
+                }
+                else if (side == 3)
+                {
+                    hitY = 1 - hitY;
+                }
+                else if (side == 2)
+                {
+                    hitX = 1 - hitX;
+                    hitY = 1 - hitY;
+                }
+                else if (side == 5)
+                {
+                    hitX = 1 - hitZ;
+                    hitY = 1 - hitY;
+                }
+                else if (side == 4)
+                {
+                    hitX = hitZ;
+                    hitY = 1 - hitY;
+                }
+
+                if (face == 1)
+                {
+                    hitX = 1 - hitX;
+                }
+                
+                if (face < 4)
+                {
+                	hitY = 1 - hitY;
+                	hitY += (metadata >= 8 ? 2 : (metadata >= 4 ? 1 : 0));
+                }
+
+                TileEntityTransmitter tile = (TileEntityTransmitter) world.getTileEntity(x, y - (metadata >= 8 ? 2 : (metadata >= 4 ? 1 : 0)), z);
+
+                if (tile != null)
+                {
+                	if (onRightClick(world, tile.xCoord, tile.yCoord, tile.zCoord, tile, player, face, hitX, hitY))
+                	{
+                		return true;
+                	}
+                }
+            }
             
             if (metadata >= 4)
             {
@@ -148,6 +302,23 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         {
             return false;
         }
+    }
+    
+    public boolean onRightClick(World world, int x, int y, int z, TileEntityTransmitter tile, EntityPlayer player, int face, float hitX, float hitY)
+    {
+        // 0 = back, 1 = front, 2 = left, 3 = right, 4 = top, 5 = bottom
+        float f = 0.0625F;
+        
+        if (face == 1)
+        {
+        	if (hitX > f * 5.5F && hitX < f * 10.5F && hitY > f * 10 && hitY < f * 20)
+        	{
+        		player.openGui(TransformersMod.instance, 5, world, x, y, z);
+        		return true;
+        	}
+        }
+        
+        return false;
     }
     
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata)

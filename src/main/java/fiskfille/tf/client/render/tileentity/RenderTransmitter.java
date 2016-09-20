@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelTransmitter;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFRenderHelper;
 
@@ -26,7 +27,6 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 	{
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		World world = tileentity.getWorldObj();
-		Vec3 vec32 = Vec3.createVectorHelper(TFRenderHelper.median((float)player.posX, (float)player.prevPosX, partialTicks), TFRenderHelper.median((float)player.posY, (float)player.prevPosY, partialTicks), TFRenderHelper.median((float)player.posZ, (float)player.prevPosZ, partialTicks));
 		int metadata = 0;
 
 		if (world != null)
@@ -57,10 +57,13 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 				GL11.glPushMatrix();
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				
+				IEnergyTransmitter transmitter = (IEnergyTransmitter)tileentity;
+				Vec3 outOffset = transmitter.getEnergyOutputOffset();
+				
 				for (TileEntity tile : tileentity.getTilesToTryPower())
 				{
 					IEnergyReceiver receiver = (IEnergyReceiver)tile;
-					Vec3 src = Vec3.createVectorHelper(tileentity.xCoord + 0.5F, tileentity.yCoord + 2.5F, tileentity.zCoord + 0.5F);
+					Vec3 src = outOffset.addVector(tileentity.xCoord + 0.5F, tileentity.yCoord + 0.5F, tileentity.zCoord + 0.5F);
 					Vec3 dst = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
 					
 					double d = 1F / dst.distanceTo(src);
@@ -72,9 +75,9 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 						dst = mop.hitVec;
 					}
 					
-					double x1 = 0.5F;
-					double y1 = 2.5F + (Math.cos((tileentity.animationTimer + partialTicks) / 10) * 2 + 2) / 16;
-					double z1 = 0.5F;
+					double x1 = 0.5F + outOffset.xCoord;
+					double y1 = 0.5F + outOffset.yCoord + (Math.cos((tileentity.animationTimer + partialTicks) / 10) * 2 + 2) / 16;
+					double z1 = 0.5F + outOffset.zCoord;
 					double x2 = dst.xCoord - tileentity.xCoord;
 					double y2 = dst.yCoord - tileentity.yCoord;
 					double z2 = dst.zCoord - tileentity.zCoord;

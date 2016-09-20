@@ -14,6 +14,11 @@ public class TFVectorHelper
         Vec3 front = getFrontCoords(player, backAmount, pitch).addVector(-player.posX, -player.posY, -player.posZ);
         return getSideCoords(player, amount, side).addVector(front.xCoord, front.yCoord, front.zCoord);
     }
+    
+    public static Vec3 add(Vec3 vec31, Vec3 vec32)
+    {
+    	return vec31.addVector(vec32.xCoord, vec32.yCoord, vec32.zCoord);
+    }
 
     public static Vec3 getSideCoords(EntityPlayer player, double amount, int side)
     {

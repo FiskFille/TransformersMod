@@ -117,6 +117,7 @@ gui.energon_processor.empty=Empty
 gui.energon_processor.unidentified=Unidentified
 gui.energon_processor.filled=%s/%s mB
 gui.transmitter=Energon Transmitter
+gui.transmitter.select_receivers=Select Receivers
 gui.assembly_table=Transformer Assembly Table
 recipe.energonProcessor=Energon Processor
 recipe.powerSource=Power Source
