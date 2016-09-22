@@ -14,6 +14,12 @@ public class ReceiverHandler
 {
 	public List<ChunkCoordinates> receiverCoords = Lists.newArrayList();
 	public List<TileEntity> receivers = Lists.newArrayList();
+	public TileEntity tileentity;
+	
+	public ReceiverHandler(TileEntity tile)
+	{
+		tileentity = tile;
+	}
 	
 	public void onUpdate(World world)
 	{
@@ -24,7 +30,7 @@ public class ReceiverHandler
 			ChunkCoordinates coords = receiverCoords.get(i);
 			TileEntity tile = world.getTileEntity(coords.posX, coords.posY, coords.posZ);
 			
-			if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy())
+			if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy(tileentity))
 			{
 				receivers.add(tile);
 			}
@@ -38,7 +44,7 @@ public class ReceiverHandler
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		NBTTagCompound nbttagcompound = nbt.getCompoundTag("EmB");
-		NBTTagList nbttaglist = nbttagcompound.getTagList("Receivers", 9);
+		NBTTagList nbttaglist = nbttagcompound.getTagList("Receivers", 10);
 		receiverCoords.clear();
 		
 		for (int i = 0; i < nbttaglist.tagCount(); ++i)

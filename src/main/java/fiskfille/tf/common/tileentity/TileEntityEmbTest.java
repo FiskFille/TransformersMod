@@ -52,7 +52,7 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
 	}
 
 	@Override
-	public boolean canReceiveEnergy()
+	public boolean canReceiveEnergy(TileEntity from)
 	{
 		return true;
 	}

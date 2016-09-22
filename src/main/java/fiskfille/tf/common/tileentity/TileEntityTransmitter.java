@@ -37,7 +37,7 @@ import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory
 {
-	public ReceiverHandler receiverHandler = new ReceiverHandler();
+	public ReceiverHandler receiverHandler = new ReceiverHandler(this);
 	public EnergyStorage storage = new EnergyStorage(8000);
 	public FluidTank tank = new FluidTank(2000);
 	
@@ -56,11 +56,16 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 		if (getBlockMetadata() < 4)
 		{
 			FluidStack stack = tank.getFluid();
+//			receiveEnergy(100); // TODO: Remove
 			
 			for (TileEntity tile : getTilesToPower())
 			{
 				IEnergyReceiver receiver = (IEnergyReceiver)tile;
-				TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / getTilesToPower().size());
+				
+				if (receiver.canReceiveEnergy(this))
+				{
+					TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / getTilesToPower().size());
+				}
 			}
 			
 			if (stack != null && stack.amount > 0)
@@ -121,7 +126,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 		
 		for (TileEntity tile : getTilesToTryPower())
 		{
-			if (canPower(tile))
+			if (canPowerReach(tile))
 			{
 				list.add(tile);
 			}
@@ -134,7 +139,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	{
 		List<TileEntity> list = Lists.newArrayList();
 		
-		if (getBlockMetadata() < 4/* && getEnergy() > 0*/)
+		if (getBlockMetadata() < 4 && getEnergy() > 0) // TODO
 		{
 			for (TileEntity tile : (List<TileEntity>)worldObj.loadedTileEntityList)
 			{
@@ -142,7 +147,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 				{
 					IEnergyReceiver receiver = (IEnergyReceiver)tile;
 					
-					if (receiver.canReceiveEnergy() && receiver.getEnergy() < receiver.getMaxEnergy() && TFEnergyHelper.isInRange(this, tile))
+					if (TFEnergyHelper.isInRange(this, tile) && (tile instanceof IEnergyTransmitter || receiver.getEnergy() < receiver.getMaxEnergy()))
 					{
 						list.add(tile);
 					}
@@ -151,38 +156,6 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 		}
 		
 		return list;
-	}
-	
-	public boolean canPower(TileEntity tile)
-	{
-		if (tile instanceof IEnergyReceiver)
-		{
-			IEnergyReceiver receiver = (IEnergyReceiver)tile;
-			Vec3 vec3 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
-			Vec3 vec31 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
-			Vec3 vec32 = getEnergyOutputOffset().addVector(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F);
-			
-			double d = 1F / vec3.distanceTo(vec32);
-			vec32 = Vec3.createVectorHelper(vec32.xCoord + (vec3.xCoord - vec32.xCoord) * d, vec32.yCoord + (vec3.yCoord - vec32.yCoord) * d, vec32.zCoord + (vec3.zCoord - vec32.zCoord) * d);
-			MovingObjectPosition mop = worldObj.rayTraceBlocks(vec32, vec3);
-			
-			if (mop != null)
-			{	
-				vec3 = mop.hitVec;
-			}
-			
-			if (vec3.xCoord == vec31.xCoord && vec3.yCoord == vec31.yCoord && vec3.zCoord == vec31.zCoord)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public boolean isPowering(TileEntity tile)
-	{
-		return getTilesToPower().contains(tile);
 	}
 	
 	public AxisAlignedBB getRenderBoundingBox()
@@ -222,6 +195,40 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	public ReceiverHandler getReceiverHandler()
 	{
 		return receiverHandler;
+	}
+	
+	@Override
+	public boolean isPowering(TileEntity tile)
+	{
+		return getTilesToPower().contains(tile);
+	}
+	
+	@Override
+	public boolean canPowerReach(TileEntity tile)
+	{
+		if (tile instanceof IEnergyReceiver)
+		{
+			IEnergyReceiver receiver = (IEnergyReceiver)tile;
+			Vec3 vec3 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
+			Vec3 vec31 = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
+			Vec3 vec32 = getEnergyOutputOffset().addVector(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F);
+			
+			double d = 1F / vec3.distanceTo(vec32);
+			vec32 = Vec3.createVectorHelper(vec32.xCoord + (vec3.xCoord - vec32.xCoord) * d, vec32.yCoord + (vec3.yCoord - vec32.yCoord) * d, vec32.zCoord + (vec3.zCoord - vec32.zCoord) * d);
+			MovingObjectPosition mop = worldObj.rayTraceBlocks(vec32, vec3);
+			
+			if (mop != null)
+			{	
+				vec3 = mop.hitVec;
+			}
+			
+			if (vec3.xCoord == vec31.xCoord && vec3.yCoord == vec31.yCoord && vec3.zCoord == vec31.zCoord)
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	@Override

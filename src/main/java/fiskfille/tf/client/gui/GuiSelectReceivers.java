@@ -75,7 +75,7 @@ public class GuiSelectReceivers extends GuiScreen
 		
 		for (TileEntity tile : (List<TileEntity>)mc.theWorld.loadedTileEntityList)
 		{
-			if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy() && TFEnergyHelper.isInRange(tileentity, tile))
+			if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy(tileentity) && TFEnergyHelper.isInRange(tileentity, tile))
 			{
 				if (!layers.contains(tile.yCoord))
 				{
@@ -189,7 +189,7 @@ public class GuiSelectReceivers extends GuiScreen
 							{
 								TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
 								
-								if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy())
+								if (tile != tileentity && tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy(tileentity) && (!(tile instanceof IEnergyTransmitter) || !TFEnergyHelper.isGrandParentTo(tile, tileentity)))
 								{
 									if (receiverCoords.contains(coords))
 									{
@@ -353,9 +353,24 @@ public class GuiSelectReceivers extends GuiScreen
 						{
 							GL11.glColor4f(0, 0.6F, 0, opacity);
 						}
-						else if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy())
+						else if (tile instanceof IEnergyTransmitter && tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy(tileentity))
+						{
+							if (((IEnergyTransmitter)tile).isPowering(tileentity))
+							{
+								GL11.glColor4f(0.2F, 0, 0.4F, opacity);
+							}
+							else
+							{
+								GL11.glColor4f(0.75F, 0, 0.75F, opacity);
+							}
+						}
+						else if (tile instanceof IEnergyReceiver && ((IEnergyReceiver)tile).canReceiveEnergy(tileentity))
 						{
 							GL11.glColor4f(1, 0, 0, opacity);
+						}
+						else if (tile instanceof IEnergyTransmitter && TFEnergyHelper.isGrandParentTo(tile, tileentity))
+						{
+							GL11.glColor4f(0.2F, 0, 0.2F, opacity);
 						}
 						else
 						{

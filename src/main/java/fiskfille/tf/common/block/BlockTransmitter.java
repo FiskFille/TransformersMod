@@ -26,7 +26,7 @@ import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class BlockTransmitter extends Block implements ITileEntityProvider
 {
-    private final Random rand = new Random();
+    protected final Random rand = new Random();
 
     public BlockTransmitter()
     {

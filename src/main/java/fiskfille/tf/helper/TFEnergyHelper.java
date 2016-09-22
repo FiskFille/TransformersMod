@@ -1,8 +1,11 @@
 package fiskfille.tf.helper;
 
+import java.util.List;
+
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 
@@ -63,5 +66,99 @@ public class TFEnergyHelper
 		{
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static boolean isReceivingPowerFromAnother(TileEntity from, TileEntity to)
+	{
+		World world = from.getWorldObj();
+		
+		try
+		{			
+			for (TileEntity tile : (List<TileEntity>)world.loadedTileEntityList)
+			{
+				if (tile != from && tile instanceof IEnergyTransmitter && ((IEnergyTransmitter)tile).isPowering(to))
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static TileEntity getPoweredBy(TileEntity tileentity)
+	{
+		World world = tileentity.getWorldObj();
+		
+		try
+		{			
+			for (TileEntity tile : (List<TileEntity>)world.loadedTileEntityList)
+			{
+				if (tileentity != tile && tile instanceof IEnergyTransmitter && ((IEnergyTransmitter)tile).isPowering(tileentity))
+				{
+					return tile;
+				}
+			}
+			
+			return null;
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static boolean canPowerChainReach(TileEntity tileentity)
+	{
+		World world = tileentity.getWorldObj();
+		
+		try
+		{
+			for (TileEntity tile : (List<TileEntity>)world.loadedTileEntityList)
+			{
+				if (tileentity != tile && tile instanceof IEnergyTransmitter && ((IEnergyTransmitter)tile).getReceiverHandler().receivers.contains(tileentity) && ((IEnergyTransmitter)tile).canPowerReach(tileentity))
+				{
+					if (!(tile instanceof IEnergyReceiver) && ((IEnergyTransmitter)tile).getEnergy() > 0 || canPowerChainReach(tile))
+					{
+						return true;
+					}
+				}
+			}
+			
+			return false;
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static boolean isGrandParentTo(TileEntity tileentity, TileEntity to)
+	{
+		World world = tileentity.getWorldObj();
+		
+		if (tileentity instanceof IEnergyTransmitter)
+		{
+			IEnergyTransmitter transmitter = (IEnergyTransmitter)tileentity;
+			
+			for (TileEntity tile : transmitter.getReceiverHandler().receivers)
+			{
+				if (tile == to)
+				{
+					return true;
+				}
+				
+				if (isGrandParentTo(tile, to))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 }

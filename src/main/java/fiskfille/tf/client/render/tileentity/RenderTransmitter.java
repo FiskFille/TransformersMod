@@ -63,87 +63,91 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 				for (TileEntity tile : tileentity.getTilesToTryPower())
 				{
 					IEnergyReceiver receiver = (IEnergyReceiver)tile;
-					Vec3 src = outOffset.addVector(tileentity.xCoord + 0.5F, tileentity.yCoord + 0.5F, tileentity.zCoord + 0.5F);
-					Vec3 dst = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
 					
-					double d = 1F / dst.distanceTo(src);
-					src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
-					MovingObjectPosition mop = world.rayTraceBlocks(src, dst);
-					
-					if (mop != null)
+					if (receiver.canReceiveEnergy(tileentity))
 					{
-						dst = mop.hitVec;
-					}
-					
-					double x1 = 0.5F + outOffset.xCoord;
-					double y1 = 0.5F + outOffset.yCoord + (Math.cos((tileentity.animationTimer + partialTicks) / 10) * 2 + 2) / 16;
-					double z1 = 0.5F + outOffset.zCoord;
-					double x2 = dst.xCoord - tileentity.xCoord;
-					double y2 = dst.yCoord - tileentity.yCoord;
-					double z2 = dst.zCoord - tileentity.zCoord;
-					
-					src = Vec3.createVectorHelper(x1, y1, z1);
-					dst = Vec3.createVectorHelper(x2, y2, z2);
-					
-					int segments = 128;
-					double width = 1F / 16;
-					double length = src.distanceTo(dst);
-					float[] afloat = TFRenderHelper.hexToRGB(0x57ABAF);
-					float[] afloat1 = TFRenderHelper.hexToRGB(0x7BF2F8);
-					
-					GL11.glPushMatrix();
-					GL11.glTranslated(x + x1, y + y1, z + z1);
-					TFRenderHelper.faceVec(src, dst);
-					
-					for (int i = 0; i < segments; ++i)
-					{						
-						double segmentLength = length / segments;
-						double start = i * segmentLength;
-						double end = i * segmentLength + segmentLength;
-						float f = (float)i / segments;
-						float f1 = 1 - f;
-						float f2 = (float)Math.cos((float)i / 20 - (float)(tileentity.animationTimer + partialTicks) / 5);
-						float f3 = 1 - f2;
+						Vec3 src = outOffset.addVector(tileentity.xCoord + 0.5F, tileentity.yCoord + 0.5F, tileentity.zCoord + 0.5F);
+						Vec3 dst = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
 						
-						tessellator.startDrawingQuads();
-						tessellator.setColorRGBA_F(afloat[0] * f2 + afloat1[0] * f3, afloat[1] * f2 + afloat1[1] * f3, afloat[2] * f2 + afloat1[2] * f3, 1);
+						double d = 1F / dst.distanceTo(src);
+						src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
+						MovingObjectPosition mop = world.rayTraceBlocks(src, dst);
 						
-						tessellator.addVertex(width, width, end);
-						tessellator.addVertex(width, width, start);
-						tessellator.addVertex(-width, width, start);
-						tessellator.addVertex(-width, width, end);
-						tessellator.addVertex(-width, -width, start);
-						tessellator.addVertex(width, -width, start);
-						tessellator.addVertex(width, -width, end);
-						tessellator.addVertex(-width, -width, end);
-						tessellator.addVertex(-width, width, start);
-						tessellator.addVertex(-width, -width, start);
-						tessellator.addVertex(-width, -width, end);
-						tessellator.addVertex(-width, width, end);
-						tessellator.addVertex(width, -width, end);
-						tessellator.addVertex(width, -width, start);
-						tessellator.addVertex(width, width, start);
-						tessellator.addVertex(width, width, end);
-						
-						if (i == segments - 1)
+						if (mop != null)
 						{
-							tessellator.addVertex(width, -width, end);
+							dst = mop.hitVec;
+						}
+						
+						double x1 = 0.5F + outOffset.xCoord;
+						double y1 = 0.5F + outOffset.yCoord + (Math.cos((tileentity.animationTimer + partialTicks) / 10) * 2 + 2) / 16;
+						double z1 = 0.5F + outOffset.zCoord;
+						double x2 = dst.xCoord - tileentity.xCoord;
+						double y2 = dst.yCoord - tileentity.yCoord;
+						double z2 = dst.zCoord - tileentity.zCoord;
+						
+						src = Vec3.createVectorHelper(x1, y1, z1);
+						dst = Vec3.createVectorHelper(x2, y2, z2);
+						
+						int segments = 128;
+						double width = 1F / 16;
+						double length = src.distanceTo(dst);
+						float[] afloat = TFRenderHelper.hexToRGB(0x57ABAF);
+						float[] afloat1 = TFRenderHelper.hexToRGB(0x7BF2F8);
+						
+						GL11.glPushMatrix();
+						GL11.glTranslated(x + x1, y + y1, z + z1);
+						TFRenderHelper.faceVec(src, dst);
+						
+						for (int i = 0; i < segments; ++i)
+						{						
+							double segmentLength = length / segments;
+							double start = i * segmentLength;
+							double end = i * segmentLength + segmentLength;
+							float f = (float)i / segments;
+							float f1 = 1 - f;
+							float f2 = (float)Math.cos((float)i / 20 - (float)(tileentity.animationTimer + partialTicks) / 5);
+							float f3 = 1 - f2;
+							
+							tessellator.startDrawingQuads();
+							tessellator.setColorRGBA_F(afloat[0] * f2 + afloat1[0] * f3, afloat[1] * f2 + afloat1[1] * f3, afloat[2] * f2 + afloat1[2] * f3, 1);
+							
 							tessellator.addVertex(width, width, end);
-							tessellator.addVertex(-width, width, end);
-							tessellator.addVertex(-width, -width, end);
-						}
-						else if (i == 0)
-						{
-							tessellator.addVertex(-width, width, start);
 							tessellator.addVertex(width, width, start);
-							tessellator.addVertex(width, -width, start);
+							tessellator.addVertex(-width, width, start);
+							tessellator.addVertex(-width, width, end);
 							tessellator.addVertex(-width, -width, start);
+							tessellator.addVertex(width, -width, start);
+							tessellator.addVertex(width, -width, end);
+							tessellator.addVertex(-width, -width, end);
+							tessellator.addVertex(-width, width, start);
+							tessellator.addVertex(-width, -width, start);
+							tessellator.addVertex(-width, -width, end);
+							tessellator.addVertex(-width, width, end);
+							tessellator.addVertex(width, -width, end);
+							tessellator.addVertex(width, -width, start);
+							tessellator.addVertex(width, width, start);
+							tessellator.addVertex(width, width, end);
+							
+							if (i == segments - 1)
+							{
+								tessellator.addVertex(width, -width, end);
+								tessellator.addVertex(width, width, end);
+								tessellator.addVertex(-width, width, end);
+								tessellator.addVertex(-width, -width, end);
+							}
+							else if (i == 0)
+							{
+								tessellator.addVertex(-width, width, start);
+								tessellator.addVertex(width, width, start);
+								tessellator.addVertex(width, -width, start);
+								tessellator.addVertex(-width, -width, start);
+							}
+							
+							tessellator.draw();
 						}
 						
-						tessellator.draw();
+						GL11.glPopMatrix();
 					}
-					
-					GL11.glPopMatrix();
 				}
 				
 				/**
