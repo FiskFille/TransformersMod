@@ -1,14 +1,15 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelEnergonProcessor;
-import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
-import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelEnergonProcessor;
+import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderEnergonProcessor extends TileEntitySpecialRenderer
 {
@@ -30,6 +31,7 @@ public class RenderEnergonProcessor extends TileEntitySpecialRenderer
         GL11.glRotatef(metadata * 90, 0.0F, 1.0F, 0.0F);
         
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         bindTexture(texture);
         model.render(tileentity);
         
@@ -39,7 +41,7 @@ public class RenderEnergonProcessor extends TileEntitySpecialRenderer
         model.render(tileentity);
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 

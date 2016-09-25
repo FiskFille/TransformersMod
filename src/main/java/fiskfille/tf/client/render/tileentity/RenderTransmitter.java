@@ -1,10 +1,12 @@
 package fiskfille.tf.client.render.tileentity;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -47,6 +49,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 			bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/transmitter_lights.png"));
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			TFRenderHelper.setLighting(61680);
 			model.render(tileentity, partialTicks);
 			GL11.glPopMatrix();
@@ -99,7 +102,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 						TFRenderHelper.faceVec(src, dst);
 						
 						for (int i = 0; i < segments; ++i)
-						{						
+						{
 							double segmentLength = length / segments;
 							double start = i * segmentLength;
 							double end = i * segmentLength + segmentLength;
@@ -149,17 +152,6 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 						GL11.glPopMatrix();
 					}
 				}
-				
-				/**
-				 * Debugging tool that outlines the render frustum for this
-				 * block.
-				 */
-//				float f4 = 0.002F;
-//				GL11.glDisable(GL11.GL_TEXTURE_2D);
-//				AxisAlignedBB aabb = tileentity.getRenderBoundingBox().expand(f4, f4, f4).getOffsetBoundingBox(-tileentity.xCoord, -tileentity.yCoord, -tileentity.zCoord);
-//				RenderGlobal.drawOutlinedBoundingBox(aabb, 0xffffff);
-//				GL11.glEnable(GL11.GL_TEXTURE_2D);
-//				GL11.glColor4f(1, 1, 1, 1);
 				
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				GL11.glPopMatrix();
