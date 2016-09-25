@@ -1,12 +1,10 @@
 package fiskfille.tf.client.render.tileentity;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -19,6 +17,7 @@ import fiskfille.tf.client.model.tileentity.ModelTransmitter;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderTransmitter extends TileEntitySpecialRenderer
@@ -74,7 +73,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 						
 						double d = 1F / dst.distanceTo(src);
 						src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
-						MovingObjectPosition mop = world.rayTraceBlocks(src, dst);
+						MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(world, src, dst);
 						
 						if (mop != null)
 						{

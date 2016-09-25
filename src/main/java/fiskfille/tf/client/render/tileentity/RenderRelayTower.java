@@ -75,7 +75,7 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
 							
 							double d = 1F / dst.distanceTo(src);
 							src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
-							MovingObjectPosition mop = world.rayTraceBlocks(src, dst);
+							MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(world, src, dst);
 							
 							if (mop != null)
 							{

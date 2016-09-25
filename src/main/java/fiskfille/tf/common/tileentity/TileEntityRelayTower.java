@@ -135,7 +135,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
 			
 			double d = 1F / vec3.distanceTo(vec32);
 			vec32 = Vec3.createVectorHelper(vec32.xCoord + (vec3.xCoord - vec32.xCoord) * d, vec32.yCoord + (vec3.yCoord - vec32.yCoord) * d, vec32.zCoord + (vec3.zCoord - vec32.zCoord) * d);
-			MovingObjectPosition mop = worldObj.rayTraceBlocks(vec32, vec3);
+			MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(worldObj, vec32, vec3);
 			
 			if (mop != null)
 			{	

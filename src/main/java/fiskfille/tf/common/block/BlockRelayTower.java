@@ -21,25 +21,17 @@ public class BlockRelayTower extends BlockTransmitter
 	{
 		int metadata = world.getBlockMetadata(x, y, z);
 		float f = 0.0625F;
+		float width = f * 2;
 
 		if (metadata < 4)
 		{
-			addBox(0, 0, 0, 1, f * 4, 1, world, x, y, z, aabb, list, entity);
-
-			for (int i = 0; i < 26; ++i)
-			{
-				float width = 1 - 0.6F * ((float)i / 26);
-				float f1 = 1 - width;
-				addBox(f1 / 2, f * (i + 4), f1 / 2, 1 - f1 / 2, f * (i + 5), 1 - f1 / 2, world, x, y, z, aabb, list, entity);
-			}
-		}
-		else if (metadata < 8)
-		{
-			addBox(0, f * 14, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
-		}
-		else
-		{
-			addBox(0, 0, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
+			addBox(width, 0, width, 1 - width, f * 2, 1 - width, world, x, y, z, aabb, list, entity);
+			width = f * 4;
+			addBox(width, f * 2, width, 1 - width, f * 14, 1 - width, world, x, y, z, aabb, list, entity);
+			width = f * 5;
+			addBox(width, f * 14, width, 1 - width, f * 22, 1 - width, world, x, y, z, aabb, list, entity);
+			width = f * 6;
+			addBox(width, f * 22, width, 1 - width, 2, 1 - width, world, x, y, z, aabb, list, entity);
 		}
 
 		setBlockBoundsBasedOnState(world, x, y, z);
@@ -48,15 +40,13 @@ public class BlockRelayTower extends BlockTransmitter
 	public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
 	{
 		setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-//		super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-		
 		AxisAlignedBB aabb1 = getCollisionBoundingBoxFromPool(world, x, y, z);
 
-        if (aabb1 != null && aabb.intersectsWith(aabb1))
-        {
-            list.add(aabb1);
-        }
-		
+		if (aabb1 != null && aabb.intersectsWith(aabb1))
+		{
+			list.add(aabb1);
+		}
+
 		setBlockBoundsBasedOnState(world, x, y, z);
 	}
 
@@ -68,7 +58,7 @@ public class BlockRelayTower extends BlockTransmitter
 	public void setBounds(int metadata)
 	{
 		float f = 0.0625F;
-		float width = 0.25F;
+		float width = f * 4;
 
 		if (metadata < 4)
 		{
@@ -133,7 +123,7 @@ public class BlockRelayTower extends BlockTransmitter
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		return y >= world.getHeight() - 1 ? false : super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z);
+		return y >= world.getHeight() - 1 ? false : world.getBlock(x, y, z).isReplaceable(world, x, y, z) && world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z);
 	}
 
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
