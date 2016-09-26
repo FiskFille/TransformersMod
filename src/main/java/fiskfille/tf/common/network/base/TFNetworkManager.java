@@ -6,6 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.common.network.MessageBroadcastState;
+import fiskfille.tf.common.network.MessageClosePortal;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.MessageColorArmor;
 import fiskfille.tf.common.network.MessageControlPanel;
@@ -45,6 +46,7 @@ public class TFNetworkManager
         registerPacket(MessageOpenGui.Handler.class, MessageOpenGui.class);
         registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);
         registerPacket(MessageSetReceivers.Handler.class, MessageSetReceivers.class);
+        registerPacket(MessageClosePortal.Handler.class, MessageClosePortal.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

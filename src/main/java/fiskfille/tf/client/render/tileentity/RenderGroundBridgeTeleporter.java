@@ -1,18 +1,15 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-
-import org.lwjgl.opengl.GL11;
-
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.helper.TFRenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 {
@@ -42,7 +39,7 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 					GL11.glRotatef(90 * tileentity.controlPanel.getSrcPortalDirection(), 0, 1, 0);
 				}
 			}
-			
+
 			float f1 = 1 - (float)(tileentity.lastUpdate > 0 ? tileentity.lastUpdate + partialTicks - 1 : 0) / 6;
 			
 			if (tileentity.lastUpdate == 0)

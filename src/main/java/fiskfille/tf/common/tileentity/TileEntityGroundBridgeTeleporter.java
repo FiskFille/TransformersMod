@@ -1,5 +1,8 @@
 package fiskfille.tf.common.tileentity;
 
+import cpw.mods.fml.common.network.NetworkRegistry;
+import fiskfille.tf.common.network.MessageClosePortal;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -8,27 +11,39 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityGroundBridgeTeleporter extends TileEntity
 {
-	public TileEntityControlPanel controlPanel;
-	public boolean returnPortal = false;
-	public int lastUpdate;
-	public int ticks;
+    public TileEntityControlPanel controlPanel;
+    public boolean returnPortal = false;
+    public int lastUpdate;
+    public int ticks;
+    public boolean clientClosing;
 
     public void updateEntity()
     {
-    	if (lastUpdate >= 6)
-		{
-			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			markBlockForUpdate();
-		}
+        if (!worldObj.isRemote)
+        {
+            if (lastUpdate >= 12)
+            {
+                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+                markBlockForUpdate();
+            }
+            else if (lastUpdate == 6)
+            {
+                TFNetworkManager.networkWrapper.sendToAllAround(new MessageClosePortal(xCoord, yCoord, zCoord), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 8192));
+            }
+        }
 
-		++lastUpdate;
-		++ticks;
+        if (!worldObj.isRemote || clientClosing)
+        {
+            ++lastUpdate;
+        }
+
+        ++ticks;
     }
-    
+
     @Override
     public double getMaxRenderDistanceSquared()
     {
-    	return super.getMaxRenderDistanceSquared() * 2;
+        return super.getMaxRenderDistanceSquared() * 2;
     }
 
     public void markBlockForUpdate()
