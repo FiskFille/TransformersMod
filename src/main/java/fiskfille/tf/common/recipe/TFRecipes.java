@@ -49,10 +49,6 @@ public class TFRecipes
 
     private static void addCraftingComponentRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(TFItems.transformiumArmorMolds, 1, 0), "TTT", "T T", 'T', TFItems.transformium);
-        GameRegistry.addRecipe(new ItemStack(TFItems.transformiumArmorMolds, 1, 1), "T T", "TTT", "TTT", 'T', TFItems.transformium);
-        GameRegistry.addRecipe(new ItemStack(TFItems.transformiumArmorMolds, 1, 2), "TTT", "T T", "T T", 'T', TFItems.transformium);
-        GameRegistry.addRecipe(new ItemStack(TFItems.transformiumArmorMolds, 1, 3), "T T", "T T", 'T', TFItems.transformium);
         GameRegistry.addRecipe(new ItemStack(TFItems.standardEngine, 1), "PRP", "BIB", 'P', Blocks.piston, 'R', Items.redstone, 'I', Items.iron_ingot, 'B', Blocks.iron_block);
         GameRegistry.addRecipe(new ItemStack(TFItems.jetTurbine, 1), "IIB", " JR", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone);
         GameRegistry.addRecipe(new ItemStack(TFItems.jetThruster, 1), "IIB", "xRJ", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone, 'x', Blocks.redstone_block);
