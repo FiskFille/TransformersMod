@@ -105,4 +105,9 @@ public class TFWorldData extends WorldSavedData
 
         return data;
     }
+
+    public List<ChunkCoordinates> getCoordinates()
+    {
+        return this.tiles;
+    }
 }

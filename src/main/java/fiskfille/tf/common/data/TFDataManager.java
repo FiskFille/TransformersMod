@@ -1,11 +1,5 @@
 package fiskfille.tf.common.data;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.MinecraftForge;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.network.MessageHandleStealthTransformation;
@@ -16,6 +10,12 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author FiskFille, gegy1000
@@ -280,7 +280,7 @@ public class TFDataManager
     {
         if (!player.worldObj.isRemote)
         {
-            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(getAltMode(player), isInStealthMode(player), TFConfig.canTransform), (EntityPlayerMP) player);
+            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(getAltMode(player), isInStealthMode(player), TFConfig.canTransform, TFWorldData.get(player.worldObj).getCoordinates()), (EntityPlayerMP) player);
         }
     }
 
