@@ -158,9 +158,9 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     {
                         if (teleporter.returnPortal)
                         {
-                            int posX = controlPanel.groundBridgeFramePos.x;
-                            int posY = controlPanel.groundBridgeFramePos.y;
-                            int posZ = controlPanel.groundBridgeFramePos.z;
+                            int posX = controlPanel.groundBridgeFramePos.posX;
+                            int posY = controlPanel.groundBridgeFramePos.posY;
+                            int posZ = controlPanel.groundBridgeFramePos.posZ;
                             float yawDiff = entity.rotationYaw - (controlPanel.portalDirection * 90 + 180);
                             float yaw = (controlPanel.getSrcPortalDirection() * 90 + 180) + yawDiff;
 

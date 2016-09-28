@@ -14,6 +14,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -24,7 +25,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.google.common.collect.Lists;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.block.BlockCoordinates;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
@@ -51,7 +51,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 	public List<EnumError> errors = Lists.newArrayList();
 	public boolean hasSpace;
 
-	public BlockCoordinates groundBridgeFramePos;
+	public ChunkCoordinates groundBridgeFramePos;
 	private Ticket chunkTicket;
 
 	public void updateEntity()
@@ -87,9 +87,9 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 			if (groundBridgeFramePos != null)
 			{
-				int x = groundBridgeFramePos.x;
-				int y = groundBridgeFramePos.y;
-				int z = groundBridgeFramePos.z;
+				int x = groundBridgeFramePos.posX;
+				int y = groundBridgeFramePos.posY;
+				int z = groundBridgeFramePos.posZ;
 
 				if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == null)
 				{
@@ -122,7 +122,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 							if (direction != null)
 							{
 								flag = isPortalObstructed(tile.xCoord, tile.yCoord, tile.zCoord, direction);
-								groundBridgeFramePos = new BlockCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
+								groundBridgeFramePos = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
 								break;
 							}
 						}
@@ -210,17 +210,17 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 			if (!activationLeverState && groundBridgeFramePos != null)
 			{
-				int x = groundBridgeFramePos.x;
-				int y = groundBridgeFramePos.y;
-				int z = groundBridgeFramePos.z;
+				int x = groundBridgeFramePos.posX;
+				int y = groundBridgeFramePos.posY;
+				int z = groundBridgeFramePos.posZ;
 				srcPortalDirection = worldObj.getBlockMetadata(x, y, z);
 			}
 
 			if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
 			{
-				int x = groundBridgeFramePos.x;
-				int y = groundBridgeFramePos.y;
-				int z = groundBridgeFramePos.z;
+				int x = groundBridgeFramePos.posX;
+				int y = groundBridgeFramePos.posY;
+				int z = groundBridgeFramePos.posZ;
 				BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
 
 				if (portalDirection % 2 == 0)
@@ -328,9 +328,9 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 		if (groundBridgeFramePos != null)
 		{
-			int x = groundBridgeFramePos.x;
-			int y = groundBridgeFramePos.y;
-			int z = groundBridgeFramePos.z;
+			int x = groundBridgeFramePos.posX;
+			int y = groundBridgeFramePos.posY;
+			int z = groundBridgeFramePos.posZ;
 
 			if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == ForgeDirection.EAST)
 			{
@@ -396,7 +396,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 		if (nbt.getBoolean("ReadFramePos"))
 		{
-			groundBridgeFramePos = new BlockCoordinates(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"));
+			groundBridgeFramePos = new ChunkCoordinates(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"));
 		}
 
 		if (nbt.hasKey("Switches"))
@@ -430,9 +430,9 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 		if (groundBridgeFramePos != null)
 		{
-			nbt.setInteger("FrameX", groundBridgeFramePos.x);
-			nbt.setInteger("FrameY", groundBridgeFramePos.y);
-			nbt.setInteger("FrameZ", groundBridgeFramePos.z);
+			nbt.setInteger("FrameX", groundBridgeFramePos.posX);
+			nbt.setInteger("FrameY", groundBridgeFramePos.posY);
+			nbt.setInteger("FrameZ", groundBridgeFramePos.posZ);
 		}
 
 		NBTTagList nbttaglist = new NBTTagList();

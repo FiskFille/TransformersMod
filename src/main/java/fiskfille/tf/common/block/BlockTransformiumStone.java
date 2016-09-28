@@ -1,10 +1,10 @@
 package fiskfille.tf.common.block;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class BlockTransformiumStone extends BlockBasic
 {
@@ -27,8 +27,7 @@ public class BlockTransformiumStone extends BlockBasic
     {
         if (rand.nextInt(100000) == 0 && !world.canBlockSeeTheSky(x, y + 1, z))
         {
-            world.setBlock(x, y, z, TFBlocks.cosmicRust);
-            world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+            world.setBlock(x, y, z, TFBlocks.cosmicRust, 1, 2);
         }
 
         onBlockAdded(world, x, y, z);

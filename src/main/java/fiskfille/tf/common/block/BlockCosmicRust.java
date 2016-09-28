@@ -1,8 +1,8 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,13 +11,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.Random;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
 
 public class BlockCosmicRust extends Block
 {
-    private IIcon[] icons;
+    private IIcon coreIcon;
 
     protected BlockCosmicRust()
     {
@@ -27,29 +27,17 @@ public class BlockCosmicRust extends Block
 
     public float getBlockHardness(World world, int x, int y, int z)
     {
-        return world.getBlockMetadata(x, y, z) == 2 ? 2.0F : blockHardness;
+        return world.getBlockMetadata(x, y, z) == 1 ? 2.0F : blockHardness;
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int meta)
     {
         return meta;
     }
 
-    /**
-     * Metadata and fortune sensitive version, this replaces the old (int meta, Random rand)
-     * version in 1.1.
-     *
-     * @param meta    Blocks Metadata
-     * @param fortune Current item fortune level
-     * @param random  Random number generator
-     * @return The number of items to drop
-     */
     public int quantityDropped(int meta, int fortune, Random random)
     {
-        return meta == 2 ? 1 : 0;
+        return meta == 1 ? 1 : 0;
     }
 
     public int tickRate(World world)
@@ -83,13 +71,10 @@ public class BlockCosmicRust extends Block
         }
     }
 
-    /**
-     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
-     */
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List subBlocks)
     {
-        subBlocks.add(new ItemStack(item, 1, 2));
+        subBlocks.add(new ItemStack(item, 1, 1));
     }
 
     public void onBlockAdded(World world, int x, int y, int z)
@@ -106,17 +91,13 @@ public class BlockCosmicRust extends Block
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata)
     {
-        return metadata == 0 ? icons[0] : icons[2];
+        return metadata == 1 ? coreIcon : blockIcon;
     }
 
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
-        icons = new IIcon[3];
-
-        for (int i = 0; i < icons.length; ++i)
-        {
-            icons[i] = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_stage_" + i);
-        }
+    	blockIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust");
+    	coreIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_core");
     }
 }
