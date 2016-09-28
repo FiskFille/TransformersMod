@@ -24,7 +24,6 @@ public class TFItems
     public static ArmorMaterial SUBWOOFERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[]{3, 9, 7, 3}, 2);
 
     public static Item transformium;
-    public static Item transformiumArmorMolds;
     public static Item standardEngine;
     public static Item jetTurbine;
     public static Item jetThruster;
@@ -85,7 +84,6 @@ public class TFItems
     public static void register()
     {
         transformium = new Item();
-        transformiumArmorMolds = new ItemMetaBasic("Transformium Head Mold", "Transformium Torso Mold", "Transformium Legs Mold", "Transformium Feet Mold");
         standardEngine = new Item();
         jetTurbine = new Item();
         ahd2JetWing = new Item();
@@ -149,7 +147,6 @@ public class TFItems
         SUBWOOFERMATERIAL.customCraftingMaterial = transformium;
 
         TFItemRegistry.registerItem(transformium, "Transformium");
-        TFItemRegistry.registerItem(transformiumArmorMolds, "Transformium Armor Molds");
         TFItemRegistry.registerItem(standardEngine, "Standard Engine");
         TFItemRegistry.registerItem(jetTurbine, "Jet Turbine");
         TFItemRegistry.registerItem(ahd2JetWing, "AHD-2 Jet Wing");
