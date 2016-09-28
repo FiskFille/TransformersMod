@@ -1,14 +1,17 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
-import fiskfille.tf.client.model.transformer.ModelChildBase;
-import fiskfille.tf.common.item.ItemDisplayVehicle;
-import fiskfille.tf.helper.TFArmorDyeHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.common.item.ItemDisplayVehicle;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFArmorDyeHelper;
+import fiskfille.tf.helper.TFHelper;
 
-public class ModelVehicleBase extends ModelChildBase.Base
+public class ModelVehicleBase extends MowzieModelBase
 {
-    public void renderBase(ItemStack itemstack)
+    public void renderDisplayVehicle(ItemStack itemstack)
     {
         if (!itemstack.hasTagCompound())
         {
@@ -25,11 +28,23 @@ public class ModelVehicleBase extends ModelChildBase.Base
 
         if (TFArmorDyeHelper.areColorsIdentical(armorFromNBT[0], armorFromNBT[1], armorFromNBT[2]))
         {
-            render(armorFromNBT[0]);
+        	boolean flag1 = false;
+        	Transformer transformer = TFHelper.getTransformerFromArmor(armorFromNBT[0]);
+        	
+        	if (transformer != null && TFModelRegistry.getModel(transformer) != null)
+        	{
+        		flag1 = TFModelRegistry.getModel(transformer).hasLightsLayer();
+        	}
+        	
+            render(armorFromNBT[0], flag1, true);
         }
     }
+    
+    public void setupRenderState()
+    {
+    }
 
-    public void render(ItemStack itemstack)
+    public void render(ItemStack itemstack, boolean hasLightsLayer, boolean displayVehicle)
     {
     }
 }

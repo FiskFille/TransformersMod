@@ -1,17 +1,17 @@
 package fiskfille.tf.client.model.tools;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.transformer.ModelChildBase;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.transformer.ModelChildBase;
 
 /**
  * @author BobMowzie, gegy1000
@@ -346,11 +346,9 @@ public class MowzieModelBase extends ModelChildBase.Biped
         if (entity != Minecraft.getMinecraft().thePlayer)
         {
             double moveY = -0.2;
-
-            entity.ySize *= 0.4F;
-
             double actualMoveY = moveY;
-
+            
+            entity.ySize *= 0.4F;
             List collidingEntities = entity.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox.addCoord(0, moveY, 0));
 
             for (int currentIndex = 0; currentIndex < collidingEntities.size(); ++currentIndex)
@@ -405,4 +403,11 @@ public class MowzieModelBase extends ModelChildBase.Biped
 
         parts.add(mowzieModelRenderer);
     }
+    
+    public void setRotateAngle(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 }

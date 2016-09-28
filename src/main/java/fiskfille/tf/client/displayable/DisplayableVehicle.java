@@ -1,13 +1,16 @@
 package fiskfille.tf.client.displayable;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class DisplayableVehicle extends Displayable
 {
@@ -19,12 +22,12 @@ public class DisplayableVehicle extends Displayable
 
         if (vehicle != null)
         {
-            GL11.glRotatef(mc.thePlayer.ticksExisted * 0.5F, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef((mc.thePlayer.ticksExisted + ClientEventHandler.renderTick) * 0.5F, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -0.2F, 0.0F);
 
             float scale = 0.75F;
             GL11.glScalef(scale, scale, scale);
-            vehicle.renderBase(itemstack);
+            vehicle.renderDisplayVehicle(itemstack);
         }
     }
 

@@ -1,6 +1,5 @@
 package fiskfille.tf.helper;
 
-
 /**
  * @author gegy1000
  */

@@ -1,14 +1,16 @@
 package fiskfille.tf.client.render.item;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-import org.lwjgl.opengl.GL11;
 
 public class RenderItemDisplayVehicle implements IItemRenderer
 {
@@ -50,7 +52,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 1.0F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.renderBase(item);
+            vehicleModel.renderDisplayVehicle(item);
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.EQUIPPED)
@@ -63,7 +65,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 0.7F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.renderBase(item);
+            vehicleModel.renderDisplayVehicle(item);
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.INVENTORY)
@@ -76,7 +78,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 1.0F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.renderBase(item);
+            vehicleModel.renderDisplayVehicle(item);
             GL11.glPopMatrix();
         }
         else if (type == ItemRenderType.ENTITY)
@@ -89,7 +91,7 @@ public class RenderItemDisplayVehicle implements IItemRenderer
 
             float scale = 0.5F;
             GL11.glScalef(scale, scale, scale);
-            vehicleModel.renderBase(item);
+            vehicleModel.renderDisplayVehicle(item);
             GL11.glPopMatrix();
         }
     }
