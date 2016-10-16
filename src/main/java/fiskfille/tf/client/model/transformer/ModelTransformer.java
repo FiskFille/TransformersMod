@@ -1866,11 +1866,13 @@ public class ModelTransformer extends ModelTransformerBase
         }
     }
 
+    @Override
     public Transformer getTransformer()
     {
         return TransformerManager.transformerPurge;
     }
 
+    @Override
     public ModelRenderer getWaist()
     {
         return waist;
@@ -1881,21 +1883,25 @@ public class ModelTransformer extends ModelTransformerBase
         return vehiclebase;
     }
 
+    @Override
     public ModelRenderer getRightLeg()
     {
         return upperLegR;
     }
 
+    @Override
     public ModelRenderer getLeftLeg()
     {
         return upperLegL;
     }
 
+    @Override
     public ModelRenderer getHead()
     {
         return headbase;
     }
 
+    @Override
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
     {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
@@ -2224,6 +2230,7 @@ public class ModelTransformer extends ModelTransformerBase
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
+    @Override
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;

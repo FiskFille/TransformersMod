@@ -81,6 +81,7 @@ public class ItemFuelCanister extends ItemFluidContainer
     	return super.fill(container, resource, doFill);
     }
 
+    @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
     {
     	FluidStack stack = getFluid(itemstack);
@@ -141,6 +142,7 @@ public class ItemFuelCanister extends ItemFluidContainer
     	return super.getIcon(itemstack, pass);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemstack, int pass)
     {
@@ -157,12 +159,14 @@ public class ItemFuelCanister extends ItemFluidContainer
         return super.getColorFromItemStack(itemstack, pass);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses()
     {
         return true;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IIconRegister)
     {

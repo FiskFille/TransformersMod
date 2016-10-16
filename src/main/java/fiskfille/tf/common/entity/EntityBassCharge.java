@@ -29,6 +29,7 @@ public class EntityBassCharge extends EntityThrowable
         setSize(1.0F, 1.0F);
     }
 
+    @Override
     public void onUpdate()
     {
         super.onUpdate();
@@ -39,16 +40,19 @@ public class EntityBassCharge extends EntityThrowable
         }
     }
 
+    @Override
     protected float getGravityVelocity()
     {
         return 0.0F;
     }
 
+    @Override
     protected float func_70182_d()
     {
         return 3.0F;
     }
 
+    @Override
     protected void onImpact(MovingObjectPosition mop)
     {
         if (mop.entityHit != null)

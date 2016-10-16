@@ -33,16 +33,19 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
         this.blue = blue;
     }
 
+    @Override
     protected float getGravityVelocity()
     {
         return 0.0F;
     }
 
+    @Override
     protected float func_70182_d()
     {
         return 1.25F;
     }
 
+    @Override
     public void onUpdate()
     {
         super.onUpdate();
@@ -66,6 +69,7 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
         }
     }
 
+    @Override
     protected void onImpact(MovingObjectPosition mop)
     {
         Entity entityHit = mop.entityHit;
@@ -96,6 +100,7 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
@@ -106,6 +111,7 @@ public class EntityLaserBeam extends EntityThrowable implements IEntityAdditiona
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);

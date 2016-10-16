@@ -4,7 +4,6 @@ import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
 import net.minecraft.init.Items;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.StatBase;
 import net.minecraftforge.common.AchievementPage;
 
 public class TFAchievements

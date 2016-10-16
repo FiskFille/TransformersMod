@@ -2,7 +2,6 @@ package fiskfille.tf.client.model.transformer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -14,7 +13,6 @@ import fiskfille.tf.client.model.AnimationModifier;
 import fiskfille.tf.client.model.AnimationModifier.Predicate;
 import fiskfille.tf.client.model.AnimationModifier.Type;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.motion.TFMotionManager;
@@ -536,28 +534,33 @@ public class ModelVurp extends ModelTransformerBaseNew
 		lowerlegL6.setScale(scale, scale, scale);
 	}
 
-	public Transformer getTransformer()
-	{
+    @Override
+    public Transformer getTransformer()
+    {
 		return TransformerManager.transformerVurp;
 	}
 
-	public ModelRenderer getWaist()
-	{
+    @Override
+    public ModelRenderer getWaist()
+    {
 		return waist;
 	}
 
-	public ModelRenderer getRightLeg()
-	{
+    @Override
+    public ModelRenderer getRightLeg()
+    {
 		return upperLegR;
 	}
 
-	public ModelRenderer getLeftLeg()
-	{
+    @Override
+    public ModelRenderer getLeftLeg()
+    {
 		return upperLegL;
 	}
 
-	public ModelRenderer getHead()
-	{
+    @Override
+    public ModelRenderer getHead()
+    {
 		return head;
 	}
 

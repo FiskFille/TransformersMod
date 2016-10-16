@@ -29,6 +29,7 @@ public class ItemFlamethrower extends Item
         setFull3D();
     }
 
+    @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
         if (TFHelper.isPlayerCloudtrap(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
@@ -42,6 +43,7 @@ public class ItemFlamethrower extends Item
         }
     }
 
+    @Override
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
         int duration = getMaxItemUseDuration(stack) - count;
@@ -97,21 +99,25 @@ public class ItemFlamethrower extends Item
         }
     }
 
+    @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         return stack;
     }
 
+    @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return 72000;
     }
 
+    @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return EnumAction.none;
     }
 
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         if (TFHelper.isPlayerCloudtrap(player) && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))

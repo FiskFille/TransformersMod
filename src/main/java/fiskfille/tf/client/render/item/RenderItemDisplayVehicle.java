@@ -26,16 +26,19 @@ public class RenderItemDisplayVehicle implements IItemRenderer
         return null;
     }
 
+    @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
         return type != ItemRenderType.FIRST_PERSON_MAP;
     }
 
+    @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return type == ItemRenderType.INVENTORY || type == ItemRenderType.ENTITY || type == ItemRenderType.EQUIPPED_FIRST_PERSON;
     }
 
+    @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         TransformerModel model = getModelFromMetadata(item.getItemDamage());

@@ -15,6 +15,7 @@ public class RenderLaser extends Render
     public ModelLaser model = new ModelLaser();
     public ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/models/weapons/laser.png");
 
+    @Override
     public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
     {
         GL11.glPushMatrix();
@@ -28,6 +29,7 @@ public class RenderLaser extends Render
         GL11.glPopMatrix();
     }
 
+    @Override
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
         return texture;

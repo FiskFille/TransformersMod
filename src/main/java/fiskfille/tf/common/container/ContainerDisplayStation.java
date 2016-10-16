@@ -14,12 +14,10 @@ import net.minecraft.util.IIcon;
 
 public class ContainerDisplayStation extends ContainerBasic
 {
-    private TileEntityDisplayStation tileentity;
     private EntityPlayer player;
 
     public ContainerDisplayStation(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
     {
-        tileentity = tile;
         player = inventoryPlayer.player;
 
         for (int i = 0; i < 4; ++i)
@@ -27,21 +25,20 @@ public class ContainerDisplayStation extends ContainerBasic
             final int k = i;
             addSlotToContainer(new Slot(tile, i, 13, 18 + i * 18)
             {
+                @Override
                 public int getSlotStackLimit()
                 {
                     return 1;
                 }
 
+                @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    if (itemstack == null)
-                    {
-                        return false;
-                    }
+                    return itemstack != null && itemstack.getItem().isValidArmor(itemstack, k, player);
 
-                    return itemstack.getItem().isValidArmor(itemstack, k, player);
                 }
 
+                @Override
                 @SideOnly(Side.CLIENT)
                 public IIcon getBackgroundIconIndex()
                 {
@@ -54,30 +51,30 @@ public class ContainerDisplayStation extends ContainerBasic
         addSlotToContainer(new SlotComponent(tile, 5, 147, 36));
         addSlotToContainer(new Slot(tile, 6, 75, 45)
         {
+            @Override
             public int getSlotStackLimit()
             {
                 return 1;
             }
 
+            @Override
             public boolean isItemValid(ItemStack itemstack)
             {
-                if (itemstack == null)
-                {
-                    return false;
-                }
+                return itemstack != null && itemstack.getItem() == TFItems.displayVehicle;
 
-                return itemstack.getItem() == TFItems.displayVehicle;
             }
         });
 
         addPlayerInventory(inventoryPlayer, 20);
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return true;
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;

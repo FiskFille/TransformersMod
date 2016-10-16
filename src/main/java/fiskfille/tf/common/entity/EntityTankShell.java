@@ -29,21 +29,25 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         super(world, x, y, z);
     }
 
+    @Override
     public void onUpdate()
     {
         super.onUpdate();
     }
 
+    @Override
     protected float getGravityVelocity()
     {
         return 0.04F;
     }
 
+    @Override
     protected float func_70182_d()
     {
         return 4.0F;
     }
 
+    @Override
     protected void onImpact(MovingObjectPosition mop)
     {
         if (!worldObj.isRemote)
@@ -91,12 +95,14 @@ public class EntityTankShell extends EntityThrowable implements IEntityAdditiona
         worldObj.createExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 1.0F, allowExplosions);
     }
 
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
         nbt.setBoolean("Explosions", allowExplosions);
     }
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);

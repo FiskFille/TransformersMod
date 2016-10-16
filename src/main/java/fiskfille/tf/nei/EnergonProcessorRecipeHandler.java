@@ -67,6 +67,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
             return ingredient;
         }
 
+        @Override
         public PositionedStack getResult()
         {
             return result;
@@ -375,9 +376,9 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                             int k = 0;
                             int l = text.size() * (gui.mc.fontRenderer.FONT_HEIGHT + 2);
 
-                            for (int j = 0; j < text.size(); ++j)
+                            for (Object aText : text)
                             {
-                                k = Math.max(k, gui.mc.fontRenderer.getStringWidth((String) text.get(j)));
+                                k = Math.max(k, gui.mc.fontRenderer.getStringWidth((String) aText));
                             }
 
                             GuiDraw.drawTooltipBox(mouseX + 8, mouseY - 16, k + 7, l + 4);

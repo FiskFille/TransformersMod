@@ -951,28 +951,33 @@ public class ModelCloudtrap extends ModelTransformerBaseNew
 		GL11.glPopMatrix();
 	}
 
-	public Transformer getTransformer()
-	{
+    @Override
+    public Transformer getTransformer()
+    {
 		return TransformerManager.transformerCloudtrap;
 	}
 
-	public ModelRenderer getWaist()
-	{
+    @Override
+    public ModelRenderer getWaist()
+    {
 		return waist;
 	}
 
-	public ModelRenderer getRightLeg()
-	{
+    @Override
+    public ModelRenderer getRightLeg()
+    {
 		return upperLegR;
 	}
 
-	public ModelRenderer getLeftLeg()
-	{
+    @Override
+    public ModelRenderer getLeftLeg()
+    {
 		return upperLegL;
 	}
 
-	public ModelRenderer getHead()
-	{
+    @Override
+    public ModelRenderer getHead()
+    {
 		return head;
 	}
 

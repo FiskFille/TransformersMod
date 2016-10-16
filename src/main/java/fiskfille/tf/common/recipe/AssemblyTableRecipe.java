@@ -22,11 +22,13 @@ public class AssemblyTableRecipe implements IRecipe
         this.recipeOutput = result;
     }
 
+    @Override
     public ItemStack getRecipeOutput()
     {
         return this.recipeOutput;
     }
 
+    @Override
     public boolean matches(InventoryCrafting inventoryCrafting, World world)
     {
         for (int i = 0; i <= 5 - this.recipeWidth; ++i)
@@ -88,6 +90,7 @@ public class AssemblyTableRecipe implements IRecipe
         return true;
     }
 
+    @Override
     public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting)
     {
         ItemStack itemstack = this.getRecipeOutput().copy();
@@ -108,6 +111,7 @@ public class AssemblyTableRecipe implements IRecipe
         return itemstack;
     }
 
+    @Override
     public int getRecipeSize()
     {
         return this.recipeWidth * this.recipeHeight;

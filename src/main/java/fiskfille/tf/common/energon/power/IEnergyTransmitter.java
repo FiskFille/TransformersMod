@@ -5,13 +5,13 @@ import net.minecraft.util.Vec3;
 
 public interface IEnergyTransmitter extends IEnergyContainer
 {
-	public ReceiverHandler getReceiverHandler();
-	
-	public boolean isPowering(TileEntity tile);
-	
-	public boolean canPowerReach(TileEntity tile);
-	
-	public float getRange();
-	
-	public Vec3 getEnergyOutputOffset();
+    ReceiverHandler getReceiverHandler();
+
+    boolean isPowering(TileEntity tile);
+
+    boolean canPowerReach(TileEntity tile);
+
+    float getRange();
+
+    Vec3 getEnergyOutputOffset();
 }

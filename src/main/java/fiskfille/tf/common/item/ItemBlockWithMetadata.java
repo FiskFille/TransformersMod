@@ -21,6 +21,7 @@ public class ItemBlockWithMetadata extends ItemBlock
     /**
      * Gets an icon index based on an item's damage value
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int damage)
     {
@@ -30,6 +31,7 @@ public class ItemBlockWithMetadata extends ItemBlock
     /**
      * Returns the metadata of the block which this Item (ItemBlock) can place
      */
+    @Override
     public int getMetadata(int meta)
     {
         return meta;

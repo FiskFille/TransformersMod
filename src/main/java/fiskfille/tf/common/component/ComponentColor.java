@@ -22,12 +22,8 @@ public class ComponentColor extends Component
         Transformer legsTransformer = TFHelper.getTransformerFromArmor(legs);
         Transformer feetTransformer = TFHelper.getTransformerFromArmor(feet);
 
-        if (helmetTransformer != null && helmetTransformer == chestTransformer && chestTransformer == legsTransformer && legsTransformer == feetTransformer)
-        {
-            return super.canLoad(tile, slot);
-        }
+        return helmetTransformer != null && helmetTransformer == chestTransformer && chestTransformer == legsTransformer && legsTransformer == feetTransformer && super.canLoad(tile, slot);
 
-        return false;
     }
 
     @Override

@@ -9,7 +9,6 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 public class TFPlayerData implements IExtendedEntityProperties
 {
     public static final String IDENTIFIER = "TFPLAYERDATA";
-    private EntityPlayer player;
 
     public int altMode;
     public int prevAltMode;
@@ -43,7 +42,7 @@ public class TFPlayerData implements IExtendedEntityProperties
     {
         if (entity instanceof EntityPlayer)
         {
-            player = (EntityPlayer) entity;
+            EntityPlayer player = (EntityPlayer) entity;
         }
     }
 }

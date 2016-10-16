@@ -45,6 +45,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 	public float prevAnimationTimer;
 	public int animationBurnTime;
 
+	@Override
 	public void updateEntity()
 	{
 		prevAnimationTimer = animationTimer;
@@ -230,6 +231,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 		return false;
 	}
 
+	@Override
 	public String getInventoryName()
 	{
 		return "gui.energon_processor";
@@ -288,11 +290,13 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 		return new FluidTankInfo[] { tank.getInfo() };
 	}
 
+	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return super.getRenderBoundingBox().addCoord(0, 0.5D, 0);
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
@@ -304,6 +308,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 		tank.readFromNBT(nbt);
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
@@ -315,22 +320,26 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 		tank.writeToNBT(nbt);
 	}
 
+	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == 0 ? PowerManager.isPowerSource(stack) : (slot == 1 ? (stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon) : (slot == 2 ? stack.getItem() == TFItems.fuelCanister && ItemFuelCanister.isEmpty(stack) && stack.stackSize == 1 && inventory[slot] == null : false));
+		return slot == 0 ? PowerManager.isPowerSource(stack) : (slot == 1 ? (stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon) : (slot == 2 && (stack.getItem() == TFItems.fuelCanister && ItemFuelCanister.isEmpty(stack) && stack.stackSize == 1 && inventory[slot] == null)));
 	}
 
+	@Override
 	public int[] getAccessibleSlotsFromSide(int side)
 	{
 		return side == 0 ? slotsBottom : (side == 1 ? slotsTop : slotsSides);
 	}
 
+	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side)
 	{
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		return isItemValidForSlot(slot, stack);
 	}
 
+	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side)
 	{
 		return side != 0 || slot == 0 || (slot == 2 && !ItemFuelCanister.isEmpty(stack));

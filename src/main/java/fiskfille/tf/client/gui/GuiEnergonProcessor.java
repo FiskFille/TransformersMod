@@ -1,24 +1,6 @@
 package fiskfille.tf.client.gui;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.fluids.FluidStack;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import com.google.common.collect.Lists;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
@@ -28,6 +10,20 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.helper.TFRenderHelper;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergonProcessor extends GuiContainer
@@ -41,6 +37,7 @@ public class GuiEnergonProcessor extends GuiContainer
         tileentity = tile;
     }
 
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
     	int k = (width - xSize) / 2;
@@ -98,19 +95,17 @@ public class GuiEnergonProcessor extends GuiContainer
     	}
     }
 
-    public void drawHoveringText(List text, List colors, int x, int y, FontRenderer font)
+    public void drawHoveringText(List<String> text, List colors, int x, int y, FontRenderer font)
     {
         if (!text.isEmpty())
         {
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             int k = 0;
-            Iterator iterator = text.iterator();
 
-            while (iterator.hasNext())
+            for (String line : text)
             {
-                String s = (String) iterator.next();
-                int l = font.getStringWidth(s);
+                int l = font.getStringWidth(line);
 
                 if (l > k)
                 {
@@ -173,6 +168,7 @@ public class GuiEnergonProcessor extends GuiContainer
         GL11.glColor4f(1, 1, 1, 1);
     }
 
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
     	GL11.glColor4f(1, 1, 1, 1);

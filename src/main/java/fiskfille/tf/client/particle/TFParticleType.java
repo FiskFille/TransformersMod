@@ -8,7 +8,7 @@ public enum TFParticleType
 
     public Class<? extends EntityFX> particleClass;
 
-    private TFParticleType(Class<? extends EntityFX> clazz)
+    TFParticleType(Class<? extends EntityFX> clazz)
     {
         particleClass = clazz;
     }

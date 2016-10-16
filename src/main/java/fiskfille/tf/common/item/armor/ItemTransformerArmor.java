@@ -27,11 +27,13 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
         super(material, renderIndex, armorPiece);
     }
 
+    @Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
         return TFModelRegistry.getModel(getTransformer()).getTexture(entity).toString();
     }
-    
+
+    @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_)
     {
     	ItemStack itemstack1 = TFArmorHelper.getArmorShell(itemstack);
@@ -44,6 +46,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
 
     public abstract Transformer getTransformer();
 
+    @Override
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemstack, int armorSlot)
     {
@@ -99,6 +102,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
         return null;
     }
 
+    @Override
     public void registerIcons(IIconRegister par1IIconRegister)
     {
 

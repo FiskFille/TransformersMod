@@ -16,12 +16,11 @@ import fiskfille.tf.helper.TFRenderHelper;
 public class RenderCrystal extends TileEntitySpecialRenderer
 {
     private ModelCrystal model;
-    private ItemRenderer itemRenderer;
 
     public RenderCrystal()
     {
         model = new ModelCrystal();
-        itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
+        ItemRenderer itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
     }
 
     public void renderAModelAt(TileEntityCrystal tile, double x, double y, double z, float partialTicks)
@@ -77,6 +76,7 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         }
     }
 
+    @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks)
     {
         renderAModelAt((TileEntityCrystal) tile, x, y, z, partialTicks);

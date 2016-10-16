@@ -59,6 +59,7 @@ public class MowzieModelRenderer extends ModelRenderer
         super(modelBase);
     }
 
+    @Override
     public void addChild(ModelRenderer renderer)
     {
         super.addChild(renderer);
@@ -270,6 +271,7 @@ public class MowzieModelRenderer extends ModelRenderer
         scaleZ = z;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void render(float p_78785_1_)
     {
@@ -369,9 +371,9 @@ public class MowzieModelRenderer extends ModelRenderer
         GL11.glNewList(displayList, GL11.GL_COMPILE);
         Tessellator tessellator = Tessellator.instance;
 
-        for (int i = 0; i < cubeList.size(); ++i)
+        for (Object aCubeList : cubeList)
         {
-            ((ModelBox) cubeList.get(i)).render(tessellator, p_78788_1_);
+            ((ModelBox) aCubeList).render(tessellator, p_78788_1_);
         }
 
         GL11.glEndList();

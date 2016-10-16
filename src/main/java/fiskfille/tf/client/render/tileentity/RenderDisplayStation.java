@@ -82,6 +82,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
+    @Override
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
         render((TileEntityDisplayStation) tileentity, d, d1, d2, f);

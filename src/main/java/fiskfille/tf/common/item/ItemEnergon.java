@@ -14,11 +14,13 @@ public class ItemEnergon extends Item implements IEnergon
         energonType = type;
     }
 
+    @Override
     public Energon getEnergonType()
     {
         return energonType;
     }
 
+    @Override
     public int getMass()
     {
         return 144;

@@ -133,7 +133,7 @@ public class ModelSkystrikesCrossbow extends ModelChildBase.Base
 
             if (itemstack != null)
             {
-                boolean flag = itemstack.hasTagCompound() ? itemstack.getTagCompound().getBoolean("blueMode") : false;
+                boolean flag = itemstack.hasTagCompound() && itemstack.getTagCompound().getBoolean("blueMode");
                 float pidb2 = pi / 2;
                 if (!flag && handle.rotateAngleZ > 0.0F)
                 {

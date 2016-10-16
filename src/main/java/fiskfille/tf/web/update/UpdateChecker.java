@@ -9,6 +9,7 @@ public class UpdateChecker extends Thread
 {
     public Update update;
 
+    @Override
     public void run()
     {
         boolean isNewUpdateAvailable = false;

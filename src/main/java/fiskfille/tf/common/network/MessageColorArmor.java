@@ -31,6 +31,7 @@ public class MessageColorArmor implements IMessage
         this.secondaryColor = secondaryColor;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         x = buf.readInt();
@@ -40,6 +41,7 @@ public class MessageColorArmor implements IMessage
         secondaryColor = buf.readInt();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(x);
@@ -51,6 +53,7 @@ public class MessageColorArmor implements IMessage
 
     public static class Handler implements IMessageHandler<MessageColorArmor, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageColorArmor message, MessageContext ctx)
         {
             EntityPlayer player = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;

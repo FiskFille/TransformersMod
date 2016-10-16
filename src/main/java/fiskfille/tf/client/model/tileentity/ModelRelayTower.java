@@ -372,8 +372,9 @@ public class ModelRelayTower extends MowzieModelBase
 		relaytower1.render(0.0625F);
 	}
 
-	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
-	{
+    @Override
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
+    {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

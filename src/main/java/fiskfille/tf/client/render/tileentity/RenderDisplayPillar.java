@@ -39,6 +39,7 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
+    @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
         renderModelAt((TileEntityDisplayPillar) tileentity, x, y, z, partialTicks);

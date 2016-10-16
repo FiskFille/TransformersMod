@@ -11,6 +11,7 @@ public class TileEntityDisplayPillar extends TileEntity
 {
     private ItemStack displayItem;
 
+    @Override
     public void updateEntity()
     {
         super.updateEntity();
@@ -29,6 +30,7 @@ public class TileEntityDisplayPillar extends TileEntity
         }
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound tagCompound)
     {
         super.readFromNBT(tagCompound);
@@ -38,6 +40,7 @@ public class TileEntityDisplayPillar extends TileEntity
         displayItem = ItemStack.loadItemStackFromNBT(itemTag);
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound tagCompound)
     {
         super.writeToNBT(tagCompound);

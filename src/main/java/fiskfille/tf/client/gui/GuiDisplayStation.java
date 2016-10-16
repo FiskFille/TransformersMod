@@ -2,7 +2,6 @@ package fiskfille.tf.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,6 +29,7 @@ public class GuiDisplayStation extends GuiContainer
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/display_station.png");
     private TileEntityDisplayStation tileentity;
 
+    @Override
     public void initGui()
     {
         super.initGui();
@@ -37,8 +37,8 @@ public class GuiDisplayStation extends GuiContainer
         buttonList.add(new GuiButtonInitComponent(1, width / 2 + 43, height / 2 - 73));
         buttonList.add(new GuiButtonInitComponent(2, width / 2 + 43, height / 2 - 73 + 18));
 
-        ((GuiButton) buttonList.get(1)).enabled = getComponent(0) != null ? getComponent(0).canLoad(tileentity, 0) : false;
-        ((GuiButton) buttonList.get(2)).enabled = getComponent(1) != null ? getComponent(1).canLoad(tileentity, 1) : false;
+        ((GuiButton) buttonList.get(1)).enabled = getComponent(0) != null && getComponent(0).canLoad(tileentity, 0);
+        ((GuiButton) buttonList.get(2)).enabled = getComponent(1) != null && getComponent(1).canLoad(tileentity, 1);
     }
 
     public GuiDisplayStation(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
@@ -48,13 +48,15 @@ public class GuiDisplayStation extends GuiContainer
         ySize = 186;
     }
 
+    @Override
     public void updateScreen()
     {
         super.updateScreen();
-        ((GuiButton) buttonList.get(1)).enabled = getComponent(0) != null ? getComponent(0).canLoad(tileentity, 0) : false;
-        ((GuiButton) buttonList.get(2)).enabled = getComponent(1) != null ? getComponent(1).canLoad(tileentity, 1) : false;
+        ((GuiButton) buttonList.get(1)).enabled = getComponent(0) != null && getComponent(0).canLoad(tileentity, 0);
+        ((GuiButton) buttonList.get(2)).enabled = getComponent(1) != null && getComponent(1).canLoad(tileentity, 1);
     }
 
+    @Override
     protected void actionPerformed(GuiButton button)
     {
         int id = button.id;
@@ -88,6 +90,7 @@ public class GuiDisplayStation extends GuiContainer
         return null;
     }
 
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         String s = tileentity.hasCustomInventoryName() ? tileentity.getInventoryName() : I18n.format(tileentity.getInventoryName(), new Object[0]);
@@ -114,6 +117,7 @@ public class GuiDisplayStation extends GuiContainer
         }
     }
 
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

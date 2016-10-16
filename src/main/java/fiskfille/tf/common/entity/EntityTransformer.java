@@ -153,12 +153,14 @@ public class EntityTransformer extends EntityCreature
         return new ItemStack[]{};
     }
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbt)
     {
         transformed = nbt.getBoolean("Transformed");
         transformationTimer = transformed ? 0 : 20;
     }
 
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbt)
     {
         nbt.setBoolean("Transformed", transformed);

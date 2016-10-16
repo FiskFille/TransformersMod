@@ -33,6 +33,7 @@ public class TutorialObjective
 
             new Thread()
             {
+                @Override
                 public void run()
                 {
                     delay(delay);
@@ -46,6 +47,7 @@ public class TutorialObjective
     {
         new Thread()
         {
+            @Override
             public synchronized void start()
             {
                 try
@@ -58,7 +60,6 @@ public class TutorialObjective
                 }
             }
 
-            ;
         }.start();
     }
 }

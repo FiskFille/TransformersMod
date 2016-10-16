@@ -36,7 +36,7 @@ public class PowerManager
 
     public static boolean isPowerSource(ItemStack itemstack)
     {
-        return itemstack == null ? false : isPowerSource(itemstack.getItem(), itemstack.getItemDamage());
+        return itemstack != null && isPowerSource(itemstack.getItem(), itemstack.getItemDamage());
     }
 
     public static int getPowerSourceAmount(Item item, int metadata)

@@ -25,6 +25,7 @@ public class ItemDisplayVehicle extends Item
         setHasSubtypes(true);
     }
 
+    @Override
     public String getItemStackDisplayName(ItemStack stack)
     {
         Transformer transformer = TransformersAPI.getTransformers().get(stack.getItemDamage());
@@ -39,6 +40,7 @@ public class ItemDisplayVehicle extends Item
         }
     }
 
+    @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_)
     {
         info.add("Equippable");
@@ -79,6 +81,7 @@ public class ItemDisplayVehicle extends Item
         }
     }
 
+    @Override
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
     {
         if (!itemstack.hasTagCompound())
@@ -181,11 +184,13 @@ public class ItemDisplayVehicle extends Item
         return null;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IconRegister)
     {
     }
 
+    @Override
     public void getSubItems(Item item, CreativeTabs tab, List subItems)
     {
         int index = 0;

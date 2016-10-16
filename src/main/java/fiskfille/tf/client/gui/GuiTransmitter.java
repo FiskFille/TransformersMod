@@ -44,6 +44,7 @@ public class GuiTransmitter extends GuiContainer
 		tileentity = tile;
 	}
 
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		int k = (width - xSize) / 2;
@@ -113,6 +114,7 @@ public class GuiTransmitter extends GuiContainer
         }
 	}
 
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -158,11 +160,10 @@ public class GuiTransmitter extends GuiContainer
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			int k = 0;
-			Iterator iterator = text.iterator();
 
-			while (iterator.hasNext())
+			for (Object aText : text)
 			{
-				String s = (String) iterator.next();
+				String s = (String) aText;
 				int l = font.getStringWidth(s);
 
 				if (l > k)

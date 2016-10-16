@@ -17,12 +17,14 @@ public class BlockTransformiumStone extends BlockBasic
         setTickRandomly(true);
     }
 
+    @Override
     public int tickRate(World world)
     {
         float f = 1F;
         return (int) (100000000000F * f);
     }
 
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         if (rand.nextInt(100000) == 0 && !world.canBlockSeeTheSky(x, y + 1, z))
@@ -33,6 +35,7 @@ public class BlockTransformiumStone extends BlockBasic
         onBlockAdded(world, x, y, z);
     }
 
+    @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
         world.scheduleBlockUpdate(x, y, z, this, tickRate(world));

@@ -45,6 +45,7 @@ public class RenderEnergonProcessor extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
+    @Override
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
         render((TileEntityEnergonProcessor) tileentity, d, d1, d2, f);

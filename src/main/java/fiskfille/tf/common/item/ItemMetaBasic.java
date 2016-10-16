@@ -25,6 +25,7 @@ public class ItemMetaBasic extends Item
         setHasSubtypes(true);
     }
 
+    @Override
     public void getSubItems(Item item, CreativeTabs tab, List subItems)
     {
         for (int i = 0; i < itemNames.length; ++i)
@@ -33,18 +34,21 @@ public class ItemMetaBasic extends Item
         }
     }
 
+    @Override
     public String getItemStackDisplayName(ItemStack stack)
     {
         int itemDamage = stack.getItemDamage();
         return StatCollector.translateToLocal("item." + itemNames[itemDamage > itemNames.length ? itemNames.length : itemDamage].toLowerCase().replace(" ", "_").replace("'", "") + ".name");
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int par1)
     {
         return icons[par1 > itemNames.length ? itemNames.length : par1];
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister)
     {

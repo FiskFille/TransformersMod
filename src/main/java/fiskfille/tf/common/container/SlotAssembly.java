@@ -31,11 +31,13 @@ public class SlotAssembly extends Slot
         this.craftMatrix = inventory1;
     }
 
+    @Override
     public boolean isItemValid(ItemStack itemstack)
     {
         return false;
     }
 
+    @Override
     public ItemStack decrStackSize(int amount)
     {
         if (this.getHasStack())
@@ -46,12 +48,14 @@ public class SlotAssembly extends Slot
         return super.decrStackSize(amount);
     }
 
+    @Override
     protected void onCrafting(ItemStack itemstack, int amount)
     {
         this.amountCrafted += amount;
         this.onCrafting(itemstack);
     }
 
+    @Override
     protected void onCrafting(ItemStack itemstack)
     {
         itemstack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.amountCrafted);
@@ -108,6 +112,7 @@ public class SlotAssembly extends Slot
         }
     }
 
+    @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemstack)
     {
         FMLCommonHandler.instance().firePlayerCraftingEvent(player, itemstack, craftMatrix);

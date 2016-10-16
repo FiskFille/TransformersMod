@@ -27,6 +27,7 @@ public class EntityLaser extends EntityThrowable
         super(world, x, y, z);
     }
 
+    @Override
     public void setThrowableHeading(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_, float p_70186_8_)
     {
         float f2 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_3_ * p_70186_3_ + p_70186_5_ * p_70186_5_);
@@ -44,16 +45,19 @@ public class EntityLaser extends EntityThrowable
         prevRotationPitch = rotationPitch = (float) (Math.atan2(p_70186_3_, f3) * 180.0D / Math.PI);
     }
 
+    @Override
     protected float getGravityVelocity()
     {
         return 0.005F;
     }
 
+    @Override
     protected float func_70182_d()
     {
         return 4F;
     }
 
+    @Override
     protected void onImpact(MovingObjectPosition mop)
     {
         if (!worldObj.isRemote)

@@ -26,12 +26,14 @@ public class MessageCloudtrapJetpack implements IMessage
         jetpacking = j;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         jetpacking = buf.readBoolean();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -40,6 +42,7 @@ public class MessageCloudtrapJetpack implements IMessage
 
     public static class Handler implements IMessageHandler<MessageCloudtrapJetpack, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageCloudtrapJetpack message, MessageContext ctx)
         {
             if (ctx.side.isClient())

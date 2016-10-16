@@ -11,11 +11,13 @@ public class RenderBlank extends Render
         shadowSize = 0.0F;
     }
 
+    @Override
     protected ResourceLocation getEntityTexture(Entity entity)
     {
         return null;
     }
 
+    @Override
     public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTicks)
     {
     }

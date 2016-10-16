@@ -5,8 +5,9 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityAssemblyTable extends TileEntity
 {
-	public AxisAlignedBB getRenderBoundingBox()
-	{
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
 		return super.getRenderBoundingBox();
 	}
 }

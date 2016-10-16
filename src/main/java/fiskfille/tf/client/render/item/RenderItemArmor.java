@@ -25,18 +25,21 @@ public class RenderItemArmor implements IItemRenderer
 		this.transformer = transformer;
 	}
 
-	public boolean handleRenderType(ItemStack item, ItemRenderType type)
-	{
+    @Override
+    public boolean handleRenderType(ItemStack item, ItemRenderType type)
+    {
 		return type != ItemRenderType.FIRST_PERSON_MAP;
 	}
 
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-	{
+    @Override
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
+    {
 		return type == ItemRenderType.ENTITY || type == ItemRenderType.EQUIPPED_FIRST_PERSON;
 	}
 
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-	{
+    @Override
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
+    {
 		TransformerModel tfModel = TFModelRegistry.getModel(transformer);
 		ModelTransformerBase model = tfModel.getItemInventoryModel();
 

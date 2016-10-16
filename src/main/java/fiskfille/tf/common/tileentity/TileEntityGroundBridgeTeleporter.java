@@ -17,6 +17,7 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
     public int ticks;
     public boolean clientClosing;
 
+    @Override
     public void updateEntity()
     {
         if (!worldObj.isRemote)
@@ -51,6 +52,7 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
@@ -60,6 +62,7 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
         returnPortal = nbt.getBoolean("ReturnPortal");
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);

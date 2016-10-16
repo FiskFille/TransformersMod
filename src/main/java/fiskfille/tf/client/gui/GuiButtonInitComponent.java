@@ -13,6 +13,7 @@ public class GuiButtonInitComponent extends GuiButton
         super(id, x, y, 12, 12, ">");
     }
 
+    @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY)
     {
         if (this.visible)

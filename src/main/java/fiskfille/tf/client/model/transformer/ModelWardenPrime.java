@@ -2821,32 +2821,38 @@ public class ModelWardenPrime extends ModelTransformerBase
         setInitPose();
     }
 
+    @Override
     public Transformer getTransformer()
     {
         return TransformerManager.transformerWarden;
     }
 
+    @Override
     public ModelRenderer getWaist()
     {
         return waistbase;
     }
 
+    @Override
     public ModelRenderer getVehicle(EntityPlayer player)
     {
         int altMode = TFDataManager.getAltMode(player);
         return altMode == 0 ? hovervehiclewaistbase : boatvehiclebase;
     }
 
+    @Override
     public ModelRenderer getRightLeg()
     {
         return upperlegR1;
     }
 
+    @Override
     public ModelRenderer getLeftLeg()
     {
         return upperlegL1;
     }
 
+    @Override
     public ModelRenderer getHead()
     {
         return headbase;
@@ -2859,6 +2865,7 @@ public class ModelWardenPrime extends ModelTransformerBase
         model.rotateAngleZ = z;
     }
 
+    @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
     {
         super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);

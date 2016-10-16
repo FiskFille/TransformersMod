@@ -16,11 +16,13 @@ public class InventoryDisplayStationArmor implements IInventory
         this.eventHandler = container;
     }
 
+    @Override
     public int getSizeInventory()
     {
         return this.stackList.length;
     }
 
+    @Override
     public ItemStack getStackInSlot(int slot)
     {
         return slot >= this.getSizeInventory() ? null : this.stackList[slot];
@@ -39,16 +41,19 @@ public class InventoryDisplayStationArmor implements IInventory
         }
     }
 
+    @Override
     public String getInventoryName()
     {
         return "container.crafting";
     }
 
+    @Override
     public boolean hasCustomInventoryName()
     {
         return false;
     }
 
+    @Override
     public ItemStack getStackInSlotOnClosing(int slot)
     {
         if (this.stackList[slot] != null)
@@ -63,6 +68,7 @@ public class InventoryDisplayStationArmor implements IInventory
         }
     }
 
+    @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
         if (this.stackList[slot] != null)
@@ -95,28 +101,35 @@ public class InventoryDisplayStationArmor implements IInventory
         }
     }
 
+    @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         this.stackList[slot] = itemstack;
         this.eventHandler.onCraftMatrixChanged(this);
     }
 
+    @Override
     public int getInventoryStackLimit()
     {
         return 1;
     }
 
+    @Override
     public void markDirty() {}
 
+    @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
         return true;
     }
 
+    @Override
     public void openInventory() {}
 
+    @Override
     public void closeInventory() {}
 
+    @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return true;

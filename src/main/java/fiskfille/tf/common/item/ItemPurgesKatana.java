@@ -28,6 +28,7 @@ public class ItemPurgesKatana extends ItemSword
         setMaxDamage(1500);
     }
 
+    @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
         if (!TFDataManager.isTransformed(player) && TFHelper.isPlayerPurge(player))
@@ -50,21 +51,25 @@ public class ItemPurgesKatana extends ItemSword
         }
     }
 
+    @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         return stack;
     }
 
+    @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return 72000;
     }
 
+    @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return EnumAction.drink;
     }
 
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         if (TFHelper.isPlayerPurge(player))
@@ -83,6 +88,7 @@ public class ItemPurgesKatana extends ItemSword
         return world.selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range), IEntitySelector.selectAnything);
     }
 
+    @Override
     public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();

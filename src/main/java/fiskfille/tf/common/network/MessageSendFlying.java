@@ -24,12 +24,14 @@ public class MessageSendFlying implements IMessage
         flying = f;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         flying = buf.readBoolean();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -38,6 +40,7 @@ public class MessageSendFlying implements IMessage
 
     public static class Handler implements IMessageHandler<MessageSendFlying, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageSendFlying message, MessageContext ctx)
         {
             if (ctx.side.isClient())

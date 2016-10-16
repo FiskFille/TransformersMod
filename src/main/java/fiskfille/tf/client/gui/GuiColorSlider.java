@@ -24,6 +24,7 @@ public class GuiColorSlider extends GuiSliderBase
         this.sliderId = sliderId;
     }
 
+    @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY)
     {
         if (visible)
@@ -77,6 +78,7 @@ public class GuiColorSlider extends GuiSliderBase
         }
     }
 
+    @Override
     protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
     {
         if (visible)

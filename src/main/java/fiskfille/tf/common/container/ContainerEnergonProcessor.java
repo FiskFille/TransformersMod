@@ -28,6 +28,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
         addSlotToContainer(new Slot(tile, 1, 24, 17));
         addSlotToContainer(new Slot(tile, 2, 138, 53)
         {
+            @Override
             public int getSlotStackLimit()
             {
                 return 1;
@@ -37,11 +38,13 @@ public class ContainerEnergonProcessor extends ContainerBasic
         addPlayerInventory(inventoryPlayer, 0);
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return true;
     }
 
+    @Override
     public void addCraftingToCrafters(ICrafting icrafting)
     {
         super.addCraftingToCrafters(icrafting);
@@ -52,13 +55,14 @@ public class ContainerEnergonProcessor extends ContainerBasic
         icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
     }
 
+    @Override
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < crafters.size(); ++i)
+        for (Object crafter : crafters)
         {
-            ICrafting icrafting = (ICrafting) crafters.get(i);
+            ICrafting icrafting = (ICrafting) crafter;
 
             if (lastBurnTime != tileentity.burnTime)
             {
@@ -93,6 +97,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
         lastCurrentMaxPowerTime = tileentity.currentMaxPowerTime;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int id, int value)
     {
@@ -118,6 +123,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
         }
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
     {
         ItemStack itemstack = null;

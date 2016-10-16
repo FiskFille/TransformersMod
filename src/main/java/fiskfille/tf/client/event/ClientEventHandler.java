@@ -1,12 +1,35 @@
 package fiskfille.tf.client.event;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.client.gui.GuiOverlay;
+import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.client.render.entity.CustomEntityRenderer;
+import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.proxy.ClientProxy;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -43,40 +66,15 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
-import com.mojang.authlib.GameProfile;
-
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.client.render.entity.CustomEntityRenderer;
-import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.event.PlayerTransformEvent;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.proxy.ClientProxy;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ClientEventHandler
 {
@@ -801,10 +799,7 @@ public class ClientEventHandler
                 {
                     s1 = parseDescSpoilers(s1);
 
-                    for (String s2 : parseDescVariables(s1).split("\\\\sn"))
-                    {
-                        event.toolTip.add(s2);
-                    }
+                    Collections.addAll(event.toolTip, parseDescVariables(s1).split("\\\\sn"));
                 }
             }
             else
@@ -836,9 +831,9 @@ public class ClientEventHandler
         List list = mc.fontRenderer.listFormattedStringToWidth(s, width);
         String s2 = "";
 
-        for (Iterator iterator = list.iterator(); iterator.hasNext(); )
+        for (Object aList : list)
         {
-            String s1 = (String) iterator.next();
+            String s1 = (String) aList;
             s2 += s1 + "\\n";
         }
 

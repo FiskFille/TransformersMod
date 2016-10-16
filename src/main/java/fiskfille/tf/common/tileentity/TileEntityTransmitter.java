@@ -45,9 +45,10 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 	
 	public int animationTimer;
 	public float prevEnergy;
-	
-	public void updateEntity()
-	{
+
+    @Override
+    public void updateEntity()
+    {
 		prevEnergy = storage.getEnergy();
 		++animationTimer;
 		
@@ -157,9 +158,10 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 		
 		return list;
 	}
-	
-	public AxisAlignedBB getRenderBoundingBox()
-	{
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
 		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(0.35D, 0, 0.35D).addCoord(0, 2, 0);
 		
 		if (getBlockMetadata() < 4)

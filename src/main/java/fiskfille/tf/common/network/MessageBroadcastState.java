@@ -28,6 +28,7 @@ public class MessageBroadcastState implements IMessage
         altMode = TFDataManager.getAltMode(player);
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
@@ -35,6 +36,7 @@ public class MessageBroadcastState implements IMessage
         altMode = buf.readByte();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -44,6 +46,7 @@ public class MessageBroadcastState implements IMessage
 
     public static class Handler implements IMessageHandler<MessageBroadcastState, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageBroadcastState message, MessageContext ctx)
         {
             int altMode = message.altMode;

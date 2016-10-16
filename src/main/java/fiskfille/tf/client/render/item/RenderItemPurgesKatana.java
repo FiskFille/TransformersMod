@@ -12,16 +12,19 @@ public class RenderItemPurgesKatana implements IItemRenderer
 {
     private ModelPurgesKatana model = new ModelPurgesKatana();
 
+    @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
         return type != ItemRenderType.ENTITY && type != ItemRenderType.INVENTORY;
     }
 
+    @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return false;
     }
 
+    @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/purge/purge.png"));

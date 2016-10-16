@@ -32,6 +32,7 @@ public class MessageControlPanel implements IMessage
         this.action = action;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
@@ -41,6 +42,7 @@ public class MessageControlPanel implements IMessage
         action = buf.readInt();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -52,6 +54,7 @@ public class MessageControlPanel implements IMessage
 
     public static class Handler implements IMessageHandler<MessageControlPanel, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageControlPanel message, MessageContext ctx)
         {
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;

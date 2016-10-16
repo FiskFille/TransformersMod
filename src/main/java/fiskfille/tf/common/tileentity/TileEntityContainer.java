@@ -13,16 +13,19 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
     
     public abstract void setItemStacks(ItemStack[] itemstacks);
 
+    @Override
     public int getSizeInventory()
     {
         return getItemStacks().length;
     }
 
+    @Override
     public ItemStack getStackInSlot(int slot)
     {
         return getItemStacks()[slot];
     }
 
+    @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
         if (getItemStacks()[slot] != null)
@@ -53,6 +56,7 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
         }
     }
 
+    @Override
     public ItemStack getStackInSlotOnClosing(int slot)
     {
         if (getItemStacks()[slot] != null)
@@ -67,6 +71,7 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
         }
     }
 
+    @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         getItemStacks()[slot] = itemstack;
@@ -77,16 +82,19 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
         }
     }
 
+    @Override
     public String getInventoryName()
     {
         return "";
     }
 
+    @Override
     public boolean hasCustomInventoryName()
     {
         return false;
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
@@ -105,6 +113,7 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
         }
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
@@ -124,20 +133,25 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
         nbt.setTag("Items", nbttaglist);
     }
 
+    @Override
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
+    @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
         return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
     }
 
+    @Override
     public void openInventory() {}
 
+    @Override
     public void closeInventory() {}
 
+    @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return true;

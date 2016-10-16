@@ -24,6 +24,7 @@ public class ItemTransformiumDetector extends Item
         super();
     }
 
+    @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean hand)
     {
         int time = entity.ticksExisted;
@@ -130,6 +131,7 @@ public class ItemTransformiumDetector extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         if (stack.getTagCompound() == null)
@@ -179,6 +181,7 @@ public class ItemTransformiumDetector extends Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List informationList, boolean p_77624_4_)
     {

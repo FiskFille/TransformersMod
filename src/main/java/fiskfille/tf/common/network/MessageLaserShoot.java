@@ -34,12 +34,14 @@ public class MessageLaserShoot implements IMessage
         this.consume = consume;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         consume = buf.readBoolean();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -48,6 +50,7 @@ public class MessageLaserShoot implements IMessage
 
     public static class Handler implements IMessageHandler<MessageLaserShoot, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageLaserShoot message, MessageContext ctx)
         {
             if (!ctx.side.isClient())

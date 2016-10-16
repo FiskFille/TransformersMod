@@ -26,12 +26,14 @@ public class MessageVehicleNitro implements IMessage
         nitroOn = n;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         nitroOn = buf.readBoolean();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -40,6 +42,7 @@ public class MessageVehicleNitro implements IMessage
 
     public static class Handler implements IMessageHandler<MessageVehicleNitro, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageVehicleNitro message, MessageContext ctx)
         {
             if (ctx.side.isClient())

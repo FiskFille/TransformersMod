@@ -17,6 +17,7 @@ import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 
 public class BlockRelayTower extends BlockTransmitter
 {
+	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
 	{
 		int metadata = world.getBlockMetadata(x, y, z);
@@ -37,6 +38,7 @@ public class BlockRelayTower extends BlockTransmitter
 		setBlockBoundsBasedOnState(world, x, y, z);
 	}
 
+	@Override
 	public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
 	{
 		setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
@@ -50,11 +52,13 @@ public class BlockRelayTower extends BlockTransmitter
 		setBlockBoundsBasedOnState(world, x, y, z);
 	}
 
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
 		setBounds(world.getBlockMetadata(x, y, z));
 	}
 
+	@Override
 	public void setBounds(int metadata)
 	{
 		float f = 0.0625F;
@@ -70,6 +74,7 @@ public class BlockRelayTower extends BlockTransmitter
 		}
 	}
 
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
 		if (!player.isSneaking())
@@ -94,11 +99,13 @@ public class BlockRelayTower extends BlockTransmitter
 		}
 	}
 
+	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
 	{
 		world.removeTileEntity(x, y, z);
 	}
 
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
 		int metadata = world.getBlockMetadata(x, y, z);
@@ -121,11 +128,13 @@ public class BlockRelayTower extends BlockTransmitter
 		}
 	}
 
+	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		return y >= world.getHeight() - 1 ? false : world.getBlock(x, y, z).isReplaceable(world, x, y, z) && world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z);
+		return y < world.getHeight() - 1 && (world.getBlock(x, y, z).isReplaceable(world, x, y, z) && world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z));
 	}
 
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
 	{
 		int rotation = MathHelper.floor_double((double) ((entity.rotationYaw * 4F) / 360F) + 2.5D) & 3;
@@ -134,6 +143,7 @@ public class BlockRelayTower extends BlockTransmitter
 		world.setBlock(x, y + 1, z, this, rotation + 4, 2);
 	}
 
+	@Override
 	public TileEntity createNewTileEntity(World world, int metadata)
 	{
 		return new TileEntityRelayTower();

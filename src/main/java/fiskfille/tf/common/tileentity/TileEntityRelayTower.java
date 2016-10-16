@@ -26,9 +26,10 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
 	public EnergyStorage storage = new EnergyStorage(100);
 	
 	public int animationTimer;
-	
-	public void updateEntity()
-	{
+
+    @Override
+    public void updateEntity()
+    {
 		++animationTimer;
 		receiverHandler.onUpdate(worldObj);
 		
@@ -79,9 +80,10 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
 		
 		return list;
 	}
-	
-	public AxisAlignedBB getRenderBoundingBox()
-	{
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
 		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(0.35D, 0, 0.35D).addCoord(0, 1, 0);
 		
 		if (getBlockMetadata() < 4)

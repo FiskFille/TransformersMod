@@ -3,7 +3,6 @@ package fiskfille.tf.client.render.entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;

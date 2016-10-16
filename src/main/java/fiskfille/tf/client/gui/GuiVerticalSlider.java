@@ -21,8 +21,9 @@ public class GuiVerticalSlider extends GuiSliderBase
 		super(id, x, y, 20, height, "");
 	}
 
-	public void drawButton(Minecraft mc, int mouseX, int mouseY)
-	{
+    @Override
+    public void drawButton(Minecraft mc, int mouseX, int mouseY)
+    {
 		if (visible)
 		{
 			FontRenderer fontrenderer = mc.fontRenderer;
@@ -39,8 +40,9 @@ public class GuiVerticalSlider extends GuiSliderBase
 			mouseDragged(mc, mouseX, mouseY);
 		}
 	}
-	
-	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
+
+    @Override
+    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
     {
         if (enabled && visible && mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height)
         {
@@ -65,8 +67,9 @@ public class GuiVerticalSlider extends GuiSliderBase
         }
     }
 
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
-	{
+    @Override
+    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
+    {
 		if (visible)
 		{
 			if (dragging)

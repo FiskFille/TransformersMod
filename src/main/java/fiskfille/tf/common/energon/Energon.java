@@ -32,21 +32,19 @@ public abstract class Energon
     {
     	Map<String, Integer> map = Maps.newHashMap();
     	int i = 0;
-    	
-    	for (int j = 0; j < args.length; ++j)
-    	{
-    		Object object = args[j];
-    		
-    		if (object instanceof Integer)
-    		{
-    			i = (Integer)object;
-    		}
-    		else if (object instanceof Energon)
-    		{
-    			map.put(((Energon)object).getId(), i);
-    		}
-    	}
-    	
-    	return map;
+
+        for (Object object : args)
+        {
+            if (object instanceof Integer)
+            {
+                i = (Integer) object;
+            }
+            else if (object instanceof Energon)
+            {
+                map.put(((Energon) object).getId(), i);
+            }
+        }
+
+        return map;
     }
 }

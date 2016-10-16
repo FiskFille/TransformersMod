@@ -17,6 +17,7 @@ import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class GuiHandlerTF implements IGuiHandler
 {
+    @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
@@ -38,6 +39,7 @@ public class GuiHandlerTF implements IGuiHandler
         return null;
     }
 
+    @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
         TileEntity tile = world.getTileEntity(x, y, z);

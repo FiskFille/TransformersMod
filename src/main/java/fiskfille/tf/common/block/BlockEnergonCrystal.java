@@ -41,26 +41,31 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         setLightLevel(0.75F);
     }
 
+    @Override
     public Energon getEnergonType()
     {
         return energonType;
     }
 
+    @Override
     public int getMass()
     {
         return 576;
     }
 
+    @Override
     protected boolean canSilkHarvest()
     {
         return true;
     }
 
+    @Override
     public int quantityDropped(Random random)
     {
         return random.nextInt(3) + 2;
     }
 
+    @Override
     public Item getItemDropped(int p_149650_1_, Random random, int p_149650_3_)
     {
         return energonType.getCrystalPiece();
@@ -72,26 +77,31 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         return MathHelper.getRandomIntegerInRange(rand, 0, 2);
     }
 
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         return null;
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
@@ -113,6 +123,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
      */
+    @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
         return world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || isSolid(world, x, y - 1, z) || isSolid(world, x, y + 1, z);
@@ -121,6 +132,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     /**
      * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
      */
+    @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
         int rotation = metadata;
@@ -161,6 +173,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     /**
      * Ticks the block if it's been scheduled
      */
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         super.updateTick(world, x, y, z, rand);
@@ -174,6 +187,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     /**
      * Called whenever the block is added into the world. Args: world, x, y, z
      */
+    @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
         if (world.getBlockMetadata(x, y, z) == 0)
@@ -211,6 +225,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor Block
      */
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         neighbourChanged(world, x, y, z, block);
@@ -305,6 +320,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
      * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit. Args: world,
      * x, y, z, startVec, endVec
      */
+    @Override
     public MovingObjectPosition collisionRayTrace(World p_149731_1_, int p_149731_2_, int p_149731_3_, int p_149731_4_, Vec3 p_149731_5_, Vec3 p_149731_6_)
     {
         int l = p_149731_1_.getBlockMetadata(p_149731_2_, p_149731_3_, p_149731_4_) & 7;
@@ -340,6 +356,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         return super.collisionRayTrace(p_149731_1_, p_149731_2_, p_149731_3_, p_149731_4_, p_149731_5_, p_149731_6_);
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityCrystal();

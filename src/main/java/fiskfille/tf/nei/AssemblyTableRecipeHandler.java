@@ -86,6 +86,7 @@ public class AssemblyTableRecipeHandler extends TemplateRecipeHandler
             return getCycledIngredients(cycleticks / 20, ingredients);
         }
 
+        @Override
         public PositionedStack getResult()
         {
             return result;
@@ -255,6 +256,7 @@ public class AssemblyTableRecipeHandler extends TemplateRecipeHandler
         return "assembly_table";
     }
 
+    @Override
     public void drawBackground(int recipe)
     {
         GL11.glColor4f(1, 1, 1, 1);

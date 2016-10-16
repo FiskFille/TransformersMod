@@ -12,7 +12,7 @@ public enum EnumError
 
     public String displayKey;
 
-    private EnumError(String displayKey)
+    EnumError(String displayKey)
     {
         this.displayKey = displayKey;
     }

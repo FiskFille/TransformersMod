@@ -35,6 +35,7 @@ public class EntityTFFlameFX extends EntityFX
         setParticleTextureIndex(48);
     }
 
+    @Override
     public void renderParticle(Tessellator tesselator, float x, float y, float z, float r, float g, float b)
     {
         float f6 = (particleAge + x) / particleMaxAge;
@@ -42,6 +43,7 @@ public class EntityTFFlameFX extends EntityFX
         super.renderParticle(tesselator, x, y, z, r, g, b);
     }
 
+    @Override
     public int getBrightnessForRender(float p_70070_1_)
     {
         float f1 = (particleAge + p_70070_1_) / particleMaxAge;
@@ -71,6 +73,7 @@ public class EntityTFFlameFX extends EntityFX
     /**
      * Gets how bright this entity is.
      */
+    @Override
     public float getBrightness(float p_70013_1_)
     {
         float f1 = (particleAge + p_70013_1_) / particleMaxAge;
@@ -92,6 +95,7 @@ public class EntityTFFlameFX extends EntityFX
     /**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate()
     {
         prevPosX = posX;
@@ -132,9 +136,9 @@ public class EntityTFFlameFX extends EntityFX
             double d0 = 0.0D;
             EntityLivingBase entitylivingbase = null;
 
-            for (int j = 0; j < list.size(); ++j)
+            for (Object aList : list)
             {
-                Entity entity1 = (Entity) list.get(j);
+                Entity entity1 = (Entity) aList;
 
                 if (entity1.canBeCollidedWith() && (entity1 != entitylivingbase || particleAge >= 5))
                 {

@@ -41,9 +41,9 @@ public class MowzieModelBase extends ModelChildBase.Biped
      */
     protected void setInitPose()
     {
-        for (int i = 0; i < parts.size(); i++)
+        for (MowzieModelRenderer part : parts)
         {
-            parts.get(i).setInitValuesToCurrentPose();
+            part.setInitValuesToCurrentPose();
         }
     }
 
@@ -55,9 +55,9 @@ public class MowzieModelBase extends ModelChildBase.Biped
      */
     public void setToInitPose()
     {
-        for (int i = 0; i < parts.size(); i++)
+        for (MowzieModelRenderer part : parts)
         {
-            parts.get(i).setCurrentPoseToInitValues();
+            part.setCurrentPoseToInitValues();
         }
     }
 
@@ -73,6 +73,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * @param child  is the child box;
      * @param parent is the parent box.
      */
+    @Override
     protected void addChildTo(ModelRenderer child, ModelRenderer parent)
     {
         float distance = (float) Math.sqrt(Math.pow(child.rotationPointZ - parent.rotationPointZ, 2) + Math.pow(child.rotationPointY - parent.rotationPointY, 2));
@@ -351,9 +352,9 @@ public class MowzieModelBase extends ModelChildBase.Biped
             entity.ySize *= 0.4F;
             List collidingEntities = entity.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox.addCoord(0, moveY, 0));
 
-            for (int currentIndex = 0; currentIndex < collidingEntities.size(); ++currentIndex)
+            for (Object collidingEntity : collidingEntities)
             {
-                moveY = ((AxisAlignedBB) collidingEntities.get(currentIndex)).calculateYOffset(entity.boundingBox, moveY);
+                moveY = ((AxisAlignedBB) collidingEntity).calculateYOffset(entity.boundingBox, moveY);
             }
 
             onGround = actualMoveY != moveY && actualMoveY < 0.0D;

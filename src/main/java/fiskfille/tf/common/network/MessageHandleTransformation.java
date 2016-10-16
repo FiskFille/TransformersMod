@@ -25,12 +25,14 @@ public class MessageHandleTransformation implements IMessage
         mode = (byte) altMode;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         mode = buf.readByte();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -39,6 +41,7 @@ public class MessageHandleTransformation implements IMessage
 
     public static class Handler implements IMessageHandler<MessageHandleTransformation, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageHandleTransformation message, MessageContext ctx)
         {
             byte altMode = message.mode;

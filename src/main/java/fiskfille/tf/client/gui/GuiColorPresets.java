@@ -39,6 +39,7 @@ public class GuiColorPresets extends GuiScreen
     public int maxPages = 0;
     public int page = 0;
 
+    @Override
     public void initGui()
     {
         super.initGui();
@@ -118,6 +119,7 @@ public class GuiColorPresets extends GuiScreen
         parent = gui;
     }
 
+    @Override
     public void updateScreen()
     {
         super.updateScreen();
@@ -129,6 +131,7 @@ public class GuiColorPresets extends GuiScreen
         }
     }
 
+    @Override
     protected void keyTyped(char c, int key)
     {
         if (key == 1)
@@ -142,6 +145,7 @@ public class GuiColorPresets extends GuiScreen
         }
     }
 
+    @Override
     protected void actionPerformed(GuiButton button)
     {
         int id = button.id;
@@ -163,6 +167,7 @@ public class GuiColorPresets extends GuiScreen
         }
     }
 
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int button)
     {
         super.mouseClicked(mouseX, mouseY, button);
@@ -192,11 +197,13 @@ public class GuiColorPresets extends GuiScreen
         }
     }
 
+    @Override
     public boolean doesGuiPauseGame()
     {
         return false;
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         drawDefaultBackground();

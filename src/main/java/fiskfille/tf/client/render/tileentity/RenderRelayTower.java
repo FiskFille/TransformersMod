@@ -166,8 +166,9 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
 		}
 	}
 
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
-	{
+    @Override
+    public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
+    {
 		render((TileEntityRelayTower) tileentity, d, d1, d2, f);
 	}
 }

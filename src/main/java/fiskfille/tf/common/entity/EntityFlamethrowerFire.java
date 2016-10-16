@@ -30,16 +30,19 @@ public class EntityFlamethrowerFire extends EntityThrowable
         noClip = false;
     }
 
+    @Override
     protected float getGravityVelocity()
     {
         return 0.0F;
     }
 
+    @Override
     protected float func_70182_d()
     {
         return 1.0F;
     }
 
+    @Override
     public void onUpdate()
     {
         super.onUpdate();
@@ -53,6 +56,7 @@ public class EntityFlamethrowerFire extends EntityThrowable
         }
     }
 
+    @Override
     protected void onImpact(MovingObjectPosition mop)
     {
         if (mop.entityHit != null)

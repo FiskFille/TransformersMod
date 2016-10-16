@@ -42,20 +42,24 @@ public class EntityTransformiumSeed extends Entity
         placedBye = entity;
     }
 
+    @Override
     protected void entityInit()
     {
     }
 
+    @Override
     protected boolean canTriggerWalking()
     {
         return false;
     }
 
+    @Override
     public boolean canBeCollidedWith()
     {
         return !isDead;
     }
 
+    @Override
     public void onUpdate()
     {
         prevPosX = posX;
@@ -155,18 +159,21 @@ public class EntityTransformiumSeed extends Entity
         }
     }
 
+    @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         nbt.setByte("Fuse", (byte) fuse);
         nbt.setByte("MaxFuse", (byte) maxFuse);
     }
 
+    @Override
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         fuse = nbt.getByte("Fuse");
         maxFuse = nbt.getByte("MaxFuse");
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public float getShadowSize()
     {

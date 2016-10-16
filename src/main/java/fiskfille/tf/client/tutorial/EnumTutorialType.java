@@ -15,7 +15,7 @@ public enum EnumTutorialType
 
     public TutorialTicker ticker;
 
-    private EnumTutorialType(TutorialTicker ticker)
+    EnumTutorialType(TutorialTicker ticker)
     {
         this.ticker = ticker;
     }

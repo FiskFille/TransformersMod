@@ -13,9 +13,10 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
 		super(id, x, y, height);
 		parent = parentScreen;
 	}
-	
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
-	{
+
+    @Override
+    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
+    {
 		if (visible && enabled)
 		{
 			if (dragging)

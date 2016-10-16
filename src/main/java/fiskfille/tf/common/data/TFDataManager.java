@@ -199,12 +199,8 @@ public class TFDataManager
     {
         Transformer transformer = TFHelper.getTransformer(player);
 
-        if (transformer != null)
-        {
-            return transformer.hasStealthForce(player, getAltMode(player)) && (getAltMode(player) != -1) && TFPlayerData.getData(player).stealthForce;
-        }
+        return transformer != null && transformer.hasStealthForce(player, getAltMode(player)) && (getAltMode(player) != -1) && TFPlayerData.getData(player).stealthForce;
 
-        return false;
     }
 
     /**
@@ -280,7 +276,7 @@ public class TFDataManager
     {
         if (!player.worldObj.isRemote)
         {
-            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(getAltMode(player), isInStealthMode(player), TFConfig.canTransform, TFWorldData.get(player.worldObj).getCoordinates()), (EntityPlayerMP) player);
+            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(getAltMode(player), isInStealthMode(player), TFConfig.canTransform), (EntityPlayerMP) player);
         }
     }
 

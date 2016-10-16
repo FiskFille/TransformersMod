@@ -20,16 +20,19 @@ public class InventoryAssembly extends InventoryCrafting
         this.inventoryWidth = width;
     }
 
+    @Override
     public int getSizeInventory()
     {
         return this.stackList.length;
     }
 
+    @Override
     public ItemStack getStackInSlot(int slot)
     {
         return slot >= this.getSizeInventory() ? null : this.stackList[slot];
     }
 
+    @Override
     public ItemStack getStackInRowAndColumn(int row, int column)
     {
         if (row >= 0 && row < this.inventoryWidth)
@@ -43,16 +46,19 @@ public class InventoryAssembly extends InventoryCrafting
         }
     }
 
+    @Override
     public String getInventoryName()
     {
         return "container.crafting";
     }
 
+    @Override
     public boolean hasCustomInventoryName()
     {
         return false;
     }
 
+    @Override
     public ItemStack getStackInSlotOnClosing(int slot)
     {
         if (this.stackList[slot] != null)
@@ -67,6 +73,7 @@ public class InventoryAssembly extends InventoryCrafting
         }
     }
 
+    @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
         if (this.stackList[slot] != null)
@@ -99,28 +106,35 @@ public class InventoryAssembly extends InventoryCrafting
         }
     }
 
+    @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         this.stackList[slot] = itemstack;
         this.eventHandler.onCraftMatrixChanged(this);
     }
 
+    @Override
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
+    @Override
     public void markDirty() {}
 
+    @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
         return true;
     }
 
+    @Override
     public void openInventory() {}
 
+    @Override
     public void closeInventory() {}
 
+    @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return true;

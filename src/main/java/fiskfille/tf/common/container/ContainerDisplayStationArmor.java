@@ -16,12 +16,11 @@ import fiskfille.tf.helper.TFArmorHelper;
 public class ContainerDisplayStationArmor extends ContainerBasic
 {
 	public InventoryDisplayStationArmor craftMatrix = new InventoryDisplayStationArmor(this);
-    private TileEntityDisplayStation tileentity;
     private EntityPlayer player;
 
     public ContainerDisplayStationArmor(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
     {
-        tileentity = tile;
+        TileEntityDisplayStation tileentity = tile;
         player = inventoryPlayer.player;
 
         for (int i = 0; i < 4; ++i)
@@ -29,16 +28,14 @@ public class ContainerDisplayStationArmor extends ContainerBasic
             final int k = i;
             addSlotToContainer(new SlotDisplayStationArmor(this, tile, tile, i, 25, 18 + i * 18)
             {
+                @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    if (itemstack == null || !(itemstack.getItem() instanceof ItemTransformerArmor))
-                    {
-                        return false;
-                    }
+                    return !(itemstack == null || !(itemstack.getItem() instanceof ItemTransformerArmor)) && itemstack.getItem().isValidArmor(itemstack, k, player);
 
-                    return itemstack.getItem().isValidArmor(itemstack, k, player);
                 }
 
+                @Override
                 @SideOnly(Side.CLIENT)
                 public IIcon getBackgroundIconIndex()
                 {
@@ -52,21 +49,20 @@ public class ContainerDisplayStationArmor extends ContainerBasic
             final int k = i;
             addSlotToContainer(new SlotDisplayStationArmor(this, craftMatrix, tile, i, 47, 18 + i * 18)
             {
-            	public int getSlotStackLimit()
+                @Override
+                public int getSlotStackLimit()
                 {
                     return 1;
                 }
-            	
+
+                @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    if (itemstack == null || itemstack.getItem() instanceof ItemTransformerArmor)
-                    {
-                        return false;
-                    }
+                    return !(itemstack == null || itemstack.getItem() instanceof ItemTransformerArmor) && itemstack.getItem().isValidArmor(itemstack, k, player);
 
-                    return itemstack.getItem().isValidArmor(itemstack, k, player);
                 }
 
+                @Override
                 @SideOnly(Side.CLIENT)
                 public IIcon getBackgroundIconIndex()
                 {
@@ -87,17 +83,20 @@ public class ContainerDisplayStationArmor extends ContainerBasic
         	}
         }
     }
-    
+
+    @Override
     public void onCraftMatrixChanged(IInventory iinventory)
     {
     	super.onCraftMatrixChanged(iinventory);
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return true;
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;

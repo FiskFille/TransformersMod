@@ -44,6 +44,7 @@ public class GuiColor extends GuiScreen
     public static GuiColorSlider sliderBlue;
     public static GuiTextField inputField;
 
+    @Override
     public void initGui()
     {
         super.initGui();
@@ -88,6 +89,7 @@ public class GuiColor extends GuiScreen
         tileentity = tile;
     }
 
+    @Override
     public void updateScreen()
     {
         super.updateScreen();
@@ -129,6 +131,7 @@ public class GuiColor extends GuiScreen
 
     }
 
+    @Override
     protected void keyTyped(char c, int key)
     {
         if (key == 1)
@@ -141,6 +144,7 @@ public class GuiColor extends GuiScreen
         }
     }
 
+    @Override
     protected void actionPerformed(GuiButton button)
     {
         int id = button.id;
@@ -200,11 +204,13 @@ public class GuiColor extends GuiScreen
         super.mouseClickMove(mouseX, mouseY, button, timeSinceMouseClick);
     }
 
+    @Override
     public boolean doesGuiPauseGame()
     {
         return false;
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         drawDefaultBackground();

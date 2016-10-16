@@ -10,7 +10,6 @@ import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
-import fiskfille.tf.common.data.TFWorldData;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.network.MessageBroadcastState;
@@ -37,7 +36,6 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.WorldEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -398,17 +396,6 @@ public class CommonEventHandler
                     event.distance = newDist;
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onWorldLoad(WorldEvent.Load event)
-    {
-        World world = event.world;
-
-        if (!world.isRemote)
-        {
-            TFWorldData.load(world);
         }
     }
 }

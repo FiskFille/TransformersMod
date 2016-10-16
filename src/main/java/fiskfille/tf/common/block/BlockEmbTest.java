@@ -14,8 +14,9 @@ public class BlockEmbTest extends Block implements ITileEntityProvider
 		super(Material.rock);
 	}
 
-	public TileEntity createNewTileEntity(World world, int metadata)
-	{
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
 		return new TileEntityEmbTest();
 	}
 }

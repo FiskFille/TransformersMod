@@ -60,8 +60,9 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 
 	private ArrayList<CachedProcessorRecipe> processorRecipes;
 
-	public String getRecipeName()
-	{
+    @Override
+    public String getRecipeName()
+    {
 		return StatCollector.translateToLocal("recipe.powerSource");
 	}
 
@@ -168,8 +169,9 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 	{
 	}
 
-	public void loadUsageRecipes(ItemStack ingredient)
-	{
+    @Override
+    public void loadUsageRecipes(ItemStack ingredient)
+    {
 		if (processorRecipes == null || processorRecipes.isEmpty())
 		{
 			findProcessorRecipes();

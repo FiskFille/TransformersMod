@@ -20,12 +20,14 @@ public class SlotDisplayStationArmor extends Slot
         this.tile = tile;
         this.type = tile == inventory;
     }
-    
+
+    @Override
     public int getSlotStackLimit()
     {
         return 1;
     }
-    
+
+    @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemstack)
     {
     	super.onPickupFromSlot(player, itemstack);
@@ -45,7 +47,8 @@ public class SlotDisplayStationArmor extends Slot
         	}
     	}
     }
-    
+
+    @Override
     public void putStack(ItemStack itemstack)
     {
     	super.putStack(itemstack);

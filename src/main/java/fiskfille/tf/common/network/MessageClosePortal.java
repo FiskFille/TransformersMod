@@ -26,6 +26,7 @@ public class MessageClosePortal implements IMessage
         this.z = z;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         x = buf.readInt();
@@ -33,6 +34,7 @@ public class MessageClosePortal implements IMessage
         z = buf.readInt();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(x);
@@ -42,6 +44,7 @@ public class MessageClosePortal implements IMessage
 
     public static class Handler implements IMessageHandler<MessageClosePortal, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageClosePortal message, MessageContext ctx)
         {
             if (ctx.side.isClient())

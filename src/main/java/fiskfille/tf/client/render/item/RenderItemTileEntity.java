@@ -16,16 +16,19 @@ public class RenderItemTileEntity implements IItemRenderer
         this.tileentity = tile;
     }
 
+    @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
         return true;
     }
 
+    @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return true;
     }
 
+    @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         if (type == type.ENTITY || type == type.INVENTORY)

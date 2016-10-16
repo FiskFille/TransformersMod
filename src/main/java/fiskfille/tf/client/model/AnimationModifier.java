@@ -15,8 +15,8 @@ public class AnimationModifier
 		factor = f;
 	}
 
-	public static enum Type
-	{
+    public enum Type
+    {
 		SPEED,
 		DEGREE
 	}

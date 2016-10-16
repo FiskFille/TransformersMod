@@ -23,6 +23,7 @@ public class GuiAssemblyTable extends GuiContainer
         this.ySize = 222;
     }
 
+    @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
         int k = (width - xSize) / 2;
@@ -33,6 +34,7 @@ public class GuiAssemblyTable extends GuiContainer
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
     }
 
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

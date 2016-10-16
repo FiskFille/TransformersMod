@@ -23,6 +23,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         setResistance(1000000.0F);
     }
 
+    @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
         super.onBlockAdded(world, x, y, z);
@@ -34,6 +35,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         }
     }
 
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         if (world.isBlockIndirectlyGettingPowered(x, y, z))
@@ -43,6 +45,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         }
     }
 
+    @Override
     public int quantityDropped(Random p_149745_1_)
     {
         return 1;
@@ -63,6 +66,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         }
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         ignite(world, x, y, z, 1, player);
@@ -70,6 +74,7 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         return true;
     }
 
+    @Override
     public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
     {
         float f = 0.2F;
@@ -78,26 +83,31 @@ public class BlockTransformiumSeed extends BlockBasic implements ITileEntityProv
         return super.collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityTransformiumSeed();

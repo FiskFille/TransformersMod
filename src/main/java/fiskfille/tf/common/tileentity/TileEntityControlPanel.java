@@ -1,10 +1,12 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.groundbridge.EnumError;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,14 +24,10 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.google.common.collect.Lists;
-
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.groundbridge.EnumError;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowered*/ // TODO
 {
@@ -54,6 +52,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 	public ChunkCoordinates groundBridgeFramePos;
 	private Ticket chunkTicket;
 
+	@Override
 	public void updateEntity()
 	{
 		prevActivationLeverTimer = activationLeverTimer;
@@ -104,6 +103,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 				List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
 				Collections.sort(list, new Comparator<TileEntity>()
 				{
+					@Override
 					public int compare(TileEntity arg0, TileEntity arg1)
 					{
 						return Integer.compare((int)Math.sqrt(getDistanceFrom(arg0.xCoord, arg0.zCoord, arg0.yCoord)), (int)Math.sqrt(getDistanceFrom(arg1.xCoord, arg1.zCoord, arg1.yCoord)));
@@ -166,14 +166,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 				errors.add(EnumError.NOT_ENOUGH_SPACE);
 			}
 
-			if (!errors.isEmpty() && !activationLeverState)
-			{
-				activationLeverCoverState = false;
-			}
-			else
-			{
-				activationLeverCoverState = true;
-			}
+			activationLeverCoverState = !(!errors.isEmpty() && !activationLeverState);
 
 			if (activationLeverState)
 			{
@@ -341,6 +334,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 		return i + srcPortalDirection * 2;
 	}
 
+	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return super.getRenderBoundingBox().addCoord(0, 0.5D, 0);
@@ -382,6 +376,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
         }
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
@@ -415,6 +410,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 		}
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
@@ -437,13 +433,13 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 		NBTTagList nbttaglist = new NBTTagList();
 
-		for (int i = 0; i < switches.length; ++i)
+		for (Integer[] switche : switches)
 		{
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-			for (int j = 0; j < switches[i].length; ++j)
+			for (int j = 0; j < switche.length; ++j)
 			{
-				int value = switches[i][j];
+				int value = switche[j];
 				nbttagcompound.setInteger("Switch" + (j + 1), value);
 			}
 

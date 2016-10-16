@@ -63,11 +63,13 @@ public class ContainerAssemblyTable extends ContainerBasic
         return itemstack;
     }
 
+    @Override
     public void onCraftMatrixChanged(IInventory iinventory)
     {
         this.craftResult.setInventorySlotContents(0, AssemblyTableCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
     }
 
+    @Override
     public void onContainerClosed(EntityPlayer player)
     {
         super.onContainerClosed(player);
@@ -86,11 +88,13 @@ public class ContainerAssemblyTable extends ContainerBasic
         }
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != TFBlocks.assemblyTable ? false : player.getDistanceSq((double) this.posX + 0.5D, (double) this.posY + 0.5D, (double) this.posZ + 0.5D) <= 64.0D;
+        return this.worldObj.getBlock(this.posX, this.posY, this.posZ) == TFBlocks.assemblyTable && player.getDistanceSq((double) this.posX + 0.5D, (double) this.posY + 0.5D, (double) this.posZ + 0.5D) <= 64.0D;
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;
@@ -157,6 +161,7 @@ public class ContainerAssemblyTable extends ContainerBasic
         return itemstack;
     }
 
+    @Override
     public boolean func_94530_a(ItemStack itemstack, Slot slot)
     {
         return slot.inventory != this.craftResult && super.func_94530_a(itemstack, slot);

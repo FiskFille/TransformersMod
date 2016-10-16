@@ -46,8 +46,9 @@ public class GuiSelectReceivers extends GuiScreen
 	public int spacing = 1;
 	public int size = 3;
 
-	public void initGui()
-	{
+    @Override
+    public void initGui()
+    {
 		super.initGui();
 		float range = transmitter.getRange();
 		float boardWidth = 1 + range * 2;
@@ -66,8 +67,9 @@ public class GuiSelectReceivers extends GuiScreen
 		receiverCoords.addAll(transmitter.getReceiverHandler().receiverCoords);
 	}
 
-	public void updateScreen()
-	{
+    @Override
+    public void updateScreen()
+    {
 		int boardWidth = 1 + getRange() * 2;
 		coordArray = new ChunkCoordinates[boardWidth * boardWidth];
 		layers.clear();
@@ -136,8 +138,9 @@ public class GuiSelectReceivers extends GuiScreen
 		heightSlider.enabled = layers.size() > 1;
 	}
 
-	protected void actionPerformed(GuiButton button)
-	{
+    @Override
+    protected void actionPerformed(GuiButton button)
+    {
 		int id = button.id;
 
 		if (id == 0)
@@ -145,8 +148,9 @@ public class GuiSelectReceivers extends GuiScreen
 			mc.thePlayer.closeScreen();
 		}
 	}
-	
-	protected void keyTyped(char c, int key)
+
+    @Override
+    protected void keyTyped(char c, int key)
     {
         if (key == 1 || key == mc.gameSettings.keyBindInventory.getKeyCode())
         {
@@ -244,13 +248,15 @@ public class GuiSelectReceivers extends GuiScreen
 		return MathHelper.floor_float(transmitter.getRange());
 	}
 
-	public boolean doesGuiPauseGame()
-	{
+    @Override
+    public boolean doesGuiPauseGame()
+    {
 		return false;
 	}
 
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
 		drawDefaultBackground();
 		drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.transmitter.select_receivers"), width / 2, 15, 16777215);
 		

@@ -22,11 +22,13 @@ public class GuiSliderBase extends GuiButton
         prevPercentage = 1.0F;
     }
 
+    @Override
     public int getHoverState(boolean b)
     {
         return 0;
     }
 
+    @Override
     protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
     {
         if (visible)
@@ -52,6 +54,7 @@ public class GuiSliderBase extends GuiButton
         }
     }
 
+    @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
     {
         if (super.mousePressed(mc, mouseX, mouseY))
@@ -77,6 +80,7 @@ public class GuiSliderBase extends GuiButton
         }
     }
 
+    @Override
     public void mouseReleased(int mouseX, int mouseY)
     {
         dragging = false;

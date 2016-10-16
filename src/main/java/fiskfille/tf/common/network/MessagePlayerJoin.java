@@ -6,23 +6,18 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.data.TFWorldData;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChunkCoordinates;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class MessagePlayerJoin implements IMessage
 {
     private Map<Transformer, Boolean> canTransform;
-    private List<ChunkCoordinates> coordinates;
 
     private int altMode;
     private boolean stealthForce;
@@ -31,14 +26,14 @@ public class MessagePlayerJoin implements IMessage
     {
     }
 
-    public MessagePlayerJoin(int altMode, boolean stealthForce, Map<Transformer, Boolean> canTransform, List<ChunkCoordinates> coordinates)
+    public MessagePlayerJoin(int altMode, boolean stealthForce, Map<Transformer, Boolean> canTransform)
     {
         this.canTransform = canTransform;
         this.altMode = altMode;
         this.stealthForce = stealthForce;
-        this.coordinates = coordinates;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         altMode = buf.readByte();
@@ -50,17 +45,9 @@ public class MessagePlayerJoin implements IMessage
         {
             canTransform.put(transformer, buf.readBoolean());
         }
-
-        int count = buf.readInt();
-
-        coordinates = new LinkedList<ChunkCoordinates>();
-
-        for (int i = 0; i < count; i++)
-        {
-            coordinates.add(new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt()));
-        }
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeByte(altMode);
@@ -70,19 +57,11 @@ public class MessagePlayerJoin implements IMessage
         {
             buf.writeBoolean(transformable.getValue());
         }
-
-        buf.writeInt(coordinates.size());
-
-        for (ChunkCoordinates coordinate : this.coordinates)
-        {
-            buf.writeInt(coordinate.posX);
-            buf.writeInt(coordinate.posY);
-            buf.writeInt(coordinate.posZ);
-        }
     }
 
     public static class Handler implements IMessageHandler<MessagePlayerJoin, IMessage>
     {
+        @Override
         public IMessage onMessage(MessagePlayerJoin message, MessageContext ctx)
         {
             if (ctx.side.isClient())
@@ -98,13 +77,6 @@ public class MessagePlayerJoin implements IMessage
                 if (message.canTransform != null)
                 {
                     TFConfig.canTransform = message.canTransform;
-                }
-
-                TFWorldData data = TFWorldData.get(player.worldObj);
-
-                for (ChunkCoordinates coordinates : message.coordinates)
-                {
-                    data.addTile(coordinates);
                 }
             }
 

@@ -38,6 +38,7 @@ public class MessageSetReceivers implements IMessage
         this.receivers = receivers;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         x = buf.readInt();
@@ -52,24 +53,25 @@ public class MessageSetReceivers implements IMessage
         }
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
         buf.writeInt(receivers.size());
-        
-        for (int i = 0; i < receivers.size(); ++i)
+
+        for (ChunkCoordinates coords : receivers)
         {
-        	ChunkCoordinates coords = receivers.get(i);
-        	buf.writeInt(coords.posX);
-        	buf.writeInt(coords.posY);
-        	buf.writeInt(coords.posZ);
+            buf.writeInt(coords.posX);
+            buf.writeInt(coords.posY);
+            buf.writeInt(coords.posZ);
         }
     }
 
     public static class Handler implements IMessageHandler<MessageSetReceivers, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageSetReceivers message, MessageContext ctx)
         {
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;

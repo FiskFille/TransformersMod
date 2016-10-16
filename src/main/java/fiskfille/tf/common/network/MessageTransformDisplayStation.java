@@ -27,6 +27,7 @@ public class MessageTransformDisplayStation implements IMessage
         this.z = z;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         x = buf.readInt();
@@ -34,6 +35,7 @@ public class MessageTransformDisplayStation implements IMessage
         z = buf.readInt();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(x);
@@ -43,6 +45,7 @@ public class MessageTransformDisplayStation implements IMessage
 
     public static class Handler implements IMessageHandler<MessageTransformDisplayStation, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageTransformDisplayStation message, MessageContext ctx)
         {
             EntityPlayer player = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;

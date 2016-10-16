@@ -28,11 +28,13 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
         setResistance(5);
     }
 
+    @Override
     public int getRenderType()
     {
     	return RenderBlockGroundBridgeFrame.renderId;
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
     	int metadata = world.getBlockMetadata(x, y, z);
@@ -67,18 +69,21 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
     	
     	return null;
     }
-    
+
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityGroundBridgeFrame();
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
     	return side == 1 && getFrameDirection(world, x, y, z) != null ? centerIcon : super.getIcon(world, x, y, z, side);
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {

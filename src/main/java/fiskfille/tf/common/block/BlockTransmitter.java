@@ -34,33 +34,39 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         setHarvestLevel("pickaxe", 0);
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
     {
         setBlockBoundsBasedOnState(world, x, y, z);
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
-    
+
+    @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
 	{
     	int metadata = world.getBlockMetadata(x, y, z);
@@ -96,6 +102,7 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
     	setBlockBoundsBasedOnState(world, x, y, z);
     }
 
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         setBounds(world.getBlockMetadata(x, y, z));
@@ -118,7 +125,8 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         	setBlockBounds(0, -2, 0, 1, 1, 1);
         }
     }
-    
+
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (!player.isSneaking())
@@ -320,7 +328,8 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         
         return false;
     }
-    
+
+    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
     {
         TileEntityTransmitter tileentity = (TileEntityTransmitter) world.getTileEntity(x, y, z);
@@ -370,6 +379,7 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         super.breakBlock(world, x, y, z, block, metadata);
     }
 
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         int metadata = world.getBlockMetadata(x, y, z);
@@ -393,11 +403,13 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         }
     }
 
+    @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
-        return y >= world.getHeight() - 2 ? false : super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z) && super.canPlaceBlockAt(world, x, y + 2, z);
+        return y < world.getHeight() - 2 && (super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z) && super.canPlaceBlockAt(world, x, y + 2, z));
     }
 
+    @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
     {
         int rotation = MathHelper.floor_double((double) ((entity.rotationYaw * 4F) / 360F) + 2.5D) & 3;
@@ -407,6 +419,7 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         world.setBlock(x, y + 2, z, this, rotation + 8, 2);
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityTransmitter();

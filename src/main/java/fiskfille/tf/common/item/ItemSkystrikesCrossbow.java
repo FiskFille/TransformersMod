@@ -28,6 +28,7 @@ public class ItemSkystrikesCrossbow extends Item
         setFull3D();
     }
 
+    @Override
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean b)
     {
         EntityPlayer player = (EntityPlayer) entity;
@@ -39,6 +40,7 @@ public class ItemSkystrikesCrossbow extends Item
         }
     }
 
+    @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
         if (TFHelper.isPlayerSkystrike(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
@@ -57,9 +59,10 @@ public class ItemSkystrikesCrossbow extends Item
 
     private boolean isBlue(ItemStack stack)
     {
-        return stack.hasTagCompound() ? stack.getTagCompound().getBoolean("blueMode") : false;
+        return stack.hasTagCompound() && stack.getTagCompound().getBoolean("blueMode");
     }
 
+    @Override
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
         int duration = getMaxItemUseDuration(stack) - count;
@@ -80,21 +83,25 @@ public class ItemSkystrikesCrossbow extends Item
         }
     }
 
+    @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         return stack;
     }
 
+    @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return 72000;
     }
 
+    @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return EnumAction.bow;
     }
 
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         if (TFHelper.isPlayerSkystrike(player) && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
@@ -111,6 +118,7 @@ public class ItemSkystrikesCrossbow extends Item
         return list;
     }
 
+    @Override
     public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();

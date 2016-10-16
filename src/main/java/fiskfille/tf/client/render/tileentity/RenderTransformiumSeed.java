@@ -18,12 +18,11 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
 {
     private ResourceLocation texture = new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/transformium_seed.png");
     private ModelTransformiumSeed model;
-    private ItemRenderer itemRenderer;
 
     public RenderTransformiumSeed()
     {
         model = new ModelTransformiumSeed();
-        itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
+        ItemRenderer itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
     }
 
     public void renderModelAt(TileEntityTransformiumSeed seed, double x, double y, double z, float partialTicks)
@@ -43,6 +42,7 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
+    @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
         renderModelAt((TileEntityTransformiumSeed) tileentity, x, y, z, partialTicks);

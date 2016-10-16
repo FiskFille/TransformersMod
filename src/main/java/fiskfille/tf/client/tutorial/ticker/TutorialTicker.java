@@ -47,6 +47,7 @@ public abstract class TutorialTicker extends Gui
     {
         new Thread()
         {
+            @Override
             public synchronized void start()
             {
                 try
@@ -59,7 +60,6 @@ public abstract class TutorialTicker extends Gui
                 }
             }
 
-            ;
         }.start();
     }
 

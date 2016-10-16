@@ -21,6 +21,7 @@ public class ItemVurpsSniper extends Item
         setFull3D();
     }
 
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         boolean isCreativeMode = player.capabilities.isCreativeMode;

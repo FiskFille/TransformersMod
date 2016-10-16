@@ -31,11 +31,13 @@ public class MessageVehicleShoot implements IMessage
         id = player.getEntityId();
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -43,6 +45,7 @@ public class MessageVehicleShoot implements IMessage
 
     public static class Handler implements IMessageHandler<MessageVehicleShoot, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageVehicleShoot message, MessageContext ctx)
         {
             if (ctx.side.isClient())

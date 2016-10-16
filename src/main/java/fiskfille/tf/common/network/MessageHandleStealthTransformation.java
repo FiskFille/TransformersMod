@@ -27,12 +27,14 @@ public class MessageHandleStealthTransformation implements IMessage
         stealthForce = mode;
     }
 
+    @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
         stealthForce = buf.readBoolean();
     }
 
+    @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
@@ -41,6 +43,7 @@ public class MessageHandleStealthTransformation implements IMessage
 
     public static class Handler implements IMessageHandler<MessageHandleStealthTransformation, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageHandleStealthTransformation message, MessageContext ctx)
         {
             if (ctx.side.isClient())

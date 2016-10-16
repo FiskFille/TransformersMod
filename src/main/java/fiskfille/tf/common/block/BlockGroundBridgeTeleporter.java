@@ -1,12 +1,13 @@
 package fiskfille.tf.common.block;
 
-import static net.minecraftforge.common.util.ForgeDirection.EAST;
-import static net.minecraftforge.common.util.ForgeDirection.NORTH;
-import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
-import static net.minecraftforge.common.util.ForgeDirection.WEST;
-
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.data.TFEntityData;
+import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockBreakable;
@@ -20,14 +21,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFEntityData;
-import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+
+import java.util.Random;
+
+import static net.minecraftforge.common.util.ForgeDirection.*;
 
 public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITileEntityProvider
 {
@@ -38,6 +35,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
 //        setLightLevel(1);
     }
 
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         return null;
@@ -47,7 +45,8 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     {
         return world.getBlock(x, y, z) == TFBlocks.groundBridgeTeleporter;
     }
-    
+
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
     	float thickness = 0.125F;
@@ -73,6 +72,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         setBlockBounds(f, 0.0F, f2, f1, 1.0F, f3);
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
@@ -98,6 +98,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         return false;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {
@@ -129,19 +130,22 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         boolean flag3 = world.getBlock(x, y, z + 1) == this && world.getBlock(x, y, z + 2) != this;
         boolean flag4 = flag || flag1 || i1 == 1;
         boolean flag5 = flag2 || flag3 || i1 == 2;
-        return flag4 && side == 4 ? true : (flag4 && side == 5 ? true : (flag5 && side == 2 ? true : flag5 && side == 3));
+        return flag4 && side == 4 || (flag4 && side == 5 || (flag5 && side == 2 || flag5 && side == 3));
     }
 
+    @Override
     public int quantityDropped(Random rand)
     {
         return 0;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
     {
         if (!world.isRemote)
@@ -200,12 +204,14 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass()
     {
         return 1;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand)
     {
@@ -234,6 +240,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World world, int x, int y, int z)
     {
@@ -403,6 +410,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         world.setBlockMetadataWithNotify(x, y + 2, z, 1, 2);
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityGroundBridgeTeleporter();

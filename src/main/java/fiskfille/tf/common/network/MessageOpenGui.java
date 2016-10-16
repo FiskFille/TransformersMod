@@ -30,8 +30,9 @@ public class MessageOpenGui implements IMessage
 		this.z = z;
 	}
 
-	public void fromBytes(ByteBuf buf)
-	{
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
 		id = buf.readInt();
 		modGuiId = buf.readInt();
 		x = buf.readInt();
@@ -39,8 +40,9 @@ public class MessageOpenGui implements IMessage
 		z = buf.readInt();
 	}
 
-	public void toBytes(ByteBuf buf)
-	{
+    @Override
+    public void toBytes(ByteBuf buf)
+    {
 		buf.writeInt(id);
 		buf.writeInt(modGuiId);
 		buf.writeInt(x);
@@ -50,8 +52,9 @@ public class MessageOpenGui implements IMessage
 
 	public static class Handler implements IMessageHandler<MessageOpenGui, IMessage>
 	{
-		public IMessage onMessage(MessageOpenGui message, MessageContext ctx)
-		{            
+        @Override
+        public IMessage onMessage(MessageOpenGui message, MessageContext ctx)
+        {
 			if (ctx.side.isClient())
 			{
 				EntityPlayer player = TransformersMod.proxy.getPlayer();

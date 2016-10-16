@@ -115,6 +115,7 @@ public class RenderCustomPlayer extends RenderPlayer
     /**
      * renders arrows the Entity has been attacked with, attached to it
      */
+    @Override
     protected void renderArrowsStuckInEntity(EntityLivingBase entity, float partialTicks)
     {
         GL11.glPushMatrix();

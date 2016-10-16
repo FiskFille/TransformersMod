@@ -308,36 +308,43 @@ public class ModelSubwooferStealth extends ModelTransformerBase
         vehicleDish1.addChild(vehicleDish2);
     }
 
+    @Override
     public Transformer getTransformer()
     {
         return TransformerManager.transformerSubwoofer;
     }
 
+    @Override
     public ModelRenderer getWaist()
     {
         return vehicleBase;
     }
 
+    @Override
     public ModelRenderer getVehicle(EntityPlayer player)
     {
         return vehicleBase;
     }
 
+    @Override
     public ModelRenderer getRightLeg()
     {
         return vehicleBase;
     }
 
+    @Override
     public ModelRenderer getLeftLeg()
     {
         return vehicleBase;
     }
 
+    @Override
     public ModelRenderer getHead()
     {
         return vehicleBase;
     }
 
+    @Override
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
@@ -345,6 +352,7 @@ public class ModelSubwooferStealth extends ModelTransformerBase
         modelRenderer.rotateAngleZ = z;
     }
 
+    @Override
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
     {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);

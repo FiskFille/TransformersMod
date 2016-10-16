@@ -25,27 +25,32 @@ public class BlockCosmicRust extends Block
         setTickRandomly(true);
     }
 
+    @Override
     public float getBlockHardness(World world, int x, int y, int z)
     {
         return world.getBlockMetadata(x, y, z) == 1 ? 2.0F : blockHardness;
     }
 
+    @Override
     public int damageDropped(int meta)
     {
         return meta;
     }
 
+    @Override
     public int quantityDropped(int meta, int fortune, Random random)
     {
         return meta == 1 ? 1 : 0;
     }
 
+    @Override
     public int tickRate(World world)
     {
         float f = 1F;
         return (int) (1000000000F * f);
     }
 
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         tryRust(world, x + 1, y, z);
@@ -71,12 +76,14 @@ public class BlockCosmicRust extends Block
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List subBlocks)
     {
         subBlocks.add(new ItemStack(item, 1, 1));
     }
 
+    @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
         world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
@@ -88,12 +95,14 @@ public class BlockCosmicRust extends Block
         onBlockAdded(world, x, y, z);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata)
     {
         return metadata == 1 ? coreIcon : blockIcon;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {

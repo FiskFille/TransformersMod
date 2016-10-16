@@ -8,7 +8,6 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 public class TFEntityData implements IExtendedEntityProperties
 {
     public static final String IDENTIFIER = "TFENTITYDATA";
-    private Entity entity;
 
     public int groundBridgeCooldown;
 
@@ -40,6 +39,6 @@ public class TFEntityData implements IExtendedEntityProperties
     @Override
     public void init(Entity entity, World world)
     {
-        this.entity = entity;
+        Entity entity1 = entity;
     }
 }

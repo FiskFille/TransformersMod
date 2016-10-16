@@ -125,6 +125,7 @@ public class ModelChildBase
             lowerArmR.rotateAngleX -= heldItemRight * 0.0625F;
         }
 
+        @Override
         public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
         {
             super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);

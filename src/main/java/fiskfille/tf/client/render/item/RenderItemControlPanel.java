@@ -8,16 +8,19 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderItemControlPanel implements IItemRenderer
 {
+    @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
         return true;
     }
 
+    @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return true;
     }
 
+    @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         float scale = 0.65F;

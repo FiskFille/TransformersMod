@@ -30,26 +30,31 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         setStepSound(soundTypeMetal);
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
     {
@@ -57,12 +62,14 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         setBlockBoundsBasedOnState(world, x, y, z);
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         setBounds(world.getBlockMetadata(x, y, z));
@@ -92,6 +99,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         }
     }
 
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         int metadata = world.getBlockMetadata(x, y, z);
@@ -115,6 +123,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         }
     }
 
+    @Override
     public Item getItemDropped(int metadata, Random rand, int p_149650_3_)
     {
         return isBlockSideOfPanel(metadata) ? Item.getItemById(0) : super.getItemDropped(metadata, rand, p_149650_3_);
@@ -125,6 +134,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         return (metadata & 8) != 0;
     }
 
+    @Override
     public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float p_149690_6_, int p_149690_7_)
     {
         if (!isBlockSideOfPanel(metadata))
@@ -133,11 +143,13 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         }
     }
 
+    @Override
     public int getMobilityFlag()
     {
         return 1;
     }
 
+    @Override
     public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player)
     {
         if (player.capabilities.isCreativeMode && isBlockSideOfPanel(metadata))
@@ -153,6 +165,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
         }
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         int metadata = world.getBlockMetadata(x, y, z);
@@ -419,6 +432,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
     	TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityControlPanel();

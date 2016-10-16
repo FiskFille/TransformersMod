@@ -14,6 +14,7 @@ public class RenderBassCharge extends Render
 {
     private ModelBassCharge model = new ModelBassCharge();
 
+    @Override
     public void doRender(Entity entity, double x, double y, double z, float f, float partialTicks)
     {
         float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
@@ -52,6 +53,7 @@ public class RenderBassCharge extends Render
         GL11.glPopMatrix();
     }
 
+    @Override
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
     {
         return TextureMap.locationItemsTexture;

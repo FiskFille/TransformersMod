@@ -14,21 +14,20 @@ public class SlotComponent extends Slot
         super(iinventory, id, x, y);
     }
 
+    @Override
     public int getSlotStackLimit()
     {
         return 1;
     }
 
+    @Override
     public boolean isItemValid(ItemStack itemstack)
     {
-        if (itemstack == null)
-        {
-            return false;
-        }
+        return itemstack != null && itemstack.getItem() instanceof IComponent;
 
-        return itemstack.getItem() instanceof IComponent;
     }
 
+    @Override
     public IIcon getBackgroundIconIndex()
     {
         return ItemComponent.outline;

@@ -32,6 +32,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     @SideOnly(Side.CLIENT)
     public EntityClientPlayerMP fakePlayer;
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void updateEntity()
     {
@@ -175,16 +176,19 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         return false;
     }
 
+    @Override
     public int getSizeInventory()
     {
         return this.itemStacks.length;
     }
 
+    @Override
     public ItemStack getStackInSlot(int slot)
     {
         return this.itemStacks[slot];
     }
 
+    @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
         if (this.itemStacks[slot] != null)
@@ -215,6 +219,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public ItemStack getStackInSlotOnClosing(int slot)
     {
         if (this.itemStacks[slot] != null)
@@ -229,6 +234,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         this.itemStacks[slot] = itemstack;
@@ -239,11 +245,13 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public String getInventoryName()
     {
         return this.hasCustomInventoryName() ? this.inventoryName : "gui.display_station";
     }
 
+    @Override
     public boolean hasCustomInventoryName()
     {
         return this.inventoryName != null && this.inventoryName.length() > 0;
@@ -254,6 +262,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         this.inventoryName = p_145951_1_;
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
@@ -277,6 +286,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
@@ -301,20 +311,25 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
+    @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
 
+    @Override
     public void openInventory() {}
 
+    @Override
     public void closeInventory() {}
 
+    @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return stack.getItem() instanceof ItemTransformerArmor;

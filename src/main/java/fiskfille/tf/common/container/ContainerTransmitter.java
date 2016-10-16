@@ -14,7 +14,6 @@ import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class ContainerTransmitter extends ContainerBasic
 {
-    private TileEntityTransmitter tileentity;
     private int lastBurnTime;
     private int lastPowerTime;
     private int lastLiquidColor;
@@ -23,14 +22,16 @@ public class ContainerTransmitter extends ContainerBasic
 
     public ContainerTransmitter(InventoryPlayer inventoryPlayer, TileEntityTransmitter tile)
     {
-        tileentity = tile;
+        TileEntityTransmitter tileentity = tile;
         addSlotToContainer(new Slot(tile, 0, 45, 35)
         {
-        	public boolean isItemValid(ItemStack itemstack)
-        	{
+            @Override
+            public boolean isItemValid(ItemStack itemstack)
+            {
         		return itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
         	}
-        	
+
+            @Override
             public int getSlotStackLimit()
             {
                 return 1;
@@ -40,11 +41,13 @@ public class ContainerTransmitter extends ContainerBasic
         addPlayerInventory(inventoryPlayer, 0);
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return true;
     }
 
+    @Override
     public void addCraftingToCrafters(ICrafting icrafting)
     {
         super.addCraftingToCrafters(icrafting);
@@ -55,6 +58,7 @@ public class ContainerTransmitter extends ContainerBasic
 //        icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
     }
 
+    @Override
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -96,6 +100,7 @@ public class ContainerTransmitter extends ContainerBasic
 //        lastCurrentMaxPowerTime = tileentity.currentMaxPowerTime;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int id, int value)
     {
@@ -121,6 +126,7 @@ public class ContainerTransmitter extends ContainerBasic
 //        }
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
     {
         ItemStack itemstack = null;

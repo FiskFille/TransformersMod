@@ -32,6 +32,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
         setResistance(1.0F);
     }
 
+    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
     {
         TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
@@ -74,6 +75,7 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
         super.breakBlock(world, x, y, z, block, metadata);
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
@@ -105,18 +107,21 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
         return false;
     }
 
+    @Override
     public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 p_149731_5_, Vec3 p_149731_6_)
     {
         setBlockBoundsBasedOnState(world, x, y, z);
         return super.collisionRayTrace(world, x, y, z, p_149731_5_, p_149731_6_);
     }
 
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         setBlockBoundsBasedOnState(world, x, y, z);
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         TileEntityDisplayPillar tileEntityDisplayPillar = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
@@ -144,26 +149,31 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
     }
 
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityDisplayPillar();

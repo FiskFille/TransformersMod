@@ -10,16 +10,19 @@ import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class RenderItemTransmitter implements IItemRenderer
 {
+    @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
         return true;
     }
 
+    @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
         return true;
     }
 
+    @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
     	float scale = 0.4F;

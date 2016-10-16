@@ -31,26 +31,31 @@ public class BlockDisplayStation extends BlockContainer
         setHarvestLevel("pickaxe", 0);
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
     {
@@ -58,12 +63,14 @@ public class BlockDisplayStation extends BlockContainer
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         setBlockBoundsBasedOnState(world, x, y, z);
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         setBounds(world.getBlockMetadata(x, y, z));
@@ -83,6 +90,7 @@ public class BlockDisplayStation extends BlockContainer
         }
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (!player.isSneaking())
@@ -109,6 +117,7 @@ public class BlockDisplayStation extends BlockContainer
         }
     }
 
+    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
     {
         TileEntityDisplayStation tileentity = (TileEntityDisplayStation) world.getTileEntity(x, y, z);
@@ -157,6 +166,7 @@ public class BlockDisplayStation extends BlockContainer
         super.breakBlock(world, x, y, z, block, metadata);
     }
 
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         int metadata = world.getBlockMetadata(x, y, z);
@@ -179,11 +189,13 @@ public class BlockDisplayStation extends BlockContainer
         }
     }
 
+    @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
-        return y >= world.getHeight() - 1 ? false : super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z);
+        return y < world.getHeight() - 1 && (super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z));
     }
 
+    @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
     {
         int rotation = MathHelper.floor_double((double) ((entity.rotationYaw * 4F) / 360F) + 2.5D) & 3;
@@ -192,6 +204,7 @@ public class BlockDisplayStation extends BlockContainer
         world.setBlock(x, y + 1, z, this, rotation + 4, 2);
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityDisplayStation();

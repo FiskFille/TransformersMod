@@ -56,6 +56,7 @@ public class MessageGroundBridgeTeleport implements IMessage
 
     public static class Handler implements IMessageHandler<MessageGroundBridgeTeleport, IMessage>
     {
+        @Override
         public IMessage onMessage(MessageGroundBridgeTeleport message, MessageContext ctx)
         {
             if (ctx.side.isClient())

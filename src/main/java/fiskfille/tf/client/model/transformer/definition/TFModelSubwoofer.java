@@ -1,7 +1,6 @@
 package fiskfille.tf.client.model.transformer.definition;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelChildBase.Biped;
 import fiskfille.tf.client.model.transformer.ModelSubwoofer;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.stealth.ModelSubwooferStealth;

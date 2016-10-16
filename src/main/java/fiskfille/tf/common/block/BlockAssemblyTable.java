@@ -23,6 +23,7 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
         setBlockBounds(0, 0, 0, 1, 0.0625F * 13, 1);
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
     {
         if (!player.isSneaking())
@@ -36,31 +37,37 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
         }
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntityAssemblyTable();
     }
 
+    @Override
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
         blockIcon = par1IIconRegister.registerIcon("iron_block");

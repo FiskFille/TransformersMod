@@ -56,6 +56,7 @@ public class DisplayableVehicle extends Displayable
         return null;
     }
 
+    @Override
     public float getBlockHeight(ItemStack itemstack)
     {
         int i = itemstack.getItemDamage();

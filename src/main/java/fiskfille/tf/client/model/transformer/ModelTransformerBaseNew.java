@@ -28,9 +28,10 @@ public abstract class ModelTransformerBaseNew extends ModelTransformerBase
 		baseDegree = degree;
 		animModifiers = modifiers;
 	}
-	
+
+	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+	{
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
         if (entity instanceof EntityPlayer)
@@ -132,11 +133,9 @@ public abstract class ModelTransformerBaseNew extends ModelTransformerBase
 			float f = 20 - t;
 			
 			setupOffsets(player, t, f, limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, wearingHead, wearingChest, wearingLegs);
-			
-			for (int i = 0; i < animModifiers.length; ++i)
+
+			for (AnimationModifier modifier : animModifiers)
 			{
-				AnimationModifier modifier = animModifiers[i];
-				
 				if (modifier.predicate.matches(player))
 				{
 					switch (modifier.type)

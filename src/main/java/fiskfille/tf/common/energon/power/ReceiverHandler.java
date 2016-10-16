@@ -62,11 +62,11 @@ public class ReceiverHandler
 	{
 		NBTTagCompound nbttagcompound = nbt.getCompoundTag("EmB");
 		NBTTagList nbttaglist = new NBTTagList();
-		
-		for (int i = 0; i < receiverCoords.size(); ++i)
+
+		for (ChunkCoordinates receiverCoord : receiverCoords)
 		{
-			NBTTagCompound nbttagcompound1 = new NBTTagCompound(); 
-			ChunkCoordinates coords = receiverCoords.get(i);
+			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+			ChunkCoordinates coords = receiverCoord;
 			nbttagcompound1.setInteger("x", coords.posX);
 			nbttagcompound1.setInteger("y", coords.posY);
 			nbttagcompound1.setInteger("z", coords.posZ);

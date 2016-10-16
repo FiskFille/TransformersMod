@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 public class RecipesDisplayItems implements IRecipe
 {
+    @Override
     public boolean matches(InventoryCrafting inventoryCrafting, World world)
     {
         ItemStack[] stacks = new ItemStack[9];
@@ -70,14 +71,11 @@ public class RecipesDisplayItems implements IRecipe
             return false;
         }
 
-        if (head != null && chest != null && legs != null && boots != null)
-        {
-            return true;
-        }
+        return head != null && chest != null && legs != null && boots != null;
 
-        return false;
     }
 
+    @Override
     public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting)
     {
         ItemStack itemstack = new ItemStack(TFItems.displayVehicle, 1);
@@ -185,11 +183,13 @@ public class RecipesDisplayItems implements IRecipe
         itemstack.getTagCompound().setTag("Items", itemsList);
     }
 
+    @Override
     public int getRecipeSize()
     {
         return 10;
     }
 
+    @Override
     public ItemStack getRecipeOutput()
     {
         return null;
