@@ -9,4 +9,6 @@ public interface IEnergyContainer
     float getEnergy();
 
     float getMaxEnergy();
+
+    float setEnergy(float energy);
 }

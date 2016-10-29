@@ -18,6 +18,7 @@ import fiskfille.tf.common.network.MessageOpenGui;
 import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetReceivers;
+import fiskfille.tf.common.network.MessageUpdateReceivers;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
 import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.MessageVehicleShoot;
@@ -45,6 +46,7 @@ public class TFNetworkManager
         registerPacket(MessageControlPanel.Handler.class, MessageControlPanel.class);
         registerPacket(MessageOpenGui.Handler.class, MessageOpenGui.class);
         registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);
+        registerPacket(MessageUpdateReceivers.Handler.class, MessageUpdateReceivers.class);
         registerPacket(MessageSetReceivers.Handler.class, MessageSetReceivers.class);
         registerPacket(MessageClosePortal.Handler.class, MessageClosePortal.class);
     }

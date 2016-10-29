@@ -2824,7 +2824,7 @@ public class ModelWardenPrime extends ModelTransformerBase
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerWarden;
+        return TransformerManager.WARDEN;
     }
 
     @Override

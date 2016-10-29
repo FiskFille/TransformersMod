@@ -8,25 +8,22 @@ import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.TransformerWarden;
 import fiskfille.tf.common.transformer.base.Transformer;
 
-/**
- * @author gegy1000
- */
 public class TransformerManager
 {
-    public static Transformer transformerSkystrike = new TransformerSkystrike();
-    public static Transformer transformerPurge = new TransformerPurge();
-    public static Transformer transformerVurp = new TransformerVurp();
-    public static Transformer transformerSubwoofer = new TransformerSubwoofer();
-    public static Transformer transformerCloudtrap = new TransformerCloudtrap();
-    public static Transformer transformerWarden = new TransformerWarden();
+    public static final Transformer SKYSTRIKE = new TransformerSkystrike();
+    public static final Transformer PURGE = new TransformerPurge();
+    public static final Transformer VURP = new TransformerVurp();
+    public static final Transformer SUBWOOFER = new TransformerSubwoofer();
+    public static final Transformer CLOUDTRAP = new TransformerCloudtrap();
+    public static final Transformer WARDEN = new TransformerWarden();
 
     public static void register()
     {
-        TransformersAPI.registerTransformer(transformerSkystrike);
-        TransformersAPI.registerTransformer(transformerPurge);
-        TransformersAPI.registerTransformer(transformerVurp);
-        TransformersAPI.registerTransformer(transformerSubwoofer);
-        TransformersAPI.registerTransformer(transformerCloudtrap);
-        TransformersAPI.registerTransformer(transformerWarden);
+        TransformersAPI.registerTransformer(SKYSTRIKE);
+        TransformersAPI.registerTransformer(PURGE);
+        TransformersAPI.registerTransformer(VURP);
+        TransformersAPI.registerTransformer(SUBWOOFER);
+        TransformersAPI.registerTransformer(CLOUDTRAP);
+        TransformersAPI.registerTransformer(WARDEN);
     }
 }

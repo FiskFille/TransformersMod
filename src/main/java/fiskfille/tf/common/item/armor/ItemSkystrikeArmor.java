@@ -14,6 +14,6 @@ public class ItemSkystrikeArmor extends ItemTransformerArmor
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerSkystrike;
+        return TransformerManager.SKYSTRIKE;
     }
 }

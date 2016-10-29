@@ -1110,8 +1110,8 @@ public class ModelPurge extends ModelTransformerBaseNew
     @Override
     public Transformer getTransformer()
     {
-		return TransformerManager.transformerPurge;
-	}
+        return TransformerManager.PURGE;
+    }
 
     @Override
     public ModelRenderer getWaist()

@@ -537,8 +537,8 @@ public class ModelVurp extends ModelTransformerBaseNew
     @Override
     public Transformer getTransformer()
     {
-		return TransformerManager.transformerVurp;
-	}
+        return TransformerManager.VURP;
+    }
 
     @Override
     public ModelRenderer getWaist()

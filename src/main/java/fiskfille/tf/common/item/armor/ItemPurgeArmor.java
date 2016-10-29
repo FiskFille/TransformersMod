@@ -14,6 +14,6 @@ public class ItemPurgeArmor extends ItemTransformerArmor
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerPurge;
+        return TransformerManager.PURGE;
     }
 }

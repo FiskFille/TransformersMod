@@ -385,7 +385,7 @@ public class ModelVurpStealth extends ModelTransformerBase
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerVurp;
+        return TransformerManager.VURP;
     }
 
     @Override

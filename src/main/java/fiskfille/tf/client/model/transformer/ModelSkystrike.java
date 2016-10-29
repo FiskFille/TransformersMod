@@ -1164,8 +1164,8 @@ public class ModelSkystrike extends ModelTransformerBaseNew
 	@Override
 	public Transformer getTransformer()
 	{
-		return TransformerManager.transformerSkystrike;
-	}
+        return TransformerManager.SKYSTRIKE;
+    }
 
 	@Override
 	public ModelRenderer getWaist()

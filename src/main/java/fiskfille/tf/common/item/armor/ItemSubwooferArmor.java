@@ -14,6 +14,6 @@ public class ItemSubwooferArmor extends ItemTransformerArmor
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerSubwoofer;
+        return TransformerManager.SUBWOOFER;
     }
 }

@@ -14,6 +14,6 @@ public class ItemWardenArmor extends ItemTransformerArmor
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerWarden;
+        return TransformerManager.WARDEN;
     }
 }

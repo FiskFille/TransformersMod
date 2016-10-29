@@ -311,7 +311,7 @@ public class ModelSubwooferStealth extends ModelTransformerBase
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerSubwoofer;
+        return TransformerManager.SUBWOOFER;
     }
 
     @Override

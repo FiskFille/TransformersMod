@@ -954,8 +954,8 @@ public class ModelCloudtrap extends ModelTransformerBaseNew
     @Override
     public Transformer getTransformer()
     {
-		return TransformerManager.transformerCloudtrap;
-	}
+        return TransformerManager.CLOUDTRAP;
+    }
 
     @Override
     public ModelRenderer getWaist()

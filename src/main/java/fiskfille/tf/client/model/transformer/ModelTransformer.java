@@ -1869,7 +1869,7 @@ public class ModelTransformer extends ModelTransformerBase
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerPurge;
+        return TransformerManager.PURGE;
     }
 
     @Override

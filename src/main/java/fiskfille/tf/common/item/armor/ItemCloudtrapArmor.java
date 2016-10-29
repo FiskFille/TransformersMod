@@ -14,6 +14,6 @@ public class ItemCloudtrapArmor extends ItemTransformerArmor
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerCloudtrap;
+        return TransformerManager.CLOUDTRAP;
     }
 }

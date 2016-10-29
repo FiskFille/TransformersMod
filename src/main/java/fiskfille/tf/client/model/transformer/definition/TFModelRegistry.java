@@ -22,11 +22,11 @@ public class TFModelRegistry
 
     public static void registerModels()
     {
-        TFModelRegistry.registerModel(TransformerManager.transformerCloudtrap, new TFModelCloudtrap());
-        TFModelRegistry.registerModel(TransformerManager.transformerPurge, new TFModelPurge());
-        TFModelRegistry.registerModel(TransformerManager.transformerSkystrike, new TFModelSkystrike());
-        TFModelRegistry.registerModel(TransformerManager.transformerSubwoofer, new TFModelSubwoofer());
-        TFModelRegistry.registerModel(TransformerManager.transformerVurp, new TFModelVurp());
-        TFModelRegistry.registerModel(TransformerManager.transformerWarden, new TFModelWarden());
+        TFModelRegistry.registerModel(TransformerManager.CLOUDTRAP, new TFModelCloudtrap());
+        TFModelRegistry.registerModel(TransformerManager.PURGE, new TFModelPurge());
+        TFModelRegistry.registerModel(TransformerManager.SKYSTRIKE, new TFModelSkystrike());
+        TFModelRegistry.registerModel(TransformerManager.SUBWOOFER, new TFModelSubwoofer());
+        TFModelRegistry.registerModel(TransformerManager.VURP, new TFModelVurp());
+        TFModelRegistry.registerModel(TransformerManager.WARDEN, new TFModelWarden());
     }
 }

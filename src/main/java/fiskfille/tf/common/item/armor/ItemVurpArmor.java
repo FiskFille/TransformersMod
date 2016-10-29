@@ -14,6 +14,6 @@ public class ItemVurpArmor extends ItemTransformerArmor
     @Override
     public Transformer getTransformer()
     {
-        return TransformerManager.transformerVurp;
+        return TransformerManager.VURP;
     }
 }
