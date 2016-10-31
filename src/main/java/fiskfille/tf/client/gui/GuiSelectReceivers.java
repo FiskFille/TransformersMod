@@ -1,15 +1,12 @@
 package fiskfille.tf.client.gui;
 
-import com.google.common.collect.Lists;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.network.MessageSetReceivers;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -20,12 +17,19 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
+
 import org.lwjgl.opengl.GL11;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.network.MessageSetReceivers;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiSelectReceivers extends GuiScreen
@@ -99,9 +103,9 @@ public class GuiSelectReceivers extends GuiScreen
             }
         }
 
-        int metadata = tile.getBlockMetadata();
+        int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
 
-        if (metadata > 0)
+        if (direction > 0)
         {
             ChunkCoordinates[] coordArray1 = coordArray.clone();
 
@@ -111,15 +115,15 @@ public class GuiSelectReceivers extends GuiScreen
                 {
                     ChunkCoordinates coords = coordArray[i + j * boardWidth];
 
-                    if (metadata == 1)
+                    if (direction == 1)
                     {
                         coords = coordArray[(boardWidth - 1 - j) + i * boardWidth];
                     }
-                    else if (metadata == 2)
+                    else if (direction == 2)
                     {
                         coords = coordArray[(boardWidth - 1 - i) + (boardWidth - 1 - j) * boardWidth];
                     }
-                    else if (metadata == 3)
+                    else if (direction == 3)
                     {
                         coords = coordArray[j + (boardWidth - 1 - i) * boardWidth];
                     }
@@ -259,6 +263,10 @@ public class GuiSelectReceivers extends GuiScreen
         {
             updateScreen();
         }
+        
+        int boardWidth = 1 + getRange() * 2;
+        int baseX = MathHelper.floor_double(width / 2 - (spacing + size) * boardWidth / 2);
+        int baseY = MathHelper.floor_double(height / 2 - (spacing + size) * boardWidth / 2);
 
         if (coordArray != null)
         {
@@ -267,20 +275,35 @@ public class GuiSelectReceivers extends GuiScreen
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-            int boardWidth = 1 + getRange() * 2;
-            int baseX = MathHelper.floor_double(width / 2 - (spacing + size) * boardWidth / 2);
-            int baseY = MathHelper.floor_double(height / 2 - (spacing + size) * boardWidth / 2);
-
             GL11.glColor4f(0.1F, 0.1F, 0.1F, 1);
             drawTexturedModalRect(baseX - spacing, baseY - spacing, 0, 0, MathHelper.floor_float((spacing + size) * boardWidth) + spacing, MathHelper.floor_float((spacing + size) * boardWidth) + spacing);
             Vec3 src = Vec3.createVectorHelper(size * getRange() - 0.5F, size * getRange() - 0.5F, 0);
 
+            int maxWidth = 0;
+            
+            for (int i = 0; i < boardWidth; ++i)
+            {
+                for (int j = 0; j < boardWidth; ++j)
+                {
+                    ChunkCoordinates coords = coordArray[i + j * boardWidth];
+
+                    if (coords != null)
+                    {
+                    	Vec3 src1 = Vec3.createVectorHelper(tile.xCoord + 0.5F, 0, tile.zCoord + 0.5F);
+                    	Vec3 dst = Vec3.createVectorHelper(coords.posX + 0.5F, 0, coords.posZ + 0.5F);
+                    	maxWidth = Math.max(maxWidth, MathHelper.floor_double(src1.distanceTo(dst)));
+                    }
+                }
+            }
+            
+            maxWidth = 1 + maxWidth * 2;
+            
             for (int i = 0; i < boardWidth; ++i)
             {
                 for (int j = 0; j < boardWidth; ++j)
                 {
                     Vec3 dst = Vec3.createVectorHelper(size * i, size * j, 0);
-                    float opacity = MathHelper.clamp_float((1 - (float) src.distanceTo(dst) / boardWidth * 2 / size) * 2.5F, 0, 1);
+                    float opacity = MathHelper.clamp_float((1 - (float) src.distanceTo(dst) / maxWidth * 2 / size) * 2.5F, 0, 1);
                     int x = baseX + (spacing + size) * i;
                     int y = baseY + (spacing + size) * j;
 
@@ -397,7 +420,21 @@ public class GuiSelectReceivers extends GuiScreen
 
             drawString(mc.fontRenderer, num + "", heightSlider.xPosition + heightSlider.width + 3, heightSlider.yPosition + (int) ((1 - f) * (float) (heightSlider.height - 8)), 0x4C4C4C);
         }
-
+        
         super.drawScreen(mouseX, mouseY, partialTicks);
+        
+        int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
+        String[] astring = {"north", "east", "south", "west"};
+        String[] dirs = new String[astring.length];
+        
+        for (int i = 0; i < astring.length; ++i)
+        {
+        	dirs[i] = StatCollector.translateToLocal("ground_bridge.direction." + astring[(i + direction) % astring.length]);
+        }
+        
+        drawCenteredString(fontRendererObj, dirs[0], baseX + (spacing + size) * boardWidth / 2, baseY - fontRendererObj.FONT_HEIGHT / 2, -1);
+        drawCenteredString(fontRendererObj, dirs[1], baseX + (spacing + size) * boardWidth, baseY + (spacing + size) * boardWidth / 2, -1);
+        drawCenteredString(fontRendererObj, dirs[2], baseX + (spacing + size) * boardWidth / 2, baseY + (spacing + size) * boardWidth - fontRendererObj.FONT_HEIGHT / 2, -1);
+        drawCenteredString(fontRendererObj, dirs[3], baseX, baseY + (spacing + size) * boardWidth / 2, -1);
     }
 }

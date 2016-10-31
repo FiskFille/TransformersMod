@@ -1,14 +1,15 @@
 package fiskfille.tf.common.network;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageControlPanel implements IMessage
 {
@@ -90,6 +91,23 @@ public class MessageControlPanel implements IMessage
                     else if (action == 14)
                     {
                         tile.activationLeverState = !tile.activationLeverState;
+                    }
+                    else if (action >= 15 && action <= 17)
+                    {
+                    	int slot = action - 15;
+                    	
+                    	if (tile.getStackInSlot(slot) == null && player.getHeldItem() != null && tile.isItemValidForSlot(slot, player.getHeldItem()))
+                    	{
+                    		tile.setInventorySlotContents(slot, player.getHeldItem());
+                    		player.setCurrentItemOrArmor(0, null);
+                    	}
+                    	else if (tile.getStackInSlot(slot) != null && (player.getHeldItem() == null || tile.isItemValidForSlot(slot, player.getHeldItem())))
+                    	{
+                    		ItemStack itemstack = tile.getStackInSlot(slot).copy();
+                    		
+                    		tile.setInventorySlotContents(slot, player.getHeldItem());
+                    		player.setCurrentItemOrArmor(0, itemstack);
+                    	}
                     }
                 }
 

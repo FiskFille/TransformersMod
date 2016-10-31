@@ -1,10 +1,11 @@
 package fiskfille.tf.client.gui;
 
+import java.awt.Color;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import org.lwjgl.opengl.GL11;
 
 public class ColorPreset extends Gui
 {

@@ -29,9 +29,9 @@ import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandler, ISidedInventory
 {
-	private static final int[] slotsTop = new int[]{1};
-	private static final int[] slotsBottom = new int[]{2};
-	private static final int[] slotsSides = new int[]{0, 2};
+	private static final int[] slotsTop = {1};
+	private static final int[] slotsBottom = {2};
+	private static final int[] slotsSides = {0, 2};
 
 	public FluidTank tank = new FluidTank(2000);
 
