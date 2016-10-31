@@ -1436,6 +1436,7 @@ public class ModelCloudtrap extends ModelTransformerBaseNew
 
 		if (armorPiece == 0)
 		{
+			GL11.glTranslatef(0, 0, -0.125F);
 			head.rotationPointX = 0;
 			head.rotationPointY = 0;
 			head.rotationPointZ = 0;
@@ -1443,7 +1444,7 @@ public class ModelCloudtrap extends ModelTransformerBaseNew
 		}
 		else if (armorPiece == 1)
 		{
-			GL11.glTranslatef(0, -0.1F, 0);
+			GL11.glTranslatef(0, -0.1F, 0.0625F);
 			upperLegL.showModel = false;
 			upperLegR.showModel = false;
 			head.showModel = false;

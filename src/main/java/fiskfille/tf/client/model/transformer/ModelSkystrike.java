@@ -1574,12 +1574,13 @@ public class ModelSkystrike extends ModelTransformerBaseNew
 
 		if (armorPiece == 0)
 		{
-			GL11.glTranslatef(0, 0.0625F, 0);
+			GL11.glTranslatef(0, 0.0625F, -0.0625F);
 			GL11.glRotatef(4, 1, 0, 0);
 			headbase.render(0.0625F);
 		}
 		else if (armorPiece == 1)
 		{
+			GL11.glTranslatef(0, 0, 0.0625F);
 			upperlegL1.showModel = false;
 			upperlegR1.showModel = false;
 			headbase.showModel = false;

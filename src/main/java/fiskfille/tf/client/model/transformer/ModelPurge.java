@@ -1494,7 +1494,7 @@ public class ModelPurge extends ModelTransformerBaseNew
 
 		if (armorPiece == 0)
 		{
-			GL11.glTranslatef(0, 0.075F, 0);
+			GL11.glTranslatef(0, 0.075F, -0.1F);
 			headbase.render(0.0625F);
 		}
 		else if (armorPiece == 1)
@@ -1519,6 +1519,7 @@ public class ModelPurge extends ModelTransformerBaseNew
 		}
 		else if (armorPiece == 3)
 		{
+			GL11.glTranslatef(0, 0, -0.0625F);
 			GL11.glRotatef(5, 1, 0, 0);
 			feetbaseL1.rotationPointX -= 3;
 			feetbaseR1.rotationPointX += 3;
