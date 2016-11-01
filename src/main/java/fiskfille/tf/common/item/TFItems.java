@@ -24,16 +24,7 @@ public class TFItems
     public static ArmorMaterial SUBWOOFERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[]{3, 9, 7, 3}, 2);
 
     public static Item transformium;
-    public static Item standardEngine;
-    public static Item jetTurbine;
-    public static Item jetThruster;
-    public static Item ahd2JetWing;
-    public static Item ahd2JetCockpit;
-    public static Item t50JetWing;
-    public static Item t50JetCockpit;
-    public static Item tankTracks;
-    public static Item tankTurret;
-    public static Item carWheel;
+    public static ItemMetaBasic craftingMaterial;
     public static Item fuelCanister;
     public static Item dye;
     public static Item componentBase;
@@ -77,24 +68,13 @@ public class TFItems
 
     public static Item tankShell;
     public static Item missile;
-    public static Item smallThruster;
-
+    
     public static Item transformiumDetector;
 
     public static void register()
     {
         transformium = new Item();
-        standardEngine = new Item();
-        jetTurbine = new Item();
-        ahd2JetWing = new Item();
-        ahd2JetCockpit = new Item();
-        tankTracks = new Item();
-        tankTurret = new Item();
-        carWheel = new Item();
-        t50JetCockpit = new Item();
-        t50JetWing = new Item();
-        jetThruster = new Item();
-        smallThruster = new Item();
+        craftingMaterial = new ItemMetaBasic();
         fuelCanister = new ItemFuelCanister();
         dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye");
         componentBase = new Item();
@@ -140,24 +120,13 @@ public class TFItems
 
         tankShell = new Item();
         missile = new Item().setFull3D();
-        smallThruster = new Item();
 
         TRANSFORMERMATERIAL.customCraftingMaterial = transformium;
         TANKMATERIAL.customCraftingMaterial = transformium;
         SUBWOOFERMATERIAL.customCraftingMaterial = transformium;
 
         TFItemRegistry.registerItem(transformium, "Transformium");
-        TFItemRegistry.registerItem(standardEngine, "Standard Engine");
-        TFItemRegistry.registerItem(jetTurbine, "Jet Turbine");
-        TFItemRegistry.registerItem(ahd2JetWing, "AHD-2 Jet Wing");
-        TFItemRegistry.registerItem(ahd2JetCockpit, "AHD-2 Jet Cockpit");
-        TFItemRegistry.registerItem(t50JetWing, "T-50 Jet Wing");
-        TFItemRegistry.registerItem(t50JetCockpit, "T-50 Jet Cockpit");
-        TFItemRegistry.registerItem(tankTracks, "Tracks");
-        TFItemRegistry.registerItem(tankTurret, "Turret");
-        TFItemRegistry.registerItem(carWheel, "Wheel");
-        TFItemRegistry.registerItem(jetThruster, "Jet Thruster");
-        TFItemRegistry.registerItem(smallThruster, "Small Thruster");
+        TFItemRegistry.registerItem(craftingMaterial, "Crafting Material");
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector");
         TFItemRegistry.registerItem(fuelCanister, "Fuel Canister");
         TFItemRegistry.registerIngot(dye, "Dye", "dye");
@@ -203,5 +172,6 @@ public class TFItems
         TFItemRegistry.registerItem(missile, "Missile");
 
         dye.setCreativeTab(CreativeTabs.tabMaterials);
+        TFSubItems.register();
     }
 }
