@@ -1,14 +1,13 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.groundbridge.EnumError;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -24,13 +23,21 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import com.google.common.collect.Lists;
 
-public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowered*/ // TODO
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.groundbridge.EnumError;
+
+public class TileEntityControlPanel extends TileEntityContainer/* implements IEnergonPowered*/ // TODO
 {
+	public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+	
+	private ItemStack[] inventory = new ItemStack[3];
+	
 	public int destX;
 	public int destY;
 	public int destZ;
@@ -38,7 +45,6 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 	public float animPortalDirection;
 	public float prevAnimPortalDirection;
 	public int srcPortalDirection;
-	public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 	public boolean activationLeverState = false;
 	public boolean activationLeverCoverState = false;
 	public float activationLeverTimer;
@@ -67,21 +73,21 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 			destY = yCoord;
 			destZ = zCoord;
 
-			int[] aint = {1, 10, 100, 1000};
+			int[] increments = {1, 10, 100, 1000};
 
 			for (int i = 0; i < switches[0].length; ++i)
 			{
-				destX += switches[0][i] * aint[i];
+				destX += switches[0][i] * increments[i];
 			}
 
 			for (int i = 0; i < switches[1].length; ++i)
 			{
-				destY += switches[1][i] * aint[i];
+				destY += switches[1][i] * increments[i];
 			}
 
 			for (int i = 0; i < switches[2].length; ++i)
 			{
-				destZ += switches[2][i] * aint[i];
+				destZ += switches[2][i] * increments[i];
 			}
 
 			if (groundBridgeFramePos != null)
@@ -142,7 +148,7 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 			if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
 			{
-//				errors.add(EnumError.INVALID_COORDS);
+//				errors.add(EnumError.INVALID_COORDS); TODO: Uncomment
 			}
 			
 			if (destY - 1 <= 0 || destY + 3 >= worldObj.getHeight())
@@ -334,12 +340,6 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 		return i + srcPortalDirection * 2;
 	}
 
-	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return super.getRenderBoundingBox().addCoord(0, 0.5D, 0);
-	}
-
 	public void changeSwitch(int group, int id, int amount)
 	{
 		if (!activationLeverState)
@@ -374,6 +374,30 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
             ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));
             chunkTicket = null;
         }
+	}
+	
+	@Override
+	public String getInventoryName()
+	{
+		return "gui.control_panel";
+	}
+	
+	@Override
+	public ItemStack[] getItemStacks()
+	{
+		return inventory;
+	}
+
+	@Override
+	public void setItemStacks(ItemStack[] itemstacks)
+	{
+		inventory = itemstacks;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return super.getRenderBoundingBox().addCoord(0, 0.5D, 0);
 	}
 
 	@Override
@@ -433,13 +457,13 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 
 		NBTTagList nbttaglist = new NBTTagList();
 
-		for (Integer[] switche : switches)
+		for (Integer[] aint : switches)
 		{
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-			for (int j = 0; j < switche.length; ++j)
+			for (int j = 0; j < aint.length; ++j)
 			{
-				int value = switche[j];
+				int value = aint[j];
 				nbttagcompound.setInteger("Switch" + (j + 1), value);
 			}
 
@@ -447,6 +471,12 @@ public class TileEntityControlPanel extends TileEntity/* implements IEnergonPowe
 		}
 
 		nbt.setTag("Switches", nbttaglist);
+	}
+	
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack)
+	{
+		return true;
 	}
 
 	@Override

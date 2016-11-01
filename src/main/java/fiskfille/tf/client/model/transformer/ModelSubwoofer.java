@@ -846,11 +846,12 @@ public class ModelSubwoofer extends ModelTransformerBaseNew
 
 		if (armorPiece == 0)
 		{
-			GL11.glTranslatef(0, 0.3F, 0);
+			GL11.glTranslatef(0, 0.3F, -0.03125F);
 			head.render(0.0625F);
 		}
 		else if (armorPiece == 1)
 		{
+			GL11.glTranslatef(0, 0, 0.0625F);
 			upperLegL.showModel = false;
 			upperLegR.showModel = false;
 			head.showModel = false;
@@ -880,6 +881,7 @@ public class ModelSubwoofer extends ModelTransformerBaseNew
 		}
 		else if (armorPiece == 3)
 		{
+			GL11.glTranslatef(0, 0, -0.0625F);
 			GL11.glRotatef(8, 1, 0, 0);
 			legbaseL.rotationPointX -= 3;
 			legbaseR.rotationPointX += 3;

@@ -17,7 +17,6 @@ public class ComponentArmor extends Component
         ItemStack feet = tile.getStackInSlot(3);
 
         return (head != null || chest != null || legs != null || feet != null) && super.canLoad(tile, slot);
-
     }
 
     @Override

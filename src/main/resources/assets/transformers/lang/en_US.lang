@@ -2,20 +2,8 @@
 item.transformium.name=Transformium
 item.energon_crystal_piece.name=Energon Crystal Piece
 item.red_energon_crystal_piece.name=Red Energon Crystal Piece
-item.standard_engine.name=Standard Engine
-item.jet_turbine.name=Jet Turbine
-item.jet_thruster.name=Jet Thruster
-item.small_thruster.name=Small Thruster
-item.ahd-2_jet_wing.name=AHD-2 Jet Wing
-item.ahd-2_jet_cockpit.name=AHD-2 Jet Cockpit
-item.t-50_jet_wing.name=T-50 Jet Wing
-item.t-50_jet_cockpit.name=T-50 Jet Cockpit
-item.tracks.name=Tracks
-item.turret.name=Turret
-item.wheel.name=Wheel
 item.missile.name=Missile
 item.tank_shell.name=Tank Shell
-item.mini_missile.name=Mini Missile
 item.transformium_detector.name=Transformium Detector
 item.fuel_canister.name=Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
@@ -23,6 +11,11 @@ item.beige_dye.name=Beige Dye
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
+
+item.tank_turret_base.name=Turret Base
+item.tank_turret.name=Turret
+item.tank_barrel.name=Gun Barrel
+item.tank_track.name=Track
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head
@@ -176,7 +169,6 @@ achievement.tf.sharpshooter=Sharpshooter
 achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away
 
 ------Miscellaneous------
-misc.donate.thanks=Thanks for donating $
 ground_bridge.destination=Destination:
 ground_bridge.destination.format=x: %s, y: %s, z: %s
 ground_bridge.direction.south=S
@@ -188,7 +180,7 @@ ground_bridge.error.other_error=%s more error was detected.
 ground_bridge.error.other_errors=%s more errors were detected.
 ground_bridge.error.no_other_errors=No other errors were detected.
 ground_bridge.error.invalid_coords=Invalid coordinates! Destination must be at least 64 blocks from point of origin!
-ground_bridge.error.not_enough_space=Not enough space! Destination does not have have enough empty space to fit a ground bridge portal!
+ground_bridge.error.not_enough_space=Not enough space! Destination does not have have enough empty space to fit a Ground Bridge portal!
 ground_bridge.error.no_portal_linked=No portal linked! Locator was unable to find a functioning Ground Bridge portal frame within range!
 ground_bridge.error.portal_obstructed=Portal obstructed! The linked Ground Bridge portal frame is being obscured by adjacent blocks!
 ground_bridge.error.out_of_bounds=Out of bounds! Destination cannot be lower than y=0 or higher than y=%s!

@@ -25,21 +25,21 @@ public class RenderItemArmor implements IItemRenderer
 		this.transformer = transformer;
 	}
 
-    @Override
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
-    {
+	@Override
+	public boolean handleRenderType(ItemStack item, ItemRenderType type)
+	{
 		return type != ItemRenderType.FIRST_PERSON_MAP;
 	}
 
-    @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
+	@Override
+	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
+	{
 		return type == ItemRenderType.ENTITY || type == ItemRenderType.EQUIPPED_FIRST_PERSON;
 	}
 
-    @Override
-    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-    {
+	@Override
+	public void renderItem(ItemRenderType type, ItemStack item, Object... data)
+	{
 		TransformerModel tfModel = TFModelRegistry.getModel(transformer);
 		ModelTransformerBase model = tfModel.getItemInventoryModel();
 
@@ -58,8 +58,6 @@ public class RenderItemArmor implements IItemRenderer
 			GL11.glScalef(1, 1, 1);
 			break;
 		}
-
-		GL11.glColor4f(1, 1, 1, 1);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(tfModel.getTexture(null));
 		renderArmor(type, model);
@@ -142,46 +140,41 @@ public class RenderItemArmor implements IItemRenderer
 		else if (type == ItemRenderType.INVENTORY)
 		{
 			GL11.glPushMatrix();
-//			GL11.glTranslatef(-2, 3, 0);
-            GL11.glScalef(10, 10, 10);
-            GL11.glTranslatef(0.5F, 0.5F, 1);
-            GL11.glScalef(1, 1, -1);
-            GL11.glRotatef(210, 1, 0, 0);
-            GL11.glRotatef(45, 0, 1, 0);
-            GL11.glRotatef(-90, 0, 1, 0);
-            GL11.glRotatef(45, 0, 1, 0);
-            GL11.glRotatef(150, 1, 0, 0);
-			
-			
-//			GL11.glRotatef(180, 1, 0, 0);
-//			GL11.glTranslatef(-0.35F, -0.3F, 0);
-//
-            if (armorPiece == 0)
-            {
-    			float scale = 2;
-    			GL11.glTranslatef(0.03125F, 0, 0);
-    			GL11.glScalef(scale, scale, scale);
-    			GL11.glTranslatef(0, 0.125F, 0);
-            }
-            else if (armorPiece == 1)
-            {
-            	float scale = 2;
-    			GL11.glTranslatef(0.5F, -0.1F, 0);
-    			GL11.glScalef(scale, scale, scale);
-            }
-            else if (armorPiece == 2)
-            {
-            	float scale = 2;
-    			GL11.glTranslatef(0.325F, -0.6F, 0);
-    			GL11.glScalef(scale, scale, scale);
-            }
-            else if (armorPiece == 3)
-            {
-            	float scale = 2;
-            	GL11.glTranslatef(0.3125F, 0, 0);
-    			GL11.glScalef(scale, scale, scale);
-    			GL11.glTranslatef(0, -0.125F, 0);
-            }
+			GL11.glScalef(10, 10, 10);
+			GL11.glTranslatef(0.5F, 0.5F, 1);
+			GL11.glScalef(1, 1, -1);
+			GL11.glRotatef(210, 1, 0, 0);
+			GL11.glRotatef(45, 0, 1, 0);
+			GL11.glRotatef(-90, 0, 1, 0);
+			GL11.glRotatef(45, 0, 1, 0);
+			GL11.glRotatef(150, 1, 0, 0);
+
+			if (armorPiece == 0)
+			{
+				float scale = 2;
+				GL11.glTranslatef(0.03125F, 0, 0);
+				GL11.glScalef(scale, scale, scale);
+				GL11.glTranslatef(0, 0.125F, 0);
+			}
+			else if (armorPiece == 1)
+			{
+				float scale = 2;
+				GL11.glTranslatef(0.5F, -0.1F, 0);
+				GL11.glScalef(scale, scale, scale);
+			}
+			else if (armorPiece == 2)
+			{
+				float scale = 2;
+				GL11.glTranslatef(0.325F, -0.6F, 0);
+				GL11.glScalef(scale, scale, scale);
+			}
+			else if (armorPiece == 3)
+			{
+				float scale = 2;
+				GL11.glTranslatef(0.3125F, 0, 0);
+				GL11.glScalef(scale, scale, scale);
+				GL11.glTranslatef(0, -0.125F, 0);
+			}
 
 			model.renderArmorPiece(armorPiece);
 			GL11.glPopMatrix();
@@ -195,19 +188,19 @@ public class RenderItemArmor implements IItemRenderer
 
 			if (armorPiece == 0)
 			{
-				GL11.glTranslatef(0, 1.05F, -0.15F);
+				GL11.glTranslatef(0, 1.125F, 0);
 			}
 			else if (armorPiece == 1)
 			{
-				GL11.glTranslatef(0, 0.4F, -0.2F);
+				GL11.glTranslatef(0, 0.6F, -0.2F);
 			}
 			else if (armorPiece == 2)
 			{
-				GL11.glTranslatef(0, 0.45F, -0.1F);
+				GL11.glTranslatef(0, 0.55F, -0.1F);
 			}
 			else if (armorPiece == 3)
 			{
-				GL11.glTranslatef(-0.1F, 0.5F, -0.1F);
+				GL11.glTranslatef(0, 0.7F, -0.1F);
 			}
 
 			float scale = 1;

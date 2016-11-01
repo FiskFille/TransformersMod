@@ -7,8 +7,11 @@ import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -23,6 +26,8 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
 {
     public static final int[][] directions = new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
+    private final Random rand = new Random();
+    
     public BlockGroundBridgeControl()
     {
         super(Material.iron);
@@ -163,6 +168,55 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
                 world.setBlockToAir(x, y, z);
             }
         }
+    }
+    
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
+    {
+        TileEntityControlPanel tileentity = (TileEntityControlPanel) world.getTileEntity(x, y, z);
+
+        if (tileentity != null)
+        {
+            for (int j1 = 0; j1 < tileentity.getSizeInventory(); ++j1)
+            {
+                ItemStack itemstack = tileentity.getStackInSlot(j1);
+
+                if (itemstack != null)
+                {
+                    float f = rand.nextFloat() * 0.8F + 0.1F;
+                    float f1 = rand.nextFloat() * 0.8F + 0.1F;
+                    float f2 = rand.nextFloat() * 0.8F + 0.1F;
+
+                    while (itemstack.stackSize > 0)
+                    {
+                        int k1 = rand.nextInt(21) + 10;
+
+                        if (k1 > itemstack.stackSize)
+                        {
+                            k1 = itemstack.stackSize;
+                        }
+
+                        itemstack.stackSize -= k1;
+                        EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+
+                        if (itemstack.hasTagCompound())
+                        {
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                        }
+
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double) ((float) rand.nextGaussian() * f3);
+                        entityitem.motionY = (double) ((float) rand.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double) ((float) rand.nextGaussian() * f3);
+                        world.spawnEntityInWorld(entityitem);
+                    }
+                }
+            }
+
+            world.func_147453_f(x, y, z, block);
+        }
+
+        super.breakBlock(world, x, y, z, block, metadata);
     }
 
     @Override
@@ -332,96 +386,113 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
 
         if (world.isRemote)
         {
-            if (face == 4)
-            {
-                if (hitY > f * 2 && hitY <= f * 4.5F)
-                {
-                    if (hitX > f * 1.15F && hitX <= f * 3.21F)
-                    {
-                        sendActionPacket(tile, player, 1);
-                        return true;
-                    }
-                    if (hitX > f * 3.25F && hitX <= f * 5.39F)
-                    {
-                        sendActionPacket(tile, player, 2);
-                        return true;
-                    }
-                    if (hitX > f * 5.55F && hitX <= f * 7.6F)
-                    {
-                        sendActionPacket(tile, player, 3);
-                        return true;
-                    }
-                    if (hitX > f * 7.6F && hitX <= f * 10F)
-                    {
-                        sendActionPacket(tile, player, 4);
-                        return true;
-                    }
-                }
-                if (hitY > f * 6.2F && hitY <= f * 8.8F)
-                {
-                    if (hitX > f * 1.15F && hitX <= f * 3.21F)
-                    {
-                        sendActionPacket(tile, player, 5);
-                        return true;
-                    }
-                    if (hitX > f * 3.25F && hitX <= f * 5.39F)
-                    {
-                        sendActionPacket(tile, player, 6);
-                        return true;
-                    }
-                    if (hitX > f * 5.55F && hitX <= f * 7.6F)
-                    {
-                        sendActionPacket(tile, player, 7);
-                        return true;
-                    }
-                    if (hitX > f * 7.6F && hitX <= f * 10F)
-                    {
-                        sendActionPacket(tile, player, 8);
-                        return true;
-                    }
-                }
-                if (hitY > f * 10F && hitY <= f * 13F)
-                {
-                    if (hitX > f * 1.15F && hitX <= f * 3.21F)
-                    {
-                        sendActionPacket(tile, player, 9);
-                        return true;
-                    }
-                    if (hitX > f * 3.25F && hitX <= f * 5.39F)
-                    {
-                        sendActionPacket(tile, player, 10);
-                        return true;
-                    }
-                    if (hitX > f * 5.55F && hitX <= f * 7.6F)
-                    {
-                        sendActionPacket(tile, player, 11);
-                        return true;
-                    }
-                    if (hitX > f * 7.6F && hitX <= f * 10F)
-                    {
-                        sendActionPacket(tile, player, 12);
-                        return true;
-                    }
-                }
-                if (hitX > f * 13.5F && hitX <= f * 18.5F && hitY > f * 5.65F && hitY <= f * 10.85F)
-                {
-                    if (!tile.activationLeverState)
-                    {
-                        sendActionPacket(tile, player, 13);
-                    }
+        	if (face == 0)
+        	{
+        		if (hitY > f * 4 && hitY <= f * 7.5F)
+        		{
+        			for (int i = 0; i < 3; ++i)
+            		{
+        				if (player.getHeldItem() != null && tile.isItemValidForSlot(i, player.getHeldItem()) || tile.getStackInSlot(i) != null && player.getHeldItem() == null)
+        				{
+        					if (hitX > f * (19 + i * 3.5F) && hitX <= f * (22 + i * 3.5F))
+                			{
+        						sendActionPacket(tile, player, 15 + i);
+                				return true;
+                			}
+        				}
+            		}
+        		}
+        	}
+        	else if (face == 4)
+        	{
+        		if (hitY > f * 2 && hitY <= f * 4.5F)
+        		{
+        			if (hitX > f * 1.15F && hitX <= f * 3.21F)
+        			{
+        				sendActionPacket(tile, player, 1);
+        				return true;
+        			}
+        			if (hitX > f * 3.25F && hitX <= f * 5.39F)
+        			{
+        				sendActionPacket(tile, player, 2);
+        				return true;
+        			}
+        			if (hitX > f * 5.55F && hitX <= f * 7.6F)
+        			{
+        				sendActionPacket(tile, player, 3);
+        				return true;
+        			}
+        			if (hitX > f * 7.6F && hitX <= f * 10F)
+        			{
+        				sendActionPacket(tile, player, 4);
+        				return true;
+        			}
+        		}
+        		if (hitY > f * 6.2F && hitY <= f * 8.8F)
+        		{
+        			if (hitX > f * 1.15F && hitX <= f * 3.21F)
+        			{
+        				sendActionPacket(tile, player, 5);
+        				return true;
+        			}
+        			if (hitX > f * 3.25F && hitX <= f * 5.39F)
+        			{
+        				sendActionPacket(tile, player, 6);
+        				return true;
+        			}
+        			if (hitX > f * 5.55F && hitX <= f * 7.6F)
+        			{
+        				sendActionPacket(tile, player, 7);
+        				return true;
+        			}
+        			if (hitX > f * 7.6F && hitX <= f * 10F)
+        			{
+        				sendActionPacket(tile, player, 8);
+        				return true;
+        			}
+        		}
+        		if (hitY > f * 10F && hitY <= f * 13F)
+        		{
+        			if (hitX > f * 1.15F && hitX <= f * 3.21F)
+        			{
+        				sendActionPacket(tile, player, 9);
+        				return true;
+        			}
+        			if (hitX > f * 3.25F && hitX <= f * 5.39F)
+        			{
+        				sendActionPacket(tile, player, 10);
+        				return true;
+        			}
+        			if (hitX > f * 5.55F && hitX <= f * 7.6F)
+        			{
+        				sendActionPacket(tile, player, 11);
+        				return true;
+        			}
+        			if (hitX > f * 7.6F && hitX <= f * 10F)
+        			{
+        				sendActionPacket(tile, player, 12);
+        				return true;
+        			}
+        		}
+        		if (hitX > f * 13.5F && hitX <= f * 18.5F && hitY > f * 5.65F && hitY <= f * 10.85F)
+        		{
+        			if (!tile.activationLeverState)
+        			{
+        				sendActionPacket(tile, player, 13);
+        			}
 
-                    return true;
-                }
-                if (hitX > f * 23F && hitX <= f * 31F && hitY > f * 4F && hitY <= f * 12.75F)
-                {
-                    if (tile.activationLeverCoverState && (tile.activationLeverTimer == 0 || tile.activationLeverTimer == 1))
-                    {
-                        sendActionPacket(tile, player, 14);
-                    }
+        			return true;
+        		}
+        		if (hitX > f * 23F && hitX <= f * 31F && hitY > f * 4F && hitY <= f * 12.75F)
+        		{
+        			if (tile.activationLeverCoverState && (tile.activationLeverTimer == 0 || tile.activationLeverTimer == 1))
+        			{
+        				sendActionPacket(tile, player, 14);
+        			}
 
-                    return true;
-                }
-            }
+        			return true;
+        		}
+        	}
         }
 
         return false;

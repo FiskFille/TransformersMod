@@ -943,12 +943,12 @@ public class ModelVurp extends ModelTransformerBaseNew
 
 		if (armorPiece == 0)
 		{
-			GL11.glTranslatef(0, 0.15F, 0);
+			GL11.glTranslatef(0, 0.15F, -0.15F);
 			head.render(0.0625F);
 		}
 		else if (armorPiece == 1)
 		{
-			GL11.glTranslatef(0, -0.2F, 0);
+			GL11.glTranslatef(0, -0.2F, 0.03125F);
 			upperLegL.showModel = false;
 			upperLegR.showModel = false;
 			head.showModel = false;
@@ -969,6 +969,7 @@ public class ModelVurp extends ModelTransformerBaseNew
 		}
 		else if (armorPiece == 3)
 		{
+			GL11.glTranslatef(0, 0, -0.125F);
 			GL11.glRotatef(12, 1, 0, 0);
 			footbaseL.rotationPointX -= 2.5F;
 			footbaseR.rotationPointX += 2.5F;
