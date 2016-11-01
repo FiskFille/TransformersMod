@@ -5,7 +5,7 @@ import net.minecraft.util.Vec3;
 
 public interface IEnergyReceiver extends IEnergyContainer
 {
-    ReceivingHandler getReceivingHandler();
+    ReceiverHandler getReceiverHandler();
 
     boolean canReceiveEnergy(TileEntity from);
 

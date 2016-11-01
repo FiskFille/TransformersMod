@@ -6,7 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.ReceivingHandler;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.helper.TFEnergyHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,49 +17,61 @@ import net.minecraft.world.World;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MessageUpdateReceivers implements IMessage
+public class MessageUpdateEnergyState implements IMessage
 {
     private int x;
     private int y;
     private int z;
     private Set<ChunkCoordinates> receivers = new HashSet<ChunkCoordinates>();
     private Set<ChunkCoordinates> receiving = new HashSet<ChunkCoordinates>();
-    private float energy = -1.0F;
 
-    public MessageUpdateReceivers()
+    private boolean container;
+    private float energy = -1.0F;
+    private float energyUsage = 0.0F;
+
+    public MessageUpdateEnergyState()
     {
 
     }
 
-    public MessageUpdateReceivers(TileEntity tile)
+    public MessageUpdateEnergyState(TileEntity tile)
     {
         this.x = tile.xCoord;
         this.y = tile.yCoord;
         this.z = tile.zCoord;
 
-        ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
-        ReceivingHandler receivingHandler = TFEnergyHelper.getReceivingHandler(tile);
+        TransmissionHandler transmissionHandler = TFEnergyHelper.getReceiverHandler(tile);
+        ReceiverHandler receiverHandler = TFEnergyHelper.getReceivingHandler(tile);
+
+        if (transmissionHandler != null)
+        {
+            this.receivers = transmissionHandler.getReceiverCoords();
+        }
 
         if (receiverHandler != null)
         {
-            this.receivers = receiverHandler.getReceiverCoords();
-        }
-
-        if (receivingHandler != null)
-        {
-            this.receiving = receivingHandler.getReceivingCoords();
+            this.receiving = receiverHandler.getTransmitterCoords();
         }
 
         if (tile instanceof IEnergyContainer)
         {
-            this.energy = ((IEnergyContainer) tile).getEnergy();
+            IEnergyContainer container = (IEnergyContainer) tile;
+            this.energy = container.getEnergy();
+            this.energyUsage = container.getEnergyUsage();
+            this.container = true;
         }
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        energy = buf.readFloat();
+        container = buf.readBoolean();
+
+        if (container)
+        {
+            energy = buf.readFloat();
+            energyUsage = buf.readFloat();
+        }
 
         x = buf.readInt();
         y = buf.readInt();
@@ -83,7 +95,13 @@ public class MessageUpdateReceivers implements IMessage
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeFloat(energy);
+        buf.writeBoolean(container);
+
+        if (container)
+        {
+            buf.writeFloat(energy);
+            buf.writeFloat(energyUsage);
+        }
 
         buf.writeInt(x);
         buf.writeInt(y);
@@ -108,10 +126,10 @@ public class MessageUpdateReceivers implements IMessage
         }
     }
 
-    public static class Handler implements IMessageHandler<MessageUpdateReceivers, IMessage>
+    public static class Handler implements IMessageHandler<MessageUpdateEnergyState, IMessage>
     {
         @Override
-        public IMessage onMessage(MessageUpdateReceivers message, MessageContext ctx)
+        public IMessage onMessage(MessageUpdateEnergyState message, MessageContext ctx)
         {
             if (ctx.side.isClient())
             {
@@ -120,22 +138,24 @@ public class MessageUpdateReceivers implements IMessage
 
                 TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
 
-                ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
-                ReceivingHandler receivingHandler = TFEnergyHelper.getReceivingHandler(tile);
+                TransmissionHandler transmissionHandler = TFEnergyHelper.getReceiverHandler(tile);
+                ReceiverHandler receiverHandler = TFEnergyHelper.getReceivingHandler(tile);
+
+                if (transmissionHandler != null)
+                {
+                    transmissionHandler.reset(world, message.receivers);
+                }
 
                 if (receiverHandler != null)
                 {
-                    receiverHandler.reset(world, message.receivers);
+                    receiverHandler.reset(message.receiving);
                 }
 
-                if (receivingHandler != null)
+                if (message.container && tile instanceof IEnergyContainer)
                 {
-                    receivingHandler.reset(message.receiving);
-                }
-
-                if (message.energy >= 0.0F && tile instanceof IEnergyContainer)
-                {
-                    ((IEnergyContainer) tile).setEnergy(message.energy);
+                    IEnergyContainer container = (IEnergyContainer) tile;
+                    container.setEnergy(message.energy);
+                    container.setEnergyUsage(message.energyUsage);
                 }
             }
 

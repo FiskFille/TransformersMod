@@ -7,10 +7,12 @@ import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.ReceivingHandler;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.inventory.ISidedInventory;
@@ -36,8 +38,8 @@ import java.util.Map;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory
 {
+    public TransmissionHandler transmissionHandler = new TransmissionHandler(this);
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
-    public ReceivingHandler receivingHandler = new ReceivingHandler(this);
 
     public EnergyStorage storage = new EnergyStorage(8000);
     public FluidTank tank = new FluidTank(2000);
@@ -47,6 +49,8 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public int animationTimer;
     public float prevEnergy;
 
+    public float lastUsage;
+
     @Override
     public void updateEntity()
     {
@@ -55,63 +59,79 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (getBlockMetadata() < 4)
         {
+            transmissionHandler.onUpdate(worldObj);
             receiverHandler.onUpdate(worldObj);
-            receivingHandler.onUpdate(worldObj);
 
-            FluidStack stack = tank.getFluid();
-            receiveEnergy(110); // TODO: Remove
-
-            if (getEnergy() > 0)
+            if (worldObj.isRemote)
             {
-                List<TileEntity> tilesToPower = getTilesToPower();
-
-                for (TileEntity tile : tilesToPower)
-                {
-                    IEnergyReceiver receiver = (IEnergyReceiver) tile;
-
-                    if (receiver.canReceiveEnergy(this))
-                    {
-                        TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / tilesToPower.size());
-                    }
-                }
+                TFHelper.applyClientEnergyUsage(this);
             }
-
-            if (stack != null && stack.amount > 0)
+            else
             {
-                Map<String, Integer> contents = FluidEnergon.getContents(stack);
-                int i = 10;
+                FluidStack stack = tank.getFluid();
+                receiveEnergy(110); // TODO: Remove
 
-                for (Map.Entry<String, Integer> entry : contents.entrySet())
+                if (getEnergy() > 0)
                 {
-                    String energonType = entry.getKey();
-                    Energon energon = TransformersAPI.getEnergonTypeByName(energonType);
+                    List<TileEntity> tilesToPower = getTilesToPower();
 
-                    if (energon != null)
+                    for (TileEntity tile : tilesToPower)
                     {
-                        float factor = energon.getEnergyValue();
-                        drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(TFHelper.getPercentOf(energonType, contents) * factor) * i) / factor), true);
-                    }
-                }
-            }
+                        IEnergyReceiver receiver = (IEnergyReceiver) tile;
 
-            if (inventory[0] != null)
-            {
-                ItemStack fluidContainer = inventory[0];
-
-                if (fluidContainer.getItem() instanceof IFluidContainerItem)
-                {
-                    IFluidContainerItem container = (IFluidContainerItem) fluidContainer.getItem();
-                    FluidStack fluid = container.getFluid(fluidContainer);
-
-                    if (fluid != null && fluid.amount > 0 && (FluidStack.areFluidStackTagsEqual(stack, fluid) || (stack == null || stack.amount <= 0)))
-                    {
-                        if (fluid.getFluid() == TFFluids.energon)
+                        if (receiver.canReceiveEnergy(this))
                         {
-                            int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
-                            fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, true), true);
+                            TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / tilesToPower.size());
                         }
                     }
                 }
+
+                if (stack != null && stack.amount > 0)
+                {
+                    Map<String, Integer> contents = FluidEnergon.getContents(stack);
+                    int i = 10;
+
+                    for (Map.Entry<String, Integer> entry : contents.entrySet())
+                    {
+                        String energonType = entry.getKey();
+                        Energon energon = TransformersAPI.getEnergonTypeByName(energonType);
+
+                        if (energon != null)
+                        {
+                            float factor = energon.getEnergyValue();
+                            drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(TFHelper.getPercentOf(energonType, contents) * factor) * i) / factor), true);
+                        }
+                    }
+                }
+
+                if (inventory[0] != null)
+                {
+                    ItemStack fluidContainer = inventory[0];
+
+                    if (fluidContainer.getItem() instanceof IFluidContainerItem)
+                    {
+                        IFluidContainerItem container = (IFluidContainerItem) fluidContainer.getItem();
+                        FluidStack fluid = container.getFluid(fluidContainer);
+
+                        if (fluid != null && fluid.amount > 0 && (FluidStack.areFluidStackTagsEqual(stack, fluid) || (stack == null || stack.amount <= 0)))
+                        {
+                            if (fluid.getFluid() == TFFluids.energon)
+                            {
+                                int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
+                                fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, true), true);
+                            }
+                        }
+                    }
+                }
+
+                float usage = storage.calculateUsage();
+
+                if (Math.abs(usage - lastUsage) > 0.001F)
+                {
+                    updateClients();
+                }
+
+                lastUsage = usage;
             }
         }
     }
@@ -132,7 +152,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     {
         List<TileEntity> tilesToPower = Lists.newArrayList();
 
-        for (TileEntity tile : receiverHandler.getReceivers())
+        for (TileEntity tile : transmissionHandler.getReceivers())
         {
             if (canPowerReach(tile))
             {
@@ -150,7 +170,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (getBlockMetadata() < 4 && getEnergy() > 0)
         {
-            for (TileEntity tile : receiverHandler.getReceivers())
+            for (TileEntity tile : transmissionHandler.getReceivers())
             {
                 bounds = TFHelper.wrapAroundAABB(bounds, tile.getRenderBoundingBox());
             }
@@ -166,8 +186,8 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (nbt.getBoolean("Base"))
         {
+            transmissionHandler.readFromNBT(nbt);
             receiverHandler.readFromNBT(nbt);
-            receivingHandler.readFromNBT(nbt);
             storage.readFromNBT(nbt);
             tank.readFromNBT(nbt);
         }
@@ -183,23 +203,21 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (base)
         {
+            transmissionHandler.writeToNBT(nbt);
             receiverHandler.writeToNBT(nbt);
-            receivingHandler.writeToNBT(nbt);
             storage.writeToNBT(nbt);
             tank.writeToNBT(nbt);
         }
     }
 
-    @Override
-    public ReceivingHandler getReceivingHandler()
-    {
-        return receivingHandler;
-    }
-
-    @Override
     public ReceiverHandler getReceiverHandler()
     {
         return receiverHandler;
+    }
+
+    public TransmissionHandler getTransmissionHandler()
+    {
+        return transmissionHandler;
     }
 
     @Override
@@ -276,6 +294,18 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public float setEnergy(float energy)
     {
         return storage.set(energy);
+    }
+
+    @Override
+    public float getEnergyUsage()
+    {
+        return storage.getUsage();
+    }
+
+    @Override
+    public void setEnergyUsage(float usage)
+    {
+        storage.setUsage(usage);
     }
 
     @Override
@@ -357,5 +387,11 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
     {
         readFromNBT(packet.func_148857_g());
+    }
+
+    @Override
+    public void updateClients()
+    {
+        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
     }
 }

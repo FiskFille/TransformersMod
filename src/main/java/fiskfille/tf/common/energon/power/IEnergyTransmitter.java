@@ -5,9 +5,9 @@ import net.minecraft.util.Vec3;
 
 public interface IEnergyTransmitter extends IEnergyContainer
 {
-    ReceivingHandler getReceivingHandler();
-
     ReceiverHandler getReceiverHandler();
+
+    TransmissionHandler getTransmissionHandler();
 
     boolean isPowering(TileEntity tile);
 

@@ -179,4 +179,18 @@ public class TFHelper
 
         return 0;
     }
+
+    public static void applyClientEnergyUsage(IEnergyContainer container)
+    {
+        float usage = container.getEnergyUsage();
+
+        if (usage < 0.0F)
+        {
+            container.receiveEnergy(-usage);
+        }
+        else
+        {
+            container.receiveEnergy(usage);
+        }
+    }
 }

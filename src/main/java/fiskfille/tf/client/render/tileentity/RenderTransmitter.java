@@ -60,7 +60,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 
                 if (transmitter.getEnergy() > 0)
                 {
-                    for (TileEntity tile : transmitter.receiverHandler.getReceivers())
+                    for (TileEntity tile : transmitter.transmissionHandler.getReceivers())
                     {
                         IEnergyReceiver receiver = (IEnergyReceiver) tile;
 

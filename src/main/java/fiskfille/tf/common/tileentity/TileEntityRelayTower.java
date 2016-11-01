@@ -5,7 +5,9 @@ import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.ReceivingHandler;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,28 +23,47 @@ import java.util.List;
 
 public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitter, IEnergyReceiver
 {
+    public TransmissionHandler transmissionHandler = new TransmissionHandler(this);
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
-    public ReceivingHandler receivingHandler = new ReceivingHandler(this);
 
     public EnergyStorage storage = new EnergyStorage(100);
 
     public int animationTimer;
 
+    public float lastUsage;
+
     @Override
     public void updateEntity()
     {
         ++animationTimer;
-        receiverHandler.onUpdate(worldObj);
-        receivingHandler.onUpdate(worldObj);
 
         if (getBlockMetadata() < 4)
         {
-            List<TileEntity> tilesToPower = getTilesToPower();
+            transmissionHandler.onUpdate(worldObj);
+            receiverHandler.onUpdate(worldObj);
 
-            for (TileEntity tile : tilesToPower)
+            if (worldObj.isRemote)
             {
-                IEnergyReceiver receiver = (IEnergyReceiver) tile;
-                TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / tilesToPower.size());
+                TFHelper.applyClientEnergyUsage(this);
+            }
+            else
+            {
+                List<TileEntity> tilesToPower = getTilesToPower();
+
+                for (TileEntity tile : tilesToPower)
+                {
+                    IEnergyReceiver receiver = (IEnergyReceiver) tile;
+                    TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / tilesToPower.size());
+                }
+
+                float usage = storage.calculateUsage();
+
+                if (Math.abs(usage - lastUsage) > 0.001F)
+                {
+                    updateClients();
+                }
+
+                lastUsage = usage;
             }
         }
     }
@@ -51,7 +72,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     {
         List<TileEntity> tilesToPower = Lists.newArrayList();
 
-        for (TileEntity tile : receiverHandler.getReceivers())
+        for (TileEntity tile : transmissionHandler.getReceivers())
         {
             if (canPowerReach(tile))
             {
@@ -69,7 +90,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
 
         if (getBlockMetadata() < 4)
         {
-            for (TileEntity tile : receiverHandler.getReceivers())
+            for (TileEntity tile : transmissionHandler.getReceivers())
             {
                 bounds = TFHelper.wrapAroundAABB(bounds, tile.getRenderBoundingBox());
             }
@@ -82,8 +103,8 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
+        transmissionHandler.readFromNBT(nbt);
         receiverHandler.readFromNBT(nbt);
-        receivingHandler.readFromNBT(nbt);
         storage.readFromNBT(nbt);
     }
 
@@ -91,21 +112,19 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
+        transmissionHandler.writeToNBT(nbt);
         receiverHandler.writeToNBT(nbt);
-        receivingHandler.writeToNBT(nbt);
         storage.writeToNBT(nbt);
     }
 
-    @Override
-    public ReceivingHandler getReceivingHandler()
-    {
-        return receivingHandler;
-    }
-
-    @Override
     public ReceiverHandler getReceiverHandler()
     {
         return receiverHandler;
+    }
+
+    public TransmissionHandler getTransmissionHandler()
+    {
+        return transmissionHandler;
     }
 
     @Override
@@ -169,7 +188,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     @Override
     public float receiveEnergy(float amount)
     {
-        for (TileEntity tile : receiverHandler.getReceivers())
+        for (TileEntity tile : transmissionHandler.getReceivers())
         {
             if (canPowerReach(tile))
             {
@@ -205,6 +224,18 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     }
 
     @Override
+    public float getEnergyUsage()
+    {
+        return storage.getUsage();
+    }
+
+    @Override
+    public void setEnergyUsage(float usage)
+    {
+        storage.setUsage(usage);
+    }
+
+    @Override
     public Packet getDescriptionPacket()
     {
         NBTTagCompound syncData = new NBTTagCompound();
@@ -217,5 +248,11 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
     {
         readFromNBT(packet.func_148857_g());
+    }
+
+    @Override
+    public void updateClients()
+    {
+        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
     }
 }

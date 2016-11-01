@@ -60,7 +60,7 @@ public class GuiSelectReceivers extends GuiScreen
     {
         this.tile = tile;
         transmitter = (IEnergyTransmitter) tile;
-        receiverCoords.addAll(transmitter.getReceiverHandler().getReceiverCoords());
+        receiverCoords.addAll(transmitter.getTransmissionHandler().getReceiverCoords());
     }
 
     @Override

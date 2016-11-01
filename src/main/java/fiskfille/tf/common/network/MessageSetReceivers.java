@@ -4,7 +4,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -81,9 +81,9 @@ public class MessageSetReceivers implements IMessage
                 if (tile instanceof IEnergyTransmitter && (!(tile instanceof ISidedInventory) || ((ISidedInventory) tile).isUseableByPlayer(player)))
                 {
                     IEnergyTransmitter transmitter = (IEnergyTransmitter) tile;
-                    ReceiverHandler receiverHandler = transmitter.getReceiverHandler();
+                    TransmissionHandler transmissionHandler = transmitter.getTransmissionHandler();
 
-                    receiverHandler.reset(world, message.receivers);
+                    transmissionHandler.reset(world, message.receivers);
                 }
             }
 

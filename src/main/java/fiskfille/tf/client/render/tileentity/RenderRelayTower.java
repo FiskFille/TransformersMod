@@ -57,7 +57,7 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
 
                 if (TFEnergyHelper.canPowerChainReach(tower) && tower.getBlockMetadata() < 4)
                 {
-                    for (TileEntity tile : tower.receiverHandler.getReceivers())
+                    for (TileEntity tile : tower.transmissionHandler.getReceivers())
                     {
                         IEnergyReceiver receiver = (IEnergyReceiver) tile;
 

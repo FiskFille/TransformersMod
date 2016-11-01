@@ -6,6 +6,8 @@ public class EnergyStorage
 {
     protected final float maxEnergy;
     protected float energy;
+    protected float energyUsage;
+    protected float lastEnergy;
 
     public EnergyStorage(float max)
     {
@@ -16,6 +18,7 @@ public class EnergyStorage
     {
         NBTTagCompound storage = nbt.getCompoundTag("EmB");
         energy = storage.getFloat("Energy");
+        lastEnergy = energy;
     }
 
     public void writeToNBT(NBTTagCompound nbt)
@@ -60,5 +63,23 @@ public class EnergyStorage
     {
         this.energy = Math.min(getMaxEnergy(), Math.max(0.0F, energy));
         return this.energy;
+    }
+
+    public void setUsage(float usage)
+    {
+        this.energyUsage = usage;
+        this.lastEnergy = energy;
+    }
+
+    public float getUsage()
+    {
+        return energyUsage;
+    }
+
+    public float calculateUsage()
+    {
+        energyUsage = energy - lastEnergy;
+        lastEnergy = energy;
+        return energyUsage;
     }
 }

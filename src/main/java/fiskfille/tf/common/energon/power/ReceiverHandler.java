@@ -1,9 +1,6 @@
 package fiskfille.tf.common.energon.power;
 
 import com.google.common.collect.Lists;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import fiskfille.tf.common.network.MessageUpdateReceivers;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,86 +15,96 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Handles all transmitters transmitting energy to this tile
+ */
 public class ReceiverHandler
 {
-    private Set<ChunkCoordinates> receiverCoords = new HashSet<ChunkCoordinates>();
-    private List<TileEntity> receivers = Lists.newArrayList();
+    private Set<ChunkCoordinates> transmitterCoords = new HashSet<ChunkCoordinates>();
+    private List<TileEntity> transmitters = Lists.newArrayList();
     private TileEntity tile;
+    private IEnergyContainer energyContainer;
 
-    private List<ChunkCoordinates> queuedReceivers = new LinkedList<ChunkCoordinates>();
+    private List<ChunkCoordinates> queuedTransmitters = new LinkedList<ChunkCoordinates>();
 
     public ReceiverHandler(TileEntity tile)
     {
         this.tile = tile;
+        this.energyContainer = (IEnergyContainer) tile;
     }
 
     public void onUpdate(World world)
     {
-        for (Iterator<TileEntity> iterator = this.receivers.iterator(); iterator.hasNext(); )
+        if (!world.isRemote)
         {
-            TileEntity receiverTile = iterator.next();
-
-            if (receiverTile instanceof IEnergyReceiver)
+            for (Iterator<TileEntity> iterator = this.transmitters.iterator(); iterator.hasNext(); )
             {
-                IEnergyReceiver receiver = (IEnergyReceiver) receiverTile;
+                TileEntity transmitterTile = iterator.next();
 
-                if (receiverTile.isInvalid() || !(TFEnergyHelper.isInRange(tile, receiverTile) && (receiverTile instanceof IEnergyTransmitter || receiver.getEnergy() < receiver.getMaxEnergy())) || world.getTileEntity(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord) != receiverTile)
+                boolean invalid = transmitterTile.isInvalid() && world.getChunkProvider().chunkExists(transmitterTile.xCoord >> 4, transmitterTile.zCoord >> 4) && !exists(world, transmitterTile);
+                boolean outRange = transmitterTile instanceof IEnergyTransmitter && !TFEnergyHelper.isInRange(transmitterTile, tile);
+                boolean destroyed = !invalid && !exists(world, transmitterTile);
+
+                if (invalid || outRange || destroyed)
                 {
                     iterator.remove();
                     this.tile.markDirty();
+                    this.energyContainer.updateClients();
                 }
             }
-            else
+        }
+
+        if (this.tile instanceof IEnergyReceiver)
+        {
+            boolean dirty = false;
+
+            for (ChunkCoordinates transmitter : queuedTransmitters)
             {
-                iterator.remove();
-                this.tile.markDirty();
+                if (!transmitterCoords.contains(transmitter))
+                {
+                    TileEntity tile = world.getTileEntity(transmitter.posX, transmitter.posY, transmitter.posZ);
+
+                    if (tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.tile).canReceiveEnergy(tile))
+                    {
+                        add(transmitter, tile);
+                        dirty = true;
+                    }
+                }
+            }
+
+            if (dirty && !world.isRemote)
+            {
+                energyContainer.updateClients();
             }
         }
 
-        for (ChunkCoordinates receiver : queuedReceivers)
-        {
-            processQueue(world, receiver);
-        }
-
-        queuedReceivers.clear();
+        queuedTransmitters.clear();
     }
 
-    private boolean processQueue(World world, ChunkCoordinates receiver)
+    private boolean exists(World world, TileEntity tile)
     {
-        if (!receiverCoords.contains(receiver))
-        {
-            TileEntity tile = world.getTileEntity(receiver.posX, receiver.posY, receiver.posZ);
-
-            if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile))
-            {
-                add(receiver, tile);
-                return true;
-            }
-        }
-
-        return false;
+        return world.getBlock(tile.xCoord, tile.yCoord, tile.zCoord) == tile.getBlockType();
     }
 
     public void add(ChunkCoordinates coordinates, TileEntity tile)
     {
-        receiverCoords.add(coordinates);
-        receivers.add(tile);
-
+        transmitterCoords.add(coordinates);
+        transmitters.add(tile);
         this.tile.markDirty();
     }
 
     public void readFromNBT(NBTTagCompound nbt)
     {
-        receiverCoords.clear();
-        receivers.clear();
-        queuedReceivers.clear();
+        transmitterCoords.clear();
+        transmitters.clear();
+        queuedTransmitters.clear();
 
         NBTTagCompound energy = nbt.getCompoundTag("EmB");
-        NBTTagList receiverList = energy.getTagList("Receivers", Constants.NBT.TAG_COMPOUND);
+        NBTTagList transmitterList = energy.getTagList("Transmitters", Constants.NBT.TAG_COMPOUND);
 
-        for (int i = 0; i < receiverList.tagCount(); ++i)
+        for (int i = 0; i < transmitterList.tagCount(); ++i)
         {
-            NBTTagCompound receiverTag = receiverList.getCompoundTagAt(i);
+            NBTTagCompound receiverTag = transmitterList.getCompoundTagAt(i);
             ChunkCoordinates pos = new ChunkCoordinates(receiverTag.getInteger("x"), receiverTag.getInteger("y"), receiverTag.getInteger("z"));
 
             queue(pos);
@@ -108,19 +115,19 @@ public class ReceiverHandler
     {
         NBTTagCompound energy = nbt.getCompoundTag("EmB");
 
-        NBTTagList receiverList = new NBTTagList();
+        NBTTagList transmitterList = new NBTTagList();
 
-        for (ChunkCoordinates pos : receiverCoords)
+        for (ChunkCoordinates pos : transmitterCoords)
         {
-            writePos(receiverList, pos);
+            writePos(transmitterList, pos);
         }
 
-        for (ChunkCoordinates pos : queuedReceivers)
+        for (ChunkCoordinates pos : queuedTransmitters)
         {
-            writePos(receiverList, pos);
+            writePos(transmitterList, pos);
         }
 
-        energy.setTag("Receivers", receiverList);
+        energy.setTag("Transmitters", transmitterList);
 
         nbt.setTag("EmB", energy);
     }
@@ -134,67 +141,34 @@ public class ReceiverHandler
         list.appendTag(posTag);
     }
 
-    public void updateClients()
-    {
-        NetworkRegistry.TargetPoint target = new NetworkRegistry.TargetPoint(this.tile.getWorldObj().provider.dimensionId, this.tile.xCoord + 0.5F, this.tile.yCoord, this.tile.zCoord + 0.5F, 128);
-        TFNetworkManager.networkWrapper.sendToAllAround(new MessageUpdateReceivers(this.tile), target);
-    }
-
     public void queue(ChunkCoordinates coordinate)
     {
-        this.queuedReceivers.add(coordinate);
+        this.queuedTransmitters.add(coordinate);
     }
 
-    public void reset(World world, Set<ChunkCoordinates> newReceivers)
+    public List<TileEntity> getTransmitters()
     {
-        for (ChunkCoordinates pos : receiverCoords)
-        {
-            TileEntity tileReceiver = world.getTileEntity(pos.posX, pos.posY, pos.posZ);
+        return transmitters;
+    }
 
-            ReceivingHandler receivingHandler = TFEnergyHelper.getReceivingHandler(tileReceiver);
+    public Set<ChunkCoordinates> getTransmitterCoords()
+    {
+        return transmitterCoords;
+    }
 
-            if (receivingHandler != null)
-            {
-                receivingHandler.remove(new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord), tileReceiver);
-            }
-        }
-
-        receiverCoords.clear();
-        receivers.clear();
-        queuedReceivers.clear();
-
-        for (ChunkCoordinates receiver : newReceivers)
-        {
-            processQueue(world, receiver);
-        }
-
-        if (!world.isRemote)
-        {
-            this.updateClients();
-        }
-
-        for (ChunkCoordinates pos : newReceivers)
-        {
-            TileEntity tileReceiver = world.getTileEntity(pos.posX, pos.posY, pos.posZ);
-
-            ReceivingHandler receivingHandler = TFEnergyHelper.getReceivingHandler(tileReceiver);
-
-            if (receivingHandler != null)
-            {
-                receivingHandler.queue(new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord));
-            }
-        }
-
+    public void reset(Set<ChunkCoordinates> newReceiving)
+    {
+        transmitterCoords.clear();
+        transmitters.clear();
+        queuedTransmitters.clear();
+        queuedTransmitters.addAll(newReceiving);
         this.tile.markDirty();
     }
 
-    public List<TileEntity> getReceivers()
+    public void remove(ChunkCoordinates coordinates, TileEntity tile)
     {
-        return receivers;
-    }
-
-    public Set<ChunkCoordinates> getReceiverCoords()
-    {
-        return receiverCoords;
+        transmitterCoords.remove(coordinates);
+        transmitters.remove(tile);
+        this.tile.markDirty();
     }
 }

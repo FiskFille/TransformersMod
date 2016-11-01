@@ -2,8 +2,8 @@ package fiskfille.tf.helper;
 
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.ReceivingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
@@ -121,11 +121,11 @@ public class TFEnergyHelper
     {
         try
         {
-            ReceivingHandler receivingHandler = getReceivingHandler(start);
+            ReceiverHandler receiverHandler = getReceivingHandler(start);
 
-            if (receivingHandler != null)
+            if (receiverHandler != null)
             {
-                List<TileEntity> receiving = receivingHandler.getReceiving();
+                List<TileEntity> receiving = receiverHandler.getTransmitters();
 
                 if (!receiving.isEmpty())
                 {
@@ -150,25 +150,25 @@ public class TFEnergyHelper
         }
     }
 
-    public static ReceiverHandler getReceiverHandler(TileEntity tile)
+    public static TransmissionHandler getReceiverHandler(TileEntity tile)
     {
         if (tile instanceof IEnergyTransmitter)
         {
-            return ((IEnergyTransmitter) tile).getReceiverHandler();
+            return ((IEnergyTransmitter) tile).getTransmissionHandler();
         }
 
         return null;
     }
 
-    public static ReceivingHandler getReceivingHandler(TileEntity tile)
+    public static ReceiverHandler getReceivingHandler(TileEntity tile)
     {
         if (tile instanceof IEnergyTransmitter)
         {
-            return ((IEnergyTransmitter) tile).getReceivingHandler();
+            return ((IEnergyTransmitter) tile).getReceiverHandler();
         }
         else if (tile instanceof IEnergyReceiver)
         {
-            return ((IEnergyReceiver) tile).getReceivingHandler();
+            return ((IEnergyReceiver) tile).getReceiverHandler();
         }
 
         return null;
@@ -180,16 +180,16 @@ public class TFEnergyHelper
 
         if (tile instanceof IEnergyReceiver)
         {
-            ReceivingHandler receivingHandler = ((IEnergyReceiver) tile).getReceivingHandler();
+            ReceiverHandler receiverHandler = ((IEnergyReceiver) tile).getReceiverHandler();
 
             for (TileEntity worldTile : (List<TileEntity>) world.loadedTileEntityList)
             {
                 if (worldTile instanceof IEnergyTransmitter)
                 {
-                    ReceiverHandler receiverHandler = ((IEnergyTransmitter) worldTile).getReceiverHandler();
+                    TransmissionHandler transmissionHandler = ((IEnergyTransmitter) worldTile).getTransmissionHandler();
 
-                    receiverHandler.queue(new ChunkCoordinates(x, y, z));
-                    receivingHandler.queue(new ChunkCoordinates(worldTile.xCoord, worldTile.yCoord, worldTile.zCoord));
+                    transmissionHandler.queue(new ChunkCoordinates(x, y, z));
+                    receiverHandler.queue(new ChunkCoordinates(worldTile.xCoord, worldTile.yCoord, worldTile.zCoord));
                 }
             }
         }
@@ -201,7 +201,7 @@ public class TFEnergyHelper
         {
             IEnergyTransmitter transmitter = (IEnergyTransmitter) from;
 
-            for (TileEntity tile : transmitter.getReceiverHandler().getReceivers())
+            for (TileEntity tile : transmitter.getTransmissionHandler().getReceivers())
             {
                 if (tile == to)
                 {
