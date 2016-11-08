@@ -2,15 +2,8 @@ package fiskfille.tf.client.particle;
 
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class EntityTFFlameFX extends EntityFX
 {
@@ -44,23 +37,23 @@ public class EntityTFFlameFX extends EntityFX
     }
 
     @Override
-    public int getBrightnessForRender(float p_70070_1_)
+    public int getBrightnessForRender(float partialTicks)
     {
-        float f1 = (particleAge + p_70070_1_) / particleMaxAge;
+        float age = (particleAge + partialTicks) / particleMaxAge;
 
-        if (f1 < 0.0F)
+        if (age < 0.0F)
         {
-            f1 = 0.0F;
+            age = 0.0F;
         }
-        else if (f1 > 1.0F)
+        else if (age > 1.0F)
         {
-            f1 = 1.0F;
+            age = 1.0F;
         }
 
-        int i = super.getBrightnessForRender(p_70070_1_);
-        int j = i & 255;
-        int k = i >> 16 & 255;
-        j += (int) (f1 * 15.0F * 16.0F);
+        int renderBrightness = super.getBrightnessForRender(partialTicks);
+        int j = renderBrightness & 255;
+        int k = renderBrightness >> 16 & 255;
+        j += (int) (age * 15.0F * 16.0F);
 
         if (j > 240)
         {
@@ -70,31 +63,24 @@ public class EntityTFFlameFX extends EntityFX
         return j | k << 16;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     @Override
-    public float getBrightness(float p_70013_1_)
+    public float getBrightness(float partialTicks)
     {
-        float f1 = (particleAge + p_70013_1_) / particleMaxAge;
+        float age = (particleAge + partialTicks) / particleMaxAge;
 
-        if (f1 < 0.0F)
+        if (age < 0.0F)
         {
-            f1 = 0.0F;
+            age = 0.0F;
+        }
+        else if (age > 1.0F)
+        {
+            age = 1.0F;
         }
 
-        if (f1 > 1.0F)
-        {
-            f1 = 1.0F;
-        }
-
-        float f2 = super.getBrightness(p_70013_1_);
-        return f2 * f1 + (1.0F - f1);
+        float brightness = super.getBrightness(partialTicks);
+        return brightness * age + (1.0F - age);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     @Override
     public void onUpdate()
     {
@@ -111,71 +97,6 @@ public class EntityTFFlameFX extends EntityFX
         motionX *= 0.9599999785423279D;
         motionY *= 0.9599999785423279D;
         motionZ *= 0.9599999785423279D;
-
-        if (onGround)
-        {
-            motionX *= 0.699999988079071D;
-            motionZ *= 0.699999988079071D;
-        }
-
-        Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
-        Vec3 vec31 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-        MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(vec3, vec31);
-        vec3 = Vec3.createVectorHelper(posX, posY, posZ);
-        vec31 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-
-        if (movingobjectposition != null)
-        {
-            vec31 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
-        }
-
-        if (!worldObj.isRemote)
-        {
-            Entity entity = null;
-            List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
-            double d0 = 0.0D;
-            EntityLivingBase entitylivingbase = null;
-
-            for (Object aList : list)
-            {
-                Entity entity1 = (Entity) aList;
-
-                if (entity1.canBeCollidedWith() && (entity1 != entitylivingbase || particleAge >= 5))
-                {
-                    float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f, f, f);
-                    MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
-
-                    if (movingobjectposition1 != null)
-                    {
-                        double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
-
-                        if (d1 < d0 || d0 == 0.0D)
-                        {
-                            entity = entity1;
-                            d0 = d1;
-                        }
-                    }
-                }
-            }
-
-            if (entity != null)
-            {
-                movingobjectposition = new MovingObjectPosition(entity);
-            }
-        }
-
-        if (movingobjectposition != null)
-        {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && worldObj.getBlock(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ) == Blocks.portal)
-            {
-                setInPortal();
-            }
-            else
-            {
-                onImpact(movingobjectposition);
-            }
-        }
     }
 
     protected void onImpact(MovingObjectPosition mop)

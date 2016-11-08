@@ -64,14 +64,12 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -161,15 +159,15 @@ public class ClientEventHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre event)
     {
-    	if (event.map.getTextureType() == 0)
-    	{
-    		TFRenderHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
-    		TFRenderHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
-    	}
+        if (event.map.getTextureType() == 0)
+        {
+            TFRenderHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
+            TFRenderHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
+        }
     }
 
     @SubscribeEvent
@@ -691,9 +689,19 @@ public class ClientEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (event.entity instanceof EntityPlayer) {
-            TFRenderHelper.updateMotionY((EntityPlayer) event.entity);
+    public void onPlayerUpdate(TickEvent.ClientTickEvent event)
+    {
+        if (event.phase == Phase.START)
+        {
+            if (mc.theWorld != null)
+            {
+                for (EntityPlayer player : (List<EntityPlayer>) mc.theWorld.playerEntities)
+                {
+                    TFRenderHelper.updateMotionY(player);
+                    TFDataManager.setPrevTransformationTimer(player, TFDataManager.getTransformationTimer(player));
+                    TFDataManager.setPrevStealthModeTimer(player, TFDataManager.getStealthModeTimer(player));
+                }
+            }
         }
     }
 
@@ -843,8 +851,8 @@ public class ClientEventHandler
     public String parseDescVariables(String s)
     {
         {
-            String[] keys = {"KEYBIND_ZOOM", "LIST_DISPLAYABLES"};
-            String[] values = {GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingZoom.getKeyCode()), getDisplayableItemsList()};
+            String[] keys = { "KEYBIND_ZOOM", "LIST_DISPLAYABLES" };
+            String[] values = { GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingZoom.getKeyCode()), getDisplayableItemsList() };
 
             for (int i = 0; i < keys.length; ++i)
             {
@@ -852,8 +860,8 @@ public class ClientEventHandler
             }
         }
 
-        String[] keys = {"BLACK", "DARK_BLUE", "DARK_GREEN", "DARK_AQUA", "DARK_RED", "DARK_PURPLE", "GOLD", "GRAY", "DARK_GRAY", "BLUE", "GREEN", "AQUA", "RED", "LIGHT_PURPLE", "YELLOW", "WHITE", "OBFUSCATED", "BOLD", "STRIKETHROUGH", "UNDERLINE", "ITALIC", "RESET"};
-        char[] values = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'k', 'l', 'm', 'n', 'o', 'r'};
+        String[] keys = { "BLACK", "DARK_BLUE", "DARK_GREEN", "DARK_AQUA", "DARK_RED", "DARK_PURPLE", "GOLD", "GRAY", "DARK_GRAY", "BLUE", "GREEN", "AQUA", "RED", "LIGHT_PURPLE", "YELLOW", "WHITE", "OBFUSCATED", "BOLD", "STRIKETHROUGH", "UNDERLINE", "ITALIC", "RESET" };
+        char[] values = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'k', 'l', 'm', 'n', 'o', 'r' };
 
         for (int i = 0; i < keys.length; ++i)
         {

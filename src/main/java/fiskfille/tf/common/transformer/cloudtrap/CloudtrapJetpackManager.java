@@ -1,6 +1,8 @@
 package fiskfille.tf.common.transformer.cloudtrap;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.particle.TFParticleType;
+import fiskfille.tf.client.particle.TFParticles;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFVectorHelper;
@@ -55,7 +57,7 @@ public class CloudtrapJetpackManager
                 {
                     Random rand = new Random();
                     Vec3 coords = TFVectorHelper.getSideCoords(player, 0.15, i > 10, false);
-                    player.worldObj.spawnParticle("flame", coords.xCoord, coords.yCoord + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
+                    TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, coords.xCoord, coords.yCoord + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
                 }
             }
         }
@@ -75,7 +77,7 @@ public class CloudtrapJetpackManager
                 {
                     Random rand = new Random();
                     Vec3 coords = TFVectorHelper.getSideCoords(player, 0.15, i > 10, false);
-                    player.worldObj.spawnParticle("flame", coords.xCoord, coords.yCoord - 1.5F + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
+                    TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, coords.xCoord, coords.yCoord - 1.5F + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 2 - 0.25F, -0.8F, rand.nextFloat() / 2 - 0.25F);
                 }
             }
         }
