@@ -113,6 +113,13 @@ public class ClientTickHandler
                     }
                 }
             }
+            else
+            {
+                if (transformer != null)
+                {
+                    transformer.updateMovement(player, altMode);
+                }
+            }
 
             NitroParticleHandler.doNitroParticles(player);
         }

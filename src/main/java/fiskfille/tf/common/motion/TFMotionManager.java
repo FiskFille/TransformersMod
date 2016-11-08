@@ -217,7 +217,6 @@ public class TFMotionManager
     public static void motionJet(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double idlingSpeedLimit)
     {
         Minecraft mc = Minecraft.getMinecraft();
-        Random rand = new Random();
 
         // Controls
         boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
@@ -232,6 +231,8 @@ public class TFMotionManager
 
         if (transformedPlayer != null)
         {
+            boolean clientPlayer = player == mc.thePlayer;
+
             nitro = transformedPlayer.getNitro();
             forwardVelocity = transformedPlayer.getForwardVelocity();
             currentSpeedLimit = nitroPressed && nitro > 0 ? nitroSpeedLimit : speedLimit;
@@ -257,23 +258,23 @@ public class TFMotionManager
                 forwardVelocity = idlingSpeedLimit;
             }
 
-            Block block = player.worldObj.getBlock((int) player.posX - 1, (int) (player.posY - 0.5F) - 2, (int) player.posZ - 1);
+            Block block = player.worldObj.getBlock((int) player.posX - 1, (int) (player.posY) - (clientPlayer ? 2 : 1), (int) player.posZ - 1);
             int landingTimer = transformedPlayer.getLandingTimer();
             float f = (float) landingTimer / 20;
             boolean pitch = true;
 
-            if (!player.onGround)
-            {
-                if (landingTimer < 20)
-                {
-                    ++landingTimer;
-                }
-            }
-            else
+            if (player.posY - player.prevPosY <= 0 && block.isOpaqueCube())
             {
                 if (landingTimer > 0)
                 {
                     --landingTimer;
+                }
+            }
+            else
+            {
+                if (landingTimer < 20)
+                {
+                    ++landingTimer;
                 }
             }
 
@@ -282,26 +283,30 @@ public class TFMotionManager
                 pitch = player.rotationPitch < 0;
             }
 
-            TFMotionManager.moveForward(player, forwardVelocity * Math.max(0.5F, f), pitch);
-            player.motionY -= 0.1 * f;
-
-            if (landingTimer < 5 && player.rotationPitch < 0 && moveForward)
+            if (clientPlayer)
             {
-                player.motionY += 0.5F;
-            }
+                TFMotionManager.moveForward(player, forwardVelocity * Math.max(0.5F, f), pitch);
+                player.motionY -= 0.1 * f;
 
-            if (player.isCollidedHorizontally && forwardVelocity > 60)
-            {
-                landingTimer = 20;
-                transformedPlayer.setLandingTimer(20);
-
-                if (TFDataManager.setAltMode(player, -1))
+                if (landingTimer < 5 && player.rotationPitch < 0 && moveForward)
                 {
-                    player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
+                    player.motionY += 0.5F;
                 }
+
+                if (player.isCollidedHorizontally && forwardVelocity > 60)
+                {
+                    landingTimer = 20;
+                    transformedPlayer.setLandingTimer(20);
+
+                    if (TFDataManager.setAltMode(player, -1))
+                    {
+                        player.playSound(TransformersMod.modid + ":transform_robot", 1.0F, 1.0F);
+                    }
+                }
+
+                transformedPlayer.setForwardVelocity(forwardVelocity);
             }
 
-            transformedPlayer.setForwardVelocity(forwardVelocity);
             transformedPlayer.setLandingTimer(landingTimer);
         }
     }
