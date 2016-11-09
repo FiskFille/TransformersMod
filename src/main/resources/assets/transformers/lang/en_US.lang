@@ -1,5 +1,6 @@
 ------Items------
 item.transformium.name=Transformium
+item.transformium_alloy.name=Transformium Alloy
 item.energon_crystal_piece.name=Energon Crystal Piece
 item.red_energon_crystal_piece.name=Red Energon Crystal Piece
 item.missile.name=Missile
@@ -8,14 +9,24 @@ item.transformium_detector.name=Transformium Detector
 item.fuel_canister.name=Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
+item.dark_gray_dye.name=Dark Gray Dye
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
+
+item.optic_sensor.name=Optic Sensor
+item.protoform_head.name=Protoform Head
+item.transformium_alloy_rod.name=Transformium Alloy Rod
 
 item.tank_turret_base.name=Turret Base
 item.tank_turret.name=Turret
 item.tank_barrel.name=Gun Barrel
 item.tank_track.name=Track
+item.purges_pauldron.name=Purge's Pauldron
+item.purges_gauntlet.name=Purge's Gauntlet
+item.purges_greave.name=Purge's Greave
+item.purge_torso_base.name=Purge Torso Base
+
 
 ------Armor------
 item.skystrike_head.name=Skystrike Head

@@ -24,6 +24,7 @@ public class TFItems
     public static ArmorMaterial SUBWOOFERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[]{3, 9, 7, 3}, 2);
 
     public static Item transformium;
+    public static Item transformiumAlloy;
     public static ItemMetaBasic craftingMaterial;
     public static Item fuelCanister;
     public static Item dye;
@@ -74,9 +75,10 @@ public class TFItems
     public static void register()
     {
         transformium = new Item();
+        transformiumAlloy = new Item();
         craftingMaterial = new ItemMetaBasic();
         fuelCanister = new ItemFuelCanister();
-        dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye");
+        dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye", "Dark Gray Dye");
         componentBase = new Item();
         colorComponent = new ItemComponent(new ComponentColor());
         armorComponent = new ItemComponent(new ComponentArmor());
@@ -126,6 +128,7 @@ public class TFItems
         SUBWOOFERMATERIAL.customCraftingMaterial = transformium;
 
         TFItemRegistry.registerItem(transformium, "Transformium");
+        TFItemRegistry.registerItem(transformiumAlloy, "Transformium Alloy");
         TFItemRegistry.registerItem(craftingMaterial, "Crafting Material");
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector");
         TFItemRegistry.registerItem(fuelCanister, "Fuel Canister");

@@ -37,15 +37,15 @@ public class ItemMetaBasic extends Item
 	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{
-		int itemDamage = stack.getItemDamage();
-		return StatCollector.translateToLocal("item." + itemNames[itemDamage > itemNames.length ? itemNames.length : itemDamage].toLowerCase().replace(" ", "_").replace("'", "") + ".name");
+		int damage = stack.getItemDamage();
+		return StatCollector.translateToLocal("item." + itemNames[damage >= itemNames.length ? itemNames.length - 1 : damage].toLowerCase().replace(" ", "_").replace("'", "") + ".name");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage)
 	{
-		return icons[damage > itemNames.length ? itemNames.length : damage];
+		return icons[damage >= itemNames.length ? itemNames.length - 1 : damage];
 	}
 
 	@Override

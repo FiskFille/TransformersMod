@@ -69,7 +69,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             else
             {
                 FluidStack stack = tank.getFluid();
-                receiveEnergy(110); // TODO: Remove
+//                receiveEnergy(110); // TODO: Remove
 
                 if (getEnergy() > 0)
                 {

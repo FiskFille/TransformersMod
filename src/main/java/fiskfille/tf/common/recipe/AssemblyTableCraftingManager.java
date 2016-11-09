@@ -72,6 +72,10 @@ public class AssemblyTableCraftingManager
 			{
 				itemstack1 = (ItemStack) ingredients[i + 1];
 			}
+			else if (ingredients[i + 1] instanceof ItemStack[])
+			{
+				itemstack1 = ((ItemStack[])(ingredients[i + 1]))[1];
+			}
 
 			hashmap.put(character, itemstack1);
 		}
