@@ -1,11 +1,6 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelRelayTower;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.tileentity.TileEntityRelayTower;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +8,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelRelayTower;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.tileentity.TileEntityRelayTower;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderRelayTower extends TileEntitySpecialRenderer
 {
@@ -100,7 +103,7 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
                                 double segmentLength = length / segments;
                                 double start = i * segmentLength;
                                 double end = i * segmentLength + segmentLength;
-                                float primaryAnimation = (float) Math.cos((float) i / 20 - (tower.animationTimer + partialTicks) / 5);
+                                float primaryAnimation = (float) Math.cos((float) i / 20 - (Minecraft.getMinecraft().thePlayer.ticksExisted + partialTicks) / 5);
                                 float secondaryAnimation = 1 - primaryAnimation;
 
                                 tessellator.startDrawingQuads();

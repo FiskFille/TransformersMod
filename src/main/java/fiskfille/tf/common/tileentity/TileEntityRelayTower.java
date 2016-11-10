@@ -1,6 +1,23 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.List;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
+
 import com.google.common.collect.Lists;
+
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
@@ -10,18 +27,8 @@ import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 
-import java.util.List;
-
-public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitter, IEnergyReceiver
+public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitter, IEnergyReceiver, IChunkLoaderTile
 {
     public TransmissionHandler transmissionHandler = new TransmissionHandler(this);
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
@@ -31,6 +38,8 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     public int animationTimer;
 
     public float lastUsage;
+    
+    private Ticket chunkTicket;
 
     @Override
     public void updateEntity()
@@ -39,6 +48,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
 
         if (getBlockMetadata() < 4)
         {
+        	loadChunks();
             transmissionHandler.onUpdate(worldObj);
             receiverHandler.onUpdate(worldObj);
 
@@ -255,4 +265,49 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     {
         TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
     }
+    
+    @Override
+    public void loadChunks()
+	{
+		if (!worldObj.isRemote)
+		{
+			while (chunkTicket == null)
+			{
+				chunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, worldObj, Type.NORMAL);
+			}
+			
+			if (chunkTicket == null)
+			{
+				System.err.println("Unable to load chunks!");
+			}
+			else
+            {
+                NBTTagCompound modData = chunkTicket.getModData();
+
+                modData.setInteger("blockX", xCoord);
+                modData.setInteger("blockY", yCoord);
+                modData.setInteger("blockZ", zCoord);
+
+                ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+            }
+		}
+	}
+
+    @Override
+	public void unloadChunks()
+	{
+		ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+	}
+	
+    @Override
+	public void loadTicket(Ticket ticket)
+	{
+		if (chunkTicket == null)
+		{
+			chunkTicket = ticket;
+		}
+		
+		ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
+		ForgeChunkManager.forceChunk(ticket, loadChunk);
+	}
 }

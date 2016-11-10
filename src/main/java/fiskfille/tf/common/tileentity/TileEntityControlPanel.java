@@ -32,7 +32,7 @@ import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.groundbridge.EnumError;
 
-public class TileEntityControlPanel extends TileEntityContainer/* implements IEnergonPowered*/ // TODO
+public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
 {
 	public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 	
@@ -494,6 +494,7 @@ public class TileEntityControlPanel extends TileEntityContainer/* implements IEn
 		readFromNBT(packet.func_148857_g());
 	}
 
+	@Override
 	public void loadChunks()
 	{
 		if (!worldObj.isRemote)
@@ -523,11 +524,13 @@ public class TileEntityControlPanel extends TileEntityContainer/* implements IEn
 		}
 	}
 
+	@Override
 	public void unloadChunks()
 	{
 		ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
 	}
 	
+	@Override
 	public void loadTicket(Ticket ticket)
 	{
 		if (chunkTicket == null)

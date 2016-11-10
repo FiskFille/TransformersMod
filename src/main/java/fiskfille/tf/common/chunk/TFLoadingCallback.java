@@ -2,7 +2,6 @@ package fiskfille.tf.common.chunk;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -10,8 +9,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 import com.google.common.collect.Lists;
 
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.common.tileentity.IChunkLoaderTile;
 
 public class TFLoadingCallback implements ForgeChunkManager.OrderedLoadingCallback
 {
@@ -24,7 +22,7 @@ public class TFLoadingCallback implements ForgeChunkManager.OrderedLoadingCallba
             int blockX = modData.getInteger("blockX");
 			int blockY = modData.getInteger("blockY");
 			int blockZ = modData.getInteger("blockZ");
-			TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(blockX, blockY, blockZ);
+			IChunkLoaderTile tile = (IChunkLoaderTile) world.getTileEntity(blockX, blockY, blockZ);
 			tile.loadTicket(ticket);
 		}
 	}
@@ -41,9 +39,8 @@ public class TFLoadingCallback implements ForgeChunkManager.OrderedLoadingCallba
             int blockX = modData.getInteger("blockX");
 			int blockY = modData.getInteger("blockY");
 			int blockZ = modData.getInteger("blockZ");
-			Block block = world.getBlock(blockX, blockY, blockZ);
 
-			if (block == TFBlocks.groundBridgeControlPanel)
+			if (world.getTileEntity(blockX, blockY, blockZ) instanceof IChunkLoaderTile)
 			{
 				validTickets.add(ticket);
 			}

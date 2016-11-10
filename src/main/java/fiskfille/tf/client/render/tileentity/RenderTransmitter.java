@@ -1,11 +1,5 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelTransmitter;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,7 +9,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelTransmitter;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderTransmitter extends TileEntitySpecialRenderer
 {
@@ -103,7 +105,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
                                 double segmentLength = length / segments;
                                 double start = i * segmentLength;
                                 double end = i * segmentLength + segmentLength;
-                                float primaryTimer = (float) Math.cos((float) i / 20 - (transmitter.animationTimer + partialTicks) / 5);
+                                float primaryTimer = (float) Math.cos((float) i / 20 - (Minecraft.getMinecraft().thePlayer.ticksExisted + partialTicks) / 5);
                                 float secondaryTimer = 1 - primaryTimer;
 
                                 tessellator.startDrawingQuads();
