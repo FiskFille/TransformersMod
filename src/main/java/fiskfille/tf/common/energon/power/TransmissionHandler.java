@@ -45,13 +45,14 @@ public class TransmissionHandler
                 {
                     IEnergyReceiver receiver = (IEnergyReceiver) receiverTile;
 
-                    boolean invalid = receiverTile.isInvalid() && world.getChunkProvider().chunkExists(receiverTile.xCoord >> 4, receiverTile.zCoord >> 4) && !exists(world, receiverTile);
+                    boolean invalid = world.getChunkProvider().chunkExists(receiverTile.xCoord >> 4, receiverTile.zCoord >> 4) && (receiverTile.isInvalid() || !exists(world, receiverTile));
                     boolean outRange = !(TFEnergyHelper.isInRange(tile, receiverTile) && (receiverTile instanceof IEnergyTransmitter || receiver.getEnergy() < receiver.getMaxEnergy()));
                     boolean destroyed = !invalid && !exists(world, receiverTile);
 
                     if (invalid || outRange || destroyed)
                     {
                         iterator.remove();
+                        this.receiverCoords.remove(new ChunkCoordinates(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord));
                         this.tile.markDirty();
                         this.energyContainer.updateClients();
                     }
@@ -59,6 +60,7 @@ public class TransmissionHandler
                 else
                 {
                     iterator.remove();
+                    this.receiverCoords.remove(new ChunkCoordinates(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord));
                     this.tile.markDirty();
                     this.energyContainer.updateClients();
                 }

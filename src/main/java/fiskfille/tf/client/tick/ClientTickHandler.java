@@ -1,9 +1,5 @@
 package fiskfille.tf.client.tick;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
@@ -17,6 +13,10 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ClientTickHandler
 {

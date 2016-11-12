@@ -117,39 +117,6 @@ public class TFEnergyHelper
         }
     }
 
-    public static boolean canPowerChainReach(TileEntity start)
-    {
-        try
-        {
-            ReceiverHandler receiverHandler = getReceivingHandler(start);
-
-            if (receiverHandler != null)
-            {
-                List<TileEntity> receiving = receiverHandler.getTransmitters();
-
-                if (!receiving.isEmpty())
-                {
-                    for (TileEntity receive : receiving)
-                    {
-                        if (receive instanceof IEnergyTransmitter && ((IEnergyTransmitter) receive).canPowerReach(start))
-                        {
-                            if (((IEnergyTransmitter) receive).getEnergy() > 0 || canPowerChainReach(receive))
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static TransmissionHandler getReceiverHandler(TileEntity tile)
     {
         if (tile instanceof IEnergyTransmitter)

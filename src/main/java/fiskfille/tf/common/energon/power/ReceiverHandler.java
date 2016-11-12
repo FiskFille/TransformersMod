@@ -41,13 +41,14 @@ public class ReceiverHandler
             {
                 TileEntity transmitterTile = iterator.next();
 
-                boolean invalid = transmitterTile.isInvalid() && world.getChunkProvider().chunkExists(transmitterTile.xCoord >> 4, transmitterTile.zCoord >> 4) && !exists(world, transmitterTile);
+                boolean invalid = world.getChunkProvider().chunkExists(transmitterTile.xCoord >> 4, transmitterTile.zCoord >> 4) && (transmitterTile.isInvalid() || !exists(world, transmitterTile));
                 boolean outRange = transmitterTile instanceof IEnergyTransmitter && !TFEnergyHelper.isInRange(transmitterTile, tile);
                 boolean destroyed = !invalid && !exists(world, transmitterTile);
 
                 if (invalid || outRange || destroyed)
                 {
                     iterator.remove();
+                    this.transmitterCoords.remove(new ChunkCoordinates(transmitterTile.xCoord, transmitterTile.yCoord, transmitterTile.zCoord));
                     this.tile.markDirty();
                     this.energyContainer.updateClients();
                 }
@@ -88,8 +89,16 @@ public class ReceiverHandler
 
     public void add(ChunkCoordinates coordinates, TileEntity tile)
     {
-        transmitterCoords.add(coordinates);
-        transmitters.add(tile);
+        if (!transmitterCoords.contains(coordinates))
+        {
+            transmitterCoords.add(coordinates);
+        }
+
+        if (!transmitters.contains(tile))
+        {
+            transmitters.add(tile);
+        }
+
         this.tile.markDirty();
     }
 
@@ -156,13 +165,18 @@ public class ReceiverHandler
         return transmitterCoords;
     }
 
-    public void reset(Set<ChunkCoordinates> newReceiving)
+    public void reset(World world, Set<ChunkCoordinates> newTransmitters)
     {
         transmitterCoords.clear();
         transmitters.clear();
         queuedTransmitters.clear();
-        queuedTransmitters.addAll(newReceiving);
+        queuedTransmitters.addAll(newTransmitters);
         this.tile.markDirty();
+
+        if (!world.isRemote)
+        {
+            energyContainer.updateClients();
+        }
     }
 
     public void remove(ChunkCoordinates coordinates, TileEntity tile)

@@ -23,7 +23,7 @@ public class MessageUpdateEnergyState implements IMessage
     private int y;
     private int z;
     private Set<ChunkCoordinates> receivers = new HashSet<ChunkCoordinates>();
-    private Set<ChunkCoordinates> receiving = new HashSet<ChunkCoordinates>();
+    private Set<ChunkCoordinates> transmitters = new HashSet<ChunkCoordinates>();
 
     private boolean container;
     private float energy = -1.0F;
@@ -50,7 +50,7 @@ public class MessageUpdateEnergyState implements IMessage
 
         if (receiverHandler != null)
         {
-            this.receiving = receiverHandler.getTransmitterCoords();
+            this.transmitters = receiverHandler.getTransmitterCoords();
         }
 
         if (tile instanceof IEnergyContainer)
@@ -88,7 +88,7 @@ public class MessageUpdateEnergyState implements IMessage
 
         for (int i = 0; i < receivingCount; i++)
         {
-            receiving.add(new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt()));
+            transmitters.add(new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt()));
         }
     }
 
@@ -116,9 +116,9 @@ public class MessageUpdateEnergyState implements IMessage
             buf.writeInt(coords.posZ);
         }
 
-        buf.writeInt(receiving.size());
+        buf.writeInt(transmitters.size());
 
-        for (ChunkCoordinates coords : receiving)
+        for (ChunkCoordinates coords : transmitters)
         {
             buf.writeInt(coords.posX);
             buf.writeInt(coords.posY);
@@ -148,7 +148,7 @@ public class MessageUpdateEnergyState implements IMessage
 
                 if (receiverHandler != null)
                 {
-                    receiverHandler.reset(message.receiving);
+                    receiverHandler.reset(world, message.transmitters);
                 }
 
                 if (message.container && tile instanceof IEnergyContainer)

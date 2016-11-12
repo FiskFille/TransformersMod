@@ -18,13 +18,15 @@ public class EnergyStorage
     {
         NBTTagCompound storage = nbt.getCompoundTag("EmB");
         energy = storage.getFloat("Energy");
-        lastEnergy = energy;
+        energyUsage = storage.getFloat("Usage");
+        lastEnergy = energy - energyUsage;
     }
 
     public void writeToNBT(NBTTagCompound nbt)
     {
         NBTTagCompound storage = nbt.getCompoundTag("EmB");
         storage.setFloat("Energy", energy);
+        storage.setFloat("Usage", energyUsage);
         nbt.setTag("EmB", storage);
     }
 

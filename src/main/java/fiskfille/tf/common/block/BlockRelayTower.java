@@ -95,6 +95,21 @@ public class BlockRelayTower extends BlockTransmitter
         }
         else
         {
+            int metadata = world.getBlockMetadata(x, y, z);
+
+            if (metadata >= 4)
+            {
+                y -= 1;
+            }
+
+            TileEntity tile = world.getTileEntity(x, y, z);
+
+            if (tile instanceof TileEntityRelayTower)
+            {
+                TileEntityRelayTower tower = (TileEntityRelayTower) tile;
+                System.out.println(world.isRemote + " - " + tower.getReceiverHandler().getTransmitterCoords() + " : " + tower.getTransmissionHandler().getReceiverCoords());
+            }
+
             return false;
         }
     }
