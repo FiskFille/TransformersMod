@@ -1,20 +1,20 @@
 package fiskfille.tf.common.fluid;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import scala.actors.threadpool.Arrays;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class FluidEnergon extends Fluid
@@ -22,6 +22,18 @@ public class FluidEnergon extends Fluid
 	public FluidEnergon(String fluidName)
 	{
 		super(fluidName);
+	}
+	
+	@Override
+	public IIcon getStillIcon()
+	{
+		return TFRenderHelper.energonStillIcon;
+	}
+	
+	@Override
+	public IIcon getFlowingIcon()
+	{
+		return TFRenderHelper.energonFlowingIcon;
 	}
 	
 	@Override
@@ -38,72 +50,104 @@ public class FluidEnergon extends Fluid
         }
     }
 	
-	public static void setContents(FluidStack stack, Map<String, Integer> contents)
-    {
-//		for (Map.Entry<String, Integer> e : contents.entrySet())
-//		{
-//			e.setValue(Math.round(stack.amount * TFHelper.getPercentOf(e.getKey(), contents)));
-//		}
-        
-        refreshNBT(stack);
-        stack.tag.setString("Contents", contents.toString());
-        calculateLiquidColor(stack, contents);
-    }
-	
-	public static void addContents(FluidStack stack, Map<String, Integer> contents)
-    {
-		refreshNBT(stack);
+	public static FluidStack create(ItemStack crystal)
+	{
+		IEnergon energon = (IEnergon) (crystal.getItem() instanceof ItemBlock ? Block.getBlockFromItem(crystal.getItem()) : crystal.getItem());
 		
-		if (stack.tag.hasKey("Contents"))
+		return create(energon.getEnergonType(), energon.getMass());
+	}
+	
+	public static FluidStack create(Energon energon, int amount)
+	{
+		FluidStack stack = new FluidStack(TFFluids.energon, amount);
+		setRatio(stack, energon.getId(), 1);
+		
+		return stack;
+	}
+	
+	public static void merge(FluidStack stack1, FluidStack stack2, int amount)
+    {
+		Map<String, Float> ratios1 = getRatios(stack1);
+		Map<String, Float> ratios2 = getRatios(stack2);
+		
+		if (stack1.amount == 0)
 		{
-			Map<String, Integer> map = readMapFromString(stack.tag.getString("Contents"));
-			
-			for (Map.Entry<String, Integer> e : contents.entrySet())
-			{
-				map.put(e.getKey(), (map.containsKey(e.getKey()) ? map.get(e.getKey()) : 0) + e.getValue());
-			}
-			
-			List<Entry<String, Integer>> list = Arrays.asList(map.entrySet().toArray());
-			List<String> list1 = Lists.newArrayList();
-			
-			for (Entry<String, Integer> e : list)
-			{
-				list1.add(e.getKey() + ":" + e.getValue());
-			}
-			
-			Collections.sort(list1);
-			map.clear();
-			
-			for (String s : list1)
-			{
-				String[] astring = s.split(":");
-				map.put(astring[0], Integer.valueOf(astring[1]));
-			}
-			
-			setContents(stack, map);
+			ratios1 = ratios2;
 		}
 		else
 		{
-			setContents(stack, contents);
+			for (Map.Entry<String, Float> e : ratios1.entrySet())
+			{
+				float f = (float)amount / stack1.amount;
+				e.setValue(e.getValue() * (1 - f) + ratios2.get(e.getKey()) * f);
+			}
 		}
+		
+		setRatios(stack1, ratios1);
     }
 	
-	public static int calculateLiquidColor(FluidStack stack, Map<String, Integer> contents)
+	public static void setRatios(FluidStack stack, Map<String, Float> ratios)
+    {
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		
+		for (Map.Entry<String, Float> e : ratios.entrySet())
+		{
+			nbttagcompound.setFloat(e.getKey(), e.getValue());
+		}
+		
+		refreshNBT(stack);
+		stack.tag.setTag("Ratio", nbttagcompound);
+		
+		calculateLiquidColor(stack);
+    }
+	
+	public static Map<String, Float> getRatios(FluidStack stack)
+    {
+		refreshNBT(stack);
+		Map<String, Float> map = Maps.newHashMap();
+		
+		NBTTagCompound nbttagcompound = stack.tag.getCompoundTag("Ratio");
+		
+		for (Energon energon : TransformersAPI.getEnergonTypes())
+		{
+			map.put(energon.getId(), nbttagcompound.getFloat(energon.getId()));
+		}
+		
+		return map;
+    }
+	
+	public static void setRatio(FluidStack stack, String name, float ratio)
+    {
+		refreshNBT(stack);
+		NBTTagCompound nbttagcompound = stack.tag.getCompoundTag("Ratio");
+		nbttagcompound.setFloat(name, ratio);
+		stack.tag.setTag("Ratio", nbttagcompound);
+		
+		calculateLiquidColor(stack);
+    }
+	
+	public static float getRatio(FluidStack stack, String name)
+    {
+		refreshNBT(stack);
+		Map<String, Float> map = Maps.newHashMap();
+		NBTTagCompound nbttagcompound = stack.tag.getCompoundTag("Ratio");
+		
+		if (nbttagcompound.hasKey(name))
+		{
+			return nbttagcompound.getFloat(name);
+		}
+		
+		return 0;
+    }
+	
+	public static int calculateLiquidColor(FluidStack stack)
 	{
-		int liquidAmount = 0;
-		
-		for (Map.Entry<String, Integer> e : contents.entrySet())
-        {
-			liquidAmount += e.getValue();
-        }
-		
-		float percentMultiplier = 1.0F / liquidAmount;
+		Map<String, Float> ratios = getRatios(stack);
 		int liquidColor = -1;
 		
-        for (Map.Entry<String, Integer> e : contents.entrySet())
+        for (Map.Entry<String, Float> e : ratios.entrySet())
         {
             Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-            float percent = e.getValue() * percentMultiplier;
 
             if (energon != null)
             {
@@ -113,7 +157,7 @@ public class FluidEnergon extends Fluid
         		}
             	else
             	{
-            		liquidColor = TFRenderHelper.blend(liquidColor, energon.getColor(), percent);
+            		liquidColor = TFRenderHelper.blend(liquidColor, energon.getColor(), e.getValue());
             	}
             }
         }
@@ -122,38 +166,6 @@ public class FluidEnergon extends Fluid
 		
 		return liquidColor;
 	}
-
-    public static Map<String, Integer> getContents(FluidStack stack)
-    {
-    	if (stack.tag == null)
-    	{
-    		return Maps.newHashMap();
-    	}
-    	
-        Map map = readMapFromString(stack.tag.getString("Contents"));
-        return (Map<String, Integer>) (map == null ? Maps.newHashMap() : map);
-    }
-
-    public static Map readMapFromString(String mapString)
-    {
-        mapString = mapString.replace("{", "").replace("}", "");
-        String[] entries = mapString.split(", ");
-        Map map = Maps.newHashMap();
-
-        for (String entry : entries)
-        {
-            String[] keyValue = entry.split("=");
-
-            if (keyValue.length == 2)
-            {
-                String key = keyValue[0];
-                String value = keyValue[1];
-                map.put(key, Integer.valueOf(value));
-            }
-        }
-
-        return map;
-    }
 
     public static void setLiquidColor(FluidStack stack, int color)
     {

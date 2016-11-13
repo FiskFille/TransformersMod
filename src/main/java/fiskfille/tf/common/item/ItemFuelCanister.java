@@ -85,31 +85,27 @@ public class ItemFuelCanister extends ItemFluidContainer
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
     {
     	FluidStack stack = getFluid(itemstack);
-    	int liquidAmount = 0;
-    	int liquidAmount1 = 0;
+    	int liquidAmount = stack != null ? stack.amount : 0;
     	
     	if (stack != null && stack.amount > 0)
     	{
-    		Map<String, Integer> contents = FluidEnergon.getContents(stack);
-    		
-    		for (Map.Entry<String, Integer> e : contents.entrySet())
-            {
-    			liquidAmount += e.getValue();
-            }
-    		
-        	float percentMultiplier = 100F / liquidAmount;
-        	liquidAmount1 = stack.amount;
+    		Map<String, Float> ratios = FluidEnergon.getRatios(stack);
+    		boolean flag = false;
+
+			for (Map.Entry<String, Float> e : ratios.entrySet())
+			{
+				Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+				int percent = Math.round(e.getValue() * 100);
+				
+				if (percent > 0)
+				{
+					list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
+					flag = true;
+				}
+			}
         	
-    		if (!contents.isEmpty())
+    		if (flag)
     		{
-    			for (Map.Entry<String, Integer> e : contents.entrySet())
-                {
-                	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                    int percent = Math.round(e.getValue() * percentMultiplier);
-
-                    list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
-                }
-
                 list.add("");
     		}
     		else
@@ -117,11 +113,11 @@ public class ItemFuelCanister extends ItemFluidContainer
     			list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
     		}
     		
-    		list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount1, capacity));
+    		list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, capacity));
         }
         else
         {
-        	list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount1, capacity));
+        	list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, capacity));
         }
     }
 

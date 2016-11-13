@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,6 +20,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 
 import com.google.common.collect.Lists;
 
+import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.fluid.FluidEnergon;
@@ -91,78 +91,70 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
 	public void loadProcessorCraftingRecipes(ItemStack result)
 	{
 		Item item = result.getItem();
+        
+        if (item instanceof IFluidContainerItem)
+        {
+        	IFluidContainerItem container = (IFluidContainerItem)item;
+        	FluidStack stack = container.getFluid(result);
+        	
+        	int amount = stack != null ? stack.amount : 0;
+        	
+        	if (!ItemFuelCanister.isEmpty(result) && stack.getFluid() == TFFluids.energon)
+        	{
+        		Map<String, Float> ratios = FluidEnergon.getRatios(stack);
 
-		if (item instanceof IFluidContainerItem)
-		{
-			IFluidContainerItem container = (IFluidContainerItem)item;
-			FluidStack stack = container.getFluid(result);
+                for (CrystalPair crystal : crystals)
+                {
+                    String id = crystal.energon.getEnergonType().getId();
+                    int mass = crystal.energon.getMass();
 
-			if (!ItemFuelCanister.isEmpty(result) && stack.getFluid() == TFFluids.energon)
-			{
-				Map<String, Integer> ingredients = FluidEnergon.getContents(stack);
-
-				for (CrystalPair crystal : crystals)
-				{
-					String id = crystal.energon.getEnergonType().getId();
-					int mass = crystal.energon.getMass();
-
-					if (ingredients.containsKey(id) && ingredients.get(id) >= mass)
-					{
-						result.stackSize = 1;
-						CachedProcessorRecipe recipe = new CachedProcessorRecipe(new ItemStack(Items.fish), result);
-
-						FluidStack stack1 = new FluidStack(TFFluids.energon, stack.amount - mass);
-						FluidEnergon.setContents(stack, FluidEnergon.getContents(stack));
-						FluidEnergon.setContents(stack1, FluidEnergon.getContents(stack));
-
-						Map<String, Integer> map = FluidEnergon.getContents(stack1);
-
-						if (map.get(id) - mass <= 0)
-						{
-							map.remove(id);
-						}
-						else
-						{
-							map.put(id, map.get(id) - mass);
-						}
-
-						FluidEnergon.setContents(stack1, map);
-						int i = recipe.tank.fill(stack1, true);
-
-						if (i > 0)
-						{
-							FluidEnergon.addContents(stack, Energon.createContentMap(mass, crystal.energon.getEnergonType()));
-						}
-
-						recipe.ingredient.item = crystal.stack;
-
-						recipe.computeVisuals();
-						arecipes.add(recipe);
-					}
-				}
-			}
-		}
+                    if (ratios.get(id) > 0 && amount >= mass)
+                    {
+                        result.stackSize = 1;
+                        CachedProcessorRecipe recipe = new CachedProcessorRecipe(crystal.stack, result);
+                        FluidStack stack1 = new FluidStack(TFFluids.energon, 0);
+                        
+                        for (Map.Entry<String, Float> e : ratios.entrySet())
+                        {
+                        	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                        	int amount1 = Math.round(e.getValue() * amount);
+                        	
+                        	if (e.getKey().equals(id))
+                        	{
+                        		amount1 -= mass;
+                        	}
+                        	
+                        	if (amount1 > 0)
+                        	{
+                        		stack1.amount += amount1;
+                        		FluidEnergon.merge(stack1, FluidEnergon.create(energon, 0), amount1);
+                        	}
+                        }
+                        
+                        int i = recipe.tank.fill(stack1, true);
+                        recipe.computeVisuals();
+                        processorRecipes.add(recipe);
+                    }
+                }
+        	}
+        }
 	}
 
 	public void loadProcessorUsageRecipes(ItemStack ingredient)
 	{
-		Item item = ingredient.getItem();
+        Item item = ingredient.getItem();
 
-		if (item instanceof IEnergon || item instanceof ItemBlock && Block.getBlockFromItem(item) instanceof IEnergon)
-		{
-			IEnergon ienergon = (IEnergon) (item instanceof ItemBlock ? Block.getBlockFromItem(item) : item);
-			Energon energon = ienergon.getEnergonType();
-			CachedProcessorRecipe recipe = new CachedProcessorRecipe(new ItemStack(ingredient.getItem(), 1, ingredient.getItemDamage()), new ItemStack(TFItems.fuelCanister));
+        if (item instanceof IEnergon || item instanceof ItemBlock && Block.getBlockFromItem(item) instanceof IEnergon)
+        {
+            CachedProcessorRecipe recipe = new CachedProcessorRecipe(new ItemStack(ingredient.getItem(), 1, ingredient.getItemDamage()), new ItemStack(TFItems.fuelCanister));
+            FluidStack stack = FluidEnergon.create(ingredient);
+            
+            ((ItemFuelCanister)recipe.result.item.getItem()).fill(recipe.result.item, stack, true);
 
-			FluidStack stack = new FluidStack(TFFluids.energon, ienergon.getMass());
-			FluidEnergon.setContents(stack, Energon.createContentMap(ienergon.getMass(), energon));
-
-			((ItemFuelCanister)recipe.result.item.getItem()).fill(recipe.result.item, stack, true);
-
-			recipe.computeVisuals();
-			processorRecipes.add(recipe);
-		}
-	}
+            recipe.computeVisuals();
+            processorRecipes.add(recipe);
+        }
+    }
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results)

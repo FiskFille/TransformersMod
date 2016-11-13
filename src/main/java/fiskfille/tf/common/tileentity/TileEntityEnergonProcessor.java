@@ -1,7 +1,5 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -18,14 +16,12 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
-import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandler, ISidedInventory
 {
@@ -76,23 +72,26 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 			--powerTime;
 		}
 
-		if (powerTime <= 0 && power != null && isItemValidForSlot(0, power) && canBurnCrystal(crystal))
+		if (powerTime <= 0 && power != null && isItemValidForSlot(0, power) && canProcessCrystal(crystal))
 		{
 			currentMaxPowerTime = powerTime = PowerManager.getPowerSourceAmount(power) + 2;
 			decrStackSize(0, 1);
 			markDirty();
 		}
 
-		if (powerTime > 0 && canBurnCrystal(crystal))
+		if (powerTime > 0 && canProcessCrystal(crystal))
 		{
 			if (burnTime < 200)
 			{
-				++burnTime;
+				burnTime += 20;
 			}
 			else if (addContents(crystal))
 			{
 				decrStackSize(1, 1);
 				burnTime = 0;
+				
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				notifyNeighborBlocksOfChange();
 			}
 		}
 		else if (burnTime > 0)
@@ -116,6 +115,11 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 		{
 			--fillTime;
 		}
+		
+		if (tank.getFluid() != null && tank.getFluidAmount() == 0)
+		{
+			tank.setFluid(null);
+		}
 	}
 
 	public void fillCanister(ItemStack itemstack)
@@ -126,40 +130,30 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 			int amount = Math.min(tank.getFluidAmount(), item.getCapacity(itemstack) - ItemFuelCanister.getFluidAmount(itemstack));
 
 			FluidStack stack = item.getFluid(itemstack);
-			FluidStack stack1 = new FluidStack(TFFluids.energon, amount);
-			NBTTagCompound tag = null;
-
-			if (stack != null)
-			{
-				tag = (NBTTagCompound) (stack.tag != null ? stack.tag.copy() : null);
-				FluidEnergon.addContents(stack, FluidEnergon.getContents(tank.getFluid()));
-				FluidEnergon.setContents(stack1, FluidEnergon.getContents(stack));
-			}
-			else
-			{
-				FluidEnergon.setContents(stack1, FluidEnergon.getContents(tank.getFluid()));
-			}
-
-			Map<String, Integer> map = FluidEnergon.getContents(tank.getFluid());
-			FluidEnergon.setContents(tank.getFluid(), FluidEnergon.getContents(stack1));
-			stack1 = drain(ForgeDirection.UNKNOWN, stack1, false);
 			
-			if (tank.getFluid() != null)
+			if (stack == null)
 			{
-				FluidEnergon.setContents(tank.getFluid(), map);
+				stack = new FluidStack(TFFluids.energon, 0);
 			}
-
+			
+			FluidStack stack1 = new FluidStack(TFFluids.energon, amount);
+			FluidEnergon.setRatios(stack1, FluidEnergon.getRatios(tank.getFluid()));
+			NBTTagCompound prevNBT = stack1.tag;
+			
+			stack1.tag = stack.tag;
 			int i = item.fill(itemstack, stack1, true);
-
-			if (i > 0)
+			drain(ForgeDirection.UNKNOWN, amount, true);
+			stack.amount += i;
+			stack1.tag = prevNBT;
+			
+			FluidEnergon.merge(stack, stack1, amount);
+			
+			if (!itemstack.hasTagCompound())
 			{
-				stack1.amount = i;
-				drain(ForgeDirection.UNKNOWN, stack1, true);
+				itemstack.setTagCompound(new NBTTagCompound());
 			}
-			else if (itemstack.hasTagCompound())
-			{
-				itemstack.getTagCompound().getCompoundTag("Fluid").setTag("Tag", tag);
-			}
+			
+			itemstack.getTagCompound().setTag("Fluid", stack.writeToNBT(new NBTTagCompound()));
 		}
 
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -168,41 +162,28 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 
 	public boolean addContents(ItemStack crystal)
 	{
-		FluidStack stack = tank.getFluid();
-
-		if (stack == null)
+		if (!worldObj.isRemote)
 		{
-			tank.setFluid(new FluidStack(TFFluids.energon, 0));
-			stack = tank.getFluid();
-		}
+			FluidStack stack = tank.getFluid();
 
-		if (stack.getFluid() == TFFluids.energon)
-		{
-			IEnergon energon = (IEnergon) (crystal.getItem() instanceof ItemBlock ? Block.getBlockFromItem(crystal.getItem()) : crystal.getItem());
-
-			FluidStack stack1 = new FluidStack(TFFluids.energon, energon.getMass());
-			FluidEnergon.setContents(stack, FluidEnergon.getContents(stack));
-			FluidEnergon.setContents(stack1, FluidEnergon.getContents(stack));
-
-			int i = fill(ForgeDirection.UNKNOWN, stack1, true);
-
-			if (i > 0)
+			if (stack == null)
 			{
-				Map<String, Integer> map = FluidEnergon.getContents(stack);
-				
-				for (Map.Entry<String, Integer> e : map.entrySet())
-				{
-					e.setValue(Math.round(stack.amount * TFHelper.getPercentOf(e.getKey(), map)));
-				}
-				
-				FluidEnergon.setContents(stack, map);
-				FluidEnergon.addContents(stack, Energon.createContentMap(energon.getMass(), energon.getEnergonType()));
+				tank.setFluid(new FluidStack(TFFluids.energon, 0));
+				stack = tank.getFluid();
 			}
-			
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			notifyNeighborBlocksOfChange();
 
-			return true;
+			if (stack.getFluid() == TFFluids.energon)
+			{
+				FluidStack stack1 = FluidEnergon.create(crystal);
+				NBTTagCompound prevNBT = stack1.tag;
+				
+				stack1.tag = stack.tag;
+				int amount = fill(ForgeDirection.UNKNOWN, stack1, true);
+				stack1.tag = prevNBT;
+				
+				FluidEnergon.merge(stack, stack1, amount);
+				return true;
+			}
 		}
 
 		return false;
@@ -216,7 +197,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 		worldObj.getBlock(xCoord, yCoord, zCoord - 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord - 1, blockType);
 	}
 
-	public boolean canBurnCrystal(ItemStack itemstack)
+	public boolean canProcessCrystal(ItemStack itemstack)
 	{
 		if (itemstack != null && isItemValidForSlot(1, itemstack))
 		{

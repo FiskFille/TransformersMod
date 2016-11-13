@@ -67,46 +67,42 @@ public class GuiTransmitter extends GuiContainer
 		}
 		
 		FluidStack stack = tileentity.tank.getFluid();
-        ArrayList text = Lists.newArrayList();
-        ArrayList colors = Lists.newArrayList();
-        int liquidAmount = 0;
-        int liquidAmount1 = 0;
-    	
+    	ArrayList text = Lists.newArrayList();
+    	ArrayList colors = Lists.newArrayList();
+    	int liquidAmount = stack != null ? stack.amount : 0;
+
     	if (stack != null && stack.amount > 0)
     	{
-    		Map<String, Integer> contents = FluidEnergon.getContents(stack);
+    		Map<String, Float> ratios = FluidEnergon.getRatios(stack);
+    		boolean flag = false;
+
+			for (Map.Entry<String, Float> e : ratios.entrySet())
+			{
+				Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+				int percent = Math.round(e.getValue() * 100);
+
+				if (percent > 0)
+				{
+					text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
+					colors.add(energon.getColor());
+					flag = true;
+				}
+			}
     		
-    		for (Map.Entry<String, Integer> e : contents.entrySet())
-            {
-    			liquidAmount += e.getValue();
-            }
-    		
-        	float percentMultiplier = 100F / liquidAmount;
-        	liquidAmount1 = stack.amount;
-        	
-    		if (!contents.isEmpty())
+    		if (flag)
     		{
-    			for (Map.Entry<String, Integer> e : contents.entrySet())
-                {
-                	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                    int percent = Math.round(e.getValue() * percentMultiplier);
-
-                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
-                    colors.add(energon.getColor());
-                }
-
-                text.add("");
-                colors.add(-1);
+    			text.add("");
+    			colors.add(-1);
     		}
     		else
     		{
     			text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
     			colors.add(0xbf0000);
     		}
-        }
-    	
-    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount1, tileentity.tank.getCapacity()));
-		colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
+    	}
+
+    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, tileentity.tank.getCapacity()));
+    	colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 		
         if (mouseX > k + 77 && mouseX <= k + 77 + 20 && mouseY > l + 17 && mouseY <= l + 17 + 52)
         {

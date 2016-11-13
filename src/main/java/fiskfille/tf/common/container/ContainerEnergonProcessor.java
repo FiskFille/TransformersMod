@@ -17,7 +17,6 @@ public class ContainerEnergonProcessor extends ContainerBasic
     private TileEntityEnergonProcessor tileentity;
     private int lastBurnTime;
     private int lastPowerTime;
-    private int lastLiquidColor;
     private int lastFillTime;
     private int lastCurrentMaxPowerTime;
 
@@ -50,9 +49,8 @@ public class ContainerEnergonProcessor extends ContainerBasic
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 0, tileentity.burnTime);
         icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
-//        icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
-        icrafting.sendProgressBarUpdate(this, 3, tileentity.fillTime);
-        icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
+        icrafting.sendProgressBarUpdate(this, 2, tileentity.fillTime);
+        icrafting.sendProgressBarUpdate(this, 3, tileentity.currentMaxPowerTime);
     }
 
     @Override
@@ -74,25 +72,19 @@ public class ContainerEnergonProcessor extends ContainerBasic
                 icrafting.sendProgressBarUpdate(this, 1, tileentity.powerTime);
             }
 
-//            if (lastLiquidColor != tileentity.liquidColor)
-//            {
-//                icrafting.sendProgressBarUpdate(this, 2, tileentity.liquidColor);
-//            }
-
             if (lastFillTime != tileentity.fillTime)
             {
-                icrafting.sendProgressBarUpdate(this, 3, tileentity.fillTime);
+                icrafting.sendProgressBarUpdate(this, 2, tileentity.fillTime);
             }
 
             if (lastCurrentMaxPowerTime != tileentity.currentMaxPowerTime)
             {
-                icrafting.sendProgressBarUpdate(this, 4, tileentity.currentMaxPowerTime);
+                icrafting.sendProgressBarUpdate(this, 3, tileentity.currentMaxPowerTime);
             }
         }
 
         lastBurnTime = tileentity.burnTime;
         lastPowerTime = tileentity.powerTime;
-//        lastLiquidColor = tileentity.liquidColor;
         lastFillTime = tileentity.fillTime;
         lastCurrentMaxPowerTime = tileentity.currentMaxPowerTime;
     }
@@ -109,15 +101,11 @@ public class ContainerEnergonProcessor extends ContainerBasic
         {
             tileentity.powerTime = value;
         }
-//        else if (id == 2)
-//        {
-//            tileentity.liquidColor = value;
-//        }
-        else if (id == 3)
+        else if (id == 2)
         {
             tileentity.fillTime = value;
         }
-        else if (id == 4)
+        else if (id == 3)
         {
             tileentity.currentMaxPowerTime = value;
         }

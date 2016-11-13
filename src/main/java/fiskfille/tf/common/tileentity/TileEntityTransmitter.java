@@ -1,21 +1,8 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TransmissionHandler;
-import fiskfille.tf.common.fluid.FluidEnergon;
-import fiskfille.tf.common.fluid.TFFluids;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFHelper;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,8 +25,23 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
 
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.power.EnergyStorage;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile
 {
@@ -77,7 +79,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             else
             {
                 FluidStack stack = tank.getFluid();
-                receiveEnergy(110); // TODO: Remove
+//                receiveEnergy(110); // TODO: Remove
 
                 if (getEnergy() > 0)
                 {
@@ -96,18 +98,17 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
                 if (stack != null && stack.amount > 0)
                 {
-                    Map<String, Integer> contents = FluidEnergon.getContents(stack);
+                    Map<String, Float> ratios = FluidEnergon.getRatios(stack);
                     int i = 10;
 
-                    for (Map.Entry<String, Integer> entry : contents.entrySet())
+                    for (Map.Entry<String, Float> e : ratios.entrySet())
                     {
-                        String energonType = entry.getKey();
-                        Energon energon = TransformersAPI.getEnergonTypeByName(energonType);
+                        Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
 
                         if (energon != null)
                         {
                             float factor = energon.getEnergyValue();
-                            drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(TFHelper.getPercentOf(energonType, contents) * factor) * i) / factor), true);
+                            drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(e.getValue() * factor) * i) / factor), true);
                         }
                     }
                 }

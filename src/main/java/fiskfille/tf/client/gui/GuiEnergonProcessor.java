@@ -1,6 +1,23 @@
 package fiskfille.tf.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.fluids.FluidStack;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import com.google.common.collect.Lists;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
@@ -10,20 +27,6 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.helper.TFRenderHelper;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.fluids.FluidStack;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergonProcessor extends GuiContainer
@@ -50,32 +53,28 @@ public class GuiEnergonProcessor extends GuiContainer
     	FluidStack stack = tileentity.tank.getFluid();
     	ArrayList text = Lists.newArrayList();
     	ArrayList colors = Lists.newArrayList();
-    	int liquidAmount = 0;
-    	int liquidAmount1 = 0;
+    	int liquidAmount = stack != null ? stack.amount : 0;
 
     	if (stack != null && stack.amount > 0)
     	{
-    		Map<String, Integer> contents = FluidEnergon.getContents(stack);
+    		Map<String, Float> ratios = FluidEnergon.getRatios(stack);
+    		boolean flag = false;
 
-    		for (Map.Entry<String, Integer> e : contents.entrySet())
+			for (Map.Entry<String, Float> e : ratios.entrySet())
+			{
+				Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+				int percent = Math.round(e.getValue() * 100);
+
+				if (percent > 0)
+				{
+					text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
+					colors.add(energon.getColor());
+					flag = true;
+				}
+			}
+    		
+    		if (flag)
     		{
-    			liquidAmount += e.getValue();
-    		}
-
-    		float percentMultiplier = 100F / liquidAmount;
-    		liquidAmount1 = stack.amount;
-
-    		if (!contents.isEmpty())
-    		{
-    			for (Map.Entry<String, Integer> e : contents.entrySet())
-    			{
-    				Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-    				int percent = Math.round(e.getValue() * percentMultiplier);
-
-    				text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
-    				colors.add(energon.getColor());
-    			}
-
     			text.add("");
     			colors.add(-1);
     		}
@@ -86,7 +85,7 @@ public class GuiEnergonProcessor extends GuiContainer
     		}
     	}
 
-    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount1, tileentity.tank.getCapacity()));
+    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, tileentity.tank.getCapacity()));
     	colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
     	if (mouseX > k + 77 && mouseX <= k + 77 + 52 && mouseY > l + 17 && mouseY <= l + 17 + 52)
@@ -208,7 +207,7 @@ public class GuiEnergonProcessor extends GuiContainer
         	GL11.glTranslatef(k + 79, l + 19, 0);
         	GL11.glScalef(3, 3, 3);
         	TFRenderHelper.startGlScissor(k + 79, l + 19 + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
-        	drawTexturedModelRectFromIcon(0, 0, TFRenderHelper.energonStillIcon, 16, 16);
+        	drawTexturedModelRectFromIcon(0, 0, stack.getFluid().getStillIcon(), 16, 16);
         	TFRenderHelper.endGlScissor();
         	GL11.glColor4f(1, 1, 1, 1);
         	GL11.glPopMatrix();
