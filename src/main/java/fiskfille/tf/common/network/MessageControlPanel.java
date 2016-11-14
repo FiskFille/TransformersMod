@@ -1,12 +1,14 @@
 package fiskfille.tf.common.network;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -107,6 +109,19 @@ public class MessageControlPanel implements IMessage
                     		
                     		tile.setInventorySlotContents(slot, player.getHeldItem());
                     		player.setCurrentItemOrArmor(0, itemstack);
+                    	}
+                    }
+                    else if (action == 18 || action == 19)
+                    {
+                    	if (tile.hasUpgrade(DataCore.spaceBridge) && !tile.activationLeverState)
+                    	{
+                    		tile.destDimIndex += action == 18 ? -1 : 1;
+                    		tile.destDimIndex %= DimensionManager.getIDs().length;
+                    		
+                    		if (tile.destDimIndex < 0)
+                    		{
+                    			tile.destDimIndex = DimensionManager.getIDs().length - 1;
+                    		}
                     	}
                     }
                 }

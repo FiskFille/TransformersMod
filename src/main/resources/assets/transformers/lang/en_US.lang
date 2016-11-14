@@ -13,6 +13,7 @@ item.dark_gray_dye.name=Dark Gray Dye
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
+item.data_core.name=Data Core
 
 item.optic_sensor.name=Optic Sensor
 item.protoform_head.name=Protoform Head
@@ -181,7 +182,7 @@ achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away
 
 ------Miscellaneous------
 ground_bridge.destination=Destination:
-ground_bridge.destination.format=x: %s, y: %s, z: %s
+ground_bridge.destination.format=x: %s, y: %s, z: %s, %s
 ground_bridge.direction.south=S
 ground_bridge.direction.west=W
 ground_bridge.direction.north=N
@@ -195,6 +196,7 @@ ground_bridge.error.not_enough_space=Not enough space! Destination does not have
 ground_bridge.error.no_portal_linked=No portal linked! Locator was unable to find a functioning Ground Bridge portal frame within range!
 ground_bridge.error.portal_obstructed=Portal obstructed! The linked Ground Bridge portal frame is being obscured by adjacent blocks!
 ground_bridge.error.out_of_bounds=Out of bounds! Destination cannot be lower than y=0 or higher than y=%s!
+ground_bridge.upgrade.space_bridge=Space Bridge
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!

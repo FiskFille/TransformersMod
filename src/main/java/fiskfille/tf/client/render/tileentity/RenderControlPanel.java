@@ -1,22 +1,28 @@
 package fiskfille.tf.client.render.tileentity;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.WorldProvider;
+import net.minecraftforge.common.DimensionManager;
 
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelControlPanel;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderControlPanel extends TileEntitySpecialRenderer
 {
     private Minecraft mc = Minecraft.getMinecraft();
+    private ItemRenderer itemRenderer = new ItemRenderer(mc);
     private ModelControlPanel model = new ModelControlPanel();
 
     public void render(TileEntityControlPanel tile, double x, double y, double z, float partialTicks)
@@ -31,28 +37,57 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
-        GL11.glRotatef(metadata * 90 + 180, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(BlockGroundBridgeControl.getDirection(metadata) * 90 + 180, 0.0F, 1.0F, 0.0F);
 
-        if (!BlockGroundBridgeControl.isBlockSideOfPanel(metadata))
+        if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
         {
             GL11.glTranslatef(0.5F, 0, 0);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            
+            for (int i = 0; i < tile.getSizeInventory(); ++i)
+            {
+            	ItemStack itemstack = tile.getStackInSlot(i);
+            	
+            	if (itemstack != null)
+            	{
+            		GL11.glPushMatrix();
+            		GL11.glDisable(GL11.GL_LIGHTING);
+            		GL11.glRotatef(-90, 0, 1, 0);
+            		GL11.glTranslatef(-0.497F, 0.8765F, -0.2825F - i * 0.2175F);
+            		
+            		float scale = 0.155F;
+            		GL11.glScalef(-scale, -scale, scale);
+            		
+            		itemRenderer.renderItem(mc.thePlayer, itemstack, 0);
+            		GL11.glColor4f(1, 1, 1, 1);
+            		GL11.glEnable(GL11.GL_LIGHTING);
+            		GL11.glPopMatrix();
+            	}
+            }
             
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel.png"));
             model.render(tile, partialTicks);
             
             TFRenderHelper.setLighting(61680);
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel_lights.png"));
-            model.render(tile, partialTicks);
+            model.render(tile, partialTicks); 
             model.table1.postRender(0.0625F);
             model.table2.postRender(0.0625F);
-
+            
+            String dimensionName = "";
+            WorldProvider provider = DimensionManager.getProvider(tile.getDestinationDimensionID());
+            
+            if (provider != null)
+            {
+            	dimensionName = provider.getDimensionName();
+            }
+            
             GL11.glPushMatrix();
             model.screen1.postRender(0.0625F);
             model.screen2.postRender(0.0625F);
             renderText(StatCollector.translateToLocal("ground_bridge.destination"), 0, 0, 0, -1);
-            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", tile.destX, tile.destY, tile.destZ), 1, 0, 0, -1);
+            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", tile.destX, tile.destY, tile.destZ, dimensionName), 1, 0, 0, -1);
 
             if (!tile.errors.isEmpty())
             {
@@ -68,7 +103,32 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
                     renderText(StatCollector.translateToLocalFormatted("ground_bridge.error.other_error" + (tile.errors.size() == 2 ? "" : "s"), tile.errors.size() - 1), 7, 0, 0, 0xC10000);
                 }
             }
-
+            
+            if (tile.hasUpgrade(DataCore.spaceBridge))
+            {
+            	GL11.glPushMatrix();
+            	model.dimPanel1.postRender(0.0625F);
+            	model.dimPanel2.postRender(0.0625F);
+            	GL11.glPushMatrix();
+            	model.dimPanel3.postRender(0.0625F);
+            	GL11.glTranslatef(0.3125F, -0.025F, -0.0625F * 5.21F);
+            	renderCenteredText("<", 0, 0, 0, -1, 0.00725F);
+            	GL11.glPopMatrix();
+            	GL11.glPushMatrix();
+            	model.dimPanel4.postRender(0.0625F);
+            	GL11.glTranslatef(0.3125F, -0.025F, -0.0625F * 5.21F);
+            	renderCenteredText(">", 0, 0, 0, -1, 0.00725F);
+            	GL11.glPopMatrix();
+            	GL11.glPushMatrix();
+            	model.dimPanel6.postRender(0.0625F);
+            	model.dimPanel7.postRender(0.0625F);
+            	GL11.glTranslatef(0.345F, -0.025F, -0.0625F * 6.3F);
+            	GL11.glRotatef(5, 1, 0, 0);
+            	renderCenteredText(tile.getDestinationDimensionID() + "", 0, 0, 0.02F, -1, 0.00725F);
+            	GL11.glPopMatrix();
+            	GL11.glPopMatrix();
+            }
+            
             GL11.glPopMatrix();
             GL11.glPushMatrix();
             model.table6.postRender(0.0625F);

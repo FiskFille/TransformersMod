@@ -25,6 +25,7 @@ import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.client.render.item.RenderItemArmor;
 import fiskfille.tf.client.render.item.RenderItemBassBlaster;
 import fiskfille.tf.client.render.item.RenderItemControlPanel;
+import fiskfille.tf.client.render.item.RenderItemDataCore;
 import fiskfille.tf.client.render.item.RenderItemDisplayStation;
 import fiskfille.tf.client.render.item.RenderItemDisplayVehicle;
 import fiskfille.tf.client.render.item.RenderItemFlamethrower;
@@ -148,6 +149,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(TFItems.cloudtrapsFlamethrower, new RenderItemFlamethrower());
 
         MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
+        MinecraftForgeClient.registerItemRenderer(TFItems.dataCore, new RenderItemDataCore());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.displayStation), new RenderItemDisplayStation());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonProcessor), new RenderItemTileEntity(new TileEntityEnergonProcessor()));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.transmitter), new RenderItemTransmitter());

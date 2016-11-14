@@ -18,6 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
@@ -30,7 +31,9 @@ import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.EnumError;
+import fiskfille.tf.common.item.TFItems;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
 {
@@ -41,6 +44,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	public int destX;
 	public int destY;
 	public int destZ;
+	public int destDimIndex;
+	
 	public int portalDirection;
 	public float animPortalDirection;
 	public float prevAnimPortalDirection;
@@ -65,7 +70,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 		prevActivationLeverCoverTimer = activationLeverCoverTimer;
 		prevAnimPortalDirection = animPortalDirection;
 		
-		if (!BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata()))
+		if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(getBlockMetadata()))
 		{
 			loadChunks();
 			errors.clear();
@@ -352,6 +357,34 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 			}
 		}
 	}
+	
+	public boolean hasUpgrade(DataCore dataCore)
+	{
+		for (int i = 0; i < getSizeInventory(); ++i)
+		{
+			ItemStack itemstack = getStackInSlot(i);
+			
+			if (itemstack != null && itemstack.getItem() == TFItems.dataCore)
+			{
+				if (DataCore.get(itemstack.getItemDamage()) == dataCore)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public int getDestinationDimensionID()
+	{
+		if (!hasUpgrade(DataCore.spaceBridge))
+		{
+			return 0;
+		}
+		
+		return DimensionManager.getIDs()[MathHelper.clamp_int(destDimIndex, 0, DimensionManager.getIDs().length - 1)];
+	}
 
 	public void markBlockForUpdate()
 	{
@@ -397,7 +430,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{
-		return super.getRenderBoundingBox().addCoord(0, 0.5D, 0);
+		return super.getRenderBoundingBox().addCoord(1, 0.5D, 1);
 	}
 
 	@Override
@@ -476,7 +509,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return true;
+		return stack.getItem() == TFItems.dataCore;
 	}
 
 	@Override
