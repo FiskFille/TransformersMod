@@ -5,6 +5,7 @@ import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.power.EnergonTank;
+import fiskfille.tf.common.energon.power.EnergonTankContainer;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
@@ -42,7 +43,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import java.util.List;
 import java.util.Map;
 
-public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile
+public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile, EnergonTankContainer
 {
     public TransmissionHandler transmissionHandler = new TransmissionHandler(this);
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
@@ -77,22 +78,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             if (worldObj.isRemote)
             {
                 TFHelper.applyClientEnergyUsage(this);
-
-                int usage = tank.getUsage();
-
-                if (fluidStack != null)
-                {
-                    fluidStack.amount += usage;
-
-                    if (fluidStack.amount < 0)
-                    {
-                        fluidStack.amount = 0;
-                    }
-                    else if (fluidStack.amount > tank.getCapacity())
-                    {
-                        fluidStack.amount = tank.getCapacity();
-                    }
-                }
+                TFHelper.applyClientFluidUsage(this);
             }
             else
             {
@@ -439,6 +425,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
     }
 
+    @Override
     public void updateClientFluid()
     {
         TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateFluidState(this), this.worldObj.provider.dimensionId);
@@ -487,5 +474,11 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
         ForgeChunkManager.forceChunk(ticket, loadChunk);
+    }
+
+    @Override
+    public EnergonTank getTank()
+    {
+        return tank;
     }
 }

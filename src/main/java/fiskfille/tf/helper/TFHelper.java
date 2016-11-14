@@ -1,5 +1,7 @@
 package fiskfille.tf.helper;
 
+import fiskfille.tf.common.energon.power.EnergonTank;
+import fiskfille.tf.common.energon.power.EnergonTankContainer;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
@@ -14,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Map;
 
@@ -191,6 +194,28 @@ public class TFHelper
         else
         {
             container.receiveEnergy(usage);
+        }
+    }
+
+    public static void applyClientFluidUsage(EnergonTankContainer tankContainer)
+    {
+        EnergonTank tank = tankContainer.getTank();
+        FluidStack fluidStack = tank.getFluid();
+
+        int usage = tank.getUsage();
+
+        if (fluidStack != null)
+        {
+            fluidStack.amount += usage;
+
+            if (fluidStack.amount < 0)
+            {
+                fluidStack.amount = 0;
+            }
+            else if (fluidStack.amount > tank.getCapacity())
+            {
+                fluidStack.amount = tank.getCapacity();
+            }
         }
     }
 }

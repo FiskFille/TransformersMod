@@ -6,7 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.power.EnergonTank;
-import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import fiskfille.tf.common.energon.power.EnergonTankContainer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,13 +28,13 @@ public class MessageUpdateFluidState implements IMessage
 
     }
 
-    public MessageUpdateFluidState(TileEntityTransmitter tile)
+    public MessageUpdateFluidState(TileEntity tile)
     {
         this.x = tile.xCoord;
         this.y = tile.yCoord;
         this.z = tile.zCoord;
 
-        EnergonTank tank = tile.tank;
+        EnergonTank tank = ((EnergonTankContainer) tile).getTank();
         this.usage = tank.getUsage();
         this.fluidStack = tank.getFluid();
     }
@@ -86,11 +86,12 @@ public class MessageUpdateFluidState implements IMessage
 
                 TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
 
-                if (tile instanceof TileEntityTransmitter)
+                if (tile instanceof EnergonTankContainer)
                 {
-                    TileEntityTransmitter transmitter = (TileEntityTransmitter) tile;
-                    transmitter.tank.setFluid(message.fluidStack);
-                    transmitter.tank.setUsage(message.usage);
+                    EnergonTankContainer tankContainer = (EnergonTankContainer) tile;
+                    EnergonTank tank = tankContainer.getTank();
+                    tank.setFluid(message.fluidStack);
+                    tank.setUsage(message.usage);
                 }
             }
 
