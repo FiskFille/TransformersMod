@@ -189,7 +189,7 @@ public class TFHelper
 
         if (usage < 0.0F)
         {
-            container.receiveEnergy(-usage);
+            container.extractEnergy(-usage);
         }
         else
         {

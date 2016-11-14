@@ -58,7 +58,7 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
 
                 Vec3 outOffset = tower.getEnergyOutputOffset();
 
-                if ((tower.getEnergy() > 0 || !tower.getReceiverHandler().getTransmitters().isEmpty()) && tower.getBlockMetadata() < 4)
+                if ((tower.getEnergy() > 0 || !tower.getReceiverHandler().getTransmitters().isEmpty()) && TFEnergyHelper.canPowerChainReach(tower) && tower.getBlockMetadata() < 4)
                 {
                     for (TileEntity tile : tower.transmissionHandler.getReceivers())
                     {

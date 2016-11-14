@@ -107,7 +107,7 @@ public class BlockRelayTower extends BlockTransmitter
             if (tile instanceof TileEntityRelayTower)
             {
                 TileEntityRelayTower tower = (TileEntityRelayTower) tile;
-                System.out.println(world.isRemote + " - " + tower.getReceiverHandler().getTransmitterCoords() + " : " + tower.getTransmissionHandler().getReceiverCoords());
+                System.out.println(world.isRemote + " - " + tower.getReceiverHandler().getTransmitterCoords() + " : " + tower.getTransmissionHandler().getReceiverCoords() + " - " + tower.getEnergy());
             }
 
             return false;
