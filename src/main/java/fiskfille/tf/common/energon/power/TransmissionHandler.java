@@ -54,7 +54,7 @@ public class TransmissionHandler
                         iterator.remove();
                         this.receiverCoords.remove(new ChunkCoordinates(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord));
                         this.tile.markDirty();
-                        this.energyContainer.updateClients();
+                        this.energyContainer.updateClientEnergy();
                     }
                 }
                 else
@@ -62,7 +62,7 @@ public class TransmissionHandler
                     iterator.remove();
                     this.receiverCoords.remove(new ChunkCoordinates(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord));
                     this.tile.markDirty();
-                    this.energyContainer.updateClients();
+                    this.energyContainer.updateClientEnergy();
                 }
             }
         }
@@ -182,7 +182,7 @@ public class TransmissionHandler
 
         if (!world.isRemote)
         {
-            energyContainer.updateClients();
+            energyContainer.updateClientEnergy();
         }
 
         for (ChunkCoordinates pos : newReceivers)

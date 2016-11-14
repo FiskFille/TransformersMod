@@ -68,7 +68,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
 
                 if (Math.abs(usage - lastUsage) > 0.001F)
                 {
-                    updateClients();
+                    updateClientEnergy();
                 }
 
                 lastUsage = usage;
@@ -267,7 +267,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     }
 
     @Override
-    public void updateClients()
+    public void updateClientEnergy()
     {
         TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
     }

@@ -39,7 +39,7 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
 
             if (Math.abs(usage - lastUsage) > 0.001F)
             {
-                updateClients();
+                updateClientEnergy();
             }
 
             lastUsage = usage;
@@ -138,7 +138,7 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
     }
 
     @Override
-    public void updateClients()
+    public void updateClientEnergy()
     {
         NetworkRegistry.TargetPoint target = new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, this.xCoord + 0.5F, this.yCoord, this.zCoord + 0.5F, 128);
         TFNetworkManager.networkWrapper.sendToAllAround(new MessageUpdateEnergyState(this), target);

@@ -1,8 +1,23 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.power.EnergonTank;
+import fiskfille.tf.common.energon.power.EnergyStorage;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.MessageUpdateFluidState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,28 +35,12 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
 
-import com.google.common.collect.Lists;
-
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TransmissionHandler;
-import fiskfille.tf.common.fluid.FluidEnergon;
-import fiskfille.tf.common.fluid.TFFluids;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFHelper;
+import java.util.List;
+import java.util.Map;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile
 {
@@ -49,15 +48,16 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
 
     public EnergyStorage storage = new EnergyStorage(8000);
-    public FluidTank tank = new FluidTank(2000);
+    public EnergonTank tank = new EnergonTank(2000);
 
     public ItemStack[] inventory = new ItemStack[1];
 
     public int animationTimer;
     public float prevEnergy;
 
-    public float lastUsage;
-    
+    public float lastEnergyUsage;
+    public int lastFluidUsage;
+
     private Ticket chunkTicket;
 
     @Override
@@ -68,17 +68,34 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (getBlockMetadata() < 4)
         {
-        	loadChunks();
+            loadChunks();
             transmissionHandler.onUpdate(worldObj);
             receiverHandler.onUpdate(worldObj);
+
+            FluidStack fluidStack = tank.getFluid();
 
             if (worldObj.isRemote)
             {
                 TFHelper.applyClientEnergyUsage(this);
+
+                int usage = tank.getUsage();
+
+                if (fluidStack != null)
+                {
+                    fluidStack.amount += usage;
+
+                    if (fluidStack.amount < 0)
+                    {
+                        fluidStack.amount = 0;
+                    }
+                    else if (fluidStack.amount > tank.getCapacity())
+                    {
+                        fluidStack.amount = tank.getCapacity();
+                    }
+                }
             }
             else
             {
-                FluidStack stack = tank.getFluid();
 //                receiveEnergy(110); // TODO: Remove
 
                 if (getEnergy() > 0)
@@ -96,9 +113,9 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                     }
                 }
 
-                if (stack != null && stack.amount > 0)
+                if (fluidStack != null && fluidStack.amount > 0)
                 {
-                    Map<String, Float> ratios = FluidEnergon.getRatios(stack);
+                    Map<String, Float> ratios = FluidEnergon.getRatios(fluidStack);
                     int i = 10;
 
                     for (Map.Entry<String, Float> e : ratios.entrySet())
@@ -108,39 +125,57 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                         if (energon != null)
                         {
                             float factor = energon.getEnergyValue();
-                            drain(ForgeDirection.UNKNOWN, Math.round(receiveEnergy(Math.round(e.getValue() * factor) * i) / factor), true);
-                        }
-                    }
-                }
+                            float receivedEnergy = receiveEnergy(Math.round(e.getValue() * factor) * i);
+                            drain(ForgeDirection.UNKNOWN, Math.round(receivedEnergy / factor), true);
 
-                if (inventory[0] != null)
-                {
-                    ItemStack fluidContainer = inventory[0];
-
-                    if (fluidContainer.getItem() instanceof IFluidContainerItem)
-                    {
-                        IFluidContainerItem container = (IFluidContainerItem) fluidContainer.getItem();
-                        FluidStack fluid = container.getFluid(fluidContainer);
-
-                        if (fluid != null && fluid.amount > 0 && (FluidStack.areFluidStackTagsEqual(stack, fluid) || (stack == null || stack.amount <= 0)))
-                        {
-                            if (fluid.getFluid() == TFFluids.energon)
+                            if (worldObj.isRemote)
                             {
-                                int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
-                                fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, true), true);
+                                extractEnergy(receivedEnergy);
                             }
                         }
                     }
                 }
 
-                float usage = storage.calculateUsage();
+                boolean updatedClientFluid = false;
 
-                if (Math.abs(usage - lastUsage) > 0.001F)
+                ItemStack fluidContainer = inventory[0];
+
+                if (fluidContainer != null)
                 {
-                    updateClients();
+                    if (fluidContainer.getItem() instanceof IFluidContainerItem)
+                    {
+                        IFluidContainerItem container = (IFluidContainerItem) fluidContainer.getItem();
+                        FluidStack fluid = container.getFluid(fluidContainer);
+
+                        if (fluid != null && fluid.amount > 0 && (FluidStack.areFluidStackTagsEqual(fluidStack, fluid) || (fluidStack == null || fluidStack.amount <= 0)))
+                        {
+                            if (fluid.getFluid() == TFFluids.energon)
+                            {
+                                int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
+                                fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, true), true);
+                                this.updateClientFluid();
+                                updatedClientFluid = true;
+                            }
+                        }
+                    }
                 }
 
-                lastUsage = usage;
+                float energyUsage = storage.calculateUsage();
+                int fluidUsage = tank.calculateUsage();
+
+                if (Math.abs(energyUsage - lastEnergyUsage) > 0.001F)
+                {
+                    updateClientEnergy();
+                }
+
+                lastEnergyUsage = energyUsage;
+
+                if (fluidUsage != lastFluidUsage && !updatedClientFluid)
+                {
+                    updateClientFluid();
+                }
+
+                lastFluidUsage = fluidUsage;
             }
         }
     }
@@ -399,26 +434,31 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public void updateClients()
+    public void updateClientEnergy()
     {
         TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
     }
-    
+
+    public void updateClientFluid()
+    {
+        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateFluidState(this), this.worldObj.provider.dimensionId);
+    }
+
     @Override
     public void loadChunks()
-	{
-		if (!worldObj.isRemote)
-		{
-			while (chunkTicket == null)
-			{
-				chunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, worldObj, Type.NORMAL);
-			}
-			
-			if (chunkTicket == null)
-			{
-				System.err.println("Unable to load chunks!");
-			}
-			else
+    {
+        if (!worldObj.isRemote)
+        {
+            while (chunkTicket == null)
+            {
+                chunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, worldObj, Type.NORMAL);
+            }
+
+            if (chunkTicket == null)
+            {
+                System.err.println("Unable to load chunks!");
+            }
+            else
             {
                 NBTTagCompound modData = chunkTicket.getModData();
 
@@ -428,24 +468,24 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
                 ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
             }
-		}
-	}
+        }
+    }
 
     @Override
-	public void unloadChunks()
-	{
-		ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
-	}
-	
+    public void unloadChunks()
+    {
+        ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+    }
+
     @Override
-	public void loadTicket(Ticket ticket)
-	{
-		if (chunkTicket == null)
-		{
-			chunkTicket = ticket;
-		}
-		
-		ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
-		ForgeChunkManager.forceChunk(ticket, loadChunk);
-	}
+    public void loadTicket(Ticket ticket)
+    {
+        if (chunkTicket == null)
+        {
+            chunkTicket = ticket;
+        }
+
+        ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
+        ForgeChunkManager.forceChunk(ticket, loadChunk);
+    }
 }

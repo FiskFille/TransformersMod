@@ -20,6 +20,7 @@ import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetReceivers;
 import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
+import fiskfille.tf.common.network.MessageUpdateFluidState;
 import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 
@@ -49,6 +50,7 @@ public class TFNetworkManager
         registerPacket(MessageUpdateEnergyState.Handler.class, MessageUpdateEnergyState.class);
         registerPacket(MessageSetReceivers.Handler.class, MessageSetReceivers.class);
         registerPacket(MessageClosePortal.Handler.class, MessageClosePortal.class);
+        registerPacket(MessageUpdateFluidState.Handler.class, MessageUpdateFluidState.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

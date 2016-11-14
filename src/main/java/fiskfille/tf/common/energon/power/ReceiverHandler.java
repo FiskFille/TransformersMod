@@ -50,7 +50,7 @@ public class ReceiverHandler
                     iterator.remove();
                     this.transmitterCoords.remove(new ChunkCoordinates(transmitterTile.xCoord, transmitterTile.yCoord, transmitterTile.zCoord));
                     this.tile.markDirty();
-                    this.energyContainer.updateClients();
+                    this.energyContainer.updateClientEnergy();
                 }
             }
         }
@@ -75,7 +75,7 @@ public class ReceiverHandler
 
             if (dirty && !world.isRemote)
             {
-                energyContainer.updateClients();
+                energyContainer.updateClientEnergy();
             }
         }
 
@@ -175,7 +175,7 @@ public class ReceiverHandler
 
         if (!world.isRemote)
         {
-            energyContainer.updateClients();
+            energyContainer.updateClientEnergy();
         }
     }
 
