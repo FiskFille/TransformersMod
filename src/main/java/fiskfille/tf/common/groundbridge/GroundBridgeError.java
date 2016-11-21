@@ -2,7 +2,7 @@ package fiskfille.tf.common.groundbridge;
 
 import net.minecraft.util.StatCollector;
 
-public enum EnumError
+public enum GroundBridgeError
 {
     INVALID_COORDS("invalid_coords"),
     NOT_ENOUGH_SPACE("not_enough_space"),
@@ -12,7 +12,7 @@ public enum EnumError
 
     public String displayKey;
 
-    EnumError(String displayKey)
+    GroundBridgeError(String displayKey)
     {
         this.displayKey = displayKey;
     }

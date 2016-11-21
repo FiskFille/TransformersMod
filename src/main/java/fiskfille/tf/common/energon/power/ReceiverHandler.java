@@ -9,10 +9,11 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -22,15 +23,15 @@ public class ReceiverHandler
 {
     private Set<ChunkCoordinates> transmitterCoords = new HashSet<ChunkCoordinates>();
     private List<TileEntity> transmitters = Lists.newArrayList();
-    private TileEntity tile;
+    private TileEntity owner;
     private IEnergyContainer energyContainer;
 
-    private List<ChunkCoordinates> queuedTransmitters = new LinkedList<ChunkCoordinates>();
+    private Queue<ChunkCoordinates> queuedTransmitters = new ArrayDeque<ChunkCoordinates>();
 
-    public ReceiverHandler(TileEntity tile)
+    public ReceiverHandler(TileEntity owner)
     {
-        this.tile = tile;
-        this.energyContainer = (IEnergyContainer) tile;
+        this.owner = owner;
+        this.energyContainer = (IEnergyContainer) owner;
     }
 
     public void onUpdate(World world)
@@ -42,30 +43,32 @@ public class ReceiverHandler
                 TileEntity transmitterTile = iterator.next();
 
                 boolean invalid = world.getChunkProvider().chunkExists(transmitterTile.xCoord >> 4, transmitterTile.zCoord >> 4) && (transmitterTile.isInvalid() || !exists(world, transmitterTile));
-                boolean outRange = transmitterTile instanceof IEnergyTransmitter && !TFEnergyHelper.isInRange(transmitterTile, tile);
+                boolean outRange = transmitterTile instanceof IEnergyTransmitter && !TFEnergyHelper.isInRange(transmitterTile, owner);
                 boolean destroyed = !invalid && !exists(world, transmitterTile);
 
                 if (invalid || outRange || destroyed)
                 {
                     iterator.remove();
                     this.transmitterCoords.remove(new ChunkCoordinates(transmitterTile.xCoord, transmitterTile.yCoord, transmitterTile.zCoord));
-                    this.tile.markDirty();
+                    this.owner.markDirty();
                     this.energyContainer.updateClientEnergy();
                 }
             }
         }
 
-        if (this.tile instanceof IEnergyReceiver)
+        if (this.owner instanceof IEnergyReceiver)
         {
             boolean dirty = false;
 
-            for (ChunkCoordinates transmitter : queuedTransmitters)
+            while (queuedTransmitters.size() > 0)
             {
+                ChunkCoordinates transmitter = queuedTransmitters.poll();
+
                 if (!transmitterCoords.contains(transmitter))
                 {
                     TileEntity tile = world.getTileEntity(transmitter.posX, transmitter.posY, transmitter.posZ);
 
-                    if (tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.tile).canReceiveEnergy(tile))
+                    if (tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.owner).canReceiveEnergy(tile))
                     {
                         add(transmitter, tile);
                         dirty = true;
@@ -78,8 +81,6 @@ public class ReceiverHandler
                 energyContainer.updateClientEnergy();
             }
         }
-
-        queuedTransmitters.clear();
     }
 
     private boolean exists(World world, TileEntity tile)
@@ -92,14 +93,9 @@ public class ReceiverHandler
         if (!transmitterCoords.contains(coordinates))
         {
             transmitterCoords.add(coordinates);
-        }
-
-        if (!transmitters.contains(tile))
-        {
             transmitters.add(tile);
+            this.owner.markDirty();
         }
-
-        this.tile.markDirty();
     }
 
     public void readFromNBT(NBTTagCompound nbt)
@@ -171,7 +167,7 @@ public class ReceiverHandler
         transmitters.clear();
         queuedTransmitters.clear();
         queuedTransmitters.addAll(newTransmitters);
-        this.tile.markDirty();
+        this.owner.markDirty();
 
         if (!world.isRemote)
         {
@@ -183,6 +179,6 @@ public class ReceiverHandler
     {
         transmitterCoords.remove(coordinates);
         transmitters.remove(tile);
-        this.tile.markDirty();
+        this.owner.markDirty();
     }
 }

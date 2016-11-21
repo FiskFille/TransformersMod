@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,6 @@ import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.EnumError;
 import fiskfille.tf.common.item.TFItems;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
@@ -57,8 +57,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	public float activationLeverCoverTimer;
 	public float prevActivationLeverCoverTimer;
 
-	public List<EnumError> errors = Lists.newArrayList();
-	public boolean hasSpace;
+    public List<GroundBridgeError> errors = Lists.newArrayList();
+    public boolean hasSpace;
 
 	public ChunkCoordinates groundBridgeFramePos;
 	private Ticket chunkTicket;
@@ -143,23 +143,23 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
 			if (groundBridgeFramePos == null)
 			{
-				errors.add(EnumError.NO_PORTAL_LINKED);
-			}
+                errors.add(GroundBridgeError.NO_PORTAL_LINKED);
+            }
 			
 			if (flag)
 			{
-				errors.add(EnumError.PORTAL_OBSTRUCTED);
-			}
+                errors.add(GroundBridgeError.PORTAL_OBSTRUCTED);
+            }
 
 			if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
 			{
-//				errors.add(EnumError.INVALID_COORDS); TODO: Uncomment
-			}
+//				errors.add(GroundBridgeError.INVALID_COORDS); TODO: Uncomment
+            }
 			
 			if (destY - 1 <= 0 || destY + 3 >= worldObj.getHeight())
 			{
-				errors.add(EnumError.OUT_OF_BOUNDS);
-			}
+                errors.add(GroundBridgeError.OUT_OF_BOUNDS);
+            }
 
 			if (!worldObj.isRemote)
 			{
@@ -174,8 +174,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
 			if (!hasSpace)
 			{
-				errors.add(EnumError.NOT_ENOUGH_SPACE);
-			}
+                errors.add(GroundBridgeError.NOT_ENOUGH_SPACE);
+            }
 
 			activationLeverCoverState = !(!errors.isEmpty() && !activationLeverState);
 

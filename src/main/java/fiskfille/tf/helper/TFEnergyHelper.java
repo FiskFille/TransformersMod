@@ -117,7 +117,7 @@ public class TFEnergyHelper
         }
     }
 
-    public static TransmissionHandler getReceiverHandler(TileEntity tile)
+    public static TransmissionHandler getTransmissionHandler(TileEntity tile)
     {
         if (tile instanceof IEnergyTransmitter)
         {
@@ -127,7 +127,7 @@ public class TFEnergyHelper
         return null;
     }
 
-    public static ReceiverHandler getReceivingHandler(TileEntity tile)
+    public static ReceiverHandler getReceiverHandler(TileEntity tile)
     {
         if (tile instanceof IEnergyTransmitter)
         {
@@ -411,23 +411,23 @@ public class TFEnergyHelper
         }
     }
 
-    public static boolean canPowerChainReach(TileEntity start)
+    public static boolean canPowerChainReach(TileEntity origin)
     {
         try
         {
-            ReceiverHandler receiverHandler = getReceivingHandler(start);
+            ReceiverHandler receiverHandler = getReceiverHandler(origin);
 
             if (receiverHandler != null)
             {
-                List<TileEntity> receiving = receiverHandler.getTransmitters();
+                List<TileEntity> transmitters = receiverHandler.getTransmitters();
 
-                if (!receiving.isEmpty())
+                if (!transmitters.isEmpty())
                 {
-                    for (TileEntity receive : receiving)
+                    for (TileEntity transmitter : transmitters)
                     {
-                        if (receive instanceof IEnergyTransmitter && ((IEnergyTransmitter) receive).canPowerReach(start))
+                        if (transmitter instanceof IEnergyTransmitter && ((IEnergyTransmitter) transmitter).canPowerReach(origin))
                         {
-                            if (((IEnergyTransmitter) receive).getEnergy() > 0 || canPowerChainReach(receive))
+                            if (((IEnergyTransmitter) transmitter).getEnergy() > 0 || canPowerChainReach(transmitter))
                             {
                                 return true;
                             }

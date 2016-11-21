@@ -40,8 +40,8 @@ public class MessageUpdateEnergyState implements IMessage
         this.y = tile.yCoord;
         this.z = tile.zCoord;
 
-        TransmissionHandler transmissionHandler = TFEnergyHelper.getReceiverHandler(tile);
-        ReceiverHandler receiverHandler = TFEnergyHelper.getReceivingHandler(tile);
+        TransmissionHandler transmissionHandler = TFEnergyHelper.getTransmissionHandler(tile);
+        ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
 
         if (transmissionHandler != null)
         {
@@ -138,8 +138,8 @@ public class MessageUpdateEnergyState implements IMessage
 
                 TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
 
-                TransmissionHandler transmissionHandler = TFEnergyHelper.getReceiverHandler(tile);
-                ReceiverHandler receiverHandler = TFEnergyHelper.getReceivingHandler(tile);
+                TransmissionHandler transmissionHandler = TFEnergyHelper.getTransmissionHandler(tile);
+                ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
 
                 if (transmissionHandler != null)
                 {

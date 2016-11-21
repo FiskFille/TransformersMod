@@ -82,7 +82,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             }
             else
             {
-//                receiveEnergy(110); // TODO: Remove
+//                receiveEnergy(110); // TODO: Remove & Add
 
                 if (getEnergy() > 0)
                 {
