@@ -12,6 +12,7 @@ import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -27,6 +28,8 @@ import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+import fiskfille.tf.common.world.TeleporterGroundBridge;
+import fiskfille.tf.helper.TFHelper;
 
 public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITileEntityProvider
 {
@@ -173,7 +176,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     {
         if (!entity.worldObj.isRemote)
         {
-            TFNetworkManager.networkWrapper.sendToDimension(new MessageGroundBridgeTeleport(entity, teleporter), entity.dimension);
+//            TFNetworkManager.networkWrapper.sendToDimension(new MessageGroundBridgeTeleport(entity, teleporter), entity.dimension);
             doTeleportClient(entity, teleporter);
         }
     }
@@ -187,6 +190,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
             double posX = controlPanel.destX + 0.5D;
             double posY = controlPanel.destY - 2.0D;
             double posZ = controlPanel.destZ + 0.5D;
+            int dimension = controlPanel.getDestDimensionID();
             int srcYaw = controlPanel.getSrcPortalDirection();
             int dstYaw = controlPanel.portalDirection;
 
@@ -195,6 +199,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                 posX = controlPanel.groundBridgeFramePos.posX + 0.5D;
                 posY = controlPanel.groundBridgeFramePos.posY + 1.0D;
                 posZ = controlPanel.groundBridgeFramePos.posZ + 0.5D;
+                dimension = controlPanel.getWorldObj().provider.dimensionId;
                 srcYaw = controlPanel.portalDirection;
                 dstYaw = controlPanel.getSrcPortalDirection();
             }
@@ -205,11 +210,32 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
             if (entity instanceof EntityPlayerMP)
             {
                 EntityPlayerMP playerMP = (EntityPlayerMP)entity;
+                double motionX = entity.motionX;
+                double motionZ = entity.motionZ;
+                
+                if (dimension != entity.dimension)
+                {
+                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension, new TeleporterGroundBridge(playerMP.mcServer.worldServerForDimension(dimension)));
+                }
+                
                 playerMP.playerNetServerHandler.setPlayerLocation(posX, posY, posZ, yaw, entity.rotationPitch);
+                entity.motionX = motionX;
+                entity.motionZ = motionZ;
             }
-            else
+            else if (!(entity instanceof EntityPlayer))
             {
+                double motionX = entity.motionX;
+                double motionZ = entity.motionZ;
+                
+//                TODO: Re-enable Ground Bridge functionality for non-player entities
+//                if (dimension != entity.dimension)
+//                {
+//                    TFHelper.travelToDimension(entity, dimension, new TeleporterGroundBridge(controlPanel.getDestWorld()));
+//                }
+                
                 entity.setLocationAndAngles(posX, posY, posZ, yaw, entity.rotationPitch);
+                entity.motionX = motionX;
+                entity.motionZ = motionZ;
             }
         }
     }

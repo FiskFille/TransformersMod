@@ -22,8 +22,8 @@ public class MessageGroundBridgeTeleport implements IMessage
     {
         id = entity.getEntityId();
         x = tile.xCoord;
-        x = tile.yCoord;
-        x = tile.zCoord;
+        y = tile.yCoord;
+        z = tile.zCoord;
     }
 
     @Override

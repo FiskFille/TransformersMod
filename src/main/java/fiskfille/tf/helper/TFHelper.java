@@ -1,5 +1,20 @@
 package fiskfille.tf.helper;
 
+import java.util.Map;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.Teleporter;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fluids.FluidStack;
 import fiskfille.tf.common.energon.power.EnergonTank;
 import fiskfille.tf.common.energon.power.EnergonTankContainer;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
@@ -10,15 +25,6 @@ import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Map;
 
 /**
  * @author FiskFille, gegy1000
@@ -216,6 +222,52 @@ public class TFHelper
             {
                 fluidStack.amount = tank.getCapacity();
             }
+        }
+    }
+    
+    public static void travelToDimension(Entity entity, int dimension, Teleporter teleporter)
+    {
+        if (!entity.worldObj.isRemote && !entity.isDead)
+        {
+            entity.worldObj.theProfiler.startSection("changeDimension");
+            MinecraftServer server = MinecraftServer.getServer();
+            int j = entity.dimension;
+            WorldServer worldserver = server.worldServerForDimension(j);
+            WorldServer worldserver1 = server.worldServerForDimension(dimension);
+            entity.dimension = dimension;
+
+            if (j == 1 && dimension == 1)
+            {
+                worldserver1 = server.worldServerForDimension(0);
+                entity.dimension = 0;
+            }
+
+            entity.worldObj.removeEntity(entity);
+            entity.isDead = false;
+            entity.worldObj.theProfiler.startSection("reposition");
+            server.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, teleporter);
+            entity.worldObj.theProfiler.endStartSection("reloading");
+            Entity entity1 = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
+
+            if (entity1 != null)
+            {
+                entity1.copyDataFrom(entity, true);
+
+                if (j == 1 && dimension == 1)
+                {
+                    ChunkCoordinates chunkcoordinates = worldserver1.getSpawnPoint();
+                    chunkcoordinates.posY = entity.worldObj.getTopSolidOrLiquidBlock(chunkcoordinates.posX, chunkcoordinates.posZ);
+                    entity1.setLocationAndAngles((double)chunkcoordinates.posX, (double)chunkcoordinates.posY, (double)chunkcoordinates.posZ, entity1.rotationYaw, entity1.rotationPitch);
+                }
+
+                worldserver1.spawnEntityInWorld(entity1);
+            }
+
+            entity.isDead = true;
+            entity.worldObj.theProfiler.endSection();
+            worldserver.resetUpdateEntityTick();
+            worldserver1.resetUpdateEntityTick();
+            entity.worldObj.theProfiler.endSection();
         }
     }
 }

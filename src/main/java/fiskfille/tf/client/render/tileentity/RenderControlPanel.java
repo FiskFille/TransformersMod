@@ -76,7 +76,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.table2.postRender(0.0625F);
             
             String dimensionName = "";
-            WorldProvider provider = DimensionManager.getProvider(tile.getDestinationDimensionID());
+            WorldProvider provider = DimensionManager.getProvider(tile.getDestDimensionID());
             
             if (provider != null)
             {
@@ -124,7 +124,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             	model.dimPanel7.postRender(0.0625F);
             	GL11.glTranslatef(0.345F, -0.025F, -0.0625F * 6.3F);
             	GL11.glRotatef(5, 1, 0, 0);
-            	renderCenteredText(tile.getDestinationDimensionID() + "", 0, 0, 0.02F, -1, 0.00725F);
+            	renderCenteredText(tile.getDestDimensionID() + "", 0, 0, 0.02F, -1, 0.00725F);
             	GL11.glPopMatrix();
             	GL11.glPopMatrix();
             }

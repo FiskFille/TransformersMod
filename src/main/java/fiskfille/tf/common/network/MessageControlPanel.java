@@ -113,15 +113,9 @@ public class MessageControlPanel implements IMessage
                     }
                     else if (action == 18 || action == 19)
                     {
-                    	if (tile.hasUpgrade(DataCore.spaceBridge) && !tile.activationLeverState)
+                    	if (tile.hasUpgrade(DataCore.spaceBridge))
                     	{
-                    		tile.destDimIndex += action == 18 ? -1 : 1;
-                    		tile.destDimIndex %= DimensionManager.getIDs().length;
-                    		
-                    		if (tile.destDimIndex < 0)
-                    		{
-                    			tile.destDimIndex = DimensionManager.getIDs().length - 1;
-                    		}
+                    	    tile.cycleDimensionID(action == 18 ? -1 : 1);
                     	}
                     }
                 }

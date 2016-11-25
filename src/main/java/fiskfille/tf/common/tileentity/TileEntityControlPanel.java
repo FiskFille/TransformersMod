@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -14,11 +13,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -33,6 +35,7 @@ import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
 import fiskfille.tf.common.item.TFItems;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
@@ -62,6 +65,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
 	public ChunkCoordinates groundBridgeFramePos;
 	private Ticket chunkTicket;
+	private Ticket destChunkTicket;
 
 	@Override
 	public void updateEntity()
@@ -229,11 +233,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
 				if (portalDirection % 2 == 0)
 				{
-					BlockGroundBridgeTeleporter.fillNorthFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+					BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
 				}
 				else
 				{
-					BlockGroundBridgeTeleporter.fillEastFacingFrame(worldObj, destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+					BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
 				}
 			}
 			
@@ -293,6 +297,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
 	public boolean checkForSpace()
 	{
+	    World world = getDestWorld();
 		Block b = Blocks.air;
 		Block b1 = TFBlocks.groundBridgeTeleporter;
 
@@ -302,7 +307,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 			{
 				for (int j = 0; j < 3; ++j)
 				{
-					if (!(worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b || worldObj.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b1) || !(worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b || worldObj.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b1))
+					if (!(world.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b || world.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b1) || !(world.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b || world.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b1))
 					{
 						return false;
 					}
@@ -315,7 +320,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 			{
 				for (int j = 0; j < 3; ++j)
 				{
-					if (!(worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b || worldObj.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b1) || !(worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b || worldObj.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b1))
+					if (!(world.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b || world.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b1) || !(world.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b || world.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b1))
 					{
 						return false;
 					}
@@ -344,6 +349,12 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
 		return i + srcPortalDirection * 2;
 	}
+	
+	public WorldServer getDestWorld()
+	{
+	    MinecraftServer server = MinecraftServer.getServer();
+        return server.worldServerForDimension(getDestDimensionID());
+	}
 
 	public void changeSwitch(int group, int id, int amount)
 	{
@@ -357,6 +368,22 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 			}
 		}
 	}
+	
+	public void cycleDimensionID(int amount)
+    {
+	    if (!activationLeverState)
+        {
+	        destDimIndex += amount;
+	        destDimIndex %= DimensionManager.getIDs().length;
+
+	        if (destDimIndex < 0)
+	        {
+	            destDimIndex = DimensionManager.getIDs().length - 1;
+	        }
+	        
+	        markBlockForUpdate();
+        }
+    }
 	
 	public boolean hasUpgrade(DataCore dataCore)
 	{
@@ -376,7 +403,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 		return false;
 	}
 	
-	public int getDestinationDimensionID()
+	public int getDestDimensionID()
 	{
 		if (!hasUpgrade(DataCore.spaceBridge))
 		{
@@ -390,22 +417,31 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	{
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
+		Ticket ticket = getDestDimensionID() == worldObj.provider.dimensionId ? chunkTicket : destChunkTicket;
         boolean updateTicket = true;
 
-        if (chunkTicket != null)
+        if (ticket != null)
         {
-            NBTTagCompound modData = chunkTicket.getModData();
+            NBTTagCompound modData = ticket.getModData();
 
-            if (destX == modData.getInteger("destX") && destZ == modData.getInteger("destZ"))
+            if (destX == modData.getInteger("destX") && destZ == modData.getInteger("destZ") && (!modData.getBoolean("destPortal") || ticket.world.provider.dimensionId != getDestDimensionID()))
             {
                 updateTicket = false;
             }
-        }
-
-        if (updateTicket)
-        {
-            ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));
-            chunkTicket = null;
+            
+            if (updateTicket)
+            {
+                ForgeChunkManager.releaseTicket(ticket);
+                
+                if (modData.getBoolean("destPortal"))
+                {
+                    destChunkTicket = null;
+                }
+                else
+                {
+                    chunkTicket = null;
+                }
+            }
         }
 	}
 	
@@ -532,27 +568,58 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	{
 		if (!worldObj.isRemote)
 		{
+//		    System.out.println("Tickets: " + (ForgeChunkManager.getMaxTicketLengthFor(TransformersMod.modid) - ForgeChunkManager.ticketCountAvailableFor(TransformersMod.instance, worldObj)));
+		    
 			while (chunkTicket == null)
 			{
 				chunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, worldObj, Type.NORMAL);
 			}
 			
-			if (chunkTicket == null)
+			destChunkTicket = getDestDimensionID() == worldObj.provider.dimensionId ? chunkTicket : destChunkTicket;
+			
+			while (destChunkTicket == null || destChunkTicket.world.provider.dimensionId != getDestDimensionID())
+            {
+			    destChunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, getDestWorld(), Type.NORMAL);
+            }
+			
+			if (chunkTicket == null || destChunkTicket == null)
 			{
 				System.err.println("Unable to load chunks!");
 			}
 			else
             {
-                NBTTagCompound modData = chunkTicket.getModData();
+			    if (getDestDimensionID() == worldObj.provider.dimensionId)
+			    {
+			        NBTTagCompound modData = chunkTicket.getModData();
+			        modData.setInteger("blockX", xCoord);
+			        modData.setInteger("blockY", yCoord);
+			        modData.setInteger("blockZ", zCoord);
+			        modData.setInteger("destX", destX);
+                    modData.setInteger("destZ", destZ);
+			        modData.setBoolean("destPortal", false);
 
-                modData.setInteger("blockX", xCoord);
-                modData.setInteger("blockY", yCoord);
-                modData.setInteger("blockZ", zCoord);
-                modData.setInteger("destX", destX);
-                modData.setInteger("destZ", destZ);
+			        ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+			        ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));  
+			    }
+			    else
+			    {
+			        NBTTagCompound modData = chunkTicket.getModData();
+	                modData.setInteger("blockX", xCoord);
+	                modData.setInteger("blockY", yCoord);
+	                modData.setInteger("blockZ", zCoord);
+	                modData.setBoolean("destPortal", false);
+	                
+	                modData = destChunkTicket.getModData();
+                    modData.setInteger("blockX", xCoord);
+                    modData.setInteger("blockY", yCoord);
+                    modData.setInteger("blockZ", zCoord);
+                    modData.setInteger("destX", destX);
+                    modData.setInteger("destZ", destZ);
+                    modData.setBoolean("destPortal", true);
 
-                ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
-                ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));
+                    ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+                    ForgeChunkManager.forceChunk(destChunkTicket, new ChunkCoordIntPair(destX >> 4, destZ >> 4));
+			    }
             }
 		}
 	}
@@ -566,16 +633,41 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 	@Override
 	public void loadTicket(Ticket ticket)
 	{
-		if (chunkTicket == null)
-		{
-			chunkTicket = ticket;
-		}
-		
-		ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
-		ForgeChunkManager.forceChunk(ticket, loadChunk);
-        NBTTagCompound modData = chunkTicket.getModData();
-        ChunkCoordIntPair destChunk = new ChunkCoordIntPair(modData.getInteger("destX") >> 4, modData.getInteger("destZ") >> 4);
-        ForgeChunkManager.forceChunk(ticket, destChunk);
+	    NBTTagCompound modData = ticket.getModData();
+	    
+	    if (modData.getBoolean("destPortal"))
+	    {
+	        if (destChunkTicket == null)
+            {
+	            destChunkTicket = ticket;
+            }
+	        
+            ChunkCoordIntPair destChunk = new ChunkCoordIntPair(modData.getInteger("destX") >> 4, modData.getInteger("destZ") >> 4);
+            ForgeChunkManager.forceChunk(ticket, destChunk);
+	    }
+	    else if (getDestDimensionID() == worldObj.provider.dimensionId)
+	    {
+	        if (chunkTicket == null)
+	        {
+	            chunkTicket = ticket;
+	        }
+	        
+	        ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
+	        ForgeChunkManager.forceChunk(ticket, loadChunk);
+	        
+	        ChunkCoordIntPair destChunk = new ChunkCoordIntPair(modData.getInteger("destX") >> 4, modData.getInteger("destZ") >> 4);
+	        ForgeChunkManager.forceChunk(ticket, destChunk);
+	    }
+	    else
+	    {
+	        if (chunkTicket == null)
+            {
+                chunkTicket = ticket;
+            }
+            
+            ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
+            ForgeChunkManager.forceChunk(ticket, loadChunk);
+	    }
 	}
 
 //	@Override
