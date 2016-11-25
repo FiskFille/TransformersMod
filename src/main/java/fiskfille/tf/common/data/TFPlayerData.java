@@ -8,7 +8,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class TFPlayerData implements IExtendedEntityProperties
 {
-    public static final String IDENTIFIER = "TFPLAYERDATA";
+    public static final String IDENTIFIER = "TFPlayer";
 
     public int altMode;
     public int prevAltMode;

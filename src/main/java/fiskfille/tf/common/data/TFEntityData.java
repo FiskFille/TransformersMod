@@ -7,7 +7,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class TFEntityData implements IExtendedEntityProperties
 {
-    public static final String IDENTIFIER = "TFENTITYDATA";
+    public static final String IDENTIFIER = "TFEntity";
 
     public int groundBridgeCooldown;
 
@@ -15,13 +15,13 @@ public class TFEntityData implements IExtendedEntityProperties
     {
         return (TFEntityData) entity.getExtendedProperties(IDENTIFIER);
     }
-    
+
     public void onUpdate()
     {
-    	if (groundBridgeCooldown > 0)
-    	{
-    		--groundBridgeCooldown;
-    	}
+        if (groundBridgeCooldown > 0)
+        {
+            --groundBridgeCooldown;
+        }
     }
 
     @Override
