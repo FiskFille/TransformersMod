@@ -1,16 +1,12 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.item.TFItems;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -30,12 +26,18 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.item.TFItems;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
 {
@@ -46,7 +48,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     public int destX;
     public int destY;
     public int destZ;
-    public int destDimIndex;
+    public int destDimIndex = 1;
 
     public int portalDirection;
     public float animPortalDirection;
@@ -66,6 +68,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket)null, (Ticket)null));
     public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk)null, (ForcedChunk)null));
 
+    private Integer[] cachedDimensionIDs;
+    
     @Override
     public void updateEntity()
     {
@@ -383,11 +387,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         if (!activationLeverState)
         {
             destDimIndex += amount;
-            destDimIndex %= DimensionManager.getStaticDimensionIDs().length;
+            destDimIndex %= getDimensionIDs().length;
 
             if (destDimIndex < 0)
             {
-                destDimIndex = DimensionManager.getStaticDimensionIDs().length - 1;
+                destDimIndex = getDimensionIDs().length - 1;
             }
 
             markBlockForUpdate();
@@ -419,7 +423,37 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             return 0;
         }
 
-        return DimensionManager.getStaticDimensionIDs()[MathHelper.clamp_int(destDimIndex, 0, DimensionManager.getIDs().length - 1)];
+        return getDimensionIDs()[MathHelper.clamp_int(destDimIndex, 0, getDimensionIDs().length - 1)];
+    }
+    
+    private Integer[] getDimensionIDs()
+    {
+        if (cachedDimensionIDs == null)
+        {
+            Integer[] aint = DimensionManager.getIDs();
+            List<Integer> list = Lists.newArrayList();
+            
+            for (int i = 0; i < aint.length; ++i)
+            {
+                if (DimensionManager.shouldLoadSpawn(aint[i]))
+                {
+                    list.add(aint[i]);
+                }
+            }
+            
+            Collections.sort(list, new Comparator<Integer>()
+            {
+                @Override
+                public int compare(Integer arg0, Integer arg1)
+                {
+                    return Double.valueOf(arg0).compareTo(Double.valueOf(arg1));
+                }
+            });
+            
+            cachedDimensionIDs = list.toArray(new Integer[list.size()]);
+        }
+        
+        return cachedDimensionIDs;
     }
 
     public void markBlockForUpdate()
@@ -428,22 +462,27 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         if (!worldObj.isRemote)
         {
-            SubTicket subTicket = SubTicket.fromTile(this);
+            Ticket ticket = chunkTickets.get(1);
 
-            if (subTicket != null)
+            if (ticket != null)
             {
-                NBTTagCompound data = subTicket.getTag();
-                boolean updateTicket = true;
-
-                if (destX == data.getInteger("destX") && destZ == data.getInteger("destZ") && getDestWorld() == subTicket.owner.world)
+                SubTicket subTicket = getSubTicket(ticket, 1);
+                
+                if (subTicket != null)
                 {
-                    updateTicket = false;
-                }
+                    NBTTagCompound data = subTicket.getTag();
+                    boolean updateTicket = true;
 
-                if (updateTicket)
-                {
-                    releaseChunk(1);
-                    loadChunks();
+                    if (destX == data.getInteger("destX") && destZ == data.getInteger("destZ") && getDestWorld() == subTicket.owner.world)
+                    {
+                        updateTicket = false;
+                    }
+
+                    if (updateTicket)
+                    {
+                        releaseChunk(1);
+                        loadChunks();
+                    }
                 }
             }
         }
@@ -485,6 +524,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         destX = nbt.getInteger("DestX");
         destY = nbt.getInteger("DestY");
         destZ = nbt.getInteger("DestZ");
+        destDimIndex = nbt.getInteger("DestDimIndex");
 
         if (nbt.getBoolean("ReadFramePos"))
         {
@@ -520,6 +560,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         nbt.setInteger("DestX", destX);
         nbt.setInteger("DestY", destY);
         nbt.setInteger("DestZ", destZ);
+        nbt.setInteger("DestDimIndex", destDimIndex);
 
         if (groundBridgeFramePos != null)
         {
@@ -622,6 +663,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             if (ticket != null)
             {
                 forceChunk(subTicket.assign(ticket), index, chunk);
+                System.out.println("Loading chunk " + index + ": " + chunk);
             }
         }
     }
@@ -630,33 +672,37 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     {
         if (chunkTickets.get(index) != null)
         {
-            List<SubTicket> list = SubTicket.getChildren(chunkTickets.get(index));
-            SubTicket subTicket = null;
-            
-            for (SubTicket subTicket1 : list)
-            {
-                if (subTicket1.xCoord == xCoord && subTicket1.yCoord == yCoord && subTicket1.zCoord == zCoord)
-                {
-                    if (index == 1 && subTicket1.getTag().hasKey("destX") && subTicket1.getTag().hasKey("destZ"))
-                    {
-                        subTicket = subTicket1;
-                        break;
-                    }
-                    else if (index == 0)
-                    {
-                        subTicket = subTicket1;
-                        break;
-                    }
-                }
-            }
+            SubTicket subTicket = getSubTicket(chunkTickets.get(index), index);
             
             if (subTicket != null)
             {
-                TFChunkManager.releaseChunk(SubTicket.fromTile(chunkTickets.get(index), this), forcedChunks.get(index));
+                TFChunkManager.releaseChunk(subTicket, forcedChunks.get(index));
                 chunkTickets.set(index, null);
                 forcedChunks.set(index, null);
             }
         }
+    }
+    
+    public SubTicket getSubTicket(Ticket ticket, int index)
+    {
+        List<SubTicket> list = SubTicket.getChildren(chunkTickets.get(index));
+        
+        for (SubTicket subTicket : list)
+        {
+            if (subTicket.xCoord == xCoord && subTicket.yCoord == yCoord && subTicket.zCoord == zCoord)
+            {
+                if (index == 1 && subTicket.getTag().hasKey("destX") && subTicket.getTag().hasKey("destZ"))
+                {
+                    return subTicket;
+                }
+                else if (index == 0)
+                {
+                    return subTicket;
+                }
+            }
+        }
+        
+        return null;
     }
 
 //    @Override

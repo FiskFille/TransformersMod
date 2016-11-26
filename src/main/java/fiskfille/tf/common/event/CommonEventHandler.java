@@ -275,7 +275,7 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event)
     {
-        TFChunkManager.clearCache();
+//        TFChunkManager.clearCache();
     }
 
     @SubscribeEvent

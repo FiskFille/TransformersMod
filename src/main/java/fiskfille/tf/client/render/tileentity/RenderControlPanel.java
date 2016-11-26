@@ -75,19 +75,21 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.table2.postRender(0.0625F);
 
             String dimensionName = "";
-
-            WorldServer world = DimensionManager.getWorld(tile.getDestDimensionID());
-
-            if (world != null)
+            
+            if (tile.getWorldObj() != null)
             {
-                WorldProvider provider = world.provider;
+                WorldServer world = tile.getDestWorld();
 
-                if (provider != null)
+                if (world != null)
                 {
-                    dimensionName = provider.getDimensionName();
+                    WorldProvider provider = world.provider;
+
+                    if (provider != null)
+                    {
+                        dimensionName = provider.getDimensionName();
+                    }
                 }
             }
-
 
             GL11.glPushMatrix();
             model.screen1.postRender(0.0625F);

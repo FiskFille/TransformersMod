@@ -36,4 +36,10 @@ public class ForcedChunk extends ChunkCoordIntPair
             return chunkXPos == forcedChunk.chunkXPos && chunkZPos == forcedChunk.chunkZPos && worldObj.equals(forcedChunk.worldObj);
         }
     }
+    
+    @Override
+    public String toString()
+    {
+        return "[" + chunkXPos + ", " + chunkZPos + ", " + worldObj + "]";
+    }
 }

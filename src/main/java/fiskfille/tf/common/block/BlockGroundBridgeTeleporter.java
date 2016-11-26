@@ -1,11 +1,12 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFEntityData;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+import static net.minecraftforge.common.util.ForgeDirection.EAST;
+import static net.minecraftforge.common.util.ForgeDirection.NORTH;
+import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
+import static net.minecraftforge.common.util.ForgeDirection.WEST;
+
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.ITileEntityProvider;
@@ -14,22 +15,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.network.play.server.S07PacketRespawn;
-import net.minecraft.network.play.server.S1FPacketSetExperience;
-import net.minecraft.server.management.ItemInWorldManager;
-import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.demo.DemoWorldManager;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.Random;
-
-import static net.minecraftforge.common.util.ForgeDirection.*;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.data.TFEntityData;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+import fiskfille.tf.common.world.TeleporterGroundBridge;
 
 public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITileEntityProvider
 {
@@ -215,61 +212,14 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
 
                 if (dimension != entity.dimension)
                 {
-                    WorldServer world = playerMP.getServerForPlayer();
-                    ServerConfigurationManager configurationManager = playerMP.mcServer.getConfigurationManager();
-
-                    WorldServer newWorld = playerMP.mcServer.worldServerForDimension(dimension);
-
-                    world.getEntityTracker().removePlayerFromTrackers(playerMP);
-                    world.getEntityTracker().removeEntityFromAllTrackingPlayers(playerMP);
-                    world.getPlayerManager().removePlayer(playerMP);
-                    configurationManager.playerEntityList.remove(playerMP);
-                    playerMP.mcServer.worldServerForDimension(playerMP.dimension).removePlayerEntityDangerously(playerMP);
-                    boolean spawnForced = playerMP.isSpawnForced(dimension);
-                    playerMP.dimension = dimension;
-                    ItemInWorldManager itemManager;
-
-                    if (playerMP.mcServer.isDemo())
-                    {
-                        itemManager = new DemoWorldManager(newWorld);
-                    }
-                    else
-                    {
-                        itemManager = new ItemInWorldManager(newWorld);
-                    }
-
-                    EntityPlayerMP newPlayer = new EntityPlayerMP(playerMP.mcServer, newWorld, playerMP.getGameProfile(), itemManager);
-                    newPlayer.setPosition(posX, posY, posZ);
-                    newPlayer.playerNetServerHandler = playerMP.playerNetServerHandler;
-                    newPlayer.clonePlayer(playerMP, true);
-                    newPlayer.dimension = dimension;
-                    newPlayer.setEntityId(playerMP.getEntityId());
-
-                    newPlayer.theItemInWorldManager.setGameType(playerMP.theItemInWorldManager.getGameType());
-
-                    newPlayer.theItemInWorldManager.initializeGameType(newWorld.getWorldInfo().getGameType());
-
-                    newPlayer.playerNetServerHandler.setPlayerLocation(posX, posY, posZ, yaw, entity.rotationPitch);
-                    ChunkCoordinates position = new ChunkCoordinates((int) posX, (int) posY, (int) posZ);
-
-                    newPlayer.setSpawnChunk(position, spawnForced);
-                    newWorld.theChunkProviderServer.loadChunk((int) newPlayer.posX >> 4, (int) newPlayer.posZ >> 4);
-
-                    newPlayer.playerNetServerHandler.sendPacket(new S07PacketRespawn(dimension, newPlayer.worldObj.difficultySetting, newPlayer.worldObj.getWorldInfo().getTerrainType(), newPlayer.theItemInWorldManager.getGameType()));
-                    newPlayer.playerNetServerHandler.sendPacket(new S1FPacketSetExperience(playerMP.experience, playerMP.experienceTotal, playerMP.experienceLevel));
-                    configurationManager.updateTimeAndWeatherForPlayer(newPlayer, newWorld);
-                    newWorld.getPlayerManager().addPlayer(newPlayer);
-                    newWorld.spawnEntityInWorld(newPlayer);
-                    configurationManager.playerEntityList.add(newPlayer);
-                    newPlayer.addSelfToInternalCraftingInventory();
-                    newPlayer.setHealth(playerMP.getHealth());
-                    newPlayer.playerNetServerHandler.setPlayerLocation(posX, posY, posZ, yaw, entity.rotationPitch);
+                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension, new TeleporterGroundBridge(playerMP.mcServer.worldServerForDimension(dimension)));
                 }
 
+                playerMP.playerNetServerHandler.setPlayerLocation(posX, posY, posZ, yaw, entity.rotationPitch);
                 entity.motionX = motionX;
                 entity.motionZ = motionZ;
             }
-            else if (!(entity instanceof EntityPlayer))
+            else if (!(entity instanceof EntityPlayer) && dimension == entity.dimension)
             {
                 double motionX = entity.motionX;
                 double motionZ = entity.motionZ;
