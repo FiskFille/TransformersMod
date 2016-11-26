@@ -3,7 +3,6 @@ package fiskfille.tf.common.event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
@@ -42,7 +41,6 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
-
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;

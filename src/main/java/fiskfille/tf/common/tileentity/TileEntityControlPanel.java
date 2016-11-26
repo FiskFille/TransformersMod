@@ -1,12 +1,16 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.item.TFItems;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -26,18 +30,12 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.google.common.collect.Lists;
-
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.item.TFItems;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
 {
@@ -105,9 +103,9 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
                 Collections.sort(list, new Comparator<TileEntity>()
                 {
                     @Override
-                    public int compare(TileEntity arg0, TileEntity arg1)
+                    public int compare(TileEntity tile1, TileEntity tile2)
                     {
-                        return Integer.compare((int)Math.sqrt(getDistanceFrom(arg0.xCoord, arg0.zCoord, arg0.yCoord)), (int)Math.sqrt(getDistanceFrom(arg1.xCoord, arg1.zCoord, arg1.yCoord)));
+                        return Double.valueOf(Math.sqrt(getDistanceFrom(tile1.xCoord, tile1.zCoord, tile1.yCoord))).compareTo(Math.sqrt(getDistanceFrom(tile2.xCoord, tile2.zCoord, tile2.yCoord)));
                     }
                 });
 
@@ -430,14 +428,14 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         if (!worldObj.isRemote)
         {
-            Ticket ticket = chunkTickets.get(1);
+            SubTicket subTicket = SubTicket.fromTile(this);
 
-            if (ticket != null)
+            if (subTicket != null)
             {
-                NBTTagCompound modData = ticket.getModData();
+                NBTTagCompound data = subTicket.getTag();
                 boolean updateTicket = true;
 
-                if (destX == modData.getInteger("destX") && destZ == modData.getInteger("destZ") && getDestWorld() == ticket.world)
+                if (destX == data.getInteger("destX") && destZ == data.getInteger("destZ") && getDestWorld() == subTicket.owner.world)
                 {
                     updateTicket = false;
                 }
