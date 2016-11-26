@@ -8,7 +8,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -96,27 +95,32 @@ public class MessageControlPanel implements IMessage
                     }
                     else if (action >= 15 && action <= 17)
                     {
-                    	int slot = action - 15;
-                    	
-                    	if (tile.getStackInSlot(slot) == null && player.getHeldItem() != null && tile.isItemValidForSlot(slot, player.getHeldItem()))
-                    	{
-                    		tile.setInventorySlotContents(slot, player.getHeldItem());
-                    		player.setCurrentItemOrArmor(0, null);
-                    	}
-                    	else if (tile.getStackInSlot(slot) != null && (player.getHeldItem() == null || tile.isItemValidForSlot(slot, player.getHeldItem())))
-                    	{
-                    		ItemStack itemstack = tile.getStackInSlot(slot).copy();
-                    		
-                    		tile.setInventorySlotContents(slot, player.getHeldItem());
-                    		player.setCurrentItemOrArmor(0, itemstack);
-                    	}
+                        if (!tile.activationLeverState)
+                        {
+                            int slot = action - 15;
+
+                            if (tile.getStackInSlot(slot) == null && player.getHeldItem() != null && tile.isItemValidForSlot(slot, player.getHeldItem()))
+                            {
+                                tile.setInventorySlotContents(slot, player.getHeldItem());
+                                player.setCurrentItemOrArmor(0, null);
+                            }
+                            else if (tile.getStackInSlot(slot) != null && (player.getHeldItem() == null || tile.isItemValidForSlot(slot, player.getHeldItem())))
+                            {
+                                ItemStack itemstack = tile.getStackInSlot(slot).copy();
+
+                                tile.setInventorySlotContents(slot, player.getHeldItem());
+                                player.setCurrentItemOrArmor(0, itemstack);
+                            }
+
+                            tile.markBlockForUpdate();
+                        }
                     }
                     else if (action == 18 || action == 19)
                     {
-                    	if (tile.hasUpgrade(DataCore.spaceBridge))
-                    	{
-                    	    tile.cycleDimensionID(action == 18 ? -1 : 1);
-                    	}
+                        if (tile.hasUpgrade(DataCore.spaceBridge))
+                        {
+                            tile.cycleDimensionID(action == 18 ? -1 : 1);
+                        }
                     }
                 }
 

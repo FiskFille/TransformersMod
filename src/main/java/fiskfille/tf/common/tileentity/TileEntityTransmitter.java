@@ -1,8 +1,32 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.IFluidHandler;
+
 import com.google.common.collect.Lists;
+
 import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.power.EnergonTank;
 import fiskfille.tf.common.energon.power.EnergonTankContainer;
@@ -19,29 +43,6 @@ import fiskfille.tf.common.network.MessageUpdateFluidState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.ForgeChunkManager.Type;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
-
-import java.util.List;
-import java.util.Map;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile, EnergonTankContainer
 {
@@ -59,7 +60,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public float lastEnergyUsage;
     public int lastFluidUsage;
 
-    private Ticket chunkTicket;
+    public Ticket chunkTicket;
 
     @Override
     public void updateEntity()
@@ -69,7 +70,20 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (getBlockMetadata() < 4)
         {
-            loadChunks();
+            if (!worldObj.isRemote)
+            {
+                if (chunkTicket == null)
+                {
+                    Ticket ticket = TFChunkManager.getTicketForChunk(ForcedChunk.fromTile(this));
+
+                    if (ticket != null)
+                    {
+                        SubTicket subTicket = SubTicket.fromTile(this);
+                        forceChunks(subTicket.assign(ticket));
+                    }
+                }
+            }
+
             transmissionHandler.onUpdate(worldObj);
             receiverHandler.onUpdate(worldObj);
 
@@ -82,7 +96,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             }
             else
             {
-//                receiveEnergy(110); // TODO: Remove & Add
+                //                receiveEnergy(110); // TODO: Remove & Add
 
                 if (getEnergy() > 0)
                 {
@@ -432,48 +446,31 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public void loadChunks()
+    public void invalidate()
     {
+        super.invalidate();
+
         if (!worldObj.isRemote)
         {
-            while (chunkTicket == null)
-            {
-                chunkTicket = ForgeChunkManager.requestTicket(TransformersMod.instance, worldObj, Type.NORMAL);
-            }
-
-            if (chunkTicket == null)
-            {
-                System.err.println("Unable to load chunks!");
-            }
-            else
-            {
-                NBTTagCompound modData = chunkTicket.getModData();
-
-                modData.setInteger("blockX", xCoord);
-                modData.setInteger("blockY", yCoord);
-                modData.setInteger("blockZ", zCoord);
-
-                ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
-            }
+            releaseChunks();
         }
     }
 
     @Override
-    public void unloadChunks()
+    public void forceChunks(SubTicket subTicket)
     {
-        ForgeChunkManager.unforceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+        releaseChunks();
+        chunkTicket = subTicket.owner;
+        TFChunkManager.forceChunk(subTicket.owner, ForcedChunk.fromTile(this));
     }
 
-    @Override
-    public void loadTicket(Ticket ticket)
+    public void releaseChunks()
     {
-        if (chunkTicket == null)
+        if (chunkTicket != null)
         {
-            chunkTicket = ticket;
+            TFChunkManager.releaseChunk(SubTicket.fromTile(chunkTicket, this), ForcedChunk.fromTile(this));
+            chunkTicket = null;
         }
-
-        ChunkCoordIntPair loadChunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
-        ForgeChunkManager.forceChunk(ticket, loadChunk);
     }
 
     @Override

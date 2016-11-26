@@ -66,9 +66,14 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        NBTTagCompound controlPanel = new NBTTagCompound();
-        this.controlPanel.writeToNBT(controlPanel);
-        nbt.setTag("ControlPanel", controlPanel);
+        
+        if (controlPanel != null)
+        {
+            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            controlPanel.writeToNBT(nbttagcompound);
+            nbt.setTag("ControlPanel", nbttagcompound);
+        }
+
         nbt.setBoolean("ReturnPortal", returnPortal);
     }
 

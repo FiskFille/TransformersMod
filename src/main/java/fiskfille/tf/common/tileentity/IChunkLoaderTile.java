@@ -1,12 +1,8 @@
 package fiskfille.tf.common.tileentity;
 
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import fiskfille.tf.common.chunk.SubTicket;
 
 public interface IChunkLoaderTile
 {
-	public void loadChunks();
-
-	public void unloadChunks();
-	
-	public void loadTicket(Ticket ticket);
+	public void forceChunks(SubTicket subTicket);
 }

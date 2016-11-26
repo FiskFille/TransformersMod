@@ -7,6 +7,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.chunk.TFChunkManager;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
@@ -40,6 +41,8 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.WorldEvent;
+
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -272,8 +275,9 @@ public class CommonEventHandler
     }
 
     @SubscribeEvent
-    public void onWorldTick(WorldTickEvent event)
+    public void onWorldUnload(WorldEvent.Unload event)
     {
+        TFChunkManager.clearCache();
     }
 
     @SubscribeEvent
