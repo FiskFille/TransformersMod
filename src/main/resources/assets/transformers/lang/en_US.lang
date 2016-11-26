@@ -87,6 +87,7 @@ tile.energon_transmitter.name=Energon Transmitter
 tile.energy_relay.name=Energy Relay
 tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.ground_bridge_frame.name=Ground Bridge Frame
+tile.ground_bridge_portal.name=Ground Bridge Portal
 tile.transformer_assembly_table.name=Transformer Assembly Table
 
 ------Fluids------
@@ -197,6 +198,7 @@ ground_bridge.error.no_portal_linked=No portal linked! Locator was unable to fin
 ground_bridge.error.portal_obstructed=Portal obstructed! The linked Ground Bridge portal frame is being obscured by adjacent blocks!
 ground_bridge.error.out_of_bounds=Out of bounds! Destination cannot be lower than y=0 or higher than y=%s!
 ground_bridge.upgrade.space_bridge=Space Bridge
+ground_bridge.upgrade.leveler=Leveler
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!

@@ -9,6 +9,7 @@ public class DataCore
 	public static int indexes = -1;
 	
 	public static final DataCore spaceBridge = new DataCore("space_bridge", 0x5FEEEE);
+	public static final DataCore leveler = new DataCore("leveler", 0x61C37B);
 	
 	private final String id;
 	private final int color;

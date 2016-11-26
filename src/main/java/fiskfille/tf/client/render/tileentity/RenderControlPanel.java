@@ -1,11 +1,5 @@
 package fiskfille.tf.client.render.tileentity;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelControlPanel;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,8 +9,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelControlPanel;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderControlPanel extends TileEntitySpecialRenderer
 {
@@ -95,7 +96,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.screen1.postRender(0.0625F);
             model.screen2.postRender(0.0625F);
             renderText(StatCollector.translateToLocal("ground_bridge.destination"), 0, 0, 0, -1);
-            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", tile.destX, tile.destY, tile.destZ, dimensionName), 1, 0, 0, -1);
+            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", tile.destX, tile.hasUpgrade(DataCore.leveler) ? String.format("%s -> %s", tile.prevDestY, tile.destY) : tile.destY, tile.destZ, dimensionName), 1, 0, 0, -1);
 
             if (!tile.errors.isEmpty())
             {

@@ -47,6 +47,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
     public int destX;
     public int destY;
+    public int prevDestY;
     public int destZ;
     public int destDimIndex = 1;
 
@@ -273,6 +274,27 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         {
             destZ += switches[2][i] * increments[i];
         }
+        
+        prevDestY = destY;
+        
+        if (hasUpgrade(DataCore.leveler))
+        {
+            World world = getDestWorld();
+            
+            if (world != null)
+            {
+                int x = destX;
+                int y = destY;
+                int z = destZ;
+                
+                while (y > 2 && checkForSpace(world, x, y - 1, z))
+                {
+                    --y;
+                }
+                
+                destY = y;
+            }
+        }
     }
 
     public boolean isPortalObstructed(int x, int y, int z, ForgeDirection direction)
@@ -306,10 +328,14 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         return false;
     }
-
+    
     public boolean checkForSpace()
     {
-        World world = getDestWorld();
+        return checkForSpace(getDestWorld(), destX, destY, destZ);
+    }
+
+    public boolean checkForSpace(World world, int x, int y, int z)
+    {
         Block b = Blocks.air;
         Block b1 = TFBlocks.groundBridgeTeleporter;
 
@@ -319,7 +345,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (!(world.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b || world.getBlock(destX - 1 + j, destY - 2 + i, destZ) == b1) || !(world.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b || world.getBlock(destX - 2 + i, destY - 1 + j, destZ) == b1))
+                    if (!(world.getBlock(x - 1 + j, y - 2 + i, z) == b || world.getBlock(x - 1 + j, y - 2 + i, z) == b1) || !(world.getBlock(x - 2 + i, y - 1 + j, z) == b || world.getBlock(x - 2 + i, y - 1 + j, z) == b1))
                     {
                         return false;
                     }
@@ -332,7 +358,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (!(world.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b || world.getBlock(destX, destY - 2 + i, destZ - 1 + j) == b1) || !(world.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b || world.getBlock(destX, destY - 1 + j, destZ - 2 + i) == b1))
+                    if (!(world.getBlock(x, y - 2 + i, z - 1 + j) == b || world.getBlock(x, y - 2 + i, z - 1 + j) == b1) || !(world.getBlock(x, y - 1 + j, z - 2 + i) == b || world.getBlock(x, y - 1 + j, z - 2 + i) == b1))
                     {
                         return false;
                     }
@@ -663,7 +689,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             if (ticket != null)
             {
                 forceChunk(subTicket.assign(ticket), index, chunk);
-                System.out.println("Loading chunk " + index + ": " + chunk);
             }
         }
     }
