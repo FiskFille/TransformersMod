@@ -7,8 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldServer;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,6 +15,7 @@ import fiskfille.tf.client.model.tileentity.ModelControlPanel;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderControlPanel extends TileEntitySpecialRenderer
@@ -79,17 +78,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             
             if (tile.getWorldObj() != null)
             {
-                WorldServer world = tile.getDestWorld();
-
-                if (world != null)
-                {
-                    WorldProvider provider = world.provider;
-
-                    if (provider != null)
-                    {
-                        dimensionName = provider.getDimensionName();
-                    }
-                }
+                dimensionName = TFHelper.getDimensionName(tile.getDestDimensionID());
             }
 
             GL11.glPushMatrix();

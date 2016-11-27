@@ -13,7 +13,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidStack;
 import fiskfille.tf.common.energon.power.EnergonTank;
 import fiskfille.tf.common.energon.power.EnergonTankContainer;
@@ -269,5 +271,17 @@ public class TFHelper
             worldserver1.resetUpdateEntityTick();
             entity.worldObj.theProfiler.endSection();
         }
+    }
+    
+    public static String getDimensionName(int id)
+    {
+        WorldProvider provider = DimensionManager.getProvider(id);
+        
+        if (provider != null)
+        {
+            return provider.getDimensionName();
+        }
+        
+        return "Unknown";
     }
 }

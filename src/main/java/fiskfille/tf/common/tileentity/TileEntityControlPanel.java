@@ -37,7 +37,9 @@ import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.helper.TFMathHelper;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
 {
@@ -82,6 +84,25 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         {
             calculateCoords();
             errors.clear();
+            
+            if (hasUpgrade(DataCore.leveler))
+            {
+                World world = getDestWorld();
+                
+                if (world != null)
+                {
+                    int x = destX;
+                    int y = destY;
+                    int z = destZ;
+                    
+                    while (y > 2 && checkForSpace(world, x, y - 1, z))
+                    {
+                        --y;
+                    }
+                    
+                    destY = y;
+                }
+            }
             
             if (!worldObj.isRemote)
             {
@@ -222,11 +243,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
                 if (portalDirection % 2 == 0)
                 {
-                    BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                    BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
                 }
                 else
                 {
-                    BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 3, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                    BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
                 }
             }
 
@@ -276,25 +297,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         }
         
         prevDestY = destY;
-        
-        if (hasUpgrade(DataCore.leveler))
-        {
-            World world = getDestWorld();
-            
-            if (world != null)
-            {
-                int x = destX;
-                int y = destY;
-                int z = destZ;
-                
-                while (y > 2 && checkForSpace(world, x, y - 1, z))
-                {
-                    --y;
-                }
-                
-                destY = y;
-            }
-        }
     }
 
     public boolean isPortalObstructed(int x, int y, int z, ForgeDirection direction)
@@ -345,7 +347,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (!(world.getBlock(x - 1 + j, y - 2 + i, z) == b || world.getBlock(x - 1 + j, y - 2 + i, z) == b1) || !(world.getBlock(x - 2 + i, y - 1 + j, z) == b || world.getBlock(x - 2 + i, y - 1 + j, z) == b1))
+                    if (!(world.getBlock(x - 1 + j, y + i, z) == b || world.getBlock(x - 1 + j, y + i, z) == b1) || !(world.getBlock(x - 2 + i, y + 1 + j, z) == b || world.getBlock(x - 2 + i, y + 1 + j, z) == b1))
                     {
                         return false;
                     }
@@ -358,7 +360,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (!(world.getBlock(x, y - 2 + i, z - 1 + j) == b || world.getBlock(x, y - 2 + i, z - 1 + j) == b1) || !(world.getBlock(x, y - 1 + j, z - 2 + i) == b || world.getBlock(x, y - 1 + j, z - 2 + i) == b1))
+                    if (!(world.getBlock(x, y + i, z - 1 + j) == b || world.getBlock(x, y + i, z - 1 + j) == b1) || !(world.getBlock(x, y + 1 + j, z - 2 + i) == b || world.getBlock(x, y + 1 + j, z - 2 + i) == b1))
                     {
                         return false;
                     }
@@ -407,6 +409,61 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             markBlockForUpdate();
         }
     }
+    
+    public void setSwitchesTo(DimensionalCoords coords)
+    {
+        if (!activationLeverState)
+        {
+            int[] increments = {1, 10, 100, 1000};
+            int[] aint = {coords.posX, coords.posY, coords.posZ};
+            int[] aint1 = {xCoord, yCoord, zCoord};
+            
+            switches = new Integer[][] {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+            
+            for (int i = 0; i < aint.length; ++i)
+            {
+                int[] aint2 = TFMathHelper.split(aint[i] - aint1[i], increments.length);
+                int[] aint3 = new int[increments.length];
+                
+                for (int index = aint2.length - 1; index >= 0; --index)
+                {
+                    int num = aint2[index];
+                    
+                    if (index > 0)
+                    {
+                        int nextNum = aint2[index - 1] / increments[index - 1];
+                        
+                        if (nextNum == 0)
+                        {
+                            num -= increments[index];
+                            aint2[index - 1] += increments[index];
+                        }
+                    }
+                    
+                    aint3[index] = num;
+                }
+                
+                for (int j = 0; j < aint3.length; ++j)
+                {
+                    switches[i][j] = MathHelper.clamp_int(aint3[j] / increments[j], -10, 10);
+                }
+            }
+            
+            for (int i = 0; i < getDimensionIDs().length; ++i)
+            {
+                int id = getDimensionIDs()[i];
+                
+                if (coords.dimension == id)
+                {
+                    destDimIndex = i;
+                    break;
+                }
+            }
+            
+            calculateCoords();
+            markBlockForUpdate();
+        }
+    }
 
     public void cycleDimensionID(int amount)
     {
@@ -446,7 +503,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     {
         if (!hasUpgrade(DataCore.spaceBridge))
         {
-            return 0;
+            return worldObj.provider.dimensionId;
         }
 
         return getDimensionIDs()[MathHelper.clamp_int(destDimIndex, 0, getDimensionIDs().length - 1)];

@@ -32,6 +32,7 @@ public class TFItems
     public static Item colorComponent;
     public static Item armorComponent;
     public static Item dataCore;
+    public static Item csd;
 
     public static Item skystrikesCrossbow;
     public static Item purgesKatana;
@@ -84,6 +85,7 @@ public class TFItems
         colorComponent = new ItemComponent(new ComponentColor());
         armorComponent = new ItemComponent(new ComponentArmor());
         dataCore = new ItemDataCore();
+        csd = new ItemCSD();
 
         skystrikesCrossbow = new ItemSkystrikesCrossbow();
         purgesKatana = new ItemPurgesKatana();
@@ -139,6 +141,7 @@ public class TFItems
         TFItemRegistry.registerItem(colorComponent, "Color Component");
         TFItemRegistry.registerItem(armorComponent, "Armor Component");
         TFItemRegistry.registerItem(dataCore, "Data Core");
+        TFItemRegistry.registerItem(csd, "CSD");
 
         TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow");
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana");

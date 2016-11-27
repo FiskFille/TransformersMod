@@ -14,6 +14,7 @@ item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
 item.data_core.name=Data Core
+item.csd.name=Coordinate Storage Device
 
 item.optic_sensor.name=Optic Sensor
 item.protoform_head.name=Protoform Head
@@ -206,6 +207,13 @@ transformium_detector.no_space.message=There is no space in your inventory for t
 transformium_detector.insert_fuel.message=Inserted Fuel.
 transformium_detector.no_energon.message=You do not have any Energon Crystal Pieces!
 transformium_detector.no_fuel.message=You have run out of fuel for your Transformium Detector!
+csd.mode=Mode: %s
+csd.save=Save
+csd.save.success=Saved coordinates (%s)
+csd.load=Load
+csd.load.success=Loaded coordinates (%s)
+csd.load.fail=Cannot load coordinates while Ground Bridge is active!
+csd.format=%1$s: %2$s, %3$s, %4$s
 stats.fuel.name=Fuel
 
 ------Tooltip------

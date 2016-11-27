@@ -185,7 +185,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         if (controlPanel.groundBridgeFramePos != null)
         {
             double posX = controlPanel.destX + 0.5D;
-            double posY = controlPanel.destY - 2.0D;
+            double posY = controlPanel.destY;
             double posZ = controlPanel.destZ + 0.5D;
             int dimension = controlPanel.getDestDimensionID();
             int srcYaw = controlPanel.getSrcPortalDirection();
