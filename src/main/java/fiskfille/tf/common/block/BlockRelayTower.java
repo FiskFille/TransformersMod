@@ -93,24 +93,8 @@ public class BlockRelayTower extends BlockTransmitter
 
             return true;
         }
-        else
-        {
-            int metadata = world.getBlockMetadata(x, y, z);
-
-            if (metadata >= 4)
-            {
-                y -= 1;
-            }
-
-            TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (tile instanceof TileEntityRelayTower)
-            {
-                TileEntityRelayTower tower = (TileEntityRelayTower) tile;
-            }
-
-            return false;
-        }
+        
+        return false;
     }
 
     @Override

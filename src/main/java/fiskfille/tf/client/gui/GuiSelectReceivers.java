@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -216,30 +215,17 @@ public class GuiSelectReceivers extends GuiScreen
     public int getLayer()
     {
         float f = 1 - heightSlider.percentage;
-        int highest = layers.get(layers.size() - 1);
-        int lowest = layers.get(0);
-        int num = Math.round(TFRenderHelper.median(highest, lowest, f));
+        int amount = layers.size() - 1;
 
-        if (!layers.contains(num))
+        for (int i = 0; i < layers.size(); ++i)
         {
-            int dist = Math.abs(layers.get(0) - num);
-            int idx = 0;
-
-            for (int i = 1; i < layers.size(); ++i)
+            if (f >= (i - 0.5F) / amount && f < (i + 0.5F) / amount)
             {
-                int cdist = Math.abs(layers.get(i) - num);
-
-                if (cdist < dist)
-                {
-                    idx = i;
-                    dist = cdist;
-                }
+                return layers.get(i);
             }
-
-            return layers.get(idx);
         }
 
-        return num;
+        return 4;
     }
 
     public int getRange()
@@ -263,7 +249,7 @@ public class GuiSelectReceivers extends GuiScreen
         {
             updateScreen();
         }
-        
+
         int boardWidth = 1 + getRange() * 2;
         int baseX = MathHelper.floor_double(width / 2 - (spacing + size) * boardWidth / 2);
         int baseY = MathHelper.floor_double(height / 2 - (spacing + size) * boardWidth / 2);
@@ -280,7 +266,7 @@ public class GuiSelectReceivers extends GuiScreen
             Vec3 src = Vec3.createVectorHelper(size * getRange() - 0.5F, size * getRange() - 0.5F, 0);
 
             int maxWidth = 0;
-            
+
             for (int i = 0; i < boardWidth; ++i)
             {
                 for (int j = 0; j < boardWidth; ++j)
@@ -289,15 +275,15 @@ public class GuiSelectReceivers extends GuiScreen
 
                     if (coords != null)
                     {
-                    	Vec3 src1 = Vec3.createVectorHelper(tile.xCoord + 0.5F, 0, tile.zCoord + 0.5F);
-                    	Vec3 dst = Vec3.createVectorHelper(coords.posX + 0.5F, 0, coords.posZ + 0.5F);
-                    	maxWidth = Math.max(maxWidth, MathHelper.floor_double(src1.distanceTo(dst)));
+                        Vec3 src1 = Vec3.createVectorHelper(tile.xCoord + 0.5F, 0, tile.zCoord + 0.5F);
+                        Vec3 dst = Vec3.createVectorHelper(coords.posX + 0.5F, 0, coords.posZ + 0.5F);
+                        maxWidth = Math.max(maxWidth, MathHelper.floor_double(src1.distanceTo(dst)));
                     }
                 }
             }
-            
+
             maxWidth = 1 + maxWidth * 2;
-            
+
             for (int i = 0; i < boardWidth; ++i)
             {
                 for (int j = 0; j < boardWidth; ++j)
@@ -319,8 +305,8 @@ public class GuiSelectReceivers extends GuiScreen
 
                         if (!mc.theWorld.isAirBlock(coords.posX, coords.posY, coords.posZ))
                         {
-//							MapColor color = block.getMapColor(metadata);
-//							float[] afloat = TFRenderHelper.hexToRGB(color.colorValue);
+//                            MapColor color = block.getMapColor(metadata);
+//                            float[] afloat = TFRenderHelper.hexToRGB(color.colorValue);
                             float[] afloat = TFRenderHelper.hexToRGB(0x707070);
 
                             GL11.glColor4f(afloat[0], afloat[1], afloat[2], opacity);
@@ -412,26 +398,26 @@ public class GuiSelectReceivers extends GuiScreen
             GL11.glEnable(GL11.GL_TEXTURE_2D);
         }
 
-        for (float f = 0; f <= 1; f += 1)
+        if (layers.size() > 1)
         {
-            int highest = layers.get(layers.size() - 1);
-            int lowest = layers.get(0);
-            int num = Math.round(TFRenderHelper.median(highest, lowest, f));
-
-            drawString(mc.fontRenderer, num + "", heightSlider.xPosition + heightSlider.width + 3, heightSlider.yPosition + (int) ((1 - f) * (float) (heightSlider.height - 8)), 0x4C4C4C);
+            for (int i = 0; i < layers.size(); i += layers.size() - 1)
+            {
+                float f = (float)i / (layers.size() - 1);
+                drawString(mc.fontRenderer, layers.get(i) + "", heightSlider.xPosition + heightSlider.width + 3, heightSlider.yPosition + (int) ((1 - f) * (float) (heightSlider.height - 8)), 0x4C4C4C);
+            }
         }
-        
+
         super.drawScreen(mouseX, mouseY, partialTicks);
-        
+
         int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
         String[] astring = {"north", "east", "south", "west"};
         String[] dirs = new String[astring.length];
-        
+
         for (int i = 0; i < astring.length; ++i)
         {
-        	dirs[i] = StatCollector.translateToLocal("ground_bridge.direction." + astring[(i + direction) % astring.length]);
+            dirs[i] = StatCollector.translateToLocal("ground_bridge.direction." + astring[(i + direction) % astring.length]);
         }
-        
+
         drawCenteredString(fontRendererObj, dirs[0], baseX + (spacing + size) * boardWidth / 2, baseY - fontRendererObj.FONT_HEIGHT / 2, -1);
         drawCenteredString(fontRendererObj, dirs[1], baseX + (spacing + size) * boardWidth, baseY + (spacing + size) * boardWidth / 2 - fontRendererObj.FONT_HEIGHT / 2, -1);
         drawCenteredString(fontRendererObj, dirs[2], baseX + (spacing + size) * boardWidth / 2, baseY + (spacing + size) * boardWidth - fontRendererObj.FONT_HEIGHT / 2, -1);

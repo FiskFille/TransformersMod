@@ -44,7 +44,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     {
         ++animationTimer;
 
-        if (getBlockMetadata() < 4)
+        if (isValid(getBlockMetadata()))
         {
             if (!worldObj.isRemote)
             {
@@ -88,6 +88,11 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
             }
         }
     }
+    
+    public boolean isValid(int metadata)
+    {
+        return metadata < 4;
+    }
 
     public List<TileEntity> getTilesToPower()
     {
@@ -109,7 +114,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     {
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(0.35D, 0, 0.35D).addCoord(0, 2, 0);
 
-        if (getBlockMetadata() < 4)
+        if (isValid(getBlockMetadata()))
         {
             for (TileEntity tile : transmissionHandler.getReceivers())
             {
@@ -199,7 +204,7 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     @Override
     public boolean canReceiveEnergy(TileEntity from)
     {
-        return getBlockMetadata() < 4;
+        return isValid(getBlockMetadata());
     }
 
     @Override

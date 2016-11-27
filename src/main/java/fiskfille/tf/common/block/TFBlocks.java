@@ -14,6 +14,7 @@ import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeFrame;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
@@ -34,6 +35,7 @@ public class TFBlocks
     public static Block energonProcessor;
     public static Block transmitter;
     public static Block relayTower;
+    public static Block relayTorch;
     public static Block groundBridgeFrame;
     public static Block groundBridgeTeleporter;
     public static Block assemblyTable;
@@ -57,6 +59,7 @@ public class TFBlocks
         energonProcessor = new BlockEnergonProcessor();
         transmitter = new BlockTransmitter();
         relayTower = new BlockRelayTower();
+        relayTorch = new BlockRelayTorch();
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         groundBridgeControlPanel = new BlockGroundBridgeControl();
@@ -79,6 +82,7 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class);
         TFBlockRegistry.registerTileEntity(transmitter, "Energon Transmitter", TileEntityTransmitter.class);
         TFBlockRegistry.registerTileEntity(relayTower, "Energy Relay", TileEntityRelayTower.class);
+        TFBlockRegistry.registerTileEntity(relayTorch, "Energy Relay Torch", TileEntityRelayTorch.class);
         TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class);
         TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);

@@ -85,9 +85,10 @@ tile.transformer_display_station.name=Transformer Display Station
 tile.energon_processor.name=Energon Processor
 tile.energon_transmitter.name=Energon Transmitter
 tile.energy_relay.name=Energy Relay
+tile.energy_relay_torch.name=Energy Relay Torch
 tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.ground_bridge_frame.name=Ground Bridge Frame
-tile.ground_bridge_portal.name=Ground Bridge Portal
+tile.ground_bridge_teleporter.name=Ground Bridge Portal
 tile.transformer_assembly_table.name=Transformer Assembly Table
 
 ------Fluids------
