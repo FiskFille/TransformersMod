@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -22,12 +25,17 @@ import fiskfille.tf.common.fluid.TFFluids;
 
 public class ItemFuelCanister extends ItemFluidContainer
 {
+    public static final String[] unlocalizedNames = new String[] {"", "creative_"};
+    public IIcon[] icons;
+    
     @SideOnly(Side.CLIENT)
     private IIcon[] overlays;
 
     public ItemFuelCanister()
     {
         super(0, 2000);
+        setHasSubtypes(true);
+        setMaxDamage(0);
     }
     
     public static boolean isEmpty(ItemStack itemstack)
@@ -80,6 +88,12 @@ public class ItemFuelCanister extends ItemFluidContainer
     	
     	return super.fill(container, resource, doFill);
     }
+    
+    @Override
+    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain)
+    {
+        return super.drain(container, maxDrain, container.getItemDamage() == 0 && doDrain);
+    }
 
     @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
@@ -120,6 +134,29 @@ public class ItemFuelCanister extends ItemFluidContainer
         	list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, capacity));
         }
     }
+    
+    @Override
+    public String getUnlocalizedName(ItemStack itemstack)
+    {
+        int i = MathHelper.clamp_int(itemstack.getItemDamage(), 0, unlocalizedNames.length - 1);
+        return "item." + unlocalizedNames[i] + "fuel_canister";
+    }
+
+    @Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+        for (int i = 0; i < unlocalizedNames.length; ++i)
+        {
+            list.add(new ItemStack(item, 1, i));
+            
+            for (Energon energon : TransformersAPI.getEnergonTypes())
+            {
+                ItemStack itemstack = new ItemStack(item, 1, i);
+                fill(itemstack, FluidEnergon.create(energon, capacity), true);
+                list.add(itemstack);
+            }
+        }
+    }
 
     @Override
     public IIcon getIcon(ItemStack itemstack, int pass)
@@ -136,6 +173,13 @@ public class ItemFuelCanister extends ItemFluidContainer
     	}
     	
     	return super.getIcon(itemstack, pass);
+    }
+    
+    @Override
+    public IIcon getIconFromDamage(int damage)
+    {
+        int i = MathHelper.clamp_int(damage, 0, unlocalizedNames.length - 1);
+        return icons[i];
     }
 
     @Override
@@ -166,8 +210,13 @@ public class ItemFuelCanister extends ItemFluidContainer
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IIconRegister)
     {
-        itemIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":fuel_canister");
+        icons = new IIcon[unlocalizedNames.length];
         overlays = new IIcon[5];
+
+        for (int i = 0; i < icons.length; ++i)
+        {
+            icons[i] = par1IIconRegister.registerIcon(TransformersMod.modid + ":" + unlocalizedNames[i] + "fuel_canister");
+        }
         
         for (int i = 0; i < overlays.length; ++i)
         {

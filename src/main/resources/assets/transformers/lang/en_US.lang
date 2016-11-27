@@ -7,6 +7,7 @@ item.missile.name=Missile
 item.tank_shell.name=Tank Shell
 item.transformium_detector.name=Transformium Detector
 item.fuel_canister.name=Fuel Canister
+item.creative_fuel_canister.name=Creative Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
 item.dark_gray_dye.name=Dark Gray Dye
