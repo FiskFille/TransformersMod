@@ -41,8 +41,6 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
         if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
         {
             GL11.glTranslatef(0.5F, 0, 0);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             for (int i = 0; i < tile.getSizeInventory(); ++i)
             {
@@ -64,6 +62,9 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
                     GL11.glPopMatrix();
                 }
             }
+            
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel.png"));
             model.render(tile, partialTicks);
@@ -90,7 +91,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             if (!tile.errors.isEmpty())
             {
                 renderText(StatCollector.translateToLocal("ground_bridge.error"), 2, 0, 0.025F, 0xC10000);
-                renderText(tile.errors.get(0).translate(tile.getWorldObj().getHeight()), 3, 0, 0.025F, 0xC10000);
+                renderText(tile.errors.get(0).translate(), 3, 0, 0.025F, 0xC10000);
 
                 if (tile.errors.size() == 1)
                 {

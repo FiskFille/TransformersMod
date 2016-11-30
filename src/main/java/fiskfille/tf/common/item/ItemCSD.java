@@ -12,7 +12,6 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
@@ -24,7 +23,7 @@ import fiskfille.tf.helper.TFHelper;
 public class ItemCSD extends Item
 {
     private static String[] modes = {"save", "load"};
-    
+
     public ItemCSD()
     {
         super();
@@ -34,71 +33,50 @@ public class ItemCSD extends Item
     @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean flag)
     {
-        int mode = getMode(itemstack);
         DimensionalCoords coords = getCoords(itemstack);
-        
-        list.add(StatCollector.translateToLocalFormatted("csd.mode", EnumChatFormatting.YELLOW + StatCollector.translateToLocal("csd." + modes[mode])));
-        list.add(formatCoords(coords).getFormattedText());
-    }
-    
-    @Override
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
-    {
-        if (player.isSneaking())
-        {
-            int mode = getMode(itemstack);
-            mode = setMode(itemstack, mode == 1 ? 0 : 1);
-            
-            if (world.isRemote)
-            {
-                player.addChatComponentMessage(new ChatComponentTranslation("csd.mode", new ChatComponentTranslation("csd." + modes[mode]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))));
-            }
-        }
-        
-        return itemstack;
+        list.add(coords.getFormatted().getFormattedText());
     }
 
     @Override
     public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         int metadata = world.getBlockMetadata(x, y, z);
-        int mode = getMode(itemstack);
-        
-        if (mode == 0)
+
+        if (player.isSneaking())
         {
             DimensionalCoords coords = new DimensionalCoords(x, y + 1, z, world.provider.dimensionId);
-            
+
             if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
             {
                 TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(x, y, z);
                 coords.set(tile.destX, tile.destY, tile.destZ, tile.getDestDimensionID());
             }
-            
+
             setCoords(itemstack, coords);
-            
+
             if (world.isRemote)
             {
-                player.addChatComponentMessage(new ChatComponentTranslation("csd.save.success", formatCoords(coords)));
+                player.addChatComponentMessage(new ChatComponentTranslation("csd.save.success", coords.getFormatted()));
             }
-            
+
             return true;
         }
-        else if (mode == 1)
+        else
         {
             if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
             {
                 TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(x, y, z);
-                
+
                 if (!tile.activationLeverState)
                 {
                     DimensionalCoords coords = getCoords(itemstack);
-                    
+
                     if (world.isRemote)
                     {
-                        TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(x, y, z, coords));
-                        player.addChatComponentMessage(new ChatComponentTranslation("csd.load.success", formatCoords(coords)));
+                        TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(x, y, z, tile.getWorldObj().provider.dimensionId, coords));
+                        player.addChatComponentMessage(new ChatComponentTranslation("csd.load.success", coords.getFormatted()));
                     }
-                    
+
                     return true;
                 }
                 else
@@ -113,58 +91,35 @@ public class ItemCSD extends Item
 
         return false;
     }
-    
-    public IChatComponent formatCoords(DimensionalCoords coords)
-    {
-        ChatStyle green = new ChatStyle().setColor(EnumChatFormatting.GREEN);
-        return new ChatComponentTranslation("csd.format", new ChatComponentText(TFHelper.getDimensionName(coords.dimension)).setChatStyle(green), new ChatComponentText(coords.posX + "").setChatStyle(green), new ChatComponentText(coords.posY + "").setChatStyle(green), new ChatComponentText(coords.posZ + "").setChatStyle(green));
-    }
-    
-    public static int getMode(ItemStack itemstack)
-    {
-        return itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("Mode") ? itemstack.getTagCompound().getInteger("Mode") : 0;
-    }
-    
-    public static int setMode(ItemStack itemstack, int mode)
-    {
-        if (!itemstack.hasTagCompound())
-        {
-            itemstack.setTagCompound(new NBTTagCompound());
-        }
-        
-        itemstack.getTagCompound().setInteger("Mode", mode);
-        
-        return mode;
-    }
-    
+
     public static DimensionalCoords getCoords(ItemStack itemstack)
     {
         DimensionalCoords coords = new DimensionalCoords();
-        
+
         if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("Coordinates", NBT.TAG_COMPOUND))
         {
             NBTTagCompound nbttagcompound = itemstack.getTagCompound().getCompoundTag("Coordinates");
             coords.set(nbttagcompound.getInteger("x"), nbttagcompound.getInteger("y"), nbttagcompound.getInteger("z"), nbttagcompound.getInteger("dim"));
         }
-        
+
         return coords;
     }
-    
+
     public static DimensionalCoords setCoords(ItemStack itemstack, DimensionalCoords coords)
     {
         if (!itemstack.hasTagCompound())
         {
             itemstack.setTagCompound(new NBTTagCompound());
         }
-        
+
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         nbttagcompound.setInteger("x", coords.posX);
         nbttagcompound.setInteger("y", coords.posY);
         nbttagcompound.setInteger("z", coords.posZ);
         nbttagcompound.setInteger("dim", coords.dimension);
-        
+
         itemstack.getTagCompound().setTag("Coordinates", nbttagcompound);
-        
+
         return coords;
     }
 
@@ -191,6 +146,12 @@ public class ItemCSD extends Item
             posY = y;
             posZ = z;
             dimension = dim;
+        }
+
+        public IChatComponent getFormatted()
+        {
+            ChatStyle green = new ChatStyle().setColor(EnumChatFormatting.GREEN);
+            return new ChatComponentTranslation("csd.format", new ChatComponentText(TFHelper.getDimensionName(dimension)).setChatStyle(green), new ChatComponentText(posX + "").setChatStyle(green), new ChatComponentText(posY + "").setChatStyle(green), new ChatComponentText(posZ + "").setChatStyle(green));
         }
 
         @Override

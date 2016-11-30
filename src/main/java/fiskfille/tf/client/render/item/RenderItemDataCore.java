@@ -31,6 +31,7 @@ public class RenderItemDataCore implements IItemRenderer
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data)
 	{
+	    GL11.glColor4f(1, 1, 1, 1);
 		GL11.glPushMatrix();
 		float scale = 1;
 
@@ -53,6 +54,8 @@ public class RenderItemDataCore implements IItemRenderer
 		Block block = TFBlocks.groundBridgeControlPanel;
 		Tessellator tessellator = Tessellator.instance;
 		float colorMultiplier = 1;
+		
+		GL11.glEnable(GL11.GL_BLEND);
 
 		for (int i = 0; i < 2; ++i)
 		{
@@ -139,5 +142,7 @@ public class RenderItemDataCore implements IItemRenderer
 				TFRenderHelper.resetLighting();
 			}
 		}
+		
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 }

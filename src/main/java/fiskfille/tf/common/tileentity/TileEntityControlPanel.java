@@ -9,7 +9,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,10 +35,8 @@ import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.chunk.ForcedChunk;
 import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.item.ItemCSD;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.helper.TFMathHelper;
@@ -48,7 +45,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 {
     public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
-    public IInventory csdInput = new InventoryGroundBridge();
     private ItemStack[] inventory = new ItemStack[3];
 
     public int destX;
@@ -86,19 +82,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(getBlockMetadata()))
         {
-//            System.out.println(activationLeverState + "");
             calculateCoords();
             errors.clear();
-
-            if (csdInput.getStackInSlot(0) != null && csdInput.getStackInSlot(0).getItem() == TFItems.csd)
-            {
-                DimensionalCoords coords = ItemCSD.getCoords(csdInput.getStackInSlot(0));
-
-                if (coords.posX != destX || coords.posY != destY || coords.posZ != destZ || coords.dimension != getDestDimensionID())
-                {
-                    setSwitchesTo(coords);
-                }
-            }
 
             if (hasUpgrade(DataCore.leveler))
             {
@@ -187,6 +172,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
             if (destY < 0 || destY + 5 >= worldObj.getHeight()) // TODO
             {
+                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] {getWorldObj().getHeight()};
                 errors.add(GroundBridgeError.OUT_OF_BOUNDS);
             }
 
@@ -483,6 +469,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             }
 
             calculateCoords();
+//            System.out.println("Test");
         }
     }
 

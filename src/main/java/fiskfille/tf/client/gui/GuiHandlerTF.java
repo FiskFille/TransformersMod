@@ -13,7 +13,9 @@ import fiskfille.tf.common.container.ContainerDisplayStationArmor;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.container.ContainerGroundBridge;
 import fiskfille.tf.common.container.ContainerTransmitter;
+import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
@@ -41,7 +43,7 @@ public class GuiHandlerTF implements IGuiHandler
         case 4:
             return worldserver.getBlock(x, y, z) == TFBlocks.transmitter ? new ContainerTransmitter(player.inventory, (TileEntityTransmitter) tile) : null;
         case 6:
-            return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel ? new ContainerGroundBridge(player.inventory, (TileEntityControlPanel) tile) : null;
+            return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? new ContainerGroundBridge(player.inventory, new InventoryGroundBridge(player, player.getHeldItem()), (TileEntityControlPanel) tile) : null;
         }
 
         return null;
@@ -69,7 +71,7 @@ public class GuiHandlerTF implements IGuiHandler
         case 5:
             return worldserver.getTileEntity(x, y, z) instanceof IEnergyTransmitter ? new GuiSelectReceivers(tile) : null;
         case 6:
-            return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel ? new GuiGroundBridge(player.inventory, (TileEntityControlPanel) tile) : null;
+            return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? new GuiGroundBridge(player.inventory, new InventoryGroundBridge(player, player.getHeldItem()), (TileEntityControlPanel) tile) : null;
         }
 
         return null;

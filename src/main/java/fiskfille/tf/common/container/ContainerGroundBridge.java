@@ -9,12 +9,14 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 
 public class ContainerGroundBridge extends ContainerBasic
 {
+    public InventoryGroundBridge inventory;
     public TileEntityControlPanel controlPanel;
     
-    public ContainerGroundBridge(InventoryPlayer inventoryPlayer, TileEntityControlPanel tile)
+    public ContainerGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, TileEntityControlPanel tile)
     {
+        inventory = inventoryGroundBridge;
         controlPanel = tile;
-        addSlotToContainer(new Slot(tile.csdInput, 0, 13, 56)
+        addSlotToContainer(new Slot(inventoryGroundBridge, 0, 13, 56)
         {
             @Override
             public boolean isItemValid(ItemStack itemstack)
@@ -27,25 +29,9 @@ public class ContainerGroundBridge extends ContainerBasic
     }
     
     @Override
-    public void onContainerClosed(EntityPlayer player)
-    {
-        super.onContainerClosed(player);
-
-        if (controlPanel != null && !player.worldObj.isRemote)
-        {
-            ItemStack itemstack = controlPanel.csdInput.getStackInSlotOnClosing(0);
-
-            if (itemstack != null)
-            {
-                player.dropPlayerItemWithRandomChoice(itemstack, false);
-            }
-        }
-    }
-    
-    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return controlPanel != null;
+        return controlPanel != null && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
     }
     
     @Override

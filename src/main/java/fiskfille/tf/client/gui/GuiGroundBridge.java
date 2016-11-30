@@ -1,20 +1,28 @@
 package fiskfille.tf.client.gui;
 
+import java.awt.Rectangle;
+import java.util.List;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerGroundBridge;
+import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.network.MessageControlPanel;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
@@ -27,6 +35,7 @@ public class GuiGroundBridge extends GuiContainer
 {
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/ground_bridge.png");
     public TileEntityControlPanel controlPanel;
+    public InventoryGroundBridge inventory;
 
     public GuiTextField[] coordinateFields = new GuiTextField[3];
     public GuiTextField dimensionField;
@@ -37,10 +46,11 @@ public class GuiGroundBridge extends GuiContainer
     public GuiButton buttonDimLeft;
     public GuiButton buttonDirection;
 
-    public GuiGroundBridge(InventoryPlayer inventoryPlayer, TileEntityControlPanel tile)
+    public GuiGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, TileEntityControlPanel tile)
     {
-        super(new ContainerGroundBridge(inventoryPlayer, tile));
+        super(new ContainerGroundBridge(inventoryPlayer, inventoryGroundBridge, tile));
         controlPanel = tile;
+        inventory = inventoryGroundBridge;
     }
 
     @Override
@@ -99,7 +109,7 @@ public class GuiGroundBridge extends GuiContainer
 
         if (controlPanel != null)
         {
-            if (controlPanel.csdInput.getStackInSlot(0) != null)
+            if (inventory.getStackInSlot(0) != null)
             {
                 int[] aint2 = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
 
@@ -124,7 +134,8 @@ public class GuiGroundBridge extends GuiContainer
                 {
                     coords.set(aint1[0], aint1[1], aint1[2], controlPanel.destDimIndex);
                     controlPanel.setSwitchesTo(coords);
-
+                    controlPanel.markBlockForUpdate();
+                    
                     int[] aint2 = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
 
                     for (int i = 0; i < coordinateFields.length; ++i)
@@ -132,7 +143,7 @@ public class GuiGroundBridge extends GuiContainer
                         coordinateFields[i].setText(aint2[i] + "");
                     }
 
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(controlPanel.xCoord, controlPanel.yCoord, controlPanel.zCoord, coords));
+                    TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(controlPanel.xCoord, controlPanel.yCoord, controlPanel.zCoord, controlPanel.getWorldObj().provider.dimensionId, coords));
                 }
             }
         }
@@ -142,16 +153,18 @@ public class GuiGroundBridge extends GuiContainer
 
     public void updateButtons()
     {
+        boolean canEditCoords = controlPanel != null && !controlPanel.activationLeverState && inventory.getStackInSlot(0) == null;
+        
         for (int i = 0; i < coordinateFields.length; ++i)
         {
-            coordinateFields[i].setEnabled(controlPanel != null && !controlPanel.activationLeverState);
+            coordinateFields[i].setEnabled(canEditCoords);
         }
 
         buttonActivate.enabled = controlPanel != null && !controlPanel.activationLeverState && controlPanel.errors.isEmpty();
         buttonDeactivate.enabled = controlPanel != null && controlPanel.activationLeverState;
-        buttonDimLeft.enabled = buttonDimRight.enabled = controlPanel != null && !controlPanel.activationLeverState && controlPanel.hasUpgrade(DataCore.spaceBridge);
+        buttonDimLeft.enabled = buttonDimRight.enabled = canEditCoords && controlPanel.hasUpgrade(DataCore.spaceBridge);
         buttonDirection.enabled = controlPanel != null && !controlPanel.activationLeverState;
-        dimensionField.setEnabled(controlPanel != null && !controlPanel.activationLeverState && controlPanel.hasUpgrade(DataCore.spaceBridge));
+        dimensionField.setEnabled(canEditCoords && controlPanel.hasUpgrade(DataCore.spaceBridge));
 
         if (controlPanel != null)
         {
@@ -233,7 +246,78 @@ public class GuiGroundBridge extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
+        int x = (width - xSize) / 2;
+        int y = (height - ySize) / 2;
 
+        if (controlPanel != null)
+        {
+            String s = controlPanel.getDestDimensionID() + "";
+            fontRendererObj.drawString(s, (buttonDimLeft.xPosition + buttonDimRight.xPosition + buttonDimRight.width - fontRendererObj.getStringWidth(s)) / 2 - x, (buttonDimLeft.yPosition + buttonDimLeft.height / 2 + buttonDimRight.yPosition + buttonDimRight.height / 2 - fontRendererObj.FONT_HEIGHT + 1) / 2 + 1 - y, -1);
+
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL11.GL_BLEND);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                ItemStack itemstack = controlPanel.getStackInSlot(i);
+
+                if (itemstack != null)
+                {
+                    itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 116 + i * 18, 28);
+                }
+            }
+
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDepthMask(true);
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glColor4f(1, 1, 1, 1);
+            
+            for (int i = 0; i < controlPanel.errors.size(); ++i)
+            {
+                GroundBridgeError error = controlPanel.errors.get(i);
+                boolean flag = new Rectangle(ySize + 12, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
+
+                mc.getTextureManager().bindTexture(guiTextures);
+                drawTexturedModalRect(ySize + 12, 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
+            }
+
+            for (int i = 0; i < 3; ++i)
+            {
+                ItemStack itemstack = controlPanel.getStackInSlot(i);
+
+                if (itemstack != null && new Rectangle(116 + i * 18, 28, 16, 16).contains(mouseX - x, mouseY - y))
+                {
+                    renderToolTip(itemstack, mouseX - x, mouseY - y);
+                }
+            }
+            
+            GL11.glPushMatrix();
+            GL11.glTranslatef(-x, -y, 0);
+
+            for (int i = 0; i < controlPanel.errors.size(); ++i)
+            {
+                GroundBridgeError error = controlPanel.errors.get(i);
+                boolean flag = new Rectangle(ySize + 12, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
+
+                if (flag)
+                {
+                    List<String> list = fontRendererObj.listFormattedStringToWidth(error.translate(), 200);
+
+                    for (int j = 0; j < list.size(); ++j)
+                    {
+                        list.set(j, EnumChatFormatting.RED + list.get(j));
+                    }
+
+                    drawHoveringText(list, mouseX, mouseY, fontRendererObj);
+                }
+            }
+            
+            GL11.glPopMatrix();
+        }
     }
 
     @Override
@@ -252,11 +336,5 @@ public class GuiGroundBridge extends GuiContainer
         }
 
         dimensionField.drawTextBox();
-
-        if (controlPanel != null)
-        {
-            String s = controlPanel.getDestDimensionID() + "";
-            fontRendererObj.drawString(s, (buttonDimLeft.xPosition + buttonDimRight.xPosition + buttonDimRight.width - fontRendererObj.getStringWidth(s)) / 2, (buttonDimLeft.yPosition + buttonDimLeft.height / 2 + buttonDimRight.yPosition + buttonDimRight.height / 2 - fontRendererObj.FONT_HEIGHT + 1) / 2 + 1, -1);
-        }
     }
 }

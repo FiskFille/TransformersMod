@@ -2,6 +2,7 @@ package fiskfille.tf.common.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -16,6 +17,7 @@ public class MessageControlPanelSetConfig implements IMessage
     private int x;
     private int y;
     private int z;
+    private int dimension;
     private DimensionalCoords configuration;
 
     public MessageControlPanelSetConfig()
@@ -23,11 +25,12 @@ public class MessageControlPanelSetConfig implements IMessage
 
     }
 
-    public MessageControlPanelSetConfig(int x, int y, int z, DimensionalCoords coords)
+    public MessageControlPanelSetConfig(int x, int y, int z, int dimension, DimensionalCoords coords)
     {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.dimension = dimension;
         this.configuration = coords;
     }
 
@@ -37,6 +40,7 @@ public class MessageControlPanelSetConfig implements IMessage
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
+        dimension = buf.readInt();
         configuration = new DimensionalCoords(buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
     }
 
@@ -46,6 +50,7 @@ public class MessageControlPanelSetConfig implements IMessage
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
+        buf.writeInt(dimension);
         buf.writeInt(configuration.posX);
         buf.writeInt(configuration.posY);
         buf.writeInt(configuration.posZ);
@@ -58,19 +63,31 @@ public class MessageControlPanelSetConfig implements IMessage
         public IMessage onMessage(MessageControlPanelSetConfig message, MessageContext ctx)
         {
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
-            EntityPlayer player = null;
-            World world = clientPlayer.worldObj;
+            World world = MinecraftServer.getServer().worldServerForDimension(message.dimension);
+            boolean flag = true;
 
-            TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
-
-            if (tile != null)
+            if (world != null)
             {
-                tile.setSwitchesTo(message.configuration);
-                tile.markBlockForUpdate();
-
-                if (ctx.side.isServer())
+                if (clientPlayer.worldObj.provider.dimensionId == message.dimension)
                 {
-                    TFNetworkManager.networkWrapper.sendToAll(new MessageControlPanelSetConfig(tile.xCoord, tile.yCoord, tile.zCoord, message.configuration));
+                    world = clientPlayer.worldObj;
+                }
+                else
+                {
+                    flag = ctx.side.isServer();
+                }
+
+                TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
+
+                if (tile != null && flag)
+                {
+                    tile.setSwitchesTo(message.configuration);
+                    tile.markBlockForUpdate();
+
+                    if (ctx.side.isServer())
+                    {
+                        TFNetworkManager.networkWrapper.sendToAll(new MessageControlPanelSetConfig(tile.xCoord, tile.yCoord, tile.zCoord, message.dimension, message.configuration));
+                    }
                 }
             }
 

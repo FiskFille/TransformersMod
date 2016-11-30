@@ -2,20 +2,23 @@ package fiskfille.tf.common.item;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageControlPanelSetConfig;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFHelper;
 
@@ -31,7 +34,40 @@ public class ItemGroundBridgeRemote extends Item
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean flag)
     {
         DimensionalCoords coords = ItemCSD.getCoords(itemstack);
-        list.add(formatCoords(coords).getFormattedText());
+        list.add(coords.getFormatted().getFormattedText());
+    }
+    
+    @Override
+    public void onUpdate(ItemStack itemstack, World world, Entity entity, int slot, boolean currentItem)
+    {
+        if (entity instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) entity;
+            
+//            if (world.isRemote)
+            {
+                TileEntityControlPanel tile = getTile(itemstack);
+                
+                if (currentItem && tile != null)
+                {
+                    InventoryGroundBridge inventory = new InventoryGroundBridge(player, itemstack);
+                    ItemStack itemstack1 = inventory.getStackInSlot(0);
+                    
+                    if (itemstack1 != null && itemstack1.getItem() == TFItems.csd)
+                    {
+                        DimensionalCoords coords = ItemCSD.getCoords(itemstack1);
+
+                        if (coords.posX != tile.destX || coords.posY != tile.prevDestY || coords.posZ != tile.destZ || coords.dimension != tile.getDestDimensionID())
+                        {
+                            tile.setSwitchesTo(coords);
+                            tile.markBlockForUpdate();
+                            System.out.println("Test: " + itemstack.getTagCompound());
+//                            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(tile., tile.getWorldObj().provider.dimensionId, coords));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -45,14 +81,12 @@ public class ItemGroundBridgeRemote extends Item
             if (worldserver != null)
             {
                 int metadata = worldserver.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
-                System.out.println(worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ) + ", " + worldserver.provider.dimensionId);
-                // TODO: player.openGui doesn't preserve dimension id client-side - we need to create a new packet that does that for us
 
                 if (worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
                 {
                     if (world.isRemote)
                     {
-                        player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect", formatCoords(coords)));
+                        player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect", coords.getFormatted()));
                     }
                     else
                     {
@@ -65,7 +99,7 @@ public class ItemGroundBridgeRemote extends Item
 
             if (world.isRemote)
             {
-                player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect.fail", formatCoords(coords).getUnformattedText()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+                player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect.fail", coords.getFormatted().getUnformattedText()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
             }
         }
 
@@ -88,7 +122,7 @@ public class ItemGroundBridgeRemote extends Item
 
                 if (world.isRemote)
                 {
-                    player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect.add", formatCoords(coords)));
+                    player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect.add", coords.getFormatted()));
                 }
 
                 return true;
@@ -97,10 +131,23 @@ public class ItemGroundBridgeRemote extends Item
 
         return false;
     }
-
-    public IChatComponent formatCoords(DimensionalCoords coords)
+    
+    public TileEntityControlPanel getTile(ItemStack itemstack)
     {
-        ChatStyle green = new ChatStyle().setColor(EnumChatFormatting.GREEN);
-        return new ChatComponentTranslation("csd.format", new ChatComponentText(TFHelper.getDimensionName(coords.dimension)).setChatStyle(green), new ChatComponentText(coords.posX + "").setChatStyle(green), new ChatComponentText(coords.posY + "").setChatStyle(green), new ChatComponentText(coords.posZ + "").setChatStyle(green));
+        DimensionalCoords coords = ItemCSD.getCoords(itemstack);
+        WorldServer worldserver = DimensionManager.getWorld(coords.dimension);
+
+        if (worldserver != null)
+        {
+            TileEntity tile = worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ);
+            int metadata = worldserver.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
+
+            if (tile instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+            {
+                return (TileEntityControlPanel) tile;
+            }
+        }
+        
+        return null;
     }
 }
