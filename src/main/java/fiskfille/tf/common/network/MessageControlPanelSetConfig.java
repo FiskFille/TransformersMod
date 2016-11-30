@@ -66,6 +66,7 @@ public class MessageControlPanelSetConfig implements IMessage
             if (tile != null)
             {
                 tile.setSwitchesTo(message.configuration);
+                tile.markBlockForUpdate();
 
                 if (ctx.side.isServer())
                 {

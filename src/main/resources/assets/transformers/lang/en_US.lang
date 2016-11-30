@@ -16,6 +16,7 @@ item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
 item.data_core.name=Data Core
 item.csd.name=Coordinate Storage Device
+item.ground_bridge_remote.name=Ground Bridge Remote Access
 
 item.optic_sensor.name=Optic Sensor
 item.protoform_head.name=Protoform Head
@@ -215,6 +216,11 @@ csd.load=Load
 csd.load.success=Loaded coordinates (%s)
 csd.load.fail=Cannot load coordinates while Ground Bridge is active!
 csd.format=%1$s: %2$s, %3$s, %4$s
+ground_bridge_remote.connect=Connecting to Ground Bridge at (%s)...
+ground_bridge_remote.connect.fail=No Ground Bridge found at (%s)
+ground_bridge_remote.connect.add=Successfully bound Ground Bridge at (%s) to device
+ground_bridge_remote.ui.activate=Activate
+ground_bridge_remote.ui.deactivate=Deactivate
 stats.fuel.name=Fuel
 
 ------Tooltip------

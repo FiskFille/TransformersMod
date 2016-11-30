@@ -595,7 +595,7 @@ public class BlockGroundBridgeControl extends BlockDirectional implements ITileE
 
 	public void sendActionPacket(TileEntityControlPanel tile, EntityPlayer player, int action)
 	{
-		TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
+		TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, tile.getWorldObj().provider.dimensionId, action));
 	}
 
 	@Override

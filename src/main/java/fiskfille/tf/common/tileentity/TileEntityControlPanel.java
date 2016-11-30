@@ -9,6 +9,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -35,8 +36,10 @@ import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.chunk.ForcedChunk;
 import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.item.ItemCSD;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.helper.TFMathHelper;
@@ -45,6 +48,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 {
     public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
+    public IInventory csdInput = new InventoryGroundBridge();
     private ItemStack[] inventory = new ItemStack[3];
 
     public int destX;
@@ -72,7 +76,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk)null, (ForcedChunk)null));
 
     private Integer[] cachedDimensionIDs;
-    
+
     @Override
     public void updateEntity()
     {
@@ -84,26 +88,36 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         {
             calculateCoords();
             errors.clear();
-            
+
+            if (csdInput.getStackInSlot(0) != null && csdInput.getStackInSlot(0).getItem() == TFItems.csd)
+            {
+                DimensionalCoords coords = ItemCSD.getCoords(csdInput.getStackInSlot(0));
+
+                if (coords.posX != destX || coords.posY != destY || coords.posZ != destZ || coords.dimension != getDestDimensionID())
+                {
+                    setSwitchesTo(coords);
+                }
+            }
+
             if (hasUpgrade(DataCore.leveler))
             {
                 World world = getDestWorld();
-                
+
                 if (world != null)
                 {
                     int x = destX;
                     int y = destY;
                     int z = destZ;
-                    
-                    while (y > 2 && checkForSpace(world, x, y - 1, z))
+
+                    while (y > 0 && checkForSpace(world, x, y - 1, z))
                     {
                         --y;
                     }
-                    
+
                     destY = y;
                 }
             }
-            
+
             if (!worldObj.isRemote)
             {
                 loadChunks();
@@ -127,13 +141,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             {
                 List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
                 Collections.sort(list, new Comparator<TileEntity>()
-                {
+                        {
                     @Override
                     public int compare(TileEntity tile1, TileEntity tile2)
                     {
                         return Double.valueOf(Math.sqrt(getDistanceFrom(tile1.xCoord, tile1.zCoord, tile1.yCoord))).compareTo(Math.sqrt(getDistanceFrom(tile2.xCoord, tile2.zCoord, tile2.yCoord)));
                     }
-                });
+                        });
 
                 for (TileEntity tileentity : list)
                 {
@@ -170,7 +184,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 //                errors.add(GroundBridgeError.INVALID_COORDS); TODO: Uncomment
             }
 
-            if (destY - 1 <= 0 || destY + 3 >= worldObj.getHeight())
+            if (destY < 0 || destY + 5 >= worldObj.getHeight()) // TODO
             {
                 errors.add(GroundBridgeError.OUT_OF_BOUNDS);
             }
@@ -236,18 +250,25 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
             if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
             {
-                int x = groundBridgeFramePos.posX;
-                int y = groundBridgeFramePos.posY;
-                int z = groundBridgeFramePos.posZ;
-                BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
+                try
+                {
+                    int x = groundBridgeFramePos.posX;
+                    int y = groundBridgeFramePos.posY;
+                    int z = groundBridgeFramePos.posZ;
+                    BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
 
-                if (portalDirection % 2 == 0)
-                {
-                    BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                    if (portalDirection % 2 == 0)
+                    {
+                        BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                    }
+                    else
+                    {
+                        BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                    e.printStackTrace();
                 }
             }
 
@@ -295,7 +316,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         {
             destZ += switches[2][i] * increments[i];
         }
-        
+
         prevDestY = destY;
     }
 
@@ -330,7 +351,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         return false;
     }
-    
+
     public boolean checkForSpace()
     {
         return checkForSpace(getDestWorld(), destX, destY, destZ);
@@ -409,7 +430,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             markBlockForUpdate();
         }
     }
-    
+
     public void setSwitchesTo(DimensionalCoords coords)
     {
         if (!activationLeverState)
@@ -417,51 +438,50 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             int[] increments = {1, 10, 100, 1000};
             int[] aint = {coords.posX, coords.posY, coords.posZ};
             int[] aint1 = {xCoord, yCoord, zCoord};
-            
+
             switches = new Integer[][] {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-            
+
             for (int i = 0; i < aint.length; ++i)
             {
                 int[] aint2 = TFMathHelper.split(aint[i] - aint1[i], increments.length);
                 int[] aint3 = new int[increments.length];
-                
+
                 for (int index = aint2.length - 1; index >= 0; --index)
                 {
                     int num = aint2[index];
-                    
+
                     if (index > 0)
                     {
                         int nextNum = aint2[index - 1] / increments[index - 1];
-                        
+
                         if (nextNum == 0)
                         {
                             num -= increments[index];
                             aint2[index - 1] += increments[index];
                         }
                     }
-                    
+
                     aint3[index] = num;
                 }
-                
+
                 for (int j = 0; j < aint3.length; ++j)
                 {
                     switches[i][j] = MathHelper.clamp_int(aint3[j] / increments[j], -10, 10);
                 }
             }
-            
+
             for (int i = 0; i < getDimensionIDs().length; ++i)
             {
                 int id = getDimensionIDs()[i];
-                
+
                 if (coords.dimension == id)
                 {
                     destDimIndex = i;
                     break;
                 }
             }
-            
+
             calculateCoords();
-            markBlockForUpdate();
         }
     }
 
@@ -508,14 +528,14 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         return getDimensionIDs()[MathHelper.clamp_int(destDimIndex, 0, getDimensionIDs().length - 1)];
     }
-    
+
     private Integer[] getDimensionIDs()
     {
         if (cachedDimensionIDs == null)
         {
             Integer[] aint = DimensionManager.getIDs();
             List<Integer> list = Lists.newArrayList();
-            
+
             for (int i = 0; i < aint.length; ++i)
             {
                 if (DimensionManager.shouldLoadSpawn(aint[i]))
@@ -523,19 +543,19 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
                     list.add(aint[i]);
                 }
             }
-            
+
             Collections.sort(list, new Comparator<Integer>()
-            {
+                    {
                 @Override
                 public int compare(Integer arg0, Integer arg1)
                 {
                     return Double.valueOf(arg0).compareTo(Double.valueOf(arg1));
                 }
-            });
-            
+                    });
+
             cachedDimensionIDs = list.toArray(new Integer[list.size()]);
         }
-        
+
         return cachedDimensionIDs;
     }
 
@@ -550,7 +570,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             if (ticket != null)
             {
                 SubTicket subTicket = getSubTicket(ticket, 1);
-                
+
                 if (subTicket != null)
                 {
                     NBTTagCompound data = subTicket.getTag();
@@ -603,6 +623,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         srcPortalDirection = nbt.getInteger("SrcPortalDirection");
         activationLeverState = nbt.getBoolean("Lever");
         activationLeverCoverState = nbt.getBoolean("LeverCover");
+        activationLeverTimer = prevActivationLeverTimer = activationLeverState ? 1 : 0;
+        activationLeverCoverTimer = prevActivationLeverCoverTimer = activationLeverCoverState ? 1 : 0;
         hasSpace = nbt.getBoolean("HasSpace");
         destX = nbt.getInteger("DestX");
         destY = nbt.getInteger("DestY");
@@ -723,7 +745,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         forcedChunks.set(index, chunk);
         TFChunkManager.forceChunk(subTicket.owner, chunk);
     }
-    
+
     public void loadChunks()
     {
         if (chunkTickets.get(0) == null || chunkTickets.get(1) == null)
@@ -755,7 +777,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         if (chunkTickets.get(index) != null)
         {
             SubTicket subTicket = getSubTicket(chunkTickets.get(index), index);
-            
+
             if (subTicket != null)
             {
                 TFChunkManager.releaseChunk(subTicket, forcedChunks.get(index));
@@ -764,11 +786,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             }
         }
     }
-    
+
     public SubTicket getSubTicket(Ticket ticket, int index)
     {
         List<SubTicket> list = SubTicket.getChildren(chunkTickets.get(index));
-        
+
         for (SubTicket subTicket : list)
         {
             if (subTicket.xCoord == xCoord && subTicket.yCoord == yCoord && subTicket.zCoord == zCoord)
@@ -783,7 +805,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
                 }
             }
         }
-        
+
         return null;
     }
 

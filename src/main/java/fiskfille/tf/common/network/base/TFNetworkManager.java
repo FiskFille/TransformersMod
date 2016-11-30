@@ -16,6 +16,7 @@ import fiskfille.tf.common.network.MessageHandleStealthTransformation;
 import fiskfille.tf.common.network.MessageHandleTransformation;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.MessageOpenGui;
+import fiskfille.tf.common.network.MessageOpenGuiSimple;
 import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetReceivers;
@@ -47,6 +48,7 @@ public class TFNetworkManager
         registerPacket(MessageColorArmor.Handler.class, MessageColorArmor.class);
         registerPacket(MessageControlPanel.Handler.class, MessageControlPanel.class);
         registerPacket(MessageControlPanelSetConfig.Handler.class, MessageControlPanelSetConfig.class);
+        registerPacket(MessageOpenGuiSimple.Handler.class, MessageOpenGuiSimple.class);
         registerPacket(MessageOpenGui.Handler.class, MessageOpenGui.class);
         registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);
         registerPacket(MessageUpdateEnergyState.Handler.class, MessageUpdateEnergyState.class);
