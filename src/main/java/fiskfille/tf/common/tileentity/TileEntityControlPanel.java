@@ -86,6 +86,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
         if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(getBlockMetadata()))
         {
+//            System.out.println(activationLeverState + "");
             calculateCoords();
             errors.clear();
 

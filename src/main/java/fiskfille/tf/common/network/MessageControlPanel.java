@@ -7,6 +7,7 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -64,18 +65,33 @@ public class MessageControlPanel implements IMessage
         public IMessage onMessage(MessageControlPanel message, MessageContext ctx)
         {
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
-            World world = clientPlayer.worldObj; // TODO: We need to use the provided dimension id to get the right world object. Unfortunately, Dimensionmanager#getWorld() only gets the server side instance.
+            World world = MinecraftServer.getServer().worldServerForDimension(message.dimension); // TODO: We need to use the provided dimension id to get the right world object. Unfortunately, Dimensionmanager#getWorld() only gets the server side instance.
+            boolean flag = true;
             
             if (world != null)
             {
-                TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
-                int action = message.action;
-
-                if (tile != null)
+                if (clientPlayer.worldObj.getEntityByID(message.id) instanceof EntityPlayer)
                 {
-                    if (clientPlayer.worldObj.getEntityByID(message.id) instanceof EntityPlayer)
+                    EntityPlayer player = (EntityPlayer) clientPlayer.worldObj.getEntityByID(message.id);
+                    
+                    if (player.worldObj.provider.dimensionId == message.dimension)
                     {
-                        EntityPlayer player = (EntityPlayer) clientPlayer.worldObj.getEntityByID(message.id);
+                        world = player.worldObj;
+                    }
+                    else if (clientPlayer.worldObj.provider.dimensionId == message.dimension)
+                    {
+                        world = clientPlayer.worldObj;
+                    }
+                    else
+                    {
+                        flag = ctx.side.isServer();
+                    }
+                    
+                    TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
+                    int action = message.action;
+                    
+                    if (tile != null && flag)
+                    {
                         int increment = player.isSneaking() ? -1 : 1;
 
                         if (action >= 1 && action <= 4)
@@ -96,8 +112,7 @@ public class MessageControlPanel implements IMessage
                         }
                         else if (action == 14)
                         {
-                            tile.activationLeverState = true;
-                            System.out.println("Test: " + tile.activationLeverState);
+                            tile.activationLeverState = !tile.activationLeverState;
                         }
                         else if (action >= 15 && action <= 17)
                         {
