@@ -1,11 +1,9 @@
 #version 120
 
-varying in vec4 vertexPosition;
+varying vec4 vertexPosition;
 
 uniform float time;
 uniform sampler2D textureSampler;
-
-const float rippleAmount = 0.06;
 
 void main(void) {
     float timeScaled = time * 0.1;
@@ -15,7 +13,7 @@ void main(void) {
 
     vec2 distortedTexCoords = texture2D(textureSampler, vec2(vertexPosition.x + timeScaled, vertexPosition.y)).rg * 0.1;
     distortedTexCoords = (vertexPosition.xy) + (vec2(distortedTexCoords.x, distortedTexCoords.y + timeScaled));
-    vec2 rippleDirection = (texture2D(textureSampler, distortedTexCoords * scale).rg * 2.0 - 1.0) * rippleAmount;
+    vec2 rippleDirection = (texture2D(textureSampler, distortedTexCoords * scale).rg * 2.0 - 1.0) * 0.06;
 
     distortedPosition += vec4(rippleDirection.x * 2.0, rippleDirection.y * 2.0, 0.0, 0.0);
 
