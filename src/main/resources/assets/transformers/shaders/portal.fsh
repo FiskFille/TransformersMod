@@ -20,7 +20,7 @@ void main(void) {
     float centerDistance = (distortedPosition.x * distortedPosition.x + distortedPosition.y * distortedPosition.y + (cos(distortedPosition.z * distortedPosition.z) * 2));
     float pulsate = sin(centerDistance + timeScaled);
     float pulsate2 = cos(timeScaled - centerDistance);
-    float alpha = clamp(pulsate + sin(rippleDirection.x + timeScaled), 0.5, 1.0);
+    float alpha = clamp(pulsate + sin(timeScaled), 0.5, 1.0) + sin(rippleDirection.x);
     float edge = 1.0 - clamp((centerDistance * 0.05 - 0.2) * 15.0, 0.0, 1.0);
     gl_FragColor = vec4(clamp(pulsate + pulsate2, 0.2, 0.6), clamp(pulsate + pulsate2, 0.8, 1.0), 0.7, alpha * edge);
 }
