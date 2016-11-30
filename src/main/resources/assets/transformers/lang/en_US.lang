@@ -130,9 +130,16 @@ gui.energon_processor.filled=%s/%s mB
 gui.transmitter=Energon Transmitter
 gui.transmitter.select_receivers=Select Receivers
 gui.assembly_table=Transformer Assembly Table
+
 recipe.energonProcessor=Energon Processor
 recipe.powerSource=Power Source
 recipe.assembly_table=Assembly Table
+
+option.tf.energon_processor=Energon Processor
+option.tf.transmitter=Transmitter
+option.tf.relay_tower=Relay Tower
+option.tf.relay_torch=Relay Torch
+option.tf.control_panel=Control Panel
 
 ------Keybinds------
 key.category.transformers=Transformers

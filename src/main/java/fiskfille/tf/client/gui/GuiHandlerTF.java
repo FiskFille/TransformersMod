@@ -26,7 +26,13 @@ public class GuiHandlerTF implements IGuiHandler
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        WorldServer worldserver = DimensionManager.getWorld(world.provider.dimensionId);
+        World worldserver = DimensionManager.getWorld(world.provider.dimensionId);
+        
+        if (id != 6)
+        {
+            worldserver = world;
+        }
+        
         TileEntity tile = worldserver.getTileEntity(x, y, z);
         int metadata = worldserver.getBlockMetadata(x, y, z);
 
@@ -52,7 +58,13 @@ public class GuiHandlerTF implements IGuiHandler
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        WorldServer worldserver = DimensionManager.getWorld(world.provider.dimensionId);
+        World worldserver = DimensionManager.getWorld(world.provider.dimensionId);
+        
+        if (id != 6)
+        {
+            worldserver = world;
+        }
+        
         TileEntity tile = worldserver.getTileEntity(x, y, z);
         int metadata = worldserver.getBlockMetadata(x, y, z);
 
