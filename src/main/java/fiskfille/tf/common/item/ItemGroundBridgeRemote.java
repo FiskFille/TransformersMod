@@ -17,8 +17,6 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.network.MessageControlPanelSetConfig;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFHelper;
 
@@ -43,30 +41,25 @@ public class ItemGroundBridgeRemote extends Item
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
+            TileEntityControlPanel tile = getTile(itemstack);
             
-//            if (world.isRemote)
+            if (currentItem && tile != null)
             {
-                TileEntityControlPanel tile = getTile(itemstack);
+                InventoryGroundBridge inventory = new InventoryGroundBridge(player, itemstack);
+                ItemStack itemstack1 = inventory.getStackInSlot(0);
                 
-                if (currentItem && tile != null)
+                if (itemstack1 != null && itemstack1.getItem() == TFItems.csd)
                 {
-                    InventoryGroundBridge inventory = new InventoryGroundBridge(player, itemstack);
-                    ItemStack itemstack1 = inventory.getStackInSlot(0);
-                    
-                    if (itemstack1 != null && itemstack1.getItem() == TFItems.csd)
-                    {
-                        DimensionalCoords coords = ItemCSD.getCoords(itemstack1);
+                    DimensionalCoords coords = ItemCSD.getCoords(itemstack1);
 
-                        if (coords.posX != tile.destX || coords.posY != tile.prevDestY || coords.posZ != tile.destZ || coords.dimension != tile.getDestDimensionID())
-                        {
-                            tile.setSwitchesTo(coords);
-                            tile.markBlockForUpdate();
-                            System.out.println("Test: " + itemstack.getTagCompound());
-//                            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(tile., tile.getWorldObj().provider.dimensionId, coords));
-                        }
+                    if (coords.posX != tile.destX || coords.posY != tile.prevDestY || coords.posZ != tile.destZ || coords.dimension != tile.getDestDimensionID())
+                    {
+                        tile.setSwitchesTo(coords);
+                        tile.markBlockForUpdate();
                     }
                 }
             }
+        
         }
     }
 
