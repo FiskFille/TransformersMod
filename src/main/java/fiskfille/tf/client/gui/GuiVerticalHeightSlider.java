@@ -7,10 +7,12 @@ import org.lwjgl.opengl.GL11;
 public class GuiVerticalHeightSlider extends GuiVerticalSlider
 {
     public GuiSelectReceivers parent;
+    private Runnable onChange;
 
-    public GuiVerticalHeightSlider(int id, GuiSelectReceivers parentScreen, int x, int y, int height)
+    public GuiVerticalHeightSlider(int id, GuiSelectReceivers parentScreen, int x, int y, int height, Runnable onChange)
     {
         super(id, x, y, height);
+        this.onChange = onChange;
         parent = parentScreen;
     }
 
@@ -32,6 +34,8 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
                 {
                     percentage = 1;
                 }
+
+                onChange.run();
             }
 
             GL11.glDisable(GL11.GL_TEXTURE_2D);

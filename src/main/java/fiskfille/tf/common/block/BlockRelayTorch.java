@@ -1,12 +1,8 @@
 package fiskfille.tf.common.block;
 
-import static net.minecraftforge.common.util.ForgeDirection.EAST;
-import static net.minecraftforge.common.util.ForgeDirection.NORTH;
-import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
-import static net.minecraftforge.common.util.ForgeDirection.WEST;
-
-import java.util.List;
-
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
+import fiskfille.tf.helper.TFEnergyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,8 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
+
+import java.util.List;
+
+import static net.minecraftforge.common.util.ForgeDirection.*;
 
 public class BlockRelayTorch extends BlockRelayTower
 {
@@ -100,9 +98,11 @@ public class BlockRelayTorch extends BlockRelayTower
     {
         if (!player.isSneaking())
         {
-            if (world.getTileEntity(x, y, z) instanceof TileEntityRelayTorch)
+            TileEntity tile = world.getTileEntity(x, y, z);
+
+            if (tile instanceof TileEntityRelayTorch)
             {
-                player.openGui(TransformersMod.instance, 5, world, x, y, z);
+                GuiHandlerTF.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
             }
 
             return true;

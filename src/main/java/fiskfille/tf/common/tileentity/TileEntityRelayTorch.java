@@ -13,7 +13,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
     @Override
     public Vec3 getEnergyInputOffset()
     {
-        int metadata = getBlockMetadata();
+        int metadata = worldObj != null ? getBlockMetadata() : 0;
         float offset = 0.0625F * 11.5F - 0.5F;
         
         if (metadata == 1)

@@ -1,7 +1,9 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
+import fiskfille.tf.helper.TFEnergyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -86,14 +88,33 @@ public class BlockRelayTower extends BlockTransmitter
                 y -= 1;
             }
 
-            if (world.getTileEntity(x, y, z) instanceof TileEntityRelayTower)
+            TileEntity tile = world.getTileEntity(x, y, z);
+
+            if (tile instanceof TileEntityRelayTower)
             {
-                player.openGui(TransformersMod.instance, 5, world, x, y, z);
+                GuiHandlerTF.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
             }
 
             return true;
         }
-        
+        else
+        {
+            int metadata = world.getBlockMetadata(x, y, z);
+
+            if (metadata >= 4)
+            {
+                y -= 1;
+            }
+
+            TileEntity tile = world.getTileEntity(x, y, z);
+
+            if (tile instanceof TileEntityRelayTower)
+            {
+                IEnergyTransmitter transmitter = (IEnergyTransmitter) tile;
+                System.out.println(transmitter.getReceiverHandler().getTransmitters() + ", " + transmitter.getTransmissionHandler().getReceivers() + ", " + transmitter.getEnergy());
+            }
+        }
+
         return false;
     }
 

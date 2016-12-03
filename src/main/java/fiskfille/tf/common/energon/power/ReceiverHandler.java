@@ -1,6 +1,5 @@
 package fiskfille.tf.common.energon.power;
 
-import com.google.common.collect.Lists;
 import fiskfille.tf.helper.TFEnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -12,7 +11,6 @@ import net.minecraftforge.common.util.Constants;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -21,12 +19,14 @@ import java.util.Set;
  */
 public class ReceiverHandler
 {
-    private Set<ChunkCoordinates> transmitterCoords = new HashSet<ChunkCoordinates>();
-    private List<TileEntity> transmitters = Lists.newArrayList();
+    private Set<TargetingTransmitter> transmitters = new HashSet<TargetingTransmitter>();
     private TileEntity owner;
     private IEnergyContainer energyContainer;
 
-    private Queue<ChunkCoordinates> queuedTransmitters = new ArrayDeque<ChunkCoordinates>();
+    private Queue<TargetingTransmitter> queuedTransmitters = new ArrayDeque<TargetingTransmitter>();
+    private TargetReceiver receiver;
+
+    private boolean canReach;
 
     public ReceiverHandler(TileEntity owner)
     {
@@ -34,13 +34,29 @@ public class ReceiverHandler
         this.energyContainer = (IEnergyContainer) owner;
     }
 
+    protected void init()
+    {
+        if (owner instanceof IEnergyReceiver)
+        {
+            ChunkCoordinates coordinates = new ChunkCoordinates(owner.xCoord, owner.yCoord, owner.zCoord);
+            IEnergyReceiver energyReceiver = (IEnergyReceiver) owner;
+            this.receiver = new TargetReceiver(coordinates, energyReceiver.getEnergyInputOffset(), owner, energyReceiver);
+        }
+    }
+
     public void onUpdate(World world)
     {
+        if (this.receiver == null)
+        {
+            init();
+        }
+
         if (!world.isRemote)
         {
-            for (Iterator<TileEntity> iterator = this.transmitters.iterator(); iterator.hasNext(); )
+            for (Iterator<TargetingTransmitter> iterator = this.transmitters.iterator(); iterator.hasNext(); )
             {
-                TileEntity transmitterTile = iterator.next();
+                TargetingTransmitter transmitter = iterator.next();
+                TileEntity transmitterTile = transmitter.getTile();
 
                 boolean invalid = world.getChunkProvider().chunkExists(transmitterTile.xCoord >> 4, transmitterTile.zCoord >> 4) && (transmitterTile.isInvalid() || !exists(world, transmitterTile));
                 boolean outRange = transmitterTile instanceof IEnergyTransmitter && !TFEnergyHelper.isInRange(transmitterTile, owner);
@@ -49,10 +65,17 @@ public class ReceiverHandler
                 if (invalid || outRange || destroyed)
                 {
                     iterator.remove();
-                    this.transmitterCoords.remove(new ChunkCoordinates(transmitterTile.xCoord, transmitterTile.yCoord, transmitterTile.zCoord));
                     this.owner.markDirty();
                     this.energyContainer.updateClientEnergy();
                 }
+            }
+
+            boolean canReach = TFEnergyHelper.canPowerChainReach(owner);
+
+            if (this.canReach != canReach)
+            {
+                energyContainer.updateClientEnergy();
+                this.canReach = canReach;
             }
         }
 
@@ -62,15 +85,20 @@ public class ReceiverHandler
 
             while (queuedTransmitters.size() > 0)
             {
-                ChunkCoordinates transmitter = queuedTransmitters.poll();
+                TargetingTransmitter transmitter = queuedTransmitters.poll();
 
-                if (!transmitterCoords.contains(transmitter))
+                if (!transmitters.contains(transmitter))
                 {
-                    TileEntity tile = world.getTileEntity(transmitter.posX, transmitter.posY, transmitter.posZ);
-
-                    if (tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.owner).canReceiveEnergy(tile))
+                    if (!world.isRemote)
                     {
-                        add(transmitter, tile);
+                        transmitter.load(world);
+                    }
+
+                    TileEntity tile = transmitter.getTile();
+
+                    if ((tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.owner).canReceiveEnergy(tile)) || world.isRemote)
+                    {
+                        add(transmitter);
                         dirty = true;
                     }
                 }
@@ -88,19 +116,17 @@ public class ReceiverHandler
         return world.getBlock(tile.xCoord, tile.yCoord, tile.zCoord) == tile.getBlockType();
     }
 
-    public void add(ChunkCoordinates coordinates, TileEntity tile)
+    public void add(TargetingTransmitter transmitter)
     {
-        if (!transmitterCoords.contains(coordinates))
+        if (!transmitters.contains(transmitter))
         {
-            transmitterCoords.add(coordinates);
-            transmitters.add(tile);
+            transmitters.add(transmitter);
             this.owner.markDirty();
         }
     }
 
     public void readFromNBT(NBTTagCompound nbt)
     {
-        transmitterCoords.clear();
         transmitters.clear();
         queuedTransmitters.clear();
 
@@ -109,11 +135,11 @@ public class ReceiverHandler
 
         for (int i = 0; i < transmitterList.tagCount(); ++i)
         {
-            NBTTagCompound receiverTag = transmitterList.getCompoundTagAt(i);
-            ChunkCoordinates pos = new ChunkCoordinates(receiverTag.getInteger("x"), receiverTag.getInteger("y"), receiverTag.getInteger("z"));
-
-            queue(pos);
+            NBTTagCompound transmitterTag = transmitterList.getCompoundTagAt(i);
+            queue(TargetingTransmitter.readFromNBT(transmitterTag));
         }
+
+        canReach = energy.getBoolean("CanReach");
     }
 
     public void writeToNBT(NBTTagCompound nbt)
@@ -122,48 +148,41 @@ public class ReceiverHandler
 
         NBTTagList transmitterList = new NBTTagList();
 
-        for (ChunkCoordinates pos : transmitterCoords)
+        for (TargetingTransmitter transmitter : transmitters)
         {
-            writePos(transmitterList, pos);
+            writeTransmitter(transmitterList, transmitter);
         }
 
-        for (ChunkCoordinates pos : queuedTransmitters)
+        for (TargetingTransmitter transmitter : queuedTransmitters)
         {
-            writePos(transmitterList, pos);
+            writeTransmitter(transmitterList, transmitter);
         }
 
         energy.setTag("Transmitters", transmitterList);
+        energy.setBoolean("CanReach", canReach);
 
         nbt.setTag("EmB", energy);
     }
 
-    private void writePos(NBTTagList list, ChunkCoordinates pos)
+    private void writeTransmitter(NBTTagList list, TargetingTransmitter transmitter)
     {
-        NBTTagCompound posTag = new NBTTagCompound();
-        posTag.setInteger("x", pos.posX);
-        posTag.setInteger("y", pos.posY);
-        posTag.setInteger("z", pos.posZ);
-        list.appendTag(posTag);
+        NBTTagCompound tag = new NBTTagCompound();
+        transmitter.writeToNBT(tag);
+        list.appendTag(tag);
     }
 
-    public void queue(ChunkCoordinates coordinate)
+    public void queue(TargetingTransmitter transmitter)
     {
-        this.queuedTransmitters.add(coordinate);
+        this.queuedTransmitters.add(transmitter);
     }
 
-    public List<TileEntity> getTransmitters()
+    public Set<TargetingTransmitter> getTransmitters()
     {
         return transmitters;
     }
 
-    public Set<ChunkCoordinates> getTransmitterCoords()
+    public void reset(World world, Set<TargetingTransmitter> newTransmitters)
     {
-        return transmitterCoords;
-    }
-
-    public void reset(World world, Set<ChunkCoordinates> newTransmitters)
-    {
-        transmitterCoords.clear();
         transmitters.clear();
         queuedTransmitters.clear();
         queuedTransmitters.addAll(newTransmitters);
@@ -175,10 +194,29 @@ public class ReceiverHandler
         }
     }
 
-    public void remove(ChunkCoordinates coordinates, TileEntity tile)
+    public void remove(ChunkCoordinates coordinates)
     {
-        transmitterCoords.remove(coordinates);
-        transmitters.remove(tile);
-        this.owner.markDirty();
+        remove(new TargetingTransmitter(coordinates));
+    }
+
+    public void remove(TargetingTransmitter transmitter)
+    {
+        transmitters.remove(transmitter);
+        owner.markDirty();
+    }
+
+    public TargetReceiver getReceiver()
+    {
+        return receiver;
+    }
+
+    public boolean canReach()
+    {
+        return canReach;
+    }
+
+    public void setCanReach(boolean canReach)
+    {
+        this.canReach = canReach;
     }
 }

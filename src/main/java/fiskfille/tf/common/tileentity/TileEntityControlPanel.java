@@ -1,12 +1,18 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.helper.TFMathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -26,24 +32,16 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.google.common.collect.Lists;
-
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.helper.TFMathHelper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
 {
-    public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    public Integer[][] switches = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
     private ItemStack[] inventory = new ItemStack[3];
 
@@ -68,14 +66,18 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     public boolean hasSpace;
 
     public ChunkCoordinates groundBridgeFramePos;
-    public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket)null, (Ticket)null));
-    public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk)null, (ForcedChunk)null));
+    public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket) null, (Ticket) null));
+    public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk) null, (ForcedChunk) null));
 
     private Integer[] cachedDimensionIDs;
+
+    private int ticks;
 
     @Override
     public void updateEntity()
     {
+        ticks++;
+
         prevActivationLeverTimer = activationLeverTimer;
         prevActivationLeverCoverTimer = activationLeverCoverTimer;
         prevAnimPortalDirection = animPortalDirection;
@@ -125,30 +127,33 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
             if (!activationLeverState)
             {
-                List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
-                Collections.sort(list, new Comparator<TileEntity>()
-                        {
-                    @Override
-                    public int compare(TileEntity tile1, TileEntity tile2)
-                    {
-                        return Double.valueOf(Math.sqrt(getDistanceFrom(tile1.xCoord, tile1.zCoord, tile1.yCoord))).compareTo(Math.sqrt(getDistanceFrom(tile2.xCoord, tile2.zCoord, tile2.yCoord)));
-                    }
-                        });
-
-                for (TileEntity tileentity : list)
+                if (ticks % 20 == 0)
                 {
-                    if (Math.sqrt(getDistanceFrom(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)) <= 20)
+                    List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
+                    Collections.sort(list, new Comparator<TileEntity>()
                     {
-                        if (tileentity instanceof TileEntityGroundBridgeFrame)
+                        @Override
+                        public int compare(TileEntity tile1, TileEntity tile2)
                         {
-                            TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame)tileentity;
-                            ForgeDirection direction = BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
+                            return Double.valueOf(Math.sqrt(getDistanceFrom(tile1.xCoord, tile1.zCoord, tile1.yCoord))).compareTo(Math.sqrt(getDistanceFrom(tile2.xCoord, tile2.zCoord, tile2.yCoord)));
+                        }
+                    });
 
-                            if (direction != null)
+                    for (TileEntity tileentity : list)
+                    {
+                        if (Math.sqrt(getDistanceFrom(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)) <= 20)
+                        {
+                            if (tileentity instanceof TileEntityGroundBridgeFrame)
                             {
-                                flag = isPortalObstructed(tile.xCoord, tile.yCoord, tile.zCoord, direction);
-                                groundBridgeFramePos = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
-                                break;
+                                TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame) tileentity;
+                                ForgeDirection direction = BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
+
+                                if (direction != null)
+                                {
+                                    flag = isPortalObstructed(tile.xCoord, tile.yCoord, tile.zCoord, direction);
+                                    groundBridgeFramePos = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -172,7 +177,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
             if (destY < 0 || destY + 5 >= worldObj.getHeight()) // TODO
             {
-                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] {getWorldObj().getHeight()};
+                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] { getWorldObj().getHeight() };
                 errors.add(GroundBridgeError.OUT_OF_BOUNDS);
             }
 
@@ -271,7 +276,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
                 animPortalDirection -= incr;
             }
 
-            animPortalDirection = (float)Math.round(animPortalDirection * 1000) / 1000;
+            animPortalDirection = (float) Math.round(animPortalDirection * 1000) / 1000;
 
             if (animPortalDirection > 3)
             {
@@ -287,7 +292,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         destY = yCoord;
         destZ = zCoord;
 
-        int[] increments = {1, 10, 100, 1000};
+        int[] increments = { 1, 10, 100, 1000 };
 
         for (int i = 0; i < switches[0].length; ++i)
         {
@@ -422,11 +427,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     {
         if (!activationLeverState)
         {
-            int[] increments = {1, 10, 100, 1000};
-            int[] aint = {coords.posX, coords.posY, coords.posZ};
-            int[] aint1 = {xCoord, yCoord, zCoord};
+            int[] increments = { 1, 10, 100, 1000 };
+            int[] aint = { coords.posX, coords.posY, coords.posZ };
+            int[] aint1 = { xCoord, yCoord, zCoord };
 
-            switches = new Integer[][] {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+            switches = new Integer[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
             for (int i = 0; i < aint.length; ++i)
             {
@@ -533,13 +538,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             }
 
             Collections.sort(list, new Comparator<Integer>()
-                    {
+            {
                 @Override
                 public int compare(Integer arg0, Integer arg1)
                 {
                     return Double.valueOf(arg0).compareTo(Double.valueOf(arg1));
                 }
-                    });
+            });
 
             cachedDimensionIDs = list.toArray(new Integer[list.size()]);
         }

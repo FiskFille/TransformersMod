@@ -1,8 +1,11 @@
 package fiskfille.tf.common.block;
 
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import fiskfille.tf.helper.TFEnergyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -19,10 +22,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockTransmitter extends Block implements ITileEntityProvider
 {
@@ -321,8 +323,8 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         {
         	if (hitX > f * 5.5F && hitX < f * 10.5F && hitY > f * 10 && hitY < f * 20)
         	{
-        		player.openGui(TransformersMod.instance, 5, world, x, y, z);
-        		return true;
+                GuiHandlerTF.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
+                return true;
         	}
         }
         

@@ -4,12 +4,12 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.TargetReceiver;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 
 import java.util.HashSet;
@@ -20,14 +20,14 @@ public class MessageSetReceivers implements IMessage
     private int x;
     private int y;
     private int z;
-    private Set<ChunkCoordinates> receivers = new HashSet<ChunkCoordinates>();
+    private Set<TargetReceiver> receivers = new HashSet<TargetReceiver>();
 
     public MessageSetReceivers()
     {
 
     }
 
-    public MessageSetReceivers(int x, int y, int z, Set<ChunkCoordinates> receivers)
+    public MessageSetReceivers(int x, int y, int z, Set<TargetReceiver> receivers)
     {
         this.x = x;
         this.y = y;
@@ -41,12 +41,11 @@ public class MessageSetReceivers implements IMessage
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
-        int i = buf.readInt();
+        int count = buf.readInt();
 
-        for (int j = 0; j < i; ++j)
+        for (int i = 0; i < count; ++i)
         {
-            ChunkCoordinates coords = new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt());
-            receivers.add(coords);
+            receivers.add(TargetReceiver.fromBytes(buf));
         }
     }
 
@@ -58,11 +57,9 @@ public class MessageSetReceivers implements IMessage
         buf.writeInt(z);
         buf.writeInt(receivers.size());
 
-        for (ChunkCoordinates coords : receivers)
+        for (TargetReceiver receiver : receivers)
         {
-            buf.writeInt(coords.posX);
-            buf.writeInt(coords.posY);
-            buf.writeInt(coords.posZ);
+            receiver.toBytes(buf);
         }
     }
 

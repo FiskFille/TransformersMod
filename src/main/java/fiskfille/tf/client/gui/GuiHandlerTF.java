@@ -1,10 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.network.IGuiHandler;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.container.ContainerAssemblyTable;
@@ -14,12 +9,22 @@ import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.container.ContainerGroundBridge;
 import fiskfille.tf.common.container.ContainerTransmitter;
 import fiskfille.tf.common.container.InventoryGroundBridge;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
+
+import java.util.List;
 
 public class GuiHandlerTF implements IGuiHandler
 {
@@ -34,7 +39,6 @@ public class GuiHandlerTF implements IGuiHandler
         }
         
         TileEntity tile = worldserver.getTileEntity(x, y, z);
-        int metadata = worldserver.getBlockMetadata(x, y, z);
 
         switch (id)
         {
@@ -66,7 +70,6 @@ public class GuiHandlerTF implements IGuiHandler
         }
         
         TileEntity tile = worldserver.getTileEntity(x, y, z);
-        int metadata = worldserver.getBlockMetadata(x, y, z);
 
         switch (id)
         {
@@ -80,12 +83,33 @@ public class GuiHandlerTF implements IGuiHandler
             return worldserver.getBlock(x, y, z) == TFBlocks.displayStation ? new GuiDisplayStationArmor(player.inventory, (TileEntityDisplayStation) tile) : null;
         case 4:
             return worldserver.getBlock(x, y, z) == TFBlocks.transmitter ? new GuiTransmitter(player.inventory, (TileEntityTransmitter) tile) : null;
-        case 5:
-            return worldserver.getTileEntity(x, y, z) instanceof IEnergyTransmitter ? new GuiSelectReceivers(tile) : null;
         case 6:
             return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? new GuiGroundBridge(player.inventory, new InventoryGroundBridge(player, player.getHeldItem()), (TileEntityControlPanel) tile) : null;
         }
 
         return null;
+    }
+
+    public static void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
+    {
+        if (world.isRemote)
+        {
+            openSetReceiversClient(tile, grandparents);
+        }
+        else
+        {
+            openSetReceiversServer(player, tile, grandparents);
+        }
+    }
+
+    private static void openSetReceiversClient(TileEntity tile, List<ChunkCoordinates> grandparents)
+    {
+        Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
+    }
+
+    private static void openSetReceiversServer(EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
+    {
+        ChunkCoordinates coordinates = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
+        TFNetworkManager.networkWrapper.sendTo(new MessageOpenSetReceiversGUI(coordinates, grandparents), (EntityPlayerMP) player);
     }
 }

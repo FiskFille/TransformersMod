@@ -6,12 +6,13 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.energon.power.TargetingTransmitter;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.helper.TFEnergyHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 
 import java.util.HashSet;
@@ -22,10 +23,11 @@ public class MessageUpdateEnergyState implements IMessage
     private int x;
     private int y;
     private int z;
-    private Set<ChunkCoordinates> receivers = new HashSet<ChunkCoordinates>();
-    private Set<ChunkCoordinates> transmitters = new HashSet<ChunkCoordinates>();
+    private Set<TargetReceiver> receivers = new HashSet<TargetReceiver>();
+    private Set<TargetingTransmitter> transmitters = new HashSet<TargetingTransmitter>();
 
     private boolean container;
+    private boolean canReach;
     private float energy = -1.0F;
     private float energyUsage = 0.0F;
 
@@ -45,12 +47,13 @@ public class MessageUpdateEnergyState implements IMessage
 
         if (transmissionHandler != null)
         {
-            this.receivers = transmissionHandler.getReceiverCoords();
+            this.receivers = transmissionHandler.getReceivers();
         }
 
         if (receiverHandler != null)
         {
-            this.transmitters = receiverHandler.getTransmitterCoords();
+            this.transmitters = receiverHandler.getTransmitters();
+            this.canReach = receiverHandler.canReach();
         }
 
         if (tile instanceof IEnergyContainer)
@@ -81,15 +84,17 @@ public class MessageUpdateEnergyState implements IMessage
 
         for (int i = 0; i < receiverCount; i++)
         {
-            receivers.add(new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt()));
+            receivers.add(TargetReceiver.fromBytes(buf));
         }
 
         int receivingCount = buf.readInt();
 
         for (int i = 0; i < receivingCount; i++)
         {
-            transmitters.add(new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt()));
+            transmitters.add(TargetingTransmitter.fromBytes(buf));
         }
+
+        canReach = buf.readBoolean();
     }
 
     @Override
@@ -109,21 +114,19 @@ public class MessageUpdateEnergyState implements IMessage
 
         buf.writeInt(receivers.size());
 
-        for (ChunkCoordinates coords : receivers)
+        for (TargetReceiver receiver : receivers)
         {
-            buf.writeInt(coords.posX);
-            buf.writeInt(coords.posY);
-            buf.writeInt(coords.posZ);
+            receiver.toBytes(buf);
         }
 
         buf.writeInt(transmitters.size());
 
-        for (ChunkCoordinates coords : transmitters)
+        for (TargetingTransmitter transmitter : transmitters)
         {
-            buf.writeInt(coords.posX);
-            buf.writeInt(coords.posY);
-            buf.writeInt(coords.posZ);
+            transmitter.toBytes(buf);
         }
+
+        buf.writeBoolean(canReach);
     }
 
     public static class Handler implements IMessageHandler<MessageUpdateEnergyState, IMessage>
@@ -149,6 +152,7 @@ public class MessageUpdateEnergyState implements IMessage
                 if (receiverHandler != null)
                 {
                     receiverHandler.reset(world, message.transmitters);
+                    receiverHandler.setCanReach(message.canReach);
                 }
 
                 if (message.container && tile instanceof IEnergyContainer)

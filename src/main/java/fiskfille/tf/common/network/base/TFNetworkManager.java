@@ -17,6 +17,7 @@ import fiskfille.tf.common.network.MessageHandleTransformation;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.MessageOpenGui;
 import fiskfille.tf.common.network.MessageOpenGuiSimple;
+import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
 import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetReceivers;
@@ -55,6 +56,7 @@ public class TFNetworkManager
         registerPacket(MessageSetReceivers.Handler.class, MessageSetReceivers.class);
         registerPacket(MessageClosePortal.Handler.class, MessageClosePortal.class);
         registerPacket(MessageUpdateFluidState.Handler.class, MessageUpdateFluidState.class);
+        registerPacket(MessageOpenSetReceiversGUI.Handler.class, MessageOpenSetReceiversGUI.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

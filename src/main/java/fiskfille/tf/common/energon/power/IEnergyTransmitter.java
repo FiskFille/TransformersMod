@@ -9,11 +9,13 @@ public interface IEnergyTransmitter extends IEnergyContainer
 
     TransmissionHandler getTransmissionHandler();
 
-    boolean isPowering(TileEntity tile);
+    boolean isPowering(TargetReceiver receiver);
 
-    boolean canPowerReach(TileEntity tile);
+    boolean canPowerReach(TargetReceiver receiver);
 
     float getRange();
 
     Vec3 getEnergyOutputOffset();
+
+    boolean isPowering(TileEntity tile);
 }

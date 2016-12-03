@@ -1,28 +1,6 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
-
 import com.google.common.collect.Lists;
-
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.chunk.ForcedChunk;
 import fiskfille.tf.common.chunk.SubTicket;
@@ -34,6 +12,7 @@ import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.TFFluids;
@@ -43,6 +22,27 @@ import fiskfille.tf.common.network.MessageUpdateFluidState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.IFluidHandler;
+
+import java.util.List;
+import java.util.Map;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile, EnergonTankContainer
 {
@@ -96,19 +96,19 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             }
             else
             {
-                //                receiveEnergy(110); // TODO: Remove & Add
+                receiveEnergy(110); // TODO: Remove & Add
 
                 if (getEnergy() > 0)
                 {
-                    List<TileEntity> tilesToPower = getTilesToPower();
+                    List<TargetReceiver> receiversToPower = getReceiversToPower();
 
-                    for (TileEntity tile : tilesToPower)
+                    for (TargetReceiver target : receiversToPower)
                     {
-                        IEnergyReceiver receiver = (IEnergyReceiver) tile;
+                        IEnergyReceiver receiver = target.getReceiver();
 
                         if (receiver.canReceiveEnergy(this))
                         {
-                            TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / tilesToPower.size());
+                            TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / receiversToPower.size());
                         }
                     }
                 }
@@ -192,19 +192,19 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         this.inventory = inventory;
     }
 
-    public List<TileEntity> getTilesToPower()
+    public List<TargetReceiver> getReceiversToPower()
     {
-        List<TileEntity> tilesToPower = Lists.newArrayList();
+        List<TargetReceiver> receiversToPower = Lists.newArrayList();
 
-        for (TileEntity tile : transmissionHandler.getReceivers())
+        for (TargetReceiver receiver : transmissionHandler.getReceivers())
         {
-            if (canPowerReach(tile))
+            if (canPowerReach(receiver))
             {
-                tilesToPower.add(tile);
+                receiversToPower.add(receiver);
             }
         }
 
-        return tilesToPower;
+        return receiversToPower;
     }
 
     @Override
@@ -214,10 +214,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (getBlockMetadata() < 4 && getEnergy() > 0)
         {
-            for (TileEntity tile : transmissionHandler.getReceivers())
-            {
-                bounds = TFHelper.wrapAroundAABB(bounds, tile.getRenderBoundingBox());
-            }
+            return INFINITE_EXTENT_AABB;
         }
 
         return bounds;
@@ -254,48 +251,42 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         }
     }
 
+    @Override
     public ReceiverHandler getReceiverHandler()
     {
         return receiverHandler;
     }
 
+    @Override
     public TransmissionHandler getTransmissionHandler()
     {
         return transmissionHandler;
     }
 
     @Override
-    public boolean isPowering(TileEntity tile)
+    public boolean isPowering(TargetReceiver receiver)
     {
-        return getBlockMetadata() < 4 && getEnergy() > 0 && getTilesToPower().contains(tile);
+        return getBlockMetadata() < 4 && getEnergy() > 0 && getReceiversToPower().contains(receiver);
     }
 
     @Override
-    public boolean canPowerReach(TileEntity tile)
+    public boolean canPowerReach(TargetReceiver target)
     {
-        if (tile instanceof IEnergyReceiver)
+        ChunkCoordinates pos = target.getCoordinates();
+        Vec3 position = target.getEnergyInputOffset().addVector(pos.posX + 0.5F, pos.posY + 0.5F, pos.posZ + 0.5F);
+        Vec3 start = target.getEnergyInputOffset().addVector(pos.posX + 0.5F, pos.posY + 0.5F, pos.posZ + 0.5F);
+        Vec3 end = getEnergyOutputOffset().addVector(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F);
+
+        double deltaScale = 1F / position.distanceTo(end);
+        end = Vec3.createVectorHelper(end.xCoord + (position.xCoord - end.xCoord) * deltaScale, end.yCoord + (position.yCoord - end.yCoord) * deltaScale, end.zCoord + (position.zCoord - end.zCoord) * deltaScale);
+        MovingObjectPosition result = TFEnergyHelper.rayTraceBlocks(worldObj, end, position);
+
+        if (result != null)
         {
-            IEnergyReceiver receiver = (IEnergyReceiver) tile;
-            Vec3 position = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
-            Vec3 start = receiver.getEnergyInputOffset().addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
-            Vec3 end = getEnergyOutputOffset().addVector(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F);
-
-            double deltaScale = 1F / position.distanceTo(end);
-            end = Vec3.createVectorHelper(end.xCoord + (position.xCoord - end.xCoord) * deltaScale, end.yCoord + (position.yCoord - end.yCoord) * deltaScale, end.zCoord + (position.zCoord - end.zCoord) * deltaScale);
-            MovingObjectPosition result = TFEnergyHelper.rayTraceBlocks(worldObj, end, position);
-
-            if (result != null)
-            {
-                position = result.hitVec;
-            }
-
-            if (position.xCoord == start.xCoord && position.yCoord == start.yCoord && position.zCoord == start.zCoord)
-            {
-                return true;
-            }
+            position = result.hitVec;
         }
 
-        return false;
+        return position.xCoord == start.xCoord && position.yCoord == start.yCoord && position.zCoord == start.zCoord;
     }
 
     @Override
@@ -308,6 +299,27 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public Vec3 getEnergyOutputOffset()
     {
         return Vec3.createVectorHelper(0, 2, 0);
+    }
+
+    @Override
+    public boolean isPowering(TileEntity tile)
+    {
+        if (getBlockMetadata() < 4 && getEnergy() > 0)
+        {
+            List<TargetReceiver> receivers = getReceiversToPower();
+
+            for (TargetReceiver receiver : receivers)
+            {
+                ChunkCoordinates coordinates = receiver.getCoordinates();
+
+                if (coordinates.posX == tile.xCoord && coordinates.posY == tile.yCoord && coordinates.posZ == tile.zCoord)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override

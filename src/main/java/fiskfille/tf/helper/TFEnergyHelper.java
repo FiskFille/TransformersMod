@@ -3,6 +3,8 @@ package fiskfille.tf.helper;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.energon.power.TargetingTransmitter;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -12,7 +14,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class TFEnergyHelper
 {
@@ -141,41 +145,20 @@ public class TFEnergyHelper
         return null;
     }
 
-    public static void addReceivers(World world, int x, int y, int z)
-    {
-        TileEntity tile = world.getTileEntity(x, y, z);
-
-        if (tile instanceof IEnergyReceiver)
-        {
-            ReceiverHandler receiverHandler = ((IEnergyReceiver) tile).getReceiverHandler();
-
-            for (TileEntity worldTile : (List<TileEntity>) world.loadedTileEntityList)
-            {
-                if (worldTile instanceof IEnergyTransmitter)
-                {
-                    TransmissionHandler transmissionHandler = ((IEnergyTransmitter) worldTile).getTransmissionHandler();
-
-                    transmissionHandler.queue(new ChunkCoordinates(x, y, z));
-                    receiverHandler.queue(new ChunkCoordinates(worldTile.xCoord, worldTile.yCoord, worldTile.zCoord));
-                }
-            }
-        }
-    }
-
     public static boolean isGrandParentTo(TileEntity from, TileEntity to)
     {
         if (from instanceof IEnergyTransmitter)
         {
             IEnergyTransmitter transmitter = (IEnergyTransmitter) from;
 
-            for (TileEntity tile : transmitter.getTransmissionHandler().getReceivers())
+            for (TargetReceiver receiver : transmitter.getTransmissionHandler().getReceivers())
             {
-                if (tile == to)
+                if (receiver.getCoordinates().equals(new ChunkCoordinates(to.xCoord, to.yCoord, to.zCoord)))
                 {
                     return true;
                 }
 
-                if (isGrandParentTo(tile, to))
+                if (isGrandParentTo(receiver.getTile(), to))
                 {
                     return true;
                 }
@@ -183,6 +166,24 @@ public class TFEnergyHelper
         }
 
         return false;
+    }
+
+    public static List<ChunkCoordinates> getGrandparents(TileEntity tile)
+    {
+        List<ChunkCoordinates> coordinates = new ArrayList<ChunkCoordinates>();
+
+        for (TileEntity loadedTile : (List<TileEntity>) tile.getWorldObj().loadedTileEntityList)
+        {
+            if (loadedTile instanceof IEnergyReceiver && ((IEnergyReceiver) loadedTile).canReceiveEnergy(tile) && TFEnergyHelper.isInRange(tile, loadedTile))
+            {
+                if (isGrandParentTo(loadedTile, tile))
+                {
+                    coordinates.add(new ChunkCoordinates(loadedTile.xCoord, loadedTile.yCoord, loadedTile.zCoord));
+                }
+            }
+        }
+
+        return coordinates;
     }
 
     public static MovingObjectPosition rayTraceBlocks(World world, Vec3 src, Vec3 dst)
@@ -419,15 +420,18 @@ public class TFEnergyHelper
 
             if (receiverHandler != null)
             {
-                List<TileEntity> transmitters = receiverHandler.getTransmitters();
+                Set<TargetingTransmitter> transmitters = receiverHandler.getTransmitters();
 
                 if (!transmitters.isEmpty())
                 {
-                    for (TileEntity transmitter : transmitters)
+                    for (TargetingTransmitter target : transmitters)
                     {
-                        if (transmitter instanceof IEnergyTransmitter && ((IEnergyTransmitter) transmitter).canPowerReach(origin))
+                        TileEntity tile = target.getTile();
+                        IEnergyTransmitter transmitter = target.getTransmitter();
+
+                        if (transmitter.canPowerReach(receiverHandler.getReceiver()))
                         {
-                            if (((IEnergyTransmitter) transmitter).getEnergy() > 0 || canPowerChainReach(transmitter))
+                            if (transmitter.getEnergy() > 0 || canPowerChainReach(tile))
                             {
                                 return true;
                             }

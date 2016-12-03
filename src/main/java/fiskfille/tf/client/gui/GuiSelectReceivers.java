@@ -1,10 +1,16 @@
 package fiskfille.tf.client.gui;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.network.MessageSetReceivers;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
@@ -16,19 +22,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
-
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.network.MessageSetReceivers;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiSelectReceivers extends GuiScreen
@@ -36,7 +35,9 @@ public class GuiSelectReceivers extends GuiScreen
     public TileEntity tile;
     public IEnergyTransmitter transmitter;
 
+    public Set<TargetReceiver> receivers = new HashSet<TargetReceiver>();
     public Set<ChunkCoordinates> receiverCoords = new HashSet<ChunkCoordinates>();
+
     public ChunkCoordinates[] coordArray;
     public List<Integer> layers = Lists.newArrayList();
 
@@ -44,6 +45,8 @@ public class GuiSelectReceivers extends GuiScreen
 
     public int spacing = 1;
     public int size = 3;
+
+    private List<ChunkCoordinates> grandparents;
 
     @Override
     public void initGui()
@@ -56,36 +59,56 @@ public class GuiSelectReceivers extends GuiScreen
         int baseY = MathHelper.floor_double(height / 2 - (spacing + size) * boardWidth / 2);
 
         buttonList.add(new GuiButton(0, width / 2 - 100, height - height / 7, StatCollector.translateToLocal("gui.done")));
-        buttonList.add(heightSlider = new GuiVerticalHeightSlider(1, this, baseX + boardWidthFl * (spacing + size), baseY - 1, boardWidthFl * (spacing + size) + 1));
-    }
+        buttonList.add(heightSlider = new GuiVerticalHeightSlider(1, this, baseX + boardWidthFl * (spacing + size), baseY - 1, boardWidthFl * (spacing + size) + 1, new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                updateBlocks();
+            }
+        }));
 
-    public GuiSelectReceivers(TileEntity tile)
-    {
-        this.tile = tile;
-        transmitter = (IEnergyTransmitter) tile;
-        receiverCoords.addAll(transmitter.getTransmissionHandler().getReceiverCoords());
-    }
-
-    @Override
-    public void updateScreen()
-    {
-        int boardWidth = 1 + getRange() * 2;
-        coordArray = new ChunkCoordinates[boardWidth * boardWidth];
+        coordArray = new ChunkCoordinates[boardWidthFl * boardWidthFl];
         layers.clear();
         layers.add(tile.yCoord);
 
-        for (TileEntity tile : (List<TileEntity>) mc.theWorld.loadedTileEntityList)
+        List<TileEntity> tiles = mc.theWorld.loadedTileEntityList;
+        for (TileEntity loadedTile : tiles)
         {
-            if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile) && TFEnergyHelper.isInRange(this.tile, tile))
+            if (loadedTile instanceof IEnergyReceiver && ((IEnergyReceiver) loadedTile).canReceiveEnergy(this.tile) && TFEnergyHelper.isInRange(this.tile, loadedTile))
             {
-                if (!layers.contains(tile.yCoord))
+                if (!layers.contains(loadedTile.yCoord))
                 {
-                    layers.add(tile.yCoord);
+                    layers.add(loadedTile.yCoord);
                 }
             }
         }
 
         Collections.sort(layers);
+
+        heightSlider.enabled = layers.size() > 1;
+
+        updateBlocks();
+    }
+
+    public GuiSelectReceivers(TileEntity tile, List<ChunkCoordinates> grandparents)
+    {
+        this.tile = tile;
+        this.grandparents = grandparents;
+
+        transmitter = (IEnergyTransmitter) tile;
+        receivers.addAll(transmitter.getTransmissionHandler().getReceivers());
+
+        for (TargetReceiver receiver : receivers)
+        {
+            receiverCoords.add(receiver.getCoordinates());
+        }
+    }
+
+    protected void updateBlocks()
+    {
+        float range = transmitter.getRange();
+        int boardWidth = MathHelper.floor_float(1 + range * 2);
 
         for (int i = 0; i < boardWidth; ++i)
         {
@@ -133,8 +156,6 @@ public class GuiSelectReceivers extends GuiScreen
 
             coordArray = coordArray1;
         }
-
-        heightSlider.enabled = layers.size() > 1;
     }
 
     @Override
@@ -160,7 +181,7 @@ public class GuiSelectReceivers extends GuiScreen
     @Override
     public void onGuiClosed()
     {
-        TFNetworkManager.networkWrapper.sendToServer(new MessageSetReceivers(tile.xCoord, tile.yCoord, tile.zCoord, receiverCoords));
+        TFNetworkManager.networkWrapper.sendToServer(new MessageSetReceivers(tile.xCoord, tile.yCoord, tile.zCoord, receivers));
     }
 
     @Override
@@ -191,18 +212,27 @@ public class GuiSelectReceivers extends GuiScreen
                             {
                                 TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
 
-                                if (tile != this.tile && tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile) && (!(tile instanceof IEnergyTransmitter) || !TFEnergyHelper.isGrandParentTo(tile, this.tile)))
+                                if (tile != this.tile && tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile) && (!(tile instanceof IEnergyTransmitter) || !isGrandParent(coords)))
                                 {
-                                    if (receiverCoords.contains(coords))
-                                    {
-                                        receiverCoords.remove(coords);
-                                    }
-                                    else
-                                    {
-                                        receiverCoords.add(coords);
-                                    }
+                                    ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
 
-                                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1));
+                                    if (receiverHandler != null)
+                                    {
+                                        TargetReceiver receiver = receiverHandler.getReceiver();
+
+                                        if (receivers.contains(receiver))
+                                        {
+                                            receivers.remove(receiver);
+                                            receiverCoords.remove(receiver.getCoordinates());
+                                        }
+                                        else
+                                        {
+                                            receivers.add(receiver);
+                                            receiverCoords.add(receiver.getCoordinates());
+                                        }
+
+                                        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1));
+                                    }
                                 }
                             }
                         }
@@ -210,6 +240,11 @@ public class GuiSelectReceivers extends GuiScreen
                 }
             }
         }
+    }
+
+    private boolean isGrandParent(ChunkCoordinates coords)
+    {
+        return grandparents.contains(coords);
     }
 
     public int getLayer()
@@ -378,7 +413,7 @@ public class GuiSelectReceivers extends GuiScreen
                         {
                             GL11.glColor4f(1, 0, 0, opacity);
                         }
-                        else if (tile instanceof IEnergyTransmitter && TFEnergyHelper.isGrandParentTo(tile, this.tile))
+                        else if (tile instanceof IEnergyTransmitter && isGrandParent(coords))
                         {
                             GL11.glColor4f(0.2F, 0, 0.2F, opacity);
                         }
@@ -402,7 +437,7 @@ public class GuiSelectReceivers extends GuiScreen
         {
             for (int i = 0; i < layers.size(); i += layers.size() - 1)
             {
-                float f = (float)i / (layers.size() - 1);
+                float f = (float) i / (layers.size() - 1);
                 drawString(mc.fontRenderer, layers.get(i) + "", heightSlider.xPosition + heightSlider.width + 3, heightSlider.yPosition + (int) ((1 - f) * (float) (heightSlider.height - 8)), 0x4C4C4C);
             }
         }
@@ -410,7 +445,7 @@ public class GuiSelectReceivers extends GuiScreen
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
-        String[] astring = {"north", "east", "south", "west"};
+        String[] astring = { "north", "east", "south", "west" };
         String[] dirs = new String[astring.length];
 
         for (int i = 0; i < astring.length; ++i)
