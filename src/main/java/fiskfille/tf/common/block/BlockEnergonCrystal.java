@@ -9,7 +9,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
+import fiskfille.tf.helper.TFMathHelper;
 
 public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider, IEnergon
 {
@@ -31,9 +32,9 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 
     public BlockEnergonCrystal(Energon type)
     {
-        super(Material.glass);
+        super(TFMaterial.energon);
         energonType = type;
-        
+
         setHarvestLvl("pickaxe", 1);
         setStepSound(Block.soundTypeGlass);
         setHardness(6.0F);
@@ -50,7 +51,13 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     @Override
     public int getMass()
     {
-        return 576;
+        return Energon.CRYSTAL_FULL;
+    }
+    
+    @Override
+    public MapColor getMapColor(int metadata)
+    {
+        return MapColor.airColor;
     }
 
     @Override
@@ -72,7 +79,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     }
 
     @Override
-    public int getExpDrop(IBlockAccess world, int p_149690_5_, int p_149690_7_)
+    public int getExpDrop(IBlockAccess world, int metadata, int fortune)
     {
         return MathHelper.getRandomIntegerInRange(rand, 0, 2);
     }
@@ -101,12 +108,6 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         return false;
     }
 
-    @Override
-    public boolean hasTileEntity()
-    {
-        return true;
-    }
-
     private boolean isSolid(World world, int x, int y, int z)
     {
         if (World.doesBlockHaveSolidTopSurface(world, x, y, z))
@@ -120,18 +121,12 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         }
     }
 
-    /**
-     * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
-     */
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
         return world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || isSolid(world, x, y - 1, z) || isSolid(world, x, y + 1, z);
     }
 
-    /**
-     * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
-     */
     @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
@@ -170,13 +165,10 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         return rotation;
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     @Override
-    public void updateTick(World world, int x, int y, int z, Random rand)
+    public void updateTick(World world, int x, int y, int z, Random random)
     {
-        super.updateTick(world, x, y, z, rand);
+        super.updateTick(world, x, y, z, random);
 
         if (world.getBlockMetadata(x, y, z) == 0)
         {
@@ -184,9 +176,6 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         }
     }
 
-    /**
-     * Called whenever the block is added into the world. Args: world, x, y, z
-     */
     @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
@@ -221,17 +210,8 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         canPlaceAt(world, x, y, z);
     }
 
-    /**
-     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
-     * their own) Args: x, y, z, neighbor Block
-     */
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
-        neighbourChanged(world, x, y, z, block);
-    }
-
-    protected boolean neighbourChanged(World world, int x, int y, int z, Block block)
     {
         if (canPlaceAt(world, x, y, z))
         {
@@ -265,7 +245,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 
             if (!canSupport)
             {
-                if (new Random().nextInt(9) == 0)
+                if (rand.nextInt(9) == 0)
                 {
                     if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops") && !world.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
                     {
@@ -284,17 +264,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
                 }
 
                 world.setBlockToAir(x, y, z);
-
-                return true;
             }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return true;
         }
     }
 
@@ -316,33 +286,29 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         }
     }
 
-    /**
-     * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit. Args: world,
-     * x, y, z, startVec, endVec
-     */
     @Override
-    public MovingObjectPosition collisionRayTrace(World p_149731_1_, int p_149731_2_, int p_149731_3_, int p_149731_4_, Vec3 p_149731_5_, Vec3 p_149731_6_)
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 src, Vec3 dst)
     {
-        int l = p_149731_1_.getBlockMetadata(p_149731_2_, p_149731_3_, p_149731_4_) & 7;
+        int direction = world.getBlockMetadata(x, y, z) & 7;
         float f = 0.21F;
 
-        if (l == 1)
+        if (direction == 1)
         {
             setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
         }
-        else if (l == 2)
+        else if (direction == 2)
         {
             setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
         }
-        else if (l == 3)
+        else if (direction == 3)
         {
             setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
         }
-        else if (l == 4)
+        else if (direction == 4)
         {
             setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
         }
-        else if (l == 6)
+        else if (direction == 6)
         {
             f = 0.2F;
             setBlockBounds(0.5F - f, 0.0F + f * 2, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
@@ -353,7 +319,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
             setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
         }
 
-        return super.collisionRayTrace(p_149731_1_, p_149731_2_, p_149731_3_, p_149731_4_, p_149731_5_, p_149731_6_);
+        return super.collisionRayTrace(world, x, y, z, src, dst);
     }
 
     @Override

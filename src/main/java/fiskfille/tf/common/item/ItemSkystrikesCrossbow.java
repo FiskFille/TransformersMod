@@ -43,7 +43,7 @@ public class ItemSkystrikesCrossbow extends Item
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (TFHelper.isPlayerSkystrike(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+        if (TFHelper.isPlayerSkystrike(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             boolean blue = isBlue(stack);
             stack.getTagCompound().setBoolean("blueMode", !blue);
@@ -52,7 +52,7 @@ public class ItemSkystrikesCrossbow extends Item
 
             if (!player.capabilities.isCreativeMode)
             {
-                player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece);
+                player.inventory.consumeInventoryItem(TFItems.energonCrystalShard);
             }
         }
     }
@@ -67,7 +67,7 @@ public class ItemSkystrikesCrossbow extends Item
     {
         int duration = getMaxItemUseDuration(stack) - count;
 
-        if (stack.hasTagCompound() && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+        if (stack.hasTagCompound() && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             World world = player.worldObj;
 
@@ -104,7 +104,7 @@ public class ItemSkystrikesCrossbow extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerSkystrike(player) && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+        if (TFHelper.isPlayerSkystrike(player) && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }

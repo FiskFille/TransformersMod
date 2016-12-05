@@ -16,7 +16,7 @@ public class DefaultEnergon extends Energon
     @Override
     public Item getCrystalPiece()
     {
-        return TFItems.energonCrystalPiece;
+        return TFItems.energonCrystalShard;
     }
 
     @Override

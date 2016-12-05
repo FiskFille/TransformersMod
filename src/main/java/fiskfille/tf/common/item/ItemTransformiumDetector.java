@@ -145,7 +145,7 @@ public class ItemTransformiumDetector extends Item
         {
             if (player.inventory.getFirstEmptyStack() != -1)
             {
-                player.inventory.addItemStackToInventory(new ItemStack(TFItems.energonCrystalPiece, fuel));
+                player.inventory.addItemStackToInventory(new ItemStack(TFItems.energonCrystalShard, fuel));
                 stack.getTagCompound().setInteger("fuel", 0);
             }
             else
@@ -158,7 +158,7 @@ public class ItemTransformiumDetector extends Item
         }
         else
         {
-            if (player.capabilities.isCreativeMode || player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece))
+            if (player.capabilities.isCreativeMode || player.inventory.consumeInventoryItem(TFItems.energonCrystalShard))
             {
                 stack.getTagCompound().setInteger("fuel", fuel + 1);
                 if (world.isRemote)

@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Loader;
@@ -13,6 +14,8 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -123,7 +126,7 @@ public class TransformersMod
         TFDisplayableManager.registerDisplayables();
         TFFluids.register();
     }
-    
+
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
@@ -132,10 +135,29 @@ public class TransformersMod
             FMLInterModComms.sendMessage("Waila", "register", "fiskfille.tf.waila.WailaRegistrar.wailaCallback");
         }
     }
-    
+
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    	ForgeChunkManager.setForcedChunkLoadingCallback(this, new TFLoadingCallback());
+        ForgeChunkManager.setForcedChunkLoadingCallback(this, new TFLoadingCallback());
+    }
+    
+    @EventHandler
+    public void missingMappings(FMLMissingMappingsEvent event)
+    {
+        for (MissingMapping mapping : event.get())
+        {
+            remap(mapping, "transformium", TFItems.transformiumFragment);
+            remap(mapping, "energon_crystal_piece", TFItems.energonCrystalShard);
+            remap(mapping, "red_energon_crystal_piece", TFItems.redEnergonCrystalShard);
+        }
+    }
+    
+    private void remap(MissingMapping mapping, String name, Item item)
+    {
+        if (mapping.name.equals(modid + ":" + name))
+        {
+            mapping.remap(item);
+        }
     }
 }

@@ -23,6 +23,6 @@ public class ItemEnergon extends Item implements IEnergon
     @Override
     public int getMass()
     {
-        return 144;
+        return Energon.CRYSTAL_SHARD;
     }
 }

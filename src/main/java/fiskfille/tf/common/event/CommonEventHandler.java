@@ -107,7 +107,7 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onSmelt(ItemSmeltedEvent event)
     {
-        if (event.smelting.getItem() == TFItems.transformium)
+        if (event.smelting.getItem() == TFItems.transformiumFragment)
         {
             event.player.addStat(TFAchievements.transformium, 1);
         }

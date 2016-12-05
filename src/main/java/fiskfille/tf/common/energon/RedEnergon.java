@@ -16,7 +16,7 @@ public class RedEnergon extends Energon
     @Override
     public Item getCrystalPiece()
     {
-        return TFItems.redEnergonCrystalPiece;
+        return TFItems.redEnergonCrystalShard;
     }
 
     @Override

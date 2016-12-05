@@ -32,13 +32,13 @@ public class ItemFlamethrower extends Item
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (TFHelper.isPlayerCloudtrap(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+        if (TFHelper.isPlayerCloudtrap(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             stack.damageItem(1, player);
 
             if (!player.capabilities.isCreativeMode)
             {
-                player.inventory.consumeInventoryItem(TFItems.energonCrystalPiece);
+                player.inventory.consumeInventoryItem(TFItems.energonCrystalShard);
             }
         }
     }
@@ -50,7 +50,7 @@ public class ItemFlamethrower extends Item
 
         if (duration < 40)
         {
-            if (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode)
+            if (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode)
             {
                 World world = player.worldObj;
                 Random rand = new Random();
@@ -120,7 +120,7 @@ public class ItemFlamethrower extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerCloudtrap(player) && (player.inventory.hasItem(TFItems.energonCrystalPiece) || player.capabilities.isCreativeMode))
+        if (TFHelper.isPlayerCloudtrap(player) && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }

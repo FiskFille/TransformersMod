@@ -23,8 +23,9 @@ public class TFItems
     public static ArmorMaterial TANKMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1550 / 16, new int[]{4, 9, 7, 3}, 2);
     public static ArmorMaterial SUBWOOFERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[]{3, 9, 7, 3}, 2);
 
-    public static Item transformium;
+    public static Item transformiumFragment;
     public static Item transformiumAlloy;
+    public static Item transformiumAlloyNugget;
     public static ItemMetaBasic craftingMaterial;
     public static Item fuelCanister;
     public static Item dye;
@@ -67,8 +68,8 @@ public class TFItems
     public static ItemTransformerArmor wardenBoots;
 
     public static Item displayVehicle;
-    public static Item energonCrystalPiece;
-    public static Item redEnergonCrystalPiece;
+    public static Item energonCrystalShard;
+    public static Item redEnergonCrystalShard;
 
     public static Item tankShell;
     public static Item missile;
@@ -77,8 +78,9 @@ public class TFItems
 
     public static void register()
     {
-        transformium = new Item();
+        transformiumFragment = new Item();
         transformiumAlloy = new Item();
+        transformiumAlloyNugget = new Item();
         craftingMaterial = new ItemMetaBasic();
         fuelCanister = new ItemFuelCanister();
         dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye", "Dark Gray Dye");
@@ -123,18 +125,19 @@ public class TFItems
         transformiumDetector = new ItemTransformiumDetector();
 
         displayVehicle = new ItemDisplayVehicle();
-        energonCrystalPiece = new ItemEnergon(new DefaultEnergon());
-        redEnergonCrystalPiece = new ItemEnergon(new RedEnergon());
+        energonCrystalShard = new ItemEnergon(new DefaultEnergon());
+        redEnergonCrystalShard = new ItemEnergon(new RedEnergon());
 
         tankShell = new Item();
         missile = new Item().setFull3D();
 
-        TRANSFORMERMATERIAL.customCraftingMaterial = transformium;
-        TANKMATERIAL.customCraftingMaterial = transformium;
-        SUBWOOFERMATERIAL.customCraftingMaterial = transformium;
+        TRANSFORMERMATERIAL.customCraftingMaterial = transformiumFragment;
+        TANKMATERIAL.customCraftingMaterial = transformiumFragment;
+        SUBWOOFERMATERIAL.customCraftingMaterial = transformiumFragment;
 
-        TFItemRegistry.registerItem(transformium, "Transformium");
+        TFItemRegistry.registerItem(transformiumFragment, "Transformium Fragment");
         TFItemRegistry.registerItem(transformiumAlloy, "Transformium Alloy");
+        TFItemRegistry.registerItem(transformiumAlloyNugget, "Transformium Alloy Nugget");
         TFItemRegistry.registerItem(craftingMaterial, "Crafting Material");
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector");
         TFItemRegistry.registerItem(fuelCanister, "Fuel Canister");
@@ -178,8 +181,8 @@ public class TFItems
         TFItemRegistry.registerItem(wardenBoots, "Warden Feet");
 
         TFItemRegistry.registerItem(displayVehicle, "Display Vehicle");
-        TFItemRegistry.registerItem(energonCrystalPiece, "Energon Crystal Piece");
-        TFItemRegistry.registerItem(redEnergonCrystalPiece, "Red Energon Crystal Piece");
+        TFItemRegistry.registerItem(energonCrystalShard, "Energon Crystal Shard");
+        TFItemRegistry.registerItem(redEnergonCrystalShard, "Red Energon Crystal Shard");
         TFItemRegistry.registerItem(tankShell, "Tank Shell");
         TFItemRegistry.registerItem(missile, "Missile");
 

@@ -17,11 +17,15 @@ public class TFSubItems
 	public static ItemStack[] jet_turbine;
 	public static ItemStack[] jet_thruster;
 	public static ItemStack[] small_thruster;
-	public static ItemStack[] ahd2_jet_wing;
-	public static ItemStack[] ahd2_jet_cockpit;
 	public static ItemStack[] t50_jet_wing;
 	public static ItemStack[] t50_jet_cockpit;
 	public static ItemStack[] car_wheel;
+	
+	public static ItemStack[] skystrikes_wing;
+    public static ItemStack[] skystrikes_shoulder_pad;
+    public static ItemStack[] skystrikes_gauntlet;
+    public static ItemStack[] skystrike_torso_base;
+    public static ItemStack[] skystrikes_greave;
 
 	public static ItemStack[] tank_turret_base;
 	public static ItemStack[] tank_barrel;

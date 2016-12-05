@@ -1,8 +1,9 @@
 ------Items------
-item.transformium.name=Transformium
+item.transformium_fragment.name=Transformium Fragment
 item.transformium_alloy.name=Transformium Alloy
-item.energon_crystal_piece.name=Energon Crystal Piece
-item.red_energon_crystal_piece.name=Red Energon Crystal Piece
+item.transformium_alloy_nugget.name=Transformium Alloy Nugget
+item.energon_crystal_shard.name=Energon Crystal Shard
+item.red_energon_crystal_shard.name=Red Energon Crystal Shard
 item.missile.name=Missile
 item.tank_shell.name=Tank Shell
 item.transformium_detector.name=Transformium Detector
@@ -21,6 +22,13 @@ item.ground_bridge_remote.name=Ground Bridge Remote Access
 item.optic_sensor.name=Optic Sensor
 item.protoform_head.name=Protoform Head
 item.transformium_alloy_rod.name=Transformium Alloy Rod
+item.jet_thruster.name=Jet Thruster
+
+item.skystrikes_wing.name=Skystrike's Wing
+item.skystrikes_shoulder_pad.name=Skystrike's Shoulder Pad
+item.skystrikes_gauntlet.name=Skystrike's Gauntlet
+item.skystrikes_greave.name=Skystrike's Greave
+item.skystrike_torso_base.name=Skystrike Torso Base
 
 item.tank_turret_base.name=Turret Base
 item.tank_turret.name=Turret
