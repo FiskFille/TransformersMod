@@ -34,8 +34,8 @@ public class GuiDisplayStation extends GuiContainer
 	{
 		super.initGui();
 		buttonList.add(new GuiButton(0, width / 2 - 50, height / 2 - 28, 70, 20, StatCollector.translateToLocal("gui.display_station.transform")));
-		buttonList.add(new GuiButtonInitComponent(1, width / 2 + 43, height / 2 - 73));
-		buttonList.add(new GuiButtonInitComponent(2, width / 2 + 43, height / 2 - 73 + 18));
+		buttonList.add(new GuiButtonAlt(1, width / 2 + 43, height / 2 - 73, 12, 12, ">"));
+		buttonList.add(new GuiButtonAlt(2, width / 2 + 43, height / 2 - 73 + 18, 12, 12, ">"));
 
 		((GuiButton) buttonList.get(1)).enabled = getComponent(0) != null && getComponent(0).canLoad(tileentity, 0);
 		((GuiButton) buttonList.get(2)).enabled = getComponent(1) != null && getComponent(1).canLoad(tileentity, 1);

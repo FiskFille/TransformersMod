@@ -7,11 +7,11 @@ import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiButtonInitComponent extends GuiButton
+public class GuiButtonAlt extends GuiButton
 {
-    public GuiButtonInitComponent(int id, int x, int y)
+    public GuiButtonAlt(int id, int x, int y, int width, int height, String s)
     {
-        super(id, x, y, 12, 12, ">");
+        super(id, x, y, width, height, s);
     }
 
     @Override
@@ -28,9 +28,9 @@ public class GuiButtonInitComponent extends GuiButton
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             drawTexturedModalRect(xPosition, yPosition, 0, 46 + k * 20, width / 2, height / 2);
-            drawTexturedModalRect(xPosition, yPosition + height / 2, 0, 60 + k * 20, width / 2, height / 2);
+            drawTexturedModalRect(xPosition, yPosition + height / 2, 0, 66 - height / 2 + k * 20, width / 2, height / 2);
             drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + k * 20, width / 2, height / 2);
-            drawTexturedModalRect(xPosition + width / 2, yPosition + height / 2, 200 - width / 2, 60 + k * 20, width / 2, height / 2);
+            drawTexturedModalRect(xPosition + width / 2, yPosition + height / 2, 200 - width / 2, 66 - height / 2 + k * 20, width / 2, height / 2);
             mouseDragged(mc, mouseX, mouseY);
             int l = 14737632;
 

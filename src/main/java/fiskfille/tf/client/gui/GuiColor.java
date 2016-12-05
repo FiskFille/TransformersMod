@@ -52,14 +52,11 @@ public class GuiColor extends GuiScreen
         buttonList.add(sliderRed = new GuiColorSlider(1, width / 2 - 22, height / 6, 0, StatCollector.translateToLocal("gui.display_station.color.red")));
         buttonList.add(sliderGreen = new GuiColorSlider(2, width / 2 - 22, height / 6 + 21, 1, StatCollector.translateToLocal("gui.display_station.color.green")));
         buttonList.add(sliderBlue = new GuiColorSlider(3, width / 2 - 22, height / 6 + 42, 2, StatCollector.translateToLocal("gui.display_station.color.blue")));
-        buttonList.add(new GuiButton(4, width / 2 + 42, height / 6 + 63, 86, 20, StatCollector.translateToLocal("gui.display_station.color.presets")));
-        buttonList.add(new GuiButton(5, width / 2 + 112, height / 6 + 84, 25, 20, "<->"));
-
+        buttonList.add(new GuiButton(4, width / 2 + 29, height / 6 + 63, 78, 20, StatCollector.translateToLocal("gui.display_station.color.presets")));
+        buttonList.add(new GuiButtonSwapColors(5, width / 2 + 108, height / 6 + 63));
+        buttonList.add(new GuiButtonAlt(6, width / 2 + 112, height / 6 + 84, 16, 16, "X"));
 
         ItemStack head = tileentity.getStackInSlot(0).copy();
-        ItemStack chest = tileentity.getStackInSlot(1).copy();
-        ItemStack legs = tileentity.getStackInSlot(2).copy();
-        ItemStack feet = tileentity.getStackInSlot(3).copy();
 
         if (TFArmorDyeHelper.isDyed(head) && !fromPresetMenu)
         {
@@ -80,7 +77,7 @@ public class GuiColor extends GuiScreen
         sliderBlue.percentage = layerColors[layerSelected][2];
 
         Keyboard.enableRepeatEvents(true);
-        inputField = new GuiTextField(fontRendererObj, width / 2 - 21, height / 6 + 64, 61, 17);
+        inputField = new GuiTextField(fontRendererObj, width / 2 - 21, height / 6 + 64, 48, 17);
         inputField.setMaxStringLength(20);
     }
 
@@ -103,7 +100,7 @@ public class GuiColor extends GuiScreen
         if (!inputField.isFocused())
         {
             Color color = new Color(sliderRed.percentage, sliderGreen.percentage, sliderBlue.percentage);
-            inputField.setText(Integer.toHexString(color.getRGB()));
+            inputField.setText(Integer.toHexString(color.getRGB()).substring(2).toUpperCase());
         }
         else
         {
@@ -140,7 +137,7 @@ public class GuiColor extends GuiScreen
         }
         else
         {
-            inputField.textboxKeyTyped(c, key);
+            inputField.textboxKeyTyped(Character.toUpperCase(c), Character.toUpperCase(key));
         }
     }
 
@@ -170,6 +167,14 @@ public class GuiColor extends GuiScreen
             sliderRed.percentage = layerColors[layerSelected][0];
             sliderGreen.percentage = layerColors[layerSelected][1];
             sliderBlue.percentage = layerColors[layerSelected][2];
+        }
+        else if (id == 6)
+        {
+            int i = Integer.MIN_VALUE;
+            TFNetworkManager.networkWrapper.sendToServer(new MessageColorArmor(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, i, i));
+            TFNetworkManager.networkWrapper.sendToAll(new MessageColorArmor(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, i, i));
+
+            mc.displayGuiScreen(null);
         }
     }
 

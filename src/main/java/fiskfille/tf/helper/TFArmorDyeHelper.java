@@ -2,12 +2,29 @@ package fiskfille.tf.helper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public class TFArmorDyeHelper
 {
     public static boolean isDyed(ItemStack itemstack)
     {
         return getPrimaryColor(itemstack) != 0 || getSecondaryColor(itemstack) != 0;
+    }
+    
+    public static void removeColor(ItemStack itemstack)
+    {
+        if (itemstack != null)
+        {
+            if (!itemstack.hasTagCompound())
+            {
+                itemstack.setTagCompound(new NBTTagCompound());
+            }
+            
+            if (itemstack.getTagCompound().hasKey("CustomColor"))
+            {
+                itemstack.getTagCompound().removeTag("CustomColor");
+            }
+        }
     }
 
     public static int getPrimaryColor(ItemStack itemstack)
@@ -62,7 +79,7 @@ public class TFArmorDyeHelper
 
         NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("CustomColor");
 
-        if (!nbttagcompound.hasKey("CustomColor", 10))
+        if (!nbttagcompound.hasKey("CustomColor", NBT.TAG_COMPOUND))
         {
             nbttagcompound.setTag("CustomColor", nbttagcompound1);
         }
@@ -82,7 +99,7 @@ public class TFArmorDyeHelper
 
         NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("CustomColor");
 
-        if (!nbttagcompound.hasKey("CustomColor", 10))
+        if (!nbttagcompound.hasKey("CustomColor", NBT.TAG_COMPOUND))
         {
             nbttagcompound.setTag("CustomColor", nbttagcompound1);
         }

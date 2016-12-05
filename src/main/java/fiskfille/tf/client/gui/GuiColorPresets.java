@@ -2,6 +2,7 @@ package fiskfille.tf.client.gui;
 
 import java.awt.Color;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -10,7 +11,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
@@ -19,6 +23,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFRenderHelper;
@@ -48,41 +53,39 @@ public class GuiColorPresets extends GuiScreen
         buttonList.add(new GuiButton(2, width / 2 + 65, height / 6 + 130, 20, 20, ">"));
 
         presets = new ColorPreset[]
-        {
-       		// TFMod
-        	new ColorPreset(0xffa9a9a9, 0xffcd0000, "Skystrike"),
-        	new ColorPreset(0xffa7a180, 0xff672222, "Purge"),
-        	new ColorPreset(0xff919191, 0xff651212, "Skystrike (Weathered)"),
-        	new ColorPreset(0xffff0000, 0xff101010, "Purge (Classic)"),
+                {
+                // TFMod
+                new ColorPreset(0xa9a9a9, 0xcd0000, "Skystrike"),
+                new ColorPreset(0xa7a180, 0x672222, "Purge"),
+                new ColorPreset(0x919191, 0x651212, "Skystrike (Weathered)"),
+                new ColorPreset(0xff0000, 0x101010, "Purge (Classic)"),
 
-        	// Abstract
-        	new ColorPreset(0xffff4a00, 0xff000000, "Halloween"),
-        	new ColorPreset(0xff2b0051, 0xffbdbdbd, "Indigo"),
-        	new ColorPreset(0xff3b1458, 0xff322277, "Eclipse"),
-       		new ColorPreset(0xff3db4d6, 0xffb2ffff, "Cold"),
-       		new ColorPreset(0xff090909, 0xff000000, "Bat"),
-       		new ColorPreset(0xff3d87ff, 0xff003dff, "Ocean Blue"),
-       		new ColorPreset(0xffa7a180, 0xff686653, "Desert"),
-       		new ColorPreset(0xffffffff, 0xffffffff, "Blank"),
-       		new ColorPreset(0xff687893, 0xff711010, "Perception"),
+                // Abstract
+                new ColorPreset(0xff4a00, 0x090909, "Halloween"),
+                new ColorPreset(0x2b0051, 0xbdbdbd, "Indigo"),
+                new ColorPreset(0x3b1458, 0x322277, "Eclipse"),
+                new ColorPreset(0x3db4d6, 0xb2ffff, "Cold"),
+                new ColorPreset(0x090909, 0x101010, "Night"),
+                new ColorPreset(0x3d87ff, 0x003dff, "Ocean"),
+                new ColorPreset(0xa7a180, 0x686653, "Desert"),
+                new ColorPreset(0x687893, 0x711010, "Perception"),
 
-        	// Canon
-       		new ColorPreset(0xff0000ff, 0xffff0000, "G1 Optimus Prime"),
-       		new ColorPreset(0xffd7d7d7, 0xff666868, "G1 Megatron"),
-       		new ColorPreset(0xffe4160e, 0xff3636e8, "G1 Starscream"),
-        	new ColorPreset(0xffa0ff36, 0xff9a009a, "G1 Constructicon"),
-        	new ColorPreset(0xfffe3978, 0xff198014, "G1 Scorponok"),
-        	new ColorPreset(0xff7148d6, 0xfffe6c6c, "G1 Galvatron"),
-        	new ColorPreset(0xffcdcdcd, 0xff0e0e0e, "G1 Prowl"),
-        	new ColorPreset(0xff000083, 0xffbb0000, "Movie Optimus Prime"),
-        	new ColorPreset(0xffa7a7a7, 0xff810000, "Movie Wreckage"),
-        	new ColorPreset(0xffddc600, 0xff101010, "Bumblebee"),
-        	new ColorPreset(0xff173f17, 0xff513838, "Brawl"),
-        	new ColorPreset(0xff880000, 0xff4f0000, "Warpath"),
-        	new ColorPreset(0xff4f00b2, 0xff656565, "Vehicon"),
-        	new ColorPreset(0xffa51919, 0xffcf6300, "Hot-Rod"),
-        	new ColorPreset(0xff737a80, 0xff2f3b47, "Starscream"),
-        };
+                // Canon
+                new ColorPreset(0x0000ff, 0xff0000, "G1 Optimus Prime"),
+                new ColorPreset(0xd7d7d7, 0x666868, "G1 Megatron"),
+                new ColorPreset(0xe4160e, 0x3636e8, "G1 Starscream"),
+                new ColorPreset(0xa0ff36, 0x9a009a, "G1 Constructicon"),
+                new ColorPreset(0xfe3978, 0x198014, "G1 Scorponok"),
+                new ColorPreset(0x7148d6, 0xfe6c6c, "G1 Galvatron"),
+                new ColorPreset(0xcdcdcd, 0x0e0e0e, "G1 Prowl"),
+                new ColorPreset(0x000083, 0xbb0000, "Movie Optimus Prime"),
+                new ColorPreset(0xddc600, 0x101010, "Bumblebee"),
+                new ColorPreset(0x173f17, 0x513838, "Brawl"),
+                new ColorPreset(0x880000, 0x4f0000, "Warpath"),
+                new ColorPreset(0x4f00b2, 0x656565, "Vehicon"),
+                new ColorPreset(0xa51919, 0xcf6300, "Hot-Rod"),
+                new ColorPreset(0x737a80, 0x2f3b47, "Starscream"),
+                };
 
         int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;
@@ -213,6 +216,9 @@ public class GuiColorPresets extends GuiScreen
         int xOffset = 0;
         int yOffset = 0;
 
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
         for (int i = 0; i < presets.length; ++i)
         {
             ColorPreset preset = presets[i];
@@ -248,7 +254,7 @@ public class GuiColorPresets extends GuiScreen
                     tempLayerColors[1][1] = (float) color1.getGreen() / 255;
                     tempLayerColors[1][2] = (float) color1.getBlue() / 255;
 
-                    drawCenteredString(fontRendererObj, preset.name, width / 2 - 150, height / 6 - 15, 0xffffff);
+                    drawCenteredString(fontRendererObj, preset.name, width / 2 - 150, height / 6 - 15, -1);
                 }
 
                 xOffset += 58;
@@ -347,6 +353,7 @@ public class GuiColorPresets extends GuiScreen
         GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
         drawTexturedModalRect(width / 2 - 60, height / 6 + 130, 0, 0, 120, 20);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
 
         drawCenteredString(fontRendererObj,StatCollector.translateToLocalFormatted("gui.display_station.color.presets.page", page + 1, maxPages + 1), width / 2, height / 6 + 135, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -393,22 +400,21 @@ public class GuiColorPresets extends GuiScreen
 
         public void drawScreen(int mouseX, int mouseY, float partialTicks)
         {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
             Color color = new Color(primaryColor);
             Color color1 = new Color(secondaryColor);
 
-            GL11.glColor4f(0, 0, 0, 1);
-            drawTexturedModalRect(posX, posY, 0, 0, 50, 50);
-
+            Minecraft.getMinecraft().getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
             GL11.glColor4f((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, 1);
-            drawTexturedModalRect(posX + 1, posY + 1, 0, 0, 23, 48);
+            drawTexturedModalRect(posX, posY, 156, 206, 50, 50);
             GL11.glColor4f((float) color1.getRed() / 255, (float) color1.getGreen() / 255, (float) color1.getBlue() / 255, 1);
-            drawTexturedModalRect(posX + 26, posY + 1, 0, 0, 23, 48);
+            drawTexturedModalRect(posX, posY, 206, 206, 50, 50);
 
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
+//            Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationItemsTexture);
+//            Item item = Items.spawn_egg;
+//            GL11.glColor4f((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, 1);
+//            drawTexturedModelRectFromIcon(posX + 1, posY + 1, item.getIconFromDamageForRenderPass(0, 0), 48, 48);
+//            GL11.glColor4f((float) color1.getRed() / 255, (float) color1.getGreen() / 255, (float) color1.getBlue() / 255, 1);
+//            drawTexturedModelRectFromIcon(posX + 1, posY + 1, item.getIconFromDamageForRenderPass(0, 1), 48, 48);
         }
     }
 }

@@ -161,15 +161,27 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
 
         if (head != null && chest != null && legs != null && feet != null)
         {
-            TFArmorDyeHelper.setPrimaryColor(head, primaryColor);
-            TFArmorDyeHelper.setPrimaryColor(chest, primaryColor);
-            TFArmorDyeHelper.setPrimaryColor(legs, primaryColor);
-            TFArmorDyeHelper.setPrimaryColor(feet, primaryColor);
-            TFArmorDyeHelper.setSecondaryColor(head, secondaryColor);
-            TFArmorDyeHelper.setSecondaryColor(chest, secondaryColor);
-            TFArmorDyeHelper.setSecondaryColor(legs, secondaryColor);
-            TFArmorDyeHelper.setSecondaryColor(feet, secondaryColor);
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            if (primaryColor == secondaryColor && primaryColor == Integer.MIN_VALUE)
+            {
+                TFArmorDyeHelper.removeColor(head);
+                TFArmorDyeHelper.removeColor(chest);
+                TFArmorDyeHelper.removeColor(legs);
+                TFArmorDyeHelper.removeColor(feet);
+            }
+            else
+            {
+                TFArmorDyeHelper.setPrimaryColor(head, primaryColor);
+                TFArmorDyeHelper.setPrimaryColor(chest, primaryColor);
+                TFArmorDyeHelper.setPrimaryColor(legs, primaryColor);
+                TFArmorDyeHelper.setPrimaryColor(feet, primaryColor);
+                TFArmorDyeHelper.setSecondaryColor(head, secondaryColor);
+                TFArmorDyeHelper.setSecondaryColor(chest, secondaryColor);
+                TFArmorDyeHelper.setSecondaryColor(legs, secondaryColor);
+                TFArmorDyeHelper.setSecondaryColor(feet, secondaryColor);
+            }
+            
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            
             return true;
         }
 
@@ -179,35 +191,35 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     @Override
     public int getSizeInventory()
     {
-        return this.itemStacks.length;
+        return itemStacks.length;
     }
 
     @Override
     public ItemStack getStackInSlot(int slot)
     {
-        return this.itemStacks[slot];
+        return itemStacks[slot];
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
-        if (this.itemStacks[slot] != null)
+        if (itemStacks[slot] != null)
         {
             ItemStack itemstack;
 
-            if (this.itemStacks[slot].stackSize <= amount)
+            if (itemStacks[slot].stackSize <= amount)
             {
-                itemstack = this.itemStacks[slot];
-                this.itemStacks[slot] = null;
+                itemstack = itemStacks[slot];
+                itemStacks[slot] = null;
                 return itemstack;
             }
             else
             {
-                itemstack = this.itemStacks[slot].splitStack(amount);
+                itemstack = itemStacks[slot].splitStack(amount);
 
-                if (this.itemStacks[slot].stackSize == 0)
+                if (itemStacks[slot].stackSize == 0)
                 {
-                    this.itemStacks[slot] = null;
+                    itemStacks[slot] = null;
                 }
 
                 return itemstack;
@@ -222,10 +234,10 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     @Override
     public ItemStack getStackInSlotOnClosing(int slot)
     {
-        if (this.itemStacks[slot] != null)
+        if (itemStacks[slot] != null)
         {
-            ItemStack itemstack = this.itemStacks[slot];
-            this.itemStacks[slot] = null;
+            ItemStack itemstack = itemStacks[slot];
+            itemStacks[slot] = null;
             return itemstack;
         }
         else
@@ -237,29 +249,29 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
-        this.itemStacks[slot] = itemstack;
+        itemStacks[slot] = itemstack;
 
-        if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
+        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit())
         {
-            itemstack.stackSize = this.getInventoryStackLimit();
+            itemstack.stackSize = getInventoryStackLimit();
         }
     }
 
     @Override
     public String getInventoryName()
     {
-        return this.hasCustomInventoryName() ? this.inventoryName : "gui.display_station";
+        return hasCustomInventoryName() ? inventoryName : "gui.display_station";
     }
 
     @Override
     public boolean hasCustomInventoryName()
     {
-        return this.inventoryName != null && this.inventoryName.length() > 0;
+        return inventoryName != null && inventoryName.length() > 0;
     }
 
     public void func_145951_a(String p_145951_1_)
     {
-        this.inventoryName = p_145951_1_;
+        inventoryName = p_145951_1_;
     }
 
     @Override
@@ -267,22 +279,22 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     {
         super.readFromNBT(nbt);
         NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-        this.itemStacks = new ItemStack[this.getSizeInventory()];
+        itemStacks = new ItemStack[getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             byte slot = nbttagcompound1.getByte("Slot");
 
-            if (slot >= 0 && slot < this.itemStacks.length)
+            if (slot >= 0 && slot < itemStacks.length)
             {
-                this.itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+                itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
 
         if (nbt.hasKey("CustomName", 8))
         {
-            this.inventoryName = nbt.getString("CustomName");
+            inventoryName = nbt.getString("CustomName");
         }
     }
 
@@ -292,22 +304,22 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
         super.writeToNBT(nbt);
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.itemStacks.length; ++i)
+        for (int i = 0; i < itemStacks.length; ++i)
         {
-            if (this.itemStacks[i] != null)
+            if (itemStacks[i] != null)
             {
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setByte("Slot", (byte) i);
-                this.itemStacks[i].writeToNBT(nbttagcompound1);
+                itemStacks[i].writeToNBT(nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
 
         nbt.setTag("Items", nbttaglist);
 
-        if (this.hasCustomInventoryName())
+        if (hasCustomInventoryName())
         {
-            nbt.setString("CustomName", this.inventoryName);
+            nbt.setString("CustomName", inventoryName);
         }
     }
 
@@ -320,7 +332,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
     }
 
     @Override
@@ -339,14 +351,14 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     public Packet getDescriptionPacket()
     {
         NBTTagCompound syncData = new NBTTagCompound();
-        this.writeToNBT(syncData);
+        writeToNBT(syncData);
 
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
     }
 
     @Override
     public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
     {
-        this.readFromNBT(packet.func_148857_g());
+        readFromNBT(packet.func_148857_g());
     }
 }
