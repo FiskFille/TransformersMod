@@ -163,7 +163,7 @@ public class TFMotionManager
 
             if (!canDriveOffroad)
             {
-                Material[] offroadMaterials = { cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web };
+                Material[] offroadMaterials = {cactus, cake, clay, coral, craftedSnow, gourd, ground, ice, leaves, packedIce, plants, sand, snow, sponge, vine, web};
                 Block block = player.worldObj.getBlock((int) player.posX, (int) player.posY - 2, (int) player.posZ - 1);
                 boolean isDrivingOffroad = false;
 

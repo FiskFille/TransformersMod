@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFHelper;
 
 public class DataProviderControlPanel implements IWailaDataProvider
 {
@@ -31,11 +31,7 @@ public class DataProviderControlPanel implements IWailaDataProvider
     @Override
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
-        int metadata = accessor.getMetadata();
-        int direction = BlockGroundBridgeControl.getDirection(metadata);
-        boolean isSide = !BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata);
-        boolean isTop = BlockGroundBridgeControl.isBlockTopOfPanel(metadata);
-        TileEntity tileentity = accessor.getWorld().getTileEntity(accessor.getPosition().blockX - (isSide ? BlockGroundBridgeControl.directions[direction][0] : 0), accessor.getPosition().blockY - (isTop ? 1 : 0), accessor.getPosition().blockZ - (isSide ? BlockGroundBridgeControl.directions[direction][1] : 0));
+        TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
         
         if (tileentity instanceof TileEntityControlPanel && config.getConfig("tf.control_panel", true))
         {

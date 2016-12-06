@@ -1,16 +1,10 @@
 package fiskfille.tf.client.gui;
 
-import com.google.common.collect.Lists;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TargetReceiver;
-import fiskfille.tf.common.network.MessageSetReceivers;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
@@ -22,12 +16,21 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
+
 import org.lwjgl.opengl.GL11;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.network.MessageSetReceivers;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiSelectReceivers extends GuiScreen
@@ -73,6 +76,7 @@ public class GuiSelectReceivers extends GuiScreen
         layers.add(tile.yCoord);
 
         List<TileEntity> tiles = mc.theWorld.loadedTileEntityList;
+
         for (TileEntity loadedTile : tiles)
         {
             if (loadedTile instanceof IEnergyReceiver && ((IEnergyReceiver) loadedTile).canReceiveEnergy(this.tile) && TFEnergyHelper.isInRange(this.tile, loadedTile))
@@ -108,19 +112,22 @@ public class GuiSelectReceivers extends GuiScreen
     protected void updateBlocks()
     {
         float range = transmitter.getRange();
-        int boardWidth = MathHelper.floor_float(1 + range * 2);
+        float boardWidth = 1 + range * 2;
+        int boardWidthFl = MathHelper.floor_float(boardWidth);
 
-        for (int i = 0; i < boardWidth; ++i)
+        coordArray = new ChunkCoordinates[boardWidthFl * boardWidthFl];
+
+        for (int i = 0; i < boardWidthFl; ++i)
         {
-            for (int j = 0; j < boardWidth; ++j)
+            for (int j = 0; j < boardWidthFl; ++j)
             {
-                int x = MathHelper.floor_double(tile.xCoord - boardWidth / 2 + i);
-                int z = MathHelper.floor_double(tile.zCoord - boardWidth / 2 + j);
+                int x = MathHelper.floor_double(tile.xCoord - boardWidthFl / 2 + i);
+                int z = MathHelper.floor_double(tile.zCoord - boardWidthFl / 2 + j);
                 ChunkCoordinates coords = new ChunkCoordinates(x, getLayer(), z);
 
                 if (TFEnergyHelper.isInRange(tile, coords))
                 {
-                    coordArray[i + j * boardWidth] = coords;
+                    coordArray[i + j * boardWidthFl] = coords;
                 }
             }
         }
@@ -131,26 +138,26 @@ public class GuiSelectReceivers extends GuiScreen
         {
             ChunkCoordinates[] coordArray1 = coordArray.clone();
 
-            for (int i = 0; i < boardWidth; ++i)
+            for (int i = 0; i < boardWidthFl; ++i)
             {
-                for (int j = 0; j < boardWidth; ++j)
+                for (int j = 0; j < boardWidthFl; ++j)
                 {
-                    ChunkCoordinates coords = coordArray[i + j * boardWidth];
+                    ChunkCoordinates coords = coordArray[i + j * boardWidthFl];
 
                     if (direction == 1)
                     {
-                        coords = coordArray[(boardWidth - 1 - j) + i * boardWidth];
+                        coords = coordArray[(boardWidthFl - 1 - j) + i * boardWidthFl];
                     }
                     else if (direction == 2)
                     {
-                        coords = coordArray[(boardWidth - 1 - i) + (boardWidth - 1 - j) * boardWidth];
+                        coords = coordArray[(boardWidthFl - 1 - i) + (boardWidthFl - 1 - j) * boardWidthFl];
                     }
                     else if (direction == 3)
                     {
-                        coords = coordArray[j + (boardWidth - 1 - i) * boardWidth];
+                        coords = coordArray[j + (boardWidthFl - 1 - i) * boardWidthFl];
                     }
 
-                    coordArray1[i + j * boardWidth] = coords;
+                    coordArray1[i + j * boardWidthFl] = coords;
                 }
             }
 
@@ -260,7 +267,7 @@ public class GuiSelectReceivers extends GuiScreen
             }
         }
 
-        return 4;
+        return tile.yCoord;
     }
 
     public int getRange()
@@ -282,7 +289,7 @@ public class GuiSelectReceivers extends GuiScreen
 
         if (coordArray == null || layers.isEmpty())
         {
-            updateScreen();
+            updateBlocks();
         }
 
         int boardWidth = 1 + getRange() * 2;
@@ -340,8 +347,6 @@ public class GuiSelectReceivers extends GuiScreen
 
                         if (!mc.theWorld.isAirBlock(coords.posX, coords.posY, coords.posZ))
                         {
-//                            MapColor color = block.getMapColor(metadata);
-//                            float[] afloat = TFRenderHelper.hexToRGB(color.colorValue);
                             float[] afloat = TFRenderHelper.hexToRGB(0x707070);
 
                             GL11.glColor4f(afloat[0], afloat[1], afloat[2], opacity);
@@ -398,28 +403,30 @@ public class GuiSelectReceivers extends GuiScreen
                         {
                             GL11.glColor4f(0, 0.6F, 0, opacity);
                         }
-                        else if (tile instanceof IEnergyTransmitter && tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile))
+                        else
                         {
-                            if (((IEnergyTransmitter) tile).isPowering(this.tile))
+                            if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile))
                             {
-                                GL11.glColor4f(0.2F, 0, 0.4F, opacity);
+                                float[] afloat = TFRenderHelper.hexToRGB(((IEnergyReceiver) tile).getMapColor());
+
+                                if (tile instanceof IEnergyTransmitter && TFEnergyHelper.isPowering((IEnergyTransmitter) tile, this.tile))
+                                {
+                                    for (int k = 0; k < afloat.length; ++k)
+                                    {
+                                        afloat[k] *= 0.3F;
+                                    }
+                                }
+
+                                GL11.glColor4f(afloat[0], afloat[1], afloat[2], opacity);
+                            }
+                            else if (tile instanceof IEnergyTransmitter && isGrandParent(coords))
+                            {
+                                GL11.glColor4f(0.2F, 0, 0.2F, opacity);
                             }
                             else
                             {
-                                GL11.glColor4f(0.75F, 0, 0.75F, opacity);
+                                continue;
                             }
-                        }
-                        else if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile))
-                        {
-                            GL11.glColor4f(1, 0, 0, opacity);
-                        }
-                        else if (tile instanceof IEnergyTransmitter && isGrandParent(coords))
-                        {
-                            GL11.glColor4f(0.2F, 0, 0.2F, opacity);
-                        }
-                        else
-                        {
-                            continue;
                         }
 
                         drawTexturedModalRect(x, y, 0, 0, size, size);
@@ -445,7 +452,7 @@ public class GuiSelectReceivers extends GuiScreen
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
-        String[] astring = { "north", "east", "south", "west" };
+        String[] astring = {"north", "east", "south", "west"};
         String[] dirs = new String[astring.length];
 
         for (int i = 0; i < astring.length; ++i)

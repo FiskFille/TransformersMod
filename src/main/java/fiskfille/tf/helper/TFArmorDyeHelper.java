@@ -10,7 +10,7 @@ public class TFArmorDyeHelper
     {
         return getPrimaryColor(itemstack) != 0 || getSecondaryColor(itemstack) != 0;
     }
-    
+
     public static void removeColor(ItemStack itemstack)
     {
         if (itemstack != null)
@@ -19,7 +19,7 @@ public class TFArmorDyeHelper
             {
                 itemstack.setTagCompound(new NBTTagCompound());
             }
-            
+
             if (itemstack.getTagCompound().hasKey("CustomColor"))
             {
                 itemstack.getTagCompound().removeTag("CustomColor");

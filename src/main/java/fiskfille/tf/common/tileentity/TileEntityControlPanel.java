@@ -1,20 +1,15 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.helper.TFMathHelper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -32,16 +27,24 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.common.collect.Lists;
 
-public class TileEntityControlPanel extends TileEntityContainer implements IChunkLoaderTile/*IEnergonPowered*/ // TODO
+import fiskfille.tf.common.block.BlockControlPanel;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.helper.TFMathHelper;
+
+public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IChunkLoaderTile, IMultiTile/* IEnergonPowered*/ // TODO
 {
-    public Integer[][] switches = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+    public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
     private ItemStack[] inventory = new ItemStack[3];
 
@@ -82,7 +85,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         prevActivationLeverCoverTimer = activationLeverCoverTimer;
         prevAnimPortalDirection = animPortalDirection;
 
-        if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(getBlockMetadata()))
+        if (BlockControlPanel.isBlockLeftSideOfPanel(getBlockMetadata()))
         {
             calculateCoords();
             errors.clear();
@@ -131,13 +134,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
                 {
                     List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
                     Collections.sort(list, new Comparator<TileEntity>()
-                    {
+                            {
                         @Override
                         public int compare(TileEntity tile1, TileEntity tile2)
                         {
                             return Double.valueOf(Math.sqrt(getDistanceFrom(tile1.xCoord, tile1.zCoord, tile1.yCoord))).compareTo(Math.sqrt(getDistanceFrom(tile2.xCoord, tile2.zCoord, tile2.yCoord)));
                         }
-                    });
+                            });
 
                     for (TileEntity tileentity : list)
                     {
@@ -172,12 +175,12 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
 
             if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
             {
-//                errors.add(GroundBridgeError.INVALID_COORDS); TODO: Uncomment
+                //                errors.add(GroundBridgeError.INVALID_COORDS); TODO: Uncomment
             }
 
             if (destY < 0 || destY + 5 >= worldObj.getHeight()) // TODO
             {
-                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] { getWorldObj().getHeight() };
+                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] {getWorldObj().getHeight()};
                 errors.add(GroundBridgeError.OUT_OF_BOUNDS);
             }
 
@@ -292,7 +295,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         destY = yCoord;
         destZ = zCoord;
 
-        int[] increments = { 1, 10, 100, 1000 };
+        int[] increments = {1, 10, 100, 1000};
 
         for (int i = 0; i < switches[0].length; ++i)
         {
@@ -427,11 +430,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     {
         if (!activationLeverState)
         {
-            int[] increments = { 1, 10, 100, 1000 };
-            int[] aint = { coords.posX, coords.posY, coords.posZ };
-            int[] aint1 = { xCoord, yCoord, zCoord };
+            int[] increments = {1, 10, 100, 1000};
+            int[] aint = {coords.posX, coords.posY, coords.posZ};
+            int[] aint1 = {xCoord, yCoord, zCoord};
 
-            switches = new Integer[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+            switches = new Integer[][] {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
             for (int i = 0; i < aint.length; ++i)
             {
@@ -474,7 +477,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             }
 
             calculateCoords();
-//            System.out.println("Test");
         }
     }
 
@@ -538,13 +540,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
             }
 
             Collections.sort(list, new Comparator<Integer>()
-            {
+                    {
                 @Override
                 public int compare(Integer arg0, Integer arg1)
                 {
                     return Double.valueOf(arg0).compareTo(Double.valueOf(arg1));
                 }
-            });
+                    });
 
             cachedDimensionIDs = list.toArray(new Integer[list.size()]);
         }
@@ -692,6 +694,24 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
     }
 
     @Override
+    public boolean canExtractItem(int slot, ItemStack itemstack, int side)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemstack, int side)
+    {
+        return false;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side)
+    {
+        return new int[] {};
+    }
+
+    @Override
     public Packet getDescriptionPacket()
     {
         NBTTagCompound syncData = new NBTTagCompound();
@@ -800,6 +820,16 @@ public class TileEntityControlPanel extends TileEntityContainer implements IChun
         }
 
         return null;
+    }
+
+    @Override
+    public int[] getBaseOffsets()
+    {
+        int direction = BlockControlPanel.getDirection(getBlockMetadata());
+        boolean isSide = !BlockControlPanel.isBlockLeftSideOfPanel(getBlockMetadata());
+        boolean isTop = BlockControlPanel.isBlockTopOfPanel(getBlockMetadata());
+
+        return new int[] {-(isSide ? BlockControlPanel.directions[direction][0] : 0), -(isTop ? 1 : 0), -(isSide ? BlockControlPanel.directions[direction][1] : 0)};
     }
 
 //    @Override

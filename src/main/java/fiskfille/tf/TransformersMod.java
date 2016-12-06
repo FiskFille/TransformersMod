@@ -141,7 +141,7 @@ public class TransformersMod
     {
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new TFLoadingCallback());
     }
-    
+
     @EventHandler
     public void missingMappings(FMLMissingMappingsEvent event)
     {
@@ -152,7 +152,7 @@ public class TransformersMod
             remap(mapping, "red_energon_crystal_piece", TFItems.redEnergonCrystalShard);
         }
     }
-    
+
     private void remap(MissingMapping mapping, String name, Item item)
     {
         if (mapping.name.equals(modid + ":" + name))

@@ -1,7 +1,5 @@
 package fiskfille.tf.helper;
 
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -11,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
@@ -25,12 +24,12 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
-import fiskfille.tf.common.energon.power.EnergonTank;
-import fiskfille.tf.common.energon.power.EnergonTankContainer;
-import fiskfille.tf.common.energon.power.IEnergyContainer;
+import fiskfille.tf.common.fluid.FluidTankTF;
+import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.network.MessageOpenGui;
 import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.tileentity.IMultiTile;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
@@ -166,58 +165,9 @@ public class TFHelper
         return AxisAlignedBB.getBoundingBox(d0, d1, d2, d3, d4, d5);
     }
 
-    public static float transferEnergy(IEnergyContainer to, IEnergyContainer from, float amount)
+    public static void applyClientFluidUsage(IFluidHandlerTF tankContainer)
     {
-        float f = from.extractEnergy(amount);
-        float f1 = to.receiveEnergy(f);
-
-        if (f > f1)
-        {
-            return from.receiveEnergy(f - f1);
-        }
-
-        return f1;
-    }
-
-    public static float getPercentOf(String s, Map<String, Integer> map)
-    {
-        float f = 0;
-
-        for (Map.Entry<String, Integer> e : map.entrySet())
-        {
-            f += e.getValue();
-        }
-
-        float percentMultiplier = 1.0F / f;
-
-        for (Map.Entry<String, Integer> e : map.entrySet())
-        {
-            if (e.getKey().equals(s))
-            {
-                return e.getValue() * percentMultiplier;
-            }
-        }
-
-        return 0;
-    }
-
-    public static void applyClientEnergyUsage(IEnergyContainer container)
-    {
-        float usage = container.getEnergyUsage();
-
-        if (usage < 0.0F)
-        {
-            container.extractEnergy(-usage);
-        }
-        else
-        {
-            container.receiveEnergy(usage);
-        }
-    }
-
-    public static void applyClientFluidUsage(EnergonTankContainer tankContainer)
-    {
-        EnergonTank tank = tankContainer.getTank();
+        FluidTankTF tank = tankContainer.getTank();
         FluidStack fluidStack = tank.getFluid();
 
         int usage = tank.getUsage();
@@ -236,7 +186,7 @@ public class TFHelper
             }
         }
     }
-    
+
     public static void travelToDimension(Entity entity, int dimension, Teleporter teleporter)
     {
         if (!entity.worldObj.isRemote && !entity.isDead)
@@ -282,39 +232,39 @@ public class TFHelper
             entity.worldObj.theProfiler.endSection();
         }
     }
-    
+
     public static String getDimensionName(int id)
     {
         WorldProvider provider = DimensionManager.getProvider(id);
-        
+
         if (provider != null)
         {
             return provider.getDimensionName();
         }
-        
+
         return "Unknown";
     }
-    
+
     /**
      * A world-sensitive version of {@link FMLNetworkHandler#openGui()}
      */
     public static void openGui(EntityPlayer player, Object mod, int modGuiId, World world, int x, int y, int z)
     {
         ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
-        
+
         if (player instanceof EntityPlayerMP)
         {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
             Container remoteGuiContainer = NetworkRegistry.INSTANCE.getRemoteGuiContainer(mc, playerMP, modGuiId, world, x, y, z);
-            
+
             if (remoteGuiContainer != null)
             {
                 playerMP.getNextWindowId();
                 playerMP.closeContainer();
                 int windowId = playerMP.currentWindowId;
-                
+
                 TFNetworkManager.networkWrapper.sendTo(new MessageOpenGui(playerMP, modGuiId, x, y, z, world.provider.dimensionId), playerMP);
-                
+
                 playerMP.openContainer = remoteGuiContainer;
                 playerMP.openContainer.windowId = windowId;
                 playerMP.openContainer.addCraftingToCrafters(playerMP);
@@ -329,5 +279,27 @@ public class TFHelper
         {
             FMLLog.fine("Invalid attempt to open a local GUI on a dedicated server. This is likely a bug. GUIID: %s,%d", mc.getModId(), modGuiId);
         }
+    }
+
+    public static int[] getTileBaseOffsets(TileEntity tile)
+    {
+        if (tile instanceof IMultiTile)
+        {
+            return ((IMultiTile) tile).getBaseOffsets();
+        }
+
+        return new int[] {0, 0, 0};
+    }
+
+    public static TileEntity getTileBase(TileEntity tile)
+    {
+        int[] offsets = getTileBaseOffsets(tile);
+
+        if (offsets[0] != 0 || offsets[1] != 0 || offsets[2] != 0)
+        {
+            return tile.getWorldObj().getTileEntity(tile.xCoord + offsets[0], tile.yCoord + offsets[1], tile.zCoord + offsets[2]);
+        }
+
+        return tile;
     }
 }

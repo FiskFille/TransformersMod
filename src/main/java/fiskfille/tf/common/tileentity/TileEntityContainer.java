@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileEntityContainer extends TileEntity implements IInventory
-{    
+{   
     public abstract ItemStack[] getItemStacks();
     
     public abstract void setItemStacks(ItemStack[] itemstacks);

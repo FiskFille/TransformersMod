@@ -1,37 +1,15 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.energon.power.EnergonTank;
-import fiskfille.tf.common.energon.power.EnergonTankContainer;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TargetReceiver;
-import fiskfille.tf.common.energon.power.TransmissionHandler;
-import fiskfille.tf.common.fluid.FluidEnergon;
-import fiskfille.tf.common.fluid.TFFluids;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.MessageUpdateFluidState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFHelper;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -39,18 +17,36 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.energon.power.EnergyStorage;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.FluidTankTF;
+import fiskfille.tf.common.fluid.IFluidHandlerTF;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.MessageUpdateFluidState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 
-import java.util.List;
-import java.util.Map;
-
-public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandler, ISidedInventory, IChunkLoaderTile, EnergonTankContainer
+public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandlerTF, ISidedInventory, IChunkLoaderTile, IMultiTile
 {
     public TransmissionHandler transmissionHandler = new TransmissionHandler(this);
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
 
-    public EnergyStorage storage = new EnergyStorage(8000);
-    public EnergonTank tank = new EnergonTank(2000);
+    public EnergyStorage storage = new EnergyStorage(16000);
+    public FluidTankTF tank = new FluidTankTF(6000);
 
     public ItemStack[] inventory = new ItemStack[1];
 
@@ -91,16 +87,14 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
             if (worldObj.isRemote)
             {
-                TFHelper.applyClientEnergyUsage(this);
+                TFEnergyHelper.applyClientEnergyUsage(this);
                 TFHelper.applyClientFluidUsage(this);
             }
             else
             {
-                receiveEnergy(110); // TODO: Remove & Add
-
                 if (getEnergy() > 0)
                 {
-                    List<TargetReceiver> receiversToPower = getReceiversToPower();
+                    List<TargetReceiver> receiversToPower = TFEnergyHelper.getReceiversToPower(this);
 
                     for (TargetReceiver target : receiversToPower)
                     {
@@ -108,7 +102,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
                         if (receiver.canReceiveEnergy(this))
                         {
-                            TFHelper.transferEnergy(receiver, this, Math.min(getEnergy(), 100F) / receiversToPower.size());
+                            TFEnergyHelper.transferEnergy(receiver, this, Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size());
                         }
                     }
                 }
@@ -153,7 +147,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                             {
                                 int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
                                 fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, true), true);
-                                this.updateClientFluid();
+                                updateClientFluid();
                                 updatedClientFluid = true;
                             }
                         }
@@ -187,24 +181,9 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public void setItemStacks(ItemStack[] inventory)
+    public void setItemStacks(ItemStack[] itemstacks)
     {
-        this.inventory = inventory;
-    }
-
-    public List<TargetReceiver> getReceiversToPower()
-    {
-        List<TargetReceiver> receiversToPower = Lists.newArrayList();
-
-        for (TargetReceiver receiver : transmissionHandler.getReceivers())
-        {
-            if (canPowerReach(receiver))
-            {
-                receiversToPower.add(receiver);
-            }
-        }
-
-        return receiversToPower;
+        inventory = itemstacks;
     }
 
     @Override
@@ -214,7 +193,8 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
         if (getBlockMetadata() < 4 && getEnergy() > 0)
         {
-            return INFINITE_EXTENT_AABB;
+            float radius = getRange() + 2;
+            return bounds.expand(radius, radius, radius);
         }
 
         return bounds;
@@ -264,29 +244,9 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public boolean isPowering(TargetReceiver receiver)
+    public float getTransmissionRate()
     {
-        return getBlockMetadata() < 4 && getEnergy() > 0 && getReceiversToPower().contains(receiver);
-    }
-
-    @Override
-    public boolean canPowerReach(TargetReceiver target)
-    {
-        ChunkCoordinates pos = target.getCoordinates();
-        Vec3 position = target.getEnergyInputOffset().addVector(pos.posX + 0.5F, pos.posY + 0.5F, pos.posZ + 0.5F);
-        Vec3 start = target.getEnergyInputOffset().addVector(pos.posX + 0.5F, pos.posY + 0.5F, pos.posZ + 0.5F);
-        Vec3 end = getEnergyOutputOffset().addVector(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F);
-
-        double deltaScale = 1F / position.distanceTo(end);
-        end = Vec3.createVectorHelper(end.xCoord + (position.xCoord - end.xCoord) * deltaScale, end.yCoord + (position.yCoord - end.yCoord) * deltaScale, end.zCoord + (position.zCoord - end.zCoord) * deltaScale);
-        MovingObjectPosition result = TFEnergyHelper.rayTraceBlocks(worldObj, end, position);
-
-        if (result != null)
-        {
-            position = result.hitVec;
-        }
-
-        return position.xCoord == start.xCoord && position.yCoord == start.yCoord && position.zCoord == start.zCoord;
+        return 350;
     }
 
     @Override
@@ -298,28 +258,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     @Override
     public Vec3 getEnergyOutputOffset()
     {
-        return Vec3.createVectorHelper(0, 2, 0);
-    }
-
-    @Override
-    public boolean isPowering(TileEntity tile)
-    {
-        if (getBlockMetadata() < 4 && getEnergy() > 0)
-        {
-            List<TargetReceiver> receivers = getReceiversToPower();
-
-            for (TargetReceiver receiver : receivers)
-            {
-                ChunkCoordinates coordinates = receiver.getCoordinates();
-
-                if (coordinates.posX == tile.xCoord && coordinates.posY == tile.yCoord && coordinates.posZ == tile.zCoord)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return Vec3.createVectorHelper(0, 2 + (Math.cos((animationTimer + TransformersMod.proxy.getRenderTick()) / 10) * 2 + 2) / 16, 0);
     }
 
     @Override
@@ -390,30 +329,35 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid)
     {
-        return fluid == TFFluids.energon;
+        return getBlockMetadata() < 4 && fluid == TFFluids.energon;
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid)
     {
-        return true;
+        return getBlockMetadata() < 4;
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from)
     {
-        return new FluidTankInfo[] { tank.getInfo() };
+        return new FluidTankInfo[] {tank.getInfo()};
     }
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side)
     {
-        return new int[] { 0 };
+        return new int[] {0};
     }
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
     {
+        if (getBlockMetadata() >= 4)
+        {
+            return false;
+        }
+        
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return isItemValidForSlot(slot, itemstack);
     }
@@ -421,7 +365,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, int side)
     {
-        return ItemFuelCanister.isEmpty(itemstack);
+        return getBlockMetadata() < 4 && ItemFuelCanister.isEmpty(itemstack);
     }
 
     @Override
@@ -448,13 +392,13 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     @Override
     public void updateClientEnergy()
     {
-        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), this.worldObj.provider.dimensionId);
+        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateEnergyState(this), worldObj.provider.dimensionId);
     }
 
     @Override
     public void updateClientFluid()
     {
-        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateFluidState(this), this.worldObj.provider.dimensionId);
+        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateFluidState(this), worldObj.provider.dimensionId);
     }
 
     @Override
@@ -486,8 +430,14 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public EnergonTank getTank()
+    public FluidTankTF getTank()
     {
         return tank;
+    }
+
+    @Override
+    public int[] getBaseOffsets()
+    {
+        return new int[] {0, -getBlockMetadata() / 4, 0};
     }
 }

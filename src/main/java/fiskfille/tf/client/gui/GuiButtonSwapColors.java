@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonSwapColors extends GuiButton
-{    
+{   
     public GuiButtonSwapColors(int id, int x, int y)
     {
         super(id, x, y, 20, 20, "");

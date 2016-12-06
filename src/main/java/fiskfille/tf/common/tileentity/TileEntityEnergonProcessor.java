@@ -1,16 +1,5 @@
 package fiskfille.tf.common.tileentity;
 
-import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.common.energon.power.EnergonTank;
-import fiskfille.tf.common.energon.power.EnergonTankContainer;
-import fiskfille.tf.common.fluid.FluidEnergon;
-import fiskfille.tf.common.fluid.TFFluids;
-import fiskfille.tf.common.item.ItemFuelCanister;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageUpdateFluidState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -25,15 +14,25 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
+import fiskfille.tf.common.energon.IEnergon;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.FluidTankTF;
+import fiskfille.tf.common.fluid.IFluidHandlerTF;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemFuelCanister;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageUpdateFluidState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.helper.TFHelper;
 
-public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandler, ISidedInventory, EnergonTankContainer
+public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandlerTF, ISidedInventory
 {
-    private static final int[] slotsTop = { 1 };
-    private static final int[] slotsBottom = { 2 };
-    private static final int[] slotsSides = { 0, 2 };
+    private static final int[] slotsTop = {1};
+    private static final int[] slotsBottom = {2};
+    private static final int[] slotsSides = {0, 2};
 
-    public EnergonTank tank = new EnergonTank(2000);
+    public FluidTankTF tank = new FluidTankTF(2000);
 
     private ItemStack[] inventory = new ItemStack[3];
 
@@ -299,7 +298,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from)
     {
-        return new FluidTankInfo[] { tank.getInfo() };
+        return new FluidTankInfo[] {tank.getInfo()};
     }
 
     @Override
@@ -373,7 +372,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     }
 
     @Override
-    public EnergonTank getTank()
+    public FluidTankTF getTank()
     {
         return tank;
     }

@@ -1,7 +1,6 @@
 package fiskfille.tf.client.gui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,21 +53,19 @@ public class GuiTransmitter extends GuiContainer
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
 
-		{
-			ArrayList text = Lists.newArrayList();
-			ArrayList colors = Lists.newArrayList();
-			text.add(StatCollector.translateToLocalFormatted("gui.emb", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy())));
-			colors.add(-1);
+		ArrayList text = Lists.newArrayList();
+		ArrayList colors = Lists.newArrayList();
+		text.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy())));
+		colors.add(-1);
 
-			if (mouseX >= k + 107 && mouseX < k + 107 + 16 && mouseY >= l + 17 && mouseY < l + 17 + 52)
-			{
-				drawHoveringText(text, colors, mouseX - k, mouseY - l, fontRendererObj);
-			}
+		if (mouseX >= k + 107 && mouseX < k + 107 + 16 && mouseY >= l + 17 && mouseY < l + 17 + 52)
+		{
+		    drawHoveringText(text, colors, mouseX - k, mouseY - l, fontRendererObj);
 		}
 		
 		FluidStack stack = tileentity.tank.getFluid();
-    	ArrayList text = Lists.newArrayList();
-    	ArrayList colors = Lists.newArrayList();
+    	text = Lists.newArrayList();
+    	colors = Lists.newArrayList();
     	int liquidAmount = stack != null ? stack.amount : 0;
 
     	if (stack != null && stack.amount > 0)

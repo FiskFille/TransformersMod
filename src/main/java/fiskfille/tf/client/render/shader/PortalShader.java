@@ -20,6 +20,6 @@ public class PortalShader extends ShaderProgram
     @Override
     protected String[] getUniforms()
     {
-        return new String[] { "time" };
+        return new String[] {"time"};
     }
 }

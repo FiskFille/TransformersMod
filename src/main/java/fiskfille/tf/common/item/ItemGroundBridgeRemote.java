@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
@@ -75,7 +75,7 @@ public class ItemGroundBridgeRemote extends Item
             {
                 int metadata = worldserver.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 
-                if (worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+                if (worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ) instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
                 {
                     if (world.isRemote)
                     {
@@ -106,7 +106,7 @@ public class ItemGroundBridgeRemote extends Item
         {
             int metadata = world.getBlockMetadata(x, y, z);
 
-            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
             {
                 TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(x, y, z);
                 DimensionalCoords coords = new DimensionalCoords(x, y, z, world.provider.dimensionId);
@@ -135,7 +135,7 @@ public class ItemGroundBridgeRemote extends Item
             TileEntity tile = worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ);
             int metadata = worldserver.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 
-            if (tile instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+            if (tile instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
             {
                 return (TileEntityControlPanel) tile;
             }

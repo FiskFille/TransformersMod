@@ -36,7 +36,7 @@ public class TickHandler
 
         if (mc.currentScreen == null && TFHelper.isPlayerTransformer(player) && player.ridingEntity == null)
         {
-            KeyBinding[] keys = new KeyBinding[] { TFKeyBinds.keyBindingTransform1, TFKeyBinds.keyBindingTransform2 };
+            KeyBinding[] keys = new KeyBinding[] {TFKeyBinds.keyBindingTransform1, TFKeyBinds.keyBindingTransform2};
 
             for (int keyAlt = 0; keyAlt < keys.length; keyAlt++)
             {

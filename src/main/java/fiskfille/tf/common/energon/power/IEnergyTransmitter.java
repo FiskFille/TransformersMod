@@ -1,6 +1,5 @@
 package fiskfille.tf.common.energon.power;
 
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
 public interface IEnergyTransmitter extends IEnergyContainer
@@ -9,13 +8,9 @@ public interface IEnergyTransmitter extends IEnergyContainer
 
     TransmissionHandler getTransmissionHandler();
 
-    boolean isPowering(TargetReceiver receiver);
-
-    boolean canPowerReach(TargetReceiver receiver);
+    float getTransmissionRate();
 
     float getRange();
 
     Vec3 getEnergyOutputOffset();
-
-    boolean isPowering(TileEntity tile);
 }

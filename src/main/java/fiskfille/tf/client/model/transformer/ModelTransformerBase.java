@@ -108,5 +108,5 @@ public abstract class ModelTransformerBase extends MowzieModelBase
         return false;
     }
 
-    public void renderArmorPiece(int armorPiece) { }
+    public void renderArmorPiece(int armorPiece) {}
 }

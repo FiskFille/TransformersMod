@@ -40,18 +40,18 @@ public class TFMathHelper
     {
         T minKey = null;
         int minValue = Integer.MAX_VALUE;
-        
+
         for (Map.Entry<T, Integer> e : map.entrySet())
         {
             int value = e.getValue();
-            
+
             if (value < minValue)
             {
                 minValue = value;
                 minKey = e.getKey();
             }
         }
-        
+
         return minKey;
     }
 
@@ -93,7 +93,7 @@ public class TFMathHelper
         {
             distances.put(color2, getColorDistance(color1, new Color(color2)));
         }
-        
+
         return (Integer) getMinKey(distances);
     }
 

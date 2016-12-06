@@ -11,12 +11,6 @@ public class TileEntityDisplayPillar extends TileEntity
 {
     private ItemStack displayItem;
 
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
-    }
-
     public void setDisplayItem(ItemStack item, boolean sync)
     {
         if (item != displayItem)

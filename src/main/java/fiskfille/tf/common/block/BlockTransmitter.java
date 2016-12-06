@@ -1,11 +1,8 @@
 package fiskfille.tf.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.gui.GuiHandlerTF;
-import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import fiskfille.tf.helper.TFEnergyHelper;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -22,9 +19,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidEvent;
-
-import java.util.List;
-import java.util.Random;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class BlockTransmitter extends Block implements ITileEntityProvider
 {
@@ -70,38 +71,38 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
 
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
-	{
-    	int metadata = world.getBlockMetadata(x, y, z);
-    	float f = 0.0625F;
-    	
-    	if (metadata < 4)
-    	{
-    		addBox(0, 0, 0, 1, f * 4, 1, world, x, y, z, aabb, list, entity);
-    		
-    		for (int i = 0; i < 26; ++i)
-    		{
-            	float width = 1 - 0.6F * ((float)i / 26);
-    			float f1 = 1 - width;
-    			addBox(f1 / 2, f * (i + 4), f1 / 2, 1 - f1 / 2, f * (i + 5), 1 - f1 / 2, world, x, y, z, aabb, list, entity);
-    		}
-    	}
-    	else if (metadata < 8)
-    	{
-    		addBox(0, f * 14, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
-    	}
-    	else
-    	{
-    		addBox(0, 0, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
-    	}
-    	
-    	setBlockBoundsBasedOnState(world, x, y, z);
-	}
-    
+    {
+        int metadata = world.getBlockMetadata(x, y, z);
+        float f = 0.0625F;
+
+        if (metadata < 4)
+        {
+            addBox(0, 0, 0, 1, f * 4, 1, world, x, y, z, aabb, list, entity);
+
+            for (int i = 0; i < 26; ++i)
+            {
+                float width = 1 - 0.6F * ((float)i / 26);
+                float f1 = 1 - width;
+                addBox(f1 / 2, f * (i + 4), f1 / 2, 1 - f1 / 2, f * (i + 5), 1 - f1 / 2, world, x, y, z, aabb, list, entity);
+            }
+        }
+        else if (metadata < 8)
+        {
+            addBox(0, f * 14, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
+        }
+        else
+        {
+            addBox(0, 0, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
+        }
+
+        setBlockBoundsBasedOnState(world, x, y, z);
+    }
+
     public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {
-    	setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-    	super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-    	setBlockBoundsBasedOnState(world, x, y, z);
+        setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
+        setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override
@@ -116,15 +117,15 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
 
         if (metadata < 4)
         {
-        	setBlockBounds(0, 0, 0, 1, 3, 1);
+            setBlockBounds(0, 0, 0, 1, 3, 1);
         }
         else if (metadata < 8)
         {
-        	setBlockBounds(0, -1, 0, 1, 2, 1);
+            setBlockBounds(0, -1, 0, 1, 2, 1);
         }
         else
         {
-        	setBlockBounds(0, -2, 0, 1, 1, 1);
+            setBlockBounds(0, -2, 0, 1, 1, 1);
         }
     }
 
@@ -133,6 +134,8 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
     {
         if (!player.isSneaking())
         {
+            TileEntity tile = world.getTileEntity(x, y, z);
+            TileEntity tileBase = TFHelper.getTileBase(tile);
             int metadata = world.getBlockMetadata(x, y, z);
             int direction = metadata % 4;
             int face = -1;
@@ -271,63 +274,47 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
                 {
                     hitX = 1 - hitX;
                 }
-                
+
                 if (face < 4)
                 {
-                	hitY = 1 - hitY;
-                	hitY += (metadata >= 8 ? 2 : (metadata >= 4 ? 1 : 0));
+                    hitY = 1 - hitY;
+                    hitY += TFHelper.getTileBaseOffsets(tile)[1];
                 }
 
-                TileEntityTransmitter tile = (TileEntityTransmitter) world.getTileEntity(x, y - (metadata >= 8 ? 2 : (metadata >= 4 ? 1 : 0)), z);
-
-                if (tile != null)
+                if (tileBase instanceof TileEntityTransmitter)
                 {
-                	if (onRightClick(world, tile.xCoord, tile.yCoord, tile.zCoord, tile, player, face, hitX, hitY))
-                	{
-                		return true;
-                	}
+                    if (onRightClick(world, tileBase.xCoord, tileBase.yCoord, tileBase.zCoord, (TileEntityTransmitter) tileBase, player, face, hitX, hitY))
+                    {
+                        return true;
+                    }
                 }
             }
-            
-            if (metadata >= 4)
+
+            if (tileBase instanceof TileEntityTransmitter)
             {
-            	if (metadata < 8)
-            	{
-            		y -= 1;
-            	}
-            	else
-            	{
-            		y -= 2;
-            	}
-            }
-            
-            if (world.getTileEntity(x, y, z) instanceof TileEntityTransmitter)
-            {
-                player.openGui(TransformersMod.instance, 4, world, x, y, z);
+                player.openGui(TransformersMod.instance, 4, world, tileBase.xCoord, tileBase.yCoord, tileBase.zCoord);
             }
 
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
-    
+
     public boolean onRightClick(World world, int x, int y, int z, TileEntityTransmitter tile, EntityPlayer player, int face, float hitX, float hitY)
     {
         // 0 = back, 1 = front, 2 = left, 3 = right, 4 = top, 5 = bottom
         float f = 0.0625F;
-        
+
         if (face == 1)
         {
-        	if (hitX > f * 5.5F && hitX < f * 10.5F && hitY > f * 10 && hitY < f * 20)
-        	{
+            if (hitX > f * 5.5F && hitX < f * 10.5F && hitY > f * 10 && hitY < f * 20)
+            {
                 GuiHandlerTF.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
                 return true;
-        	}
+            }
         }
-        
+
         return false;
     }
 
@@ -394,10 +381,10 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
                 breakBlock(world, x, y, z, block, metadata);
             }
         }
-        
+
         if (metadata >= 4)
         {
-        	if (world.getBlock(x, y - 1, z) != TFBlocks.transmitter)
+            if (world.getBlock(x, y - 1, z) != TFBlocks.transmitter)
             {
                 world.setBlockToAir(x, y, z);
                 breakBlock(world, x, y, z, block, metadata);

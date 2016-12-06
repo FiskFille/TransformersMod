@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelControlPanel;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFHelper;
@@ -36,9 +36,9 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
-        GL11.glRotatef(BlockGroundBridgeControl.getDirection(metadata) * 90 + 180, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(BlockControlPanel.getDirection(metadata) * 90 + 180, 0.0F, 1.0F, 0.0F);
 
-        if (BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+        if (BlockControlPanel.isBlockLeftSideOfPanel(metadata))
         {
             GL11.glTranslatef(0.5F, 0, 0);
 

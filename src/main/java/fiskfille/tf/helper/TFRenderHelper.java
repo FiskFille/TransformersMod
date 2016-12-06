@@ -1,14 +1,8 @@
 package fiskfille.tf.helper;
 
-import fiskfille.tf.client.event.ClientEventHandler;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TargetReceiver;
-import fiskfille.tf.common.energon.power.TransmissionHandler;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.transformer.base.Transformer;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -25,11 +19,18 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
-import java.util.Map;
-import java.util.WeakHashMap;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRenderHelper
 {
@@ -63,7 +64,7 @@ public class TFRenderHelper
         float r = (float) ((hex & 0xFF0000) >> 16) / 255F;
         float g = (float) ((hex & 0xFF00) >> 8) / 255F;
         float b = (float) (hex & 0xFF) / 255F;
-        return new float[] { r, g, b };
+        return new float[] {r, g, b};
     }
 
     public static int blend(int a, int b, float ratio)
@@ -95,32 +96,6 @@ public class TFRenderHelper
         int B = (int) ((aB * iRatio) + (bB * ratio));
 
         return A << 24 | R << 16 | G << 8 | B;
-    }
-
-    public static int brighter(int hex, float factor)
-    {
-        float[] afloat = hexToRGB(hex);
-
-        for (int i = 0; i < afloat.length; ++i)
-        {
-            afloat[i] = 1 - (1 - afloat[i]) * factor;
-        }
-
-        Color color = new Color((int) (afloat[0] * 255), (int) (afloat[1] * 255), (int) (afloat[2] * 255));
-        return color.getRGB();
-    }
-
-    public static int darker(int hex, float factor)
-    {
-        float[] afloat = hexToRGB(hex);
-
-        for (int i = 0; i < afloat.length; ++i)
-        {
-            afloat[i] *= factor;
-        }
-
-        Color color = new Color((int) (afloat[0] * 255), (int) (afloat[1] * 255), (int) (afloat[2] * 255));
-        return color.getRGB();
     }
 
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
@@ -287,7 +262,7 @@ public class TFRenderHelper
         ReceiverHandler receiverHandler = transmitter.getReceiverHandler();
         Vec3 outOffset = transmitter.getEnergyOutputOffset();
 
-        if ((transmitter.getEnergy() > 0 || !receiverHandler.getTransmitters().isEmpty())/* && TFEnergyHelper.canPowerChainReach(tileentity)*/)
+        if (transmitter.getEnergy() > 0 || !receiverHandler.getTransmitters().isEmpty())
         {
             for (TargetReceiver target : transmissionHandler.getReceivers())
             {
@@ -315,28 +290,15 @@ public class TFRenderHelper
                 src = Vec3.createVectorHelper(x1, y1, z1);
                 dst = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
 
-                int segments = 16;
                 double width = 1F / 16;
                 double length = src.distanceTo(dst);
                 float[] primary = TFRenderHelper.hexToRGB(0x57ABAF);
                 float[] secondary = TFRenderHelper.hexToRGB(0x7BF2F8);
                 float[] parentPrimary = primary;
                 float[] parentSecondary = secondary;
+                int segments = MathHelper.floor_double(length * 8);
 
-                IEnergyTransmitter parent = (IEnergyTransmitter) TFEnergyHelper.getPoweredBy(transmitterTile);
-
-                if (parent != null)
-                {
-                    TargetReceiver receiver = parent.getTransmissionHandler().getReceiver(transmitterTile);
-
-                    if (!parent.canPowerReach(receiver) || !receiverHandler.canReach())
-                    {
-                        parentPrimary = TFRenderHelper.hexToRGB(0xAF5B57);
-                        parentSecondary = TFRenderHelper.hexToRGB(0xF8817B);
-                    }
-                }
-
-                if (!transmitter.canPowerReach(target) || (!receiverHandler.canReach() && transmitter.getEnergy() + transmitter.getEnergyUsage() <= 0))
+                if (!TFEnergyHelper.canPowerReach(transmitterTile, target) || (!receiverHandler.canReach() && transmitter.getEnergy() + transmitter.getEnergyUsage() <= 0))
                 {
                     primary = TFRenderHelper.hexToRGB(0xAF5B57);
                     secondary = TFRenderHelper.hexToRGB(0xF8817B);

@@ -1,13 +1,15 @@
 package fiskfille.tf.client.model.tools;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
+
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author BobMowzie, gegy1000, FiskFille
@@ -31,8 +33,8 @@ public class MowzieModelRenderer extends ModelRenderer
     public float scaleY = 1.0F;
     public float scaleZ = 1.0F;
 
-    private boolean compiled;
-    private int displayList;
+    protected boolean compiled;
+    protected int displayList;
 
     public ModelRenderer parent;
     public boolean hasInitPose;
@@ -273,7 +275,7 @@ public class MowzieModelRenderer extends ModelRenderer
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void render(float p_78785_1_)
+    public void render(float f)
     {
         GL11.glPushMatrix();
 
@@ -283,14 +285,13 @@ public class MowzieModelRenderer extends ModelRenderer
             {
                 if (!compiled)
                 {
-                    compileDisplayList(p_78785_1_);
+                    compileDisplayList(f);
                 }
 
-                float f5 = 0.0625F;
-                GL11.glTranslatef(rotationPointX * f5, rotationPointY * f5, rotationPointZ * f5);
+                GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
                 GL11.glTranslatef(offsetX, offsetY, offsetZ);
                 GL11.glScalef(scaleX, scaleY, scaleZ);
-                GL11.glTranslatef(-rotationPointX * f5, -rotationPointY * f5, -rotationPointZ * f5);
+                GL11.glTranslatef(-rotationPointX * f, -rotationPointY * f, -rotationPointZ * f);
                 int i;
 
                 if (rotateAngleX == 0.0F && rotateAngleY == 0.0F && rotateAngleZ == 0.0F)
@@ -303,30 +304,30 @@ public class MowzieModelRenderer extends ModelRenderer
                         {
                             for (i = 0; i < childModels.size(); ++i)
                             {
-                                ((MowzieModelRenderer) childModels.get(i)).render(p_78785_1_);
+                                ((MowzieModelRenderer) childModels.get(i)).render(f);
                             }
                         }
                     }
                     else
                     {
-                        GL11.glTranslatef(rotationPointX * p_78785_1_, rotationPointY * p_78785_1_, rotationPointZ * p_78785_1_);
+                        GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
                         GL11.glCallList(displayList);
 
                         if (childModels != null)
                         {
                             for (i = 0; i < childModels.size(); ++i)
                             {
-                                ((MowzieModelRenderer) childModels.get(i)).render(p_78785_1_);
+                                ((MowzieModelRenderer) childModels.get(i)).render(f);
                             }
                         }
 
-                        GL11.glTranslatef(-rotationPointX * p_78785_1_, -rotationPointY * p_78785_1_, -rotationPointZ * p_78785_1_);
+                        GL11.glTranslatef(-rotationPointX * f, -rotationPointY * f, -rotationPointZ * f);
                     }
                 }
                 else
                 {
                     GL11.glPushMatrix();
-                    GL11.glTranslatef(rotationPointX * p_78785_1_, rotationPointY * p_78785_1_, rotationPointZ * p_78785_1_);
+                    GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
 
                     if (rotateAngleZ != 0.0F)
                     {
@@ -349,7 +350,7 @@ public class MowzieModelRenderer extends ModelRenderer
                     {
                         for (i = 0; i < childModels.size(); ++i)
                         {
-                            ((MowzieModelRenderer) childModels.get(i)).render(p_78785_1_);
+                            ((MowzieModelRenderer) childModels.get(i)).render(f);
                         }
                     }
 
@@ -365,7 +366,7 @@ public class MowzieModelRenderer extends ModelRenderer
     }
 
     @SideOnly(Side.CLIENT)
-    private void compileDisplayList(float p_78788_1_)
+    protected void compileDisplayList(float f)
     {
         displayList = GLAllocation.generateDisplayLists(1);
         GL11.glNewList(displayList, GL11.GL_COMPILE);
@@ -373,7 +374,7 @@ public class MowzieModelRenderer extends ModelRenderer
 
         for (Object aCubeList : cubeList)
         {
-            ((ModelBox) aCubeList).render(tessellator, p_78788_1_);
+            ((ModelBox) aCubeList).render(tessellator, f);
         }
 
         GL11.glEndList();

@@ -1,14 +1,14 @@
-package fiskfille.tf.common.energon.power;
+package fiskfille.tf.common.fluid;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidTank;
 
-public class EnergonTank extends FluidTank
+public class FluidTankTF extends FluidTank
 {
     protected int usage;
     protected int last;
 
-    public EnergonTank(int capacity)
+    public FluidTankTF(int capacity)
     {
         super(capacity);
     }

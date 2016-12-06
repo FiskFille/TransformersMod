@@ -14,7 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
@@ -46,7 +46,7 @@ public class ItemCSD extends Item
         {
             DimensionalCoords coords = new DimensionalCoords(x, y + 1, z, world.provider.dimensionId);
 
-            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
             {
                 TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(x, y, z);
                 coords.set(tile.destX, tile.destY, tile.destZ, tile.getDestDimensionID());
@@ -63,7 +63,7 @@ public class ItemCSD extends Item
         }
         else
         {
-            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockGroundBridgeControl.isBlockLeftSideOfPanel(metadata))
+            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
             {
                 TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(x, y, z);
 

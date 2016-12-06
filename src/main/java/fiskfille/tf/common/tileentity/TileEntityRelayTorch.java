@@ -5,6 +5,12 @@ import net.minecraft.util.Vec3;
 public class TileEntityRelayTorch extends TileEntityRelayTower
 {
     @Override
+    public float getTransmissionRate()
+    {
+        return 300;
+    }
+
+    @Override
     public float getRange()
     {
         return 10;
@@ -15,7 +21,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
     {
         int metadata = worldObj != null ? getBlockMetadata() : 0;
         float offset = 0.0625F * 11.5F - 0.5F;
-        
+
         if (metadata == 1)
         {
             return Vec3.createVectorHelper(offset, 0, 0);
@@ -40,7 +46,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
         {
             return Vec3.createVectorHelper(0, -offset, 0);
         }
-        
+
         return Vec3.createVectorHelper(0, 0, 0);
     }
 
@@ -48,5 +54,11 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
     public boolean isValid(int metadata)
     {
         return true;
+    }
+
+    @Override
+    public int[] getBaseOffsets()
+    {
+        return new int[] {0, 0, 0};
     }
 }

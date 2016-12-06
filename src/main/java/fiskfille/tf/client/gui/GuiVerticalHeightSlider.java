@@ -1,6 +1,7 @@
 package fiskfille.tf.client.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,18 +24,13 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
         {
             if (dragging)
             {
-                percentage = (float) (mouseY - (yPosition + 4)) / (float) (height - 8);
-
-                if (percentage < 0)
-                {
-                    percentage = 0;
-                }
-
-                if (percentage > 1)
-                {
-                    percentage = 1;
-                }
-
+                percentage = MathHelper.clamp_float((float) (mouseY - (yPosition + 4)) / (float) (height - 8), 0, 1);
+            }
+            
+            percentage = MathHelper.clamp_float(1 - (float) parent.layers.indexOf(parent.getLayer()) / (parent.layers.size() - 1), 0, 1);
+            
+            if (dragging)
+            {
                 onChange.run();
             }
 
@@ -46,10 +42,8 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
                 float shade = 0.1F;
 
                 GL11.glColor4f(shade, shade, shade, 1);
-                drawTexturedModalRect(xPosition + 1, yPosition + (int) (f * (height - 8)) + 3, 20, 0, width / 2 - 2, 2);
+                drawTexturedModalRect(xPosition + 1, yPosition + (int) (f * (height - 8)) + 3, 0, 0, width / 2 - 2, 2);
             }
-
-            percentage = 1 - (float)parent.layers.indexOf(parent.getLayer()) / (parent.layers.size() - 1);
 
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glColor4f(1, 1, 1, 1);

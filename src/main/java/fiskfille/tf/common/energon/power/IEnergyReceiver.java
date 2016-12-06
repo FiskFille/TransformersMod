@@ -8,6 +8,8 @@ public interface IEnergyReceiver extends IEnergyContainer
     ReceiverHandler getReceiverHandler();
 
     boolean canReceiveEnergy(TileEntity from);
+    
+    int getMapColor();
 
     Vec3 getEnergyInputOffset();
 }

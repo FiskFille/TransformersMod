@@ -85,7 +85,7 @@ public class GuiColorPresets extends GuiScreen
                 new ColorPreset(0x4f00b2, 0x656565, "Vehicon"),
                 new ColorPreset(0xa51919, 0xcf6300, "Hot-Rod"),
                 new ColorPreset(0x737a80, 0x2f3b47, "Starscream"),
-                };
+               };
 
         int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;

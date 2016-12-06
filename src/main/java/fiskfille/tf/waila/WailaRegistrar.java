@@ -19,15 +19,7 @@ public class WailaRegistrar
 
         registrar.registerBodyProvider(new DataProviderEnergonProcessor(), TileEntityEnergonProcessor.class);
         registrar.registerBodyProvider(new DataProviderTransmitter(), TileEntityTransmitter.class);
-        registrar.registerBodyProvider(new DataProviderEnergyContainer("tf.relay_tower", TileEntityRelayTower.class)
-        {
-            @Override
-            public int getTileY(int y, int metadata)
-            {
-                return y - (metadata >= 4 ? 1 : 0);
-            }
-
-        }, TileEntityRelayTower.class);
+        registrar.registerBodyProvider(new DataProviderEnergyContainer("tf.relay_tower", TileEntityRelayTower.class), TileEntityRelayTower.class);
         registrar.registerBodyProvider(new DataProviderEnergyContainer("tf.relay_torch", TileEntityRelayTorch.class), TileEntityRelayTorch.class);
         registrar.registerBodyProvider(new DataProviderControlPanel(), TileEntityControlPanel.class);
     }

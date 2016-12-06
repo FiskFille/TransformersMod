@@ -13,6 +13,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class DataProviderEnergyContainer implements IWailaDataProvider
 {
@@ -40,21 +41,15 @@ public class DataProviderEnergyContainer implements IWailaDataProvider
     @Override
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
-        int metadata = accessor.getMetadata();
-        TileEntity tile = accessor.getWorld().getTileEntity(accessor.getPosition().blockX, getTileY(accessor.getPosition().blockY, metadata), accessor.getPosition().blockZ);
-
-        if (tile instanceof IEnergyContainer && tile.getClass() == targetClass && config.getConfig(key, true))
+        TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
+        
+        if (tileentity instanceof IEnergyContainer && tileentity.getClass() == targetClass && config.getConfig(key, true))
         {
-            IEnergyContainer energycontainer = (IEnergyContainer) tile;
-            list.add(StatCollector.translateToLocalFormatted("gui.emb", TFEnergyHelper.formatNumber(energycontainer.getEnergy()), TFEnergyHelper.formatNumber(energycontainer.getMaxEnergy())));
+            IEnergyContainer energycontainer = (IEnergyContainer) tileentity;
+            list.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(energycontainer.getEnergy()), TFEnergyHelper.formatNumber(energycontainer.getMaxEnergy())));
         }
 
         return list;
-    }
-
-    public int getTileY(int y, int metadata)
-    {
-        return y;
     }
 
     @Override

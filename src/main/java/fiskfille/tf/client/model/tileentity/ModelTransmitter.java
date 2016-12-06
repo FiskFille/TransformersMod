@@ -903,11 +903,4 @@ public class ModelTransmitter extends MowzieModelBase
 		towerenergyorbbase1.rotateAngleY += Math.sin(f / 40) * 2;
 		towerbase1.render(0.0625F);
 	}
-
-	public void setRotateAngle(MowzieModelRenderer MowzieModelRenderer, float x, float y, float z)
-	{
-		MowzieModelRenderer.rotateAngleX = x;
-		MowzieModelRenderer.rotateAngleY = y;
-		MowzieModelRenderer.rotateAngleZ = z;
-	}
 }

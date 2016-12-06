@@ -1,9 +1,7 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.client.gui.GuiHandlerTF;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.tileentity.TileEntityRelayTower;
-import fiskfille.tf.helper.TFEnergyHelper;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,8 +12,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.List;
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.common.tileentity.TileEntityRelayTower;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class BlockRelayTower extends BlockTransmitter
 {
@@ -81,14 +81,7 @@ public class BlockRelayTower extends BlockTransmitter
     {
         if (!player.isSneaking())
         {
-            int metadata = world.getBlockMetadata(x, y, z);
-
-            if (metadata >= 4)
-            {
-                y -= 1;
-            }
-
-            TileEntity tile = world.getTileEntity(x, y, z);
+            TileEntity tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
 
             if (tile instanceof TileEntityRelayTower)
             {
@@ -96,23 +89,6 @@ public class BlockRelayTower extends BlockTransmitter
             }
 
             return true;
-        }
-        else
-        {
-            int metadata = world.getBlockMetadata(x, y, z);
-
-            if (metadata >= 4)
-            {
-                y -= 1;
-            }
-
-            TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (tile instanceof TileEntityRelayTower)
-            {
-                IEnergyTransmitter transmitter = (IEnergyTransmitter) tile;
-                System.out.println(transmitter.getReceiverHandler().getTransmitters() + ", " + transmitter.getTransmissionHandler().getReceivers() + ", " + transmitter.getEnergy());
-            }
         }
 
         return false;

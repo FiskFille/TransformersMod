@@ -1,18 +1,18 @@
 package fiskfille.tf.common.tileentity;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import fiskfille.tf.common.energon.power.EnergyStorage;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
 
 public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
 {
@@ -31,7 +31,7 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
 
         if (worldObj.isRemote)
         {
-            TFHelper.applyClientEnergyUsage(this);
+            TFEnergyHelper.applyClientEnergyUsage(this);
         }
         else
         {
@@ -120,6 +120,12 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
     public Vec3 getEnergyInputOffset()
     {
         return Vec3.createVectorHelper(0, 0.5D, 0);
+    }
+    
+    @Override
+    public int getMapColor()
+    {
+        return 0xFF0000;
     }
 
     @Override

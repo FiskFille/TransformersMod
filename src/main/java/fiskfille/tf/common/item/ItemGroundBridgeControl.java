@@ -6,7 +6,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import fiskfille.tf.common.block.BlockGroundBridgeControl;
+import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.block.TFBlocks;
 
 public class ItemGroundBridgeControl extends ItemBlock
@@ -55,7 +55,7 @@ public class ItemGroundBridgeControl extends ItemBlock
 				++x;
 			}
 
-			BlockGroundBridgeControl block = (BlockGroundBridgeControl) TFBlocks.groundBridgeControlPanel;
+			BlockControlPanel block = (BlockControlPanel) TFBlocks.groundBridgeControlPanel;
 			int direction = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 			byte x1 = 0;
 			byte z1 = 0;

@@ -37,4 +37,9 @@ public class CommonProxy
     {
 
     }
+
+    public float getRenderTick()
+    {
+        return 0;
+    }
 }

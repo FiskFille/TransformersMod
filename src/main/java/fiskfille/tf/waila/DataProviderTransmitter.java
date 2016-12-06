@@ -19,6 +19,7 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class DataProviderTransmitter implements IWailaDataProvider
 {
@@ -37,15 +38,14 @@ public class DataProviderTransmitter implements IWailaDataProvider
     @Override
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
-        int metadata = accessor.getMetadata();
-        TileEntity tileentity = accessor.getWorld().getTileEntity(accessor.getPosition().blockX, accessor.getPosition().blockY - (metadata >= 8 ? 2 : (metadata >= 4 ? 1 : 0)), accessor.getPosition().blockZ);
-
+        TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
+        
         if (tileentity instanceof TileEntityTransmitter && config.getConfig("tf.transmitter", true))
         {
             TileEntityTransmitter tile = (TileEntityTransmitter) tileentity;
             FluidStack stack = tile.getTank().getFluid();
 
-            int liquidAmount = tile.tank.getFluidAmount();
+            int liquidAmount = tile.getTank().getFluidAmount();
             int capacity = tile.getTank().getCapacity();
 
             if (stack != null && stack.amount > 0)
@@ -81,7 +81,7 @@ public class DataProviderTransmitter implements IWailaDataProvider
                 list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, capacity));
             }
 
-            list.add(StatCollector.translateToLocalFormatted("gui.emb", TFEnergyHelper.formatNumber(tile.getEnergy()), TFEnergyHelper.formatNumber(tile.getMaxEnergy())));
+            list.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(tile.getEnergy()), TFEnergyHelper.formatNumber(tile.getMaxEnergy())));
         }
 
         return list;
