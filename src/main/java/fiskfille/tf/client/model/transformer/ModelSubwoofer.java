@@ -26,7 +26,7 @@ import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
-public class ModelSubwoofer extends ModelTransformerBaseNew
+public class ModelSubwoofer extends ModelTransformerBase
 {
 	public MowzieModelRenderer waist;
 	public MowzieModelRenderer stomach;

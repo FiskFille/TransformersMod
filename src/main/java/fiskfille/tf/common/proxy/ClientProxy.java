@@ -20,7 +20,6 @@ import fiskfille.tf.client.render.entity.RenderBlank;
 import fiskfille.tf.client.render.entity.RenderLaser;
 import fiskfille.tf.client.render.entity.RenderMissile;
 import fiskfille.tf.client.render.entity.RenderTankShell;
-import fiskfille.tf.client.render.entity.RenderTransformer;
 import fiskfille.tf.client.render.entity.RenderTransformiumSeedEntity;
 import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
 import fiskfille.tf.client.render.item.RenderItemArmor;
@@ -56,7 +55,6 @@ import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.entity.EntityLaserBeam;
 import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.entity.EntityTankShell;
-import fiskfille.tf.common.entity.EntityTransformer;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -130,7 +128,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityFlamethrowerFire.class, new RenderBlank());
         RenderingRegistry.registerEntityRenderingHandler(EntityLaserBeam.class, new RenderBlank());
         RenderingRegistry.registerEntityRenderingHandler(EntityBassCharge.class, new RenderBassCharge());
-        RenderingRegistry.registerEntityRenderingHandler(EntityTransformer.class, new RenderTransformer());
+//        RenderingRegistry.registerEntityRenderingHandler(EntityTransformer.class, new RenderTransformer());
         RenderingRegistry.registerEntityRenderingHandler(EntityLaser.class, new RenderLaser());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
@@ -171,7 +169,7 @@ public class ClientProxy extends CommonProxy
         registerArmorRenderer(TFItems.purgeHelmet, TFItems.purgeChestplate, TFItems.purgeLeggings, TFItems.purgeBoots);
         registerArmorRenderer(TFItems.vurpHelmet, TFItems.vurpChestplate, TFItems.vurpLeggings, TFItems.vurpBoots);
         registerArmorRenderer(TFItems.subwooferHelmet, TFItems.subwooferChestplate, TFItems.subwooferLeggings, TFItems.subwooferBoots);
-        registerArmorRenderer(TFItems.wardenHelmet, TFItems.wardenChestplate, TFItems.wardenLeggings, TFItems.wardenBoots);
+//        registerArmorRenderer(TFItems.wardenHelmet, TFItems.wardenChestplate, TFItems.wardenLeggings, TFItems.wardenBoots);
 
         TFModelRegistry.registerModels();
     }

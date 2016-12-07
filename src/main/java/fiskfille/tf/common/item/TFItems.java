@@ -14,7 +14,6 @@ import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
 import fiskfille.tf.common.item.armor.ItemSubwooferArmor;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.item.armor.ItemVurpArmor;
-import fiskfille.tf.common.item.armor.ItemWardenArmor;
 import fiskfille.tf.common.registry.TFItemRegistry;
 
 public class TFItems
@@ -62,10 +61,10 @@ public class TFItems
     public static ItemTransformerArmor cloudtrapChestplate;
     public static ItemTransformerArmor cloudtrapLeggings;
     public static ItemTransformerArmor cloudtrapBoots;
-    public static ItemTransformerArmor wardenHelmet;
-    public static ItemTransformerArmor wardenChestplate;
-    public static ItemTransformerArmor wardenLeggings;
-    public static ItemTransformerArmor wardenBoots;
+//    public static ItemTransformerArmor wardenHelmet;
+//    public static ItemTransformerArmor wardenChestplate;
+//    public static ItemTransformerArmor wardenLeggings;
+//    public static ItemTransformerArmor wardenBoots;
 
     public static Item displayVehicle;
     public static Item energonCrystalShard;
@@ -117,10 +116,10 @@ public class TFItems
         cloudtrapChestplate = new ItemCloudtrapArmor(1);
         cloudtrapLeggings = new ItemCloudtrapArmor(2);
         cloudtrapBoots = new ItemCloudtrapArmor(3);
-        wardenHelmet = new ItemWardenArmor(0);
-        wardenChestplate = new ItemWardenArmor(1);
-        wardenLeggings = new ItemWardenArmor(2);
-        wardenBoots = new ItemWardenArmor(3);
+//        wardenHelmet = new ItemWardenArmor(0);
+//        wardenChestplate = new ItemWardenArmor(1);
+//        wardenLeggings = new ItemWardenArmor(2);
+//        wardenBoots = new ItemWardenArmor(3);
 
         transformiumDetector = new ItemTransformiumDetector();
 
@@ -175,10 +174,10 @@ public class TFItems
         TFItemRegistry.registerItem(cloudtrapChestplate, "Cloudtrap Torso");
         TFItemRegistry.registerItem(cloudtrapLeggings, "Cloudtrap Legs");
         TFItemRegistry.registerItem(cloudtrapBoots, "Cloudtrap Feet");
-        TFItemRegistry.registerItem(wardenHelmet, "Warden Head");
-        TFItemRegistry.registerItem(wardenChestplate, "Warden Torso");
-        TFItemRegistry.registerItem(wardenLeggings, "Warden Legs");
-        TFItemRegistry.registerItem(wardenBoots, "Warden Feet");
+//        TFItemRegistry.registerItem(wardenHelmet, "Warden Head");
+//        TFItemRegistry.registerItem(wardenChestplate, "Warden Torso");
+//        TFItemRegistry.registerItem(wardenLeggings, "Warden Legs");
+//        TFItemRegistry.registerItem(wardenBoots, "Warden Feet");
 
         TFItemRegistry.registerItem(displayVehicle, "Display Vehicle");
         TFItemRegistry.registerItem(energonCrystalShard, "Energon Crystal Shard");

@@ -24,7 +24,7 @@ import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
-public class ModelVurp extends ModelTransformerBaseNew
+public class ModelVurp extends ModelTransformerBase
 {
 	public MowzieModelRenderer waist;
 	public MowzieModelRenderer waist1;

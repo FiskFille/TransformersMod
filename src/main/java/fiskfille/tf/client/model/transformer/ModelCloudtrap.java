@@ -1,5 +1,14 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.AnimationModifier;
@@ -15,15 +24,8 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFRenderHelper;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
-public class ModelCloudtrap extends ModelTransformerBaseNew
+public class ModelCloudtrap extends ModelTransformerBase
 {
     public MowzieModelRenderer waist;
     public MowzieModelRenderer torsoConnector;

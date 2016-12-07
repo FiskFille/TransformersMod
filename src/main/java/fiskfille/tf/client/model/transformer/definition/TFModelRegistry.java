@@ -27,6 +27,6 @@ public class TFModelRegistry
         TFModelRegistry.registerModel(TransformerManager.SKYSTRIKE, new TFModelSkystrike());
         TFModelRegistry.registerModel(TransformerManager.SUBWOOFER, new TFModelSubwoofer());
         TFModelRegistry.registerModel(TransformerManager.VURP, new TFModelVurp());
-        TFModelRegistry.registerModel(TransformerManager.WARDEN, new TFModelWarden());
+//        TFModelRegistry.registerModel(TransformerManager.WARDEN, new TFModelWarden());
     }
 }

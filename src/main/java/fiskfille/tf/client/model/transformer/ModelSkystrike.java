@@ -1,5 +1,12 @@
 package fiskfille.tf.client.model.transformer;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.AnimationModifier;
 import fiskfille.tf.client.model.AnimationModifier.Predicate;
@@ -13,13 +20,8 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFRenderHelper;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
-public class ModelSkystrike extends ModelTransformerBaseNew
+public class ModelSkystrike extends ModelTransformerBase
 {
     public MowzieModelRenderer waistbase;
     public MowzieModelRenderer upperlegL1;

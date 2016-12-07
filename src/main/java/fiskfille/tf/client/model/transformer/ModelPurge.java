@@ -21,7 +21,7 @@ import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
-public class ModelPurge extends ModelTransformerBaseNew
+public class ModelPurge extends ModelTransformerBase
 {
 	public MowzieModelRenderer waist;
 	public MowzieModelRenderer torsoconnector;

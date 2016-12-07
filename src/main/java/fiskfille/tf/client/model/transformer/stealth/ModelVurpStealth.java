@@ -1,5 +1,9 @@
 package fiskfille.tf.client.model.transformer.stealth;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
@@ -8,10 +12,6 @@ import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelVurpStealth extends ModelTransformerBase
 {
@@ -76,6 +76,7 @@ public class ModelVurpStealth extends ModelTransformerBase
 
     public ModelVurpStealth()
     {
+        super(0, 0);
         textureWidth = 128;
         textureHeight = 128;
         vehicleLowerLegR4 = new MowzieModelRenderer(this, 8, 83);
@@ -395,12 +396,6 @@ public class ModelVurpStealth extends ModelTransformerBase
     }
 
     @Override
-    public ModelRenderer getVehicle(EntityPlayer player)
-    {
-        return vehicleBase;
-    }
-
-    @Override
     public ModelRenderer getRightLeg()
     {
         return vehicleBase;
@@ -416,14 +411,6 @@ public class ModelVurpStealth extends ModelTransformerBase
     public ModelRenderer getHead()
     {
         return vehicleBase;
-    }
-
-    @Override
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
-    {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
     }
 
     @Override
