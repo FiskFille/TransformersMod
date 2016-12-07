@@ -1,12 +1,9 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,8 +15,10 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.Random;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 
 public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvider
 {
@@ -27,9 +26,10 @@ public class BlockDisplayPillar extends BlockBasic implements ITileEntityProvide
 
     public BlockDisplayPillar()
     {
-        super(Material.rock);
-        setHardness(0.5F);
-        setResistance(1.0F);
+        super(TFMaterial.display);
+        setHardness(2.0F);
+        setResistance(5.0F);
+        setHarvestLevel("pickaxe", 0);
     }
 
     @Override

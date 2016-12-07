@@ -823,11 +823,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     }
 
     @Override
-    public int[] getBaseOffsets()
+    public int[] getBaseOffsets(int metadata)
     {
-        int direction = BlockControlPanel.getDirection(getBlockMetadata());
-        boolean isSide = !BlockControlPanel.isBlockLeftSideOfPanel(getBlockMetadata());
-        boolean isTop = BlockControlPanel.isBlockTopOfPanel(getBlockMetadata());
+        int direction = BlockControlPanel.getDirection(metadata);
+        boolean isSide = !BlockControlPanel.isBlockLeftSideOfPanel(metadata);
+        boolean isTop = BlockControlPanel.isBlockTopOfPanel(metadata);
 
         return new int[] {-(isSide ? BlockControlPanel.directions[direction][0] : 0), -(isTop ? 1 : 0), -(isSide ? BlockControlPanel.directions[direction][1] : 0)};
     }

@@ -1,9 +1,9 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -15,12 +15,10 @@ import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderCrystal extends TileEntitySpecialRenderer
 {
-    private ModelCrystal model;
+    private ModelCrystal model = new ModelCrystal();
 
     public RenderCrystal()
     {
-        model = new ModelCrystal();
-        ItemRenderer itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
     }
 
     public void renderAModelAt(TileEntityCrystal tile, double x, double y, double z, float partialTicks)
@@ -44,6 +42,31 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         model.render();
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        
+        if (tile.getWorldObj() != null)
+        {
+            int progress = TFRenderHelper.getBlockDestroyProgress(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+            
+            if (progress >= 0)
+            {
+                OpenGlHelper.glBlendFunc(774, 768, 1, 0);
+                bindTexture(new ResourceLocation(String.format("textures/blocks/destroy_stage_%s.png", progress)));
+                GL11.glColor4f(1, 1, 1, 0.5F);
+                GL11.glPushMatrix();
+                GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+                GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
+                model.setBreaking(true);
+                model.render();
+                GL11.glDisable(GL11.GL_ALPHA_TEST);
+                GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GL11.glPopMatrix();
+            }
+        }
+        
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 

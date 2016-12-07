@@ -2,6 +2,7 @@ package fiskfille.tf.client.render.tileentity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -41,6 +42,9 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
         if (BlockControlPanel.isBlockLeftSideOfPanel(metadata))
         {
             GL11.glTranslatef(0.5F, 0, 0);
+            GL11.glPushMatrix();
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             for (int i = 0; i < tile.getSizeInventory(); ++i)
             {
@@ -56,27 +60,30 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
                     float scale = 0.155F;
                     GL11.glScalef(-scale, -scale, scale);
 
+                    GL11.glColor4f(1, 1, 1, 1);
                     itemRenderer.renderItem(mc.thePlayer, itemstack, 0);
                     GL11.glColor4f(1, 1, 1, 1);
                     GL11.glEnable(GL11.GL_LIGHTING);
                     GL11.glPopMatrix();
                 }
             }
-            
+
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel.png"));
+            model.setBreaking(false);
             model.render(tile, partialTicks);
 
             TFRenderHelper.setLighting(61680);
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel_lights.png"));
+            model.setBreaking(false);
             model.render(tile, partialTicks);
             model.table1.postRender(0.0625F);
             model.table2.postRender(0.0625F);
 
             String dimensionName = "";
-            
+
             if (tile.getWorldObj() != null)
             {
                 dimensionName = TFHelper.getDimensionName(tile.getDestDimensionID());
@@ -159,9 +166,33 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             renderCenteredText(StatCollector.translateToLocal("ground_bridge.direction.east"), 0, 0.1475F, -0.0625F, -1, 0.00725F);
             GL11.glPopMatrix();
             GL11.glPopMatrix();
+            GL11.glPopMatrix();
+            TFRenderHelper.resetLighting();
+
+            if (tile.getWorldObj() != null)
+            {
+                int progress = TFRenderHelper.getBlockDestroyProgress(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+
+                if (progress >= 0)
+                {
+                    OpenGlHelper.glBlendFunc(774, 768, 1, 0);
+                    bindTexture(new ResourceLocation(String.format("textures/blocks/destroy_stage_%s.png", progress)));
+                    GL11.glColor4f(1, 1, 1, 0.5F);
+                    GL11.glPushMatrix();
+                    GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+                    GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+                    model.setBreaking(true);
+                    model.render(tile, partialTicks);
+                    GL11.glDisable(GL11.GL_ALPHA_TEST);
+                    GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                    GL11.glPopMatrix();
+                }
+            }
 
             GL11.glDisable(GL11.GL_BLEND);
-            TFRenderHelper.resetLighting();
         }
 
         GL11.glPopMatrix();

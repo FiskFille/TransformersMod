@@ -1,5 +1,6 @@
 package fiskfille.tf.helper;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -7,7 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,9 +22,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
@@ -365,5 +370,30 @@ public class TFRenderHelper
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
+    }
+    
+    public static int getBlockDestroyProgress(World world, int x, int y, int z)
+    {
+        Map damagedBlocks = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "damagedBlocks", "field_72738_E", "O");
+        
+        if (!damagedBlocks.isEmpty())
+        {
+            Iterator iterator = damagedBlocks.values().iterator();
+
+            while (iterator.hasNext())
+            {
+                DestroyBlockProgress progress = (DestroyBlockProgress) iterator.next();
+                
+                int metadata = world.getBlockMetadata(progress.getPartialBlockX(), progress.getPartialBlockY(), progress.getPartialBlockZ());
+                int[] offsets = TFHelper.getTileBaseOffsets(world.getTileEntity(x, y, z), metadata);
+                
+                if (x == progress.getPartialBlockX() + offsets[0] && y == progress.getPartialBlockY() + offsets[1] && z == progress.getPartialBlockZ() + offsets[2])
+                {
+                    return progress.getPartialBlockDamage();
+                }
+            }
+        }
+        
+        return -1;
     }
 }

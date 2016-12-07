@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 public class TFMaterial extends Material
 {
     public static final TFMaterial energon = new TFMaterial(MapColor.diamondColor).setBurning();
+    public static final TFMaterial display = new TFMaterial(MapColor.stoneColor);
 
     protected boolean isTranslucent;
 

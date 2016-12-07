@@ -348,7 +348,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
         {
             double moveY = -0.2;
             double actualMoveY = moveY;
-            
+
             entity.ySize *= 0.4F;
             List collidingEntities = entity.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox.addCoord(0, moveY, 0));
 
@@ -404,11 +404,24 @@ public class MowzieModelBase extends ModelChildBase.Biped
 
         parts.add(mowzieModelRenderer);
     }
-    
+
     public void setRotateAngle(ModelRenderer model, float x, float y, float z)
-	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
+    {
+        model.rotateAngleX = x;
+        model.rotateAngleY = y;
+        model.rotateAngleZ = z;
+    }
+
+    public MowzieModelBase setBreaking(boolean breaking)
+    {
+        for (MowzieModelRenderer part : parts)
+        {
+            if (part instanceof ModelRendererBreakable)
+            {
+                ((ModelRendererBreakable) part).breaking = breaking;
+            }
+        }
+
+        return this;
+    }
 }

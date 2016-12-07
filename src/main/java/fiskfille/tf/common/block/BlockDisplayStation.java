@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -27,7 +26,9 @@ public class BlockDisplayStation extends BlockContainer
 
     public BlockDisplayStation()
     {
-        super(Material.rock);
+        super(TFMaterial.display);
+        setHardness(2.0F);
+        setResistance(5.0F);
         setHarvestLevel("pickaxe", 0);
     }
 
@@ -47,12 +48,6 @@ public class BlockDisplayStation extends BlockContainer
     public boolean isOpaqueCube()
     {
         return false;
-    }
-
-    @Override
-    public boolean hasTileEntity()
-    {
-        return true;
     }
 
     @Override

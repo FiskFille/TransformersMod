@@ -372,9 +372,9 @@ public class MowzieModelRenderer extends ModelRenderer
         GL11.glNewList(displayList, GL11.GL_COMPILE);
         Tessellator tessellator = Tessellator.instance;
 
-        for (Object aCubeList : cubeList)
+        for (Object cube : cubeList)
         {
-            ((ModelBox) aCubeList).render(tessellator, f);
+            ((ModelBox) cube).render(tessellator, f);
         }
 
         GL11.glEndList();

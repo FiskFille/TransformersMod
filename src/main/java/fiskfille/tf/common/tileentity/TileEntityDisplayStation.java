@@ -24,7 +24,7 @@ import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFHelper;
 
-public class TileEntityDisplayStation extends TileEntity implements IInventory
+public class TileEntityDisplayStation extends TileEntity implements IInventory, IMultiTile
 {
     private ItemStack[] itemStacks = new ItemStack[7];
     private String inventoryName;
@@ -179,9 +179,9 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
                 TFArmorDyeHelper.setSecondaryColor(legs, secondaryColor);
                 TFArmorDyeHelper.setSecondaryColor(feet, secondaryColor);
             }
-            
+
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            
+
             return true;
         }
 
@@ -360,5 +360,11 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory
     public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
     {
         readFromNBT(packet.func_148857_g());
+    }
+
+    @Override
+    public int[] getBaseOffsets(int metadata)
+    {
+        return new int[] {0, -metadata / 4, 0};
     }
 }

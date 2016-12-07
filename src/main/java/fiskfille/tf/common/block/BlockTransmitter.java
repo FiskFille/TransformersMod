@@ -34,7 +34,8 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
     public BlockTransmitter()
     {
         super(Material.rock);
-        setHarvestLevel("pickaxe", 0);
+        setHardness(5.0F);
+        setResistance(10.0F);
     }
 
     @Override
@@ -53,12 +54,6 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
     public boolean isOpaqueCube()
     {
         return false;
-    }
-
-    @Override
-    public boolean hasTileEntity()
-    {
-        return true;
     }
 
     @Override
@@ -278,7 +273,7 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
                 if (face < 4)
                 {
                     hitY = 1 - hitY;
-                    hitY += TFHelper.getTileBaseOffsets(tile)[1];
+                    hitY += TFHelper.getTileBaseOffsets(tile, metadata)[1];
                 }
 
                 if (tileBase instanceof TileEntityTransmitter)

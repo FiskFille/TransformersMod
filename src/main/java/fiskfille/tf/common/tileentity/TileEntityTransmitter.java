@@ -436,8 +436,8 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public int[] getBaseOffsets()
+    public int[] getBaseOffsets(int metadata)
     {
-        return new int[] {0, -getBlockMetadata() / 4, 0};
+        return new int[] {0, -metadata / 4, 0};
     }
 }

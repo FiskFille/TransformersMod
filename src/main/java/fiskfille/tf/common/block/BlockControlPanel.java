@@ -33,7 +33,8 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
     public BlockControlPanel()
     {
         super(Material.iron);
-        setHarvestLevel("pickaxe", 0);
+        setHardness(4.0F);
+        setResistance(10.0F);
         setStepSound(soundTypeMetal);
     }
 

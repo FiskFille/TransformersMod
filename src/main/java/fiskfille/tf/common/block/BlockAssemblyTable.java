@@ -1,7 +1,5 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -9,12 +7,14 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 
 public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvider
 {
     public BlockAssemblyTable()
     {
-        super(Material.glass);
+        super(Material.iron);
         setHarvestLvl("pickaxe", 1);
         setStepSound(Block.soundTypeMetal);
         setHardness(6.0F);
@@ -53,12 +53,6 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
     public boolean isOpaqueCube()
     {
         return false;
-    }
-
-    @Override
-    public boolean hasTileEntity()
-    {
-        return true;
     }
 
     @Override

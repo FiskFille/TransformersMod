@@ -281,11 +281,11 @@ public class TFHelper
         }
     }
 
-    public static int[] getTileBaseOffsets(TileEntity tile)
+    public static int[] getTileBaseOffsets(TileEntity tile, int metadata)
     {
         if (tile instanceof IMultiTile)
         {
-            return ((IMultiTile) tile).getBaseOffsets();
+            return ((IMultiTile) tile).getBaseOffsets(metadata);
         }
 
         return new int[] {0, 0, 0};
@@ -293,7 +293,7 @@ public class TFHelper
 
     public static TileEntity getTileBase(TileEntity tile)
     {
-        int[] offsets = getTileBaseOffsets(tile);
+        int[] offsets = getTileBaseOffsets(tile, tile.getBlockMetadata());
 
         if (offsets[0] != 0 || offsets[1] != 0 || offsets[2] != 0)
         {

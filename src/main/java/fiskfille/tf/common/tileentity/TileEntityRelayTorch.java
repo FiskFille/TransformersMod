@@ -57,7 +57,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
     }
 
     @Override
-    public int[] getBaseOffsets()
+    public int[] getBaseOffsets(int metadata)
     {
         return new int[] {0, 0, 0};
     }

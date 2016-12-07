@@ -65,7 +65,7 @@ public class MessageControlPanel implements IMessage
         public IMessage onMessage(MessageControlPanel message, MessageContext ctx)
         {
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
-            World world = MinecraftServer.getServer().worldServerForDimension(message.dimension); // TODO: We need to use the provided dimension id to get the right world object. Unfortunately, Dimensionmanager#getWorld() only gets the server side instance.
+            World world = MinecraftServer.getServer().worldServerForDimension(message.dimension);
             boolean flag = true;
             
             if (world != null)
