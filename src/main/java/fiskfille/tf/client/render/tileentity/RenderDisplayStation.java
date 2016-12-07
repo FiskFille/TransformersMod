@@ -41,11 +41,13 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
             model.render();
 
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/display_station_lamp.png"));
+            GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_LIGHTING);
             TFRenderHelper.setLighting(61680);
             model.render();
             TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_BLEND);
             
             if (tileentity.getWorldObj() != null)
             {

@@ -33,7 +33,7 @@ public class RenderItemDataCore implements IItemRenderer
 	{
 	    GL11.glColor4f(1, 1, 1, 1);
 		GL11.glPushMatrix();
-		float scale = 1;
+		float scale = type != ItemRenderType.INVENTORY ? 0.5F : 1;
 
 		if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)
 		{
@@ -41,7 +41,7 @@ public class RenderItemDataCore implements IItemRenderer
 		}
 		else if (type == ItemRenderType.ENTITY)
 		{
-			scale = 0.5F;
+			scale *= 0.5F;
 		}
 
 		GL11.glScalef(scale, scale, scale);
@@ -67,6 +67,7 @@ public class RenderItemDataCore implements IItemRenderer
 
 			if (i == 1)
 			{
+			    GL11.glDisable(GL11.GL_LIGHTING);
 				TFRenderHelper.setLighting(61680);
 			}
 
@@ -79,67 +80,36 @@ public class RenderItemDataCore implements IItemRenderer
 			GL11.glPushMatrix();
 			GL11.glRotatef(90, 0, 1, 0);
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-
-			if (GL11.glGetBoolean(GL11.GL_LIGHTING))
-			{
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, -1, 0);
-				renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 1, 0);
-				renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, -1);
-				renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(-1, 0, 0);
-				renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(1, 0, 0);
-				renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-			}
-			else
-			{
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-				tessellator.startDrawingQuads();
-				tessellator.setNormal(0, 0, 1);
-				renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, iicon);
-				tessellator.draw();
-			}
-
+			tessellator.startDrawingQuads();
+            tessellator.setNormal(0, -1, 0);
+            renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, iicon);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0, 1, 0);
+            renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, iicon);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0, 0, -1);
+            renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, iicon);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0, 0, 1);
+            renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, iicon);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(-1, 0, 0);
+            renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, iicon);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(1, 0, 0);
+            renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, iicon);
+            tessellator.draw();
 			GL11.glPopMatrix();
 
 			if (i == 1)
 			{
 				TFRenderHelper.resetLighting();
+				GL11.glEnable(GL11.GL_LIGHTING);
 			}
 		}
 		

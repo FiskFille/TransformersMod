@@ -58,8 +58,10 @@ public class RenderItemArmor implements IItemRenderer
 			GL11.glScalef(1, 1, 1);
 			break;
 		}
+		
+		GL11.glEnable(GL11.GL_BLEND);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(tfModel.getTexture(null));
+		Minecraft.getMinecraft().getTextureManager().bindTexture(tfModel.getTexture(null));
 		renderArmor(type, model);
 
 		if (TFArmorDyeHelper.isDyed(item))
@@ -75,6 +77,8 @@ public class RenderItemArmor implements IItemRenderer
 			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_secondary.png"));
 			renderArmor(type, model);
 		}
+		
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	private void renderArmor(ItemRenderType type, ModelTransformerBase model)
