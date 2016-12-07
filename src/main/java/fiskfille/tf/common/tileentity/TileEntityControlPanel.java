@@ -607,7 +607,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return super.getRenderBoundingBox().addCoord(1, 0.5D, 1);
+        return super.getRenderBoundingBox().addCoord(0, 0.5D, 0).expand(1, 0, 1);
     }
 
     @Override
