@@ -72,18 +72,18 @@ public class MowzieModelRenderer extends ModelRenderer
         }
     }
 
-    public void postRenderParentChain(float par1)
+    public void postRenderParentChain(float f)
     {
         if (parent instanceof MowzieModelRenderer)
         {
-            ((MowzieModelRenderer) parent).postRenderParentChain(par1);
+            ((MowzieModelRenderer) parent).postRenderParentChain(f);
         }
         else if (parent != null)
         {
-            parent.postRender(par1);
+            parent.postRender(f);
         }
 
-        postRender(par1);
+        postRender(f);
     }
 
     /**
@@ -365,6 +365,55 @@ public class MowzieModelRenderer extends ModelRenderer
         GL11.glPopMatrix();
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void postRender(float f)
+    {
+        if (!isHidden)
+        {
+            if (showModel)
+            {
+                if (!compiled)
+                {
+                    compileDisplayList(f);
+                }
+
+                GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
+                GL11.glTranslatef(offsetX, offsetY, offsetZ);
+                GL11.glTranslatef(-rotationPointX * f, -rotationPointY * f, -rotationPointZ * f);
+
+                if (rotateAngleX == 0.0F && rotateAngleY == 0.0F && rotateAngleZ == 0.0F)
+                {
+                    if (rotationPointX != 0.0F || rotationPointY != 0.0F || rotationPointZ != 0.0F)
+                    {
+                        GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
+                    }
+                }
+                else
+                {
+                    GL11.glTranslatef(rotationPointX * f, rotationPointY * f, rotationPointZ * f);
+
+                    if (rotateAngleZ != 0.0F)
+                    {
+                        GL11.glRotatef(rotateAngleZ * (180F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+                    }
+
+                    if (rotateAngleY != 0.0F)
+                    {
+                        GL11.glRotatef(rotateAngleY * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                    }
+
+                    if (rotateAngleX != 0.0F)
+                    {
+                        GL11.glRotatef(rotateAngleX * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+                    }
+                }
+
+                GL11.glScalef(1.0F / scaleX, 1.0F / scaleY, 1.0F / scaleZ);
+            }
+        }
+    }
+
     @SideOnly(Side.CLIENT)
     protected void compileDisplayList(float f)
     {
@@ -387,44 +436,44 @@ public class MowzieModelRenderer extends ModelRenderer
         float y = getParentRotY();
         float z = getParentRotZ();
 
-        this.rotateAngleX -= x;
-        this.rotateAngleY -= y;
-        this.rotateAngleZ -= z;
+        rotateAngleX -= x;
+        rotateAngleY -= y;
+        rotateAngleZ -= z;
 
-        this.render(partialTicks);
+        render(partialTicks);
 
-        this.rotateAngleX += x;
-        this.rotateAngleY += y;
-        this.rotateAngleZ += z;
+        rotateAngleX += x;
+        rotateAngleY += y;
+        rotateAngleZ += z;
     }
 
     public float getParentRotX()
     {
         if (getParent() instanceof MowzieModelRenderer)
         {
-            return ((MowzieModelRenderer) this.getParent()).getParentRotX() + this.rotateAngleX;
+            return ((MowzieModelRenderer) getParent()).getParentRotX() + rotateAngleX;
         }
 
-        return this.rotateAngleX;
+        return rotateAngleX;
     }
 
     public float getParentRotY()
     {
         if (getParent() instanceof MowzieModelRenderer)
         {
-            return ((MowzieModelRenderer) this.getParent()).getParentRotY() + this.rotateAngleY;
+            return ((MowzieModelRenderer) getParent()).getParentRotY() + rotateAngleY;
         }
 
-        return this.rotateAngleY;
+        return rotateAngleY;
     }
 
     public float getParentRotZ()
     {
         if (getParent() instanceof MowzieModelRenderer)
         {
-            return ((MowzieModelRenderer) this.getParent()).getParentRotZ() + this.rotateAngleZ;
+            return ((MowzieModelRenderer) getParent()).getParentRotZ() + rotateAngleZ;
         }
 
-        return this.rotateAngleZ;
+        return rotateAngleZ;
     }
 }

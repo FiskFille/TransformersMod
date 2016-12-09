@@ -17,11 +17,11 @@ public class ModelRendererBreakable extends MowzieModelRenderer
     private int textureOffsetX;
     private int textureOffsetY;
     private ModelBase baseModel;
-    
+
     public boolean breaking = false;
     public boolean renderBreaking = true;
     protected int[] displayLists = new int[2];
-    
+
     public ModelRendererBreakable(ModelBase modelBase, String name)
     {
         super(modelBase, name);
@@ -31,11 +31,10 @@ public class ModelRendererBreakable extends MowzieModelRenderer
     public ModelRendererBreakable(ModelBase modelBase, boolean render, int x, int y)
     {
         super(modelBase, x, y);
-        setTextureOffset(x, y);
         baseModel = modelBase;
         renderBreaking = render;
     }
-    
+
     public ModelRendererBreakable(ModelBase modelBase, int x, int y)
     {
         this(modelBase, true, x, y);
@@ -44,8 +43,9 @@ public class ModelRendererBreakable extends MowzieModelRenderer
     public ModelRendererBreakable(ModelBase modelBase)
     {
         super(modelBase);
+        baseModel = modelBase;
     }
-    
+
     @Override
     public ModelRenderer setTextureOffset(int x, int y)
     {
@@ -53,14 +53,14 @@ public class ModelRendererBreakable extends MowzieModelRenderer
         textureOffsetY = y;
         return super.setTextureOffset(x, y);
     }
-    
+
     @Override
     public ModelRenderer addBox(String name, float p_78786_2_, float p_78786_3_, float p_78786_4_, int p_78786_5_, int p_78786_6_, int p_78786_7_)
     {
         name = boxName + "." + name;
         TextureOffset offset = baseModel.getTextureOffset(name);
         setTextureOffset(offset.textureOffsetX, offset.textureOffsetY);
-        cubeList.add(new ModelBox(this, textureOffsetX, textureOffsetY, p_78786_2_, p_78786_3_, p_78786_4_, p_78786_5_, p_78786_6_, p_78786_7_, 0.0F).func_78244_a(name));
+        cubeList.add(new ModelBoxBreakable(this, textureOffsetX, textureOffsetY, p_78786_2_, p_78786_3_, p_78786_4_, p_78786_5_, p_78786_6_, p_78786_7_, 0.0F).func_78244_a(name));
         return this;
     }
 
@@ -76,22 +76,23 @@ public class ModelRendererBreakable extends MowzieModelRenderer
     {
         cubeList.add(new ModelBoxBreakable(this, textureOffsetX, textureOffsetY, p_78790_1_, p_78790_2_, p_78790_3_, p_78790_4_, p_78790_5_, p_78790_6_, p_78790_7_));
     }
-    
+
     @Override
+    @SideOnly(Side.CLIENT)
     public void render(float f)
     {
         displayList = displayLists[breaking ? 1 : 0];
         super.render(f);
     }
-    
-    @SideOnly(Side.CLIENT)
+
     @Override
+    @SideOnly(Side.CLIENT)
     protected void compileDisplayList(float f)
     {
         super.compileDisplayList(f);
         displayLists[0] = displayList;
         displayLists[1] = GLAllocation.generateDisplayLists(1);
-        
+
         boolean prevBreaking = breaking;
         breaking = true;
         GL11.glNewList(displayLists[1], GL11.GL_COMPILE);
@@ -107,7 +108,7 @@ public class ModelRendererBreakable extends MowzieModelRenderer
 
         breaking = prevBreaking;
         GL11.glEndList();
-        
+
         displayList = displayLists[breaking ? 1 : 0];
     }
 }

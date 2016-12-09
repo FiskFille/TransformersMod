@@ -110,10 +110,11 @@ public class TFRenderHelper
             Transformer transformer = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
             TransformerModel tfModel = TFModelRegistry.getModel(transformer);
 
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            
             if (TFArmorDyeHelper.isDyed(itemstack))
             {
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 float[] afloat = hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
 
                 GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
@@ -127,28 +128,19 @@ public class TFRenderHelper
 
                 GL11.glColor4f(1, 1, 1, 1);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
-                model.render(0.0625F);
-
-                if (hasLightsLayer)
-                {
-                    setLighting(61680);
-                    mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
-                    model.render(0.0625F);
-                    TFRenderHelper.resetLighting();
-                }
             }
-            else
+            
+            model.render(0.0625F);
+
+            if (hasLightsLayer)
             {
+                setLighting(61680);
+                mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                 model.render(0.0625F);
-
-                if (hasLightsLayer)
-                {
-                    setLighting(61680);
-                    mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
-                    model.render(0.0625F);
-                    TFRenderHelper.resetLighting();
-                }
+                TFRenderHelper.resetLighting();
             }
+            
+            GL11.glDisable(GL11.GL_BLEND);
         }
     }
 

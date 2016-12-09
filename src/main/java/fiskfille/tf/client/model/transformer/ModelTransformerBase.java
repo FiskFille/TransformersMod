@@ -1,11 +1,18 @@
 package fiskfille.tf.client.model.transformer;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.Lists;
+
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.AnimationModifier;
+import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
@@ -46,41 +53,115 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             ItemStack head = player.getCurrentArmor(3);
             ItemStack chest = player.getCurrentArmor(2);
             ItemStack legs = player.getCurrentArmor(1);
+            ItemStack feet = player.getCurrentArmor(0);
 
             boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) == getTransformer();
             boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) == getTransformer();
             boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) == getTransformer();
+            boolean wearingFeet = TFHelper.getTransformerFromArmor(player, 0) == getTransformer();
             boolean hasLightsLayer = getTransformerModel().hasLightsLayer();
 
-            getTransformerModel().getVehicleModel().setupRenderState();
+            TransformerModel tfModel = getTransformerModel();
             
             if (TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 0)
             {
                 if (layerToRender == 2)
                 {
-                    getTransformerModel().getVehicleModel().render(head, hasLightsLayer, false); // TODO: Create display vehicle instance with all pieces
+                    tfModel.getVehicleModel().setupRenderState();
+                    tfModel.getVehicleModel().render(head, hasLightsLayer, false); // TODO: Create display vehicle instance with all pieces
                 }
             }
             else
             {
                 if (!wearingChest)
                 {
-                    if (wearingHead)
+                    if (layerToRender == 1 && wearingHead)
                     {
-                        TFRenderHelper.setupRenderLayers(head, getHead(), hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(head, tfModel.getHead(), hasLightsLayer);
                     }
 
-                    if (wearingLegs)
+                    if (layerToRender == 3 && wearingLegs)
                     {
-                        TFRenderHelper.setupRenderLayers(legs, getRightLeg(), hasLightsLayer);
-                        TFRenderHelper.setupRenderLayers(legs, getLeftLeg(), hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(legs, tfModel.getLegs()[0], hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(legs, tfModel.getLegs()[1], hasLightsLayer);
                     }
                 }
-                else if (!TFArmorDyeHelper.areColorsIdentical(head, chest, legs))
+                else if (!TFArmorDyeHelper.areColorsIdentical(head, chest, legs, feet))
                 {
-                    if (layerToRender == 2)
+                    List<ModelRenderer> hidden = Lists.newArrayList();
+                    ItemStack itemstack = chest;
+                    
+                    if (layerToRender == 1)
                     {
-                        getWaist().render(0.0625F);
+                        if (!TFArmorDyeHelper.areColorsIdentical(chest, head))
+                        {
+                            getWaist().hideUntil(tfModel.getHead());
+                            hidden.addAll(Arrays.asList(tfModel.getLegs()));
+                            itemstack = head;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else if (layerToRender == 2)
+                    {
+                        if (!TFArmorDyeHelper.areColorsIdentical(chest, head))
+                        {
+                            hidden.add(tfModel.getHead());
+                        }
+                        
+                        if (!TFArmorDyeHelper.areColorsIdentical(chest, legs))
+                        {
+                            hidden.addAll(Arrays.asList(tfModel.getLegs()));
+                        }
+                        else if (!TFArmorDyeHelper.areColorsIdentical(chest, feet))
+                        {
+                            hidden.addAll(Arrays.asList(tfModel.getFeet()));
+                        }
+                    }
+                    else if (layerToRender == 3)
+                    {
+                        if (!TFArmorDyeHelper.areColorsIdentical(chest, legs))
+                        {
+                            getWaist().hideUntil(tfModel.getLegs());
+                            hidden.add(tfModel.getHead());
+                            itemstack = legs;
+                            
+                            if (!TFArmorDyeHelper.areColorsIdentical(legs, feet) && wearingFeet)
+                            {
+                                hidden.addAll(Arrays.asList(tfModel.getFeet()));
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (!TFArmorDyeHelper.areColorsIdentical(legs, feet))
+                        {
+                            getWaist().hideUntil(tfModel.getFeet());
+                            hidden.add(tfModel.getHead());
+                            itemstack = feet;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    
+                    for (ModelRenderer model : hidden)
+                    {
+                        model.isHidden = true;
+                    }
+                    
+                    TFRenderHelper.setupRenderLayers(itemstack, getWaist(), hasLightsLayer);
+                    
+                    for (ModelRenderer model : hidden)
+                    {
+                        model.isHidden = false;
                     }
                 }
                 else
@@ -90,6 +171,8 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                         TFRenderHelper.setupRenderLayers(chest, getWaist(), hasLightsLayer);
                     }
                 }
+                
+                getWaist().hideUntil();
             }
         }
     }
@@ -194,22 +277,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
         return null;
     }
 
-    public ModelRenderer getWaist()
-    {
-        return null;
-    }
-
-    public ModelRenderer getRightLeg()
-    {
-        return null;
-    }
-
-    public ModelRenderer getLeftLeg()
-    {
-        return null;
-    }
-
-    public ModelRenderer getHead()
+    public ModelRendererTF getWaist()
     {
         return null;
     }

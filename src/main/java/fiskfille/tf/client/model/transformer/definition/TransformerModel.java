@@ -17,6 +17,10 @@ public abstract class TransformerModel
     public abstract ModelTransformerBase getMainModel();
 
     public abstract ModelVehicleBase getVehicleModel();
+    
+    public abstract ModelRenderer[] getFeet();
+    
+    public abstract ModelRenderer[] getLegs();
 
     public abstract ModelRenderer getLowerArm();
 

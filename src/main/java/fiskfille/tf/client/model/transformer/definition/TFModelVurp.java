@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class TFModelVurp extends TransformerModel
@@ -44,6 +45,18 @@ public class TFModelVurp extends TransformerModel
     public ModelTransformerBase getStealthModel()
     {
         return stealth;
+    }
+    
+    @Override
+    public ModelRenderer[] getFeet()
+    {
+        return new ModelRenderer[] {model.footbaseL, model.footbaseR};
+    }
+    
+    @Override
+    public ModelRenderer[] getLegs()
+    {
+        return new ModelRenderer[] {model.upperLegL, model.upperLegR};
     }
 
     @Override

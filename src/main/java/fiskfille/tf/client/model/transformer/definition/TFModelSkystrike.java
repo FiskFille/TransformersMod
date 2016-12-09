@@ -1,16 +1,18 @@
 package fiskfille.tf.client.model.transformer.definition;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelSkystrike;
-import fiskfille.tf.client.model.transformer.ModelTransformerBase;
-import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.transformer.ModelSkystrike;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
+import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 
 public class TFModelSkystrike extends TransformerModel
 {
@@ -35,6 +37,18 @@ public class TFModelSkystrike extends TransformerModel
     public ModelVehicleBase getVehicleModel()
     {
         return vehicle;
+    }
+    
+    @Override
+    public ModelRenderer[] getFeet()
+    {
+        return new ModelRenderer[] {model.feetbaseL1, model.feetbaseR1};
+    }
+    
+    @Override
+    public ModelRenderer[] getLegs()
+    {
+        return new ModelRenderer[] {model.upperlegL1, model.upperlegR1};
     }
 
     @Override

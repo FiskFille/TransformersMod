@@ -107,8 +107,22 @@ public class TFArmorDyeHelper
         nbttagcompound1.setInteger("SecondaryColor", i);
     }
 
-    public static boolean areColorsIdentical(ItemStack head, ItemStack chest, ItemStack legs)
+    public static boolean areColorsIdentical(ItemStack... itemstacks)
     {
-        return getPrimaryColor(head) == getPrimaryColor(chest) && getPrimaryColor(chest) == getPrimaryColor(legs) && getSecondaryColor(head) == getSecondaryColor(chest) && getSecondaryColor(chest) == getSecondaryColor(legs);
+        if (itemstacks.length > 1)
+        {
+            int primary = getPrimaryColor(itemstacks[0]);
+            int secondary = getSecondaryColor(itemstacks[0]);
+            
+            for (ItemStack itemstack : itemstacks)
+            {
+                if (getPrimaryColor(itemstack) != primary || getSecondaryColor(itemstack) != secondary)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 }

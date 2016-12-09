@@ -1,16 +1,18 @@
 package fiskfille.tf.client.model.transformer.definition;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.transformer.ModelCloudtrap;
-import fiskfille.tf.client.model.transformer.ModelTransformerBase;
-import fiskfille.tf.client.model.transformer.vehicle.ModelCloudtrapVehicle;
-import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.transformer.ModelCloudtrap;
+import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.vehicle.ModelCloudtrapVehicle;
+import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 
 public class TFModelCloudtrap extends TransformerModel
 {
@@ -35,6 +37,18 @@ public class TFModelCloudtrap extends TransformerModel
     public ModelVehicleBase getVehicleModel()
     {
         return vehicle;
+    }
+    
+    @Override
+    public ModelRenderer[] getFeet()
+    {
+        return new ModelRenderer[] {model.feetbaseL, model.feetbaseR};
+    }
+    
+    @Override
+    public ModelRenderer[] getLegs()
+    {
+        return new ModelRenderer[] {model.upperLegL, model.upperLegR};
     }
 
     @Override
