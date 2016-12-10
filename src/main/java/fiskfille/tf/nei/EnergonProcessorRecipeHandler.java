@@ -44,6 +44,7 @@ import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTextureHelper;
 
 public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler implements IContainerDrawHandler
 {
@@ -270,7 +271,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
             	GL11.glTranslatef(74, 8, 0);
             	GL11.glScalef(3, 3, 3);
             	TFRenderHelper.startGlScissor(74 + x, 8 + y + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
-            	GuiDraw.gui.drawTexturedModelRectFromIcon(0, 0, TFRenderHelper.energonStillIcon, 16, 16);
+            	GuiDraw.gui.drawTexturedModelRectFromIcon(0, 0, TFTextureHelper.energonStillIcon, 16, 16);
             	TFRenderHelper.endGlScissor();
             	GL11.glColor4f(1, 1, 1, 1);
             	GL11.glPopMatrix();

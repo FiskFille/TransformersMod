@@ -1,6 +1,5 @@
 package fiskfille.tf.client.model.transformer.definition;
 
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.ModelPurge;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.vehicle.ModelPurgeVehicle;
@@ -38,41 +38,47 @@ public class TFModelPurge extends TransformerModel
     {
         return vehicle;
     }
-    
+
     @Override
-    public ModelRenderer[] getFeet()
+    public ModelRendererTF[] getFeet()
     {
-        return new ModelRenderer[] {model.feetbaseL1, model.feetbaseR1};
-    }
-    
-    @Override
-    public ModelRenderer[] getLegs()
-    {
-        return new ModelRenderer[] {model.upperLegL, model.upperLegR};
+        return new ModelRendererTF[] {model.feetbaseL1, model.feetbaseR1};
     }
 
     @Override
-    public ModelRenderer getLowerArm()
+    public ModelRendererTF[] getLegs()
+    {
+        return new ModelRendererTF[] {model.upperLegL, model.upperLegR};
+    }
+
+    @Override
+    public ModelRendererTF getLowerArm()
     {
         return model.lowerArmR;
     }
 
     @Override
-    public ModelRenderer getUpperArm()
+    public ModelRendererTF getUpperArm()
     {
         return model.upperArmR;
     }
 
     @Override
-    public ModelRenderer getBody()
+    public ModelRendererTF getBody()
     {
         return model.chestplate1;
     }
 
     @Override
-    public ModelRenderer getHead()
+    public ModelRendererTF getHead()
     {
         return model.headbase;
+    }
+
+    @Override
+    public float getFootHeight()
+    {
+        return 2;
     }
 
     @Override

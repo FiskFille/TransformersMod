@@ -1126,10 +1126,6 @@ public class ModelPurge extends ModelTransformerBase
 		headbase.rotationPointY += offsets.headOffsetY;
 		headbase.rotationPointZ += offsets.headOffsetZ;
 
-		headbase.showModel = wearingHead;
-		upperLegR.showModel = wearingLegs;
-		upperLegL.showModel = wearingLegs;
-
 		if (wearingChest && !wearingHead)
 		{
 			offsets.headOffsetY = 0.8F;
@@ -1141,7 +1137,7 @@ public class ModelPurge extends ModelTransformerBase
 
 			if (!wearingChest)
 			{
-				headbase.rotationPointY += 1;
+				headbase.rotationPointY += 0.5;
 				headbase.rotationPointZ -= 0.5;
 
 				if (TFHelper.getTransformerFromArmor(player, 2) instanceof TransformerSkystrike)
@@ -1149,12 +1145,6 @@ public class ModelPurge extends ModelTransformerBase
 					headbase.rotationPointY -= 1.5;
 				}
 			}
-		}
-
-		if (wearingLegs && !wearingChest)
-		{
-			upperLegR.rotationPointY += 10;
-			upperLegL.rotationPointY += 10;
 		}
 	}
 
@@ -1326,14 +1316,11 @@ public class ModelPurge extends ModelTransformerBase
 	@Override
 	public void doPartialAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
 	{
-		upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-		upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+		upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
-		lowerArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 4;
-		lowerArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 4;
-
-		upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-		upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+		upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
 		if (isSneak)
 		{
@@ -1342,19 +1329,12 @@ public class ModelPurge extends ModelTransformerBase
 			waist.rotationPointY -= 2F;
 			upperArmR.rotateAngleX -= 0.1F;
 			upperArmL.rotateAngleX -= 0.1F;
-
+			upperLegR.rotateAngleX -= 0.4F;
+            upperLegL.rotateAngleX -= 0.4F;
+            
 			if (wearingChest)
 			{
-				headbase.rotateAngleX -= 0.4F;
-				upperLegR.rotateAngleX -= 0.4F;
-				upperLegL.rotateAngleX -= 0.4F;
-			}
-			else
-			{
-				upperLegL.rotationPointZ += 5F;
-				upperLegL.rotationPointY -= 0.8F;
-				upperLegR.rotationPointZ += 5F;
-				upperLegR.rotationPointY -= 0.8F;
+				headbase.rotateAngleX -= 0.4F;	
 			}
 		}
 	}

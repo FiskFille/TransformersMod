@@ -1,35 +1,11 @@
 package fiskfille.tf.client.event;
 
-import com.google.common.collect.Lists;
-import com.mojang.authlib.GameProfile;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.client.gui.GuiOverlay;
-import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
-import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.client.render.entity.CustomEntityRenderer;
-import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.event.PlayerTransformEvent;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.proxy.ClientProxy;
-import fiskfille.tf.common.transformer.base.Transformer;
-import fiskfille.tf.helper.ModelOffset;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFModelHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -54,6 +30,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
@@ -65,14 +42,45 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
+
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.Displayable;
+import fiskfille.tf.client.gui.GuiOverlay;
+import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.player.ModelBipedPartial;
+import fiskfille.tf.client.model.tools.ModelBoxPartial;
+import fiskfille.tf.client.model.tools.ModelRendererPartial;
+import fiskfille.tf.client.model.tools.ModelRendererTF;
+import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.client.render.entity.CustomEntityRenderer;
+import fiskfille.tf.client.render.entity.player.RenderCustomPlayer;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.proxy.ClientProxy;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFModelHelper;
+import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTextureHelper;
 
 public class ClientEventHandler
 {
@@ -165,8 +173,8 @@ public class ClientEventHandler
     {
         if (event.map.getTextureType() == 0)
         {
-            TFRenderHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
-            TFRenderHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
+            TFTextureHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
+            TFTextureHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
         }
     }
 
@@ -185,7 +193,6 @@ public class ClientEventHandler
             if (TFHelper.getTransformerFromArmor(player, 2) != null)
             {
                 event.setCanceled(true);
-
                 ModelBiped modelBipedMain = TFModelHelper.modelBipedMain;
 
                 if (modelBipedMain != null)
@@ -502,7 +509,68 @@ public class ClientEventHandler
 
                         GL11.glPopMatrix();
                     }
+                    
                     net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Post(player, event.renderer, event.partialRenderTick));
+                }
+            }
+            
+            if (TFHelper.getTransformerFromArmor(player, 0) == null && TFHelper.getTransformerFromArmor(player, 1) != null || TFHelper.getTransformerFromArmor(player, 1) == null && TFHelper.getTransformerFromArmor(player, 0) != null)
+            {
+                ModelBipedPartial model = TFModelHelper.modelBipedPartial;
+                ModelRenderer[] bipedLegs = {model.bipedLeftLeg, model.bipedRightLeg};
+                ModelRenderer[] bipedLegs2 = {event.renderer.modelBipedMain.bipedLeftLeg, event.renderer.modelBipedMain.bipedRightLeg};
+                
+                if (TFHelper.getTransformerFromArmor(player, 1) != null)
+                {
+                    TransformerModel tfModel = TFModelRegistry.getModel(TFHelper.getTransformerFromArmor(player, 1));
+
+                    if (tfModel != null)
+                    {
+                        Minecraft.getMinecraft().getTextureManager().bindTexture(TFTextureHelper.getSkin(player.getCommandSenderName()));
+
+                        for (int i = 0; i < bipedLegs.length; ++i)
+                        {
+                            ModelRendererPartial modelRenderer = (ModelRendererPartial) bipedLegs[i];
+                            ModelBoxPartial modelBox = modelRenderer.getBox();
+                            AxisAlignedBB aabb = modelBox.getBounds();
+
+                            aabb.maxY = 12;
+                            aabb.minY = aabb.maxY - tfModel.getFootHeight();
+                            modelBox.setBounds(aabb);
+                            
+                            GL11.glPushMatrix();
+                            modelRenderer.setRotationPoint(bipedLegs2[i].rotationPointX, bipedLegs2[i].rotationPointY, bipedLegs2[i].rotationPointZ);
+                            modelRenderer.setRotationAngles(bipedLegs2[i].rotateAngleX, bipedLegs2[i].rotateAngleY, bipedLegs2[i].rotateAngleZ);
+                            modelRenderer.render(0.0625F);
+                            GL11.glPopMatrix();
+                        }
+                    }
+                }
+                else if (TFHelper.getTransformerFromArmor(player, 0) != null)
+                {
+                    TransformerModel tfModel = TFModelRegistry.getModel(TFHelper.getTransformerFromArmor(player, 0));
+
+                    if (tfModel != null)
+                    {
+                        Minecraft.getMinecraft().getTextureManager().bindTexture(TFTextureHelper.getSkin(player.getCommandSenderName()));
+
+                        for (int i = 0; i < bipedLegs.length; ++i)
+                        {
+                            ModelRendererPartial modelRenderer = (ModelRendererPartial) bipedLegs[i];
+                            ModelBoxPartial modelBox = modelRenderer.getBox();
+                            AxisAlignedBB aabb = modelBox.getBounds();
+
+                            aabb.minY = 0;
+                            aabb.maxY = 12 - tfModel.getFootHeight();
+                            modelBox.setBounds(aabb);
+                            
+                            GL11.glPushMatrix();
+                            modelRenderer.setRotationPoint(bipedLegs2[i].rotationPointX, bipedLegs2[i].rotationPointY, bipedLegs2[i].rotationPointZ);
+                            modelRenderer.setRotationAngles(bipedLegs2[i].rotateAngleX, bipedLegs2[i].rotateAngleY, bipedLegs2[i].rotateAngleZ);
+                            modelRenderer.render(0.0625F);
+                            GL11.glPopMatrix();
+                        }
+                    }
                 }
             }
         }
@@ -569,7 +637,7 @@ public class ClientEventHandler
     {
         Render entityRenderObject = RenderManager.instance.getEntityRenderObject(event.entityPlayer);
 
-        ModelBiped modelBipedMain = event.renderer.modelBipedMain;
+        ModelBiped biped = event.renderer.modelBipedMain;
 
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
@@ -578,34 +646,55 @@ public class ClientEventHandler
 
         if (isClientPlayer)
         {
-            TFModelHelper.modelBipedMain = modelBipedMain;
+            TFModelHelper.modelBipedMain = biped;
         }
 
         boolean customRenderer = entityRenderObject instanceof RenderCustomPlayer;
 
-        if (modelBipedMain != null)
+        if (biped != null)
         {
-            ItemStack helm = player.getCurrentArmor(3);
-            boolean wearingTransformerHelm = helm != null && helm.getItem() instanceof ItemTransformerArmor;
-            ItemStack chest = player.getCurrentArmor(2);
-            boolean wearingTransformerChest = chest != null && chest.getItem() instanceof ItemTransformerArmor;
-            ItemStack pants = player.getCurrentArmor(1);
-            boolean wearingTransformerPants = pants != null && pants.getItem() instanceof ItemTransformerArmor;
+            boolean wearingHead = TFHelper.getTransformerFromArmor(player, 3) != null;
+            boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) != null;
+            boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) != null;
+            boolean wearingFeet = TFHelper.getTransformerFromArmor(player, 0) != null;
 
-            modelBipedMain.bipedHead.showModel = !wearingTransformerHelm;
-            modelBipedMain.bipedHeadwear.showModel = !wearingTransformerHelm;
-            modelBipedMain.bipedEars.showModel = !wearingTransformerHelm;
+            biped.bipedHead.showModel = !wearingHead;
+            biped.bipedHeadwear.showModel = !wearingHead;
+            biped.bipedEars.showModel = !wearingHead;
 
-            modelBipedMain.bipedBody.showModel = !wearingTransformerChest;
-            modelBipedMain.bipedRightArm.showModel = !wearingTransformerChest;
-            modelBipedMain.bipedLeftArm.showModel = !wearingTransformerChest;
+            biped.bipedBody.showModel = !wearingChest;
+            biped.bipedRightArm.showModel = !wearingChest;
+            biped.bipedLeftArm.showModel = !wearingChest;
 
-            modelBipedMain.bipedLeftLeg.showModel = !wearingTransformerPants;
-            modelBipedMain.bipedRightLeg.showModel = !wearingTransformerPants;
+            biped.bipedLeftLeg.showModel = !wearingLegs && !wearingFeet;
+            biped.bipedRightLeg.showModel = !wearingLegs && !wearingFeet;
 
+            for (int i = 0; i < 4; ++i)
+            {
+                if (TFHelper.getTransformerFromArmor(player, i) != null)
+                {
+                    TransformerModel tfModel = TFModelRegistry.getModel(TFHelper.getTransformerFromArmor(player, i));
+                    
+                    if (tfModel != null)
+                    {
+                        tfModel.getHead().showModel = !biped.bipedHead.showModel;
+                        
+                        for (ModelRendererTF modelRenderer : tfModel.getLegs())
+                        {
+                            modelRenderer.showModel = !biped.bipedLeftLeg.showModel;
+                        }
+                        
+                        for (ModelRendererTF modelRenderer : tfModel.getFeet())
+                        {
+                            modelRenderer.showModel = wearingFeet;
+                        }
+                    }
+                }
+            }
+            
             if (!customRenderer && isClientPlayer)
             {
-                if (wearingTransformerHelm || wearingTransformerChest || wearingTransformerPants || player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.vurpsSniper)
+                if (wearingHead || wearingChest || wearingLegs)
                 {
                     prevRenderPlayer = (RenderPlayer) entityRenderObject;
                     RenderManager.instance.entityRenderMap.put(player.getClass(), ClientProxy.renderCustomPlayer);

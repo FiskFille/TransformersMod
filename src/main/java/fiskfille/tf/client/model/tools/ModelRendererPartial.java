@@ -1,16 +1,8 @@
 package fiskfille.tf.client.model.tools;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.TextureOffset;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.Tessellator;
-
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModelRendererPartial extends MowzieModelRenderer
 {
@@ -65,5 +57,10 @@ public class ModelRendererPartial extends MowzieModelRenderer
     public void addBox(float p_78790_1_, float p_78790_2_, float p_78790_3_, int p_78790_4_, int p_78790_5_, int p_78790_6_, float p_78790_7_)
     {
         cubeList.add(new ModelBoxPartial(this, textureOffsetX, textureOffsetY, p_78790_1_, p_78790_2_, p_78790_3_, p_78790_4_, p_78790_5_, p_78790_6_, p_78790_7_));
+    }
+    
+    public ModelBoxPartial getBox()
+    {
+        return (ModelBoxPartial) cubeList.get(0);
     }
 }

@@ -8,7 +8,7 @@ public class TFArmorDyeHelper
 {
     public static boolean isDyed(ItemStack itemstack)
     {
-        return getPrimaryColor(itemstack) != 0 || getSecondaryColor(itemstack) != 0;
+        return itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("CustomColor");
     }
 
     public static void removeColor(ItemStack itemstack)
@@ -116,7 +116,7 @@ public class TFArmorDyeHelper
             
             for (ItemStack itemstack : itemstacks)
             {
-                if (getPrimaryColor(itemstack) != primary || getSecondaryColor(itemstack) != secondary)
+                if (itemstack == null || getPrimaryColor(itemstack) != primary || getSecondaryColor(itemstack) != secondary)
                 {
                     return false;
                 }

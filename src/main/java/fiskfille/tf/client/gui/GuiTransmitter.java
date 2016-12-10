@@ -30,6 +30,7 @@ import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTextureHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiTransmitter extends GuiContainer
@@ -136,7 +137,7 @@ public class GuiTransmitter extends GuiContainer
         	GL11.glTranslatef(k + 80, l + 19, 0);
         	GL11.glScalef(3.0F, 3.0F, 3.0F);
         	TFRenderHelper.startGlScissor(k + 80, l + 19 + MathHelper.floor_float(48 * (1 - f)), 16, MathHelper.ceiling_float_int(48 * f));
-        	drawTexturedModelRectFromIcon(0, 0, TFRenderHelper.energonStillIcon, 16, 16);
+        	drawTexturedModelRectFromIcon(0, 0, TFTextureHelper.energonStillIcon, 16, 16);
         	TFRenderHelper.endGlScissor();
         	GL11.glColor4f(1, 1, 1, 1);
         	GL11.glPopMatrix();

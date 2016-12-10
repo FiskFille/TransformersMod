@@ -16,6 +16,7 @@ import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTextureHelper;
 
 public class FluidEnergon extends Fluid
 {
@@ -27,13 +28,13 @@ public class FluidEnergon extends Fluid
 	@Override
 	public IIcon getStillIcon()
 	{
-		return TFRenderHelper.energonStillIcon;
+		return TFTextureHelper.energonStillIcon;
 	}
 	
 	@Override
 	public IIcon getFlowingIcon()
 	{
-		return TFRenderHelper.energonFlowingIcon;
+		return TFTextureHelper.energonFlowingIcon;
 	}
 	
 	@Override

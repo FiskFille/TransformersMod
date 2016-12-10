@@ -1180,9 +1180,9 @@ public class ModelSkystrike extends ModelTransformerBase
         headbase.rotationPointY += offsets.headOffsetY;
         headbase.rotationPointZ += offsets.headOffsetZ;
 
-        headbase.showModel = wearingHead;
-        upperlegR1.showModel = wearingLegs;
-        upperlegL1.showModel = wearingLegs;
+//        headbase.showModel = wearingHead;
+//        upperlegR1.showModel = wearingLegs;
+//        upperlegL1.showModel = wearingLegs;
 
         if (wearingChest && !wearingHead)
         {
@@ -1207,11 +1207,11 @@ public class ModelSkystrike extends ModelTransformerBase
             }
         }
 
-        if (wearingLegs && !wearingChest)
-        {
-            upperlegR1.rotationPointY += 10;
-            upperlegL1.rotationPointY += 10;
-        }
+//        if (wearingLegs && !wearingChest && layerToRender == 3)
+//        {
+//            upperlegR1.rotationPointY += 10;
+//            upperlegL1.rotationPointY += 10;
+//        }
     }
 
     @Override
@@ -1364,15 +1364,14 @@ public class ModelSkystrike extends ModelTransformerBase
     @Override
     public void doPartialAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
     {
-        upperarmL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-        upperarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+        upperarmL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        upperarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
-        lowerarmL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 4;
-        lowerarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 4;
-
-        upperlegR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-        upperlegL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
-
+        upperlegL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        upperlegR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        upperlegL1.rotationPointX -= 0.5F;
+        upperlegR1.rotationPointX += 0.5F;
+        
         if (isSneak)
         {
             waistbase.rotateAngleX += 0.4F;
@@ -1381,18 +1380,12 @@ public class ModelSkystrike extends ModelTransformerBase
             upperarmR1.rotateAngleX -= 0.1F;
             upperarmL1.rotateAngleX -= 0.1F;
 
+            upperlegR1.rotateAngleX -= 0.4F;
+            upperlegL1.rotateAngleX -= 0.4F;
+            
             if (wearingChest)
             {
                 headbase.rotateAngleX -= 0.4F;
-                upperlegR1.rotateAngleX -= 0.4F;
-                upperlegL1.rotateAngleX -= 0.4F;
-            }
-            else
-            {
-                upperlegL1.rotationPointZ += 5F;
-                upperlegL1.rotationPointY -= 0.8F;
-                upperlegR1.rotationPointZ += 5F;
-                upperlegR1.rotationPointY -= 0.8F;
             }
         }
     }

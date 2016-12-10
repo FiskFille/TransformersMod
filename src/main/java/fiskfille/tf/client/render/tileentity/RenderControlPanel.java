@@ -55,7 +55,8 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
                     GL11.glPushMatrix();
                     GL11.glDisable(GL11.GL_LIGHTING);
                     GL11.glRotatef(-90, 0, 1, 0);
-                    GL11.glTranslatef(-0.497F, 0.8765F, -0.2825F - i * 0.2175F);
+                    GL11.glScalef(2, 2, 2);
+                    GL11.glTranslatef(-0.497F / 2, 0.8765F / 2, (-0.2825F - i * 0.2175F) / 2);
 
                     float scale = 0.155F;
                     GL11.glScalef(-scale, -scale, scale);

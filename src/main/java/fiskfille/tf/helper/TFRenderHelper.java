@@ -17,7 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
@@ -43,9 +42,6 @@ public class TFRenderHelper
     private static float lastBrightnessX;
     private static float lastBrightnessY;
     private static final Map<EntityPlayer, Double> previousMotionY = new WeakHashMap<EntityPlayer, Double>();
-
-    public static IIcon energonFlowingIcon;
-    public static IIcon energonStillIcon;
 
     public static void setLighting(int lighting)
     {
@@ -112,7 +108,7 @@ public class TFRenderHelper
 
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            
+
             if (TFArmorDyeHelper.isDyed(itemstack))
             {
                 float[] afloat = hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
@@ -129,7 +125,7 @@ public class TFRenderHelper
                 GL11.glColor4f(1, 1, 1, 1);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
             }
-            
+
             model.render(0.0625F);
 
             if (hasLightsLayer)
@@ -139,7 +135,7 @@ public class TFRenderHelper
                 model.render(0.0625F);
                 TFRenderHelper.resetLighting();
             }
-            
+
             GL11.glDisable(GL11.GL_BLEND);
         }
     }
@@ -363,11 +359,11 @@ public class TFRenderHelper
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
     }
-    
+
     public static int getBlockDestroyProgress(World world, int x, int y, int z)
     {
         Map damagedBlocks = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "damagedBlocks", "field_72738_E", "O");
-        
+
         if (!damagedBlocks.isEmpty())
         {
             Iterator iterator = damagedBlocks.values().iterator();
@@ -375,17 +371,17 @@ public class TFRenderHelper
             while (iterator.hasNext())
             {
                 DestroyBlockProgress progress = (DestroyBlockProgress) iterator.next();
-                
+
                 int metadata = world.getBlockMetadata(progress.getPartialBlockX(), progress.getPartialBlockY(), progress.getPartialBlockZ());
                 int[] offsets = TFHelper.getTileBaseOffsets(world.getTileEntity(x, y, z), metadata);
-                
+
                 if (x == progress.getPartialBlockX() + offsets[0] && y == progress.getPartialBlockY() + offsets[1] && z == progress.getPartialBlockZ() + offsets[2])
                 {
                     return progress.getPartialBlockDamage();
                 }
             }
         }
-        
+
         return -1;
     }
 }

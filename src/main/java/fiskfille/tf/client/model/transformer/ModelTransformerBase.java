@@ -68,7 +68,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 if (layerToRender == 2)
                 {
                     tfModel.getVehicleModel().setupRenderState();
-                    tfModel.getVehicleModel().render(head, hasLightsLayer, false); // TODO: Create display vehicle instance with all pieces
+                    tfModel.getVehicleModel().render(chest, hasLightsLayer, false); // TODO: Create display vehicle instance with all pieces
                 }
             }
             else
@@ -82,8 +82,32 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
                     if (layerToRender == 3 && wearingLegs)
                     {
-                        TFRenderHelper.setupRenderLayers(legs, tfModel.getLegs()[0], hasLightsLayer);
-                        TFRenderHelper.setupRenderLayers(legs, tfModel.getLegs()[1], hasLightsLayer);
+                        List<ModelRenderer> hidden = Lists.newArrayList();
+                        hidden.add(tfModel.getHead());
+                        hidden.addAll(Arrays.asList(tfModel.getFeet()));
+                        
+                        getWaist().hideUntil(tfModel.getLegs());
+                        
+                        for (ModelRenderer model : hidden)
+                        {
+                            model.isHidden = true;
+                        }
+                        
+                        TFRenderHelper.setupRenderLayers(legs, getWaist(), hasLightsLayer);
+                        
+                        for (ModelRenderer model : hidden)
+                        {
+                            model.isHidden = false;
+                        }
+                    }
+                    
+                    if (layerToRender == 4 && wearingFeet)
+                    {
+                        getWaist().hideUntil(tfModel.getFeet());
+                        
+                        tfModel.getHead().isHidden = true;
+                        TFRenderHelper.setupRenderLayers(feet, getWaist(), hasLightsLayer);
+                        tfModel.getHead().isHidden = false;
                     }
                 }
                 else if (!TFArmorDyeHelper.areColorsIdentical(head, chest, legs, feet))
@@ -128,7 +152,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                             hidden.add(tfModel.getHead());
                             itemstack = legs;
                             
-                            if (!TFArmorDyeHelper.areColorsIdentical(legs, feet) && wearingFeet)
+                            if (!TFArmorDyeHelper.areColorsIdentical(legs, feet))
                             {
                                 hidden.addAll(Arrays.asList(tfModel.getFeet()));
                             }
@@ -158,6 +182,35 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                     }
                     
                     TFRenderHelper.setupRenderLayers(itemstack, getWaist(), hasLightsLayer);
+                    
+//                    if (!hidden.containsAll(Arrays.asList(tfModel.getLegs())))
+//                    {
+//                        if (wearingLegs && feet == null)
+//                        {
+//                            ModelBipedPartial model = TFModelHelper.modelBipedPartial;
+//                            ModelRenderer[] bipedLegs = {model.bipedLeftLeg, model.bipedRightLeg};
+//                            
+//                            Minecraft.getMinecraft().getTextureManager().bindTexture(TFTextureHelper.getSkin(player.getCommandSenderName()));
+//                            
+//                            for (int i = 0; i < bipedLegs.length; ++i)
+//                            {
+//                                ModelRendererPartial modelRenderer = (ModelRendererPartial) bipedLegs[i];
+//                                ModelBoxPartial modelBox = modelRenderer.getBox();
+//                                AxisAlignedBB aabb = modelBox.getBounds();
+//                                
+//                                aabb.maxY = 12;
+//                                aabb.minY = aabb.maxY - tfModel.getFootHeight();
+//                                modelBox.setBounds(aabb);
+//                                
+//                                GL11.glPushMatrix();
+//                                tfModel.getFeet()[i].postRenderParentChain(0.0625F);
+//                                
+//                                GL11.glTranslated(-modelRenderer.rotationPointX / 16 / 1.5F, -(modelRenderer.rotationPointY + 4.5F - tfModel.getFootHeight()) / 16, -modelRenderer.rotationPointZ / 16 / 2);
+//                                modelRenderer.render(0.0625F);
+//                                GL11.glPopMatrix();
+//                            }
+//                        }
+//                    }
                     
                     for (ModelRenderer model : hidden)
                     {
@@ -251,7 +304,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
 
             doActiveAnimations(player, t, f, limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, wearingHead, wearingChest, wearingLegs);
 
-            if (wearingChest && wearingHead && wearingLegs)
+            if (TFHelper.getTransformer(player) == getTransformer())
             {
                 if (onGround(player) || player.capabilities.isFlying)
                 {

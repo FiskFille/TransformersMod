@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.client.model.player.ModelBipedPartial;
 
 /**
  * @author gegy1000
@@ -18,6 +19,7 @@ public class TFModelHelper
      * The main client player's model.
      */
     public static ModelBiped modelBipedMain;
+    public static ModelBipedPartial modelBipedPartial = new ModelBipedPartial();
 
     private static Map<EntityPlayer, ModelOffset> offsets = new HashMap<EntityPlayer, ModelOffset>();
 

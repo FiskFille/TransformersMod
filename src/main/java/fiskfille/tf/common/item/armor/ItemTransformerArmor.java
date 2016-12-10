@@ -80,8 +80,8 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
                 armorModel.bipedBody.showModel = armorSlot == 1;
                 armorModel.bipedRightArm.showModel = armorSlot == 1;
                 armorModel.bipedLeftArm.showModel = armorSlot == 1;
-                armorModel.bipedRightLeg.showModel = armorSlot == 2;
-                armorModel.bipedLeftLeg.showModel = armorSlot == 2;
+                armorModel.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
+                armorModel.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
 
                 armorModel.isSneak = entityLiving.isSneaking();
                 armorModel.isRiding = entityLiving.isRiding();

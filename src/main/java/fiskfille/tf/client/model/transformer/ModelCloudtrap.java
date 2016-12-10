@@ -970,10 +970,6 @@ public class ModelCloudtrap extends ModelTransformerBase
         head.rotationPointY += offsets.headOffsetY;
         head.rotationPointZ += offsets.headOffsetZ;
 
-        head.showModel = wearingHead;
-        upperLegR.showModel = wearingLegs;
-        upperLegL.showModel = wearingLegs;
-
         if (wearingChest || wearingHead && !wearingLegs)
         {
             upperLegR.rotationPointY = 0;
@@ -987,9 +983,6 @@ public class ModelCloudtrap extends ModelTransformerBase
             head.rotationPointZ -= 1.5F;
             head.rotationPointY += 0.6F;
             head.rotationPointX -= 0.5F;
-
-            upperLegR.rotationPointY += 8.55F;
-            upperLegL.rotationPointY += 8.55F;
         }
 
         if (!wearingLegs && wearingChest)
@@ -1219,14 +1212,11 @@ public class ModelCloudtrap extends ModelTransformerBase
     @Override
     public void doPartialAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
     {
-        upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-        upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+        upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
-        lowerArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 4;
-        lowerArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 4;
-
-        upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-        upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+        upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
         if (isSneak)
         {
@@ -1235,19 +1225,12 @@ public class ModelCloudtrap extends ModelTransformerBase
             waist.rotationPointY -= 2F;
             upperArmR.rotateAngleX -= 0.1F;
             upperArmL.rotateAngleX -= 0.1F;
-
+            upperLegR.rotateAngleX -= 0.4F;
+            upperLegL.rotateAngleX -= 0.4F;
+            
             if (wearingChest)
             {
                 head.rotateAngleX -= 0.4F;
-                upperLegR.rotateAngleX -= 0.4F;
-                upperLegL.rotateAngleX -= 0.4F;
-            }
-            else
-            {
-                upperLegL.rotationPointZ += 5F;
-                upperLegL.rotationPointY -= 0.8F;
-                upperLegR.rotationPointZ += 5F;
-                upperLegR.rotationPointY -= 0.8F;
             }
         }
     }

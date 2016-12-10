@@ -12,13 +12,19 @@ public class ModelBoxPartial extends ModelBox
     private PositionTextureVertex[] vertexPositions;
     private TexturedQuadPartial[] quadList;
     
-    protected AxisAlignedBB bounds;
+    public float posX1;
+    public float posY1;
+    public float posZ1;
+    public float posX2;
+    public float posY2;
+    public float posZ2;
+    
     protected float width;
     protected float height;
     protected float depth;
     protected float scale;
-    protected int textureX;
-    protected int textureY;
+    protected float textureX;
+    protected float textureY;
     
     public ModelRendererPartial model;
     
@@ -28,41 +34,49 @@ public class ModelBoxPartial extends ModelBox
         model = modelRenderer;
         textureX = texX;
         textureY = texY;
-        width = w;
-        height = h;
-        depth = d;
         scale = mcScale;
+        
+        setBounds(AxisAlignedBB.getBoundingBox(x, y, z, x + w, y + h, z + d));
+    }
+    
+    public AxisAlignedBB getBounds()
+    {
+        return AxisAlignedBB.getBoundingBox(posX1, posY1, posZ1, posX2, posY2, posZ2);
     }
     
     public boolean setBounds(AxisAlignedBB aabb)
     {
-        boolean init = bounds == null;
-        
-        if (init || aabb.minX != bounds.minX || aabb.minY != bounds.minY || aabb.minZ != bounds.minZ || aabb.maxX != bounds.maxX || aabb.maxY != bounds.maxY || aabb.maxZ != bounds.maxZ)
+//        if (aabb.minX != posX1 || aabb.minY != posY1 || aabb.minZ != posZ1 || aabb.maxX != posX2 || aabb.maxY != posY2 || aabb.maxZ != posZ2)
         {
-            bounds = aabb;
             width = (float) (aabb.maxX - aabb.minX);
             height = (float) (aabb.maxY - aabb.minY);
             depth = (float) (aabb.maxZ - aabb.minZ);
+            posX1 = (float) aabb.minX;
+            posY1 = (float) aabb.minY;
+            posZ1 = (float) aabb.minZ;
+            posX2 = posX1 + width;
+            posY2 = posY1 + height;
+            posZ2 = posZ1 + depth;
+            model.compiled = false;
             
             calculateQuads();
             
             return true;
         }
         
-        return false;
+//        return false;
     }
     
     public void calculateQuads()
     {
         vertexPositions = new PositionTextureVertex[8];
         quadList = new TexturedQuadPartial[6];
-        float x1 = (float) bounds.minX;
-        float y1 = (float) bounds.minY;
-        float z1 = (float) bounds.minZ;
-        float x2 = x1 + width;
-        float y2 = y1 + height;
-        float z2 = z1 + depth;
+        float x1 = posX1;
+        float y1 = posY1;
+        float z1 = posZ1;
+        float x2 = posX2;
+        float y2 = posY2;
+        float z2 = posZ2;
         x1 -= scale;
         y1 -= scale;
         z1 -= scale;
@@ -77,28 +91,29 @@ public class ModelBoxPartial extends ModelBox
             x1 = prevX2;
         }
 
-        PositionTextureVertex positiontexturevertex7 = new PositionTextureVertex(x1, y1, z1, 0, 0);
-        PositionTextureVertex positiontexturevertex = new PositionTextureVertex(x2, y1, z1, 0, 8);
-        PositionTextureVertex positiontexturevertex1 = new PositionTextureVertex(x2, y2, z1, 8, 8);
-        PositionTextureVertex positiontexturevertex2 = new PositionTextureVertex(x1, y2, z1, 8, 0);
-        PositionTextureVertex positiontexturevertex3 = new PositionTextureVertex(x1, y1, z2, 0, 0);
-        PositionTextureVertex positiontexturevertex4 = new PositionTextureVertex(x2, y1, z2, 0, 8);
-        PositionTextureVertex positiontexturevertex5 = new PositionTextureVertex(x2, y2, z2, 8, 8);
-        PositionTextureVertex positiontexturevertex6 = new PositionTextureVertex(x1, y2, z2, 8, 0);
-        vertexPositions[0] = positiontexturevertex7;
-        vertexPositions[1] = positiontexturevertex;
-        vertexPositions[2] = positiontexturevertex1;
-        vertexPositions[3] = positiontexturevertex2;
-        vertexPositions[4] = positiontexturevertex3;
-        vertexPositions[5] = positiontexturevertex4;
-        vertexPositions[6] = positiontexturevertex5;
-        vertexPositions[7] = positiontexturevertex6;
-        quadList[0] = new TexturedQuadPartial(new PositionTextureVertex[] {positiontexturevertex4, positiontexturevertex, positiontexturevertex1, positiontexturevertex5}, textureX + depth + width, textureY + depth, textureX + depth + width + depth, textureY + depth + height, model.textureWidth, model.textureHeight);
-        quadList[1] = new TexturedQuadPartial(new PositionTextureVertex[] {positiontexturevertex7, positiontexturevertex3, positiontexturevertex6, positiontexturevertex2}, textureX, textureY + depth, textureX + depth, textureY + depth + height, model.textureWidth, model.textureHeight);
-        quadList[2] = new TexturedQuadPartial(new PositionTextureVertex[] {positiontexturevertex4, positiontexturevertex3, positiontexturevertex7, positiontexturevertex}, textureX + depth, textureY, textureX + depth + width, textureY + depth, model.textureWidth, model.textureHeight);
-        quadList[3] = new TexturedQuadPartial(new PositionTextureVertex[] {positiontexturevertex1, positiontexturevertex2, positiontexturevertex6, positiontexturevertex5}, textureX + depth + width, textureY + depth, textureX + depth + width + width, textureY, model.textureWidth, model.textureHeight);
-        quadList[4] = new TexturedQuadPartial(new PositionTextureVertex[] {positiontexturevertex, positiontexturevertex7, positiontexturevertex2, positiontexturevertex1}, textureX + depth, textureY + depth, textureX + depth + width, textureY + depth + height, model.textureWidth, model.textureHeight);
-        quadList[5] = new TexturedQuadPartial(new PositionTextureVertex[] {positiontexturevertex3, positiontexturevertex4, positiontexturevertex5, positiontexturevertex6}, textureX + depth + width + depth, textureY + depth, textureX + depth + width + depth + width, textureY + depth + height, model.textureWidth, model.textureHeight);
+        float offset = posY1 - super.posY1;
+        PositionTextureVertex vertex1 = new PositionTextureVertex(x1, y1, z1, 0, 0);
+        PositionTextureVertex vertex2 = new PositionTextureVertex(x2, y1, z1, 0, 8);
+        PositionTextureVertex vertex3 = new PositionTextureVertex(x2, y2, z1, 8, 8);
+        PositionTextureVertex vertex4 = new PositionTextureVertex(x1, y2, z1, 8, 0);
+        PositionTextureVertex vertex5 = new PositionTextureVertex(x1, y1, z2, 0, 0);
+        PositionTextureVertex vertex6 = new PositionTextureVertex(x2, y1, z2, 0, 8);
+        PositionTextureVertex vertex7 = new PositionTextureVertex(x2, y2, z2, 8, 8);
+        PositionTextureVertex vertex8 = new PositionTextureVertex(x1, y2, z2, 8, 0);
+        vertexPositions[0] = vertex1;
+        vertexPositions[1] = vertex2;
+        vertexPositions[2] = vertex3;
+        vertexPositions[3] = vertex4;
+        vertexPositions[4] = vertex5;
+        vertexPositions[5] = vertex6;
+        vertexPositions[6] = vertex7;
+        vertexPositions[7] = vertex8;
+        quadList[0] = new TexturedQuadPartial(new PositionTextureVertex[] {vertex6, vertex2, vertex3, vertex7}, textureX + depth + width, textureY + depth + offset, textureX + depth + width + depth, textureY + depth + offset + height, model.textureWidth, model.textureHeight);
+        quadList[1] = new TexturedQuadPartial(new PositionTextureVertex[] {vertex1, vertex5, vertex8, vertex4}, textureX, textureY + depth + offset, textureX + depth, textureY + depth + offset + height, model.textureWidth, model.textureHeight);
+        quadList[2] = new TexturedQuadPartial(new PositionTextureVertex[] {vertex6, vertex5, vertex1, vertex2}, textureX + depth, textureY, textureX + depth + width, textureY + depth, model.textureWidth, model.textureHeight);
+        quadList[3] = new TexturedQuadPartial(new PositionTextureVertex[] {vertex3, vertex4, vertex8, vertex7}, textureX + depth + width, textureY + depth, textureX + depth + width + width, textureY, model.textureWidth, model.textureHeight);
+        quadList[4] = new TexturedQuadPartial(new PositionTextureVertex[] {vertex2, vertex1, vertex4, vertex3}, textureX + depth, textureY + depth + offset, textureX + depth + width, textureY + depth + offset + height, model.textureWidth, model.textureHeight);
+        quadList[5] = new TexturedQuadPartial(new PositionTextureVertex[] {vertex5, vertex6, vertex7, vertex8}, textureX + depth + width + depth, textureY + depth + offset, textureX + depth + width + depth + width, textureY + depth + offset + height, model.textureWidth, model.textureHeight);
 
         if (model.mirror)
         {

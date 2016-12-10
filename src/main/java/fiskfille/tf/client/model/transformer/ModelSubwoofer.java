@@ -519,10 +519,6 @@ public class ModelSubwoofer extends ModelTransformerBase
 		head.rotationPointY += offsets.headOffsetY;
 		head.rotationPointZ += offsets.headOffsetZ;
 
-		head.showModel = wearingHead;
-		upperLegR.showModel = wearingLegs;
-		upperLegL.showModel = wearingLegs;
-
 		if (!wearingChest && wearingHead)
 		{
 			head.rotationPointY += 4;
@@ -538,14 +534,6 @@ public class ModelSubwoofer extends ModelTransformerBase
 		if (wearingHead)
 		{
 			faceTarget(head, 1, rotationYaw, rotationPitch);
-		}
-
-		if (!wearingChest && wearingLegs)
-		{
-			upperLegL.rotationPointY += 11;
-			upperLegR.rotationPointY += 11;
-			upperLegL.rotateAngleX += 0.2F;
-			upperLegR.rotateAngleX += 0.2F;
 		}
 	}
 
@@ -723,14 +711,11 @@ public class ModelSubwoofer extends ModelTransformerBase
 	public void doPartialAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
 	{
 		waist.rotationPointY += 1;
-		upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-		upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+		upperArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		upperArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
-		lowerArmL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 4;
-		lowerArmR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 4;
-
-		upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-		upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+		upperLegR.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		upperLegL.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
 		waist.rotationPointY -= 0.8F;
 
@@ -739,22 +724,14 @@ public class ModelSubwoofer extends ModelTransformerBase
 			waist.rotateAngleX += 0.4F;
 			waist.rotationPointZ += 4F;
 			waist.rotationPointY -= 1;
-
 			upperArmR.rotateAngleX -= 0.1F;
 			upperArmL.rotateAngleX -= 0.1F;
+			upperLegR.rotateAngleX -= 0.4F;
+            upperLegL.rotateAngleX -= 0.4F;
 
 			if (wearingChest)
 			{
 				head.rotateAngleX -= 0.4F;
-				upperLegR.rotateAngleX -= 0.4F;
-				upperLegL.rotateAngleX -= 0.4F;
-			}
-			else
-			{
-				upperLegL.rotationPointZ += 5F;
-				upperLegL.rotationPointY -= 0.8F;
-				upperLegR.rotationPointZ += 5F;
-				upperLegR.rotationPointY -= 0.8F;
 			}
 		}
 	}
