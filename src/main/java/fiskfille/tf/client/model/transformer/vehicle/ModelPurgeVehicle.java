@@ -1,6 +1,9 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.helper.TFRenderHelper;
 
@@ -764,13 +767,24 @@ public class ModelPurgeVehicle extends ModelVehicleBase
     }
 
     @Override
-    public void render(ItemStack itemstack, boolean hasLightsLayer, boolean displayVehicle)
+    public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
     {
-    	if (displayVehicle)
-    	{
-    		setToInitPose();
-    	}
-
     	TFRenderHelper.setupRenderLayers(itemstack, vehiclebase, hasLightsLayer);
+    }
+    
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
+    {
+        super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
+        setToInitPose();
+
+        if (entity instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) entity;
+            
+            vehicleturretbase_rotatehere.rotateAngleZ = -(rotationYaw + 180) / (180F / (float) Math.PI);
+            vehiclebarrelbase1_rotatehere.rotateAngleX = -MathHelper.clamp_float(rotationPitch, -60, 0) / (180F / (float) Math.PI);
+//            vehiclebase.rotateAngleY = -(float) Math.toRadians(TFRenderHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientEventHandler.renderTick)) * limbSwingAmount;
+        }
     }
 }

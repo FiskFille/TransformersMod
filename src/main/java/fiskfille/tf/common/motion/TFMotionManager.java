@@ -1,22 +1,37 @@
 package fiskfille.tf.common.motion;
 
+import static net.minecraft.block.material.Material.cactus;
+import static net.minecraft.block.material.Material.cake;
+import static net.minecraft.block.material.Material.clay;
+import static net.minecraft.block.material.Material.coral;
+import static net.minecraft.block.material.Material.craftedSnow;
+import static net.minecraft.block.material.Material.gourd;
+import static net.minecraft.block.material.Material.ground;
+import static net.minecraft.block.material.Material.ice;
+import static net.minecraft.block.material.Material.leaves;
+import static net.minecraft.block.material.Material.packedIce;
+import static net.minecraft.block.material.Material.plants;
+import static net.minecraft.block.material.Material.sand;
+import static net.minecraft.block.material.Material.snow;
+import static net.minecraft.block.material.Material.sponge;
+import static net.minecraft.block.material.Material.vine;
+import static net.minecraft.block.material.Material.web;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.player.ModelBipedTF;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import static net.minecraft.block.material.Material.*;
 
 /**
  * @author FiskFille
@@ -37,9 +52,8 @@ public class TFMotionManager
      * @param canDrift            If the vehicle can drift
      * @param canDriveOffroad     If the vehicle can drive off-road
      * @param canMoveSideways     If the vehicle can move to the left or to the right
-     * @param faceForward         If the vehicle should face forward or not. Used by tanks to make the head and body rotations different.
      */
-    public static void motion(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double sidewaysSpeedLimit, double reversingSpeedLimit, boolean canDrift, boolean canDriveOffroad, boolean canMoveSideways, boolean faceForward)
+    public static void motion(EntityPlayer player, double speedLimit, double nitroSpeedLimit, double sidewaysSpeedLimit, double reversingSpeedLimit, boolean canDrift, boolean canDriveOffroad, boolean canMoveSideways)
     {
         Minecraft mc = Minecraft.getMinecraft();
         Random rand = new Random();
@@ -194,11 +208,6 @@ public class TFMotionManager
             else
             {
                 TFMotionManager.moveWithVelocity(player, forwardVelocity, horizontalVelocity);
-
-                if (faceForward || forwardVelocity < 0)
-                {
-                    player.renderYawOffset = player.rotationYawHead; // Makes sure the vehicle always faces forward, even when reversing.
-                }
             }
 
             transformedPlayer.setForwardVelocity(forwardVelocity);

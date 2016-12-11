@@ -1,6 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
@@ -12,9 +11,6 @@ import fiskfille.tf.client.model.AnimationModifier.Predicate;
 import fiskfille.tf.client.model.AnimationModifier.Type;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
 import fiskfille.tf.helper.TFModelHelper;
@@ -1393,35 +1389,7 @@ public class ModelSkystrike extends ModelTransformerBase
     @Override
     public void doTransformationAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
     {
-        ModelBiped modelBiped = TFModelHelper.modelBipedMain;
         ModelSkystrikeVehicle vehicle = (ModelSkystrikeVehicle) getTransformerModel().getVehicleModel();
-
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-        if (modelBiped != null && transformedPlayer != null)
-        {
-            boolean transformed = TFDataManager.isTransformed(player);
-            int landingTimer = !transformed ? 20 : transformedPlayer.getLandingTimer();
-            float f1 = (float) landingTimer / 20;
-            float f2 = 1 - f1;
-
-            vehicle.waistbase.rotateAngleX = (rotationPitch / (180F / (float) Math.PI)) * f1;
-            vehicle.waistbase.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f1;
-
-            if (transformed)
-            {
-                vehicle.waistbase.setRotationPoint(0, 18 * f2, 0);
-            }
-            else
-            {
-                vehicle.waistbase.setRotationPoint(0, 18, 0);
-            }
-        }
-        else if (modelBiped != null)
-        {
-            vehicle.waistbase.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
-            vehicle.waistbase.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
-        }
 
         rotateTo(waistbase, vehicle.waistbase, f);
         rotateTo(upperlegL1, vehicle.upperlegL1, f);

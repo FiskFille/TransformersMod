@@ -1,18 +1,19 @@
 package fiskfille.tf.client.model.transformer.stealth;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import fiskfille.tf.TransformerManager;
+import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
-import fiskfille.tf.client.model.transformer.ModelTransformerBase;
+import fiskfille.tf.client.model.transformer.vehicle.ModelSubwooferVehicle;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.motion.VehicleMotion;
-import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFRenderHelper;
 
-public class ModelSubwooferStealth extends ModelTransformerBase
+public class ModelSubwooferStealth extends ModelSubwooferVehicle
 {
     public ModelRendererTF vehicleBase;
     public ModelRendererTF vehicleStomach;
@@ -67,7 +68,7 @@ public class ModelSubwooferStealth extends ModelTransformerBase
 
     public ModelSubwooferStealth()
     {
-        super(0, 0);
+        super();
         textureWidth = 128;
         textureHeight = 128;
         vehicleLowerArmL1 = new ModelRendererTF(this, 48, 94);
@@ -307,29 +308,25 @@ public class ModelSubwooferStealth extends ModelTransformerBase
         vehicleLowerArmRL1.addChild(vehicleBass3);
         vehicleChestMain1.addChild(vehicleShoulderBaseR);
         vehicleDish1.addChild(vehicleDish2);
+        
+        setInitPose();
     }
 
     @Override
-    public Transformer getTransformer()
+    public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
     {
-        return TransformerManager.SUBWOOFER;
+        TFRenderHelper.setupRenderLayers(itemstack, vehicleBase, hasLightsLayer);
     }
 
     @Override
-    public ModelRendererTF getWaist()
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
     {
-        return vehicleBase;
-    }
-
-    @Override
-    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
-    {
-        super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
+        super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
+        setToInitPose();
 
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
-
             float t = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
             float f = (5 - t) / 5.0F;
 
@@ -355,9 +352,11 @@ public class ModelSubwooferStealth extends ModelTransformerBase
 
             if (transformedPlayer != null)
             {
-                for (ModelRendererTF modelRenderer : new ModelRendererTF[]{vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2})
+                float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -limbSwing : limbSwing) * 0.8F;
+
+                for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleFrontWheel1, vehicleFrontWheel2, vehicleRearWheel1, vehicleRearWheel2})
                 {
-                    modelRenderer.rotateAngleX = (transformedPlayer.getForwardVelocity() < 0 ? -par1 : par1) * 0.8F;
+                    modelRenderer.rotateAngleX = wheelSpinSpeed;
                 }
 
                 float vel = (float) transformedPlayer.getHorizontalVelocity();
@@ -369,16 +368,8 @@ public class ModelSubwooferStealth extends ModelTransformerBase
                 vehicleFrontWheel2.rotateAngleY = -rot;
             }
 
-            vehicleBase.rotateAngleY = bipedBody.rotateAngleY;
-
-            if (player == Minecraft.getMinecraft().thePlayer)
-            {
-                vehicleBase.rotateAngleX = -(float) player.motionY - 0.0784000015258789F;
-            }
-            else
-            {
-                vehicleBase.rotateAngleX = -(float) (player.posY - player.prevPosY) * 1.5F;
-            }
+            vehicleBase.rotateAngleX = -(float) (TFRenderHelper.getMotionY(player) + (player == Minecraft.getMinecraft().thePlayer && player.onGround ? 0.0784000015258789 : 0));
+            vehicleBase.rotateAngleY = -(float) Math.toRadians(TFRenderHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientEventHandler.renderTick));
         }
     }
 }

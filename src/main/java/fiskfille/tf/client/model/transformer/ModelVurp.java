@@ -1,7 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -15,8 +13,6 @@ import fiskfille.tf.client.model.AnimationModifier.Type;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
 import fiskfille.tf.common.item.ItemVurpsSniper;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
@@ -845,44 +841,6 @@ public class ModelVurp extends ModelTransformerBase
 			shoulderpadL.setRotationPoint(2 + f1 * 1.5F, -3 + f1 * 2, 1 - f1 * 0.7F);
 			setRotateAngle(shoulderpadR, 0.20943951023931953F * f2, 0, 1.064650843716541F * f2);
 			setRotateAngle(shoulderpadL, -0.20943951023931953F * f2, 0, 1.064650843716541F * f2);
-		}
-
-		for (ModelRenderer modelRenderer : new ModelRenderer[]{vehicle.vehicleWheelR, vehicle.vehicleWheelL, vehicle.vehicleWheelBackR, vehicle.vehicleWheelBackL})
-		{
-			VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-			if (transformedPlayer != null)
-			{
-				float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -limbSwing : limbSwing) * 0.8F;
-				modelRenderer.rotateAngleX = wheelSpinSpeed;
-			}
-		}
-
-		if (t == 0)
-		{
-			float d = bipedHead.rotateAngleY - (bipedBody.rotateAngleY - bipedHead.rotateAngleY) / 3;
-			if (vehicle.vehicleBase.rotateAngleY < d)
-			{
-				vehicle.vehicleBase.rotateAngleY += 0.05F;
-			}
-			if (vehicle.vehicleBase.rotateAngleY > d)
-			{
-				vehicle.vehicleBase.rotateAngleY -= 0.05F;
-			}
-			vehicle.vehicleBase.rotateAngleY = d;
-
-			vehicle.vehicleBase.rotateAngleX = 1.65F;
-
-			if (player == Minecraft.getMinecraft().thePlayer)
-			{
-				vehicle.vehicleBase.rotateAngleX += -(float) player.motionY - 0.0784000015258789F;
-			}
-			else
-			{
-				vehicle.vehicleBase.rotateAngleX += -(float) (player.posY - player.prevPosY) * 1.5F;
-			}
-
-			vehicle.vehicleBase.rotateAngleX -= 0.1F;
 		}
 		
 		ItemStack heldItemStack = player.getHeldItem();

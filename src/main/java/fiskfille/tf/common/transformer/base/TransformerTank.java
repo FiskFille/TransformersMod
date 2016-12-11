@@ -1,5 +1,13 @@
 package fiskfille.tf.common.transformer.base;
 
+import java.util.Random;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.data.TFDataManager;
@@ -8,14 +16,6 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
-
-import java.util.Random;
 
 /**
  * @author gegy1000
@@ -54,7 +54,7 @@ public abstract class TransformerTank extends Transformer
     @Override
     public void updateMovement(EntityPlayer player, int altMode)
     {
-        TFMotionManager.motion(player, 20, 30, 0, 20, false, true, false, false);
+        TFMotionManager.motion(player, 20, 30, 0, 20, false, true, false);
     }
 
     @Override

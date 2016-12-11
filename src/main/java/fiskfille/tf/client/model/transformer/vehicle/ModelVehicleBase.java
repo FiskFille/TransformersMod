@@ -1,5 +1,6 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
@@ -36,15 +37,18 @@ public class ModelVehicleBase extends MowzieModelBase
         		flag1 = TFModelRegistry.getModel(transformer).hasLightsLayer();
         	}
         	
-            render(armorFromNBT[0], flag1, true);
+            render(null, armorFromNBT[0], flag1);
         }
     }
-    
-    public void setupRenderState()
-    {
-    }
 
-    public void render(ItemStack itemstack, boolean hasLightsLayer, boolean displayVehicle)
+    /**
+     * Renders the vehicle mode
+     * 
+     * @param player            The player for which this vehicle mode should be rendered, if any
+     * @param itemstack         The ItemStack containing the vehicle mode's data
+     * @param hasLightsLayer    If this vehicle mode has an additional render layer for glowy bits
+     */
+    public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
     {
     }
 }

@@ -1,7 +1,12 @@
 package fiskfille.tf.client.model.transformer.vehicle;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class ModelSkystrikeVehicle extends ModelVehicleBase
@@ -1089,20 +1094,55 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
 	}
 
 	@Override
-	public void setupRenderState()
+	public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
 	{
-		waistbase.offsetY = 0;
-	}
-
-	@Override
-	public void render(ItemStack itemstack, boolean hasLightsLayer, boolean displayVehicle)
-	{
-		if (displayVehicle)
+		if (player == null)
 		{
-			setToInitPose();
 			waistbase.offsetY = 1.1F;
+		}
+		else
+		{
+		    waistbase.offsetY = 0;
 		}
 
 		TFRenderHelper.setupRenderLayers(itemstack, waistbase, hasLightsLayer);
 	}
+	
+	@Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
+    {
+        super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
+        setToInitPose();
+
+        if (entity instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) entity;
+            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+
+            if (transformedPlayer != null)
+            {
+                boolean transformed = TFDataManager.isTransformed(player);
+                int landingTimer = !transformed ? 20 : transformedPlayer.getLandingTimer();
+                float f = (float) landingTimer / 20;
+                float f1 = 1 - f;
+
+                waistbase.rotateAngleX = (rotationPitch / (180F / (float) Math.PI)) * f;
+                waistbase.rotateAngleZ = -bipedHead.rotateAngleY * f;
+
+                if (transformed)
+                {
+                    waistbase.setRotationPoint(0, 18 * f1, 0);
+                }
+                else
+                {
+                    waistbase.setRotationPoint(0, 18, 0);
+                }
+            }
+            else
+            {
+                waistbase.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
+                waistbase.rotateAngleZ = -bipedHead.rotateAngleY;
+            }
+        }
+    }
 }

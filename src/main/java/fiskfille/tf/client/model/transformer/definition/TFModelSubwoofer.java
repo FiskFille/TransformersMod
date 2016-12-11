@@ -43,7 +43,7 @@ public class TFModelSubwoofer extends TransformerModel
     }
 
     @Override
-    public ModelTransformerBase getStealthModel()
+    public ModelVehicleBase getStealthModel()
     {
         return stealth;
     }

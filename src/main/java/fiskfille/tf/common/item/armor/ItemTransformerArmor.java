@@ -16,7 +16,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
-import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorHelper;
 
@@ -48,55 +47,35 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemstack, int armorSlot)
+    public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemstack, int armorSlot)
     {
-        ModelBiped armorModel = null;
+        ModelTransformerBase model = getTransformer().getModel().getMainModel();
 
-        if (itemstack != null)
+        if (itemstack != null && model != null)
         {
-            armorModel = getTransformer().getModel().getMainModel();
+            model.layerToRender = armorSlot + 1;
+            
+            model.bipedHead.showModel = armorSlot == 0;
+            model.bipedHeadwear.showModel = armorSlot == 0;
+            model.bipedBody.showModel = armorSlot == 1;
+            model.bipedRightArm.showModel = armorSlot == 1;
+            model.bipedLeftArm.showModel = armorSlot == 1;
+            model.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
+            model.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
 
-            if (entityLiving instanceof EntityPlayer)
+            model.isSneak = entity.isSneaking();
+            model.isRiding = entity.isRiding();
+            model.isChild = entity.isChild();
+            model.heldItemRight = entity.getEquipmentInSlot(0) != null ? 1 : 0;
+
+            if (entity instanceof EntityPlayer)
             {
-                EntityPlayer player = (EntityPlayer) entityLiving;
-                ModelBiped model = getTransformer().getModel().getStealthModel();
-
-                if (TFDataManager.getStealthModeTimer(player) != 5 && model != null && TFDataManager.isTransformed(player))
-                {
-                    armorModel = model;
-                }
+                ItemStack heldItem = entity.getHeldItem();
+                model.aimedBow = ((EntityPlayer) entity).getItemInUseDuration() > 0 && heldItem != null && heldItem.getItemUseAction() == EnumAction.bow;
+                model.heldItemRight = ((EntityPlayer) entity).getItemInUseDuration() > 0 && heldItem != null && heldItem.getItemUseAction() == EnumAction.block ? 3 : entity.getEquipmentInSlot(0) != null ? 1 : 0;
             }
 
-            if (armorModel != null)
-            {
-                if (armorModel instanceof ModelTransformerBase)
-                {
-                    ModelTransformerBase model = (ModelTransformerBase) armorModel;
-                    model.layerToRender = armorSlot + 1;
-                }
-
-                armorModel.bipedHead.showModel = armorSlot == 0;
-                armorModel.bipedHeadwear.showModel = armorSlot == 0;
-                armorModel.bipedBody.showModel = armorSlot == 1;
-                armorModel.bipedRightArm.showModel = armorSlot == 1;
-                armorModel.bipedLeftArm.showModel = armorSlot == 1;
-                armorModel.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
-                armorModel.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
-
-                armorModel.isSneak = entityLiving.isSneaking();
-                armorModel.isRiding = entityLiving.isRiding();
-                armorModel.isChild = entityLiving.isChild();
-                armorModel.heldItemRight = entityLiving.getEquipmentInSlot(0) != null ? 1 : 0;
-
-                if (entityLiving instanceof EntityPlayer)
-                {
-                    ItemStack heldItem = entityLiving.getHeldItem();
-                    armorModel.aimedBow = ((EntityPlayer) entityLiving).getItemInUseDuration() > 0 && heldItem != null && heldItem.getItemUseAction() == EnumAction.bow;
-                    armorModel.heldItemRight = ((EntityPlayer) entityLiving).getItemInUseDuration() > 0 && heldItem != null && heldItem.getItemUseAction() == EnumAction.block ? 3 : entityLiving.getEquipmentInSlot(0) != null ? 1 : 0;
-                }
-
-                return armorModel;
-            }
+            return model;
         }
 
         return null;

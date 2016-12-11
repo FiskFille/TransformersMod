@@ -1,7 +1,5 @@
 package fiskfille.tf.client.model.transformer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -17,8 +15,6 @@ import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.vehicle.ModelSubwooferVehicle;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
@@ -739,7 +735,7 @@ public class ModelSubwoofer extends ModelTransformerBase
 	@Override
 	public void doTransformationAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
 	{
-		ModelSubwooferVehicle vehicle = (ModelSubwooferVehicle)getTransformerModel().getVehicleModel();
+		ModelSubwooferVehicle vehicle = (ModelSubwooferVehicle) getTransformerModel().getVehicleModel();
 
 		rotateTo(waist, vehicle.vehicleBase, f);
 		rotateTo(upperArmR, vehicle.vehicleUpperArmR, f);
@@ -774,28 +770,6 @@ public class ModelSubwoofer extends ModelTransformerBase
 		shoulderplateR1.rotationPointZ -= f * 0.2F;
 		shoulderplateL1.rotationPointZ -= f * 0.2F;
 		head.rotationPointY += f * 0.2F;
-
-		for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicle.vehicleFrontWheel1, vehicle.vehicleFrontWheel2, vehicle.vehicleRearWheel1, vehicle.vehicleRearWheel2})
-		{
-			VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
-
-			if (transformedPlayer != null)
-			{
-				float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -limbSwing : limbSwing) * 0.8F;
-				modelRenderer.rotateAngleX = wheelSpinSpeed;
-			}
-		}
-
-		vehicle.vehicleBase.rotateAngleY = bipedBody.rotateAngleY;
-
-		if (player == Minecraft.getMinecraft().thePlayer)
-		{
-			vehicle.vehicleBase.rotateAngleX = -(float) player.motionY - 0.0784000015258789F;
-		}
-		else
-		{
-			vehicle.vehicleBase.rotateAngleX = -(float) (player.posY - player.prevPosY) * 1.5F;
-		}
 	}
 
 	@Override

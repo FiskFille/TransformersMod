@@ -1342,7 +1342,7 @@ public class ModelPurge extends ModelTransformerBase
 	@Override
 	public void doTransformationAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
 	{
-		ModelPurgeVehicle vehicle = (ModelPurgeVehicle)getTransformerModel().getVehicleModel();
+		ModelPurgeVehicle vehicle = (ModelPurgeVehicle) getTransformerModel().getVehicleModel();
 		
 		rotateTo(waist, vehicle.vehiclebase, f);
 		rotateTo(turretbase, vehicle.vehicleturretbase_rotatehere, f);
@@ -1431,21 +1431,6 @@ public class ModelPurge extends ModelTransformerBase
 		feetbaseR1.rotationPointX += f * 0.05F;
 		headbase.rotationPointY += f * 0.15F;
 		headbase.rotationPointZ += f * 0.3F;
-		
-		vehicle.vehiclebase.rotateAngleY = bipedBody.rotateAngleY;
-		vehicle.vehicleturretbase_rotatehere.rotateAngleZ = -(rotationYaw + 180) / (180f / (float) Math.PI);
-
-		if (rotationPitch > 0)
-		{
-			rotationPitch = 0;
-		}
-
-		if (rotationPitch < -60)
-		{
-			rotationPitch = -60;
-		}
-
-		vehicle.vehiclebarrelbase1_rotatehere.rotateAngleX = -MathHelper.clamp_float(rotationPitch, -60, 0) / (180f / (float) Math.PI);
 	}
 
 	@Override

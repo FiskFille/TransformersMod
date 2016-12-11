@@ -1,5 +1,13 @@
 package fiskfille.tf.common.transformer.base;
 
+import java.util.Random;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.entity.EntityMissile;
@@ -7,14 +15,6 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Vec3;
-
-import java.util.Random;
 
 /**
  * @author gegy1000
@@ -59,7 +59,7 @@ public abstract class TransformerTruck extends Transformer
     @Override
     public void updateMovement(EntityPlayer player, int altMode)
     {
-        TFMotionManager.motion(player, 40, 60, 20, 10, false, true, TFDataManager.isInStealthMode(player), true);
+        TFMotionManager.motion(player, 40, 60, 20, 10, false, true, TFDataManager.isInStealthMode(player));
     }
 
     @Override

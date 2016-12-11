@@ -121,9 +121,9 @@ public class ModelChildBase
         }
 
         @Override
-        public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
+        public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
         {
-            super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
+            super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
         }
     }
 }
