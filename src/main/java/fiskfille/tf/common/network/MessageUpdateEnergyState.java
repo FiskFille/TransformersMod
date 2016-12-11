@@ -132,36 +132,44 @@ public class MessageUpdateEnergyState implements IMessage
     public static class Handler implements IMessageHandler<MessageUpdateEnergyState, IMessage>
     {
         @Override
-        public IMessage onMessage(MessageUpdateEnergyState message, MessageContext ctx)
+        public IMessage onMessage(final MessageUpdateEnergyState message, final MessageContext ctx)
         {
-            if (ctx.side.isClient())
+            TransformersMod.proxy.queueTask(new Runnable()
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
-                World world = player.worldObj;
-
-                TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
-
-                TransmissionHandler transmissionHandler = TFEnergyHelper.getTransmissionHandler(tile);
-                ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
-
-                if (transmissionHandler != null)
+                @Override
+                public void run()
                 {
-                    transmissionHandler.reset(world, message.receivers);
-                }
+                    if (ctx.side.isClient())
+                    {
+                        EntityPlayer player = TransformersMod.proxy.getPlayer();
+                        World world = player.worldObj;
 
-                if (receiverHandler != null)
-                {
-                    receiverHandler.reset(world, message.transmitters);
-                    receiverHandler.setCanReach(message.canReach);
-                }
+                        TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
 
-                if (message.container && tile instanceof IEnergyContainer)
-                {
-                    IEnergyContainer container = (IEnergyContainer) tile;
-                    container.setEnergy(message.energy);
-                    container.setEnergyUsage(message.energyUsage);
+                        TransmissionHandler transmissionHandler = TFEnergyHelper.getTransmissionHandler(tile);
+                        ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
+
+                        if (transmissionHandler != null)
+                        {
+                            transmissionHandler.reset(world, message.receivers);
+                        }
+
+                        if (receiverHandler != null)
+                        {
+                            receiverHandler.reset(world, message.transmitters);
+                            receiverHandler.setCanReach(message.canReach);
+                        }
+
+                        if (message.container && tile instanceof IEnergyContainer)
+                        {
+                            IEnergyContainer container = (IEnergyContainer) tile;
+                            container.setEnergy(message.energy);
+                            container.setEnergyUsage(message.energyUsage);
+                        }
+                    }
                 }
-            }
+            });
+
 
             return null;
         }

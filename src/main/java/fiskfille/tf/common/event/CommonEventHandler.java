@@ -3,10 +3,10 @@ package fiskfille.tf.common.event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.chunk.TFChunkManager;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
@@ -282,12 +282,12 @@ public class CommonEventHandler
     public void onLivingUpdate(LivingUpdateEvent event)
     {
         TFEntityData.getData(event.entity).onUpdate();
-        
+
         if (Keyboard.isKeyDown(Keyboard.KEY_I)) // TODO: Remove
         {
-        	AssemblyTableCraftingManager.getInstance().getRecipeList().clear();
-        	CraftingManager.getInstance().getRecipeList().clear();
-        	TFRecipes.registerRecipes();
+            AssemblyTableCraftingManager.getInstance().getRecipeList().clear();
+            CraftingManager.getInstance().getRecipeList().clear();
+            TFRecipes.registerRecipes();
         }
 
         if (event.entity instanceof EntityPlayer)
@@ -407,6 +407,15 @@ public class CommonEventHandler
                     event.distance = newDist;
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent event)
+    {
+        if (event.type == TickEvent.Type.CLIENT || event.type == TickEvent.Type.SERVER)
+        {
+            TransformersMod.proxy.runTasks();
         }
     }
 }

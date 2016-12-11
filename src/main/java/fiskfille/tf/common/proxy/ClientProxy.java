@@ -1,14 +1,5 @@
 package fiskfille.tf.common.proxy;
 
-import java.lang.reflect.Field;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.event.ClientEventHandler;
@@ -70,6 +61,15 @@ import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
+
+import java.lang.reflect.Field;
 
 public class ClientProxy extends CommonProxy
 {
@@ -192,5 +192,14 @@ public class ClientProxy extends CommonProxy
     public void registerKeyBinds()
     {
         TFKeyBinds.register();
+    }
+
+    @Override
+    public void runTasks()
+    {
+        if (mc.thePlayer != null)
+        {
+            super.runTasks();
+        }
     }
 }

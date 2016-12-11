@@ -77,23 +77,30 @@ public class MessageUpdateFluidState implements IMessage
     public static class Handler implements IMessageHandler<MessageUpdateFluidState, IMessage>
     {
         @Override
-        public IMessage onMessage(MessageUpdateFluidState message, MessageContext ctx)
+        public IMessage onMessage(final MessageUpdateFluidState message, final MessageContext ctx)
         {
-            if (ctx.side.isClient())
+            TransformersMod.proxy.queueTask(new Runnable()
             {
-                EntityPlayer player = TransformersMod.proxy.getPlayer();
-                World world = player.worldObj;
-
-                TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
-
-                if (tile instanceof IFluidHandlerTF)
+                @Override
+                public void run()
                 {
-                    IFluidHandlerTF tankContainer = (IFluidHandlerTF) tile;
-                    FluidTankTF tank = tankContainer.getTank();
-                    tank.setFluid(message.fluidStack);
-                    tank.setUsage(message.usage);
+                    if (ctx.side.isClient())
+                    {
+                        EntityPlayer player = TransformersMod.proxy.getPlayer();
+                        World world = player.worldObj;
+
+                        TileEntity tile = world.getTileEntity(message.x, message.y, message.z);
+
+                        if (tile instanceof IFluidHandlerTF)
+                        {
+                            IFluidHandlerTF tankContainer = (IFluidHandlerTF) tile;
+                            FluidTankTF tank = tankContainer.getTank();
+                            tank.setFluid(message.fluidStack);
+                            tank.setUsage(message.usage);
+                        }
+                    }
                 }
-            }
+            });
 
             return null;
         }
