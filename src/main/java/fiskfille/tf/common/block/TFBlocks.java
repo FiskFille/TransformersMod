@@ -6,6 +6,7 @@ import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.item.ItemGroundBridgeControl;
 import fiskfille.tf.common.item.ItemTransmitter;
 import fiskfille.tf.common.registry.TFBlockRegistry;
+import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
@@ -40,6 +41,7 @@ public class TFBlocks
     public static Block groundBridgeFrame;
     public static Block groundBridgeTeleporter;
     public static Block assemblyTable;
+    public static Block alloyCrucible;
     public static Block groundBridgeControlPanel;
     
     public static Block embTest;
@@ -65,6 +67,7 @@ public class TFBlocks
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         groundBridgeControlPanel = new BlockControlPanel();
         assemblyTable = new BlockAssemblyTable();
+        alloyCrucible = new BlockAlloyCrucible();
         
         embTest = new BlockEmbTest();
 
@@ -88,6 +91,7 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);
         TFBlockRegistry.registerTileEntity(assemblyTable, "Transformer Assembly Table", TileEntityAssemblyTable.class);
+        TFBlockRegistry.registerTileEntity(alloyCrucible, "Alloy Crucible", TileEntityAlloyCrucible.class);
 
         TFBlockRegistry.registerTileEntity(embTest, "EmB Test", TileEntityEmbTest.class);
         

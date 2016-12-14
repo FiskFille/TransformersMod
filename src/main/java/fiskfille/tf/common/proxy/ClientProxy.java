@@ -1,5 +1,14 @@
 package fiskfille.tf.common.proxy;
 
+import java.lang.reflect.Field;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.event.ClientEventHandler;
@@ -26,6 +35,7 @@ import fiskfille.tf.client.render.item.RenderItemSkystrikesCrossbow;
 import fiskfille.tf.client.render.item.RenderItemTileEntity;
 import fiskfille.tf.client.render.item.RenderItemTransmitter;
 import fiskfille.tf.client.render.item.RenderItemVurpsSniper;
+import fiskfille.tf.client.render.tileentity.RenderAlloyCrucible;
 import fiskfille.tf.client.render.tileentity.RenderAssemblyTable;
 import fiskfille.tf.client.render.tileentity.RenderControlPanel;
 import fiskfille.tf.client.render.tileentity.RenderCrystal;
@@ -49,6 +59,7 @@ import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
@@ -61,15 +72,6 @@ import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
-
-import java.lang.reflect.Field;
 
 public class ClientProxy extends CommonProxy
 {
@@ -139,10 +141,10 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransmitter.class, new RenderTransmitter());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRelayTower.class, new RenderRelayTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssemblyTable.class, new RenderAssemblyTable());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAlloyCrucible.class, new RenderAlloyCrucible());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityControlPanel.class, new RenderControlPanel());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundBridgeTeleporter.class, new RenderGroundBridgeTeleporter());
 
-        RenderBlockGroundBridgeFrame.renderId = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(RenderBlockGroundBridgeFrame.instance);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmbTest.class, new RenderEmlTest());

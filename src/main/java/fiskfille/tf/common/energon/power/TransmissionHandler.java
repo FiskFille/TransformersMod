@@ -1,18 +1,18 @@
 package fiskfille.tf.common.energon.power;
 
-import fiskfille.tf.helper.TFEnergyHelper;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
+import java.util.Set;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Queue;
-import java.util.Set;
+import fiskfille.tf.helper.TFEnergyHelper;
 
 /**
  * Handles all receivers this transmitter is transmitting to
@@ -62,7 +62,7 @@ public class TransmissionHandler
                     IEnergyReceiver receiver = (IEnergyReceiver) receiverTile;
 
                     boolean invalid = world.getChunkProvider().chunkExists(receiverTile.xCoord >> 4, receiverTile.zCoord >> 4) && (receiverTile.isInvalid() || !exists(world, receiverTile));
-                    boolean outRange = !(TFEnergyHelper.isInRange(owner, receiverTile) && (receiverTile instanceof IEnergyTransmitter || receiver.getEnergy() < receiver.getMaxEnergy()));
+                    boolean outRange = !TFEnergyHelper.isInRange(owner, receiverTile);
                     boolean destroyed = !invalid && !exists(world, receiverTile);
 
                     if (invalid || outRange || destroyed)
@@ -99,7 +99,7 @@ public class TransmissionHandler
     {
         if (!receivers.contains(receiver))
         {
-            if (!world.isRemote)
+//            if (!world.isRemote)
             {
                 receiver.load(world);
             }

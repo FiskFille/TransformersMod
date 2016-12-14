@@ -35,8 +35,8 @@ public class TFRecipes
 
 	private static void addSmelting()
 	{
-		GameRegistry.addSmelting(TFBlocks.transformiumOre, new ItemStack(TFItems.transformiumFragment, 1), 5.0F);
-		GameRegistry.addSmelting(TFBlocks.transformiumStone, new ItemStack(TFItems.transformiumFragment, 1), 5.0F);
+		GameRegistry.addSmelting(TFBlocks.transformiumOre, new ItemStack(TFItems.transformiumFragment, 1), 1.0F);
+		GameRegistry.addSmelting(TFBlocks.transformiumStone, new ItemStack(TFItems.transformiumFragment, 1), 0.35F);
 	}
 
 	private static void addWeaponRecipes()

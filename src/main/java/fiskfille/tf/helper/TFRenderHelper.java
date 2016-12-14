@@ -32,6 +32,7 @@ import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.energon.power.TargetingTransmitter;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -295,6 +296,24 @@ public class TFRenderHelper
                 {
                     primary = TFRenderHelper.hexToRGB(0xAF5B57);
                     secondary = TFRenderHelper.hexToRGB(0xF8817B);
+                }
+                else if (target.getReceiver() != null && !(target.getTile() instanceof IEnergyTransmitter))
+                {
+                    float f = target.getReceiver().getEnergy();
+                    
+                    for (TargetingTransmitter parent : target.getReceiver().getReceiverHandler().getTransmitters())
+                    {
+                        if (parent != null && parent.getTransmitter() != null)
+                        {
+                            f += parent.getTransmitter().getTransmissionRate() / parent.getTransmitter().getTransmissionHandler().getReceivers().size();
+                        }
+                    }
+                    
+                    if (f >= target.getReceiver().getMaxEnergy())
+                    {
+                        primary = TFRenderHelper.hexToRGB(0x62AF57);
+                        secondary = TFRenderHelper.hexToRGB(0x8AF87B);
+                    }
                 }
 
                 GL11.glPushMatrix();

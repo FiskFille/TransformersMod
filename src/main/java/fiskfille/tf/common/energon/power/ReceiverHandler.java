@@ -89,7 +89,7 @@ public class ReceiverHandler
 
                 if (!transmitters.contains(transmitter))
                 {
-                    if (!world.isRemote)
+//                    if (!world.isRemote)
                     {
                         transmitter.load(world);
                     }

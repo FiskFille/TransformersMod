@@ -1,11 +1,11 @@
 package fiskfille.tf.common.proxy;
 
-import fiskfille.tf.client.tick.ClientTickHandler;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import fiskfille.tf.client.tick.ClientTickHandler;
 
 public class CommonProxy
 {
@@ -57,7 +57,11 @@ public class CommonProxy
         while (!tasks.isEmpty())
         {
             Runnable task = tasks.poll();
-            task.run();
+            
+            if (task != null)
+            {
+                task.run();
+            }
         }
     }
 }

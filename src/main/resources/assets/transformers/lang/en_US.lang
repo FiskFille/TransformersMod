@@ -101,6 +101,7 @@ tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.ground_bridge_frame.name=Ground Bridge Frame
 tile.ground_bridge_teleporter.name=Ground Bridge Portal
 tile.transformer_assembly_table.name=Transformer Assembly Table
+tile.alloy_crucible.name=Alloy Crucible
 
 ------Fluids------
 fluid.energon=Energon
@@ -139,10 +140,12 @@ gui.energon_processor.filled=%s/%s mB
 gui.transmitter=Energon Transmitter
 gui.transmitter.select_receivers=Select Receivers
 gui.assembly_table=Transformer Assembly Table
+gui.alloy_crucible=Alloy Crucible
 
 recipe.energonProcessor=Energon Processor
 recipe.powerSource=Power Source
 recipe.assembly_table=Assembly Table
+recipe.alloy_crucible=Alloy Crucible
 
 option.tf.energon_processor=Energon Processor
 option.tf.transmitter=Transmitter

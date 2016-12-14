@@ -14,6 +14,8 @@ public class NEITransformersModConfig implements IConfigureNEI
 		API.registerUsageHandler(new PowerSourceRecipeHandler());
 		API.registerRecipeHandler(new AssemblyTableRecipeHandler());
 		API.registerUsageHandler(new AssemblyTableRecipeHandler());
+		API.registerRecipeHandler(new AlloyCrucibleRecipeHandler());
+        API.registerUsageHandler(new AlloyCrucibleRecipeHandler());
 	}
 
 	@Override
