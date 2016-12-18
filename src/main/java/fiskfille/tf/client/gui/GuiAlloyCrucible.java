@@ -42,6 +42,7 @@ public class GuiAlloyCrucible extends GuiContainer implements IButtonRenderCallb
     {
         super(new ContainerAlloyCrucible(inventoryPlayer, tile));
         tileentity = tile;
+        ySize = 170;
     }
     
     @Override
@@ -51,7 +52,7 @@ public class GuiAlloyCrucible extends GuiContainer implements IButtonRenderCallb
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
-        buttonList.add(new GuiIconFlat(0, x + 149, y + 7, this));
+        buttonList.add(new GuiIconFlat(0, x + 151, y + 5, this));
     }
     
     @Override
@@ -114,14 +115,14 @@ public class GuiAlloyCrucible extends GuiContainer implements IButtonRenderCallb
 
         String s = StatCollector.translateToLocal("gui.alloy_crucible");
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-        fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
 
         ArrayList text = Lists.newArrayList();
         ArrayList colors = Lists.newArrayList();
         text.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy())));
         colors.add(-1);
 
-        if (mouseX >= x + 49 && mouseX < x + 49 + 16 && mouseY >= y + 17 && mouseY < y + 17 + 52)
+        if (mouseX >= x + 49 && mouseX < x + 49 + 16 && mouseY >= y + 19 && mouseY < y + 19 + 52)
         {
             drawHoveringText(text, colors, mouseX - x, mouseY - y, fontRendererObj);
         }
@@ -139,13 +140,13 @@ public class GuiAlloyCrucible extends GuiContainer implements IButtonRenderCallb
         if (tileentity.getEnergy() > 0)
         {
             float f = tileentity.getEnergy() / tileentity.getMaxEnergy();
-            drawTexturedModalRect(x + 49, y + 17 + Math.round(52 * (1 - f)), 176, Math.round(52 * (1 - f)), 16, Math.round(52 * f));
+            drawTexturedModalRect(x + 49, y + 19 + Math.round(52 * (1 - f)), 176, Math.round(52 * (1 - f)), 16, Math.round(52 * f));
         }
         
         if (tileentity.smeltTime > 0)
         {
             int progress = tileentity.getSmeltProgressScaled(14);
-            drawTexturedModalRect(x + 107, y + 47 - progress + 15, 192, 12 - progress, 14, progress);
+            drawTexturedModalRect(x + 107, y + 49 - progress + 15, 192, 12 - progress, 14, progress);
         }
     }
     

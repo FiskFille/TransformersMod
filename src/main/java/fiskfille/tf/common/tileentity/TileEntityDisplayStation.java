@@ -17,6 +17,7 @@ import net.minecraft.util.MovementInputFromOptions;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.item.ItemComponent;
 import fiskfille.tf.common.item.ItemDisplayVehicle;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -344,7 +345,7 @@ public class TileEntityDisplayStation extends TileEntity implements IInventory, 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return stack.getItem() instanceof ItemTransformerArmor;
+        return slot < 4 ? stack.getItem() instanceof ItemTransformerArmor && stack.getItem().isValidArmor(stack, slot, null) : (slot == 6 ? stack.getItem() == TFItems.displayVehicle : stack.getItem() instanceof ItemComponent);
     }
 
     @Override

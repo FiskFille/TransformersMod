@@ -40,6 +40,8 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
 
     public ItemStack[] inventory = new ItemStack[4];
     public EnumSmeltingMode smeltingMode = EnumSmeltingMode.ALLOY;
+    public ItemStack smeltingResult;
+    public boolean alloyResult;
     public int smeltTime;
 
     public float lastUsage;
@@ -104,14 +106,14 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
         return getEnergy() >= getConsumptionRate() && getStacksToSmelt().length > 0;
     }
 
-    public static float getConsumptionRate()
+    public float getConsumptionRate()
     {
         return 2;
     }
     
-    public static int getSmeltTimeMax()
+    public int getSmeltTimeMax()
     {
-        return 150;
+        return alloyResult && smeltingResult != null ? AlloyRecipes.getInstance().getSmeltTime(smeltingResult) : 200;
     }
     
     @SideOnly(Side.CLIENT)
@@ -137,6 +139,9 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                     {
                         if (inventory[3] == null)
                         {
+                            smeltingResult = result;
+                            alloyResult = true;
+                            
                             return list.toArray(new ItemStack[3]);
                         }
                         else if (inventory[3].isItemEqual(result))
@@ -145,6 +150,9 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
 
                             if (amount <= getInventoryStackLimit() && amount <= inventory[3].getMaxStackSize())
                             {
+                                smeltingResult = result;
+                                alloyResult = true;
+                                
                                 return list.toArray(new ItemStack[3]);
                             }
                         }
@@ -182,6 +190,12 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                 }
             }
         }
+        
+        if (!list.isEmpty())
+        {
+            smeltingResult = list.getFirst();
+            alloyResult = false;
+        }
 
         return list.toArray(new ItemStack[list.size()]);
     }
@@ -218,6 +232,8 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                         }
                     }
                     
+                    smeltingResult = null;
+                    
                     return;
                 }
             }
@@ -247,6 +263,8 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                             {
                                 inventory[i] = null;
                             }
+                            
+                            smeltingResult = null;
 
                             return;
                         }

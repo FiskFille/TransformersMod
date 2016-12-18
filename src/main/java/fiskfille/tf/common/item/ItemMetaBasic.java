@@ -20,7 +20,6 @@ public class ItemMetaBasic extends Item
 
 	public ItemMetaBasic(String... itemNames)
 	{
-		super();
 		this.itemNames = itemNames;
 		setHasSubtypes(true);
 	}

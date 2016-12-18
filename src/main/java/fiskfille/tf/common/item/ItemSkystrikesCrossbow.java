@@ -22,7 +22,6 @@ public class ItemSkystrikesCrossbow extends Item
 {
     public ItemSkystrikesCrossbow()
     {
-        super();
         setMaxDamage(1500);
         setMaxStackSize(1);
         setFull3D();

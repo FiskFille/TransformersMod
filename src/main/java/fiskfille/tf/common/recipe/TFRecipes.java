@@ -28,15 +28,22 @@ public class TFRecipes
 		GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), "IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformiumFragment, 'R', Blocks.redstone_block, 'r', Items.redstone);
 		GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), "TET", "TNT", "DND", 'T', TFBlocks.transformiumBlock, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block);
 
+		Item[] materials = {Items.gold_ingot, Items.diamond, Items.emerald};
+		
+		for (int i = 0; i < materials.length; ++i)
+		{
+		    GameRegistry.addRecipe(new ItemStack(TFItems.powerCanister, 1, i + 1), "**", "##", "**", '*', materials[i], '#', new ItemStack(TFItems.powerCanister, 1, i));
+		}
+		
 		addMaterialCompression(TFItems.energonCrystalShard, TFBlocks.energonCube);
 		addMaterialCompression(TFItems.redEnergonCrystalShard, TFBlocks.redEnergonCube);
 		addMaterialCompression(TFItems.transformiumFragment, TFBlocks.transformiumBlock);
+		addMaterialCompression(TFItems.transformiumAlloyNugget, TFItems.transformiumAlloy);
 	}
 
 	private static void addSmelting()
 	{
 		GameRegistry.addSmelting(TFBlocks.transformiumOre, new ItemStack(TFItems.transformiumFragment, 1), 1.0F);
-		GameRegistry.addSmelting(TFBlocks.transformiumStone, new ItemStack(TFItems.transformiumFragment, 1), 0.35F);
 	}
 
 	private static void addWeaponRecipes()
@@ -140,9 +147,9 @@ public class TFRecipes
 //		AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapBoots, 1), "g    ", " T T ", " T T ", "     ", " J J ", 'g', new ItemStack(Items.dye, 3, 7), 'T', TFItems.transformium, 'J', TFSubItems.jet_thruster[1]);
 	}
 
-	private static void addMaterialCompression(Item item, Block block)
+	private static void addMaterialCompression(Object obj1, Object obj2)
 	{
-		GameRegistry.addShapelessRecipe(new ItemStack(item, 9), block);
-		GameRegistry.addRecipe(new ItemStack(block, 1), "###", "###", "###", '#', item);
+		GameRegistry.addShapelessRecipe(new ItemStack(obj1 instanceof Item ? (Item) obj1 : Item.getItemFromBlock((Block) obj1), 9), obj2);
+		GameRegistry.addRecipe(new ItemStack(obj2 instanceof Item ? (Item) obj2 : Item.getItemFromBlock((Block) obj2), 1), "###", "###", "###", '#', obj1);
 	}
 }

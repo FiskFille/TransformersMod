@@ -293,7 +293,7 @@ public class TFHelper
 
     public static TileEntity getTileBase(TileEntity tile)
     {
-        int[] offsets = getTileBaseOffsets(tile, tile.getBlockMetadata());
+        int[] offsets = getTileBaseOffsets(tile, tile != null ? tile.getBlockMetadata() : 0);
 
         if (offsets[0] != 0 || offsets[1] != 0 || offsets[2] != 0)
         {

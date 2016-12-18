@@ -8,6 +8,7 @@ import fiskfille.tf.common.item.ItemTransmitter;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
+import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
@@ -38,11 +39,12 @@ public class TFBlocks
     public static Block transmitter;
     public static Block relayTower;
     public static Block relayTorch;
+    public static Block energyColumn;
     public static Block groundBridgeFrame;
     public static Block groundBridgeTeleporter;
+    public static Block groundBridgeControlPanel;
     public static Block assemblyTable;
     public static Block alloyCrucible;
-    public static Block groundBridgeControlPanel;
     
     public static Block embTest;
 
@@ -63,6 +65,7 @@ public class TFBlocks
         transmitter = new BlockTransmitter();
         relayTower = new BlockRelayTower();
         relayTorch = new BlockRelayTorch();
+        energyColumn = new BlockColumn();
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         groundBridgeControlPanel = new BlockControlPanel();
@@ -87,6 +90,7 @@ public class TFBlocks
         TFBlockRegistry.registerItemBlockAsTileEntity(transmitter, "Energon Transmitter", TileEntityTransmitter.class, ItemTransmitter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(relayTower, "Energy Relay", TileEntityRelayTower.class, ItemTransmitter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(relayTorch, "Energy Relay Torch", TileEntityRelayTorch.class, ItemTransmitter.class);
+        TFBlockRegistry.registerTileEntity(energyColumn, "Energy Column", TileEntityColumn.class);
         TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class);
         TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);

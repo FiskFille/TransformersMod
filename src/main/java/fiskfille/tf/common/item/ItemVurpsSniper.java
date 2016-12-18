@@ -15,7 +15,6 @@ public class ItemVurpsSniper extends Item
 {
     public ItemVurpsSniper()
     {
-        super();
         setMaxDamage(800);
         setMaxStackSize(1);
         setFull3D();

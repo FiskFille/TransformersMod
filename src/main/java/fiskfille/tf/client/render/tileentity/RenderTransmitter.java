@@ -1,9 +1,7 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -21,7 +19,6 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
 
     public void render(TileEntityTransmitter transmitter, double x, double y, double z, float partialTicks)
     {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World world = transmitter.getWorldObj();
         int metadata = 0;
 

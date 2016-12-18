@@ -24,7 +24,6 @@ public class ItemGroundBridgeRemote extends Item
 {
     public ItemGroundBridgeRemote()
     {
-        super();
         setMaxStackSize(1);
     }
 

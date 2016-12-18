@@ -18,6 +18,10 @@ item.armor_component.name=Armor Component
 item.data_core.name=Data Core
 item.csd.name=Coordinate Storage Device
 item.ground_bridge_remote.name=Ground Bridge Remote
+item.power_canister_iron.name=Power Canister (I)
+item.power_canister_gold.name=Power Canister (II)
+item.power_canister_diamond.name=Power Canister (III)
+item.power_canister_emerald.name=Power Canister (IV)
 
 item.optic_sensor.name=Optic Sensor
 item.protoform_head.name=Protoform Head
@@ -97,6 +101,7 @@ tile.energon_processor.name=Energon Processor
 tile.energon_transmitter.name=Energon Transmitter
 tile.energy_relay.name=Energy Relay
 tile.energy_relay_torch.name=Energy Relay Torch
+tile.energy_column.name=Energy Column
 tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.ground_bridge_frame.name=Ground Bridge Frame
 tile.ground_bridge_teleporter.name=Ground Bridge Portal
@@ -141,9 +146,10 @@ gui.transmitter=Energon Transmitter
 gui.transmitter.select_receivers=Select Receivers
 gui.assembly_table=Transformer Assembly Table
 gui.alloy_crucible=Alloy Crucible
+gui.energy_column=Energy Column
 
-recipe.energonProcessor=Energon Processor
-recipe.powerSource=Power Source
+recipe.energon_processor=Energon Processor
+recipe.power_source=Power Source
 recipe.assembly_table=Assembly Table
 recipe.alloy_crucible=Alloy Crucible
 

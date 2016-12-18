@@ -34,12 +34,12 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
 
         public AlloyPair(AlloyIngredients alloy, ItemStack out)
         {
-            result = new PositionedStack(out, 107 - 5, 26 - 11);
+            result = new PositionedStack(out, 107 - 5, 28 - 11);
             ingredients = new ArrayList<PositionedStack>();
             
             for (int i = 0; i < alloy.getIngredients().length; ++i)
             {
-                addSlotToContainer(73, 17 + i * 18, alloy.getIngredients()[i]);
+                addSlotToContainer(73, 19 + i * 18, alloy.getIngredients()[i]);
             }
         }
 
@@ -76,7 +76,7 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
     @Override
     public void loadTransferRects()
     {
-        transferRects.add(new RecipeTransferRect(new Rectangle(102, 36, 16, 16), "alloy_crucible"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(102, 38, 16, 16), "alloy_crucible"));
     }
 
     @Override
@@ -168,8 +168,8 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
     @Override
     public void drawExtras(int recipe)
     {
-        drawProgressBar(102, 38, 192, 0, 14, 14, 48, 3);
-        drawProgressBar(44, 6, 176, 0, 16, 52, 52 * 48, 7);
+        drawProgressBar(102, 40, 192, 0, 14, 14, 48, 3);
+        drawProgressBar(44, 8, 176, 0, 16, 52, 52 * 48, 7);
     }
     
     @Override

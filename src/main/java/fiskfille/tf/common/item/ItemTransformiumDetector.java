@@ -1,8 +1,7 @@
 package fiskfille.tf.common.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.block.TFBlocks;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,17 +11,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import java.util.List;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.block.TFBlocks;
 
 public class ItemTransformiumDetector extends Item
 {
     //TODO-TF improve it for 0.6.0
-
-    public ItemTransformiumDetector()
-    {
-        super();
-    }
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean hand)

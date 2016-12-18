@@ -34,6 +34,7 @@ public class TFItems
     public static Item dataCore;
     public static Item csd;
     public static Item groundBridgeRemote;
+    public static Item powerCanister;
 
     public static Item skystrikesCrossbow;
     public static Item purgesKatana;
@@ -89,6 +90,7 @@ public class TFItems
         dataCore = new ItemDataCore();
         csd = new ItemCSD();
         groundBridgeRemote = new ItemGroundBridgeRemote();
+        powerCanister = new ItemPowerCanister();
 
         skystrikesCrossbow = new ItemSkystrikesCrossbow();
         purgesKatana = new ItemPurgesKatana();
@@ -147,6 +149,7 @@ public class TFItems
         TFItemRegistry.registerItem(dataCore, "Data Core");
         TFItemRegistry.registerItem(csd, "CSD");
         TFItemRegistry.registerItem(groundBridgeRemote, "Ground Bridge Remote");
+        TFItemRegistry.registerItem(powerCanister, "Power Canister");
 
         TFItemRegistry.registerItem(skystrikesCrossbow, "Skystrike's Energon Crossbow");
         TFItemRegistry.registerItem(purgesKatana, "Purge's Katana");

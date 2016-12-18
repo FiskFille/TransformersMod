@@ -121,7 +121,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
     @Override
     public String getRecipeName()
     {
-        return StatCollector.translateToLocal("recipe.energonProcessor");
+        return StatCollector.translateToLocal("recipe.energon_processor");
     }
 
     @Override

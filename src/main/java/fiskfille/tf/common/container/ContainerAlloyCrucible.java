@@ -17,14 +17,14 @@ public class ContainerAlloyCrucible extends ContainerBasic
     public ContainerAlloyCrucible(InventoryPlayer inventoryPlayer, TileEntityAlloyCrucible tile)
     {
         tileentity = tile;
-        
-        for (int i = 0; i < 3; ++i)
+
+        for (int i = 0; i < tile.getSizeInventory() - 1; ++i)
         {
-            addSlotToContainer(new Slot(tile, i, 73, 17 + i * 18));
+            addSlotToContainer(new Slot(tile, i, 73, 19 + i * 18));
         }
-        
-        addSlotToContainer(new SlotAlloyCrucible(inventoryPlayer.player, tile, 3, 107, 26));
-        addPlayerInventory(inventoryPlayer, 0);
+
+        addSlotToContainer(new SlotAlloyCrucible(inventoryPlayer.player, tile, 3, 107, 28));
+        addPlayerInventory(inventoryPlayer, 4);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ContainerAlloyCrucible extends ContainerBasic
     {
         return tileentity.isUseableByPlayer(player);
     }
-    
+
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
     {
@@ -91,20 +91,9 @@ public class ContainerAlloyCrucible extends ContainerBasic
             }
             else if (slotId > OUTPUT)
             {
-                boolean flag = false;
-                
-                for (int i = 0; i < OUTPUT; ++i)
+                if (itemstack != null && itemstack.getTagCompound() == itemstack1.getTagCompound() && itemstack.getItemDamage() == itemstack1.getItemDamage() && itemstack.getItem() == itemstack1.getItem())
                 {
-                    if (itemstack != null && itemstack.getTagCompound() == itemstack1.getTagCompound() && itemstack.getItemDamage() == itemstack1.getItemDamage() && itemstack.getItem() == itemstack1.getItem())
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                
-                if (flag)
-                {
-                    if (!mergeItemStack(itemstack1, 0, 2 + 1, false))
+                    if (!mergeItemStack(itemstack1, 0, OUTPUT, false))
                     {
                         return null;
                     }
@@ -142,7 +131,7 @@ public class ContainerAlloyCrucible extends ContainerBasic
 
             slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
         }
-        
+
         return itemstack;
     }
 }

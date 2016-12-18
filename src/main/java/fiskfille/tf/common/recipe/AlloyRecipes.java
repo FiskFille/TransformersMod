@@ -7,15 +7,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
 
 public class AlloyRecipes
@@ -23,9 +26,8 @@ public class AlloyRecipes
     private static final AlloyRecipes instance = new AlloyRecipes();
     
     private Map<AlloyIngredients, ItemStack> smeltingList = Maps.newHashMap();
+    private Map<ItemStack, Integer> durationList = Maps.newHashMap();
     private Map<ItemStack, Float> experienceList = Maps.newHashMap();
-    
-    private static int WILDCARD = 32767;
 
     public static AlloyRecipes getInstance()
     {
@@ -34,10 +36,21 @@ public class AlloyRecipes
 
     private AlloyRecipes()
     {
-        addRecipe(new AlloyIngredients(TFItems.transformiumFragment, Items.iron_ingot, Items.iron_ingot), new ItemStack(TFItems.transformiumAlloy, 2), 1.0F);
+        addRecipe(new AlloyIngredients(TFItems.transformiumFragment, Items.iron_ingot, Items.iron_ingot), new ItemStack(TFItems.transformiumAlloy, 2), 400, 1.0F);
+        addRecipe(new AlloyIngredients(TFBlocks.transformiumStone, Blocks.clay, Items.quartz), new ItemStack(TFItems.transformiumFragment), 600, 0.35F);
+        
+        addRecipe(new AlloyIngredients(Blocks.stone, Items.ender_pearl), new ItemStack(Blocks.end_stone), 0.2F);
+        addRecipe(new AlloyIngredients(Blocks.stained_glass), new ItemStack(Blocks.glass), 0);
+        addRecipe(new AlloyIngredients(Blocks.stained_glass_pane), new ItemStack(Blocks.glass_pane), 0);
+        addRecipe(new AlloyIngredients(Blocks.stained_hardened_clay), new ItemStack(Blocks.hardened_clay), 0);
+    }
+    
+    public void addRecipe(AlloyIngredients alloy, ItemStack result, float xp)
+    {
+        addRecipe(alloy, result, 200, xp);
     }
 
-    public void addRecipe(AlloyIngredients alloy, ItemStack result, float xp)
+    public void addRecipe(AlloyIngredients alloy, ItemStack result, int duration, float xp)
     {
         if (alloy == null || alloy.getIngredients()[0] == null)
         {
@@ -46,6 +59,7 @@ public class AlloyRecipes
         }
         
         smeltingList.put(alloy, result);
+        durationList.put(result, duration);
         experienceList.put(result, Float.valueOf(xp));
     }
 
@@ -70,12 +84,31 @@ public class AlloyRecipes
 
     private static boolean matches(ItemStack itemstack, ItemStack itemstack1)
     {
-        return itemstack1.getItem() == itemstack.getItem() && (itemstack1.getItemDamage() == WILDCARD || itemstack1.getItemDamage() == itemstack.getItemDamage());
+        return itemstack1.getItem() == itemstack.getItem() && (itemstack1.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack1.getItemDamage() == itemstack.getItemDamage());
     }
 
     public Map getSmeltingList()
     {
         return smeltingList;
+    }
+    
+    public int getSmeltTime(ItemStack itemstack)
+    {
+        Iterator iterator = durationList.entrySet().iterator();
+        Entry entry;
+
+        do
+        {
+            if (!iterator.hasNext())
+            {
+                return 200;
+            }
+
+            entry = (Entry) iterator.next();
+        }
+        while (!matches(itemstack, (ItemStack) entry.getKey()));
+
+        return (Integer) entry.getValue();
     }
 
     public float getXpYield(ItemStack itemstack)
@@ -104,27 +137,6 @@ public class AlloyRecipes
         return (Float) entry.getValue();
     }
     
-    public boolean canRecipeAutocomplete(ItemStack... itemstacks)
-    {
-        Iterator iterator = smeltingList.entrySet().iterator();
-        
-        while (iterator.hasNext())
-        {
-            Entry<AlloyIngredients, ItemStack> e = (Entry<AlloyIngredients, ItemStack>) iterator.next();
-            ItemStack[] ingredients = e.getKey().getIngredients();
-            
-            for (int i = 0; i < itemstacks.length; ++i)
-            {
-                if (!matches(ingredients[i], itemstacks[i]))
-                {
-                    continue;
-                }
-            }
-        }
-        
-        return false;
-    }
-    
     public static class AlloyIngredients
     {
         private final ItemStack[] ingredients;
@@ -143,11 +155,11 @@ public class AlloyRecipes
                 }
                 else if (obj instanceof Item)
                 {
-                    list.add(new ItemStack((Item) obj, 1, WILDCARD));
+                    list.add(new ItemStack((Item) obj, 1, OreDictionary.WILDCARD_VALUE));
                 }
                 else if (obj instanceof Block)
                 {
-                    list.add(new ItemStack(Item.getItemFromBlock((Block) obj), 1, WILDCARD));
+                    list.add(new ItemStack(Item.getItemFromBlock((Block) obj), 1, OreDictionary.WILDCARD_VALUE));
                 }
             }
             

@@ -23,7 +23,6 @@ public class ItemFlamethrower extends Item
 {
     public ItemFlamethrower()
     {
-        super();
         setMaxDamage(1500);
         setMaxStackSize(1);
         setFull3D();

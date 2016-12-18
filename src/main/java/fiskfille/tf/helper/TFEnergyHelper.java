@@ -516,7 +516,7 @@ public class TFEnergyHelper
         {
             container.extractEnergy(-usage);
         }
-        else
+        else if (usage > 0.0F)
         {
             container.receiveEnergy(usage);
         }

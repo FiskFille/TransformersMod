@@ -13,6 +13,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.container.ContainerAlloyCrucible;
 import fiskfille.tf.common.container.ContainerAssemblyTable;
+import fiskfille.tf.common.container.ContainerColumn;
 import fiskfille.tf.common.container.ContainerDisplayStation;
 import fiskfille.tf.common.container.ContainerDisplayStationArmor;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
@@ -23,6 +24,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
+import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
@@ -58,6 +60,8 @@ public class GuiHandlerTF implements IGuiHandler
             return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? new ContainerGroundBridge(player.inventory, new InventoryGroundBridge(player, player.getHeldItem()), (TileEntityControlPanel) tile) : null;
         case 7:
             return worldserver.getBlock(x, y, z) == TFBlocks.alloyCrucible ? new ContainerAlloyCrucible(player.inventory, (TileEntityAlloyCrucible) tile) : null;
+        case 8:
+            return worldserver.getBlock(x, y, z) == TFBlocks.energyColumn ? new ContainerColumn(player.inventory, (TileEntityColumn) tile) : null;
         }
 
         return null;
@@ -91,6 +95,8 @@ public class GuiHandlerTF implements IGuiHandler
             return worldserver.getBlock(x, y, z) == TFBlocks.groundBridgeControlPanel && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? new GuiGroundBridge(player.inventory, new InventoryGroundBridge(player, player.getHeldItem()), (TileEntityControlPanel) tile) : null;
         case 7:
             return worldserver.getBlock(x, y, z) == TFBlocks.alloyCrucible ? new GuiAlloyCrucible(player.inventory, (TileEntityAlloyCrucible) tile) : null;
+        case 8:
+            return worldserver.getBlock(x, y, z) == TFBlocks.energyColumn ? new GuiColumn(player.inventory, (TileEntityColumn) tile) : null;
         }
 
         return null;

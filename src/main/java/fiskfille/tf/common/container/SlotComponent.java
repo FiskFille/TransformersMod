@@ -24,7 +24,6 @@ public class SlotComponent extends Slot
     public boolean isItemValid(ItemStack itemstack)
     {
         return itemstack != null && itemstack.getItem() instanceof IComponent;
-
     }
 
     @Override

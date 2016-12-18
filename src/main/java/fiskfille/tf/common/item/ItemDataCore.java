@@ -20,7 +20,6 @@ public class ItemDataCore extends Item
 
 	public ItemDataCore()
 	{
-		super();
 		setMaxStackSize(1);
 		setHasSubtypes(true);
 	}

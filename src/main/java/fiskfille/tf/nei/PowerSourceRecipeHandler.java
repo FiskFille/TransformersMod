@@ -63,7 +63,7 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
     @Override
     public String getRecipeName()
     {
-		return StatCollector.translateToLocal("recipe.powerSource");
+		return StatCollector.translateToLocal("recipe.power_source");
 	}
 
 	@Override

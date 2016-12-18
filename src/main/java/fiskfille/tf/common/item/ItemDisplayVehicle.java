@@ -20,7 +20,6 @@ public class ItemDisplayVehicle extends Item
 {
     public ItemDisplayVehicle()
     {
-        super();
         setMaxStackSize(1);
         setHasSubtypes(true);
     }

@@ -26,7 +26,6 @@ public class ItemCSD extends Item
 
     public ItemCSD()
     {
-        super();
         setMaxStackSize(1);
     }
 

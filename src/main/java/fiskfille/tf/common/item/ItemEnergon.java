@@ -10,7 +10,6 @@ public class ItemEnergon extends Item implements IEnergon
 
     public ItemEnergon(Energon type)
     {
-        super();
         energonType = type;
     }
 
