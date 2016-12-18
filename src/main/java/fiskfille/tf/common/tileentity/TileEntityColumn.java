@@ -1,13 +1,5 @@
 package fiskfille.tf.common.tileentity;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.EnergyStorageInventory;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
@@ -16,6 +8,14 @@ import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
 public class TileEntityColumn extends TileEntityContainer implements IEnergyReceiver, IMultiTile
 {
@@ -23,6 +23,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     public EnergyStorage storage = new EnergyStorageInventory(this);
 
     public ItemStack[] inventory = new ItemStack[6];
+    public ItemStack[] lastInventory = new ItemStack[6];
 
     public float lastUsage;
 
@@ -30,7 +31,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     public void updateEntity()
     {
         super.updateEntity();
-        
+
         if (getBlockMetadata() < 4)
         {
             receiverHandler.onUpdate(worldObj);
@@ -42,25 +43,25 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
             else
             {
                 TileEntity tile = TFHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord));
-                
+
                 if (tile instanceof IEnergyContainer)
                 {
                     IEnergyContainer receiver = (IEnergyContainer) tile;
                     TFEnergyHelper.transferEnergy(receiver, this, 100);
                 }
-                
+
                 tile = TFHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + 2, zCoord));
-                
+
                 if (tile instanceof IEnergyContainer)
                 {
                     IEnergyContainer receiver = (IEnergyContainer) tile;
-                    
+
                     if (getMaxEnergy() > 0)
                     {
                         TFEnergyHelper.transferEnergy(this, receiver, 100);
                     }
                 }
-                
+
                 float usage = storage.calculateUsage();
 
                 if (Math.abs(usage - lastUsage) > 0.001F)
@@ -69,10 +70,30 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
                 }
 
                 lastUsage = usage;
+
+                boolean dirty = false;
+
+                for (int i = 0; i < inventory.length; i++)
+                {
+                    ItemStack current = inventory[i];
+                    ItemStack previous = lastInventory[i];
+
+                    if (!ItemStack.areItemStacksEqual(current, previous) || !ItemStack.areItemStackTagsEqual(current, previous))
+                    {
+                        dirty = true;
+                        break;
+                    }
+                }
+
+                if (dirty)
+                {
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    System.arraycopy(inventory, 0, lastInventory, 0, inventory.length);
+                }
             }
         }
     }
-    
+
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -205,6 +226,6 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     @Override
     public int[] getBaseOffsets(int metadata)
     {
-        return new int[] {0, -metadata / 4, 0};
+        return new int[] { 0, -metadata / 4, 0 };
     }
 }
