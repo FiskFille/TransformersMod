@@ -1,11 +1,14 @@
 package fiskfille.tf.common.tileentity;
 
+import cpw.mods.fml.common.network.NetworkRegistry;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.EnergyStorageInventory;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.item.ItemStack;
@@ -20,7 +23,7 @@ import net.minecraft.util.Vec3;
 public class TileEntityColumn extends TileEntityContainer implements IEnergyReceiver, IMultiTile
 {
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
-    public EnergyStorage storage = new EnergyStorageInventory(this);
+    public EnergyStorage storage = new EnergyStorageInventory(this, this);
 
     public ItemStack[] inventory = new ItemStack[6];
     public ItemStack[] lastInventory = new ItemStack[6];
@@ -212,9 +215,8 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     @Override
     public void updateClientEnergy()
     {
-        // TODO
-//        NetworkRegistry.TargetPoint target = new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5F, yCoord, zCoord + 0.5F, 128);
-//        TFNetworkManager.networkWrapper.sendToAllAround(new MessageUpdateEnergyState(this), target);
+        NetworkRegistry.TargetPoint target = new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5F, yCoord, zCoord + 0.5F, 128);
+        TFNetworkManager.networkWrapper.sendToAllAround(new MessageUpdateEnergyState(this), target);
     }
 
     @Override

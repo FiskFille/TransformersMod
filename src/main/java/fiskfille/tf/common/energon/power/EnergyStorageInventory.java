@@ -2,15 +2,18 @@ package fiskfille.tf.common.energon.power;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
 public class EnergyStorageInventory extends EnergyStorage
 {
+    protected final TileEntity tile;
     protected final IInventory energyInventory;
 
-    public EnergyStorageInventory(IInventory inventory)
+    public EnergyStorageInventory(TileEntity tile, IInventory inventory)
     {
         super(0);
-        energyInventory = inventory;
+        this.tile = tile;
+        this.energyInventory = inventory;
     }
 
     @Override
@@ -26,16 +29,16 @@ public class EnergyStorageInventory extends EnergyStorage
 
         for (int i = 0; i < energyInventory.getSizeInventory(); ++i)
         {
-            ItemStack itemstack = energyInventory.getStackInSlot(i);
+            ItemStack stack = energyInventory.getStackInSlot(i);
 
-            if (itemstack != null && itemstack.getItem() instanceof IEnergyContainerItem)
+            if (stack != null && stack.getItem() instanceof IEnergyContainerItem)
             {
-                IEnergyContainerItem container = (IEnergyContainerItem) itemstack.getItem();
-                float f = container.extractEnergy(itemstack, max, true);
+                IEnergyContainerItem container = (IEnergyContainerItem) stack.getItem();
+                float extracted = container.extractEnergy(stack, max, true);
 
-                f = Math.min(f, max);
-                removed += container.extractEnergy(itemstack, f, false);
-                max -= f;
+                extracted = Math.min(extracted, max);
+                removed += container.extractEnergy(stack, extracted, tile.getWorldObj().isRemote);
+                max -= extracted;
 
                 if (max <= 0)
                 {
@@ -62,16 +65,16 @@ public class EnergyStorageInventory extends EnergyStorage
 
         for (int i = 0; i < energyInventory.getSizeInventory(); ++i)
         {
-            ItemStack itemstack = energyInventory.getStackInSlot(i);
+            ItemStack stack = energyInventory.getStackInSlot(i);
 
-            if (itemstack != null && itemstack.getItem() instanceof IEnergyContainerItem)
+            if (stack != null && stack.getItem() instanceof IEnergyContainerItem)
             {
-                IEnergyContainerItem container = (IEnergyContainerItem) itemstack.getItem();
-                float f = container.receiveEnergy(itemstack, max, true);
+                IEnergyContainerItem container = (IEnergyContainerItem) stack.getItem();
+                float extracted = container.receiveEnergy(stack, max, true);
 
-                f = Math.min(f, max);
-                added += container.receiveEnergy(itemstack, f, false);
-                max -= f;
+                extracted = Math.min(extracted, max);
+                added += container.receiveEnergy(stack, extracted, tile.getWorldObj().isRemote);
+                max -= extracted;
 
                 if (max <= 0)
                 {
@@ -92,12 +95,12 @@ public class EnergyStorageInventory extends EnergyStorage
 
         for (int i = 0; i < energyInventory.getSizeInventory(); ++i)
         {
-            ItemStack itemstack = energyInventory.getStackInSlot(i);
+            ItemStack stack = energyInventory.getStackInSlot(i);
 
-            if (itemstack != null && itemstack.getItem() instanceof IEnergyContainerItem)
+            if (stack != null && stack.getItem() instanceof IEnergyContainerItem)
             {
-                IEnergyContainerItem container = (IEnergyContainerItem) itemstack.getItem();
-                energy += container.getEnergyStored(itemstack);
+                IEnergyContainerItem container = (IEnergyContainerItem) stack.getItem();
+                energy += container.getEnergyStored(stack);
             }
         }
 
@@ -109,14 +112,14 @@ public class EnergyStorageInventory extends EnergyStorage
     {
         int max = 0;
 
-        for (int j = 0; j < energyInventory.getSizeInventory(); ++j)
+        for (int i = 0; i < energyInventory.getSizeInventory(); ++i)
         {
-            ItemStack itemstack = energyInventory.getStackInSlot(j);
+            ItemStack stack = energyInventory.getStackInSlot(i);
 
-            if (itemstack != null && itemstack.getItem() instanceof IEnergyContainerItem)
+            if (stack != null && stack.getItem() instanceof IEnergyContainerItem)
             {
-                IEnergyContainerItem container = (IEnergyContainerItem) itemstack.getItem();
-                max += container.getEnergyCapacity(itemstack);
+                IEnergyContainerItem container = (IEnergyContainerItem) stack.getItem();
+                max += container.getEnergyCapacity(stack);
             }
         }
 
@@ -146,9 +149,9 @@ public class EnergyStorageInventory extends EnergyStorage
     @Override
     public float calculateUsage()
     {
-        float f = getEnergy();
-        energyUsage = f - lastEnergy;
-        lastEnergy = f;
+        float energy = getEnergy();
+        energyUsage = energy - lastEnergy;
+        lastEnergy = energy;
 
         return energyUsage;
     }

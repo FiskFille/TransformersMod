@@ -89,7 +89,7 @@ public class ReceiverHandler
 
                 if (!transmitters.contains(transmitter))
                 {
-//                    if (!world.isRemote)
+                    if (!world.isRemote)
                     {
                         transmitter.load(world);
                     }
@@ -207,6 +207,11 @@ public class ReceiverHandler
 
     public TargetReceiver getReceiver()
     {
+        if (receiver == null)
+        {
+            init();
+        }
+
         return receiver;
     }
 
