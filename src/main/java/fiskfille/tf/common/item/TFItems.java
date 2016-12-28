@@ -83,7 +83,7 @@ public class TFItems
         transformiumAlloyNugget = new Item();
         craftingMaterial = new ItemMetaBasic();
         fuelCanister = new ItemFuelCanister();
-        dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye", "Dark Gray Dye");
+        dye = new ItemMetaBasic("Dark Red Dye", "Beige Dye", "Dark Gray Dye", "Pale Green Dye", "Pale Brown Dye");
         componentBase = new Item();
         colorComponent = new ItemComponent(new ComponentColor());
         armorComponent = new ItemComponent(new ComponentArmor());

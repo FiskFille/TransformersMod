@@ -12,6 +12,8 @@ item.creative_fuel_canister.name=Creative Fuel Canister
 item.dark_red_dye.name=Dark Red Dye
 item.beige_dye.name=Beige Dye
 item.dark_gray_dye.name=Dark Gray Dye
+item.pale_green_dye.name=Pale Green Dye
+item.pale_brown_dye.name=Pale Brown Dye
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
@@ -26,7 +28,10 @@ item.power_canister_emerald.name=Power Canister (IV)
 item.optic_sensor.name=Optic Sensor
 item.protoform_head.name=Protoform Head
 item.transformium_alloy_rod.name=Transformium Alloy Rod
+item.standard_engine.name=Standard Engine
 item.jet_thruster.name=Jet Thruster
+item.small_thruster.name=Small Thruster
+item.wheel.name=Wheel
 
 item.skystrikes_wing.name=Skystrike's Wing
 item.skystrikes_shoulder_pad.name=Skystrike's Shoulder Pad
@@ -42,6 +47,25 @@ item.purges_pauldron.name=Purge's Pauldron
 item.purges_gauntlet.name=Purge's Gauntlet
 item.purges_greave.name=Purge's Greave
 item.purge_torso_base.name=Purge Torso Base
+
+item.vurps_shoulder_pad.name=Vurp's Shoulder Pad
+item.vurps_gauntlet.name=Vurp's Gauntlet
+item.vurps_greave.name=Vurp's Greave
+item.vurp_torso_base.name=Vurp Torso Base
+item.vurps_facemask.name=Vurp's Facemask
+
+item.subwoofers_shoulder_pad.name=Subwoofer's Shoulder Pad
+item.subwoofers_gauntlet.name=Subwoofer's Gauntlet
+item.subwoofers_greave.name=Subwoofer's Greave
+item.subwoofer_torso_base.name=Subwoofer Torso Base
+item.subwoofers_visor.name=Subwoofer's Visor
+
+item.cloudtraps_wing.name=Cloudtrap's Wing
+item.cloudtraps_pauldron.name=Cloudtrap's Pauldron
+item.cloudtraps_gauntlet.name=Cloudtrap's Gauntlet
+item.cloudtraps_greave.name=Cloudtrap's Greave
+item.cloudtrap_torso_base.name=Cloudtrap Torso Base
+item.cloudtraps_visor.name=Cloudtrap's Visor
 
 
 ------Armor------
@@ -125,6 +149,7 @@ stats.shots_left.name=Shots Left
 stats.laser_charge.name=Laser Charge
 gui.emb.storage=%s/%s EmB
 gui.emb.rate=%s EmB/t
+gui.emb.amount=%s EmB
 gui.display_pillar.name=Display Pillar
 gui.display_station=Transformer Display Station
 gui.display_station.transform=Transform

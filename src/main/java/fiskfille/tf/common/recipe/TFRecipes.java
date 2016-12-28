@@ -1,5 +1,21 @@
 package fiskfille.tf.common.recipe;
 
+import static fiskfille.tf.common.recipe.Dyes.BEIGE;
+import static fiskfille.tf.common.recipe.Dyes.BLACK;
+import static fiskfille.tf.common.recipe.Dyes.BLUE;
+import static fiskfille.tf.common.recipe.Dyes.BROWN;
+import static fiskfille.tf.common.recipe.Dyes.DARK_GRAY;
+import static fiskfille.tf.common.recipe.Dyes.DARK_RED;
+import static fiskfille.tf.common.recipe.Dyes.GRAY;
+import static fiskfille.tf.common.recipe.Dyes.LIGHT_BLUE;
+import static fiskfille.tf.common.recipe.Dyes.LIME;
+import static fiskfille.tf.common.recipe.Dyes.PALE_BROWN;
+import static fiskfille.tf.common.recipe.Dyes.PALE_GREEN;
+import static fiskfille.tf.common.recipe.Dyes.PURPLE;
+import static fiskfille.tf.common.recipe.Dyes.RED;
+import static fiskfille.tf.common.recipe.Dyes.SILVER;
+import static fiskfille.tf.common.recipe.Dyes.WHITE;
+import static fiskfille.tf.common.recipe.Dyes.YELLOW;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -57,42 +73,58 @@ public class TFRecipes
 
 	private static void addCraftingComponentRecipes()
 	{
-//		GameRegistry.addRecipe(TFSubItems.standard_engine[1], "PRP", "BIB", 'P', Blocks.piston, 'R', Items.redstone, 'I', Items.iron_ingot, 'B', Blocks.iron_block);
-//		GameRegistry.addRecipe(TFSubItems.jet_turbine[1], "IIB", " JR", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone);
-//		GameRegistry.addRecipe(TFSubItems.t50_jet_wing[1], "  I", " II", "IIT", 'I', Items.iron_ingot, 'T', TFItems.transformium);
-//		GameRegistry.addRecipe(TFSubItems.t50_jet_cockpit[1], "GIT", 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 5));
-//		GameRegistry.addRecipe(TFSubItems.tank_track[1], "LLL", "IDI", "LLL", 'I', Items.iron_ingot, 'L', Items.leather, 'D', new ItemStack(TFItems.dye, 1, 1));
-//		GameRegistry.addRecipe(TFSubItems.tank_turret[1], "  D", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'D', new ItemStack(TFItems.dye, 1, 1));
-//		GameRegistry.addRecipe(TFSubItems.car_wheel[1], "DLD", "LIL", "DLD", 'I', Items.iron_ingot, 'L', Items.leather, 'D', Items.dye);
-//		GameRegistry.addRecipe(TFSubItems.small_thruster[1], "III", " JR", "III", 'I', Items.iron_ingot, 'J', Blocks.iron_bars, 'R', Items.redstone);
-
-		AssemblyTable.addRecipe(TFSubItems.optic_sensor, new ItemStack[] {}, "     ", " DT  ", " TT  ", "   R ", "     ", 'D', Items.diamond, 'T', TFItems.transformiumAlloyNugget, 'R', Items.redstone);
-		AssemblyTable.addRecipe(TFSubItems.protoform_head, new ItemStack[] {new ItemStack(Items.dye, 3, 8)}, "     ", " TTT ", " OTO ", " TRT ", "  T  ", 'T', TFItems.transformiumAlloy, 'O', TFSubItems.optic_sensor, 'R', Items.redstone);
+		AssemblyTable.addRecipe(TFSubItems.optic_sensor, new Dyes(), "     ", " DT  ", " TT  ", "   R ", "     ", 'D', Items.diamond, 'T', TFItems.transformiumAlloyNugget, 'R', Items.redstone);
+		AssemblyTable.addRecipe(TFSubItems.protoform_head, new Dyes(GRAY, 3), "     ", " TTT ", " OTO ", " TRT ", "  T  ", 'T', TFItems.transformiumAlloy, 'O', TFSubItems.optic_sensor, 'R', Items.redstone);
+		AssemblyTable.addRecipe(TFSubItems.wheel, new Dyes(BLACK, 3), "     ", " LLL ", " LIL ", " LLL ", "     ", 'L', Items.leather, 'I', Items.iron_ingot);
 		GameRegistry.addRecipe(TFSubItems.transformium_alloy_rod[1], "T", "T", "T", 'T', TFItems.transformiumAlloy);
+		GameRegistry.addRecipe(TFSubItems.standard_engine[1], "PRP", "BIB", 'P', Blocks.piston, 'R', Items.redstone, 'I', Items.iron_ingot, 'B', Blocks.iron_block);
 		GameRegistry.addRecipe(TFSubItems.jet_thruster[1], "IIB", "xRJ", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone, 'x', Blocks.redstone_block);
+		GameRegistry.addRecipe(TFSubItems.small_thruster[1], "III", " JR", "III", 'I', Items.iron_ingot, 'J', Blocks.iron_bars, 'R', Items.redstone);
 		
+		AssemblyTable.addRecipe(TFSubItems.skystrikes_wing, new Dyes(GRAY, 5, DARK_GRAY, 1), "     ", " TTT ", " TTT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.skystrikes_shoulder_pad, new Dyes(GRAY, 3), "     ", " TTT ", "    T", "     ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.skystrikes_gauntlet, new Dyes(GRAY, 2, WHITE, 2, RED, 1), "   T ", "  TT ", "  TT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.skystrike_torso_base, new Dyes(WHITE, 7, RED, 6, GRAY, 1), "     ", "TTTTT", " TTT ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.skystrikes_greave, new Dyes(GRAY, 3, WHITE, 2, DARK_GRAY, 1), "  T  ", "  TT ", "  TT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
 		
-		AssemblyTable.addRecipe(TFSubItems.skystrikes_wing, new ItemStack[] {new ItemStack(Items.dye, 5, 8), new ItemStack(TFItems.dye, 1, 2)}, "     ", " TTT ", " TTT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
-        AssemblyTable.addRecipe(TFSubItems.skystrikes_shoulder_pad, new ItemStack[] {new ItemStack(Items.dye, 3, 8)}, "     ", " TTT ", "    T", "     ", "     ", 'T', TFItems.transformiumAlloy);
-        AssemblyTable.addRecipe(TFSubItems.skystrikes_gauntlet, new ItemStack[] {new ItemStack(Items.dye, 2, 8), new ItemStack(Items.dye, 2, 15), new ItemStack(Items.dye, 1, 1)}, "   T ", "  TT ", "  TT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy);
-        AssemblyTable.addRecipe(TFSubItems.skystrike_torso_base, new ItemStack[] {new ItemStack(Items.dye, 7, 15), new ItemStack(Items.dye, 6, 1), new ItemStack(Items.dye, 1, 8)}, "     ", "TTTTT", " TTT ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy);
-        AssemblyTable.addRecipe(TFSubItems.skystrikes_greave, new ItemStack[] {new ItemStack(Items.dye, 3, 8), new ItemStack(Items.dye, 2, 15), new ItemStack(TFItems.dye, 1, 2)}, "  T  ", "  TT ", "  TT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
+		AssemblyTable.addRecipe(TFSubItems.tank_turret_base, new Dyes(BEIGE, 2), "     ", "     ", " IBI ", "     ", "     ", 'I', Items.iron_ingot, 'B', Blocks.iron_block);
+		AssemblyTable.addRecipe(TFSubItems.tank_barrel, new Dyes(BEIGE, 1), "     ", "     ", " III ", "     ", "     ", 'I', Items.iron_ingot);
+		AssemblyTable.addRecipe(TFSubItems.tank_turret, new Dyes(), "     ", "     ", " BT  ", "     ", "     ", 'B', TFSubItems.tank_barrel, 'T', TFSubItems.tank_turret_base);
+		AssemblyTable.addRecipe(TFSubItems.tank_track, new Dyes(GRAY, 5, BEIGE, 2, DARK_RED, 1), "     ", "LLLLL", "LIIIL", " LLL ", "     ", 'L', Items.leather, 'I', Items.iron_ingot);
+		AssemblyTable.addRecipe(TFSubItems.purges_pauldron, new Dyes(BEIGE, 3, PURPLE, 1), "     ", " TTT ", "   T ", "   T ", "     ", 'T', TFItems.transformiumAlloy);
+		AssemblyTable.addRecipe(TFSubItems.purges_gauntlet, new Dyes(BEIGE, 2, DARK_RED, 1), "   T ", "  TT ", "  TT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy);
+		AssemblyTable.addRecipe(TFSubItems.purge_torso_base, new Dyes(BEIGE, 9, DARK_RED, 4, DARK_GRAY, 1), "     ", "TTTTT", " TTT ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy);
+		AssemblyTable.addRecipe(TFSubItems.purges_greave, new Dyes(BEIGE, 4, DARK_RED, 2), "  T  ", "  TT ", "  TT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
 		
-		AssemblyTable.addRecipe(TFSubItems.tank_turret_base, new ItemStack[] {new ItemStack(TFItems.dye, 2, 1)}, "     ", "     ", " IBI ", "     ", "     ", 'I', Items.iron_ingot, 'B', Blocks.iron_block);
-		AssemblyTable.addRecipe(TFSubItems.tank_barrel, new ItemStack[] {new ItemStack(TFItems.dye, 1, 1)}, "     ", "     ", " III ", "     ", "     ", 'I', Items.iron_ingot);
-		AssemblyTable.addRecipe(TFSubItems.tank_turret, new ItemStack[] {}, "     ", "     ", " BT  ", "     ", "     ", 'B', TFSubItems.tank_barrel, 'T', TFSubItems.tank_turret_base);
-		AssemblyTable.addRecipe(TFSubItems.tank_track, new ItemStack[] {new ItemStack(Items.dye, 5, 8), new ItemStack(TFItems.dye, 2, 1), new ItemStack(TFItems.dye, 1, 0)}, "     ", "LLLLL", "LIIIL", " LLL ", "     ", 'L', Items.leather, 'I', Items.iron_ingot);
-		AssemblyTable.addRecipe(TFSubItems.purges_pauldron, new ItemStack[] {new ItemStack(TFItems.dye, 3, 1), new ItemStack(Items.dye, 1, 5)}, "     ", " TTT ", "   T ", "   T ", "     ", 'T', TFItems.transformiumAlloy);
-		AssemblyTable.addRecipe(TFSubItems.purges_gauntlet, new ItemStack[] {new ItemStack(TFItems.dye, 2, 1), new ItemStack(TFItems.dye, 1, 0)}, "   T ", "  TT ", "  TT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy);
-		AssemblyTable.addRecipe(TFSubItems.purge_torso_base, new ItemStack[] {new ItemStack(TFItems.dye, 9, 1), new ItemStack(TFItems.dye, 4, 0), new ItemStack(TFItems.dye, 1, 2)}, "     ", "TTTTT", " TTT ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy);
-		AssemblyTable.addRecipe(TFSubItems.purges_greave, new ItemStack[] {new ItemStack(TFItems.dye, 4, 1), new ItemStack(TFItems.dye, 2, 0)}, "  T  ", "  TT ", "  TT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
-
-
+		AssemblyTable.addRecipe(TFSubItems.vurps_shoulder_pad, new Dyes(SILVER, 2, PURPLE, 1), "     ", "  TT ", "  TT ", "     ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.vurps_gauntlet, new Dyes(SILVER, 2, GRAY, 1), "   T ", "  TG ", "  TG ", "  T  ", "     ", 'T', TFItems.transformiumAlloy, 'G', Dyes.dye(Blocks.stained_glass_pane, BLACK));
+        AssemblyTable.addRecipe(TFSubItems.vurp_torso_base, new Dyes(SILVER, 12, BLACK, 1, PALE_GREEN, 1), "     ", "TTTTT", " TTT ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.vurps_greave, new Dyes(SILVER, 4, DARK_GRAY, 1), "  T  ", "  TTW", "  TT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy, 'W', TFSubItems.wheel);
+        AssemblyTable.addRecipe(TFSubItems.vurps_facemask, new Dyes(), "     ", " GGG ", " GGG ", " GGG ", "     ", 'G', Dyes.dye(Blocks.stained_glass_pane, LIME));
+        
+        AssemblyTable.addRecipe(TFSubItems.subwoofers_shoulder_pad, new Dyes(BLUE, 2, DARK_GRAY, 1), "     ", "  TT ", "  TT ", "     ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.subwoofers_gauntlet, new Dyes(BLUE, 2, YELLOW, 1, GRAY, 1), "   T ", "  TT ", "  TT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.subwoofer_torso_base, new Dyes(BLUE, 11, YELLOW, 1, SILVER, 1), "     ", "TTGTT", " WTW ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy, 'W', TFSubItems.wheel, 'G', Dyes.dye(Blocks.stained_glass, LIGHT_BLUE));
+        AssemblyTable.addRecipe(TFSubItems.subwoofers_greave, new Dyes(BLUE, 4, YELLOW, 1), "  T  ", "  TT ", "  TT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.subwoofers_visor, new Dyes(), "     ", "     ", " GGG ", "     ", "     ", 'G', Dyes.dye(Blocks.stained_glass_pane, LIGHT_BLUE));
+        
+        AssemblyTable.addRecipe(TFSubItems.cloudtraps_wing, new Dyes(GRAY, 4, PALE_BROWN, 2), " TTT ", "   TT", "  T T", " T  T", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.cloudtraps_pauldron, new Dyes(GRAY, 2, DARK_GRAY, 1), "     ", " TTT ", "  TT ", "     ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.cloudtraps_gauntlet, new Dyes(GRAY, 2, PALE_BROWN, 1, DARK_GRAY, 1), "   T ", "  TT ", "  TT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy);
+        AssemblyTable.addRecipe(TFSubItems.cloudtrap_torso_base, new Dyes(GRAY, 9, PALE_BROWN, 3, PURPLE, 1), "     ", "TTTTT", " TGT ", "  T  ", " TTT ", 'T', TFItems.transformiumAlloy, 'G', Dyes.dye(Blocks.stained_glass, LIME));
+        AssemblyTable.addRecipe(TFSubItems.cloudtraps_greave, new Dyes(GRAY, 4, DARK_GRAY, 1), "  T  ", "  TTT", "  TTE", "  TT ", "     ", 'T', TFItems.transformiumAlloy, 'E', TFSubItems.jet_thruster);
+        AssemblyTable.addRecipe(TFSubItems.cloudtraps_visor, new Dyes(), "     ", " G G ", " GGG ", "     ", "     ", 'G', Dyes.dye(Blocks.stained_glass_pane, LIME));
+        
+        
+        
 		// Dyes
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.dye, 2, 0), new ItemStack(Items.dye, 1, 1), new ItemStack(Items.dye, 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.dye, 2, 1), new ItemStack(Items.dye, 1, 3), new ItemStack(Items.dye, 1, 15));
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.dye, 2, 2), new ItemStack(Items.dye, 1, 8), new ItemStack(Items.dye, 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(TFItems.dye, 3, 2), new ItemStack(Items.dye, 1, 15), new ItemStack(Items.dye, 1, 0), new ItemStack(Items.dye, 1, 0));
+		GameRegistry.addShapelessRecipe(Dyes.get(DARK_RED, 2), Dyes.get(RED), Dyes.get(BLACK));
+		GameRegistry.addShapelessRecipe(Dyes.get(BEIGE, 2), Dyes.get(BROWN), Dyes.get(WHITE));
+		GameRegistry.addShapelessRecipe(Dyes.get(DARK_GRAY, 2), Dyes.get(GRAY), Dyes.get(BLACK));
+		GameRegistry.addShapelessRecipe(Dyes.get(DARK_GRAY, 3), Dyes.get(WHITE), Dyes.get(BLACK), Dyes.get(BLACK));
+		GameRegistry.addShapelessRecipe(Dyes.get(PALE_GREEN, 2), Dyes.get(LIME), Dyes.get(WHITE));
+		GameRegistry.addShapelessRecipe(Dyes.get(PALE_BROWN, 2), Dyes.get(BEIGE), Dyes.get(GRAY));
+		GameRegistry.addShapelessRecipe(Dyes.get(PALE_BROWN, 3), Dyes.get(BROWN), Dyes.get(WHITE), Dyes.get(GRAY));
 	}
 
 	private static void addDisplayRecipes()
@@ -121,26 +153,33 @@ public class TFRecipes
 
 	private static void addArmorRecipes()
 	{
-	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeHelmet), new ItemStack[] {new ItemStack(Items.dye, 3, 8), new ItemStack(Items.dye, 2, 15), new ItemStack(Items.dye, 1, 1)}, "     ", " TTT ", " THT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head);
-	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeChestplate), new ItemStack[] {}, "     ", " W W ", " SBS ", " G G ", "     ", 'W', TFSubItems.skystrikes_wing, 'S', TFSubItems.skystrikes_shoulder_pad, 'B', TFSubItems.skystrike_torso_base, 'G', TFSubItems.skystrikes_gauntlet);
-	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeLeggings), new ItemStack[] {new ItemStack(Items.dye, 2, 15), new ItemStack(Items.dye, 2, 8)}, "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.skystrikes_greave);
-	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeBoots), new ItemStack[] {new ItemStack(Items.dye, 2, 8), new ItemStack(Items.dye, 2, 15), new ItemStack(Items.dye, 2, 1)}, "     ", "     ", "     ", " TTE ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2), 'E', TFSubItems.jet_thruster[2]);
+	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeHelmet), new Dyes(GRAY, 3, WHITE, 2, RED, 1), "     ", " TTT ", " THT ", "  T  ", "     ", 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head);
+	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeChestplate), new Dyes(), "     ", " W W ", " SBS ", " G G ", "     ", 'W', TFSubItems.skystrikes_wing, 'S', TFSubItems.skystrikes_shoulder_pad, 'B', TFSubItems.skystrike_torso_base, 'G', TFSubItems.skystrikes_gauntlet);
+	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeLeggings), new Dyes(WHITE, 2, GRAY, 2), "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.skystrikes_greave);
+	    AssemblyTable.addRecipe(new ItemStack(TFItems.skystrikeBoots), new Dyes(GRAY, 2, WHITE, 2, RED, 2), "     ", "     ", "     ", " TTE ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2), 'E', TFSubItems.jet_thruster[2]);
 	    
-		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeHelmet), new ItemStack[] {new ItemStack(TFItems.dye, 4, 2)}, " GNG ", " TGT ", " THT ", " T T ", "     ", 'G', Items.gold_ingot, 'N', Items.gold_nugget, 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head);
-		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeChestplate), new ItemStack[] {}, "     ", " WOW ", " PBP ", " G G ", "     ", 'W', TFSubItems.tank_track, 'O', TFSubItems.tank_turret, 'P', TFSubItems.purges_pauldron, 'B', TFSubItems.purge_torso_base, 'G', TFSubItems.purges_gauntlet);
-		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeLeggings), new ItemStack[] {new ItemStack(TFItems.dye, 4, 2)}, "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.purges_greave);
-		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeBoots), new ItemStack[] {new ItemStack(Items.dye, 4, 0), new ItemStack(Items.dye, 3, 7)}, "     ", "     ", "     ", " TTT ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2));
+		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeHelmet), new Dyes(DARK_GRAY, 4), " GNG ", " TGT ", " THT ", " T T ", "     ", 'G', Items.gold_ingot, 'N', Items.gold_nugget, 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head);
+		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeChestplate), new Dyes(), "     ", " WOW ", " PBP ", " G G ", "     ", 'W', TFSubItems.tank_track, 'O', TFSubItems.tank_turret, 'P', TFSubItems.purges_pauldron, 'B', TFSubItems.purge_torso_base, 'G', TFSubItems.purges_gauntlet);
+		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeLeggings), new Dyes(DARK_GRAY, 4), "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.purges_greave);
+		AssemblyTable.addRecipe(new ItemStack(TFItems.purgeBoots), new Dyes(BLACK, 4, SILVER, 3), "     ", "     ", "     ", " TTT ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2));
 
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.vurpHelmet, 1), "gI Ib", "ITTTI", "IT TI", "I   I", " IGI ", 'g', new ItemStack(Items.dye, 3, 7), 'b', new ItemStack(Items.dye, 2, 0), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 5));
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.vurpChestplate, 1), "gWEWl", "IT TI", "GTTTG", "ITTTI", "b    ", 'g', new ItemStack(Items.dye, 5, 7), 'l', new ItemStack(Items.dye, 3, 10), 'b', new ItemStack(Items.dye, 2, 0), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 15), 'W', TFSubItems.car_wheel[1], 'E', TFSubItems.standard_engine[1]);
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.vurpLeggings, 1), "gRIRl", " TTT ", "WT TW", " T T ", "     ", 'g', new ItemStack(Items.dye, 4, 7), 'l', new ItemStack(Items.dye, 2, 10), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'W', TFSubItems.car_wheel[1], 'R', Items.redstone);
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.vurpBoots, 1), "g   b", " T T ", " T T ", "     ", "     ", 'g', new ItemStack(Items.dye, 2, 7), 'b', new ItemStack(Items.dye, 2, 0), 'T', TFItems.transformium);
-//
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferHelmet, 1), "b   y", "ITTTI", "IT TI", "I   I", "  G  ", 'b', new ItemStack(Items.dye, 3, 4), 'y', new ItemStack(Items.dye, 2, 11), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 3));
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferChestplate, 1), "bWGWy", "PT TP", "ITTTI", "ITTTC", " WEW ", 'b', new ItemStack(Items.dye, 5, 4), 'y', new ItemStack(Items.dye, 2, 11), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 3), 'P', Blocks.heavy_weighted_pressure_plate, 'C', TFBlocks.energonCrystal, 'W', TFSubItems.car_wheel[1], 'E', TFSubItems.standard_engine[1]);
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferLeggings, 1), "bRIRy", " TTT ", " T T ", " T T ", "     ", 'b', new ItemStack(Items.dye, 4, 4), 'y', new ItemStack(Items.dye, 1, 11), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'R', Items.redstone);
-//		AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferBoots, 1), "b   g", " T T ", " T T ", "     ", "     ", 'b', new ItemStack(Items.dye, 2, 4), 'g', new ItemStack(Items.dye, 2, 8), 'T', TFItems.transformium);
-//
+		AssemblyTable.addRecipe(new ItemStack(TFItems.vurpHelmet), new Dyes(SILVER, 4, BLACK, 1), "     ", " TTT ", " THT ", "  F  ", "     ", 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head, 'F', TFSubItems.vurps_facemask);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.vurpChestplate), new Dyes(), "     ", " W W ", " SBS ", " G G ", "     ", 'W', TFSubItems.wheel, 'S', TFSubItems.vurps_shoulder_pad, 'B', TFSubItems.vurp_torso_base, 'G', TFSubItems.vurps_gauntlet);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.vurpLeggings), new Dyes(PALE_GREEN, 4), "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.vurps_greave);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.vurpBoots), new Dyes(BLACK, 5), "     ", "     ", "     ", " TTT ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2));
+		
+        AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferHelmet), new Dyes(BLUE, 4, YELLOW, 1, SILVER, 1), "     ", " TTT ", " THT ", "  V  ", "     ", 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head, 'V', TFSubItems.subwoofers_visor);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferChestplate), new Dyes(), "     ", "     ", " SBS ", " G G ", "     ", 'S', TFSubItems.subwoofers_shoulder_pad, 'B', TFSubItems.subwoofer_torso_base, 'G', TFSubItems.subwoofers_gauntlet);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferLeggings), new Dyes(SILVER, 4), "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.subwoofers_greave);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.subwooferBoots), new Dyes(SILVER, 5), "     ", "     ", "     ", " TTW ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2), 'W', TFSubItems.wheel[2]);
+		
+        AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapHelmet), new Dyes(BLACK, 3, DARK_GRAY, 2, GRAY, 1), "     ", " TTT ", " THT ", " BVB ", "     ", 'T', TFItems.transformiumAlloy, 'H', TFSubItems.protoform_head, 'V', TFSubItems.cloudtraps_visor, 'B', Blocks.iron_block);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapChestplate), new Dyes(), "     ", " W W ", " PBP ", " G G ", "     ", 'W', TFSubItems.cloudtraps_wing, 'P', TFSubItems.cloudtraps_pauldron, 'B', TFSubItems.cloudtrap_torso_base, 'G', TFSubItems.cloudtraps_gauntlet);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapLeggings), new Dyes(GRAY, 3, PALE_BROWN, 1), "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.cloudtraps_greave);
+        AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapBoots), new Dyes(GRAY, 3, PALE_BROWN, 2), "     ", "     ", "     ", " TTT ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2));
+        
+        
+		
 //		AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapHelmet, 1), "bIII ", "ITTTI", " T T ", "I   I", " BGB ", 'b', new ItemStack(Items.dye, 3, 0), 'y', new ItemStack(Items.dye, 2, 11), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'G', new ItemStack(Blocks.stained_glass_pane, 1, 5), 'B', Blocks.iron_block);
 //		AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapChestplate, 1), "gI Ip", "WT TW", "ITTTI", "ITTTB", "  C  ", 'g', new ItemStack(Items.dye, 7, 7), 'p', new ItemStack(Items.dye, 1, 5), 'T', TFItems.transformium, 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'W', TFSubItems.t50_jet_wing[1], 'C', TFSubItems.t50_jet_cockpit[1]);
 //		AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapLeggings, 1), "gIII ", " TTT ", "IT TI", "IT TI", "     ", 'g', new ItemStack(Items.dye, 6, 7), 'T', TFItems.transformium, 'I', Items.iron_ingot);

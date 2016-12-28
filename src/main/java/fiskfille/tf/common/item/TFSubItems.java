@@ -9,90 +9,106 @@ import com.google.common.collect.Lists;
 
 public class TFSubItems
 {
-	public static ItemStack[] optic_sensor;
-	public static ItemStack[] protoform_head;
-	public static ItemStack[] transformium_alloy_rod;
-	
-	public static ItemStack[] standard_engine;
-	public static ItemStack[] jet_turbine;
-	public static ItemStack[] jet_thruster;
-	public static ItemStack[] small_thruster;
-	public static ItemStack[] t50_jet_wing;
-	public static ItemStack[] t50_jet_cockpit;
-	public static ItemStack[] car_wheel;
-	
-	public static ItemStack[] skystrikes_wing;
+    public static ItemStack[] optic_sensor;
+    public static ItemStack[] protoform_head;
+    public static ItemStack[] transformium_alloy_rod;
+    public static ItemStack[] standard_engine;
+    public static ItemStack[] jet_thruster;
+    public static ItemStack[] small_thruster;
+    public static ItemStack[] wheel;
+
+    public static ItemStack[] skystrikes_wing;
     public static ItemStack[] skystrikes_shoulder_pad;
     public static ItemStack[] skystrikes_gauntlet;
     public static ItemStack[] skystrike_torso_base;
     public static ItemStack[] skystrikes_greave;
 
-	public static ItemStack[] tank_turret_base;
-	public static ItemStack[] tank_barrel;
-	public static ItemStack[] tank_turret;
-	public static ItemStack[] tank_track;
-	public static ItemStack[] purges_pauldron;
-	public static ItemStack[] purges_gauntlet;
-	public static ItemStack[] purge_torso_base;
-	public static ItemStack[] purges_greave;
-	
+    public static ItemStack[] tank_turret_base;
+    public static ItemStack[] tank_barrel;
+    public static ItemStack[] tank_turret;
+    public static ItemStack[] tank_track;
+    public static ItemStack[] purges_pauldron;
+    public static ItemStack[] purges_gauntlet;
+    public static ItemStack[] purge_torso_base;
+    public static ItemStack[] purges_greave;
 
-	private static int ID_MAX;
+    public static ItemStack[] vurps_shoulder_pad;
+    public static ItemStack[] vurps_gauntlet;
+    public static ItemStack[] vurp_torso_base;
+    public static ItemStack[] vurps_greave;
+    public static ItemStack[] vurps_facemask;
 
-	public static void register()
-	{
-		int i = 0;
-		List<String> list = Lists.newArrayList();
+    public static ItemStack[] subwoofers_shoulder_pad;
+    public static ItemStack[] subwoofers_gauntlet;
+    public static ItemStack[] subwoofer_torso_base;
+    public static ItemStack[] subwoofers_greave;
+    public static ItemStack[] subwoofers_visor;
 
-		for (Field field : TFSubItems.class.getFields())
-		{
-			String s = field.getType().getName();
+    public static ItemStack[] cloudtraps_wing;
+    public static ItemStack[] cloudtraps_pauldron;
+    public static ItemStack[] cloudtraps_gauntlet;
+    public static ItemStack[] cloudtrap_torso_base;
+    public static ItemStack[] cloudtraps_greave;
+    public static ItemStack[] cloudtraps_visor;
 
-			if (s.equals(ItemStack[].class.getName()))
-			{
-				try
-				{
-					ItemStack[] aitemstack = new ItemStack[65];
 
-					for (int j = 0; j < aitemstack.length; ++j)
-					{
-						aitemstack[j] = new ItemStack(TFItems.craftingMaterial, j, i);
-					}
+    private static int ID_MAX;
 
-					field.set(null, aitemstack);
-					list.add(field.getName());
-					++i;
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}
+    public static void register()
+    {
+        int id = 0;
+        List<String> list = Lists.newArrayList();
 
-		try
-		{
-			Field field = ItemMetaBasic.class.getField("itemNames");
-			String[] astring = list.toArray(new String[list.size()]);
+        for (Field field : TFSubItems.class.getFields())
+        {
+            String s = field.getType().getName();
 
-			field.setAccessible(true);
-			field.set(TFItems.craftingMaterial, astring);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+            if (s.equals(ItemStack[].class.getName()))
+            {
+                try
+                {
+                    ItemStack[] itemstacks = new ItemStack[65];
+                    String name = field.getName();
 
-		ID_MAX = i;
-	}
+                    for (int amount = 0; amount < itemstacks.length; ++amount)
+                    {
+                        itemstacks[amount] = new ItemStack(TFItems.craftingMaterial, amount, id);
+                    }
 
-	public static boolean matches(ItemStack itemstack, ItemStack[] item)
-	{
-		if (itemstack != null && item[1].getItem() == itemstack.getItem() && item[1].getItemDamage() == itemstack.getItemDamage())
-		{
-			return true;
-		}
+                    field.set(null, itemstacks);
+                    list.add(name);
+                    ++id;
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-		return false;
-	}
+        try
+        {
+            Field field = ItemMetaBasic.class.getField("itemNames");
+            String[] astring = list.toArray(new String[list.size()]);
+
+            field.setAccessible(true);
+            field.set(TFItems.craftingMaterial, astring);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        ID_MAX = id;
+    }
+
+    public static boolean matches(ItemStack itemstack, ItemStack[] item)
+    {
+        if (itemstack != null && item[1].getItem() == itemstack.getItem() && item[1].getItemDamage() == itemstack.getItemDamage())
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

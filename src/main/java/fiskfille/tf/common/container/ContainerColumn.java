@@ -48,7 +48,7 @@ public class ContainerColumn extends ContainerBasic
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (slotId >= MAX)
+            if (slotId > MAX)
             {
                 if (tileentity.isItemValidForSlot(slotId, itemstack1))
                 {

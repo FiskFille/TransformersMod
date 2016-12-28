@@ -15,12 +15,14 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiAlloyCrucible;
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.recipe.AlloyRecipes;
 import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
@@ -55,7 +57,7 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
         @Override
         public List<PositionedStack> getIngredients()
         {
-            return getCycledIngredients(cycleticks / 48, ingredients);
+            return getCycledIngredients(cycleticks / 20, ingredients);
         }
 
         @Override
@@ -100,7 +102,9 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
 
             for (Entry<AlloyIngredients, ItemStack> e : recipes.entrySet())
             {
-                arecipes.add(new AlloyPair(e.getKey(), e.getValue()));
+                AlloyPair recipe = new AlloyPair(e.getKey(), e.getValue());
+                recipe.computeVisuals();
+                arecipes.add(recipe);
             }
         }
         else
@@ -116,9 +120,11 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
 
         for (Entry<AlloyIngredients, ItemStack> e : recipes.entrySet())
         {
-            if (NEIServerUtils.areStacksSameType(e.getValue(), result))
+            if (NEIServerUtils.areStacksSameTypeCrafting(e.getValue(), result))
             {
-                arecipes.add(new AlloyPair(e.getKey(), e.getValue()));
+                AlloyPair recipe = new AlloyPair(e.getKey(), e.getValue());
+                recipe.computeVisuals();
+                arecipes.add(recipe);
             }
         }
     }
@@ -170,6 +176,10 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
     {
         drawProgressBar(102, 40, 192, 0, 14, 14, 48, 3);
         drawProgressBar(44, 8, 176, 0, 16, 52, 52 * 48, 7);
+        
+        
+        ItemStack itemstack = getResultStack(recipe).item;
+        GuiDraw.drawString(StatCollector.translateToLocalFormatted("gui.emb.amount", AlloyRecipes.getInstance().getSmeltTime(itemstack) * 2), 0, 0, 0x8B8B8B, false);
     }
     
     @Override

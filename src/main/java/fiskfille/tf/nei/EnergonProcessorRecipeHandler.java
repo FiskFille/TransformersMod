@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -172,17 +173,17 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
     public void loadCraftingRecipes(ItemStack result)
     {
         Item item = result.getItem();
-        
+
         if (item instanceof IFluidContainerItem)
         {
-        	IFluidContainerItem container = (IFluidContainerItem)item;
-        	FluidStack stack = container.getFluid(result);
-        	
-        	int amount = stack != null ? stack.amount : 0;
-        	
-        	if (!ItemFuelCanister.isEmpty(result) && stack.getFluid() == TFFluids.energon)
-        	{
-        		Map<String, Float> ratios = FluidEnergon.getRatios(stack);
+            IFluidContainerItem container = (IFluidContainerItem)item;
+            FluidStack stack = container.getFluid(result);
+
+            int amount = stack != null ? stack.amount : 0;
+
+            if (!ItemFuelCanister.isEmpty(result) && stack.getFluid() == TFFluids.energon)
+            {
+                Map<String, Float> ratios = FluidEnergon.getRatios(stack);
 
                 for (CrystalPair crystal : crystals)
                 {
@@ -194,30 +195,30 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                         result.stackSize = 1;
                         CachedProcessorRecipe recipe = new CachedProcessorRecipe(crystal.stack, result);
                         FluidStack stack1 = new FluidStack(TFFluids.energon, 0);
-                        
+
                         for (Map.Entry<String, Float> e : ratios.entrySet())
                         {
-                        	Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                        	int amount1 = Math.round(e.getValue() * amount);
-                        	
-                        	if (e.getKey().equals(id))
-                        	{
-                        		amount1 -= mass;
-                        	}
-                        	
-                        	if (amount1 > 0)
-                        	{
-                        		stack1.amount += amount1;
-                        		FluidEnergon.merge(stack1, FluidEnergon.create(energon, 0), amount1);
-                        	}
+                            Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                            int amount1 = Math.round(e.getValue() * amount);
+
+                            if (e.getKey().equals(id))
+                            {
+                                amount1 -= mass;
+                            }
+
+                            if (amount1 > 0)
+                            {
+                                stack1.amount += amount1;
+                                FluidEnergon.merge(stack1, FluidEnergon.create(energon, 0), amount1);
+                            }
                         }
-                        
+
                         int i = recipe.tank.fill(stack1, true);
                         recipe.computeVisuals();
                         arecipes.add(recipe);
                     }
                 }
-        	}
+            }
         }
     }
 
@@ -230,8 +231,8 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         {
             CachedProcessorRecipe recipe = new CachedProcessorRecipe(new ItemStack(ingredient.getItem(), 1, ingredient.getItemDamage()), new ItemStack(TFItems.fuelCanister));
             FluidStack stack = FluidEnergon.create(ingredient);
-            
-            ((ItemFuelCanister)recipe.result.item.getItem()).fill(recipe.result.item, stack, true);
+
+            ((ItemFuelCanister) recipe.result.item.getItem()).fill(recipe.result.item, stack, true);
 
             recipe.computeVisuals();
             arecipes.add(recipe);
@@ -253,28 +254,28 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
         if (Minecraft.getMinecraft().currentScreen instanceof GuiRecipe)
         {
-        	GuiRecipe gui = (GuiRecipe)Minecraft.getMinecraft().currentScreen;
-        	CachedProcessorRecipe recipe1 = getProcessorRecipes(null).get(recipe);
+            GuiRecipe gui = (GuiRecipe) Minecraft.getMinecraft().currentScreen;
+            CachedProcessorRecipe recipe1 = getProcessorRecipes(null).get(recipe);
             int x = (gui.width - 176) / 2 + gui.getRecipePosition(recipe).x;
             int y = (gui.height - 166) / 2 + gui.getRecipePosition(recipe).y;
-            
+
             FluidStack stack = recipe1.tank.getFluid();
 
             if (stack != null && stack.amount > 0)
             {
-            	GuiDraw.changeTexture(Minecraft.getMinecraft().getTextureMapBlocks().locationBlocksTexture);
-            	float[] rgb = TFRenderHelper.hexToRGB(stack.getFluid().getColor(stack));
-            	float f = (float)stack.amount / recipe1.tank.getCapacity();
+                GuiDraw.changeTexture(TextureMap.locationBlocksTexture);
+                float[] rgb = TFRenderHelper.hexToRGB(stack.getFluid().getColor(stack));
+                float f = (float)stack.amount / recipe1.tank.getCapacity();
 
-            	GL11.glPushMatrix();
-            	GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
-            	GL11.glTranslatef(74, 8, 0);
-            	GL11.glScalef(3, 3, 3);
-            	TFRenderHelper.startGlScissor(74 + x, 8 + y + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
-            	GuiDraw.gui.drawTexturedModelRectFromIcon(0, 0, TFTextureHelper.energonStillIcon, 16, 16);
-            	TFRenderHelper.endGlScissor();
-            	GL11.glColor4f(1, 1, 1, 1);
-            	GL11.glPopMatrix();
+                GL11.glPushMatrix();
+                GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
+                GL11.glTranslatef(74, 8, 0);
+                GL11.glScalef(3, 3, 3);
+                TFRenderHelper.startGlScissor(74 + x, 8 + y + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
+                GuiDraw.gui.drawTexturedModelRectFromIcon(0, 0, TFTextureHelper.energonStillIcon, 16, 16);
+                TFRenderHelper.endGlScissor();
+                GL11.glColor4f(1, 1, 1, 1);
+                GL11.glPopMatrix();
             }
         }
 
@@ -300,7 +301,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
             GuiRecipe gui1 = (GuiRecipe) gui;
             IRecipeHandler recipe = gui1.currenthandlers.get(gui1.recipetype);
 
-            if (recipe.getRecipeName().equals(StatCollector.translateToLocal("recipe.energonProcessor")))
+            if (recipe.getRecipeName().equals(getRecipeName()))
             {
                 EnergonProcessorRecipeHandler recipeHandler = (EnergonProcessorRecipeHandler) recipe;
                 int page = gui1.page;
@@ -311,42 +312,42 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
                     FluidStack stack = recipe1.tank.getFluid();
                     ArrayList text = Lists.newArrayList();
-                	ArrayList colors = Lists.newArrayList();
-                	int liquidAmount = stack != null ? stack.amount : 0;
+                    ArrayList colors = Lists.newArrayList();
+                    int liquidAmount = stack != null ? stack.amount : 0;
 
-                	if (stack != null && stack.amount > 0)
-                	{
-                		Map<String, Float> ratios = FluidEnergon.getRatios(stack);
-                		boolean flag = false;
+                    if (stack != null && stack.amount > 0)
+                    {
+                        Map<String, Float> ratios = FluidEnergon.getRatios(stack);
+                        boolean flag = false;
 
-            			for (Map.Entry<String, Float> e : ratios.entrySet())
-            			{
-            				Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-            				int percent = Math.round(e.getValue() * 100);
+                        for (Map.Entry<String, Float> e : ratios.entrySet())
+                        {
+                            Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
+                            int percent = Math.round(e.getValue() * 100);
 
-            				if (percent > 0)
-            				{
-            					text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
-            					colors.add(energon.getColor());
-            					flag = true;
-            				}
-            			}
-                		
-                		if (flag)
-                		{
-                			text.add("");
-                			colors.add(-1);
-                		}
-                		else
-                		{
-                			text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
-                			colors.add(0xbf0000);
-                		}
-                	}
+                            if (percent > 0)
+                            {
+                                text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
+                                colors.add(energon.getColor());
+                                flag = true;
+                            }
+                        }
 
-                	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, recipe1.tank.getCapacity()));
-                	colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
-                	
+                        if (flag)
+                        {
+                            text.add("");
+                            colors.add(-1);
+                        }
+                        else
+                        {
+                            text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
+                            colors.add(0xbf0000);
+                        }
+                    }
+
+                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, recipe1.tank.getCapacity()));
+                    colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
+
                     int guiLeft = ObfuscationReflectionHelper.getPrivateValue(GuiContainer.class, gui, 4);
                     int guiTop = ObfuscationReflectionHelper.getPrivateValue(GuiContainer.class, gui, 5);
 

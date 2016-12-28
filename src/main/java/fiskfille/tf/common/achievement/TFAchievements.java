@@ -11,7 +11,7 @@ public class TFAchievements
 {
     public static Achievement transformersMod = new Achievement("achievement.tf.transformers_mod", "tf.transformers_mod", 0, 0, TFBlocks.energonCrystal, null).initIndependentStat().registerStat();
     public static Achievement transformium = new Achievement("achievement.tf.transformium", "tf.transformium", 2, -2, TFItems.transformiumFragment, transformersMod).registerStat();
-    public static Achievement transform = new Achievement("achievement.tf.transform", "tf.transform", 4, -2, TFSubItems.car_wheel[1], transformium).registerStat();
+    public static Achievement transform = new Achievement("achievement.tf.transform", "tf.transform", 4, -2, TFSubItems.wheel[1], transformium).registerStat();
     public static Achievement firstMissile = new Achievement("achievement.tf.shoot_missile", "tf.shoot_missile", 4, 0, TFItems.missile, transform).registerStat();
     public static Achievement donate = new Achievement("achievement.tf.donate", "tf.donate", -3, -1, Items.emerald, transformersMod).setSpecial().registerStat();
     public static Achievement detonateSeed = new Achievement("achievement.tf.detonateSeed", "tf.detonateSeed", -1, -4, TFBlocks.transformiumSeed, transformium).setSpecial().registerStat();
