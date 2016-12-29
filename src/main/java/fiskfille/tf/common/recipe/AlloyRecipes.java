@@ -1,8 +1,10 @@
 package fiskfille.tf.common.recipe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,13 +38,13 @@ public class AlloyRecipes
 
     private AlloyRecipes()
     {
-        addRecipe(new AlloyIngredients(TFItems.transformiumFragment, Items.iron_ingot, Items.iron_ingot), new ItemStack(TFItems.transformiumAlloy, 2), 400, 1.0F);
-        addRecipe(new AlloyIngredients(TFBlocks.transformiumStone, Blocks.clay, Items.quartz), new ItemStack(TFItems.transformiumFragment), 600, 0.35F);
+        addRecipe(new AlloyIngredients(TFItems.transformiumFragment, "ingotIron", "ingotIron"), new ItemStack(TFItems.transformiumAlloy, 2), 400, 1.0F);
+        addRecipe(new AlloyIngredients(TFBlocks.transformiumStone, Blocks.clay, "gemQuartz"), new ItemStack(TFItems.transformiumFragment), 600, 0.35F);
         
-        addRecipe(new AlloyIngredients(Blocks.stone, Items.ender_pearl), new ItemStack(Blocks.end_stone), 0.2F);
-        addRecipe(new AlloyIngredients(Blocks.stained_glass), new ItemStack(Blocks.glass), 0);
-        addRecipe(new AlloyIngredients(Blocks.stained_glass_pane), new ItemStack(Blocks.glass_pane), 0);
-        addRecipe(new AlloyIngredients(Blocks.stained_hardened_clay), new ItemStack(Blocks.hardened_clay), 0);
+        addRecipe(new AlloyIngredients("stone", Items.ender_pearl), new ItemStack(Blocks.end_stone), 0.2F);
+        addRecipe(new AlloyIngredients("blockGlass"), new ItemStack(Blocks.glass), 0);
+        addRecipe(new AlloyIngredients("paneGlass"), new ItemStack(Blocks.glass_pane), 0);
+        addRecipe(new AlloyIngredients("blockClayHardened"), new ItemStack(Blocks.hardened_clay), 0);
     }
     
     public void addRecipe(AlloyIngredients alloy, ItemStack result, float xp)
@@ -62,11 +64,17 @@ public class AlloyRecipes
         durationList.put(result, duration);
         experienceList.put(result, Float.valueOf(xp));
     }
-
+    
     public ItemStack getSmeltingResult(AlloyIngredients ingredients)
     {
-        Iterator iterator = smeltingList.entrySet().iterator();
-        Entry entry;
+        ItemStack[] itemstacks = ingredients.getIngredients();
+        return getSmeltingResult(itemstacks[0], itemstacks[1], itemstacks[2]);
+    }
+
+    public ItemStack getSmeltingResult(ItemStack input1, ItemStack input2, ItemStack input3)
+    {
+        Iterator<Entry<AlloyIngredients, ItemStack>> iterator = smeltingList.entrySet().iterator();
+        Entry<AlloyIngredients, ItemStack> entry;
 
         do
         {
@@ -75,14 +83,31 @@ public class AlloyRecipes
                 return null;
             }
 
-            entry = (Entry) iterator.next();
+            entry = iterator.next();
         }
-        while (!ingredients.equals(entry.getKey()));
+        while (!entry.getKey().matches(input1, input2, input3));
 
         return (ItemStack) entry.getValue();
     }
+    
+    public static boolean matches(ItemStack itemstack, String oreDict)
+    {
+        List<ItemStack> aliases = OreDictionary.getOres(oreDict);
+        
+        for (int i = 0; i < aliases.size(); ++i)
+        {
+            ItemStack itemstack1 = aliases.get(i);
+            
+            if (matches(itemstack, itemstack1))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
-    private static boolean matches(ItemStack itemstack, ItemStack itemstack1)
+    public static boolean matches(ItemStack itemstack, ItemStack itemstack1)
     {
         return itemstack1.getItem() == itemstack.getItem() && (itemstack1.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack1.getItemDamage() == itemstack.getItemDamage());
     }
@@ -139,6 +164,7 @@ public class AlloyRecipes
     
     public static class AlloyIngredients
     {
+        private final Map<Integer, List<String>> oreDictNames = Maps.newHashMap();
         private final ItemStack[] ingredients;
         
         public AlloyIngredients(Object... objects)
@@ -149,26 +175,117 @@ public class AlloyRecipes
             {
                 Object obj = objects[i];
                 
-                if (obj instanceof ItemStack)
+                if (obj instanceof List)
                 {
-                    list.add((ItemStack) obj);
+                    List list1 = (List) obj;
+                    
+                    for (int j = 0; j < list1.size(); ++j)
+                    {
+                        List<ItemStack> list2 = OreDictionary.getOres((String) list1.get(j));
+                        
+                        if (!list2.isEmpty())
+                        {
+                            list.add(list2.get(0));
+                            break;
+                        }
+                    }
+                    
+                    oreDictNames.put(i, list1);
                 }
-                else if (obj instanceof Item)
+                else if (obj instanceof String)
                 {
-                    list.add(new ItemStack((Item) obj, 1, OreDictionary.WILDCARD_VALUE));
+                    List<ItemStack> list1 = OreDictionary.getOres((String) obj);
+                    
+                    if (!list1.isEmpty())
+                    {
+                        list.add(list1.get(0));
+                    }
+                    
+                    oreDictNames.put(i, Arrays.asList((String) obj));
                 }
-                else if (obj instanceof Block)
+                else
                 {
-                    list.add(new ItemStack(Item.getItemFromBlock((Block) obj), 1, OreDictionary.WILDCARD_VALUE));
+                    ItemStack itemstack = getItemStack(obj);
+                    
+                    if (itemstack != null)
+                    {
+                        list.add(itemstack);
+                    }
                 }
             }
             
             ingredients = list.toArray(new ItemStack[3]);
         }
         
+        public boolean matches(ItemStack input1, ItemStack input2, ItemStack input3)
+        {
+            ItemStack[] ingredients = new ItemStack[] {input1, input2, input3};
+            
+            for (int i = 0; i < getIngredients().length; ++i)
+            {
+                ItemStack itemstack = getIngredients()[i];
+
+                if (itemstack == null && ingredients[i] == null)
+                {
+                    continue;
+                }
+                else if (itemstack == null || ingredients[i] == null)
+                {
+                    return false;
+                }
+
+                List<String> list = getOreDictNames(i);
+                boolean oreDictMatch = false;
+
+                for (int j = 0; j < list.size(); ++j)
+                {
+                    String oreDict = list.get(j);
+
+                    if (AlloyRecipes.matches(ingredients[i], oreDict))
+                    {
+                        oreDictMatch = true;
+                        break;
+                    }
+                }
+
+                if (!oreDictMatch)
+                {
+                    if (!AlloyRecipes.matches(itemstack, ingredients[i]))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private ItemStack getItemStack(Object obj)
+        {
+            if (obj instanceof ItemStack)
+            {
+                return (ItemStack) obj;
+            }
+            else if (obj instanceof Item)
+            {
+                return new ItemStack((Item) obj, 1, OreDictionary.WILDCARD_VALUE);
+            }
+            else if (obj instanceof Block)
+            {
+                return new ItemStack((Block) obj, 1, OreDictionary.WILDCARD_VALUE);
+            }
+            
+            return null;
+        }
+        
         public ItemStack[] getIngredients()
         {
             return ingredients;
+        }
+        
+        public List<String> getOreDictNames(int index)
+        {
+            return oreDictNames.get(index) != null ? oreDictNames.get(index) : new ArrayList<String>();
         }
         
         @Override
@@ -200,7 +317,7 @@ public class AlloyRecipes
                             return false;
                         }
                         
-                        if (!matches(itemstack, itemstack1))
+                        if (!AlloyRecipes.matches(itemstack, itemstack1))
                         {
                             return false;
                         }

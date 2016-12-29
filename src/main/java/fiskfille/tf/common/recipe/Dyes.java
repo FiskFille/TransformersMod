@@ -7,16 +7,19 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockStainedGlass;
+import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.TFItems;
 
 public class Dyes
@@ -46,6 +49,8 @@ public class Dyes
 
     private LinkedList<ItemStack> itemstacks = Lists.newLinkedList();
     private static Map<Integer, String> names = Maps.newHashMap();
+    
+    public static LinkedList<Integer> dyes = Lists.newLinkedList();
 
     public Dyes(int... dyes)
     {
@@ -117,7 +122,7 @@ public class Dyes
 
         if (itemstack != null && getName(itemstack) != null)
         {
-            if (itemstack.getItem() instanceof ItemBlock)
+            if (itemstack.getItem() instanceof ItemBlock && !itemstack.getItem().delegate.name().startsWith(TransformersMod.modid + ":"))
             {
                 itemstack.setItemDamage(MathHelper.clamp_int(15 - id, 0, 15));
             }
@@ -157,9 +162,12 @@ public class Dyes
             {
                 Block block = Block.getBlockFromItem(item);
 
-                if (block == Blocks.stained_glass || block == Blocks.stained_glass_pane || block == Blocks.carpet || block instanceof BlockColored)
+                if (block instanceof BlockStainedGlass || block instanceof BlockStainedGlassPane || block instanceof BlockColored || item instanceof ItemCloth)
                 {
-                    id = 15 - id;
+                    if (item.delegate.name().startsWith("minecraft:"))
+                    {
+                        id = 15 - id;
+                    }
 
                     return getName(id);
                 }
@@ -183,6 +191,7 @@ public class Dyes
                 try
                 {
                     names.put(field.getInt(null), field.getName());
+                    dyes.add(field.getInt(null));
                 }
                 catch (Exception e)
                 {

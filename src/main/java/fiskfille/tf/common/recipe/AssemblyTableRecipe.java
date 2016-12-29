@@ -56,46 +56,46 @@ public class AssemblyTableRecipe implements IRecipe
 				int x1 = row - x;
 				int y1 = column - y;
 				int id = x1 + y1 * recipeWidth;
-				ItemStack itemstack = null;
+				ItemStack recipeStack = null;
 
 				if (x1 >= 0 && y1 >= 0 && x1 < recipeWidth && y1 < recipeHeight)
 				{
-					itemstack = recipeItems[id];
+					recipeStack = recipeItems[id];
 				}
 				
 				if (id == 0)
 				{
-					itemstack = recipeDyes[0];
+					recipeStack = recipeDyes[0];
 				}
 				else if (id == 4)
 				{
-					itemstack = recipeDyes[1];
+					recipeStack = recipeDyes[1];
 				}
 				else if (id == 20)
 				{
-					itemstack = recipeDyes[2];
+					recipeStack = recipeDyes[2];
 				}
 
-				ItemStack itemstack1 = inventory.getStackInRowAndColumn(row, column);
+				ItemStack stackInSlot = inventory.getStackInRowAndColumn(row, column);
 
-				if (itemstack1 != null || itemstack != null)
-				{	
-					if (itemstack1 == null && itemstack != null || itemstack1 != null && itemstack == null)
+				if (stackInSlot != null || recipeStack != null)
+				{
+					if (stackInSlot == null && recipeStack != null || stackInSlot != null && recipeStack == null)
 					{
 						return false;
 					}
 
-					if (itemstack.getItem() != itemstack1.getItem())
+					if (recipeStack.getItem() != stackInSlot.getItem())
 					{
 						return false;
 					}
 
-					if (itemstack1.stackSize < itemstack.stackSize)
+					if (stackInSlot.stackSize < recipeStack.stackSize)
 					{
 						return false;
 					}
 
-					if (itemstack.getItemDamage() != 32767 && itemstack.getItemDamage() != itemstack1.getItemDamage())
+					if (recipeStack.getItemDamage() != 32767 && recipeStack.getItemDamage() != stackInSlot.getItemDamage())
 					{
 						return false;
 					}

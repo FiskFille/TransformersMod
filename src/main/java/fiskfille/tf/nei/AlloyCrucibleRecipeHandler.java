@@ -3,8 +3,10 @@ package fiskfille.tf.nei;
 import static codechicken.lib.gui.GuiDraw.changeTexture;
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,20 +14,25 @@ import java.util.Map.Entry;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.NEIClientUtils;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiAlloyCrucible;
-import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.recipe.AlloyRecipes;
 import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
+import fiskfille.tf.helper.TFEnergyHelper;
 
 public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
 {
@@ -38,10 +45,25 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
         {
             result = new PositionedStack(out, 107 - 5, 28 - 11);
             ingredients = new ArrayList<PositionedStack>();
-            
+
             for (int i = 0; i < alloy.getIngredients().length; ++i)
             {
-                addSlotToContainer(73, 19 + i * 18, alloy.getIngredients()[i]);
+                LinkedList<ItemStack> ingredients = Lists.newLinkedList();
+                List<String> list = alloy.getOreDictNames(i);
+                
+                for (int j = 0; j < list.size(); ++j)
+                {
+                    ingredients.addAll(OreDictionary.getOres(list.get(j)));
+                }
+                
+                Object items = ingredients;
+                
+                if (ingredients.isEmpty())
+                {
+                    items = alloy.getIngredients()[i];
+                }
+                
+                addSlotToContainer(73, 19 + i * 18, items);
             }
         }
 
@@ -73,6 +95,20 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
                 p.generatePermutations();
             }
         }
+    }
+
+    public static TileEntityAlloyCrucible tileentity;
+
+    @Override
+    public TemplateRecipeHandler newInstance()
+    {
+        if (tileentity == null)
+        {
+            tileentity = new TileEntityAlloyCrucible();
+            tileentity.alloyResult = true;
+        }
+
+        return super.newInstance();
     }
 
     @Override
@@ -130,19 +166,6 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
     }
 
     @Override
-    public void loadUsageRecipes(String inputId, Object... ingredients)
-    {
-//        if (inputId.equals("fuel") && getClass() == AlloyCrucibleRecipeHandler.class)
-//        {
-//            loadCraftingRecipes("smelting");
-//        }
-//        else
-        {
-            super.loadUsageRecipes(inputId, ingredients);
-        }
-    }
-
-    @Override
     public void loadUsageRecipes(ItemStack ingredient)
     {
         Map<AlloyIngredients, ItemStack> recipes = AlloyRecipes.getInstance().getSmeltingList();
@@ -150,12 +173,10 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
         for (Entry<AlloyIngredients, ItemStack> e : recipes.entrySet())
         {
             AlloyPair recipe = new AlloyPair(e.getKey(), e.getValue());
-            
-            for (int i = 0; i < e.getKey().getIngredients().length; ++i)
+
+            for (int i = 0; i < recipe.getIngredients().size(); ++i)
             {
-                ItemStack itemstack = e.getKey().getIngredients()[i];
-                
-                if (NEIServerUtils.areStacksSameTypeCrafting(itemstack, ingredient))
+                if (recipe.getIngredients().get(i).contains(ingredient))
                 {
                     recipe.computeVisuals();
                     arecipes.add(recipe);
@@ -176,18 +197,38 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
     {
         drawProgressBar(102, 40, 192, 0, 14, 14, 48, 3);
         drawProgressBar(44, 8, 176, 0, 16, 52, 52 * 48, 7);
-        
-        
-        ItemStack itemstack = getResultStack(recipe).item;
-        GuiDraw.drawString(StatCollector.translateToLocalFormatted("gui.emb.amount", AlloyRecipes.getInstance().getSmeltTime(itemstack) * 2), 0, 0, 0x8B8B8B, false);
     }
-    
+
     @Override
     public void drawBackground(int recipe)
     {
         GL11.glColor4f(1, 1, 1, 1);
         changeTexture(getGuiTexture());
         drawTexturedModalRect(0, 0, 5, 11, 166, 65);
+    }
+
+    @Override
+    public List<String> handleTooltip(GuiRecipe gui, List<String> currenttip, int recipe)
+    {
+        currenttip = super.handleTooltip(gui, currenttip, recipe);
+
+        int guiLeft = ObfuscationReflectionHelper.getPrivateValue(GuiContainer.class, gui, 4);
+        int guiTop = ObfuscationReflectionHelper.getPrivateValue(GuiContainer.class, gui, 5);
+
+        Point pos = GuiDraw.getMousePosition();
+        Point offset = gui.getRecipePosition(recipe);
+        Point relMouse = new Point(pos.x - guiLeft - offset.x, pos.y - guiTop - offset.y);
+        
+        if (new Rectangle(44, 8, 16, 52).contains(relMouse))
+        {
+            if (currenttip.isEmpty())
+            {
+                tileentity.smeltingResult = getResultStack(recipe).item;
+                currenttip.add(StatCollector.translateToLocalFormatted("gui.emb.amount", TFEnergyHelper.formatNumber(tileentity.getSmeltTimeMax() * tileentity.getConsumptionRate())));
+            }
+        }
+
+        return currenttip;
     }
 
     @Override

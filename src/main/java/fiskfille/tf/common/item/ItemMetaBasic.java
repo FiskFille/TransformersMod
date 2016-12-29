@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,7 +16,7 @@ import fiskfille.tf.TransformersMod;
 public class ItemMetaBasic extends Item
 {
 	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
+	protected IIcon[] icons;
 	public final String[] itemNames;
 
 	public ItemMetaBasic(String... itemNames)
@@ -37,14 +38,14 @@ public class ItemMetaBasic extends Item
 	public String getItemStackDisplayName(ItemStack stack)
 	{
 		int damage = stack.getItemDamage();
-		return StatCollector.translateToLocal("item." + itemNames[damage >= itemNames.length ? itemNames.length - 1 : damage].toLowerCase().replace(" ", "_").replace("'", "") + ".name");
+		return StatCollector.translateToLocal("item." + itemNames[MathHelper.clamp_int(damage, 0, itemNames.length - 1)].toLowerCase().replace(" ", "_").replace("'", "") + ".name");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage)
 	{
-		return icons[damage >= itemNames.length ? itemNames.length - 1 : damage];
+		return icons[MathHelper.clamp_int(damage, 0, icons.length - 1)];
 	}
 
 	@Override

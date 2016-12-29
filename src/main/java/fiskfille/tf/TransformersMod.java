@@ -33,6 +33,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.proxy.CommonProxy;
 import fiskfille.tf.common.recipe.TFRecipes;
+import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tab.CreativeTabTransformers;
 import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
@@ -93,6 +94,7 @@ public class TransformersMod
         TFEnergonManager.registerEnergonTypes();
         TFItems.register();
         TFBlocks.register();
+        TFOreDictRegistry.register();
         TFAchievements.register();
         TFRecipes.registerRecipes();
         TFEntities.registerEntities();

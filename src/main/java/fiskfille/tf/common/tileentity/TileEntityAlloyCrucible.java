@@ -221,7 +221,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                     
                     for (int i = 0; i < 3; ++i)
                     {
-                        if (inventory[i] != null)
+                        if (inventory[i] != null && inventory[i] == getStacksToSmelt()[i])
                         {
                             --inventory[i].stackSize;
 

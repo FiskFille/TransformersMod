@@ -9,11 +9,13 @@ item.tank_shell.name=Tank Shell
 item.transformium_detector.name=Transformium Detector
 item.fuel_canister.name=Fuel Canister
 item.creative_fuel_canister.name=Creative Fuel Canister
-item.dark_red_dye.name=Dark Red Dye
-item.beige_dye.name=Beige Dye
-item.dark_gray_dye.name=Dark Gray Dye
-item.pale_green_dye.name=Pale Green Dye
-item.pale_brown_dye.name=Pale Brown Dye
+
+item.dye.dark_red.name=Dark Red Dye
+item.dye.beige.name=Beige Dye
+item.dye.dark_gray.name=Dark Gray Dye
+item.dye.pale_green.name=Pale Green Dye
+item.dye.pale_brown.name=Pale Brown Dye
+
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
@@ -94,6 +96,7 @@ item.warden_torso.name=Warden Torso
 item.warden_legs.name=Warden Legs
 item.warden_feet.name=Warden Feet
 
+
 ------Display Vehicles------
 item.display_skystrike.name=AHD-2 Lamphyrade Dropship
 item.display_purge.name=Pzkfw 6 Tiger I/s Tank
@@ -101,12 +104,14 @@ item.display_vurp.name=Porsche 918 Spyder
 item.display_subwoofer.name=Radar Van
 item.display_cloudtrap.name=T-50 Stealth Jet
 
+
 ------Weapons------
 item.skystrikes_energon_crossbow.name=Skystrike's Energon Crossbow
 item.purges_katana.name=Purge's Katana
 item.vurps_sniper.name=Vurp's Sniper
 item.subwoofers_bass_blaster.name=Subwoofer's Bass Blaster
 item.flame_thrower.name=Cloudtrap's Flamethrower
+
 
 ------Blocks------
 tile.display_pillar.name=Display Pillar
@@ -132,15 +137,49 @@ tile.ground_bridge_teleporter.name=Ground Bridge Portal
 tile.transformer_assembly_table.name=Transformer Assembly Table
 tile.alloy_crucible.name=Alloy Crucible
 
+tile.wool.dark_red.name=Dark Red Wool
+tile.wool.beige.name=Beige Wool
+tile.wool.dark_gray.name=Dark Gray Wool
+tile.wool.pale_green.name=Pale Green Wool
+tile.wool.pale_brown.name=Pale Brown Wool
+
+tile.stained_hardened_clay.dark_red.name=Dark Red Stained Clay
+tile.stained_hardened_clay.beige.name=Beige Stained Clay
+tile.stained_hardened_clay.dark_gray.name=Dark Gray Stained Clay
+tile.stained_hardened_clay.pale_green.name=Pale Green Stained Clay
+tile.stained_hardened_clay.pale_brown.name=Pale Brown Stained Clay
+
+tile.stained_glass.dark_red.name=Dark Red Stained Glass
+tile.stained_glass.beige.name=Beige Stained Glass
+tile.stained_glass.dark_gray.name=Dark Gray Stained Glass
+tile.stained_glass.pale_green.name=Pale Green Stained Glass
+tile.stained_glass.pale_brown.name=Pale Brown Stained Glass
+
+tile.stained_glass_pane.dark_red.name=Dark Red Stained Glass Pane
+tile.stained_glass_pane.beige.name=Beige Stained Glass Pane
+tile.stained_glass_pane.dark_gray.name=Dark Gray Stained Glass Pane
+tile.stained_glass_pane.pale_green.name=Pale Green Stained Glass Pane
+tile.stained_glass_pane.pale_brown.name=Pale Brown Stained Glass Pane
+
+tile.carpet.dark_red.name=Dark Red Carpet
+tile.carpet.beige.name=Beige Carpet
+tile.carpet.dark_gray.name=Dark Gray Carpet
+tile.carpet.pale_green.name=Pale Green Carpet
+tile.carpet.pale_brown.name=Pale Brown Carpet
+
+
 ------Fluids------
 fluid.energon=Energon
+
 
 -----Tab------
 itemGroup.Transformers=Transformers
 
+
 -----Energon------
 energon.default=Default Energon
 energon.red=Red Energon
+
 
 -----GUI------
 stats.nitro.name=Nitro
@@ -184,6 +223,7 @@ option.tf.relay_tower=Relay Tower
 option.tf.relay_torch=Relay Torch
 option.tf.control_panel=Control Panel
 
+
 ------Keybinds------
 key.category.transformers=Transformers
 key.transform1=Transform-Alt-1
@@ -194,6 +234,7 @@ key.aim=Aim
 key.stealth_force=Stealth Force Mode
 key.first_person=Vehicle First Person
 key.rear_view=View Vehicle Front
+
 
 ------Achievements------
 achievement.tf.shoot_missile=Directed by Michael Bay
@@ -235,6 +276,7 @@ achievement.tf.warden.desc=Wear the full Warden set
 achievement.tf.sharpshooter=Sharpshooter
 achievement.tf.sharpshooter.desc=Shoot a Bat with a Missile from 25 blocks away
 
+
 ------Miscellaneous------
 ground_bridge.destination=Destination:
 ground_bridge.destination.format=x: %s, y: %s, z: %s, %s
@@ -253,6 +295,7 @@ ground_bridge.error.portal_obstructed=Portal obstructed! The linked Ground Bridg
 ground_bridge.error.out_of_bounds=Out of bounds! Destination cannot be lower than y=0 or higher than y=%s!
 ground_bridge.upgrade.space_bridge=Space Bridge
 ground_bridge.upgrade.leveler=Leveler
+
 
 ------Message------
 transformium_detector.no_space.message=There is no space in your inventory for the Energon Crystal Pieces!
@@ -273,6 +316,7 @@ ground_bridge_remote.ui.activate=Activate
 ground_bridge_remote.ui.deactivate=Deactivate
 stats.fuel.name=Fuel
 
+
 ------Tooltip------
 item-info.prompt=Hold SHIFT for info.
 tile.transformium_seed.desc=\lConverts matter into Transformium when detonated.
@@ -284,6 +328,7 @@ item.skystrikes_energon_crossbow.desc=Shoots out a beam of laser when used.\nAmm
 item.purges_katana.desc=Hold right click to charge up dash,\nlet go to use.\n<FORMAT_RED>Must wear the full Purge set to use.
 item.vurps_sniper.desc=Shoots lasers upon right click.\nHold VAR_KEYBIND_ZOOM to aim.\nAmmo: Energon Cube\n<FORMAT_RED>Must wear full Vurp set to use.
 item.subwoofers_bass_blaster.desc=Shoots out bass charges that destroy glass\nand break armor when used. The closer to the\ntarget you are, the more damage it will deal\nAmmo: Energon Crystal Piece\n<FORMAT_RED>Must wear full Subwoofer set to use.
+
 
 ------Tutorial------
 tutorial.accelerate.instructions=Press %s to accelerate.
