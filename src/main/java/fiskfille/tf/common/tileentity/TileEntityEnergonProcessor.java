@@ -5,11 +5,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -90,7 +88,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         {
             if (burnTime < 200)
             {
-                burnTime += 20;
+                ++burnTime;
             }
             else if (addContents(crystal))
             {
@@ -286,7 +284,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid)
     {
-        return fluid == TFFluids.energon;
+        return false;
     }
 
     @Override
@@ -308,27 +306,36 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.readCustomNBT(nbt);
         burnTime = nbt.getInteger("BurnTime");
         powerTime = nbt.getInteger("PowerTime");
         fillTime = nbt.getInteger("FillTime");
         currentMaxPowerTime = nbt.getInteger("MaxPowerTime");
 
-        tank.readFromNBT(nbt);
+        if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
+        {
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
+            tank.readFromNBT(config);
+        }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.writeCustomNBT(nbt);
         nbt.setInteger("BurnTime", burnTime);
         nbt.setInteger("PowerTime", powerTime);
         nbt.setInteger("FillTime", fillTime);
         nbt.setInteger("MaxPowerTime", currentMaxPowerTime);
 
-        tank.writeToNBT(nbt);
+        if (tank.getFluid() != null && tank.getFluidAmount() > 0)
+        {
+            NBTTagCompound config = new NBTTagCompound();
+            tank.writeToNBT(config);
+            nbt.setTag("ConfigDataTF", config);
+        }
     }
 
     @Override
@@ -354,21 +361,6 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
         return side != 0 || slot == 0 || (slot == 2 && !ItemFuelCanister.isEmpty(stack));
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override

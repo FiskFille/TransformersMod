@@ -8,6 +8,6 @@ public class TileEntityAssemblyTable extends TileEntity
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
-		return super.getRenderBoundingBox();
-	}
+        return super.getRenderBoundingBox();
+    }
 }

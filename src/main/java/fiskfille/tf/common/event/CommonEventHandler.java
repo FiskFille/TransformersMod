@@ -136,7 +136,7 @@ public class CommonEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerBreakBlock(BlockEvent.BreakEvent event)
+    public void onBlockBreak(BlockEvent.BreakEvent event)
     {
         EntityPlayer player = event.getPlayer();
         Transformer transformer = TFHelper.getTransformer(player);

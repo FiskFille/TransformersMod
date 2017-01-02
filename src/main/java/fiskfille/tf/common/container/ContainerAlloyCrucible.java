@@ -5,18 +5,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 
 public class ContainerAlloyCrucible extends ContainerBasic
 {
-    private TileEntityAlloyCrucible tileentity;
     private int lastSmeltTime;
 
     public ContainerAlloyCrucible(InventoryPlayer inventoryPlayer, TileEntityAlloyCrucible tile)
     {
-        tileentity = tile;
+        super(tile);
 
         for (int i = 0; i < tile.getSizeInventory() - 1; ++i)
         {
@@ -26,12 +26,18 @@ public class ContainerAlloyCrucible extends ContainerBasic
         addSlotToContainer(new SlotAlloyCrucible(inventoryPlayer.player, tile, 3, 107, 28));
         addPlayerInventory(inventoryPlayer, 4);
     }
+    
+    @Override
+    public TileEntityAlloyCrucible getTile()
+    {
+        return (TileEntityAlloyCrucible) super.getTile();
+    }
 
     @Override
     public void addCraftingToCrafters(ICrafting icrafting)
     {
         super.addCraftingToCrafters(icrafting);
-        icrafting.sendProgressBarUpdate(this, 0, tileentity.smeltTime);
+        icrafting.sendProgressBarUpdate(this, 0, getTile().smeltTime);
     }
 
     @Override
@@ -43,13 +49,13 @@ public class ContainerAlloyCrucible extends ContainerBasic
         {
             ICrafting icrafting = (ICrafting) crafters.get(i);
 
-            if (lastSmeltTime != tileentity.smeltTime)
+            if (lastSmeltTime != getTile().smeltTime)
             {
-                icrafting.sendProgressBarUpdate(this, 0, tileentity.smeltTime);
+                icrafting.sendProgressBarUpdate(this, 0, getTile().smeltTime);
             }
         }
 
-        lastSmeltTime = tileentity.smeltTime;
+        lastSmeltTime = getTile().smeltTime;
     }
 
     @Override
@@ -58,14 +64,8 @@ public class ContainerAlloyCrucible extends ContainerBasic
     {
         if (id == 0)
         {
-            tileentity.smeltTime = value;
+            getTile().smeltTime = value;
         }
-    }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer player)
-    {
-        return tileentity.isUseableByPlayer(player);
     }
 
     @Override

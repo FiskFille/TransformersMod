@@ -291,13 +291,13 @@ public class TFHelper
         return new int[] {0, 0, 0};
     }
 
-    public static TileEntity getTileBase(TileEntity tile)
+    public static <T extends TileEntity> T getTileBase(T tile)
     {
         int[] offsets = getTileBaseOffsets(tile, tile != null ? tile.getBlockMetadata() : 0);
 
         if (offsets[0] != 0 || offsets[1] != 0 || offsets[2] != 0)
         {
-            return tile.getWorldObj().getTileEntity(tile.xCoord + offsets[0], tile.yCoord + offsets[1], tile.zCoord + offsets[2]);
+            return (T) tile.getWorldObj().getTileEntity(tile.xCoord + offsets[0], tile.yCoord + offsets[1], tile.zCoord + offsets[2]);
         }
 
         return tile;

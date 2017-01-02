@@ -13,7 +13,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
 
-public class RecipesDisplayItems implements IRecipe
+public class RecipeDisplayItems implements IRecipe
 {
     @Override
     public boolean matches(InventoryCrafting inventoryCrafting, World world)

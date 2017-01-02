@@ -1,23 +1,38 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.client.gui.GuiHandlerTF;
-import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
-import fiskfille.tf.helper.TFEnergyHelper;
+import static net.minecraftforge.common.util.ForgeDirection.EAST;
+import static net.minecraftforge.common.util.ForgeDirection.NORTH;
+import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
+import static net.minecraftforge.common.util.ForgeDirection.WEST;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.List;
-
-import static net.minecraftforge.common.util.ForgeDirection.*;
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
+import fiskfille.tf.helper.TFEnergyHelper;
 
 public class BlockRelayTorch extends BlockRelayTower
 {
+    @Override
+    public int getBlockHeight()
+    {
+        return 1;
+    }
+
+    @Override
+    public int getPlacedRotation(EntityLivingBase entity)
+    {
+        return 0;
+    }
+
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {
@@ -25,7 +40,7 @@ public class BlockRelayTorch extends BlockRelayTower
         float f = 0.0625F;
         float width = f * 8;
         float height = f * 4.75F;
-        
+
         for (int i = 0; i < 2; ++i)
         {
             if (metadata == 1)
@@ -52,7 +67,7 @@ public class BlockRelayTorch extends BlockRelayTower
             {
                 addBox(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
             }
-            
+
             width = f * 2.25F;
             height = f * 12;
         }
@@ -61,8 +76,9 @@ public class BlockRelayTorch extends BlockRelayTower
     }
 
     @Override
-    public void setBounds(int metadata)
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
+        int metadata = world.getBlockMetadata(x, y, z);
         float f = 0.0625F;
         float width = f * 8;
         float height = f * 12;
@@ -114,60 +130,52 @@ public class BlockRelayTorch extends BlockRelayTower
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
+        super.onNeighborBlockChange(world, x, y, z, block);
         func_150108_b(world, x, y, z, block);
     }
 
+    @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
-        return world.isSideSolid(x - 1, y, z, EAST,  true) ||
-                world.isSideSolid(x + 1, y, z, WEST,  true) ||
-                world.isSideSolid(x, y, z - 1, SOUTH, true) ||
-                world.isSideSolid(x, y, z + 1, NORTH, true) ||
-                func_150107_m(world, x, y - 1, z) ||
-                func_150107_m(world, x, y + 1, z);
+        return (world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || func_150107_m(world, x, y - 1, z) || func_150107_m(world, x, y + 1, z));
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
-    {
-
-    }
-
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
-        int j1 = metadata;
+        int newMeta = metadata;
 
         if (side == 0 && func_150107_m(world, x, y + 1, z))
         {
-            j1 = 6;
+            newMeta = 6;
         }
 
         if (side == 1 && func_150107_m(world, x, y - 1, z))
         {
-            j1 = 5;
+            newMeta = 5;
         }
 
         if (side == 2 && world.isSideSolid(x, y, z + 1, NORTH, true))
         {
-            j1 = 4;
+            newMeta = 4;
         }
 
         if (side == 3 && world.isSideSolid(x, y, z - 1, SOUTH, true))
         {
-            j1 = 3;
+            newMeta = 3;
         }
 
         if (side == 4 && world.isSideSolid(x + 1, y, z, WEST, true))
         {
-            j1 = 2;
+            newMeta = 2;
         }
 
         if (side == 5 && world.isSideSolid(x - 1, y, z, EAST, true))
         {
-            j1 = 1;
+            newMeta = 1;
         }
 
-        return j1;
+        return newMeta;
     }
 
     private boolean func_150107_m(World world, int x, int y, int z)
@@ -183,8 +191,11 @@ public class BlockRelayTorch extends BlockRelayTower
         }
     }
 
+    @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
+        super.onBlockAdded(world, x, y, z);
+
         if (world.getBlockMetadata(x, y, z) == 0)
         {
             if (world.isSideSolid(x - 1, y, z, EAST, true))
@@ -213,12 +224,12 @@ public class BlockRelayTorch extends BlockRelayTower
             }
         }
 
-        func_150109_e(world, x, y, z);
+        updateCanStay(world, x, y, z);
     }
 
     protected boolean func_150108_b(World world, int x, int y, int z, Block block)
     {
-        if (func_150109_e(world, x, y, z))
+        if (updateCanStay(world, x, y, z))
         {
             int l = world.getBlockMetadata(x, y, z);
             boolean flag = false;
@@ -255,7 +266,7 @@ public class BlockRelayTorch extends BlockRelayTower
 
             if (flag)
             {
-                dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+                removedByPlayer(world, null, x, y, z, true);
                 world.setBlockToAir(x, y, z);
                 return true;
             }
@@ -264,33 +275,23 @@ public class BlockRelayTorch extends BlockRelayTower
                 return false;
             }
         }
-        else
-        {
-            return true;
-        }
+
+        return true;
     }
 
-    protected boolean func_150109_e(World world, int x, int y, int z)
+    protected boolean updateCanStay(World world, int x, int y, int z)
     {
         if (!canPlaceBlockAt(world, x, y, z))
         {
             if (world.getBlock(x, y, z) == this)
             {
-                dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+                removedByPlayer(world, null, x, y, z, true);
                 world.setBlockToAir(x, y, z);
             }
 
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
 
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
-    {
-        return new TileEntityRelayTorch();
+        return true;
     }
 }

@@ -1,41 +1,34 @@
 package fiskfille.tf.common.block;
 
 import java.util.List;
-import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
 
-public class BlockTransmitter extends Block implements ITileEntityProvider
+public class BlockTransmitter extends BlockMachineBase
 {
-    protected final Random rand = new Random();
-
     public BlockTransmitter()
     {
         super(Material.rock);
         setHardness(5.0F);
         setResistance(10.0F);
+    }
+    
+    @Override
+    public int getBlockHeight()
+    {
+        return 3;
     }
 
     @Override
@@ -57,14 +50,6 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getSelectedBoundingBoxFromPool(world, x, y, z);
-    }
-
-    @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {
         int metadata = world.getBlockMetadata(x, y, z);
@@ -76,7 +61,7 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
 
             for (int i = 0; i < 26; ++i)
             {
-                float width = 1 - 0.6F * ((float)i / 26);
+                float width = 1 - 0.6F * ((float) i / 26);
                 float f1 = 1 - width;
                 addBox(f1 / 2, f * (i + 4), f1 / 2, 1 - f1 / 2, f * (i + 5), 1 - f1 / 2, world, x, y, z, aabb, list, entity);
             }
@@ -93,23 +78,10 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
         setBlockBoundsBasedOnState(world, x, y, z);
     }
 
-    public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
-    {
-        setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-        super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-        setBlockBoundsBasedOnState(world, x, y, z);
-    }
-
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
-        setBounds(world.getBlockMetadata(x, y, z));
-    }
-
-    public void setBounds(int metadata)
-    {
-        float f = 0.0625F;
-
+        int metadata = world.getBlockMetadata(x, y, z);
         if (metadata < 4)
         {
             setBlockBounds(0, 0, 0, 1, 3, 1);
@@ -287,7 +259,7 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
 
             if (tileBase instanceof TileEntityTransmitter)
             {
-                player.openGui(TransformersMod.instance, 4, world, tileBase.xCoord, tileBase.yCoord, tileBase.zCoord);
+                TFGui.ENERGON_TRANSMITTER.open(player, tileBase);
             }
 
             return true;
@@ -314,104 +286,8 @@ public class BlockTransmitter extends Block implements ITileEntityProvider
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        TileEntityTransmitter tileentity = (TileEntityTransmitter) world.getTileEntity(x, y, z);
-
-        if (tileentity != null)
-        {
-            for (int j1 = 0; j1 < tileentity.getSizeInventory(); ++j1)
-            {
-                ItemStack itemstack = tileentity.getStackInSlot(j1);
-
-                if (itemstack != null)
-                {
-                    float f = rand.nextFloat() * 0.8F + 0.1F;
-                    float f1 = rand.nextFloat() * 0.8F + 0.1F;
-                    float f2 = rand.nextFloat() * 0.8F + 0.1F;
-
-                    while (itemstack.stackSize > 0)
-                    {
-                        int k1 = rand.nextInt(21) + 10;
-
-                        if (k1 > itemstack.stackSize)
-                        {
-                            k1 = itemstack.stackSize;
-                        }
-
-                        itemstack.stackSize -= k1;
-                        EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
-
-                        if (itemstack.hasTagCompound())
-                        {
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-                        }
-
-                        float f3 = 0.05F;
-                        entityitem.motionX = (double) ((float) rand.nextGaussian() * f3);
-                        entityitem.motionY = (double) ((float) rand.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double) ((float) rand.nextGaussian() * f3);
-                        world.spawnEntityInWorld(entityitem);
-                    }
-                }
-            }
-
-            world.func_147453_f(x, y, z, block);
-            FluidEvent.fireEvent(new FluidEvent.FluidSpilledEvent(tileentity.tank.getFluid(), world, x, y, z));
-        }
-
-        super.breakBlock(world, x, y, z, block, metadata);
-    }
-
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
-        int metadata = world.getBlockMetadata(x, y, z);
-
-        if (metadata < 8)
-        {
-            if (world.getBlock(x, y + 1, z) != TFBlocks.transmitter)
-            {
-                world.setBlockToAir(x, y, z);
-                breakBlock(world, x, y, z, block, metadata);
-            }
-        }
-
-        if (metadata >= 4)
-        {
-            if (world.getBlock(x, y - 1, z) != TFBlocks.transmitter)
-            {
-                world.setBlockToAir(x, y, z);
-                breakBlock(world, x, y, z, block, metadata);
-            }
-        }
-    }
-
-    @Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z)
-    {
-        return y < world.getHeight() - 2 && (super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z) && super.canPlaceBlockAt(world, x, y + 2, z));
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
-    {
-        int rotation = MathHelper.floor_double((double) ((entity.rotationYaw * 4F) / 360F) + 2.5D) & 3;
-
-        world.setBlockMetadataWithNotify(x, y, z, rotation, 2);
-        world.setBlock(x, y + 1, z, this, rotation + 4, 2);
-        world.setBlock(x, y + 2, z, this, rotation + 8, 2);
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
-    {
-        return new TileEntityTransmitter();
-    }
-
-    @Override
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
-    {
-        blockIcon = par1IIconRegister.registerIcon("stone");
+        blockIcon = iconRegister.registerIcon("stone");
     }
 }

@@ -79,7 +79,7 @@ public class FluidEnergon extends Fluid
 		{
 			for (Map.Entry<String, Float> e : ratios1.entrySet())
 			{
-				float f = (float)amount / stack1.amount;
+				float f = (float) amount / stack1.amount;
 				e.setValue(e.getValue() * (1 - f) + ratios2.get(e.getKey()) * f);
 			}
 		}
@@ -90,6 +90,14 @@ public class FluidEnergon extends Fluid
 	public static void setRatios(FluidStack stack, Map<String, Float> ratios)
     {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		
+		for (Energon energon : TransformersAPI.getEnergonTypes())
+        {
+            if (!ratios.containsKey(energon.getId()))
+            {
+                ratios.put(energon.getId(), 0.0F);
+            }
+        }
 		
 		for (Map.Entry<String, Float> e : ratios.entrySet())
 		{

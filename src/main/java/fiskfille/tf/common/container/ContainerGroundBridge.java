@@ -10,12 +10,12 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 public class ContainerGroundBridge extends ContainerBasic
 {
     public InventoryGroundBridge inventory;
-    public TileEntityControlPanel controlPanel;
     
     public ContainerGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, TileEntityControlPanel tile)
     {
+        super(tile);
         inventory = inventoryGroundBridge;
-        controlPanel = tile;
+        
         addSlotToContainer(new Slot(inventoryGroundBridge, 0, 13, 56)
         {
             @Override
@@ -31,7 +31,7 @@ public class ContainerGroundBridge extends ContainerBasic
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return controlPanel != null && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
+        return super.canInteractWith(player) && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
     }
     
     @Override
@@ -39,39 +39,35 @@ public class ContainerGroundBridge extends ContainerBasic
     {
         ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
-        int csd = 0;
+        int CSD = 0;
 
         if (slot != null && slot.getHasStack())
         {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (slotId > csd)
+            if (slotId > CSD)
             {
                 if (itemstack1.getItem() == TFItems.csd)
                 {
-                    if (!mergeItemStack(itemstack1, csd, csd + 1, false))
+                    if (!mergeItemStack(itemstack1, CSD, CSD + 1, false))
                     {
                         return null;
                     }
                 }
-                // item in player's inventory, but not in action bar
-                else if (slotId >= csd + 1 && slotId < csd + 28)
+                else if (slotId >= CSD + 1 && slotId < CSD + 28)
                 {
-                    // place in action bar
-                    if (!mergeItemStack(itemstack1, csd + 28, csd + 37, false))
+                    if (!mergeItemStack(itemstack1, CSD + 28, CSD + 37, false))
                     {
                         return null;
                     }
                 }
-                // item in action bar - place in player inventory
-                else if (slotId >= csd + 28 && slotId < csd + 37 && !mergeItemStack(itemstack1, csd + 1, csd + 28, false))
+                else if (slotId >= CSD + 28 && slotId < CSD + 37 && !mergeItemStack(itemstack1, CSD + 1, CSD + 28, false))
                 {
                     return null;
                 }
             }
-            // In one of the infuser slots; try to place in player inventory / action bar
-            else if (!mergeItemStack(itemstack1, csd + 1, csd + 37, false))
+            else if (!mergeItemStack(itemstack1, CSD + 1, CSD + 37, false))
             {
                 return null;
             }

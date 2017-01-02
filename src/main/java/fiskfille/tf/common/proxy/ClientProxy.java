@@ -14,6 +14,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.render.block.RenderBlockEnergonTank;
 import fiskfille.tf.client.render.block.RenderBlockGroundBridgeFrame;
 import fiskfille.tf.client.render.entity.RenderBassCharge;
 import fiskfille.tf.client.render.entity.RenderBlank;
@@ -29,6 +30,7 @@ import fiskfille.tf.client.render.item.RenderItemControlPanel;
 import fiskfille.tf.client.render.item.RenderItemDataCore;
 import fiskfille.tf.client.render.item.RenderItemDisplayStation;
 import fiskfille.tf.client.render.item.RenderItemDisplayVehicle;
+import fiskfille.tf.client.render.item.RenderItemEnergonTank;
 import fiskfille.tf.client.render.item.RenderItemFlamethrower;
 import fiskfille.tf.client.render.item.RenderItemPowerCanister;
 import fiskfille.tf.client.render.item.RenderItemPurgesKatana;
@@ -46,6 +48,7 @@ import fiskfille.tf.client.render.tileentity.RenderDisplayPillar;
 import fiskfille.tf.client.render.tileentity.RenderDisplayStation;
 import fiskfille.tf.client.render.tileentity.RenderEmlTest;
 import fiskfille.tf.client.render.tileentity.RenderEnergonProcessor;
+import fiskfille.tf.client.render.tileentity.RenderEnergonTank;
 import fiskfille.tf.client.render.tileentity.RenderGroundBridgeTeleporter;
 import fiskfille.tf.client.render.tileentity.RenderRelayTower;
 import fiskfille.tf.client.render.tileentity.RenderTransformiumSeed;
@@ -71,6 +74,7 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
+import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
@@ -142,6 +146,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransformiumSeed.class, new RenderTransformiumSeed());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayStation.class, new RenderDisplayStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEnergonProcessor.class, new RenderEnergonProcessor());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEnergonTank.class, new RenderEnergonTank());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransmitter.class, new RenderTransmitter());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRelayTower.class, new RenderRelayTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityColumn.class, new RenderColumn());
@@ -151,6 +156,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundBridgeTeleporter.class, new RenderGroundBridgeTeleporter());
 
         RenderingRegistry.registerBlockHandler(RenderBlockGroundBridgeFrame.instance);
+        RenderingRegistry.registerBlockHandler(RenderBlockEnergonTank.instance);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmbTest.class, new RenderEmlTest());
 
@@ -166,11 +172,12 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(TFItems.powerCanister, new RenderItemPowerCanister());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.displayStation), new RenderItemDisplayStation());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonProcessor), new RenderItemTileEntity(new TileEntityEnergonProcessor()));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.assemblyTable), new RenderItemTileEntity(new TileEntityAssemblyTable()));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonFluidTank), new RenderItemEnergonTank());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.transmitter), new RenderItemTransmitter());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTower), new RenderItemRelayTower());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTorch), new RenderItemTileEntity(new TileEntityRelayTorch()));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energyColumn), new RenderItemColumn());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.assemblyTable), new RenderItemTileEntity(new TileEntityAssemblyTable()));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.groundBridgeControlPanel), new RenderItemControlPanel());
 
         registerArmorRenderer(TFItems.cloudtrapHelmet, TFItems.cloudtrapChestplate, TFItems.cloudtrapLeggings, TFItems.cloudtrapBoots);

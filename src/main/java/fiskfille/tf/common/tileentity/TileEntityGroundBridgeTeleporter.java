@@ -1,15 +1,11 @@
 package fiskfille.tf.common.tileentity;
 
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import fiskfille.tf.common.network.MessageClosePortal;
 import fiskfille.tf.common.network.base.TFNetworkManager;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityGroundBridgeTeleporter extends TileEntity
+public class TileEntityGroundBridgeTeleporter extends TileEntityTF
 {
     public TileEntityControlPanel controlPanel;
     public boolean returnPortal = false;
@@ -47,15 +43,9 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
         return super.getMaxRenderDistanceSquared() * 2;
     }
 
-    public void markBlockForUpdate()
-    {
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
-
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
         controlPanel = new TileEntityControlPanel();
         controlPanel.readFromNBT(nbt.getCompoundTag("ControlPanel"));
         controlPanel.setWorldObj(worldObj);
@@ -63,10 +53,8 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
-        
         if (controlPanel != null)
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -75,20 +63,5 @@ public class TileEntityGroundBridgeTeleporter extends TileEntity
         }
 
         nbt.setBoolean("ReturnPortal", returnPortal);
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 }

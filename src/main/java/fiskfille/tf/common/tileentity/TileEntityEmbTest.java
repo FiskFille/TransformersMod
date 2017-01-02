@@ -1,11 +1,9 @@
 package fiskfille.tf.common.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.Constants.NBT;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
@@ -14,7 +12,7 @@ import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 
-public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
+public class TileEntityEmbTest extends TileEntityTF implements IEnergyReceiver
 {
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
 
@@ -47,19 +45,28 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
-        storage.readFromNBT(nbt);
         receiverHandler.readFromNBT(nbt);
+        
+        if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
+        {
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
+            storage.readFromNBT(config);
+        }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
-        storage.writeToNBT(nbt);
         receiverHandler.writeToNBT(nbt);
+        
+        if (storage.getEnergy() > 0)
+        {
+            NBTTagCompound config = new NBTTagCompound();
+            storage.writeToNBT(config);
+            nbt.setTag("ConfigDataTF", config);
+        }
     }
 
     @Override
@@ -126,21 +133,6 @@ public class TileEntityEmbTest extends TileEntity implements IEnergyReceiver
     public int getMapColor()
     {
         return 0xFF0000;
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override

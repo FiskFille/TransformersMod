@@ -4,12 +4,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -17,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
@@ -47,7 +50,7 @@ public class TFRenderHelper
     public static void setLighting(int lighting)
     {
         storeLighting();
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (lighting % 65536) / 255.0F, (lighting / 65536) / 255.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lighting % 65536 / 255.0F, lighting / 65536 / 255.0F);
     }
 
     public static void storeLighting()
@@ -63,9 +66,9 @@ public class TFRenderHelper
 
     public static float[] hexToRGB(int hex)
     {
-        float r = (float) ((hex & 0xFF0000) >> 16) / 255F;
-        float g = (float) ((hex & 0xFF00) >> 8) / 255F;
-        float b = (float) (hex & 0xFF) / 255F;
+        float r = ((hex & 0xFF0000) >> 16) / 255F;
+        float g = ((hex & 0xFF00) >> 8) / 255F;
+        float b = (hex & 0xFF) / 255F;
         return new float[] {r, g, b};
     }
 
@@ -82,20 +85,20 @@ public class TFRenderHelper
 
         float iRatio = 1.0F - ratio;
 
-        int aA = (a >> 24 & 0xff);
-        int aR = ((a & 0xff0000) >> 16);
-        int aG = ((a & 0xff00) >> 8);
-        int aB = (a & 0xff);
+        int aA = a >> 24 & 0xff;
+        int aR = (a & 0xff0000) >> 16;
+        int aG = (a & 0xff00) >> 8;
+        int aB = a & 0xff;
 
-        int bA = (b >> 24 & 0xff);
-        int bR = ((b & 0xff0000) >> 16);
-        int bG = ((b & 0xff00) >> 8);
-        int bB = (b & 0xff);
+        int bA = b >> 24 & 0xff;
+        int bR = (b & 0xff0000) >> 16;
+        int bG = (b & 0xff00) >> 8;
+        int bB = b & 0xff;
 
-        int A = (int) ((aA * iRatio) + (bA * ratio));
-        int R = (int) ((aR * iRatio) + (bR * ratio));
-        int G = (int) ((aG * iRatio) + (bG * ratio));
-        int B = (int) ((aB * iRatio) + (bB * ratio));
+        int A = (int) (aA * iRatio + bA * ratio);
+        int R = (int) (aR * iRatio + bR * ratio);
+        int G = (int) (aG * iRatio + bG * ratio);
+        int B = (int) (aB * iRatio + bB * ratio);
 
         return A << 24 | R << 16 | G << 8 | B;
     }
@@ -156,8 +159,8 @@ public class TFRenderHelper
         Minecraft mc = Minecraft.getMinecraft();
         ScaledResolution reso = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
-        double scaleW = (double) mc.displayWidth / reso.getScaledWidth_double();
-        double scaleH = (double) mc.displayHeight / reso.getScaledHeight_double();
+        double scaleW = mc.displayWidth / reso.getScaledWidth_double();
+        double scaleH = mc.displayHeight / reso.getScaledHeight_double();
 
         if (width <= 0 || height <= 0)
         {
@@ -173,7 +176,7 @@ public class TFRenderHelper
         }
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor((int) Math.floor((double) x * scaleW), (int) Math.floor((double) mc.displayHeight - ((double) (y + height) * scaleH)), (int) Math.floor((double) (x + width) * scaleW) - (int) Math.floor((double) x * scaleW), (int) Math.floor((double) mc.displayHeight - ((double) y * scaleH)) - (int) Math.floor((double) mc.displayHeight - ((double) (y + height) * scaleH)));
+        GL11.glScissor((int) Math.floor(x * scaleW), (int) Math.floor(mc.displayHeight - (y + height) * scaleH), (int) Math.floor((x + width) * scaleW) - (int) Math.floor(x * scaleW), (int) Math.floor(mc.displayHeight - y * scaleH) - (int) Math.floor(mc.displayHeight - (y + height) * scaleH));
     }
 
     public static void endGlScissor()
@@ -233,9 +236,9 @@ public class TFRenderHelper
         double d0 = dst.xCoord - src.xCoord;
         double d1 = dst.yCoord - src.yCoord;
         double d2 = dst.zCoord - src.zCoord;
-        double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+        double d3 = MathHelper.sqrt_double(d0 * d0 + d2 * d2);
         float yaw = (float) (Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
-        float pitch = (float) (-(Math.atan2(d1, d3) * 180.0D / Math.PI));
+        float pitch = (float) -(Math.atan2(d1, d3) * 180.0D / Math.PI);
         GL11.glRotated(-yaw, 0, 1, 0);
         GL11.glRotated(pitch, 1, 0, 0);
     }
@@ -292,7 +295,7 @@ public class TFRenderHelper
                 float[] parentSecondary = secondary;
                 int segments = MathHelper.floor_double(length * 8);
 
-                if (!TFEnergyHelper.canPowerReach(transmitterTile, target) || (!receiverHandler.canReach() && transmitter.getEnergy() + transmitter.getEnergyUsage() <= 0))
+                if (!TFEnergyHelper.canPowerReach(transmitterTile, target) || !receiverHandler.canReach() && transmitter.getEnergy() + transmitter.getEnergyUsage() <= 0)
                 {
                     primary = TFRenderHelper.hexToRGB(0xAF5B57);
                     secondary = TFRenderHelper.hexToRGB(0xF8817B);
@@ -300,7 +303,7 @@ public class TFRenderHelper
                 else if (target.getReceiver() != null && !(target.getTile() instanceof IEnergyTransmitter))
                 {
                     float f = target.getReceiver().getEnergy();
-                    
+
                     for (TargetingTransmitter parent : target.getReceiver().getReceiverHandler().getTransmitters())
                     {
                         if (parent != null && parent.getTransmitter() != null)
@@ -308,7 +311,7 @@ public class TFRenderHelper
                             f += parent.getTransmitter().getTransmissionRate() / parent.getTransmitter().getTransmissionHandler().getReceivers().size();
                         }
                     }
-                    
+
                     if (f >= target.getReceiver().getMaxEnergy())
                     {
                         primary = TFRenderHelper.hexToRGB(0x62AF57);
@@ -325,9 +328,9 @@ public class TFRenderHelper
                     double segmentLength = length / segments;
                     double start = i * segmentLength;
                     double end = i * segmentLength + segmentLength;
-                    float f = (float) Math.cos((float) i / (segments * 0.15625F) - (mc.thePlayer.ticksExisted + partialTicks) / 5);
+                    float f = (float) Math.cos(i / (segments * 0.15625F) - (mc.thePlayer.ticksExisted + partialTicks) / 5);
                     float f1 = 1 - f;
-                    float f2 = Math.min(((float) i / segments) * 3, 1);
+                    float f2 = Math.min((float) i / segments * 3, 1);
                     float f3 = 1 - f2;
 
                     tessellator.startDrawingQuads();
@@ -402,5 +405,75 @@ public class TFRenderHelper
         }
 
         return -1;
+    }
+
+    public static void renderBlock(Block block, IIcon icon, RenderBlocks renderer)
+    {
+        Tessellator tessellator = Tessellator.instance;
+
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, -1.0F, 0.0F);
+        renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, icon);
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, icon);
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 0.0F, -1.0F);
+        renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, icon);
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 0.0F, 1.0F);
+        renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, icon);
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+        renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, icon);
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(1.0F, 0.0F, 0.0F);
+        renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, icon);
+        tessellator.draw();
+    }
+
+    public static void renderBlock(Block block, int meta, RenderBlocks renderer)
+    {
+        Tessellator tessellator = Tessellator.instance;
+
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, -1.0F, 0.0F);
+        renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, block.getIcon(0, meta));
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(1, meta));
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 0.0F, -1.0F);
+        renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, block.getIcon(2, meta));
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 0.0F, 1.0F);
+        renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(3, meta));
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+        renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, block.getIcon(4, meta));
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(1.0F, 0.0F, 0.0F);
+        renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, meta));
+        tessellator.draw();
+    }
+
+    public static void renderBlockAllFaces(RenderBlocks renderer, Block block, int x, int y, int z, IIcon icon)
+    {
+        renderer.renderFaceYNeg(block, x, y, z, icon);
+        renderer.renderFaceYPos(block, x, y, z, icon);
+        renderer.renderFaceZNeg(block, x, y, z, icon);
+        renderer.renderFaceZPos(block, x, y, z, icon);
+        renderer.renderFaceXNeg(block, x, y, z, icon);
+        renderer.renderFaceXPos(block, x, y, z, icon);
     }
 }

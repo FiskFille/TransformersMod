@@ -1,10 +1,13 @@
 package fiskfille.tf.common.registry;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.block.BlockMachineBase;
 import fiskfille.tf.common.item.ItemBlockWithMetadata;
+import fiskfille.tf.common.item.ItemMachine;
 
 public class TFBlockRegistry
 {
@@ -40,16 +43,25 @@ public class TFBlockRegistry
     {
         registerItemBlock(block, name, ItemBlockWithMetadata.class);
     }
-
-    public static void registerTileEntity(Block block, String name, Class clazz)
-    {
-        registerBlock(block, name);
-        GameRegistry.registerTileEntity(clazz, name);
-    }
-
+    
     public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz, Class clazz1)
     {
         registerItemBlock(block, name, clazz1);
         GameRegistry.registerTileEntity(clazz, name);
+        
+        if (block instanceof BlockMachineBase)
+        {
+            ((BlockMachineBase) block).tileClass = clazz;
+        }
+    }
+
+    public static void registerTileEntity(Block block, String name, Class clazz)
+    {
+        registerItemBlockAsTileEntity(block, name, clazz, ItemBlock.class);
+    }
+    
+    public static void registerMachine(Block block, String name, Class clazz)
+    {
+        registerItemBlockAsTileEntity(block, name, clazz, ItemMachine.class);
     }
 }

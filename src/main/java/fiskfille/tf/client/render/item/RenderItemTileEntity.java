@@ -4,15 +4,16 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class RenderItemTileEntity implements IItemRenderer
 {
-    private TileEntity tileentity;
+    protected TileEntity tileentity;
 
     public RenderItemTileEntity(TileEntity tile)
     {
-        this.tileentity = tile;
+        tileentity = tile;
     }
 
     @Override
@@ -30,22 +31,17 @@ public class RenderItemTileEntity implements IItemRenderer
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
-        if (type == type.EQUIPPED || type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
+        if (type == ItemRenderType.INVENTORY)
         {
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+            GL11.glRotatef(90, 0, 1, 0);
+            GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         }
-        else
+        else if (type == ItemRenderType.ENTITY)
         {
-            if (type == type.INVENTORY)
-            {
-                GL11.glRotatef(90, 0, 1, 0);
-            }
-            else
-            {
-                GL11.glRotatef(180, 0, 1, 0);
-            }
-
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, -0.5F, -0.5F, -0.5F, 0.0F);
+            GL11.glRotatef(180, 0, 1, 0);
+            GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         }
+        
+        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 }

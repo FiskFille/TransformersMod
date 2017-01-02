@@ -2,6 +2,7 @@ package fiskfille.tf.common.item;
 
 import com.google.common.collect.Multimap;
 
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFVectorHelper;
@@ -26,6 +27,7 @@ public class ItemPurgesKatana extends ItemSword
     {
         super(ToolMaterial.EMERALD);
         setMaxDamage(1500);
+        setCreativeTab(TransformersMod.tabTransformers);
     }
 
     @Override

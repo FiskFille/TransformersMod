@@ -2,24 +2,16 @@ package fiskfille.tf.client.render.item;
 
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.common.tileentity.TileEntityColumn;
 
-public class RenderItemColumn implements IItemRenderer
+public class RenderItemColumn extends RenderItemTileEntity
 {
-    @Override
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
+    public RenderItemColumn()
     {
-        return true;
-    }
-
-    @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
-        return true;
+        super(new TileEntityColumn());
     }
 
     @Override
@@ -50,6 +42,6 @@ public class RenderItemColumn implements IItemRenderer
             GL11.glTranslatef(0.5F, 0.0F, 0.5F);
         }
         
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityColumn(), 0.0F, 0.0F, 0.0F, 0.0F);
+        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 }

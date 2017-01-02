@@ -13,9 +13,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -42,9 +39,9 @@ import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.helper.TFMathHelper;
 
-public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IChunkLoaderTile, IMultiTile/* IEnergonPowered*/ // TODO
+public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IChunkLoaderTile, IMultiTile/* IEnergonPowered */// TODO
 {
-    public Integer[][] switches = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    public Integer[][] switches = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
     private ItemStack[] inventory = new ItemStack[3];
 
@@ -134,13 +131,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                 {
                     List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
                     Collections.sort(list, new Comparator<TileEntity>()
-                            {
+                    {
                         @Override
                         public int compare(TileEntity tile1, TileEntity tile2)
                         {
                             return Double.valueOf(Math.sqrt(getDistanceFrom(tile1.xCoord, tile1.zCoord, tile1.yCoord))).compareTo(Math.sqrt(getDistanceFrom(tile2.xCoord, tile2.zCoord, tile2.yCoord)));
                         }
-                            });
+                    });
 
                     for (TileEntity tileentity : list)
                     {
@@ -175,7 +172,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
             if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64)
             {
-                //                errors.add(GroundBridgeError.INVALID_COORDS); TODO: Uncomment
+                // errors.add(GroundBridgeError.INVALID_COORDS); TODO: Uncomment
             }
 
             if (destY < 0 || destY + 5 >= worldObj.getHeight()) // TODO
@@ -267,7 +264,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                 }
             }
 
-            int dir = portalDirection == 0 && animPortalDirection > portalDirection ? (animPortalDirection == 0 ? 0 : 4) : portalDirection;
+            int dir = portalDirection == 0 && animPortalDirection > portalDirection ? animPortalDirection == 0 ? 0 : 4 : portalDirection;
             float incr = 0.2F;
 
             if (animPortalDirection < dir)
@@ -434,7 +431,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
             int[] aint = {coords.posX, coords.posY, coords.posZ};
             int[] aint1 = {xCoord, yCoord, zCoord};
 
-            switches = new Integer[][] {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+            switches = new Integer[][] { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
             for (int i = 0; i < aint.length; ++i)
             {
@@ -540,13 +537,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
             }
 
             Collections.sort(list, new Comparator<Integer>()
-                    {
+            {
                 @Override
                 public int compare(Integer arg0, Integer arg1)
                 {
                     return Double.valueOf(arg0).compareTo(Double.valueOf(arg1));
                 }
-                    });
+            });
 
             cachedDimensionIDs = list.toArray(new Integer[list.size()]);
         }
@@ -554,9 +551,10 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         return cachedDimensionIDs;
     }
 
+    @Override
     public void markBlockForUpdate()
     {
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        super.markBlockForUpdate();
 
         if (!worldObj.isRemote)
         {
@@ -611,9 +609,9 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.readCustomNBT(nbt);
         animPortalDirection = prevAnimPortalDirection = portalDirection = nbt.getInteger("PortalDirection");
         srcPortalDirection = nbt.getInteger("SrcPortalDirection");
         activationLeverState = nbt.getBoolean("Lever");
@@ -648,9 +646,9 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.writeCustomNBT(nbt);
         nbt.setInteger("PortalDirection", portalDirection);
         nbt.setInteger("SrcPortalDirection", srcPortalDirection);
         nbt.setBoolean("Lever", activationLeverState);
@@ -709,21 +707,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     public int[] getAccessibleSlotsFromSide(int side)
     {
         return new int[] {};
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override
@@ -832,21 +815,21 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         return new int[] {-(isSide ? BlockControlPanel.directions[direction][0] : 0), -(isTop ? 1 : 0), -(isSide ? BlockControlPanel.directions[direction][1] : 0)};
     }
 
-//    @Override
-//    public boolean canBePowered()
-//    {
-//        return !BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata());
-//    }
-//
-//    @Override
-//    public Vec3 getPowerInputOffset()
-//    {
-//        Vec3 vec3 = Vec3.createVectorHelper(-0.055F, 0.175F, -0.5F);
-//        float pitch = 0;
-//        float yaw = getBlockMetadata() * 90 + 180;
-//        vec3.rotateAroundX(-pitch * (float)Math.PI / 180.0F);
-//        vec3.rotateAroundY(-yaw * (float)Math.PI / 180.0F);
-//
-//        return vec3;
-//    }
+    // @Override
+    // public boolean canBePowered()
+    // {
+    // return !BlockGroundBridgeControl.isBlockSideOfPanel(getBlockMetadata());
+    // }
+    //
+    // @Override
+    // public Vec3 getPowerInputOffset()
+    // {
+    // Vec3 vec3 = Vec3.createVectorHelper(-0.055F, 0.175F, -0.5F);
+    // float pitch = 0;
+    // float yaw = getBlockMetadata() * 90 + 180;
+    // vec3.rotateAroundX(-pitch * (float)Math.PI / 180.0F);
+    // vec3.rotateAroundY(-yaw * (float)Math.PI / 180.0F);
+    //
+    // return vec3;
+    // }
 }

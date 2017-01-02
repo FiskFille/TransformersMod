@@ -99,7 +99,7 @@ public class GuiTransmitter extends GuiContainer
     		}
     	}
 
-    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, tileentity.tank.getCapacity()));
+    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(liquidAmount), TFEnergyHelper.formatNumber(tileentity.tank.getCapacity())));
     	colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 		
         if (mouseX > k + 77 && mouseX <= k + 77 + 20 && mouseY > l + 17 && mouseY <= l + 17 + 52)

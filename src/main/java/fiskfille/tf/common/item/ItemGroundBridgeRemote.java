@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
@@ -82,7 +83,7 @@ public class ItemGroundBridgeRemote extends Item
                     }
                     else
                     {
-                        TFHelper.openGui(player, TransformersMod.instance, 6, worldserver, coords.posX, coords.posY, coords.posZ);
+                        TFHelper.openGui(player, TransformersMod.instance, TFGui.GROUND_BRIDGE_REMOTE.guiId, worldserver, coords.posX, coords.posY, coords.posZ);
                     }
 
                     return itemstack;

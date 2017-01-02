@@ -18,6 +18,7 @@ public class ContainerDisplayStation extends ContainerBasic
 
     public ContainerDisplayStation(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
     {
+        super(tile);
         player = inventoryPlayer.player;
 
         for (int i = 0; i < 4; ++i)
@@ -64,12 +65,6 @@ public class ContainerDisplayStation extends ContainerBasic
         });
 
         addPlayerInventory(inventoryPlayer, 20);
-    }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer player)
-    {
-        return true;
     }
 
     @Override

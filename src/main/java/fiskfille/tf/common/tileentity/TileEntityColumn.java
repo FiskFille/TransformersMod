@@ -1,5 +1,10 @@
 package fiskfille.tf.common.tileentity;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.EnergyStorageInventory;
@@ -11,14 +16,6 @@ import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 
 public class TileEntityColumn extends TileEntityContainer implements IEnergyReceiver, IMultiTile
 {
@@ -116,17 +113,17 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.readCustomNBT(nbt);
         storage.readFromNBT(nbt);
         receiverHandler.readFromNBT(nbt);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.writeCustomNBT(nbt);
         storage.writeToNBT(nbt);
         receiverHandler.writeToNBT(nbt);
     }
@@ -195,21 +192,6 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     public int getMapColor()
     {
         return 0xFF0000;
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override

@@ -127,6 +127,7 @@ tile.block_of_transformium.name=Block of Transformium
 tile.cosmic_rust.name=Cosmic Rust
 tile.transformer_display_station.name=Transformer Display Station
 tile.energon_processor.name=Energon Processor
+tile.energon_fluid_tank.name=Energon Fluid Tank
 tile.energon_transmitter.name=Energon Transmitter
 tile.energy_relay.name=Energy Relay
 tile.energy_relay_torch.name=Energy Relay Torch
@@ -189,6 +190,7 @@ stats.laser_charge.name=Laser Charge
 gui.emb.storage=%s/%s EmB
 gui.emb.rate=%s EmB/t
 gui.emb.amount=%s EmB
+gui.emb.item.configured=%s (Configured)
 gui.display_pillar.name=Display Pillar
 gui.display_station=Transformer Display Station
 gui.display_station.transform=Transform
@@ -206,6 +208,7 @@ gui.energon_processor.content=%s: %s%%
 gui.energon_processor.empty=Empty
 gui.energon_processor.unidentified=Unidentified
 gui.energon_processor.filled=%s/%s mB
+gui.energon_fluid_tank=Energon Fluid Tank
 gui.transmitter=Energon Transmitter
 gui.transmitter.select_receivers=Select Receivers
 gui.assembly_table=Transformer Assembly Table
@@ -218,9 +221,12 @@ recipe.assembly_table=Assembly Table
 recipe.alloy_crucible=Alloy Crucible
 
 option.tf.energon_processor=Energon Processor
+option.tf.alloy_crucible=Alloy Crucible
+option.tf.energon_tank=Energon Fluid Tank
 option.tf.transmitter=Transmitter
 option.tf.relay_tower=Relay Tower
 option.tf.relay_torch=Relay Torch
+option.tf.energy_column=Energy Column
 option.tf.control_panel=Control Panel
 
 

@@ -16,12 +16,10 @@ import fiskfille.tf.helper.TFArmorHelper;
 public class ContainerDisplayStationArmor extends ContainerBasic
 {
 	public InventoryDisplayStationArmor craftMatrix = new InventoryDisplayStationArmor(this);
-    private EntityPlayer player;
 
-    public ContainerDisplayStationArmor(InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
+    public ContainerDisplayStationArmor(final InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
     {
-        TileEntityDisplayStation tileentity = tile;
-        player = inventoryPlayer.player;
+        super(tile);
 
         for (int i = 0; i < 4; ++i)
         {
@@ -31,8 +29,7 @@ public class ContainerDisplayStationArmor extends ContainerBasic
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    return !(itemstack == null || !(itemstack.getItem() instanceof ItemTransformerArmor)) && itemstack.getItem().isValidArmor(itemstack, k, player);
-
+                    return !(itemstack == null || !(itemstack.getItem() instanceof ItemTransformerArmor)) && itemstack.getItem().isValidArmor(itemstack, k, inventoryPlayer.player);
                 }
 
                 @Override
@@ -58,8 +55,7 @@ public class ContainerDisplayStationArmor extends ContainerBasic
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    return !(itemstack == null || itemstack.getItem() instanceof ItemTransformerArmor) && itemstack.getItem().isValidArmor(itemstack, k, player);
-
+                    return !(itemstack == null || itemstack.getItem() instanceof ItemTransformerArmor) && itemstack.getItem().isValidArmor(itemstack, k, inventoryPlayer.player);
                 }
 
                 @Override
@@ -75,7 +71,7 @@ public class ContainerDisplayStationArmor extends ContainerBasic
         
         for (int i = 0; i < 4; ++i)
         {
-        	ItemStack itemstack = tileentity.getStackInSlot(i);
+        	ItemStack itemstack = tile.getStackInSlot(i);
 
         	if (itemstack != null)
         	{

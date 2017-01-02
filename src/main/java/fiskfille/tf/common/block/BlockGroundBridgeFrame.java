@@ -17,9 +17,9 @@ import fiskfille.tf.common.tileentity.TileEntityGroundBridgeFrame;
 
 public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
 {
-	@SideOnly(Side.CLIENT)
-	public IIcon centerIcon;
-	
+    @SideOnly(Side.CLIENT)
+    public IIcon centerIcon;
+
     public BlockGroundBridgeFrame()
     {
         super(Material.iron);
@@ -31,43 +31,43 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
     @Override
     public int getRenderType()
     {
-    	return RenderBlockGroundBridgeFrame.renderId;
+        return RenderBlockGroundBridgeFrame.renderId;
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-    	int metadata = world.getBlockMetadata(x, y, z);
-    	
-    	if (getFrameDirection(world, x, y, z) != null)
-    	{
-    		if (metadata == 0)
-    		{
-    			world.setBlockMetadataWithNotify(x, y, z, 1, 2);
-    		}
-    		else
-    		{
-    			world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-    		}
-    		
-    		return true;
-    	}
-    	
+        int metadata = world.getBlockMetadata(x, y, z);
+
+        if (getFrameDirection(world, x, y, z) != null)
+        {
+            if (metadata == 0)
+            {
+                world.setBlockMetadataWithNotify(x, y, z, 1, 2);
+            }
+            else
+            {
+                world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+            }
+
+            return true;
+        }
+
         return false;
     }
-    
+
     public static ForgeDirection getFrameDirection(IBlockAccess world, int x, int y, int z)
     {
-    	if (BlockGroundBridgeTeleporter.isNorthSouthFacingFramePresent(world, x, y, z))
-    	{
-    		return ForgeDirection.NORTH;
-    	}
-    	else if (BlockGroundBridgeTeleporter.isEastWestFacingFramePresent(world, x, y, z))
-    	{
-    		return ForgeDirection.EAST;
-    	}
-    	
-    	return null;
+        if (BlockGroundBridgeTeleporter.isNorthSouthFacingFramePresent(world, x, y, z))
+        {
+            return ForgeDirection.NORTH;
+        }
+        else if (BlockGroundBridgeTeleporter.isEastWestFacingFramePresent(world, x, y, z))
+        {
+            return ForgeDirection.EAST;
+        }
+
+        return null;
     }
 
     @Override
@@ -80,14 +80,14 @@ public class BlockGroundBridgeFrame extends Block implements ITileEntityProvider
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
-    	return side == 1 && getFrameDirection(world, x, y, z) != null ? centerIcon : super.getIcon(world, x, y, z, side);
+        return side == 1 && getFrameDirection(world, x, y, z) != null ? centerIcon : super.getIcon(world, x, y, z, side);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        blockIcon = par1IIconRegister.registerIcon(getTextureName());
-        centerIcon = par1IIconRegister.registerIcon(getTextureName() + "_center");
+        blockIcon = iconRegister.registerIcon(getTextureName());
+        centerIcon = iconRegister.registerIcon(getTextureName() + "_center");
     }
 }

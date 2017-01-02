@@ -8,12 +8,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.Constants.NBT;
 
 import com.google.common.collect.Lists;
 
@@ -273,27 +271,38 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             }
         }
     }
-
+    
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    protected void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.readCustomNBT(nbt);
         smeltingMode = EnumSmeltingMode.values()[MathHelper.clamp_int(nbt.getByte("Mode"), 0, EnumSmeltingMode.values().length - 1)];
         smeltTime = nbt.getShort("SmeltTime");
         
-        storage.readFromNBT(nbt);
         receiverHandler.readFromNBT(nbt);
+        
+        if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
+        {
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
+            storage.readFromNBT(config);
+        }
     }
-
+    
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    protected void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.writeCustomNBT(nbt);
         nbt.setByte("Mode", (byte) smeltingMode.ordinal());
         nbt.setShort("SmeltTime", (short) smeltTime);
 
-        storage.writeToNBT(nbt);
         receiverHandler.writeToNBT(nbt);
+        
+        if (storage.getEnergy() > 0)
+        {
+            NBTTagCompound config = new NBTTagCompound();
+            storage.writeToNBT(config);
+            nbt.setTag("ConfigDataTF", config);
+        }
     }
 
     @Override
@@ -360,21 +369,6 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     public int getMapColor()
     {
         return 0xFF0000;
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override

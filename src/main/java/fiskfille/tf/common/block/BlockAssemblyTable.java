@@ -1,21 +1,18 @@
 package fiskfille.tf.common.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 
-public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvider
+public class BlockAssemblyTable extends BlockMachineBase
 {
     public BlockAssemblyTable()
     {
         super(Material.iron);
-        setHarvestLvl("pickaxe", 1);
+        setHarvestLevel("pickaxe", 1);
         setStepSound(Block.soundTypeMetal);
         setHardness(6.0F);
         setResistance(10.0F);
@@ -28,13 +25,11 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
     {
         if (!player.isSneaking())
         {
-            player.openGui(TransformersMod.instance, 2, world, x, y, z);
+            TFGui.ASSEMBLY_TABLE.open(player, x, y, z);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     @Override
@@ -56,14 +51,8 @@ public class BlockAssemblyTable extends BlockBasic implements ITileEntityProvide
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        return new TileEntityAssemblyTable();
-    }
-
-    @Override
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
-    {
-        blockIcon = par1IIconRegister.registerIcon("iron_block");
+        blockIcon = iconRegister.registerIcon("iron_block");
     }
 }

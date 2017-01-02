@@ -5,9 +5,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
-public abstract class TileEntityContainer extends TileEntity implements IInventory
+public abstract class TileEntityContainer extends TileEntityTF implements IInventory
 {   
     public abstract ItemStack[] getItemStacks();
     
@@ -93,11 +92,10 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
     {
         return false;
     }
-
+    
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    protected void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
         NBTTagList nbttaglist = nbt.getTagList("Items", 10);
         setItemStacks(new ItemStack[getSizeInventory()]);
 
@@ -112,11 +110,10 @@ public abstract class TileEntityContainer extends TileEntity implements IInvento
             }
         }
     }
-
+    
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    protected void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
         NBTTagList nbttaglist = new NBTTagList();
 
         for (int i = 0; i < getItemStacks().length; ++i)

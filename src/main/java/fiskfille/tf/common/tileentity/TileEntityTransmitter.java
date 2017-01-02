@@ -1,5 +1,20 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.chunk.ForcedChunk;
@@ -22,23 +37,6 @@ import fiskfille.tf.common.network.MessageUpdateFluidState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFHelper;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidContainerItem;
-
-import java.util.List;
-import java.util.Map;
 
 public class TileEntityTransmitter extends TileEntityContainer implements IEnergyTransmitter, IFluidHandlerTF, ISidedInventory, IChunkLoaderTile, IMultiTile
 {
@@ -131,25 +129,23 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                 }
 
                 boolean updatedClientFluid = false;
+                ItemStack fluidContainer = getStackInSlot(0);
 
-                ItemStack fluidContainer = inventory[0];
-
-                if (fluidContainer != null)
+                if (fluidContainer != null && fluidContainer.getItem() instanceof IFluidContainerItem)
                 {
-                    if (fluidContainer.getItem() instanceof IFluidContainerItem)
-                    {
-                        IFluidContainerItem container = (IFluidContainerItem) fluidContainer.getItem();
-                        FluidStack fluid = container.getFluid(fluidContainer);
+                    IFluidContainerItem container = (IFluidContainerItem) fluidContainer.getItem();
+                    FluidStack fluid = container.getFluid(fluidContainer);
 
-                        if (fluid != null && fluid.amount > 0 && (FluidStack.areFluidStackTagsEqual(fluidStack, fluid) || (fluidStack == null || fluidStack.amount <= 0)))
+                    if (fluid != null && fluid.amount > 0 && fluid.getFluid() == TFFluids.energon)
+                    {
+                        int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
+                        int success = fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, false), true);
+                        
+                        if (success > 0)
                         {
-                            if (fluid.getFluid() == TFFluids.energon)
-                            {
-                                int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
-                                fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, true), true);
-                                updateClientFluid();
-                                updatedClientFluid = true;
-                            }
+                            container.drain(fluidContainer, success, true);
+                            updateClientFluid();
+                            updatedClientFluid = true;
                         }
                     }
                 }
@@ -201,23 +197,28 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.readCustomNBT(nbt);
 
         if (nbt.getBoolean("Base"))
         {
             transmissionHandler.readFromNBT(nbt);
             receiverHandler.readFromNBT(nbt);
-            storage.readFromNBT(nbt);
-            tank.readFromNBT(nbt);
+            
+            if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
+            {
+                NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
+                storage.readFromNBT(config);
+                tank.readFromNBT(config);
+            }
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.writeCustomNBT(nbt);
 
         boolean base = getBlockMetadata() < 4;
         nbt.setBoolean("Base", base);
@@ -226,8 +227,14 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         {
             transmissionHandler.writeToNBT(nbt);
             receiverHandler.writeToNBT(nbt);
-            storage.writeToNBT(nbt);
-            tank.writeToNBT(nbt);
+            
+            if (storage.getEnergy() > 0 || tank.getFluid() != null && tank.getFluidAmount() > 0)
+            {
+                NBTTagCompound config = new NBTTagCompound();
+                storage.writeToNBT(config);
+                tank.writeToNBT(config);
+                nbt.setTag("ConfigDataTF", config);
+            }
         }
     }
 
@@ -306,7 +313,26 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
-        return tank.fill(resource, doFill);
+        FluidStack stack = tank.getFluid();
+        
+        if (stack == null || stack.amount <= 0 || FluidStack.areFluidStackTagsEqual(stack, resource))
+        {
+            return tank.fill(resource, doFill);
+        }
+        else if (stack.getFluid() == TFFluids.energon)
+        {
+            NBTTagCompound prevNBT = resource.tag;
+
+            resource.tag = stack.tag;
+            int amount = tank.fill(resource, true);
+            resource.tag = prevNBT;
+
+            FluidEnergon.merge(stack, resource, amount);
+
+            return amount;
+        }
+
+        return 0;
     }
 
     @Override
@@ -372,21 +398,6 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return getBlockMetadata() < 4 && itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override

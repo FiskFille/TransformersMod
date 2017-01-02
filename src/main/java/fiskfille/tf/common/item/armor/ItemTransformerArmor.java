@@ -14,6 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -24,6 +25,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     public ItemTransformerArmor(ArmorMaterial material, int renderIndex, int armorPiece)
     {
         super(material, renderIndex, armorPiece);
+        setCreativeTab(TransformersMod.tabTransformers);
     }
 
     @Override

@@ -3,13 +3,11 @@ package fiskfille.tf.common.tileentity;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.Constants.NBT;
 import fiskfille.tf.common.chunk.ForcedChunk;
 import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
@@ -23,7 +21,7 @@ import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 
-public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitter, IEnergyReceiver, IChunkLoaderTile, IMultiTile
+public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmitter, IEnergyReceiver, IChunkLoaderTile, IMultiTile
 {
     public TransmissionHandler transmissionHandler = new TransmissionHandler(this);
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
@@ -105,32 +103,38 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
-
         if (nbt.getBoolean("Base"))
         {
             transmissionHandler.readFromNBT(nbt);
             receiverHandler.readFromNBT(nbt);
-            storage.readFromNBT(nbt);
+            
+            if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
+            {
+                NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
+                storage.readFromNBT(config);
+            }
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
-
-        boolean base = getBlockMetadata() < 4;
-
+        boolean base = isValid(getBlockMetadata());
         nbt.setBoolean("Base", base);
 
         if (base)
         {
             transmissionHandler.writeToNBT(nbt);
             receiverHandler.writeToNBT(nbt);
-            storage.writeToNBT(nbt);
+            
+            if (storage.getEnergy() > 0)
+            {
+                NBTTagCompound config = new NBTTagCompound();
+                storage.writeToNBT(config);
+                nbt.setTag("ConfigDataTF", config);
+            }
         }
     }
 
@@ -222,21 +226,6 @@ public class TileEntityRelayTower extends TileEntity implements IEnergyTransmitt
     public void setEnergyUsage(float usage)
     {
         storage.setUsage(usage);
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound syncData = new NBTTagCompound();
-        writeToNBT(syncData);
-
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, syncData);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
-    {
-        readFromNBT(packet.func_148857_g());
     }
 
     @Override

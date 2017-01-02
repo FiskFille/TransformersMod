@@ -44,6 +44,7 @@ import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
+import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 import fiskfille.tf.helper.TFTextureHelper;
 
@@ -54,7 +55,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         public PositionedStack ingredient;
         public PositionedStack result;
 
-        public FluidTank tank = new FluidTank(2000); 
+        public FluidTank tank = new FluidTank(2000);
 
         public CachedProcessorRecipe(ItemStack in, ItemStack out)
         {
@@ -77,7 +78,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
         @Override
         public PositionedStack getOtherStack()
         {
-            return powerSources.get((cycleticks / 48) % powerSources.size()).stack;
+            return powerSources.get(cycleticks / 48 % powerSources.size()).stack;
         }
 
         public void computeVisuals()
@@ -176,7 +177,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
 
         if (item instanceof IFluidContainerItem)
         {
-            IFluidContainerItem container = (IFluidContainerItem)item;
+            IFluidContainerItem container = (IFluidContainerItem) item;
             FluidStack stack = container.getFluid(result);
 
             int amount = stack != null ? stack.amount : 0;
@@ -213,7 +214,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                             }
                         }
 
-                        int i = recipe.tank.fill(stack1, true);
+                        recipe.tank.fill(stack1, true);
                         recipe.computeVisuals();
                         arecipes.add(recipe);
                     }
@@ -265,7 +266,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
             {
                 GuiDraw.changeTexture(TextureMap.locationBlocksTexture);
                 float[] rgb = TFRenderHelper.hexToRGB(stack.getFluid().getColor(stack));
-                float f = (float)stack.amount / recipe1.tank.getCapacity();
+                float f = (float) stack.amount / recipe1.tank.getCapacity();
 
                 GL11.glPushMatrix();
                 GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
@@ -345,7 +346,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                         }
                     }
 
-                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, recipe1.tank.getCapacity()));
+                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(liquidAmount), TFEnergyHelper.formatNumber(recipe1.tank.getCapacity())));
                     colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
                     int guiLeft = ObfuscationReflectionHelper.getPrivateValue(GuiContainer.class, gui, 4);

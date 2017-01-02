@@ -1,13 +1,9 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.common.tileentity.TileEntityEmbTest;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.entity.EntityLivingBase;
 
-public class BlockEmbTest extends Block implements ITileEntityProvider
+public class BlockEmbTest extends BlockMachineBase
 {
     protected BlockEmbTest()
     {
@@ -15,8 +11,8 @@ public class BlockEmbTest extends Block implements ITileEntityProvider
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
+    public int getPlacedRotation(EntityLivingBase entity)
     {
-        return new TileEntityEmbTest();
+        return 0;
     }
 }

@@ -50,6 +50,7 @@ import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -77,6 +78,7 @@ import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.ModelOffset;
+import fiskfille.tf.helper.TFFluidRenderHelper;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFModelHelper;
 import fiskfille.tf.helper.TFRenderHelper;
@@ -173,6 +175,7 @@ public class ClientEventHandler
     {
         if (event.map.getTextureType() == 0)
         {
+            TFFluidRenderHelper.onTextureReload();
             TFTextureHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
             TFTextureHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
         }
@@ -876,10 +879,11 @@ public class ClientEventHandler
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onItemToolTip(ItemTooltipEvent event)
     {
-        String s = event.itemStack.getUnlocalizedName() + ".desc";
+        ItemStack itemstack = event.itemStack;
+        String s = itemstack.getUnlocalizedName() + ".desc";
 
         if (!s.equals(StatCollector.translateToLocal(s)))
         {

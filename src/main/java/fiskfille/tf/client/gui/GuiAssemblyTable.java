@@ -1,30 +1,32 @@
 package fiskfille.tf.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.container.ContainerAssemblyTable;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
+
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.container.ContainerAssemblyTable;
+import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 
 @SideOnly(Side.CLIENT)
 public class GuiAssemblyTable extends GuiContainer
 {
     private ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/gui/container/assembly_table.png");
 
-    public GuiAssemblyTable(InventoryPlayer inventoryPlayer, World world, int x, int y, int z)
+    public GuiAssemblyTable(InventoryPlayer inventoryPlayer, TileEntityAssemblyTable tile)
     {
-        super(new ContainerAssemblyTable(inventoryPlayer, world, x, y, z));
-        this.ySize = 222;
+        super(new ContainerAssemblyTable(inventoryPlayer, tile));
+        ySize = 222;
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int par1, int par2)
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         int k = (width - xSize) / 2;
         int l = (height - ySize) / 2;

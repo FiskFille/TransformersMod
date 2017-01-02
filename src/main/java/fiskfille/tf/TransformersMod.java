@@ -1,6 +1,7 @@
 package fiskfille.tf;
 
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -44,18 +45,19 @@ import fiskfille.tf.web.update.UpdateChecker;
 @Mod(modid = TransformersMod.modid, name = "Transformers Mod", version = TransformersMod.version, guiFactory = "fiskfille.tf.client.gui.TFGuiFactory")
 public class TransformersMod
 {
-    @Instance(TransformersMod.modid)
-    public static TransformersMod instance;
-
-    public static Configuration configFile;
-
     public static final String modid = "transformers";
     public static final String version = "${version}";
 
+    @Instance(TransformersMod.modid)
+    public static TransformersMod instance;
+    
     @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
     public static CommonProxy proxy;
+    
+    public static Logger logger = Logger.getLogger("Transformers Mod");
 
     public static TFConfig config = new TFConfig();
+    public static Configuration configFile;
 
     public static CreativeTabs tabTransformers = new CreativeTabTransformers();
 

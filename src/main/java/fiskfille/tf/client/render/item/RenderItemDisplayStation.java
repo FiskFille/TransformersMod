@@ -8,20 +8,13 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 
-public class RenderItemDisplayStation implements IItemRenderer
+public class RenderItemDisplayStation extends RenderItemTileEntity
 {
-    @Override
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
+    public RenderItemDisplayStation()
     {
-        return true;
+        super(new TileEntityDisplayStation());
     }
-
-    @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
-        return true;
-    }
-
+    
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
@@ -50,6 +43,6 @@ public class RenderItemDisplayStation implements IItemRenderer
         	GL11.glTranslatef(0.5F, 0.0F, 0.5F);
         }
         
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityDisplayStation(), 0.0F, 0.0F, 0.0F, 0.0F);
+        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 }

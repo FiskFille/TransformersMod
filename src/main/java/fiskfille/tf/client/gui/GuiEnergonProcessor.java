@@ -26,6 +26,7 @@ import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
+import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
@@ -85,7 +86,7 @@ public class GuiEnergonProcessor extends GuiContainer
     		}
     	}
 
-    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, tileentity.tank.getCapacity()));
+    	text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(liquidAmount), TFEnergyHelper.formatNumber(tileentity.tank.getCapacity())));
     	colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
     	if (mouseX > k + 77 && mouseX <= k + 77 + 52 && mouseY > l + 17 && mouseY <= l + 17 + 52)

@@ -41,7 +41,8 @@ public class TFRecipes
         addCraftingComponentRecipes();
         addProjectileRecipes();
         addArmorRecipes();
-
+        
+        GameRegistry.addRecipe(new RecipeClearConfig());
         GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), "IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformiumFragment, 'R', Blocks.redstone_block, 'r', Items.redstone);
         GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), "TET", "TNT", "DND", 'T', TFBlocks.transformiumBlock, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block);
 
@@ -124,7 +125,7 @@ public class TFRecipes
         GameRegistry.addRecipe(new ItemStack(TFItems.componentBase), "III", "ITI", "III", 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment);
         GameRegistry.addRecipe(new ShapedOreRecipe(TFItems.colorComponent, "DDD", "DCD", "DDD", 'D', "dye", 'C', TFItems.componentBase));
         GameRegistry.addRecipe(new ItemStack(TFItems.armorComponent), " I ", "ICI", " I ", 'C', TFItems.componentBase, 'I', Items.iron_chestplate);
-        GameRegistry.addRecipe(new RecipesDisplayItems());
+        GameRegistry.addRecipe(new RecipeDisplayItems());
 
         int i = 0;
 

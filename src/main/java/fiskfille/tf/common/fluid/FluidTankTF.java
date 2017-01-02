@@ -17,7 +17,7 @@ public class FluidTankTF extends FluidTank
     public FluidTank readFromNBT(NBTTagCompound nbt)
     {
         FluidTank tank = super.readFromNBT(nbt);
-        usage = nbt.getShort("Usage");
+        usage = nbt.getShort("FluidUsage");
         last = getFluidAmount() - usage;
         return tank;
     }
@@ -26,7 +26,7 @@ public class FluidTankTF extends FluidTank
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
         nbt = super.writeToNBT(nbt);
-        nbt.setShort("Usage", (short) usage);
+        nbt.setShort("FluidUsage", (short) usage);
         return nbt;
     }
 

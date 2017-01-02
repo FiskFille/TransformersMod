@@ -8,11 +8,9 @@ import fiskfille.tf.common.tileentity.TileEntityColumn;
 
 public class ContainerColumn extends ContainerBasic
 {
-    private TileEntityColumn tileentity;
-
     public ContainerColumn(InventoryPlayer inventoryPlayer, TileEntityColumn tile)
     {
-        tileentity = tile;
+        super(tile);
 
         for (int i = 0; i < tile.getSizeInventory(); ++i)
         {
@@ -29,11 +27,11 @@ public class ContainerColumn extends ContainerBasic
 
         addPlayerInventory(inventoryPlayer, 24);
     }
-
+    
     @Override
-    public boolean canInteractWith(EntityPlayer player)
+    public TileEntityColumn getTile()
     {
-        return tileentity.isUseableByPlayer(player);
+        return (TileEntityColumn) super.getTile();
     }
 
     @Override
@@ -41,7 +39,7 @@ public class ContainerColumn extends ContainerBasic
     {
         ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
-        int MAX = tileentity.getSizeInventory() - 1;
+        int MAX = getTile().getSizeInventory() - 1;
 
         if (slot != null && slot.getHasStack())
         {
@@ -50,7 +48,7 @@ public class ContainerColumn extends ContainerBasic
 
             if (slotId > MAX)
             {
-                if (tileentity.isItemValidForSlot(slotId, itemstack1))
+                if (getTile().isItemValidForSlot(slotId, itemstack1))
                 {
                     if (!mergeItemStack(itemstack1, 0, MAX + 2, false))
                     {
