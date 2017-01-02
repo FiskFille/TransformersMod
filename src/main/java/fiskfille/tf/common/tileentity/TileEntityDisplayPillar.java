@@ -35,4 +35,10 @@ public class TileEntityDisplayPillar extends TileEntityContainer
     {
         return getStackInSlot(0);
     }
+    
+    @Override
+    public String getInventoryName()
+    {
+        return "";
+    }
 }

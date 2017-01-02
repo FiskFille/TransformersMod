@@ -108,7 +108,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                 if (fluidStack != null && fluidStack.amount > 0)
                 {
                     Map<String, Float> ratios = FluidEnergon.getRatios(fluidStack);
-                    int i = 10;
+                    int max = Math.min(10, fluidStack.amount);
 
                     for (Map.Entry<String, Float> e : ratios.entrySet())
                     {
@@ -117,13 +117,8 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                         if (energon != null)
                         {
                             float factor = energon.getEnergyValue();
-                            float receivedEnergy = receiveEnergy(Math.round(e.getValue() * factor) * i);
+                            float receivedEnergy = receiveEnergy(e.getValue() * factor * max);
                             drain(ForgeDirection.UNKNOWN, Math.round(receivedEnergy / factor), true);
-
-                            if (worldObj.isRemote)
-                            {
-                                extractEnergy(receivedEnergy);
-                            }
                         }
                     }
                 }
@@ -398,6 +393,12 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return getBlockMetadata() < 4 && itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
+    }
+    
+    @Override
+    public String getInventoryName()
+    {
+        return "gui.transmitter";
     }
 
     @Override

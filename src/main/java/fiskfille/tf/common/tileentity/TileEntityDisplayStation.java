@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatFileWriter;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovementInputFromOptions;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,6 +41,12 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
                 fakePlayer.movementInput = new MovementInputFromOptions(mc.gameSettings);
             }
         }
+    }
+    
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return super.getRenderBoundingBox().addCoord(0, 1, 0);
     }
 
     public boolean transform()

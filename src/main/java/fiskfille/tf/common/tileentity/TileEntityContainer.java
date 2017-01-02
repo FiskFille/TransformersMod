@@ -82,12 +82,6 @@ public abstract class TileEntityContainer extends TileEntityTF implements IInven
     }
 
     @Override
-    public String getInventoryName()
-    {
-        return "";
-    }
-
-    @Override
     public boolean hasCustomInventoryName()
     {
         return false;

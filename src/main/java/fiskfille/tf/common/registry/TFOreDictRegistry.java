@@ -3,6 +3,7 @@ package fiskfille.tf.common.registry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import fiskfille.tf.common.block.TFBlocks;
 
@@ -24,7 +25,7 @@ public class TFOreDictRegistry
     
     private static void registerOre(String name, Block block, int metadata)
     {
-        OreDictionary.registerOre(name, block);
+        OreDictionary.registerOre(name, new ItemStack(block, 1, metadata));
     }
     
     private static void registerOre(String name, Item item)
@@ -34,6 +35,6 @@ public class TFOreDictRegistry
     
     private static void registerOre(String name, Item item, int metadata)
     {
-        OreDictionary.registerOre(name, item);
+        OreDictionary.registerOre(name, new ItemStack(item, 1, metadata));
     }
 }

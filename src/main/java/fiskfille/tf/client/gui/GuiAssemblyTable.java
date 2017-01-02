@@ -1,6 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +14,7 @@ import fiskfille.tf.common.container.ContainerAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 
 @SideOnly(Side.CLIENT)
-public class GuiAssemblyTable extends GuiContainer
+public class GuiAssemblyTable extends GuiContainerTF
 {
     private ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/gui/container/assembly_table.png");
 

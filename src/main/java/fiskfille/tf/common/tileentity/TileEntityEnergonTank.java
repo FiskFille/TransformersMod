@@ -335,7 +335,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
             FluidStack drained = new FluidStack(TFFluids.energon, 0);
             y = topTile.yCoord;
 
-            while (y > 0)
+            while (y > 0 && TFHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
             {
                 TileEntityEnergonTank tile = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, y, zCoord);
                 FluidStack stack = tile.getTank().drain(maxDrain - drained.amount, doDrain);

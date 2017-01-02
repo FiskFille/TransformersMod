@@ -213,6 +213,10 @@ gui.transmitter=Energon Transmitter
 gui.transmitter.select_receivers=Select Receivers
 gui.assembly_table=Transformer Assembly Table
 gui.alloy_crucible=Alloy Crucible
+gui.alloy_crucible.mode=Smelting Mode
+gui.alloy_crucible.mode.alloy=Alloys
+gui.alloy_crucible.mode.furnace=Furnace
+gui.alloy_crucible.mode.both=Both
 gui.energy_column=Energy Column
 
 recipe.energon_processor=Energon Processor

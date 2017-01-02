@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -31,7 +30,7 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFHelper;
 
 @SideOnly(Side.CLIENT)
-public class GuiGroundBridge extends GuiContainer
+public class GuiGroundBridge extends GuiContainerTF
 {
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/ground_bridge.png");
     public TileEntityControlPanel controlPanel;
@@ -135,7 +134,7 @@ public class GuiGroundBridge extends GuiContainer
                     coords.set(aint1[0], aint1[1], aint1[2], controlPanel.destDimIndex);
                     controlPanel.setSwitchesTo(coords);
                     controlPanel.markBlockForUpdate();
-                    
+
                     int[] aint2 = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
 
                     for (int i = 0; i < coordinateFields.length; ++i)
@@ -154,7 +153,7 @@ public class GuiGroundBridge extends GuiContainer
     public void updateButtons()
     {
         boolean canEditCoords = controlPanel != null && !controlPanel.activationLeverState && inventory.getStackInSlot(0) == null;
-        
+
         for (int i = 0; i < coordinateFields.length; ++i)
         {
             coordinateFields[i].setEnabled(canEditCoords);
@@ -275,10 +274,10 @@ public class GuiGroundBridge extends GuiContainer
             GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glColor4f(1, 1, 1, 1);
-            
+
             for (int i = 0; i < controlPanel.errors.size(); ++i)
             {
-                GroundBridgeError error = controlPanel.errors.get(i);
+                controlPanel.errors.get(i);
                 boolean flag = new Rectangle(ySize + 12, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
 
                 mc.getTextureManager().bindTexture(guiTextures);
@@ -294,7 +293,7 @@ public class GuiGroundBridge extends GuiContainer
                     renderToolTip(itemstack, mouseX - x, mouseY - y);
                 }
             }
-            
+
             GL11.glPushMatrix();
             GL11.glTranslatef(-x, -y, 0);
 
@@ -315,7 +314,7 @@ public class GuiGroundBridge extends GuiContainer
                     drawHoveringText(list, mouseX, mouseY, fontRendererObj);
                 }
             }
-            
+
             GL11.glPopMatrix();
         }
     }

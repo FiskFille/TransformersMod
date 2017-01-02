@@ -2,6 +2,7 @@ package fiskfille.tf.common.tileentity;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -111,7 +112,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     
     public int getSmeltTimeMax()
     {
-        return alloyResult && smeltingResult != null ? AlloyRecipes.getInstance().getSmeltTime(smeltingResult) : 200;
+        return alloyResult && smeltingResult != null ? AlloyRecipes.getInstance().getSmeltTime(smeltingResult) : 150;
     }
     
     @SideOnly(Side.CLIENT)
@@ -217,10 +218,13 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                         inventory[3].stackSize += result.stackSize;
                     }
                     
+                    List<ItemStack> list = Lists.newArrayList(getStacksToSmelt());
+                    
                     for (int i = 0; i < 3; ++i)
                     {
-                        if (inventory[i] != null && inventory[i] == getStacksToSmelt()[i])
+                        if (inventory[i] != null && list.contains(inventory[i]))
                         {
+                            list.remove(inventory[i]);
                             --inventory[i].stackSize;
 
                             if (inventory[i].stackSize <= 0)
@@ -369,6 +373,12 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     public int getMapColor()
     {
         return 0xFF0000;
+    }
+    
+    @Override
+    public String getInventoryName()
+    {
+        return "gui.alloy_crucible";
     }
 
     @Override

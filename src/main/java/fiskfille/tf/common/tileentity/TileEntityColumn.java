@@ -193,6 +193,12 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     {
         return 0xFF0000;
     }
+    
+    @Override
+    public String getInventoryName()
+    {
+        return "gui.energy_column";
+    }
 
     @Override
     public void updateClientEnergy()

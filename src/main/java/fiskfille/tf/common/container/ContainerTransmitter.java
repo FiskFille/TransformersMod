@@ -55,7 +55,14 @@ public class ContainerTransmitter extends ContainerBasic
             }
             else if (slotId > INPUT)
             {
-                if (slotId >= INPUT + 1 && slotId < INPUT + 28)
+                if (itemstack1.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack1) && ItemFuelCanister.getContainerFluid(itemstack1).getFluid() == TFFluids.energon)
+                {
+                    if (!mergeItemStack(itemstack1, INPUT, INPUT + 1, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (slotId >= INPUT + 1 && slotId < INPUT + 28)
                 {
                     if (!mergeItemStack(itemstack1, INPUT + 28, INPUT + 37, false))
                     {
@@ -74,7 +81,7 @@ public class ContainerTransmitter extends ContainerBasic
 
             if (itemstack1.stackSize == 0)
             {
-                slot.putStack((ItemStack) null);
+                slot.putStack(null);
             }
             else
             {
