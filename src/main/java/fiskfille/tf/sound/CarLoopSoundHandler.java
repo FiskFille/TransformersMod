@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
+import fiskfille.tf.main.MainClass;
 
 @SideOnly(Side.CLIENT)
 public class CarLoopSoundHandler
@@ -21,13 +21,13 @@ public class CarLoopSoundHandler
 		if (currentlyPlaying == null)
 		{
 			String s = "car" + (rand.nextInt(5) + 1);
-			player.playSound(TransformersMod.modid + ":" + s, 1.0F, 1.0F);
+			player.playSound(MainClass.modid + ":" + s, 1.0F, 1.0F);
 			currentlyPlaying = s;
 		}
 		
 		if (player.ticksExisted % 10 == 0)
 		{
-			player.playSound(TransformersMod.modid + ":" + currentlyPlaying, 1.0F, 1.0F);
+			player.playSound(MainClass.modid + ":" + currentlyPlaying, 1.0F, 1.0F);
 		}
 		if (player.ticksExisted % 10 == 9)
 		{
@@ -70,7 +70,7 @@ public class CarLoopSoundHandler
 	{
 		if (player.ticksExisted % ticks == 0)
 		{
-			player.playSound(TransformersMod.modid + ":" + currentlyPlaying, 1.0F, 1.0F);
+			player.playSound(MainClass.modid + ":" + currentlyPlaying, 1.0F, 1.0F);
 		}
 	}
 }
