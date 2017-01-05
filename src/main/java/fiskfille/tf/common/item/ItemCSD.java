@@ -22,8 +22,6 @@ import fiskfille.tf.helper.TFHelper;
 
 public class ItemCSD extends Item
 {
-    private static String[] modes = {"save", "load"};
-
     public ItemCSD()
     {
         setMaxStackSize(1);
@@ -126,7 +124,9 @@ public class ItemCSD extends Item
     {
         public int dimension;
 
-        public DimensionalCoords() {}
+        public DimensionalCoords()
+        {
+        }
 
         public DimensionalCoords(int x, int y, int z, int dim)
         {
@@ -162,7 +162,7 @@ public class ItemCSD extends Item
             }
             else
             {
-                DimensionalCoords coords = (DimensionalCoords)obj;
+                DimensionalCoords coords = (DimensionalCoords) obj;
                 return posX == coords.posX && posY == coords.posY && posZ == coords.posZ && dimension == coords.dimension;
             }
         }
@@ -182,12 +182,12 @@ public class ItemCSD extends Item
         @Override
         public int compareTo(Object obj)
         {
-            return compareTo((DimensionalCoords)obj);
+            return compareTo((DimensionalCoords) obj);
         }
 
         public int compareTo(DimensionalCoords coords)
         {
-            return dimension == coords.dimension ? (posY == coords.posY ? (posZ == coords.posZ ? posX - coords.posX : posZ - coords.posZ) : posY - coords.posY) : dimension - coords.dimension;
+            return dimension == coords.dimension ? posY == coords.posY ? posZ == coords.posZ ? posX - coords.posX : posZ - coords.posZ : posY - coords.posY : dimension - coords.dimension;
         }
     }
 }

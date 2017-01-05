@@ -24,7 +24,7 @@ public class BlockTransmitter extends BlockMachineBase
         setHardness(5.0F);
         setResistance(10.0F);
     }
-    
+
     @Override
     public int getBlockHeight()
     {

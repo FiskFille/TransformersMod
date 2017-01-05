@@ -30,11 +30,11 @@ public class RenderEnergonProcessor extends TileEntitySpecialRenderer
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
         GL11.glRotatef(metadata * 90, 0.0F, 1.0F, 0.0F);
-        
+
         bindTexture(texture);
         model.setBreaking(false);
         model.render(tileentity);
-        
+
         bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/energon_processor_lights.png"));
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_BLEND);
@@ -43,11 +43,11 @@ public class RenderEnergonProcessor extends TileEntitySpecialRenderer
         model.render(tileentity);
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_LIGHTING);
-        
+
         if (tileentity.getWorldObj() != null)
         {
             int progress = TFRenderHelper.getBlockDestroyProgress(tileentity.getWorldObj(), tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
-            
+
             if (progress >= 0)
             {
                 OpenGlHelper.glBlendFunc(774, 768, 1, 0);
@@ -66,7 +66,7 @@ public class RenderEnergonProcessor extends TileEntitySpecialRenderer
                 GL11.glPopMatrix();
             }
         }
-        
+
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }

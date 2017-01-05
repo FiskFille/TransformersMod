@@ -37,7 +37,7 @@ public class GuiColor extends GuiScreen
     public static boolean fromPresetMenu = false;
 
     public static int layerSelected;
-    public static float[][] layerColors = {{1, 1, 1}, {1, 1, 1}};
+    public static float[][] layerColors = { {1, 1, 1}, {1, 1, 1}};
 
     public static GuiColorSlider sliderRed;
     public static GuiColorSlider sliderGreen;
@@ -258,19 +258,14 @@ public class GuiColor extends GuiScreen
         int l = height / 6 + 132;
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) k, (float) l, 50.0F);
-        GL11.glScalef((float) (-60), (float) 60, (float) 60);
+        GL11.glTranslatef(k, l, 50.0F);
+        GL11.glScalef(-60, 60, 60);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        float f2 = entity.renderYawOffset;
-        float f3 = entity.rotationYaw;
-        float f4 = entity.rotationPitch;
-        float f5 = entity.prevRotationYawHead;
-        float f6 = entity.rotationYawHead;
         GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
-        GL11.glRotatef((float) (ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
         RenderManager.instance.playerViewY = 180.0F;
         TFRenderHelper.startGlScissor(width / 2 - 128, height / 6, 100, 150);
         RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);

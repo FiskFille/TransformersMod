@@ -6,12 +6,9 @@ import net.minecraft.world.WorldServer;
 
 public class TeleporterGroundBridge extends Teleporter
 {
-    private final WorldServer worldServerInstance;
-
     public TeleporterGroundBridge(WorldServer world)
     {
         super(world);
-        worldServerInstance = world;
     }
 
     @Override

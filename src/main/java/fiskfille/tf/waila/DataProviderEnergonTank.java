@@ -12,12 +12,12 @@ import fiskfille.tf.helper.TFHelper;
 public class DataProviderEnergonTank extends DataProviderMachine
 {
     public FluidTank fluidTank = new FluidTank(TFFluids.energon, 0, 0);
-    
+
     public DataProviderEnergonTank(String s)
     {
         super(s, TileEntityEnergonTank.class);
     }
-    
+
     public void updateFluids(TileEntity tile)
     {
         FluidStack stack = new FluidStack(TFFluids.energon, 0);
@@ -38,7 +38,7 @@ public class DataProviderEnergonTank extends DataProviderMachine
 
             ++y;
         }
-        
+
         fluidTank = new FluidTank(stack, capacity);
     }
 

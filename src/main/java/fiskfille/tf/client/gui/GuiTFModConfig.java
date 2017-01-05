@@ -1,14 +1,15 @@
 package fiskfille.tf.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.common.config.ConfigElement;
 import cpw.mods.fml.client.config.DummyConfigElement;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import fiskfille.tf.TransformersMod;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
-
-import java.util.ArrayList;
-import java.util.List;
+import fiskfille.tf.config.TFConfig;
 
 public class GuiTFModConfig extends GuiConfig
 {
@@ -37,6 +38,6 @@ public class GuiTFModConfig extends GuiConfig
      */
     private static IConfigElement categoryElement(String category, String name, String tooltip_key)
     {
-        return new DummyConfigElement.DummyCategoryElement(name, tooltip_key, new ConfigElement(TransformersMod.configFile.getCategory(category.toLowerCase())).getChildElements());
+        return new DummyConfigElement.DummyCategoryElement(name, tooltip_key, new ConfigElement(TFConfig.configFile.getCategory(category.toLowerCase())).getChildElements());
     }
 }

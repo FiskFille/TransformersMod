@@ -34,7 +34,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     {
         super(TransformersMod.modid + ":ground_bridge_teleporter", Material.portal, false);
         setTickRandomly(true);
-        //        setLightLevel(1);
+        // setLightLevel(1);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
         boolean flag3 = world.getBlock(x, y, z + 1) == this && world.getBlock(x, y, z + 2) != this;
         boolean flag4 = flag || flag1 || i1 == 1;
         boolean flag5 = flag2 || flag3 || i1 == 2;
-        return flag4 && side == 4 || (flag4 && side == 5 || (flag5 && side == 2 || flag5 && side == 3));
+        return flag4 && side == 4 || flag4 && side == 5 || flag5 && side == 2 || flag5 && side == 3;
     }
 
     @Override
@@ -202,7 +202,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
             }
 
             float yawDiff = entity.rotationYaw - (srcYaw * 90 + 180);
-            float yaw = (dstYaw * 90 + 180 * 90) + yawDiff;
+            float yaw = dstYaw * 90 + 180 * 90 + yawDiff;
 
             if (entity instanceof EntityPlayerMP)
             {
@@ -242,35 +242,6 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     public int getRenderBlockPass()
     {
         return 1;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
-    {
-        for (int l = 0; l < 4; ++l)
-        {
-            double particleX = (double) ((float) x + rand.nextFloat());
-            double particleY = (double) ((float) y + rand.nextFloat());
-            double particleZ = (double) ((float) z + rand.nextFloat());
-            int i1 = rand.nextInt(2) * 2 - 1;
-            double motionX = ((double) rand.nextFloat() - 0.5D) * 0.5D;
-            double motionY = ((double) rand.nextFloat() - 0.5D) * 0.5D;
-            double motionZ = ((double) rand.nextFloat() - 0.5D) * 0.5D;
-
-            if (world.getBlock(x - 1, y, z) != this && world.getBlock(x + 1, y, z) != this)
-            {
-                particleX = (double) x + 0.5D + 0.25D * (double) i1;
-                motionX = (double) (rand.nextFloat() * 2.0F * (float) i1);
-            }
-            else
-            {
-                particleZ = (double) z + 0.5D + 0.25D * (double) i1;
-                motionZ = (double) (rand.nextFloat() * 2.0F * (float) i1);
-            }
-
-            //            world.spawnParticle("smoke", particleX, particleY, particleZ, motionX / 10, motionY, motionZ / 10);
-        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package fiskfille.tf.client.model.transformer;
 
+import static fiskfille.tf.common.data.TFPredicates.isBacking;
+import static fiskfille.tf.common.data.TFPredicates.isSneaking;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
@@ -7,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.client.model.AnimationModifier;
-import fiskfille.tf.client.model.AnimationModifier.Predicate;
 import fiskfille.tf.client.model.AnimationModifier.Type;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
@@ -204,7 +205,8 @@ public class ModelSkystrike extends ModelTransformerBase
 
     public ModelSkystrike()
     {
-        super(1, 0.8F, new AnimationModifier(Type.DEGREE, Predicate.BACKING, 0.5F), new AnimationModifier(Type.SPEED, Predicate.SNEAKING, 1.5F));
+        super(1, 0.8F, new AnimationModifier(Type.DEGREE, isBacking(), 0.5F), new AnimationModifier(Type.SPEED, isSneaking(), 1.5F));
+
         textureWidth = 128;
         textureHeight = 128;
         feetL4 = new ModelRendererTF(this, 39, 36);
@@ -1169,16 +1171,12 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     @Override
-    public void setupOffsets(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void setupOffsets(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         ModelOffset offsets = TFModelHelper.getOffsets(player);
         headbase.rotationPointX += offsets.headOffsetX;
         headbase.rotationPointY += offsets.headOffsetY;
         headbase.rotationPointZ += offsets.headOffsetZ;
-
-//        headbase.showModel = wearingHead;
-//        upperlegR1.showModel = wearingLegs;
-//        upperlegL1.showModel = wearingLegs;
 
         if (wearingChest && !wearingHead)
         {
@@ -1190,6 +1188,12 @@ public class ModelSkystrike extends ModelTransformerBase
             {
                 offsets.headOffsetY = 1.25F;
                 waistbase.rotationPointY += 1.25F;
+
+                if (wearingFeet)
+                {
+                    upperlegL1.rotationPointY -= 1.25F;
+                    upperlegR1.rotationPointY -= 1.25F;
+                }
             }
         }
 
@@ -1202,37 +1206,31 @@ public class ModelSkystrike extends ModelTransformerBase
                 headbase.rotationPointY += 0.5F;
             }
         }
-
-//        if (wearingLegs && !wearingChest && layerToRender == 3)
-//        {
-//            upperlegR1.rotationPointY += 10;
-//            upperlegL1.rotationPointY += 10;
-//        }
     }
 
     @Override
-    public void doActiveAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void doActiveAnimations(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         applyDefaultHoldingAnimation(upperarmR1, upperarmL1, lowerarmR1, lowerarmL1);
         applyDefaultHittingAnimation(upperarmR1, upperarmL1, headbase, torsobase1, lowerarmR1, lowerarmL1);
 
         if (isRiding)
         {
-            upperarmR1.rotateAngleX -= (float) Math.PI / 5F;
-            upperarmL1.rotateAngleX -= (float) Math.PI / 5F;
-            upperlegR1.rotateAngleX -= (float) Math.PI * 2F / 5F;
-            upperlegL1.rotateAngleX -= (float) Math.PI * 2F / 5F;
+            upperarmR1.rotateAngleX -= PI / 5F;
+            upperarmL1.rotateAngleX -= PI / 5F;
+            upperlegR1.rotateAngleX -= PI * 2F / 5F;
+            upperlegL1.rotateAngleX -= PI * 2F / 5F;
 
-            upperlegR1.rotateAngleY += (float) Math.PI / 10F;
-            upperlegL1.rotateAngleY -= (float) Math.PI / 10F;
+            upperlegR1.rotateAngleY += PI / 10F;
+            upperlegL1.rotateAngleY -= PI / 10F;
         }
 
         if (aimedBow)
         {
             upperarmR1.rotateAngleY += -0.1F + headbase.rotateAngleY;
             upperarmL1.rotateAngleY += 0.1F + headbase.rotateAngleY + 0.4F;
-            upperarmR1.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
-            upperarmL1.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
+            upperarmR1.rotateAngleX += -(PI / 2F) + headbase.rotateAngleX;
+            upperarmL1.rotateAngleX += -(PI / 2F) + headbase.rotateAngleX;
             upperarmR1.rotateAngleZ += MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
             upperarmL1.rotateAngleZ -= MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
             upperarmR1.rotateAngleX += MathHelper.sin(ticks * 0.067F) * 0.05F;
@@ -1241,7 +1239,7 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     @Override
-    public void doWalkingAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void doWalkingAnimations(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         upperarmR1.rotateAngleZ += 0.05F;
         upperarmL1.rotateAngleZ -= 0.05F;
@@ -1302,7 +1300,7 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     @Override
-    public void doIdleAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void doIdleAnimations(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         walk(torsoconnectorbase1, 0.08F, 0.1F / 2, true, 1, 0, ticks, 1F);
         walk(torsobase1, 0.08F, 0.15F / 2, false, 1, 0, ticks, 1F);
@@ -1316,7 +1314,7 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     @Override
-    public void doFallingAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void doFallingAnimations(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         double motionY = TFRenderHelper.getMotionY(player);
         float upwardPose = (float) (1 / (1 + Math.exp(-20 * (motionY + 0.2))));
@@ -1358,16 +1356,16 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     @Override
-    public void doPartialAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void doPartialAnimations(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         upperarmL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        upperarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        upperarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + PI) * 1.4F * limbSwingAmount;
 
-        upperlegL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        upperlegL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + PI) * 1.4F * limbSwingAmount;
         upperlegR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         upperlegL1.rotationPointX -= 0.5F;
         upperlegR1.rotationPointX += 0.5F;
-        
+
         if (isSneak)
         {
             waistbase.rotateAngleX += 0.4F;
@@ -1378,7 +1376,7 @@ public class ModelSkystrike extends ModelTransformerBase
 
             upperlegR1.rotateAngleX -= 0.4F;
             upperlegL1.rotateAngleX -= 0.4F;
-            
+
             if (wearingChest)
             {
                 headbase.rotateAngleX -= 0.4F;
@@ -1387,141 +1385,141 @@ public class ModelSkystrike extends ModelTransformerBase
     }
 
     @Override
-    public void doTransformationAnimations(EntityPlayer player, float t, float f, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs)
+    public void doTransformationAnimations(EntityPlayer player, float progress, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, boolean wearingHead, boolean wearingChest, boolean wearingLegs, boolean wearingFeet)
     {
         ModelSkystrikeVehicle vehicle = (ModelSkystrikeVehicle) getTransformerModel().getVehicleModel();
 
-        rotateTo(waistbase, vehicle.waistbase, f);
-        rotateTo(upperlegL1, vehicle.upperlegL1, f);
-        rotateTo(torsoconnectorbase1, vehicle.torsoconnectorbase1, f);
-        rotateTo(tail1, vehicle.tail1, f);
-        rotateTo(upperlegR1, vehicle.upperlegR1, f);
-        rotateTo(lowerlegL1, vehicle.lowerlegL1, f);
-        rotateTo(upperlegL2, vehicle.upperlegL2, f);
-        rotateTo(upperlegL3, vehicle.upperlegL3, f);
-        rotateTo(upperlegL4, vehicle.upperlegL4, f);
-        rotateTo(feetbaseL1, vehicle.feetbaseL1, f);
-        rotateTo(lowerlegL2, vehicle.lowerlegL2, f);
-        rotateTo(lowerlegL3, vehicle.lowerlegL3, f);
-        rotateTo(lowerlegL5, vehicle.lowerlegL5, f);
-        rotateTo(lowerlegL7, vehicle.lowerlegL7, f);
-        rotateTo(lowerlegL9, vehicle.lowerlegL9, f);
-        rotateTo(lowerlegL16, vehicle.lowerlegL16, f);
-        rotateTo(feetL1, vehicle.feetL1, f);
-        rotateTo(feetL2, vehicle.feetL2, f);
-        rotateTo(feetL4, vehicle.feetL4, f);
-        rotateTo(feetL6, vehicle.feetL6, f);
-        rotateTo(feetL3, vehicle.feetL3, f);
-        rotateTo(feetL7, vehicle.feetL7, f);
-        rotateTo(lowerlegL4, vehicle.lowerlegL4, f);
-        rotateTo(lowerlegL6, vehicle.lowerlegL6, f);
-        rotateTo(lowerlegL8, vehicle.lowerlegL8, f);
-        rotateTo(torsobase1, vehicle.torsobase1, f);
-        rotateTo(shoulderLbase, vehicle.shoulderLbase, f);
-        rotateTo(neck1, vehicle.neck1, f);
-        rotateTo(chestL1, vehicle.chestL1, f);
-        rotateTo(chestR1, vehicle.chestR1, f);
-        rotateTo(chestnose1, vehicle.chestnose1, f);
-        rotateTo(backpackbase1, vehicle.backpackbase1, f);
-        rotateTo(auxFinR1, vehicle.auxFinR1, f);
-        rotateTo(auxFinL1, vehicle.auxFinL1, f);
-        rotateTo(shoulderRbase, vehicle.shoulderRbase, f);
-        rotateTo(upperarmL1, vehicle.upperarmL1, f);
-        rotateTo(shoulderL2, vehicle.shoulderL2, f);
-        rotateTo(shoulderL3, vehicle.shoulderL3, f);
-        rotateTo(shoulderL4, vehicle.shoulderL4, f);
-        rotateTo(shoulderL5, vehicle.shoulderL5, f);
-        rotateTo(wingL1, vehicle.wingL1, f);
-        rotateTo(lowerarmL1, vehicle.lowerarmL1, f);
-        rotateTo(upperarmL2, vehicle.upperarmL2, f);
-        rotateTo(lowerarmL2, vehicle.lowerarmL2, f);
-        rotateTo(lowerarmL3, vehicle.lowerarmL3, f);
-        rotateTo(lowerarmL4, vehicle.lowerarmL4, f);
-        rotateTo(lowerarmL5, vehicle.lowerarmL5, f);
-        rotateTo(lowerarmL6, vehicle.lowerarmL6, f);
-        rotateTo(shoulderL6, vehicle.shoulderL6, f);
-        rotateTo(wingL2, vehicle.wingL2, f);
-        rotateTo(wingL3, vehicle.wingL3, f);
-        rotateTo(wingL4, vehicle.wingL4, f);
-        rotateTo(wingL5, vehicle.wingL5, f);
-        rotateTo(headbase, vehicle.headbase, f);
-        rotateTo(head2, vehicle.head2, f);
-        rotateTo(head5, vehicle.head5, f);
-        rotateTo(head6, vehicle.head6, f);
-        rotateTo(head7, vehicle.head7, f);
-        rotateTo(head9, vehicle.head9, f);
-        rotateTo(head10, vehicle.head10, f);
-        rotateTo(head11, vehicle.head11, f);
-        rotateTo(head3, vehicle.head3, f);
-        rotateTo(head4, vehicle.head4, f);
-        rotateTo(head8, vehicle.head8, f);
-        rotateTo(chestL2, vehicle.chestL2, f);
-        rotateTo(chestR2, vehicle.chestR2, f);
-        rotateTo(chestnose2, vehicle.chestnose2, f);
-        rotateTo(chestnose3, vehicle.chestnose3, f);
-        rotateTo(chestnose4, vehicle.chestnose4, f);
-        rotateTo(chestnose5, vehicle.chestnose5, f);
-        rotateTo(chestnose6, vehicle.chestnose6, f);
-        rotateTo(chestnose7, vehicle.chestnose7, f);
-        rotateTo(chestnose8, vehicle.chestnose8, f);
-        rotateTo(chestnoseemblem1, vehicle.chestnoseemblem1, f);
-        rotateTo(chestnose9, vehicle.chestnose9, f);
-        rotateTo(backpack2, vehicle.backpack2, f);
-        rotateTo(backpack6, vehicle.backpack6, f);
-        rotateTo(backpack3, vehicle.backpack3, f);
-        rotateTo(backfinL1, vehicle.backfinL1, f);
-        rotateTo(backfinR1, vehicle.backfinR1, f);
-        rotateTo(backfinL2, vehicle.backfinL2, f);
-        rotateTo(backfinR2, vehicle.backfinR2, f);
-        rotateTo(auxFinR2, vehicle.auxFinR2, f);
-        rotateTo(auxFinR3, vehicle.auxFinR3, f);
-        rotateTo(auxFinR4, vehicle.auxFinR4, f);
-        rotateTo(auxFinL2, vehicle.auxFinL2, f);
-        rotateTo(auxFinL3, vehicle.auxFinL3, f);
-        rotateTo(auxFinL4, vehicle.auxFinL4, f);
-        rotateTo(upperarmR1, vehicle.upperarmR1, f);
-        rotateTo(shoulderR2, vehicle.shoulderR2, f);
-        rotateTo(shoulderR3, vehicle.shoulderR3, f);
-        rotateTo(shoulderR4, vehicle.shoulderR4, f);
-        rotateTo(shoulderR5, vehicle.shoulderR5, f);
-        rotateTo(wingR1, vehicle.wingR1, f);
-        rotateTo(lowerarmR1, vehicle.lowerarmR1, f);
-        rotateTo(upperarmR2, vehicle.upperarmR2, f);
-        rotateTo(lowerarmR2, vehicle.lowerarmR2, f);
-        rotateTo(lowerarmR3, vehicle.lowerarmR3, f);
-        rotateTo(lowerarmR4, vehicle.lowerarmR4, f);
-        rotateTo(lowerarmR5, vehicle.lowerarmR5, f);
-        rotateTo(lowerarmR6, vehicle.lowerarmR6, f);
-        rotateTo(shoulderR6, vehicle.shoulderR6, f);
-        rotateTo(wingR2, vehicle.wingR2, f);
-        rotateTo(wingR3, vehicle.wingR3, f);
-        rotateTo(wingR4, vehicle.wingR4, f);
-        rotateTo(wingR5, vehicle.wingR5, f);
-        rotateTo(tail2, vehicle.tail2, f);
-        rotateTo(tail3, vehicle.tail3, f);
-        rotateTo(tail4, vehicle.tail4, f);
-        rotateTo(tail5, vehicle.tail5, f);
-        rotateTo(lowerlegR1, vehicle.lowerlegR1, f);
-        rotateTo(upperlegR2, vehicle.upperlegR2, f);
-        rotateTo(upperlegR3, vehicle.upperlegR3, f);
-        rotateTo(upperlegR4, vehicle.upperlegR4, f);
-        rotateTo(feetbaseR1, vehicle.feetbaseR1, f);
-        rotateTo(lowerlegR2, vehicle.lowerlegR2, f);
-        rotateTo(lowerlegR3, vehicle.lowerlegR3, f);
-        rotateTo(lowerlegR5, vehicle.lowerlegR5, f);
-        rotateTo(lowerlegR7, vehicle.lowerlegR7, f);
-        rotateTo(lowerlegR9, vehicle.lowerlegR9, f);
-        rotateTo(lowerlegR16, vehicle.lowerlegR16, f);
-        rotateTo(feetR1, vehicle.feetR1, f);
-        rotateTo(feetR2, vehicle.feetR2, f);
-        rotateTo(feetR4, vehicle.feetR4, f);
-        rotateTo(feetR6, vehicle.feetR6, f);
-        rotateTo(feetR3, vehicle.feetR3, f);
-        rotateTo(feetR7, vehicle.feetR7, f);
-        rotateTo(lowerlegR4, vehicle.lowerlegR4, f);
-        rotateTo(lowerlegR6, vehicle.lowerlegR6, f);
-        rotateTo(lowerlegR8, vehicle.lowerlegR8, f);
-        rotateTo(lowerlegR17, vehicle.lowerlegR17, f);
+        rotateTo(waistbase, vehicle.waistbase, progress);
+        rotateTo(upperlegL1, vehicle.upperlegL1, progress);
+        rotateTo(torsoconnectorbase1, vehicle.torsoconnectorbase1, progress);
+        rotateTo(tail1, vehicle.tail1, progress);
+        rotateTo(upperlegR1, vehicle.upperlegR1, progress);
+        rotateTo(lowerlegL1, vehicle.lowerlegL1, progress);
+        rotateTo(upperlegL2, vehicle.upperlegL2, progress);
+        rotateTo(upperlegL3, vehicle.upperlegL3, progress);
+        rotateTo(upperlegL4, vehicle.upperlegL4, progress);
+        rotateTo(feetbaseL1, vehicle.feetbaseL1, progress);
+        rotateTo(lowerlegL2, vehicle.lowerlegL2, progress);
+        rotateTo(lowerlegL3, vehicle.lowerlegL3, progress);
+        rotateTo(lowerlegL5, vehicle.lowerlegL5, progress);
+        rotateTo(lowerlegL7, vehicle.lowerlegL7, progress);
+        rotateTo(lowerlegL9, vehicle.lowerlegL9, progress);
+        rotateTo(lowerlegL16, vehicle.lowerlegL16, progress);
+        rotateTo(feetL1, vehicle.feetL1, progress);
+        rotateTo(feetL2, vehicle.feetL2, progress);
+        rotateTo(feetL4, vehicle.feetL4, progress);
+        rotateTo(feetL6, vehicle.feetL6, progress);
+        rotateTo(feetL3, vehicle.feetL3, progress);
+        rotateTo(feetL7, vehicle.feetL7, progress);
+        rotateTo(lowerlegL4, vehicle.lowerlegL4, progress);
+        rotateTo(lowerlegL6, vehicle.lowerlegL6, progress);
+        rotateTo(lowerlegL8, vehicle.lowerlegL8, progress);
+        rotateTo(torsobase1, vehicle.torsobase1, progress);
+        rotateTo(shoulderLbase, vehicle.shoulderLbase, progress);
+        rotateTo(neck1, vehicle.neck1, progress);
+        rotateTo(chestL1, vehicle.chestL1, progress);
+        rotateTo(chestR1, vehicle.chestR1, progress);
+        rotateTo(chestnose1, vehicle.chestnose1, progress);
+        rotateTo(backpackbase1, vehicle.backpackbase1, progress);
+        rotateTo(auxFinR1, vehicle.auxFinR1, progress);
+        rotateTo(auxFinL1, vehicle.auxFinL1, progress);
+        rotateTo(shoulderRbase, vehicle.shoulderRbase, progress);
+        rotateTo(upperarmL1, vehicle.upperarmL1, progress);
+        rotateTo(shoulderL2, vehicle.shoulderL2, progress);
+        rotateTo(shoulderL3, vehicle.shoulderL3, progress);
+        rotateTo(shoulderL4, vehicle.shoulderL4, progress);
+        rotateTo(shoulderL5, vehicle.shoulderL5, progress);
+        rotateTo(wingL1, vehicle.wingL1, progress);
+        rotateTo(lowerarmL1, vehicle.lowerarmL1, progress);
+        rotateTo(upperarmL2, vehicle.upperarmL2, progress);
+        rotateTo(lowerarmL2, vehicle.lowerarmL2, progress);
+        rotateTo(lowerarmL3, vehicle.lowerarmL3, progress);
+        rotateTo(lowerarmL4, vehicle.lowerarmL4, progress);
+        rotateTo(lowerarmL5, vehicle.lowerarmL5, progress);
+        rotateTo(lowerarmL6, vehicle.lowerarmL6, progress);
+        rotateTo(shoulderL6, vehicle.shoulderL6, progress);
+        rotateTo(wingL2, vehicle.wingL2, progress);
+        rotateTo(wingL3, vehicle.wingL3, progress);
+        rotateTo(wingL4, vehicle.wingL4, progress);
+        rotateTo(wingL5, vehicle.wingL5, progress);
+        rotateTo(headbase, vehicle.headbase, progress);
+        rotateTo(head2, vehicle.head2, progress);
+        rotateTo(head5, vehicle.head5, progress);
+        rotateTo(head6, vehicle.head6, progress);
+        rotateTo(head7, vehicle.head7, progress);
+        rotateTo(head9, vehicle.head9, progress);
+        rotateTo(head10, vehicle.head10, progress);
+        rotateTo(head11, vehicle.head11, progress);
+        rotateTo(head3, vehicle.head3, progress);
+        rotateTo(head4, vehicle.head4, progress);
+        rotateTo(head8, vehicle.head8, progress);
+        rotateTo(chestL2, vehicle.chestL2, progress);
+        rotateTo(chestR2, vehicle.chestR2, progress);
+        rotateTo(chestnose2, vehicle.chestnose2, progress);
+        rotateTo(chestnose3, vehicle.chestnose3, progress);
+        rotateTo(chestnose4, vehicle.chestnose4, progress);
+        rotateTo(chestnose5, vehicle.chestnose5, progress);
+        rotateTo(chestnose6, vehicle.chestnose6, progress);
+        rotateTo(chestnose7, vehicle.chestnose7, progress);
+        rotateTo(chestnose8, vehicle.chestnose8, progress);
+        rotateTo(chestnoseemblem1, vehicle.chestnoseemblem1, progress);
+        rotateTo(chestnose9, vehicle.chestnose9, progress);
+        rotateTo(backpack2, vehicle.backpack2, progress);
+        rotateTo(backpack6, vehicle.backpack6, progress);
+        rotateTo(backpack3, vehicle.backpack3, progress);
+        rotateTo(backfinL1, vehicle.backfinL1, progress);
+        rotateTo(backfinR1, vehicle.backfinR1, progress);
+        rotateTo(backfinL2, vehicle.backfinL2, progress);
+        rotateTo(backfinR2, vehicle.backfinR2, progress);
+        rotateTo(auxFinR2, vehicle.auxFinR2, progress);
+        rotateTo(auxFinR3, vehicle.auxFinR3, progress);
+        rotateTo(auxFinR4, vehicle.auxFinR4, progress);
+        rotateTo(auxFinL2, vehicle.auxFinL2, progress);
+        rotateTo(auxFinL3, vehicle.auxFinL3, progress);
+        rotateTo(auxFinL4, vehicle.auxFinL4, progress);
+        rotateTo(upperarmR1, vehicle.upperarmR1, progress);
+        rotateTo(shoulderR2, vehicle.shoulderR2, progress);
+        rotateTo(shoulderR3, vehicle.shoulderR3, progress);
+        rotateTo(shoulderR4, vehicle.shoulderR4, progress);
+        rotateTo(shoulderR5, vehicle.shoulderR5, progress);
+        rotateTo(wingR1, vehicle.wingR1, progress);
+        rotateTo(lowerarmR1, vehicle.lowerarmR1, progress);
+        rotateTo(upperarmR2, vehicle.upperarmR2, progress);
+        rotateTo(lowerarmR2, vehicle.lowerarmR2, progress);
+        rotateTo(lowerarmR3, vehicle.lowerarmR3, progress);
+        rotateTo(lowerarmR4, vehicle.lowerarmR4, progress);
+        rotateTo(lowerarmR5, vehicle.lowerarmR5, progress);
+        rotateTo(lowerarmR6, vehicle.lowerarmR6, progress);
+        rotateTo(shoulderR6, vehicle.shoulderR6, progress);
+        rotateTo(wingR2, vehicle.wingR2, progress);
+        rotateTo(wingR3, vehicle.wingR3, progress);
+        rotateTo(wingR4, vehicle.wingR4, progress);
+        rotateTo(wingR5, vehicle.wingR5, progress);
+        rotateTo(tail2, vehicle.tail2, progress);
+        rotateTo(tail3, vehicle.tail3, progress);
+        rotateTo(tail4, vehicle.tail4, progress);
+        rotateTo(tail5, vehicle.tail5, progress);
+        rotateTo(lowerlegR1, vehicle.lowerlegR1, progress);
+        rotateTo(upperlegR2, vehicle.upperlegR2, progress);
+        rotateTo(upperlegR3, vehicle.upperlegR3, progress);
+        rotateTo(upperlegR4, vehicle.upperlegR4, progress);
+        rotateTo(feetbaseR1, vehicle.feetbaseR1, progress);
+        rotateTo(lowerlegR2, vehicle.lowerlegR2, progress);
+        rotateTo(lowerlegR3, vehicle.lowerlegR3, progress);
+        rotateTo(lowerlegR5, vehicle.lowerlegR5, progress);
+        rotateTo(lowerlegR7, vehicle.lowerlegR7, progress);
+        rotateTo(lowerlegR9, vehicle.lowerlegR9, progress);
+        rotateTo(lowerlegR16, vehicle.lowerlegR16, progress);
+        rotateTo(feetR1, vehicle.feetR1, progress);
+        rotateTo(feetR2, vehicle.feetR2, progress);
+        rotateTo(feetR4, vehicle.feetR4, progress);
+        rotateTo(feetR6, vehicle.feetR6, progress);
+        rotateTo(feetR3, vehicle.feetR3, progress);
+        rotateTo(feetR7, vehicle.feetR7, progress);
+        rotateTo(lowerlegR4, vehicle.lowerlegR4, progress);
+        rotateTo(lowerlegR6, vehicle.lowerlegR6, progress);
+        rotateTo(lowerlegR8, vehicle.lowerlegR8, progress);
+        rotateTo(lowerlegR17, vehicle.lowerlegR17, progress);
     }
 
     @Override

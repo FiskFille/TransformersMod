@@ -193,7 +193,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     {
         return 0xFF0000;
     }
-    
+
     @Override
     public String getInventoryName()
     {
@@ -216,6 +216,6 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     @Override
     public int[] getBaseOffsets(int metadata)
     {
-        return new int[] { 0, -metadata / 4, 0 };
+        return new int[] {0, -metadata / 4, 0};
     }
 }

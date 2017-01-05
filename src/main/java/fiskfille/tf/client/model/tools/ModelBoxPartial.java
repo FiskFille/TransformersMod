@@ -11,23 +11,23 @@ public class ModelBoxPartial extends ModelBox
 {
     private PositionTextureVertex[] vertexPositions;
     private TexturedQuadPartial[] quadList;
-    
+
     public float posX1;
     public float posY1;
     public float posZ1;
     public float posX2;
     public float posY2;
     public float posZ2;
-    
+
     protected float width;
     protected float height;
     protected float depth;
     protected float scale;
     protected float textureX;
     protected float textureY;
-    
+
     public ModelRendererPartial model;
-    
+
     public ModelBoxPartial(ModelRendererPartial modelRenderer, int texX, int texY, float x, float y, float z, int w, int h, int d, float mcScale)
     {
         super(modelRenderer, texX, texY, x, y, z, w, h, d, mcScale);
@@ -35,15 +35,15 @@ public class ModelBoxPartial extends ModelBox
         textureX = texX;
         textureY = texY;
         scale = mcScale;
-        
+
         setBounds(AxisAlignedBB.getBoundingBox(x, y, z, x + w, y + h, z + d));
     }
-    
+
     public AxisAlignedBB getBounds()
     {
         return AxisAlignedBB.getBoundingBox(posX1, posY1, posZ1, posX2, posY2, posZ2);
     }
-    
+
     public boolean setBounds(AxisAlignedBB aabb)
     {
 //        if (aabb.minX != posX1 || aabb.minY != posY1 || aabb.minZ != posZ1 || aabb.maxX != posX2 || aabb.maxY != posY2 || aabb.maxZ != posZ2)
@@ -58,15 +58,15 @@ public class ModelBoxPartial extends ModelBox
             posY2 = posY1 + height;
             posZ2 = posZ1 + depth;
             model.compiled = false;
-            
+
             calculateQuads();
-            
+
             return true;
         }
-        
+
 //        return false;
     }
-    
+
     public void calculateQuads()
     {
         vertexPositions = new PositionTextureVertex[8];
@@ -123,7 +123,7 @@ public class ModelBoxPartial extends ModelBox
             }
         }
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void render(Tessellator tessellator, float f)

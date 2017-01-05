@@ -26,7 +26,7 @@ import fiskfille.tf.common.container.ContainerTransmitter;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 import fiskfille.tf.helper.TFTextureHelper;
 
@@ -87,22 +87,22 @@ public class GuiTransmitter extends GuiContainerTF
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(liquidAmount), TFEnergyHelper.formatNumber(tileentity.tank.getCapacity())));
+        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(liquidAmount), TFFormatHelper.formatNumber(tileentity.tank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
-        
+
         if (new Rectangle(x + 77, y + 17, 20, 52).contains(new Point(mouseX, mouseY)))
         {
             drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
         }
-        
+
         if (new Rectangle(x + 107, y + 17, 16, 52).contains(new Point(mouseX, mouseY)))
         {
-            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
         }
-        
+
         GL11.glPopMatrix();
     }
 

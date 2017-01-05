@@ -16,8 +16,6 @@ public class EntityAITransform extends EntityAIBase
     private Class<? extends Entity> enemy;
     private World world;
 
-    private Entity closestEnemy;
-
     private int distance;
 
     public EntityAITransform(EntityTransformer transformer, Class<? extends EntityLivingBase> enemy, int distance)
@@ -45,7 +43,6 @@ public class EntityAITransform extends EntityAIBase
             if (enemy.isAssignableFrom(object.getClass()) && object.getClass() != transformer.getClass())
             {
                 hasEnemy = true;
-                closestEnemy = (Entity) object;
                 break;
             }
         }
@@ -89,7 +86,6 @@ public class EntityAITransform extends EntityAIBase
     @Override
     public void resetTask()
     {
-        closestEnemy = null;
     }
 
     /**

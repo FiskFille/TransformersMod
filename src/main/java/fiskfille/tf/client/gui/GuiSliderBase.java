@@ -49,8 +49,8 @@ public class GuiSliderBase extends GuiButton
             }
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            drawTexturedModalRect(xPosition + (int) (percentage * (float) (width - 8)), yPosition, 0, 66, 4, 20);
-            drawTexturedModalRect(xPosition + (int) (percentage * (float) (width - 8)) + 4, yPosition, 196, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int) (percentage * (width - 8)), yPosition, 0, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int) (percentage * (width - 8)) + 4, yPosition, 196, 66, 4, 20);
         }
     }
 

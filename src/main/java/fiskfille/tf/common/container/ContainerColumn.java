@@ -27,7 +27,7 @@ public class ContainerColumn extends ContainerBasic
 
         addPlayerInventory(inventoryPlayer, 24);
     }
-    
+
     @Override
     public TileEntityColumn getTile()
     {

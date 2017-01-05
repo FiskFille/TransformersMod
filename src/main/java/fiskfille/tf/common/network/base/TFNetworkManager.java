@@ -12,20 +12,19 @@ import fiskfille.tf.common.network.MessageColorArmor;
 import fiskfille.tf.common.network.MessageControlPanel;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
-import fiskfille.tf.common.network.MessageHandleStealthTransformation;
-import fiskfille.tf.common.network.MessageHandleTransformation;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.MessageOpenGui;
 import fiskfille.tf.common.network.MessageOpenGuiSimple;
 import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
+import fiskfille.tf.common.network.MessagePlayerData;
 import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.MessageSendFlying;
+import fiskfille.tf.common.network.MessageSetPlayerData;
 import fiskfille.tf.common.network.MessageSetReceivers;
 import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
 import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.MessageUpdateFluidState;
-import fiskfille.tf.common.network.MessageVehicleNitro;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 
 public class TFNetworkManager
@@ -37,13 +36,13 @@ public class TFNetworkManager
     {
         networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel("transformersMod");
 
-        registerPacket(MessageHandleTransformation.Handler.class, MessageHandleTransformation.class);
-        registerPacket(MessageHandleStealthTransformation.Handler.class, MessageHandleStealthTransformation.class);
+        registerPacket(MessageSetPlayerData.Handler.class, MessageSetPlayerData.class);
+        registerPacket(MessagePlayerData.Handler.class, MessagePlayerData.class);
         registerPacket(MessagePlayerJoin.Handler.class, MessagePlayerJoin.class);
+        registerPacket(MessageBroadcastState.Handler.class, MessageBroadcastState.class);
+
         registerPacket(MessageVehicleShoot.Handler.class, MessageVehicleShoot.class);
         registerPacket(MessageCloudtrapJetpack.Handler.class, MessageCloudtrapJetpack.class);
-        registerPacket(MessageBroadcastState.Handler.class, MessageBroadcastState.class);
-        registerPacket(MessageVehicleNitro.Handler.class, MessageVehicleNitro.class);
         registerPacket(MessageLaserShoot.Handler.class, MessageLaserShoot.class);
         registerPacket(MessageSendFlying.Handler.class, MessageSendFlying.class);
         registerPacket(MessageTransformDisplayStation.Handler.class, MessageTransformDisplayStation.class);

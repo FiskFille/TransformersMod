@@ -5,12 +5,11 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVurpVehicle;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.tick.ClientTickHandler;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class ModelVurpStealth extends ModelVurpVehicle
@@ -400,24 +399,23 @@ public class ModelVurpStealth extends ModelVurpVehicle
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
-            float t = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
-            float f = (5 - t) / 5;
-            float f1 = t / 5;
+            float f = TFHelper.getStealthModeTimer(player);
+            float f1 = 1 - f;
 
             vehicleRPlate1.rotateAngleY = f * 0.593411945678072F;
             vehicleLPlate1.rotateAngleY = f * -0.593411945678072F;
-            vehicleRpg1.rotationPointZ = 2F + t / 2;
-            vehicleRpg2.rotationPointZ = 2F + t / 2;
+            vehicleRpg1.rotationPointZ = 2F + f / 2;
+            vehicleRpg2.rotationPointZ = 2F + f / 2;
             vehicleLowerLegR4.rotateAngleX = 1.239183768915974F * f;
             vehicleLowerLegL4.rotateAngleX = 1.239183768915974F * f;
             vehicleFrontR1.rotateAngleY = 0.9599310885968813F * f;
             vehicleFrontL1.rotateAngleY = -0.9599310885968813F * f;
             vehicleFrontR2.rotateAngleX = 0.24434609527920614F * f1;
             vehicleFrontL2.rotateAngleX = 0.24434609527920614F * f1;
-            vehicleGun1.setRotationPoint(-1.5F + f1, -2 + 1 * f1, 2.2F + t / 2);
-            vehicleGun2.setRotationPoint(6.5F - f1, -2 + 1 * f1, 2.2F + t / 2);
-            vehicleGun3.setRotationPoint(6.5F - f1, -0.5F, 2.2F + t / 2);
-            vehicleGun4.setRotationPoint(-1.5F + f1, -0.5F, 2.2F + t / 2);
+            vehicleGun1.setRotationPoint(-1.5F + f1, -2 + 1 * f1, 2.2F + f / 2);
+            vehicleGun2.setRotationPoint(6.5F - f1, -2 + 1 * f1, 2.2F + f / 2);
+            vehicleGun3.setRotationPoint(6.5F - f1, -0.5F, 2.2F + f / 2);
+            vehicleGun4.setRotationPoint(-1.5F + f1, -0.5F, 2.2F + f / 2);
 
             vehicleWheelR.setRotationPoint(-3.7F + f1, 0.3F, -1.0F - f1);
             vehicleWheelL.setRotationPoint(3.7F - f1, 0.3F, -1.0F - f1);
@@ -425,25 +423,22 @@ public class ModelVurpStealth extends ModelVurpVehicle
             vehicleWheelBackR.setRotationPoint(-2.0F + f1, 2.0F, 2.3F - f1);
             vehicleWheelBackL.setRotationPoint(2.0F - f1, 2.0F, 2.3F - f1);
 
-            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+            float wheelSpinSpeed = (TFData.FORWARD_VELOCITY.get(player) < 0 ? -limbSwing : limbSwing) * 0.8F;
 
-            if (transformedPlayer != null)
+            for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
             {
-                for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
-                {
-                    modelRenderer.rotateAngleX = (transformedPlayer.getForwardVelocity() < 0 ? -limbSwing : limbSwing) * 0.8F;
-                }
-
-                float vel = (float) transformedPlayer.getHorizontalVelocity();
-                float rot = (vel > 0 ? vel <= 8 ? vel : 8 : vel >= -8 ? vel : -8) / 10;
-                vehicleWheelBackR.rotateAngleZ = rot;
-                vehicleWheelBackL.rotateAngleZ = rot;
-                vehicleWheelR.rotateAngleY = rot;
-                vehicleWheelL.rotateAngleY = rot;
+                modelRenderer.rotateAngleX = wheelSpinSpeed;
             }
 
+            double vel = TFData.HORIZONTAL_VELOCITY.get(player);
+            float rot = (float) ((vel > 0 ? vel <= 8 ? vel : 8 : vel >= -8 ? vel : -8) / 10);
+            vehicleWheelBackR.rotateAngleZ = rot;
+            vehicleWheelBackL.rotateAngleZ = rot;
+            vehicleWheelR.rotateAngleY = rot;
+            vehicleWheelL.rotateAngleY = rot;
+
             vehicleBase.rotateAngleX = (float) (Math.PI / 2 - TFRenderHelper.getMotionY(player) - (player == Minecraft.getMinecraft().thePlayer && player.onGround ? 0.0784000015258789 : 0));
-            vehicleBase.rotateAngleY = -(float) Math.toRadians(TFRenderHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientEventHandler.renderTick));
+            vehicleBase.rotateAngleY = -(float) Math.toRadians(TFHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientTickHandler.renderTick));
         }
     }
 }

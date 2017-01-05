@@ -21,7 +21,7 @@ public class RenderAlloyCrucible extends TileEntitySpecialRenderer
     {
         World world = tile.getWorldObj();
         Block block = tile.getBlockType();
-        
+
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x, (float) y, (float) z);
 
@@ -31,9 +31,9 @@ public class RenderAlloyCrucible extends TileEntitySpecialRenderer
             int metadata = tile.getBlockMetadata();
             int side = new int[] {3, 4, 2, 5}[metadata % 4];
             float f = 0.001F;
-            
+
             bindTexture(TextureMap.locationBlocksTexture);
-            
+
             tile.renderOverlay = true;
             GL11.glDisable(GL11.GL_LIGHTING);
             TFRenderHelper.setLighting(61680);
@@ -41,7 +41,7 @@ public class RenderAlloyCrucible extends TileEntitySpecialRenderer
             block.setBlockBoundsBasedOnState(world, tile.xCoord, tile.yCoord, tile.zCoord);
             renderBlocks.setRenderBoundsFromBlock(block);
             renderBlocks.renderFaceYPos(block, 0, f, 0, renderBlocks.getBlockIconFromSideAndMetadata(block, 101, metadata));
-            
+
             if (tile.canSmelt())
             {
                 switch (side)
@@ -60,13 +60,13 @@ public class RenderAlloyCrucible extends TileEntitySpecialRenderer
                     break;
                 }
             }
-            
+
             tessellator.draw();
             TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);
             tile.renderOverlay = false;
         }
-        
+
         GL11.glPopMatrix();
     }
 

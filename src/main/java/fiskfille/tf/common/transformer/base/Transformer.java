@@ -3,12 +3,11 @@ package fiskfille.tf.common.transformer.base;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
-import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.helper.TFHelper;
 
 /**
  * @author gegy1000, FiskFille
@@ -27,7 +26,7 @@ public abstract class Transformer
 
     /**
      * Override to specify whether this Transformer can use nitro.
-     *
+     * 
      * @param player The player trying to use nitro.
      * @returns whether the player can use nitro.
      */
@@ -59,11 +58,11 @@ public abstract class Transformer
 
     /**
      * Called every tick while wearing the armor.
-     *
+     * 
      * @param player The player wearing the armor.
-     * @param timer  The transformation timer.
+     * @param timer The transformation timer.
      */
-    public void tick(EntityPlayer player, int timer)
+    public void tick(EntityPlayer player, float timer)
     {
     }
 
@@ -77,14 +76,14 @@ public abstract class Transformer
         return 0.1F;
     }
 
-    public float getCameraYOffset(EntityPlayer player, int altMode)
+    public float getHeightOffset(EntityPlayer player, int altMode)
     {
-        return -1;
+        return 0;
     }
 
-    public float getVehicleCameraYOffset(EntityPlayer player, int altMode)
+    public float getVehicleHeightOffset(EntityPlayer player, int altMode)
     {
-        return -1;
+        return -1.25F;
     }
 
     public boolean canJumpAsVehicle(EntityPlayer player, int altMode)
@@ -141,12 +140,12 @@ public abstract class Transformer
 
     public float getThirdPersonDistance(EntityPlayer player, int altMode)
     {
-        return 2.0F + TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) / 10.0F;
+        return 4 - TFHelper.getTransformationTimer(player) * 2;
     }
 
     /**
      * Called every tick while using nitro on the client side, used to make nitro particles.
-     *
+     * 
      * @param player The player making the particles
      */
     public void doNitroParticles(EntityPlayer player, int altMode)
@@ -155,8 +154,8 @@ public abstract class Transformer
 
     /**
      * Called when this transformer hits the ground.
-     *
-     * @param player   The player who is falling.
+     * 
+     * @param player The player who is falling.
      * @param distance The distance fell.
      * @return The damage to take.
      */
@@ -197,8 +196,7 @@ public abstract class Transformer
 
     /**
      * @param player The player
-     * @return Whether this Transformer can interact with the world while in vehicle mode, i.e.
-     * break blocks, damage entities, etc.
+     * @return Whether this Transformer can interact with the world while in vehicle mode, i.e. break blocks, damage entities, etc.
      */
     public boolean canInteractInVehicleMode(EntityPlayer player, int altMode)
     {

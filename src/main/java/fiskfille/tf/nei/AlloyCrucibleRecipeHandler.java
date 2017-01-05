@@ -32,7 +32,7 @@ import fiskfille.tf.client.gui.GuiAlloyCrucible;
 import fiskfille.tf.common.recipe.AlloyRecipes;
 import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 
 public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
 {
@@ -50,19 +50,19 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
             {
                 LinkedList<ItemStack> ingredients = Lists.newLinkedList();
                 List<String> list = alloy.getOreDictNames(i);
-                
+
                 for (int j = 0; j < list.size(); ++j)
                 {
                     ingredients.addAll(OreDictionary.getOres(list.get(j)));
                 }
-                
+
                 Object items = ingredients;
-                
+
                 if (ingredients.isEmpty())
                 {
                     items = alloy.getIngredients()[i];
                 }
-                
+
                 addSlotToContainer(73, 19 + i * 18, items);
             }
         }
@@ -218,13 +218,13 @@ public class AlloyCrucibleRecipeHandler extends TemplateRecipeHandler
         Point pos = GuiDraw.getMousePosition();
         Point offset = gui.getRecipePosition(recipe);
         Point relMouse = new Point(pos.x - guiLeft - offset.x, pos.y - guiTop - offset.y);
-        
+
         if (new Rectangle(44, 8, 16, 52).contains(relMouse))
         {
             if (currenttip.isEmpty())
             {
                 tileentity.smeltingResult = getResultStack(recipe).item;
-                currenttip.add(StatCollector.translateToLocalFormatted("gui.emb.amount", TFEnergyHelper.formatNumber(tileentity.getSmeltTimeMax() * tileentity.getConsumptionRate())));
+                currenttip.add(StatCollector.translateToLocalFormatted("gui.emb.amount", TFFormatHelper.formatNumber(tileentity.getSmeltTimeMax() * tileentity.getConsumptionRate())));
             }
         }
 

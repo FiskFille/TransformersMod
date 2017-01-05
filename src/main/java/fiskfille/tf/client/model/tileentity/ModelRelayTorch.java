@@ -185,7 +185,7 @@ public class ModelRelayTorch extends ModelRelayTower
         shape6.addChild(shape7);
         shape14.addChild(shape17);
         shape22.addChild(shape23);
-        
+
         setInitPose();
     }
 

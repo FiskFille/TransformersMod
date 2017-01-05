@@ -27,9 +27,6 @@ public class GuiAssemblyTable extends GuiContainerTF
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        int k = (width - xSize) / 2;
-        int l = (height - ySize) / 2;
-
         String s = StatCollector.translateToLocal("gui.assembly_table");
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);

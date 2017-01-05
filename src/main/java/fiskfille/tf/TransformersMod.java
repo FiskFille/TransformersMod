@@ -1,10 +1,6 @@
 package fiskfille.tf;
 
-import java.lang.reflect.Method;
-import java.util.logging.Logger;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.config.Configuration;
@@ -19,24 +15,11 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import fiskfille.tf.client.displayable.TFDisplayableManager;
-import fiskfille.tf.client.gui.GuiHandlerTF;
-import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.chunk.TFLoadingCallback;
-import fiskfille.tf.common.energon.TFEnergonManager;
-import fiskfille.tf.common.entity.TFEntities;
-import fiskfille.tf.common.event.TFEvents;
-import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.proxy.CommonProxy;
-import fiskfille.tf.common.recipe.TFRecipes;
-import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tab.CreativeTabTransformers;
-import fiskfille.tf.common.worldgen.OreWorldGenerator;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.web.WebHelper;
 import fiskfille.tf.web.update.Update;
@@ -50,18 +33,11 @@ public class TransformersMod
 
     @Instance(TransformersMod.modid)
     public static TransformersMod instance;
-    
+
     @SidedProxy(clientSide = "fiskfille.tf.common.proxy.ClientProxy", serverSide = "fiskfille.tf.common.proxy.CommonProxy")
     public static CommonProxy proxy;
-    
-    public static Logger logger = Logger.getLogger("Transformers Mod");
-
-    public static TFConfig config = new TFConfig();
-    public static Configuration configFile;
 
     public static CreativeTabs tabTransformers = new CreativeTabTransformers();
-
-    public static Method setSizeMethod;
     public static Update latestUpdate;
 
     @EventHandler
@@ -69,7 +45,7 @@ public class TransformersMod
     {
         try
         {
-            WebHelper.readPastebin("fzntR5Vr");
+            WebHelper.readPastebin("Kyct1Dvz");
         }
         catch (Exception e)
         {
@@ -78,13 +54,13 @@ public class TransformersMod
 
         TransformerManager.register();
 
-        configFile = new Configuration(event.getSuggestedConfigurationFile());
-        configFile.load();
-        config.load(configFile);
+        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        TFConfig.load(config);
 
-        if (configFile.hasChanged())
+        if (config.hasChanged())
         {
-            configFile.save();
+            config.save();
         }
 
         if (TFConfig.checkForUpdates)
@@ -93,47 +69,15 @@ public class TransformersMod
             updateChecker.handleUpdates();
         }
 
-        TFEnergonManager.registerEnergonTypes();
-        TFItems.register();
-        TFBlocks.register();
-        TFOreDictRegistry.register();
-        TFAchievements.register();
-        TFRecipes.registerRecipes();
-        TFEntities.registerEntities();
-
-        GameRegistry.registerWorldGenerator(new OreWorldGenerator(), 0);
-
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerTF());
-
-        proxy.preInit();
-        proxy.registerRenderInformation();
-        proxy.registerKeyBinds();
-        proxy.registerTickHandlers();
-
-        for (Method method : Entity.class.getDeclaredMethods())
-        {
-            Class<?>[] parameters = method.getParameterTypes();
-
-            if (parameters.length == 2)
-            {
-                if (parameters[0] == float.class && parameters[1] == float.class)
-                {
-                    method.setAccessible(true);
-                    setSizeMethod = method;
-                    break;
-                }
-            }
-        }
-
-        TFEvents.registerEvents(event.getSide());
         TFNetworkManager.registerPackets();
-        TFDisplayableManager.registerDisplayables();
-        TFFluids.register();
+        proxy.preInit();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+        proxy.init();
+
         if (Loader.isModLoaded("Waila"))
         {
             FMLInterModComms.sendMessage("Waila", "register", "fiskfille.tf.waila.WailaRegistrar.wailaCallback");

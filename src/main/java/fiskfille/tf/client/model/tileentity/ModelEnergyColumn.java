@@ -187,14 +187,14 @@ public class ModelEnergyColumn extends MowzieModelBase
         bottom7.addChild(bottom8);
         bottom3.addChild(bottom4);
         columnBase3.addChild(columnBase4);
-        
+
         setInitPose();
     }
 
     public void render(TileEntityColumn tile)
     {
         setToInitPose();
-        
+
         GL11.glPushMatrix();
         GL11.glTranslatef(top1.offsetX, top1.offsetY, top1.offsetZ);
         GL11.glTranslatef(top1.rotationPointX * 0.0625F, top1.rotationPointY * 0.0625F, top1.rotationPointZ * 0.0625F);
@@ -212,7 +212,7 @@ public class ModelEnergyColumn extends MowzieModelBase
         GL11.glTranslatef(-bottom1.rotationPointX * 0.0625F, -bottom1.rotationPointY * 0.0625F, -bottom1.rotationPointZ * 0.0625F);
         bottom1.render(0.0625F);
         GL11.glPopMatrix();
-        
+
         for (int i = 0; i < tile.getSizeInventory(); ++i)
         {
             if (tile.getStackInSlot(i) != null && tile.getStackInSlot(i).getItem() == TFItems.powerCanister)

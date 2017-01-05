@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
-import fiskfille.tf.helper.TFMathHelper;
 
 public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvider, IEnergon
 {
@@ -53,7 +52,7 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     {
         return Energon.CRYSTAL_FULL;
     }
-    
+
     @Override
     public MapColor getMapColor(int metadata)
     {
@@ -250,10 +249,10 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
                     if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops") && !world.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
                     {
                         float f = 0.7F;
-                        double motionX = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                        double motionY = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                        double motionZ = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                        EntityItem entityitem = new EntityItem(world, (double) x + motionX, (double) y + motionY, (double) z + motionZ, new ItemStack(energonType.getCrystal()));
+                        double motionX = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+                        double motionY = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+                        double motionZ = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+                        EntityItem entityitem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, new ItemStack(energonType.getCrystal()));
                         entityitem.delayBeforeCanPickup = 10;
                         world.spawnEntityInWorld(entityitem);
                     }

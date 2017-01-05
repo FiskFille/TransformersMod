@@ -132,7 +132,7 @@ public class GuiSelectReceivers extends GuiScreen
             }
         }
 
-        int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
+        int direction = MathHelper.floor_double(mc.thePlayer.rotationYaw * 4F / 360F + 2.5D) & 3;
 
         if (direction > 0)
         {
@@ -146,11 +146,11 @@ public class GuiSelectReceivers extends GuiScreen
 
                     if (direction == 1)
                     {
-                        coords = coordArray[(boardWidthFl - 1 - j) + i * boardWidthFl];
+                        coords = coordArray[boardWidthFl - 1 - j + i * boardWidthFl];
                     }
                     else if (direction == 2)
                     {
-                        coords = coordArray[(boardWidthFl - 1 - i) + (boardWidthFl - 1 - j) * boardWidthFl];
+                        coords = coordArray[boardWidthFl - 1 - i + (boardWidthFl - 1 - j) * boardWidthFl];
                     }
                     else if (direction == 3)
                     {
@@ -342,8 +342,8 @@ public class GuiSelectReceivers extends GuiScreen
 
                     if (coords != null)
                     {
-                        Block block = mc.theWorld.getBlock(coords.posX, coords.posY, coords.posZ);
-                        int metadata = mc.theWorld.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
+                        mc.theWorld.getBlock(coords.posX, coords.posY, coords.posZ);
+                        mc.theWorld.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 
                         if (!mc.theWorld.isAirBlock(coords.posX, coords.posY, coords.posZ))
                         {
@@ -445,13 +445,13 @@ public class GuiSelectReceivers extends GuiScreen
             for (int i = 0; i < layers.size(); i += layers.size() - 1)
             {
                 float f = (float) i / (layers.size() - 1);
-                drawString(mc.fontRenderer, layers.get(i) + "", heightSlider.xPosition + heightSlider.width + 3, heightSlider.yPosition + (int) ((1 - f) * (float) (heightSlider.height - 8)), 0x4C4C4C);
+                drawString(mc.fontRenderer, layers.get(i) + "", heightSlider.xPosition + heightSlider.width + 3, heightSlider.yPosition + (int) ((1 - f) * (heightSlider.height - 8)), 0x4C4C4C);
             }
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        int direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 2.5D) & 3;
+        int direction = MathHelper.floor_double(mc.thePlayer.rotationYaw * 4F / 360F + 2.5D) & 3;
         String[] astring = {"north", "east", "south", "west"};
         String[] dirs = new String[astring.length];
 

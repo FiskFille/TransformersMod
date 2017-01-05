@@ -23,6 +23,6 @@ public class ComponentArmor extends Component
     @Override
     public void load(TileEntityDisplayStation tile, int slot, EntityPlayer player)
     {
-    	TFNetworkManager.networkWrapper.sendToServer(new MessageOpenGuiSimple(player, TFGui.DISPLAY_STATION_ARMOR.guiId, tile.xCoord, tile.yCoord, tile.zCoord));
+        TFNetworkManager.networkWrapper.sendToServer(new MessageOpenGuiSimple(player, TFGui.DISPLAY_STATION_ARMOR.guiId, tile.xCoord, tile.yCoord, tile.zCoord));
     }
 }

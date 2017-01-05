@@ -39,6 +39,5 @@ public class TFEntityData implements IExtendedEntityProperties
     @Override
     public void init(Entity entity, World world)
     {
-        Entity entity1 = entity;
     }
 }

@@ -37,12 +37,12 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_)
     {
-    	ItemStack itemstack1 = TFArmorHelper.getArmorShell(itemstack);
-    	
-    	if (itemstack1 != null)
-    	{
-    		info.add(itemstack1.getDisplayName());
-    	}
+        ItemStack itemstack1 = TFArmorHelper.getArmorShell(itemstack);
+
+        if (itemstack1 != null)
+        {
+            info.add(itemstack1.getDisplayName());
+        }
     }
 
     public abstract Transformer getTransformer();
@@ -56,7 +56,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
         if (itemstack != null && model != null)
         {
             model.layerToRender = armorSlot + 1;
-            
+
             model.bipedHead.showModel = armorSlot == 0;
             model.bipedHeadwear.showModel = armorSlot == 0;
             model.bipedBody.showModel = armorSlot == 1;
@@ -88,45 +88,45 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     {
 
     }
-    
+
     @Override
-	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
+    public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
     {
-    	if (!source.isUnblockable())
-    	{
-    		ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
-    		
-    		if (itemstack != null)
-    		{
-    			ItemArmor item = (ItemArmor)itemstack.getItem();
-    			return new ArmorProperties(0, item.damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
-    		}
-    		else
-    		{
-    			return new ArmorProperties(0, damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
-    		}
-    	}
-    	
-    	return new ArmorProperties(0, 0, 0);
-	}
+        if (!source.isUnblockable())
+        {
+            ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
 
-	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
-	{
-		ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
-		
-		if (itemstack != null)
-		{
-			ItemArmor item = (ItemArmor)itemstack.getItem();
-			return item.damageReduceAmount;
-		}
-		
-		return damageReduceAmount;
-	}
+            if (itemstack != null)
+            {
+                ItemArmor item = (ItemArmor) itemstack.getItem();
+                return new ArmorProperties(0, item.damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
+            }
+            else
+            {
+                return new ArmorProperties(0, damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
+            }
+        }
 
-	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
-	{
-		stack.damageItem(damage, entity);
-	}
+        return new ArmorProperties(0, 0, 0);
+    }
+
+    @Override
+    public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
+    {
+        ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
+
+        if (itemstack != null)
+        {
+            ItemArmor item = (ItemArmor) itemstack.getItem();
+            return item.damageReduceAmount;
+        }
+
+        return damageReduceAmount;
+    }
+
+    @Override
+    public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
+    {
+        stack.damageItem(damage, entity);
+    }
 }

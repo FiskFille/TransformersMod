@@ -113,7 +113,7 @@ public class TFArmorDyeHelper
         {
             int primary = getPrimaryColor(itemstacks[0]);
             int secondary = getSecondaryColor(itemstacks[0]);
-            
+
             for (ItemStack itemstack : itemstacks)
             {
                 if (itemstack == null || getPrimaryColor(itemstack) != primary || getSecondaryColor(itemstack) != secondary)
@@ -122,7 +122,7 @@ public class TFArmorDyeHelper
                 }
             }
         }
-        
+
         return true;
     }
 }

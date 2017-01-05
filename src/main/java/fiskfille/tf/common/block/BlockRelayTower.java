@@ -20,7 +20,7 @@ public class BlockRelayTower extends BlockTransmitter
     {
         return 2;
     }
-    
+
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {

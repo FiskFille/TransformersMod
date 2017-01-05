@@ -5,12 +5,64 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import fiskfille.tf.client.tick.ClientTickHandler;
+import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import fiskfille.tf.TFReflection;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.displayable.TFDisplayableManager;
+import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
+import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.energon.TFEnergonManager;
+import fiskfille.tf.common.entity.TFEntities;
+import fiskfille.tf.common.event.CommonEventHandler;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.recipe.TFRecipes;
+import fiskfille.tf.common.registry.TFOreDictRegistry;
+import fiskfille.tf.common.tick.CommonTickHandler;
+import fiskfille.tf.common.worldgen.WorldGeneratorOres;
+import fiskfille.tf.helper.TFShootManager;
 
 public class CommonProxy
 {
-    public static ClientTickHandler tickHandler;
     protected Queue<Runnable> tasks = new LinkedBlockingDeque<Runnable>();
+
+    public void preInit()
+    {
+        TFReflection.common();
+
+        TFEnergonManager.registerEnergonTypes();
+        TFItems.register();
+        TFBlocks.register();
+        TFFluids.register();
+        TFOreDictRegistry.register();
+        TFRecipes.register();
+        TFEntities.register();
+        TFAchievements.register();
+        TFDisplayableManager.registerDisplayables();
+        TFGui.register();
+
+        NetworkRegistry.INSTANCE.registerGuiHandler(TransformersMod.modid, new GuiHandlerTF());
+        GameRegistry.registerWorldGenerator(new WorldGeneratorOres(), 0);
+        registerEventHandler(new CommonEventHandler());
+        registerEventHandler(new CommonTickHandler());
+        registerEventHandler(new TFShootManager());
+    }
+
+    public void init()
+    {
+
+    }
+
+    public void registerEventHandler(Object obj)
+    {
+        MinecraftForge.EVENT_BUS.register(obj);
+        FMLCommonHandler.instance().bus().register(obj);
+    }
 
     public World getWorld()
     {
@@ -20,26 +72,6 @@ public class CommonProxy
     public EntityPlayer getPlayer()
     {
         return null;
-    }
-
-    public void preInit()
-    {
-
-    }
-
-    public void registerRenderInformation()
-    {
-
-    }
-
-    public void registerKeyBinds()
-    {
-
-    }
-
-    public void registerTickHandlers()
-    {
-
     }
 
     public float getRenderTick()
@@ -57,7 +89,7 @@ public class CommonProxy
         while (!tasks.isEmpty())
         {
             Runnable task = tasks.poll();
-            
+
             if (task != null)
             {
                 task.run();

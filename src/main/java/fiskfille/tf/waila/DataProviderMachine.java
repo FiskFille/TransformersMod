@@ -19,7 +19,7 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFHelper;
 
 public class DataProviderMachine implements IWailaDataProvider
@@ -49,7 +49,7 @@ public class DataProviderMachine implements IWailaDataProvider
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
         TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
-        
+
         if (tileentity.getClass() == targetClass && config.getConfig(key, true))
         {
             if (tileentity instanceof IFluidHandlerTF)
@@ -86,30 +86,30 @@ public class DataProviderMachine implements IWailaDataProvider
                         list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
                     }
                 }
-                
-                list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(liquidAmount), TFEnergyHelper.formatNumber(capacity)));
+
+                list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(liquidAmount), TFFormatHelper.formatNumber(capacity)));
             }
-            
+
             if (tileentity instanceof IEnergyContainer)
             {
                 IEnergyContainer energyContainer = (IEnergyContainer) tileentity;
-                list.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(energyContainer.getEnergy()), TFEnergyHelper.formatNumber(energyContainer.getMaxEnergy())));
+                list.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(energyContainer.getEnergy()), TFFormatHelper.formatNumber(energyContainer.getMaxEnergy())));
             }
         }
 
         return list;
     }
-    
+
     public FluidStack getFluid(TileEntity tile, IFluidHandlerTF fluidHandler)
     {
         return fluidHandler.getTank().getFluid();
     }
-    
+
     public int getFluidAmount(TileEntity tile, IFluidHandlerTF fluidHandler)
     {
         return fluidHandler.getTank().getFluidAmount();
     }
-    
+
     public int getFluidCapacity(TileEntity tile, IFluidHandlerTF fluidHandler)
     {
         return fluidHandler.getTank().getCapacity();

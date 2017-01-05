@@ -28,7 +28,6 @@ public class RenderBassCharge extends Render
         float f1 = 0.2F + (float) entity.ticksExisted / 10;
         GL11.glScalef(f1, f1, f1);
 
-
         GL11.glDepthMask(false);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -48,7 +47,6 @@ public class RenderBassCharge extends Render
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         GL11.glDepthMask(true);
-
 
         GL11.glPopMatrix();
     }

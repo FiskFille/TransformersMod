@@ -21,7 +21,7 @@ public abstract class TileEntityTF extends TileEntity
         super.writeToNBT(nbt);
         writeCustomNBT(nbt);
     }
-    
+
     public void markBlockForUpdate()
     {
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);

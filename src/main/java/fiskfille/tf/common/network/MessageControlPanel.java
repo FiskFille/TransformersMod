@@ -67,13 +67,13 @@ public class MessageControlPanel implements IMessage
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
             World world = MinecraftServer.getServer().worldServerForDimension(message.dimension);
             boolean flag = true;
-            
+
             if (world != null)
             {
                 if (clientPlayer.worldObj.getEntityByID(message.id) instanceof EntityPlayer)
                 {
                     EntityPlayer player = (EntityPlayer) clientPlayer.worldObj.getEntityByID(message.id);
-                    
+
                     if (player.worldObj.provider.dimensionId == message.dimension)
                     {
                         world = player.worldObj;
@@ -86,10 +86,10 @@ public class MessageControlPanel implements IMessage
                     {
                         flag = ctx.side.isServer();
                     }
-                    
+
                     TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
                     int action = message.action;
-                    
+
                     if (tile != null && flag)
                     {
                         int increment = player.isSneaking() ? -1 : 1;
@@ -143,7 +143,7 @@ public class MessageControlPanel implements IMessage
                                 tile.cycleDimensionID(action == 18 ? -1 : 1);
                             }
                         }
-                                                
+
                         if (ctx.side.isServer())
                         {
                             TFNetworkManager.networkWrapper.sendToAll(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, message.dimension, action));

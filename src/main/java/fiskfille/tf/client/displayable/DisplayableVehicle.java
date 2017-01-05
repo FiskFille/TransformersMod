@@ -7,9 +7,9 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
+import fiskfille.tf.common.tick.ClientTickHandler;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class DisplayableVehicle extends Displayable
@@ -22,7 +22,7 @@ public class DisplayableVehicle extends Displayable
 
         if (vehicle != null)
         {
-            GL11.glRotatef((mc.thePlayer.ticksExisted + ClientEventHandler.renderTick) * 0.5F, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) * 0.5F, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -0.2F, 0.0F);
 
             float scale = 0.75F;

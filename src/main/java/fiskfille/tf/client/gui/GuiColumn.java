@@ -18,7 +18,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerColumn;
 import fiskfille.tf.common.energon.power.IEnergyContainerItem;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiColumn extends GuiContainerTF
@@ -45,15 +45,15 @@ public class GuiColumn extends GuiContainerTF
 
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
-        
+
         for (int i = 0; i < tileentity.getSizeInventory(); ++i)
         {
             if (new Rectangle(x + 25 + i * 22, y + 19, 16, 52).contains(new Point(mouseX, mouseY)))
             {
-                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
             }
         }
-        
+
         GL11.glPopMatrix();
     }
 

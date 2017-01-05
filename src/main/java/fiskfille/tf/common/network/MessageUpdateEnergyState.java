@@ -170,7 +170,6 @@ public class MessageUpdateEnergyState implements IMessage
                 }
             });
 
-
             return null;
         }
     }

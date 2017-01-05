@@ -31,7 +31,7 @@ public final class TFFluidRenderHelper
                 GL11.glDeleteLists(i, 1);
             }
         }
-        
+
         flowingRenderCache.clear();
 
         for (int[] aint : stillRenderCache.values())
@@ -41,7 +41,7 @@ public final class TFFluidRenderHelper
                 GL11.glDeleteLists(i, 1);
             }
         }
-        
+
         stillRenderCache.clear();
     }
 
@@ -51,7 +51,7 @@ public final class TFFluidRenderHelper
         {
             return null;
         }
-        
+
         return getFluidTexture(fluidStack.getFluid(), flowing);
     }
 
@@ -61,14 +61,14 @@ public final class TFFluidRenderHelper
         {
             return null;
         }
-        
+
         IIcon icon = flowing ? fluid.getFlowingIcon() : fluid.getStillIcon();
-        
+
         if (icon == null)
         {
             icon = ((TextureMap) Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.locationBlocksTexture)).getAtlasSprite("missingno");
         }
-        
+
         return icon;
     }
 
@@ -90,17 +90,17 @@ public final class TFFluidRenderHelper
         {
             return null;
         }
-        
+
         Fluid fluid = fluidStack.getFluid();
-        
+
         if (fluid == null)
         {
             return null;
         }
-        
+
         Map<Fluid, int[]> cache = flowing ? flowingRenderCache : stillRenderCache;
         int[] diplayLists = cache.get(fluid);
-        
+
         if (diplayLists != null)
         {
             return diplayLists;
@@ -136,7 +136,7 @@ public final class TFFluidRenderHelper
             liquidBlock.maxX = 1;
             liquidBlock.maxY = (float) stage / (DISPLAY_STAGES - 1);
             liquidBlock.maxZ = 1;
-            
+
             liquidBlock.renderBlock(renderBlocks);
             GL11.glEndList();
         }

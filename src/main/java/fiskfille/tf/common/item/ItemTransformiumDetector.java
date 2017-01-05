@@ -17,7 +17,7 @@ import fiskfille.tf.common.block.TFBlocks;
 
 public class ItemTransformiumDetector extends Item
 {
-    //TODO-TF improve it for 0.6.0
+    // TODO-TF improve it for 0.6.0
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean hand)

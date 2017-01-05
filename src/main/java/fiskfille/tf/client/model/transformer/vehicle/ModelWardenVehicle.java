@@ -984,6 +984,6 @@ public class ModelWardenVehicle extends ModelVehicleBase
 
     public void render(ItemStack itemstack)
     {
-    	TFRenderHelper.setupRenderLayers(itemstack, vehiclewaistbase, false);
+        TFRenderHelper.setupRenderLayers(itemstack, vehiclewaistbase, false);
     }
 }

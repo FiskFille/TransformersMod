@@ -48,7 +48,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
             TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_BLEND);
-            
+
             if (tileentity.getWorldObj() != null)
             {
                 int progress = TFRenderHelper.getBlockDestroyProgress(tileentity.getWorldObj(), tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
@@ -81,10 +81,10 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
                 ItemStack chest = tileentity.getStackInSlot(1);
                 ItemStack legs = tileentity.getStackInSlot(2);
                 ItemStack feet = tileentity.getStackInSlot(3);
-                
+
                 if (entity != null)
                 {
-                	entity.setCurrentItemOrArmor(4, head);
+                    entity.setCurrentItemOrArmor(4, head);
                     entity.setCurrentItemOrArmor(3, chest);
                     entity.setCurrentItemOrArmor(2, legs);
                     entity.setCurrentItemOrArmor(1, feet);
@@ -104,7 +104,7 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
             }
             catch (Exception e)
             {
-            	e.printStackTrace();
+                e.printStackTrace();
             }
         }
 

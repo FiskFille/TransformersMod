@@ -201,6 +201,7 @@ public class ModelDisplayStation extends MowzieModelBase
         shape1.render(0.0625F);
     }
 
+    @Override
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;

@@ -2,7 +2,6 @@ package fiskfille.tf.common.item;
 
 import java.util.List;
 
-import net.minecraft.block.BlockColored;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,21 +16,21 @@ public class ItemDyeTF extends Item
 {
     public static final String[] dyes = new String[] {"dark_red", "beige", "dark_gray", "pale_green", "pale_brown"};
     public static final int[] dyeColors = new int[] {0, 0, 0, 0, 0};
-    
+
     @SideOnly(Side.CLIENT)
     protected IIcon[] icons = new IIcon[dyes.length];
-    
+
     public ItemDyeTF()
     {
         setHasSubtypes(true);
         setCreativeTab(CreativeTabs.tabMaterials);
     }
-    
+
     public static int getDyeColor(int damage)
     {
         return dyeColors[MathHelper.clamp_int(damage, 0, dyeColors.length - 1)];
     }
-    
+
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List subItems)
     {
@@ -40,7 +39,7 @@ public class ItemDyeTF extends Item
             subItems.add(new ItemStack(this, 1, i));
         }
     }
-    
+
     @Override
     public String getUnlocalizedName(ItemStack itemstack)
     {

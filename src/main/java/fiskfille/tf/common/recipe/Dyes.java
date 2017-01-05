@@ -24,32 +24,32 @@ import fiskfille.tf.common.item.TFItems;
 
 public class Dyes
 {
-    public static final int BLACK        = 0;
-    public static final int RED          = 1;
-    public static final int GREEN        = 2;
-    public static final int BROWN        = 3;
-    public static final int BLUE         = 4;
-    public static final int PURPLE       = 5;
-    public static final int CYAN         = 6;
-    public static final int SILVER       = 7;
-    public static final int GRAY         = 8;
-    public static final int PINK         = 9;
-    public static final int LIME         = 10;
-    public static final int YELLOW       = 11;
-    public static final int LIGHT_BLUE   = 12;
-    public static final int MAGENTA      = 13;
-    public static final int ORANGE       = 14;
-    public static final int WHITE        = 15;
+    public static final int BLACK = 0;
+    public static final int RED = 1;
+    public static final int GREEN = 2;
+    public static final int BROWN = 3;
+    public static final int BLUE = 4;
+    public static final int PURPLE = 5;
+    public static final int CYAN = 6;
+    public static final int SILVER = 7;
+    public static final int GRAY = 8;
+    public static final int PINK = 9;
+    public static final int LIME = 10;
+    public static final int YELLOW = 11;
+    public static final int LIGHT_BLUE = 12;
+    public static final int MAGENTA = 13;
+    public static final int ORANGE = 14;
+    public static final int WHITE = 15;
 
-    public static final int DARK_RED     = 16;
-    public static final int BEIGE        = 17;
-    public static final int DARK_GRAY    = 18;
-    public static final int PALE_GREEN   = 19;
-    public static final int PALE_BROWN   = 20;
+    public static final int DARK_RED = 16;
+    public static final int BEIGE = 17;
+    public static final int DARK_GRAY = 18;
+    public static final int PALE_GREEN = 19;
+    public static final int PALE_BROWN = 20;
 
     private LinkedList<ItemStack> itemstacks = Lists.newLinkedList();
     private static Map<Integer, String> names = Maps.newHashMap();
-    
+
     public static LinkedList<Integer> dyes = Lists.newLinkedList();
 
     public Dyes(int... dyes)
@@ -179,8 +179,7 @@ public class Dyes
 
     static
     {
-        int i = 0;
-        List<String> list = Lists.newArrayList();
+        Lists.newArrayList();
 
         for (Field field : Dyes.class.getFields())
         {

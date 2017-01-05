@@ -5,10 +5,10 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
+import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.tick.ClientTickHandler;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class ModelVurpVehicle extends ModelVehicleBase
@@ -361,20 +361,15 @@ public class ModelVurpVehicle extends ModelVehicleBase
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
-            VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+            float wheelSpinSpeed = (TFData.FORWARD_VELOCITY.get(player) < 0 ? -limbSwing : limbSwing) * 0.8F;
 
-            if (transformedPlayer != null)
+            for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
             {
-                float wheelSpinSpeed = (transformedPlayer.getForwardVelocity() < 0 ? -limbSwing : limbSwing) * 0.8F;
-
-                for (ModelRenderer modelRenderer : new ModelRenderer[] {vehicleWheelR, vehicleWheelL, vehicleWheelBackR, vehicleWheelBackL})
-                {
-                    modelRenderer.rotateAngleX = wheelSpinSpeed;
-                }
+                modelRenderer.rotateAngleX = wheelSpinSpeed;
             }
-            
+
             vehicleBase.rotateAngleX = (float) (Math.PI / 2 - TFRenderHelper.getMotionY(player) - (player == Minecraft.getMinecraft().thePlayer && player.onGround ? 0.0784000015258789 : 0));
-            vehicleBase.rotateAngleY = -(float) Math.toRadians(TFRenderHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientEventHandler.renderTick));
+            vehicleBase.rotateAngleY = -(float) Math.toRadians(TFHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientTickHandler.renderTick));
         }
     }
 }

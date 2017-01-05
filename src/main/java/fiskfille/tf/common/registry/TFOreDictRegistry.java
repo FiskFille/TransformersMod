@@ -17,22 +17,17 @@ public class TFOreDictRegistry
         registerOre("blockClayHardened", Blocks.stained_hardened_clay);
         registerOre("blockClayHardened", TFBlocks.stainedHardenedClay);
     }
-    
+
     private static void registerOre(String name, Block block)
     {
         registerOre(name, block, OreDictionary.WILDCARD_VALUE);
     }
-    
+
     private static void registerOre(String name, Block block, int metadata)
     {
         OreDictionary.registerOre(name, new ItemStack(block, 1, metadata));
     }
-    
-    private static void registerOre(String name, Item item)
-    {
-        registerOre(name, item, OreDictionary.WILDCARD_VALUE);
-    }
-    
+
     private static void registerOre(String name, Item item, int metadata)
     {
         OreDictionary.registerOre(name, new ItemStack(item, 1, metadata));

@@ -23,15 +23,15 @@ public class RenderEnergonTank extends TileEntitySpecialRenderer
     {
         World world = tile.getWorldObj();
         FluidStack stack = tile.tank.getFluid();
-        
+
         if (stack == null || stack.getFluid() == null || stack.amount <= 0)
         {
             return;
         }
-        
+
         int color = stack.getFluid().getColor(stack);
         int[] displayList = TFFluidRenderHelper.getFluidDisplayLists(renderBlocks, stack, tile.getWorldObj(), false);
-        
+
         if (displayList == null)
         {
             return;
@@ -51,23 +51,23 @@ public class RenderEnergonTank extends TileEntitySpecialRenderer
         float scale = 0.99F;
         float scaleY = scale;
         float scaleOffset = 0;
-        
+
         if (world != null)
         {
             TileEntityEnergonTank tileBase = TFHelper.getTileBase(tile);
             boolean connectAbove = false;
             boolean connectBelow = false;
-            
+
             if (tileBase == TFHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord + 1, tile.zCoord)))
             {
                 connectAbove = true;
             }
-            
+
             if (tileBase == TFHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord - 1, tile.zCoord)))
             {
                 connectBelow = true;
             }
-            
+
             if (connectAbove && connectBelow)
             {
                 scaleY = 1;
@@ -85,7 +85,7 @@ public class RenderEnergonTank extends TileEntitySpecialRenderer
                 scaleOffset = -0.5F;
             }
         }
-        
+
         GL11.glTranslatef((float) x, (float) y, (float) z);
         GL11.glTranslatef(0.5F, 0.5F + scaleOffset, 0.5F);
         GL11.glScalef(scale, scaleY, scale);

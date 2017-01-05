@@ -10,12 +10,12 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 public class ContainerGroundBridge extends ContainerBasic
 {
     public InventoryGroundBridge inventory;
-    
+
     public ContainerGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, TileEntityControlPanel tile)
     {
         super(tile);
         inventory = inventoryGroundBridge;
-        
+
         addSlotToContainer(new Slot(inventoryGroundBridge, 0, 13, 56)
         {
             @Override
@@ -24,16 +24,16 @@ public class ContainerGroundBridge extends ContainerBasic
                 return itemstack.getItem() == TFItems.csd;
             }
         });
-        
+
         addPlayerInventory(inventoryPlayer, 0);
     }
-    
+
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return super.canInteractWith(player) && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
     }
-    
+
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
     {
@@ -88,7 +88,7 @@ public class ContainerGroundBridge extends ContainerBasic
 
             slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
         }
-        
+
         return itemstack;
     }
 }

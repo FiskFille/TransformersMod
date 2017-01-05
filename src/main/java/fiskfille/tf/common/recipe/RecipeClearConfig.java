@@ -13,11 +13,11 @@ public class RecipeClearConfig implements IRecipe
     public boolean matches(InventoryCrafting inventory, World world)
     {
         boolean flag = false;
-        
+
         for (int i = 0; i < inventory.getSizeInventory(); ++i)
         {
             ItemStack itemstack = inventory.getStackInSlot(i);
-            
+
             if (itemstack != null)
             {
                 if (itemstack.getItem() instanceof ItemMachine && itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
@@ -30,7 +30,7 @@ public class RecipeClearConfig implements IRecipe
                 }
             }
         }
-        
+
         return flag;
     }
 
@@ -40,22 +40,22 @@ public class RecipeClearConfig implements IRecipe
         for (int i = 0; i < inventory.getSizeInventory(); ++i)
         {
             ItemStack itemstack = inventory.getStackInSlot(i);
-            
+
             if (itemstack != null)
             {
                 itemstack = itemstack.copy();
                 itemstack.getTagCompound().removeTag("ConfigDataTF");
                 itemstack.stackSize = 1;
-                
+
                 if (itemstack.getTagCompound().hasNoTags())
                 {
                     itemstack.setTagCompound(null);
                 }
-                
+
                 return itemstack;
             }
         }
-        
+
         return null;
     }
 

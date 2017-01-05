@@ -22,7 +22,7 @@ public class GuiTextFieldFlat extends GuiTextField
     public int yPosition;
     public int width;
     public int height;
-    
+
     private String text = "";
     private int maxStringLength = 32;
     private int cursorCounter;
@@ -47,11 +47,13 @@ public class GuiTextFieldFlat extends GuiTextField
         height = 13;
     }
 
+    @Override
     public void updateCursorCounter()
     {
         ++cursorCounter;
     }
 
+    @Override
     public void setText(String s)
     {
         if (s.length() > maxStringLength)
@@ -66,11 +68,13 @@ public class GuiTextFieldFlat extends GuiTextField
         setCursorPositionEnd();
     }
 
+    @Override
     public String getText()
     {
         return text;
     }
 
+    @Override
     public String getSelectedText()
     {
         int start = cursorPosition < selectionEnd ? cursorPosition : selectionEnd;
@@ -78,6 +82,7 @@ public class GuiTextFieldFlat extends GuiTextField
         return text.substring(start, end);
     }
 
+    @Override
     public void writeText(String s)
     {
         String s1 = "";
@@ -85,8 +90,6 @@ public class GuiTextFieldFlat extends GuiTextField
         int i = cursorPosition < selectionEnd ? cursorPosition : selectionEnd;
         int j = cursorPosition < selectionEnd ? selectionEnd : cursorPosition;
         int k = maxStringLength - text.length() - (i - selectionEnd);
-        boolean flag = false;
-
         if (text.length() > 0)
         {
             s1 = s1 + text.substring(0, i);
@@ -114,6 +117,7 @@ public class GuiTextFieldFlat extends GuiTextField
         moveCursorBy(i - selectionEnd + l);
     }
 
+    @Override
     public void deleteWords(int num)
     {
         if (text.length() != 0)
@@ -129,6 +133,7 @@ public class GuiTextFieldFlat extends GuiTextField
         }
     }
 
+    @Override
     public void deleteFromCursor(int num)
     {
         if (text.length() != 0)
@@ -164,16 +169,19 @@ public class GuiTextFieldFlat extends GuiTextField
         }
     }
 
+    @Override
     public int getNthWordFromCursor(int num)
     {
         return getNthWordFromPos(num, getCursorPosition());
     }
 
+    @Override
     public int getNthWordFromPos(int num, int pos)
     {
         return func_146197_a(num, getCursorPosition(), true);
     }
 
+    @Override
     public int func_146197_a(int i, int j, boolean flag)
     {
         int k = j;
@@ -216,11 +224,13 @@ public class GuiTextFieldFlat extends GuiTextField
         return k;
     }
 
+    @Override
     public void moveCursorBy(int amount)
     {
         setCursorPosition(selectionEnd + amount);
     }
 
+    @Override
     public void setCursorPosition(int pos)
     {
         cursorPosition = pos;
@@ -239,16 +249,19 @@ public class GuiTextFieldFlat extends GuiTextField
         setSelectionPos(cursorPosition);
     }
 
+    @Override
     public void setCursorPositionZero()
     {
         setCursorPosition(0);
     }
 
+    @Override
     public void setCursorPositionEnd()
     {
         setCursorPosition(text.length());
     }
 
+    @Override
     public boolean textboxKeyTyped(char c, int key)
     {
         if (!isFocused)
@@ -259,141 +272,141 @@ public class GuiTextFieldFlat extends GuiTextField
         {
             switch (c)
             {
-                case 1:
-                    setCursorPositionEnd();
-                    setSelectionPos(0);
-                    return true;
-                case 3:
-                    GuiScreen.setClipboardString(getSelectedText());
-                    return true;
-                case 22:
-                    if (isEnabled)
+            case 1:
+                setCursorPositionEnd();
+                setSelectionPos(0);
+                return true;
+            case 3:
+                GuiScreen.setClipboardString(getSelectedText());
+                return true;
+            case 22:
+                if (isEnabled)
+                {
+                    writeText(GuiScreen.getClipboardString());
+                }
+
+                return true;
+            case 24:
+                GuiScreen.setClipboardString(getSelectedText());
+
+                if (isEnabled)
+                {
+                    writeText("");
+                }
+
+                return true;
+            default:
+                switch (key)
+                {
+                case 14:
+                    if (GuiScreen.isCtrlKeyDown())
                     {
-                        writeText(GuiScreen.getClipboardString());
+                        if (isEnabled)
+                        {
+                            deleteWords(-1);
+                        }
+                    }
+                    else if (isEnabled)
+                    {
+                        deleteFromCursor(-1);
                     }
 
                     return true;
-                case 24:
-                    GuiScreen.setClipboardString(getSelectedText());
-
-                    if (isEnabled)
+                case 199:
+                    if (GuiScreen.isShiftKeyDown())
                     {
-                        writeText("");
+                        setSelectionPos(0);
+                    }
+                    else
+                    {
+                        setCursorPositionZero();
+                    }
+
+                    return true;
+                case 203:
+                    if (GuiScreen.isShiftKeyDown())
+                    {
+                        if (GuiScreen.isCtrlKeyDown())
+                        {
+                            setSelectionPos(getNthWordFromPos(-1, getSelectionEnd()));
+                        }
+                        else
+                        {
+                            setSelectionPos(getSelectionEnd() - 1);
+                        }
+                    }
+                    else if (GuiScreen.isCtrlKeyDown())
+                    {
+                        setCursorPosition(getNthWordFromCursor(-1));
+                    }
+                    else
+                    {
+                        moveCursorBy(-1);
+                    }
+
+                    return true;
+                case 205:
+                    if (GuiScreen.isShiftKeyDown())
+                    {
+                        if (GuiScreen.isCtrlKeyDown())
+                        {
+                            setSelectionPos(getNthWordFromPos(1, getSelectionEnd()));
+                        }
+                        else
+                        {
+                            setSelectionPos(getSelectionEnd() + 1);
+                        }
+                    }
+                    else if (GuiScreen.isCtrlKeyDown())
+                    {
+                        setCursorPosition(getNthWordFromCursor(1));
+                    }
+                    else
+                    {
+                        moveCursorBy(1);
+                    }
+
+                    return true;
+                case 207:
+                    if (GuiScreen.isShiftKeyDown())
+                    {
+                        setSelectionPos(text.length());
+                    }
+                    else
+                    {
+                        setCursorPositionEnd();
+                    }
+
+                    return true;
+                case 211:
+                    if (GuiScreen.isCtrlKeyDown())
+                    {
+                        if (isEnabled)
+                        {
+                            deleteWords(1);
+                        }
+                    }
+                    else if (isEnabled)
+                    {
+                        deleteFromCursor(1);
                     }
 
                     return true;
                 default:
-                    switch (key)
+                    if (ChatAllowedCharacters.isAllowedCharacter(c))
                     {
-                        case 14:
-                            if (GuiScreen.isCtrlKeyDown())
-                            {
-                                if (isEnabled)
-                                {
-                                    deleteWords(-1);
-                                }
-                            }
-                            else if (isEnabled)
-                            {
-                                deleteFromCursor(-1);
-                            }
+                        if (isEnabled)
+                        {
+                            writeText(Character.toString(c));
+                        }
 
-                            return true;
-                        case 199:
-                            if (GuiScreen.isShiftKeyDown())
-                            {
-                                setSelectionPos(0);
-                            }
-                            else
-                            {
-                                setCursorPositionZero();
-                            }
-
-                            return true;
-                        case 203:
-                            if (GuiScreen.isShiftKeyDown())
-                            {
-                                if (GuiScreen.isCtrlKeyDown())
-                                {
-                                    setSelectionPos(getNthWordFromPos(-1, getSelectionEnd()));
-                                }
-                                else
-                                {
-                                    setSelectionPos(getSelectionEnd() - 1);
-                                }
-                            }
-                            else if (GuiScreen.isCtrlKeyDown())
-                            {
-                                setCursorPosition(getNthWordFromCursor(-1));
-                            }
-                            else
-                            {
-                                moveCursorBy(-1);
-                            }
-
-                            return true;
-                        case 205:
-                            if (GuiScreen.isShiftKeyDown())
-                            {
-                                if (GuiScreen.isCtrlKeyDown())
-                                {
-                                    setSelectionPos(getNthWordFromPos(1, getSelectionEnd()));
-                                }
-                                else
-                                {
-                                    setSelectionPos(getSelectionEnd() + 1);
-                                }
-                            }
-                            else if (GuiScreen.isCtrlKeyDown())
-                            {
-                                setCursorPosition(getNthWordFromCursor(1));
-                            }
-                            else
-                            {
-                                moveCursorBy(1);
-                            }
-
-                            return true;
-                        case 207:
-                            if (GuiScreen.isShiftKeyDown())
-                            {
-                                setSelectionPos(text.length());
-                            }
-                            else
-                            {
-                                setCursorPositionEnd();
-                            }
-
-                            return true;
-                        case 211:
-                            if (GuiScreen.isCtrlKeyDown())
-                            {
-                                if (isEnabled)
-                                {
-                                    deleteWords(1);
-                                }
-                            }
-                            else if (isEnabled)
-                            {
-                                deleteFromCursor(1);
-                            }
-
-                            return true;
-                        default:
-                            if (ChatAllowedCharacters.isAllowedCharacter(c))
-                            {
-                                if (isEnabled)
-                                {
-                                    writeText(Character.toString(c));
-                                }
-
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
+                        return true;
                     }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
         }
     }
@@ -401,6 +414,7 @@ public class GuiTextFieldFlat extends GuiTextField
     /**
      * Args: x, y, buttonClicked
      */
+    @Override
     public void mouseClicked(int mouseX, int mouseY, int button)
     {
         boolean flag = mouseX >= xPosition && mouseX < xPosition + width && mouseY >= yPosition && mouseY < yPosition + height;
@@ -424,6 +438,7 @@ public class GuiTextFieldFlat extends GuiTextField
         }
     }
 
+    @Override
     public void drawTextBox()
     {
         if (getVisible())
@@ -431,12 +446,12 @@ public class GuiTextFieldFlat extends GuiTextField
             if (getEnableBackgroundDrawing())
             {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
-                
+
                 GL11.glEnable(GL11.GL_BLEND);
                 OpenGlHelper.glBlendFunc(770, 771, 1, 0);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glColor4f(1, 1, 1, 1);
-                
+
                 if (width % 2 == 0)
                 {
                     drawTexturedModalRect(xPosition, yPosition, 60, 39 + (isEnabled ? 13 : 0), width / 2, height);
@@ -542,15 +557,16 @@ public class GuiTextFieldFlat extends GuiTextField
         GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glLogicOp(GL11.GL_OR_REVERSE);
         tessellator.startDrawingQuads();
-        tessellator.addVertex((double)x, (double)y1, 0.0D);
-        tessellator.addVertex((double)x1, (double)y1, 0.0D);
-        tessellator.addVertex((double)x1, (double)y, 0.0D);
-        tessellator.addVertex((double)x, (double)y, 0.0D);
+        tessellator.addVertex(x, y1, 0.0D);
+        tessellator.addVertex(x1, y1, 0.0D);
+        tessellator.addVertex(x1, y, 0.0D);
+        tessellator.addVertex(x, y, 0.0D);
         tessellator.draw();
         GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
+    @Override
     public void setMaxStringLength(int length)
     {
         maxStringLength = length;
@@ -561,36 +577,43 @@ public class GuiTextFieldFlat extends GuiTextField
         }
     }
 
+    @Override
     public int getMaxStringLength()
     {
         return maxStringLength;
     }
 
+    @Override
     public int getCursorPosition()
     {
         return cursorPosition;
     }
 
+    @Override
     public boolean getEnableBackgroundDrawing()
     {
         return enableBackgroundDrawing;
     }
 
+    @Override
     public void setEnableBackgroundDrawing(boolean enabled)
     {
         enableBackgroundDrawing = enabled;
     }
 
+    @Override
     public void setTextColor(int color)
     {
         enabledColor = color;
     }
 
+    @Override
     public void setDisabledTextColour(int color)
     {
         disabledColor = color;
     }
 
+    @Override
     public void setFocused(boolean focused)
     {
         if (focused && !isFocused)
@@ -601,26 +624,31 @@ public class GuiTextFieldFlat extends GuiTextField
         isFocused = focused;
     }
 
+    @Override
     public boolean isFocused()
     {
         return isFocused;
     }
 
+    @Override
     public void setEnabled(boolean enabled)
     {
         isEnabled = enabled;
     }
 
+    @Override
     public int getSelectionEnd()
     {
         return selectionEnd;
     }
 
+    @Override
     public int getWidth()
     {
         return getEnableBackgroundDrawing() ? width - 8 : width;
     }
 
+    @Override
     public void setSelectionPos(int pos)
     {
         int j = text.length();
@@ -674,16 +702,19 @@ public class GuiTextFieldFlat extends GuiTextField
         }
     }
 
+    @Override
     public void setCanLoseFocus(boolean loseFocuse)
     {
         canLoseFocus = loseFocuse;
     }
 
+    @Override
     public boolean getVisible()
     {
         return visible;
     }
 
+    @Override
     public void setVisible(boolean isVisible)
     {
         visible = isVisible;

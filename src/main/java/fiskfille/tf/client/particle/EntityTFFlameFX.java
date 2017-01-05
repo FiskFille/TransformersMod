@@ -18,9 +18,6 @@ public class EntityTFFlameFX extends EntityFX
         this.motionX = this.motionX * 0.009999999776482582D + motionX;
         this.motionY = this.motionY * 0.009999999776482582D + motionY;
         this.motionZ = this.motionZ * 0.009999999776482582D + motionZ;
-        double d6 = x + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
-        d6 = y + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
-        d6 = z + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
         flameScale = particleScale;
         particleRed = particleGreen = particleBlue = 1.0F;
         particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 4;

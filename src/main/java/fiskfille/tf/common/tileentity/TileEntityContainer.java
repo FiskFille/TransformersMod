@@ -7,9 +7,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 public abstract class TileEntityContainer extends TileEntityTF implements IInventory
-{   
+{
     public abstract ItemStack[] getItemStacks();
-    
+
     public abstract void setItemStacks(ItemStack[] itemstacks);
 
     @Override
@@ -86,7 +86,7 @@ public abstract class TileEntityContainer extends TileEntityTF implements IInven
     {
         return false;
     }
-    
+
     @Override
     protected void readCustomNBT(NBTTagCompound nbt)
     {
@@ -104,7 +104,7 @@ public abstract class TileEntityContainer extends TileEntityTF implements IInven
             }
         }
     }
-    
+
     @Override
     protected void writeCustomNBT(NBTTagCompound nbt)
     {
@@ -133,14 +133,18 @@ public abstract class TileEntityContainer extends TileEntityTF implements IInven
     @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
     }
 
     @Override
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
     @Override
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)

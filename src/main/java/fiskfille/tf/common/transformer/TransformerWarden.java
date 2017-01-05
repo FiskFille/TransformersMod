@@ -1,4 +1,4 @@
-//package fiskfille.tf.common.transformer;
+// package fiskfille.tf.common.transformer;
 //
 //import fiskfille.tf.common.achievement.TFAchievements;
 //import fiskfille.tf.common.block.TFBlocks;
@@ -49,7 +49,7 @@
 //    }
 //
 //    @Override
-//    public void tick(EntityPlayer player, int timer)
+//    public void tick(EntityPlayer player, float timer)
 //    {
 //        player.addStat(TFAchievements.warden, 1);
 //    }

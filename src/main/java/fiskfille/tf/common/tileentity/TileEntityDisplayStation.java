@@ -42,7 +42,7 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
             }
         }
     }
-    
+
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -63,12 +63,12 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
                     vehicle.setTagCompound(new NBTTagCompound());
                 }
 
-                ItemStack[] armorFromNBT = item.getArmorFromNBT(vehicle);
+                ItemStack[] armorFromNBT = ItemDisplayVehicle.getArmorFromNBT(vehicle);
 
                 if (armorFromNBT == null)
                 {
-                    item.setNBTData(vehicle);
-                    armorFromNBT = item.getArmorFromNBT(vehicle);
+                    ItemDisplayVehicle.setNBTData(vehicle);
+                    armorFromNBT = ItemDisplayVehicle.getArmorFromNBT(vehicle);
                 }
 
                 for (int i = 0; i < armorFromNBT.length; ++i)
@@ -188,13 +188,13 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
 
         return false;
     }
-    
+
     @Override
     public ItemStack[] getItemStacks()
     {
         return inventory;
     }
-    
+
     @Override
     public void setItemStacks(ItemStack[] itemstacks)
     {
@@ -210,7 +210,7 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot < 4 ? stack.getItem() instanceof ItemTransformerArmor && stack.getItem().isValidArmor(stack, slot, null) : (slot == 6 ? stack.getItem() == TFItems.displayVehicle : stack.getItem() instanceof ItemComponent);
+        return slot < 4 ? stack.getItem() instanceof ItemTransformerArmor && stack.getItem().isValidArmor(stack, slot, null) : slot == 6 ? stack.getItem() == TFItems.displayVehicle : stack.getItem() instanceof ItemComponent;
     }
 
     @Override

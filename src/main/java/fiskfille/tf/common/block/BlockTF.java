@@ -7,7 +7,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
-import fiskfille.tf.Log;
+import fiskfille.tf.TFLog;
 import fiskfille.tf.TransformersMod;
 
 public abstract class BlockTF extends Block
@@ -20,12 +20,12 @@ public abstract class BlockTF extends Block
     {
         this(name, tileClass, ItemBlock.class);
     }
-    
+
     protected BlockTF(String name, Class<? extends TileEntity> tileClass, Class<? extends ItemBlock> itemClass)
     {
         this(new Material(MapColor.ironColor), name, tileClass, itemClass);
     }
-    
+
     protected BlockTF(Material material, String name, Class<? extends TileEntity> tileClass)
     {
         this(material, name, tileClass, ItemBlock.class);
@@ -37,28 +37,28 @@ public abstract class BlockTF extends Block
         this.name = name;
         this.tileClass = tileClass;
         this.itemClass = itemClass;
-        
+
         init();
     }
 
     protected void init()
     {
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
-        
+
         if (tileClass != null)
         {
             GameRegistry.registerTileEntity(tileClass, name);
         }
-        
+
         setBlockName(unlocalizedName);
         setBlockTextureName(TransformersMod.modid + ":" + unlocalizedName);
         GameRegistry.registerBlock(this, itemClass, unlocalizedName);
-        
+
         setHardness(0.5F);
         setStepSound(Block.soundTypeMetal);
         setCreativeTab(TransformersMod.tabTransformers);
     }
-    
+
     public BlockTF setHarvestLvl(String tool, int level)
     {
         setHarvestLevel(tool, level);
@@ -83,10 +83,10 @@ public abstract class BlockTF extends Block
             }
             catch (Exception e)
             {
-                Log.error("Could not create tile entity for block '%s' from class %s", name, tileClass);
+                TFLog.error("Could not create tile entity for block '%s' from class %s", name, tileClass);
             }
         }
-        
+
         return null;
     }
 }

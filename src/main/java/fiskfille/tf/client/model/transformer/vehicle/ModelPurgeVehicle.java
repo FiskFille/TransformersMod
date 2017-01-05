@@ -762,16 +762,16 @@ public class ModelPurgeVehicle extends ModelVehicleBase
         vehicle64.addChild(vehicle68);
         vehicleturret4.addChild(vehiclebarrelbase1_rotatehere);
         vehicle2.addChild(vehicle37);
-        
+
         setInitPose();
     }
 
     @Override
     public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
     {
-    	TFRenderHelper.setupRenderLayers(itemstack, vehiclebase, hasLightsLayer);
+        TFRenderHelper.setupRenderLayers(itemstack, vehiclebase, hasLightsLayer);
     }
-    
+
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
     {
@@ -780,10 +780,8 @@ public class ModelPurgeVehicle extends ModelVehicleBase
 
         if (entity instanceof EntityPlayer)
         {
-            EntityPlayer player = (EntityPlayer) entity;
-            
-            vehicleturretbase_rotatehere.rotateAngleZ = -(rotationYaw + 180) / (180F / (float) Math.PI);
-            vehiclebarrelbase1_rotatehere.rotateAngleX = -MathHelper.clamp_float(rotationPitch, -60, 0) / (180F / (float) Math.PI);
+            vehicleturretbase_rotatehere.rotateAngleZ = -(rotationYaw + 180) / (180F / PI);
+            vehiclebarrelbase1_rotatehere.rotateAngleX = -MathHelper.clamp_float(rotationPitch, -60, 0) / (180F / PI);
 //            vehiclebase.rotateAngleY = -(float) Math.toRadians(TFRenderHelper.median(player.renderYawOffset - player.rotationYaw, player.prevRenderYawOffset - player.prevRotationYaw, ClientEventHandler.renderTick)) * limbSwingAmount;
         }
     }

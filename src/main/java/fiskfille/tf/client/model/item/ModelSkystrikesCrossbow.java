@@ -1,12 +1,12 @@
 package fiskfille.tf.client.model.item;
 
-import fiskfille.tf.client.model.transformer.ModelChildBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import fiskfille.tf.client.model.tools.MowzieModelBase;
 
-public class ModelSkystrikesCrossbow extends ModelChildBase.Base
+public class ModelSkystrikesCrossbow extends MowzieModelBase
 {
     ModelRenderer handle;
     ModelRenderer bottomEdge1;
@@ -134,7 +134,7 @@ public class ModelSkystrikesCrossbow extends ModelChildBase.Base
             if (itemstack != null)
             {
                 boolean flag = itemstack.hasTagCompound() && itemstack.getTagCompound().getBoolean("blueMode");
-                float pidb2 = pi / 2;
+                float pidb2 = PI / 2;
                 if (!flag && handle.rotateAngleZ > 0.0F)
                 {
                     handle.rotateAngleZ -= pidb2 / 10;

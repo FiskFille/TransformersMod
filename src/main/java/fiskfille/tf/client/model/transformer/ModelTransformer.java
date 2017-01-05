@@ -1,4 +1,4 @@
-//package fiskfille.tf.client.model.transformer;
+// package fiskfille.tf.client.model.transformer;
 //
 //import fiskfille.tf.TransformerManager;
 //import fiskfille.tf.client.model.tools.MowzieModelRenderer;
@@ -1937,21 +1937,21 @@
 //
 //            if (isRiding)
 //            {
-//                upperArmR.rotateAngleX -= (float) Math.PI / 5F;
-//                upperArmL.rotateAngleX -= (float) Math.PI / 5F;
-//                upperLegR.rotateAngleX -= (float) Math.PI * 2F / 5F;
-//                upperLegL.rotateAngleX -= (float) Math.PI * 2F / 5F;
+//                upperArmR.rotateAngleX -= PI / 5F;
+//                upperArmL.rotateAngleX -= PI / 5F;
+//                upperLegR.rotateAngleX -= PI * 2F / 5F;
+//                upperLegL.rotateAngleX -= PI * 2F / 5F;
 //
-//                upperLegR.rotateAngleY += (float) Math.PI / 10F;
-//                upperLegL.rotateAngleY -= (float) Math.PI / 10F;
+//                upperLegR.rotateAngleY += PI / 10F;
+//                upperLegL.rotateAngleY -= PI / 10F;
 //            }
 //
 //            if (aimedBow)
 //            {
 //                upperArmR.rotateAngleY += -0.1F + headbase.rotateAngleY;
 //                upperArmL.rotateAngleY += 0.1F + headbase.rotateAngleY + 0.4F;
-//                upperArmR.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
-//                upperArmL.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
+//                upperArmR.rotateAngleX += -(PI / 2F) + headbase.rotateAngleX;
+//                upperArmL.rotateAngleX += -(PI / 2F) + headbase.rotateAngleX;
 //                upperArmR.rotateAngleZ += MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
 //                upperArmL.rotateAngleZ -= MathHelper.cos(par3 * 0.09F) * 0.05F + 0.05F;
 //                upperArmR.rotateAngleX += MathHelper.sin(par3 * 0.067F) * 0.05F;
@@ -2207,7 +2207,7 @@
 //
 //            headbase.rotationPointY += f * 0.15F;
 //            headbase.rotationPointZ += f * 0.3F;
-//            vehicleturretbase_rotatehere.rotateAngleZ = -(par4 + 180) / (180f / (float) Math.PI);
+//            vehicleturretbase_rotatehere.rotateAngleZ = -(par4 + 180) / (180f / PI);
 //
 //            if (par5 > 0)
 //            {
@@ -2219,7 +2219,7 @@
 //                par5 = -60;
 //            }
 //
-//            vehiclebarrelbase1_rotatehere.rotateAngleX = -par5 / (180f / (float) Math.PI);
+//            vehiclebarrelbase1_rotatehere.rotateAngleX = -par5 / (180f / PI);
 //
 //            ItemStack heldItem = transformer.getHeldItem();
 //
@@ -2749,8 +2749,8 @@
 ////
 ////            head.rotationPointY -= 5.5F;
 ////
-////            head.rotateAngleY = par4 / (180F / (float) Math.PI);
-////            head.rotateAngleX = par5 / (180F / (float) Math.PI);
+////            head.rotateAngleY = par4 / (180F / PI);
+////            head.rotateAngleX = par5 / (180F / PI);
 ////
 ////            int backwardInverter = 1;
 ////            if (transformer.moveForward < 0)
@@ -2946,11 +2946,11 @@
 ////
 ////            if (transformationTimer == 0)
 ////            {
-////                float xRotation = par5 / (180F / (float) Math.PI);
+////                float xRotation = par5 / (180F / PI);
 ////
 ////                vehicleBody.rotateAngleY = bipedBody.rotateAngleY;
 ////                vehicleGun.rotateAngleX = par5 < 0 ? xRotation : 0;
-////                vehicleTurret.rotateAngleY = par4 / (180F / (float) Math.PI);
+////                vehicleTurret.rotateAngleY = par4 / (180F / PI);
 ////            }
 ////            else
 ////            {

@@ -50,7 +50,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
             if (world != null)
             {
                 int progress = TFRenderHelper.getBlockDestroyProgress(world, transmitter.xCoord, transmitter.yCoord, transmitter.zCoord);
-                
+
                 if (progress >= 0)
                 {
                     OpenGlHelper.glBlendFunc(774, 768, 1, 0);

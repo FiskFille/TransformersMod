@@ -40,7 +40,7 @@ public class GuiColorSlider extends GuiSliderBase
             drawTexturedModalRect(xPosition, yPosition, 0, 46 + k * 20, width / 2, height);
             drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + k * 20, width / 2, height);
 
-            Color color = sliderId == 1 ? Color.GREEN : (sliderId == 2 ? Color.BLUE : Color.RED);
+            Color color = sliderId == 1 ? Color.GREEN : sliderId == 2 ? Color.BLUE : Color.RED;
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawingQuads();
             tessellator.setColorOpaque_I(0);
@@ -74,7 +74,7 @@ public class GuiColorSlider extends GuiSliderBase
                 l = 16777120;
             }
 
-            drawCenteredString(fontrenderer, StatCollector.translateToLocalFormatted("gui.display_station.color.amount", displayString, (int)(percentage * 100)), xPosition + width / 2, yPosition + (height - 8) / 2, l);
+            drawCenteredString(fontrenderer, StatCollector.translateToLocalFormatted("gui.display_station.color.amount", displayString, (int) (percentage * 100)), xPosition + width / 2, yPosition + (height - 8) / 2, l);
         }
     }
 
@@ -99,8 +99,8 @@ public class GuiColorSlider extends GuiSliderBase
             }
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            drawTexturedModalRect(xPosition + (int) (percentage * (float) (width - 8)), yPosition, 0, 66, 4, 20);
-            drawTexturedModalRect(xPosition + (int) (percentage * (float) (width - 8)) + 4, yPosition, 196, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int) (percentage * (width - 8)), yPosition, 0, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int) (percentage * (width - 8)) + 4, yPosition, 196, 66, 4, 20);
         }
     }
 }

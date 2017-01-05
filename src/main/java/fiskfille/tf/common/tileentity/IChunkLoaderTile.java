@@ -4,5 +4,5 @@ import fiskfille.tf.common.chunk.SubTicket;
 
 public interface IChunkLoaderTile
 {
-	public void forceChunks(SubTicket subTicket);
+    public void forceChunks(SubTicket subTicket);
 }

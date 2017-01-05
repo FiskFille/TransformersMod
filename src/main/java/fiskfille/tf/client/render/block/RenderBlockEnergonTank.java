@@ -4,8 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.common.block.BlockEnergonTank;
@@ -26,7 +24,7 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
         boolean connectBelow = false;
         int metadata = world.getBlockMetadata(x, y, z);
         BlockEnergonTank.renderMetadata = metadata;
-        
+
         if (world.getTileEntity(x, y, z) instanceof TileEntityEnergonTank)
         {
             TileEntityEnergonTank tile = (TileEntityEnergonTank) world.getTileEntity(x, y, z);
@@ -58,7 +56,7 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
             {
                 BlockEnergonTank.renderSide = 4;
             }
-            
+
             float min = 0.001F;
             float max = 1.0F - min;
             renderer.setRenderBounds(min, min, min, max, max, max);
@@ -66,7 +64,7 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
             renderer.setRenderBoundsFromBlock(block);
             BlockEnergonTank.renderSide = 0;
         }
-        
+
         if (metadata == 1)
         {
             renderer.uvRotateSouth = 3;
@@ -100,22 +98,22 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
             renderer.uvRotateTop = 2;
             renderer.uvRotateBottom = 1;
         }
-        
+
         float min = connectAbove || connectBelow ? 0.002F : 0.002F;
         float max = 1.0F - min;
-        
+
         for (int i = 0; i < 2; ++i)
         {
             BlockEnergonTank.renderingInside = i != 0;
             flag |= renderer.renderStandardBlock(block, x, y, z);
             renderer.setRenderBounds(min, min, min, max, max, max);
             renderer.renderFromInside = true;
-            
+
             if (renderer.hasOverrideBlockTexture())
             {
                 break;
             }
-            
+
             if (metadata == 2)
             {
                 renderer.uvRotateSouth = 1;
@@ -141,7 +139,7 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
                 renderer.uvRotateBottom = 2;
             }
         }
-        
+
         BlockEnergonTank.renderingInside = false;
         renderer.renderFromInside = false;
         renderer.renderAllFaces = false;
@@ -151,10 +149,10 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
         renderer.uvRotateNorth = 0;
         renderer.uvRotateTop = 0;
         renderer.uvRotateBottom = 0;
-        
+
         return flag;
     }
-    
+
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
     {
@@ -165,7 +163,7 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
         TFRenderHelper.renderBlock(block, metadata, renderer);
         renderer.setRenderBoundsFromBlock(block);
         BlockEnergonTank.renderSide = 0;
-        
+
         if (metadata == 1)
         {
             renderer.uvRotateSouth = 3;
@@ -199,14 +197,14 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
             renderer.uvRotateTop = 2;
             renderer.uvRotateBottom = 1;
         }
-        
+
         for (int i = 0; i < 2; ++i)
         {
             TFRenderHelper.renderBlock(block, metadata, renderer);
             renderer.setRenderBounds(min, min, min, max, max, max);
             renderer.renderFromInside = true;
             renderer.renderAllFaces = true;
-            
+
             if (metadata == 2)
             {
                 renderer.uvRotateSouth = 1;
@@ -232,7 +230,7 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
                 renderer.uvRotateBottom = 2;
             }
         }
-        
+
         renderer.renderFromInside = false;
         renderer.renderAllFaces = false;
         renderer.uvRotateSouth = 0;

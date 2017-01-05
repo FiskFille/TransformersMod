@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 public class TileEntityDisplayPillar extends TileEntityContainer
 {
     private ItemStack[] inventory = new ItemStack[1];
-    
+
     @Override
     public ItemStack[] getItemStacks()
     {
@@ -35,7 +35,7 @@ public class TileEntityDisplayPillar extends TileEntityContainer
     {
         return getStackInSlot(0);
     }
-    
+
     @Override
     public String getInventoryName()
     {

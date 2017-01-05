@@ -21,31 +21,37 @@ public class TFMaterial extends Material
         return this;
     }
 
+    @Override
     public boolean isOpaque()
     {
         return isTranslucent ? false : blocksMovement();
     }
 
+    @Override
     protected TFMaterial setRequiresTool()
     {
         return (TFMaterial) super.setRequiresTool();
     }
 
+    @Override
     protected TFMaterial setBurning()
     {
         return (TFMaterial) super.setBurning();
     }
 
+    @Override
     protected TFMaterial setNoPushMobility()
     {
         return (TFMaterial) super.setNoPushMobility();
     }
 
+    @Override
     protected TFMaterial setImmovableMobility()
     {
         return (TFMaterial) super.setImmovableMobility();
     }
 
+    @Override
     protected TFMaterial setAdventureModeExempt()
     {
         return (TFMaterial) super.setAdventureModeExempt();

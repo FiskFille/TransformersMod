@@ -1,13 +1,5 @@
 package fiskfille.tf.helper;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.network.MessageLaserShoot;
-import fiskfille.tf.common.network.MessageVehicleShoot;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.transformer.TransformerVurp;
-import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,6 +10,15 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
 import org.lwjgl.input.Mouse;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.network.MessageLaserShoot;
+import fiskfille.tf.common.network.MessageVehicleShoot;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFShootManager
 {
@@ -38,8 +39,8 @@ public class TFShootManager
 
             if (event.entity.worldObj.isRemote)
             {
-                int altMode = TFDataManager.getAltMode(player);
-                boolean isTransfromed = altMode != -1;
+                int altMode = TFData.ALT_MODE.get(player);
+                boolean isTransformed = altMode != -1;
 
                 if (player == Minecraft.getMinecraft().thePlayer)
                 {
@@ -73,7 +74,7 @@ public class TFShootManager
                         {
                             int ammoCount = getShotsLeft(player, transformer, ammo, altMode);
 
-                            if (isTransfromed)
+                            if (isTransformed)
                             {
                                 if (reloading && shootCooldown <= 0)
                                 {
@@ -98,7 +99,7 @@ public class TFShootManager
 
                 if (Mouse.isButtonDown(1))
                 {
-                    if (transformer != null && isTransfromed)
+                    if (transformer != null && isTransformed)
                     {
                         if (transformer.canShoot(player, altMode) && transformer.hasRapidFire(altMode) && player.ticksExisted % 2 == 0)
                         {
@@ -165,7 +166,7 @@ public class TFShootManager
 
         if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
         {
-            int altMode = TFDataManager.getAltMode(player);
+            int altMode = TFData.ALT_MODE.get(player);
             boolean isTransformed = altMode != -1;
 
             if (transformer != null && isTransformed)

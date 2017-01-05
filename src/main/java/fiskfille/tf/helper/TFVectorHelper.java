@@ -11,13 +11,13 @@ public class TFVectorHelper
 {
     public static Vec3 getBackSideCoords(EntityPlayer player, double amount, boolean side, double backAmount, boolean pitch)
     {
-        Vec3 front = getFrontCoords(player, backAmount, pitch).addVector(-player.posX, -player.posY, -player.posZ);
+        Vec3 front = getFrontCoords(player, backAmount, pitch).addVector(-player.posX, -player.boundingBox.minY, -player.posZ);
         return getSideCoords(player, amount, side).addVector(front.xCoord, front.yCoord, front.zCoord);
     }
-    
+
     public static Vec3 add(Vec3 vec31, Vec3 vec32)
     {
-    	return vec31.addVector(vec32.xCoord, vec32.yCoord, vec32.zCoord);
+        return vec31.addVector(vec32.xCoord, vec32.yCoord, vec32.zCoord);
     }
 
     public static Vec3 getSideCoords(EntityPlayer player, double amount, int side)
@@ -25,7 +25,7 @@ public class TFVectorHelper
         float rotationPitch = player.rotationPitch;
         float rotationYaw = player.rotationYaw + side;
         double posX = player.posX;
-        double posY = player.posY + 0.1;
+        double posY = player.boundingBox.minY;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -43,7 +43,7 @@ public class TFVectorHelper
         float f1 = 0;
         float rotationYaw = player.rotationYaw + (side ? -90 : 90);
         double posX = player.posX;
-        double posY = player.posY + 0.1;
+        double posY = player.boundingBox.minY;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -67,7 +67,7 @@ public class TFVectorHelper
 
         float rotationYaw = player.rotationYaw + (side ? -90 : 90);
         double posX = player.posX;
-        double posY = player.posY + 0.1;
+        double posY = player.boundingBox.minY;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -85,7 +85,7 @@ public class TFVectorHelper
         float rotationPitch = player.rotationPitch;
         float rotationYaw = player.rotationYaw;
         double posX = player.posX;
-        double posY = player.posY + 0.1;
+        double posY = player.boundingBox.minY;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
 
@@ -109,7 +109,7 @@ public class TFVectorHelper
         float rotationPitch = angle;
         float rotationYaw = player.rotationYaw;
         double posX = player.posX;
-        double posY = player.posY + 0.1;
+        double posY = player.boundingBox.minY;
         double posZ = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(posX, posY, posZ);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -127,7 +127,7 @@ public class TFVectorHelper
         float rotationPitch = angle;
         float rotationYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
         double d0 = player.posX;
-        double d1 = player.posY + 0.1;
+        double d1 = player.boundingBox.minY;
         double d2 = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
         float f3 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -145,7 +145,7 @@ public class TFVectorHelper
         float pitch = player.rotationPitch - angle;
         float yaw = angle;
         double d0 = player.posX;
-        double d1 = player.posY + 0.1;
+        double d1 = player.boundingBox.minY;
         double d2 = player.posZ;
         Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
         float f3 = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);

@@ -11,10 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
@@ -23,7 +20,6 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFRenderHelper;
@@ -35,7 +31,7 @@ public class GuiColorPresets extends GuiScreen
     private GuiColor parent;
 
     public static int ticks;
-    public static float[][] tempLayerColors = {{1, 1, 1}, {1, 1, 1}};
+    public static float[][] tempLayerColors = { {1, 1, 1}, {1, 1, 1}};
 
     public ColorPreset[] presets = {};
     public int columnsPerPage = 5;
@@ -52,45 +48,20 @@ public class GuiColorPresets extends GuiScreen
         buttonList.add(new GuiButton(1, width / 2 - 85, height / 6 + 130, 20, 20, "<"));
         buttonList.add(new GuiButton(2, width / 2 + 65, height / 6 + 130, 20, 20, ">"));
 
-        presets = new ColorPreset[]
-                {
+        presets = new ColorPreset[] {
                 // TFMod
-                new ColorPreset(0xa9a9a9, 0xcd0000, "Skystrike"),
-                new ColorPreset(0xa7a180, 0x672222, "Purge"),
-                new ColorPreset(0x919191, 0x651212, "Skystrike (Weathered)"),
-                new ColorPreset(0xff0000, 0x101010, "Purge (Classic)"),
+                new ColorPreset(0xa9a9a9, 0xcd0000, "Skystrike"), new ColorPreset(0xa7a180, 0x672222, "Purge"), new ColorPreset(0x919191, 0x651212, "Skystrike (Weathered)"), new ColorPreset(0xff0000, 0x101010, "Purge (Classic)"),
 
                 // Abstract
-                new ColorPreset(0xff4a00, 0x090909, "Halloween"),
-                new ColorPreset(0x2b0051, 0xbdbdbd, "Indigo"),
-                new ColorPreset(0x3b1458, 0x322277, "Eclipse"),
-                new ColorPreset(0x3db4d6, 0xb2ffff, "Cold"),
-                new ColorPreset(0x090909, 0x101010, "Night"),
-                new ColorPreset(0x3d87ff, 0x003dff, "Ocean"),
-                new ColorPreset(0xa7a180, 0x686653, "Desert"),
-                new ColorPreset(0x687893, 0x711010, "Perception"),
+                new ColorPreset(0xff4a00, 0x090909, "Halloween"), new ColorPreset(0x2b0051, 0xbdbdbd, "Indigo"), new ColorPreset(0x3b1458, 0x322277, "Eclipse"), new ColorPreset(0x3db4d6, 0xb2ffff, "Cold"), new ColorPreset(0x090909, 0x101010, "Night"), new ColorPreset(0x3d87ff, 0x003dff, "Ocean"), new ColorPreset(0xa7a180, 0x686653, "Desert"), new ColorPreset(0x687893, 0x711010, "Perception"),
 
                 // Canon
-                new ColorPreset(0x0000ff, 0xff0000, "G1 Optimus Prime"),
-                new ColorPreset(0xd7d7d7, 0x666868, "G1 Megatron"),
-                new ColorPreset(0xe4160e, 0x3636e8, "G1 Starscream"),
-                new ColorPreset(0xa0ff36, 0x9a009a, "G1 Constructicon"),
-                new ColorPreset(0xfe3978, 0x198014, "G1 Scorponok"),
-                new ColorPreset(0x7148d6, 0xfe6c6c, "G1 Galvatron"),
-                new ColorPreset(0xcdcdcd, 0x0e0e0e, "G1 Prowl"),
-                new ColorPreset(0x000083, 0xbb0000, "Movie Optimus Prime"),
-                new ColorPreset(0xddc600, 0x101010, "Bumblebee"),
-                new ColorPreset(0x173f17, 0x513838, "Brawl"),
-                new ColorPreset(0x880000, 0x4f0000, "Warpath"),
-                new ColorPreset(0x4f00b2, 0x656565, "Vehicon"),
-                new ColorPreset(0xa51919, 0xcf6300, "Hot-Rod"),
-                new ColorPreset(0x737a80, 0x2f3b47, "Starscream"),
-               };
+                new ColorPreset(0x0000ff, 0xff0000, "G1 Optimus Prime"), new ColorPreset(0xd7d7d7, 0x666868, "G1 Megatron"), new ColorPreset(0xe4160e, 0x3636e8, "G1 Starscream"), new ColorPreset(0xa0ff36, 0x9a009a, "G1 Constructicon"), new ColorPreset(0xfe3978, 0x198014, "G1 Scorponok"), new ColorPreset(0x7148d6, 0xfe6c6c, "G1 Galvatron"), new ColorPreset(0xcdcdcd, 0x0e0e0e, "G1 Prowl"), new ColorPreset(0x000083, 0xbb0000, "Movie Optimus Prime"), new ColorPreset(0xddc600, 0x101010, "Bumblebee"), new ColorPreset(0x173f17, 0x513838, "Brawl"), new ColorPreset(0x880000, 0x4f0000, "Warpath"), new ColorPreset(0x4f00b2, 0x656565, "Vehicon"), new ColorPreset(0xa51919, 0xcf6300, "Hot-Rod"), new ColorPreset(0x737a80, 0x2f3b47, "Starscream"),};
 
         int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;
         int yOffset = 0;
-        maxPages = presets.length / (maxPresetsPerPage);
+        maxPages = presets.length / maxPresetsPerPage;
 
         for (int i = 0; i < presets.length; ++i)
         {
@@ -102,7 +73,7 @@ public class GuiColorPresets extends GuiScreen
                 preset.posY = height / 6 + yOffset;
                 xOffset += 58;
 
-                if ((i % maxPresetsPerPage) % columnsPerPage == columnsPerPage - 1)
+                if (i % maxPresetsPerPage % columnsPerPage == columnsPerPage - 1)
                 {
                     xOffset = 0;
                     yOffset += 58;
@@ -126,7 +97,7 @@ public class GuiColorPresets extends GuiScreen
     public void updateScreen()
     {
         super.updateScreen();
-        ticks = ++parent.ticks;
+        ticks = ++GuiColor.ticks;
 
         for (ColorPreset preset : presets)
         {
@@ -155,7 +126,7 @@ public class GuiColorPresets extends GuiScreen
 
         if (id == 0)
         {
-            parent.fromPresetMenu = true;
+            GuiColor.fromPresetMenu = true;
             mc.displayGuiScreen(parent);
         }
         if (id == 1)
@@ -259,7 +230,7 @@ public class GuiColorPresets extends GuiScreen
 
                 xOffset += 58;
 
-                if ((i % maxPresetsPerPage) % columnsPerPage == columnsPerPage - 1)
+                if (i % maxPresetsPerPage % columnsPerPage == columnsPerPage - 1)
                 {
                     xOffset = 0;
                     yOffset += 58;
@@ -318,19 +289,14 @@ public class GuiColorPresets extends GuiScreen
             int l = height / 6 + 132;
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glPushMatrix();
-            GL11.glTranslatef((float) k, (float) l, 50.0F);
-            GL11.glScalef((float) (-60), (float) 60, (float) 60);
+            GL11.glTranslatef(k, l, 50.0F);
+            GL11.glScalef(-60, 60, 60);
             GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-            float f2 = entity.renderYawOffset;
-            float f3 = entity.rotationYaw;
-            float f4 = entity.rotationPitch;
-            float f5 = entity.prevRotationYawHead;
-            float f6 = entity.rotationYawHead;
             GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
             RenderHelper.enableStandardItemLighting();
             GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
-            GL11.glRotatef((float) (ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef((ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
             RenderManager.instance.playerViewY = 180.0F;
             TFRenderHelper.startGlScissor(width / 2 - 200, height / 6, 100, 150);
             RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
@@ -355,7 +321,7 @@ public class GuiColorPresets extends GuiScreen
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
 
-        drawCenteredString(fontRendererObj,StatCollector.translateToLocalFormatted("gui.display_station.color.presets.page", page + 1, maxPages + 1), width / 2, height / 6 + 135, 16777215);
+        drawCenteredString(fontRendererObj, StatCollector.translateToLocalFormatted("gui.display_station.color.presets.page", page + 1, maxPages + 1), width / 2, height / 6 + 135, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
         tempLayerColors[0][0] = 0;
         tempLayerColors[0][1] = 0;

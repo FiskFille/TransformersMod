@@ -41,7 +41,7 @@ public class RenderItemTileEntity implements IItemRenderer
             GL11.glRotatef(180, 0, 1, 0);
             GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         }
-        
+
         TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 }

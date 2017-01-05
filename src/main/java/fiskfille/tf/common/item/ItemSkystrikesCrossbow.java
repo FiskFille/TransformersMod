@@ -30,8 +30,6 @@ public class ItemSkystrikesCrossbow extends Item
     @Override
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean b)
     {
-        EntityPlayer player = (EntityPlayer) entity;
-
         if (!itemstack.hasTagCompound())
         {
             itemstack.setTagCompound(new NBTTagCompound());

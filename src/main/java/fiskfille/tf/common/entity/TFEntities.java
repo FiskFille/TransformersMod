@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class TFEntities
 {
-    public static void registerEntities()
+    public static void register()
     {
         registerEntity(EntityTankShell.class, "tank_shell", 20, 10, true);
         registerEntity(EntityMissile.class, "missile", 20, 10, true);

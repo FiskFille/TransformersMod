@@ -44,7 +44,7 @@ import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 import fiskfille.tf.helper.TFTextureHelper;
 
@@ -346,7 +346,7 @@ public class EnergonProcessorRecipeHandler extends TemplateRecipeHandler impleme
                         }
                     }
 
-                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(liquidAmount), TFEnergyHelper.formatNumber(recipe1.tank.getCapacity())));
+                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(liquidAmount), TFFormatHelper.formatNumber(recipe1.tank.getCapacity())));
                     colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
                     int guiLeft = ObfuscationReflectionHelper.getPrivateValue(GuiContainer.class, gui, 4);

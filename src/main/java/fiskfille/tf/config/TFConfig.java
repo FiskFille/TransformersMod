@@ -1,11 +1,13 @@
 package fiskfille.tf.config;
 
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.transformer.base.Transformer;
+import java.util.Map;
+
 import net.minecraftforge.common.config.Configuration;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.collect.Maps;
+
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFConfig
 {
@@ -16,13 +18,13 @@ public class TFConfig
     public static boolean useMiles;
     public static boolean checkForUpdates;
 
-    public static Map<Transformer, Boolean> canTransform = new HashMap<Transformer, Boolean>();
+    public static Map<Transformer, Boolean> canTransform = Maps.newHashMap();
 
-    private Configuration config;
+    public static Configuration configFile;
 
-    public void load(Configuration config)
+    public static void load(Configuration config)
     {
-        this.config = config;
+        configFile = config;
 
         checkForUpdates = getBoolean("Check For Updates", true, "If false, the Transformers Mod will not check for updates.");
         useMiles = getBoolean("Use Miles For Speed-Measurement", false, "If true, miles will be used instead of kilometers when measuring speed.");
@@ -41,24 +43,24 @@ public class TFConfig
         }
     }
 
-    private boolean getAestheticBoolean(String name, boolean defualt, String desc)
+    private static boolean getAestheticBoolean(String name, boolean defualt, String desc)
     {
-        return config.getBoolean(name, "Aesthetic", defualt, desc);
+        return configFile.getBoolean(name, "Aesthetic", defualt, desc);
     }
 
-    private boolean getProjectileBoolean(String name, boolean defualt, String desc)
+    private static boolean getProjectileBoolean(String name, boolean defualt, String desc)
     {
-        return config.getBoolean(name, "Projectiles", defualt, desc);
+        return configFile.getBoolean(name, "Projectiles", defualt, desc);
     }
 
-    private boolean getTransformationBoolean(String name, boolean defualt, String desc)
+    private static boolean getTransformationBoolean(String name, boolean defualt, String desc)
     {
-        return config.getBoolean(name, "Transformation", defualt, desc);
+        return configFile.getBoolean(name, "Transformation", defualt, desc);
     }
 
-    private boolean getBoolean(String name, boolean defualt, String desc)
+    private static boolean getBoolean(String name, boolean defualt, String desc)
     {
-        return config.getBoolean(name, "Options", defualt, desc);
+        return configFile.getBoolean(name, "Options", defualt, desc);
     }
 
     public static Boolean canTransform(Transformer transformer)

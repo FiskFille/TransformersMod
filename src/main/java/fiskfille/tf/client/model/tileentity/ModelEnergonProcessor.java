@@ -1,11 +1,11 @@
 package fiskfille.tf.client.model.tileentity;
 
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tools.ModelRendererBreakable;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
+import fiskfille.tf.common.tick.ClientTickHandler;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
-import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class ModelEnergonProcessor extends MowzieModelBase
 {
@@ -143,7 +143,7 @@ public class ModelEnergonProcessor extends MowzieModelBase
         rotatingrod_top.addChild(shape31);
         rotatingrod_top.addChild(flap2);
         rotatechamber_base.addChild(rotatechamber_1);
-        
+
         setInitPose();
     }
 
@@ -154,13 +154,13 @@ public class ModelEnergonProcessor extends MowzieModelBase
             setToInitPose();
         }
 
-        float animationTimer = TFRenderHelper.median(tileentity.animationTimer, tileentity.prevAnimationTimer, ClientEventHandler.renderTick);
-        float animationBurnTime = tileentity.burnTime > 0 ? tileentity.animationBurnTime + ClientEventHandler.renderTick : 0;
-        
+        float animationTimer = TFHelper.median(tileentity.animationTimer, tileentity.prevAnimationTimer, ClientTickHandler.renderTick);
+        float animationBurnTime = tileentity.burnTime > 0 ? tileentity.animationBurnTime + ClientTickHandler.renderTick : 0;
+
         rotatingrod_top.rotateAngleY = animationBurnTime * animationTimer * 2 + animationTimer * 10;
         rotatingrod_top.rotationPointY = 11 + animationTimer * 4;
-        flap1.rotateAngleX = (float) Math.PI / 2 * animationTimer * 0.9F;
-        flap2.rotateAngleX = (float) Math.PI / 2 * animationTimer * 0.9F;
+        flap1.rotateAngleX = PI / 2 * animationTimer * 0.9F;
+        flap2.rotateAngleX = PI / 2 * animationTimer * 0.9F;
         rotatechamber_base.rotateAngleY = -animationBurnTime * animationTimer - animationTimer * 10;
 
         shape14.render(0.0625F);

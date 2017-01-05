@@ -1,20 +1,21 @@
 package fiskfille.tf.common.network;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import io.netty.buffer.ByteBuf;
+
+import java.util.Map.Entry;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 
-public class MessageBroadcastState implements IMessage
+public class MessageBroadcastState extends MessageSyncBase
 {
     private int id;
-    private boolean stealth;
-    private int altMode;
 
     public MessageBroadcastState()
     {
@@ -23,25 +24,22 @@ public class MessageBroadcastState implements IMessage
 
     public MessageBroadcastState(EntityPlayer player)
     {
+        super(player);
         id = player.getEntityId();
-        stealth = TFDataManager.isInStealthMode(player);
-        altMode = TFDataManager.getAltMode(player);
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
+        super.fromBytes(buf);
         id = buf.readInt();
-        stealth = buf.readBoolean();
-        altMode = buf.readByte();
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
+        super.toBytes(buf);
         buf.writeInt(id);
-        buf.writeBoolean(stealth);
-        buf.writeByte(altMode);
     }
 
     public static class Handler implements IMessageHandler<MessageBroadcastState, IMessage>
@@ -49,10 +47,6 @@ public class MessageBroadcastState implements IMessage
         @Override
         public IMessage onMessage(MessageBroadcastState message, MessageContext ctx)
         {
-            int altMode = message.altMode;
-            boolean stealth = message.stealth;
-            boolean isTransformed = altMode != -1;
-
             if (ctx.side.isClient())
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
@@ -62,18 +56,22 @@ public class MessageBroadcastState implements IMessage
                 {
                     EntityPlayer lookupPlayer = (EntityPlayer) lookupEntity;
 
-                    TFDataManager.setAltModeWithoutNotify(lookupPlayer, altMode);
-                    TFDataManager.setTransformationTimer(lookupPlayer, isTransformed ? 0 : 20);
-                    TFDataManager.setInStealthModeWithoutNotify(lookupPlayer, stealth);
-                    TFDataManager.setStealthModeTimer(lookupPlayer, stealth ? 0 : 5);
+                    for (Entry<TFData, Object> e : message.playerData.entrySet())
+                    {
+                        e.getKey().setWithoutNotify(lookupPlayer, e.getValue());
+                    }
                 }
             }
             else
             {
                 EntityPlayer player = ctx.getServerHandler().playerEntity;
+
+                for (Entry<TFData, Object> e : message.playerData.entrySet())
+                {
+                    e.getKey().setWithoutNotify(player, e.getValue());
+                }
+
                 TFNetworkManager.networkWrapper.sendToDimension(new MessageBroadcastState(player), player.dimension);
-                TFDataManager.setAltModeWithoutNotify(player, altMode);
-                TFDataManager.setInStealthModeWithoutNotify(player, stealth);
             }
 
             return null;

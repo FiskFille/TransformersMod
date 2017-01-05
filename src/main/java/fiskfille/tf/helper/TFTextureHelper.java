@@ -8,7 +8,7 @@ public class TFTextureHelper
 {
     public static IIcon energonFlowingIcon;
     public static IIcon energonStillIcon;
-    
+
     public static ResourceLocation getSkin(String username)
     {
         ResourceLocation resourcelocation = AbstractClientPlayer.locationStevePng;

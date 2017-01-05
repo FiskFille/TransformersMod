@@ -15,7 +15,7 @@ import fiskfille.tf.helper.TFArmorHelper;
 
 public class ContainerDisplayStationArmor extends ContainerBasic
 {
-	public InventoryDisplayStationArmor craftMatrix = new InventoryDisplayStationArmor(this);
+    public InventoryDisplayStationArmor craftMatrix = new InventoryDisplayStationArmor(this);
 
     public ContainerDisplayStationArmor(final InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
     {
@@ -40,7 +40,7 @@ public class ContainerDisplayStationArmor extends ContainerBasic
                 }
             });
         }
-        
+
         for (int i = 0; i < 4; ++i)
         {
             final int k = i;
@@ -66,24 +66,24 @@ public class ContainerDisplayStationArmor extends ContainerBasic
                 }
             });
         }
-        
+
         addPlayerInventory(inventoryPlayer, 20);
-        
+
         for (int i = 0; i < 4; ++i)
         {
-        	ItemStack itemstack = tile.getStackInSlot(i);
+            ItemStack itemstack = tile.getStackInSlot(i);
 
-        	if (itemstack != null)
-        	{
-        		craftMatrix.setInventorySlotContents(i, TFArmorHelper.getArmorShell(itemstack));
-        	}
+            if (itemstack != null)
+            {
+                craftMatrix.setInventorySlotContents(i, TFArmorHelper.getArmorShell(itemstack));
+            }
         }
     }
 
     @Override
     public void onCraftMatrixChanged(IInventory iinventory)
     {
-    	super.onCraftMatrixChanged(iinventory);
+        super.onCraftMatrixChanged(iinventory);
     }
 
     @Override
@@ -112,42 +112,32 @@ public class ContainerDisplayStationArmor extends ContainerBasic
             itemstack = itemstack1.copy();
 
             // If itemstack is in Output stack
-            /*if (slotId == LEGS2)
+            /*
+             * if (slotId == LEGS2) { // try to place in player inventory / action bar; add 36 + 1 because mergeItemStack uses < index, // so the last slot in the inventory won't get checked if you don't add 1 if (!mergeItemStack(itemstack1, LEGS2 + 1, LEGS2 + 36 + 1, true)) { return null; } slot.onSlotChange(itemstack1, itemstack); } // itemstack is in player inventory, try to place in appropriate furnace slot else
+             */if (slotId > FEET2)
             {
-                // try to place in player inventory / action bar; add 36 + 1 because mergeItemStack uses < index,
-                // so the last slot in the inventory won't get checked if you don't add 1
-                if (!mergeItemStack(itemstack1, LEGS2 + 1, LEGS2 + 36 + 1, true))
-                {
-                    return null;
-                }
-
-                slot.onSlotChange(itemstack1, itemstack);
-            }
-            // itemstack is in player inventory, try to place in appropriate furnace slot
-            else */if (slotId > FEET2)
-            {
-                if (itemstack1.getItem().isValidArmor(itemstack1, HEAD, player) && (itemstack1.getItem() instanceof ItemTransformerArmor))
+                if (itemstack1.getItem().isValidArmor(itemstack1, HEAD, player) && itemstack1.getItem() instanceof ItemTransformerArmor)
                 {
                     if (!mergeItemStack(itemstack1, HEAD, HEAD + 1, false))
                     {
                         return null;
                     }
                 }
-                else if (itemstack1.getItem().isValidArmor(itemstack1, CHEST, player) && (itemstack1.getItem() instanceof ItemTransformerArmor))
+                else if (itemstack1.getItem().isValidArmor(itemstack1, CHEST, player) && itemstack1.getItem() instanceof ItemTransformerArmor)
                 {
                     if (!mergeItemStack(itemstack1, CHEST, CHEST + 1, false))
                     {
                         return null;
                     }
                 }
-                else if (itemstack1.getItem().isValidArmor(itemstack1, LEGS, player) && (itemstack1.getItem() instanceof ItemTransformerArmor))
+                else if (itemstack1.getItem().isValidArmor(itemstack1, LEGS, player) && itemstack1.getItem() instanceof ItemTransformerArmor)
                 {
                     if (!mergeItemStack(itemstack1, LEGS, LEGS + 1, false))
                     {
                         return null;
                     }
                 }
-                else if (itemstack1.getItem().isValidArmor(itemstack1, FEET, player) && (itemstack1.getItem() instanceof ItemTransformerArmor))
+                else if (itemstack1.getItem().isValidArmor(itemstack1, FEET, player) && itemstack1.getItem() instanceof ItemTransformerArmor)
                 {
                     if (!mergeItemStack(itemstack1, FEET, FEET + 1, false))
                     {

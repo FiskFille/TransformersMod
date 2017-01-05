@@ -32,7 +32,7 @@ public class EntityTransformer extends EntityCreature
         tasks.addTask(0, new EntityAISwimming(this));
         tasks.addTask(0, new EntityAIWander(this, 0.45F));
         tasks.addTask(1, new EntityAIAttackOnCollide(this, 0.5D, true));
-        tasks.addTask(1, new EntityAITransform(this, EntityVillager.class, 20)); //Robots in disguise!
+        tasks.addTask(1, new EntityAITransform(this, EntityVillager.class, 20)); // Robots in disguise!
         tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 4F, 10F));
         tasks.addTask(3, new EntityAIAvoidEntity(this, EntityTransformiumSeed.class, 100F, 0.6F, 0.6F));
         tasks.addTask(2, new EntityAILookIdle(this));
@@ -150,7 +150,7 @@ public class EntityTransformer extends EntityCreature
     @Override
     public ItemStack[] getLastActiveItems()
     {
-        return new ItemStack[]{};
+        return new ItemStack[] {};
     }
 
     @Override

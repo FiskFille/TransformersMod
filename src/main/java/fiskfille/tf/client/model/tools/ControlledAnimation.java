@@ -5,10 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.MathHelper;
 
 /**
- * This is a timer that can be used to easily animate models between poses. You
- * have to set the number of ticks between poses, increase or decrease the
- * timer, and get the percentage using a specific function.
- *
+ * This is a timer that can be used to easily animate models between poses. You have to set the number of ticks between poses, increase or decrease the timer, and get the percentage using a specific function.
+ * 
  * @author RafaMv
  */
 @SideOnly(Side.CLIENT)
@@ -20,8 +18,7 @@ public class ControlledAnimation
     private double timer;
 
     /**
-     * It is the limit time, the maximum value that the timer can be. I
-     * represents the duration of the animation
+     * It is the limit time, the maximum value that the timer can be. I represents the duration of the animation
      */
     private double duration;
 
@@ -35,7 +32,7 @@ public class ControlledAnimation
 
     /**
      * Sets the duration of the animation in ticks. Try values around 50.
-     *
+     * 
      * @param duration is the maximum number of ticks that the timer can reach.
      */
     public void setDuration(int duration)
@@ -54,7 +51,7 @@ public class ControlledAnimation
 
     /**
      * Sets the timer to a specific value.
-     *
+     * 
      * @param time is the number of ticks to be set.
      */
     public void setTimer(int time)
@@ -101,7 +98,7 @@ public class ControlledAnimation
 
     /**
      * Increases the timer by a specific value.
-     *
+     * 
      * @param time is the number of ticks to be increased in the timer
      */
     public void increaseTimer(int time)
@@ -138,7 +135,7 @@ public class ControlledAnimation
 
     /**
      * Decreases the timer by a specific value.
-     *
+     * 
      * @param time is the number of ticks to be decreased in the timer
      */
     public void decreaseTimer(int time)
@@ -162,9 +159,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using 1/(1 + e^(4-8*x)). It
-     * is quite uniform but slow, and needs if statements.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using 1/(1 + e^(4-8*x)). It is quite uniform but slow, and needs if statements.
      */
     public float getAnimationProgressSmooth()
     {
@@ -183,9 +178,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using 1/(1 + e^(6-12*x)). It
-     * is quite uniform, but fast.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using 1/(1 + e^(6-12*x)). It is quite uniform, but fast.
      */
     public float getAnimationProgressSteep()
     {
@@ -193,9 +186,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using a sine function. It is
-     * fast in the beginning and slow in the end.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using a sine function. It is fast in the beginning and slow in the end.
      */
     public float getAnimationProgressSin()
     {
@@ -203,9 +194,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using a sine function
-     * squared. It is very smooth.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using a sine function squared. It is very smooth.
      */
     public float getAnimationProgressSinSqrt()
     {
@@ -214,9 +203,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using a sine function to the
-     * power of ten. It is slow in the beginning and fast in the end.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using a sine function to the power of ten. It is slow in the beginning and fast in the end.
      */
     public float getAnimationProgressSinToTen()
     {
@@ -234,10 +221,8 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using a sine function to a
-     * specific power "i."
-     *
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using a sine function to a specific power "i."
+     * 
      * @param i is the power of the sine function.
      */
     public float getAnimationProgressSinPowerOf(int i)
@@ -246,9 +231,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using x^2 / (x^2 + (1-x)^2).
-     * It is smooth.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using x^2 / (x^2 + (1-x)^2). It is smooth.
      */
     public float getAnimationProgressPoly2()
     {
@@ -258,9 +241,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using x^3 / (x^3 + (1-x)^3).
-     * It is steep.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using x^3 / (x^3 + (1-x)^3). It is steep.
      */
     public float getAnimationProgressPoly3()
     {
@@ -270,10 +251,8 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using x^n / (x^n + (1-x)^n).
-     * It is steeper when n increases.
-     *
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using x^n / (x^n + (1-x)^n). It is steeper when n increases.
+     * 
      * @param n is the power of the polynomial function.
      */
     public float getAnimationProgressPolyN(int n)
@@ -284,9 +263,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. It reaches 1.0F using 0.5 + arctan(PI * (x -
-     * 0.5)) / 2.00776964. It is super smooth.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. It reaches 1.0F using 0.5 + arctan(PI * (x - 0.5)) / 2.00776964. It is super smooth.
      */
     public float getAnimationProgressArcTan()
     {
@@ -294,9 +271,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation.
-     * This value starts at 1.0F and ends at 1.0F.
-     * The equation used is 0.5 - 0.5 * cos(2 * PI * x + sin(2 * PI * x)). It is smooth.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. This value starts at 1.0F and ends at 1.0F. The equation used is 0.5 - 0.5 * cos(2 * PI * x + sin(2 * PI * x)). It is smooth.
      */
     public float getAnimationProgressTemporary()
     {
@@ -305,9 +280,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration
-     * of the animation. This value starts at 0.0F and ends at 0.0F.
-     * The equation used is sin(x * PI + sin(x * PI)). It is fast in the beginning and slow in the end.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. This value starts at 0.0F and ends at 0.0F. The equation used is sin(x * PI + sin(x * PI)). It is fast in the beginning and slow in the end.
      */
     public float getAnimationProgressTemporaryFS()
     {
@@ -316,9 +289,7 @@ public class ControlledAnimation
     }
 
     /**
-     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation.
-     * This value starts at 1.0F and ends at 1.0F.
-     * The equation used is 0.5 + 0.5 * cos(2 PI * x + sin(2 * PI * x)). It is smooth.
+     * Returns a value between 0.0F and 1.0F depending on the timer and duration of the animation. This value starts at 1.0F and ends at 1.0F. The equation used is 0.5 + 0.5 * cos(2 PI * x + sin(2 * PI * x)). It is smooth.
      */
     public float getAnimationProgressTemporaryInvesed()
     {

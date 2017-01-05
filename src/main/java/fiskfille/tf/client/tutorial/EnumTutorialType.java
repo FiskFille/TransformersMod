@@ -8,10 +8,7 @@ import fiskfille.tf.client.tutorial.ticker.TutorialTickerTruck;
 
 public enum EnumTutorialType
 {
-    JET(new TutorialTickerJet()),
-    TANK(new TutorialTickerTank()),
-    CAR(new TutorialTickerCar()),
-    TRUCK(new TutorialTickerTruck());
+    JET(new TutorialTickerJet()), TANK(new TutorialTickerTank()), CAR(new TutorialTickerCar()), TRUCK(new TutorialTickerTruck());
 
     public TutorialTicker ticker;
 
@@ -20,6 +17,7 @@ public enum EnumTutorialType
         this.ticker = ticker;
     }
 
+    @Override
     public String toString()
     {
         return "tutorial(" + name() + ")";

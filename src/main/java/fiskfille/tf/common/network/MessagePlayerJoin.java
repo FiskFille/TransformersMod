@@ -1,45 +1,51 @@
 package fiskfille.tf.common.network;
 
+import io.netty.buffer.ByteBuf;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import net.minecraft.entity.player.EntityPlayer;
+
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-public class MessagePlayerJoin implements IMessage
+public class MessagePlayerJoin extends MessageSyncBase
 {
     private Map<Transformer, Boolean> canTransform;
-
-    private int altMode;
-    private boolean stealthForce;
 
     public MessagePlayerJoin()
     {
     }
 
-    public MessagePlayerJoin(int altMode, boolean stealthForce, Map<Transformer, Boolean> canTransform)
+    public MessagePlayerJoin(EntityPlayer player)
     {
-        this.canTransform = canTransform;
-        this.altMode = altMode;
-        this.stealthForce = stealthForce;
+        super(player);
+        canTransform = TFConfig.canTransform;
+
+        if (canTransform.isEmpty())
+        {
+            for (Transformer transformer : TransformersAPI.getTransformers())
+            {
+                transformer.getName();
+                canTransform.put(transformer, true);
+            }
+        }
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        altMode = buf.readByte();
-        stealthForce = buf.readBoolean();
-
-        canTransform = new HashMap<Transformer, Boolean>();
+        super.fromBytes(buf);
+        canTransform = Maps.newHashMap();
 
         for (Transformer transformer : TransformersAPI.getTransformers())
         {
@@ -50,8 +56,7 @@ public class MessagePlayerJoin implements IMessage
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeByte(altMode);
-        buf.writeBoolean(stealthForce);
+        super.toBytes(buf);
 
         for (Entry<Transformer, Boolean> transformable : canTransform.entrySet())
         {
@@ -68,11 +73,10 @@ public class MessagePlayerJoin implements IMessage
             {
                 EntityPlayer player = TransformersMod.proxy.getPlayer();
 
-                TFDataManager.setAltModeWithoutNotify(player, message.altMode);
-                TFDataManager.setInStealthModeWithoutNotify(player, message.stealthForce);
-
-                TFDataManager.setTransformationTimer(player, (message.altMode != -1) ? 0 : 20);
-                TFDataManager.setStealthModeTimer(player, message.stealthForce ? 0 : 5);
+                for (Entry<TFData, Object> e : message.playerData.entrySet())
+                {
+                    e.getKey().setWithoutNotify(player, e.getValue());
+                }
 
                 if (message.canTransform != null)
                 {

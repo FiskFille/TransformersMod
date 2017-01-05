@@ -24,7 +24,7 @@ public class ModelPowerCanister extends MowzieModelBase
         canister1.addBox(-1.5F, -10.0F, -1.5F, 3, 10, 3, 0.0F);
         canister1.addChild(canister3);
         canister1.addChild(canister2);
-        
+
         setInitPose();
     }
 

@@ -59,7 +59,7 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
                 }
             }
 
-            float f1 = 1 - (float) (tileentity.lastUpdate > 0 ? tileentity.lastUpdate + partialTicks - 1 : 0) / 6;
+            float f1 = 1 - (tileentity.lastUpdate > 0 ? tileentity.lastUpdate + partialTicks - 1 : 0) / 6;
 
             if (tileentity.lastUpdate == 0)
             {
@@ -94,7 +94,7 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 //            GL11.glDisable(GL11.GL_TEXTURE_2D);
 //            drawPortal(0, 0, zOffset, scale, radius, edge, indent, false);
 //            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            
+
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
             GL11.glEnable(GL11.GL_LIGHTING);
             TFRenderHelper.resetLighting();
@@ -110,17 +110,17 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
         GL11.glScalef(scale, scale, 1);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawing(GL11.GL_TRIANGLES);
-        
+
         float corners = 45;
         float angle = 360F / corners;
         float offset = 0;
-        
+
         for (int i = 0; i < 3; ++i)
         {
             float radius = 0;
             float innerRadius = 0;
             float dent = 0;
-            
+
             if (i == 0)
             {
                 radius = 2;
@@ -137,21 +137,20 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
             {
                 radius = 0.25F;
             }
-            
+
             for (int j = 0; j < corners; ++j)
             {
                 Vec3 pos1 = Vec3.createVectorHelper(0, radius, 0);
                 Vec3 pos2 = Vec3.createVectorHelper(0, radius, 0);
-                pos1.rotateAroundZ(angle * j * (float)Math.PI / 180.0F);
-                pos2.rotateAroundZ(angle * (j - 1) * (float)Math.PI / 180.0F);
+                pos1.rotateAroundZ(angle * j * (float) Math.PI / 180.0F);
+                pos2.rotateAroundZ(angle * (j - 1) * (float) Math.PI / 180.0F);
                 Vec3 pos3 = Vec3.createVectorHelper((pos1.xCoord + pos2.xCoord) / 2, (pos1.yCoord + pos2.yCoord) / 2, (pos1.zCoord + pos2.zCoord) / 2);
-                
-                
+
                 Vec3 pos4 = Vec3.createVectorHelper(0, innerRadius, 0);
                 Vec3 pos5 = Vec3.createVectorHelper(0, innerRadius, 0);
-                pos4.rotateAroundZ(angle * j * (float)Math.PI / 180.0F);
-                pos5.rotateAroundZ(angle * (j - 1) * (float)Math.PI / 180.0F);
-                
+                pos4.rotateAroundZ(angle * j * (float) Math.PI / 180.0F);
+                pos5.rotateAroundZ(angle * (j - 1) * (float) Math.PI / 180.0F);
+
                 if (!invert)
                 {
                     tessellator.addVertex(pos3.xCoord, pos3.yCoord, offset);
@@ -177,10 +176,10 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
                     tessellator.addVertex(pos5.xCoord, pos5.yCoord, dent + offset);
                 }
             }
-            
+
             offset += dent;
         }
-        
+
         tessellator.draw();
         GL11.glPopMatrix();
     }

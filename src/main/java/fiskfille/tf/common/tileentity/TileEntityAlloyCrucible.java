@@ -76,7 +76,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             {
                 smeltTime = 0;
             }
-            
+
             float usage = storage.calculateUsage();
 
             if (Math.abs(usage - lastUsage) > 0.001F)
@@ -109,12 +109,12 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     {
         return 2;
     }
-    
+
     public int getSmeltTimeMax()
     {
         return alloyResult && smeltingResult != null ? AlloyRecipes.getInstance().getSmeltTime(smeltingResult) : 150;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getSmeltProgressScaled(int i)
     {
@@ -140,7 +140,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                         {
                             smeltingResult = result;
                             alloyResult = true;
-                            
+
                             return list.toArray(new ItemStack[3]);
                         }
                         else if (inventory[3].isItemEqual(result))
@@ -151,7 +151,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                             {
                                 smeltingResult = result;
                                 alloyResult = true;
-                                
+
                                 return list.toArray(new ItemStack[3]);
                             }
                         }
@@ -189,7 +189,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                 }
             }
         }
-        
+
         if (!list.isEmpty())
         {
             smeltingResult = list.getFirst();
@@ -206,7 +206,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             if (smeltingMode != EnumSmeltingMode.FURNACE)
             {
                 ItemStack result = AlloyRecipes.getInstance().getSmeltingResult(new AlloyIngredients(Arrays.asList(getStacksToSmelt()).toArray()));
-                
+
                 if (result != null)
                 {
                     if (inventory[3] == null)
@@ -217,9 +217,9 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                     {
                         inventory[3].stackSize += result.stackSize;
                     }
-                    
+
                     List<ItemStack> list = Lists.newArrayList(getStacksToSmelt());
-                    
+
                     for (int i = 0; i < 3; ++i)
                     {
                         if (inventory[i] != null && list.contains(inventory[i]))
@@ -233,9 +233,9 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                             }
                         }
                     }
-                    
+
                     smeltingResult = null;
-                    
+
                     return;
                 }
             }
@@ -243,7 +243,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             if (smeltingMode != EnumSmeltingMode.ALLOY)
             {
                 ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(getStacksToSmelt()[0]);
-                
+
                 if (result != null)
                 {
                     for (int i = 0; i < 3; ++i)
@@ -265,7 +265,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
                             {
                                 inventory[i] = null;
                             }
-                            
+
                             smeltingResult = null;
 
                             return;
@@ -275,23 +275,23 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             }
         }
     }
-    
+
     @Override
     protected void readCustomNBT(NBTTagCompound nbt)
     {
         super.readCustomNBT(nbt);
         smeltingMode = EnumSmeltingMode.values()[MathHelper.clamp_int(nbt.getByte("Mode"), 0, EnumSmeltingMode.values().length - 1)];
         smeltTime = nbt.getShort("SmeltTime");
-        
+
         receiverHandler.readFromNBT(nbt);
-        
+
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
             NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
             storage.readFromNBT(config);
         }
     }
-    
+
     @Override
     protected void writeCustomNBT(NBTTagCompound nbt)
     {
@@ -300,7 +300,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
         nbt.setShort("SmeltTime", (short) smeltTime);
 
         receiverHandler.writeToNBT(nbt);
-        
+
         if (storage.getEnergy() > 0)
         {
             NBTTagCompound config = new NBTTagCompound();
@@ -374,7 +374,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     {
         return 0xFF0000;
     }
-    
+
     @Override
     public String getInventoryName()
     {
@@ -411,7 +411,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     {
         return slot == 3;
     }
-    
+
     @Override
     public void receive(EntityPlayer player, int action)
     {
@@ -419,14 +419,12 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
         {
             smeltingMode = EnumSmeltingMode.values()[(smeltingMode.ordinal() + 1) % EnumSmeltingMode.values().length];
         }
-        
+
         markDirty();
     }
 
     public enum EnumSmeltingMode
     {
-        ALLOY,
-        FURNACE,
-        BOTH
+        ALLOY, FURNACE, BOTH
     }
 }

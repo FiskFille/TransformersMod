@@ -5,7 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
@@ -26,7 +25,7 @@ public class ContainerAlloyCrucible extends ContainerBasic
         addSlotToContainer(new SlotAlloyCrucible(inventoryPlayer.player, tile, 3, 107, 28));
         addPlayerInventory(inventoryPlayer, 4);
     }
-    
+
     @Override
     public TileEntityAlloyCrucible getTile()
     {

@@ -52,15 +52,13 @@ public class TransmissionHandler
 
         if (!world.isRemote)
         {
-            for (Iterator<TargetReceiver> iterator = this.receivers.iterator(); iterator.hasNext(); )
+            for (Iterator<TargetReceiver> iterator = this.receivers.iterator(); iterator.hasNext();)
             {
                 TargetReceiver targetReceiver = iterator.next();
                 TileEntity receiverTile = targetReceiver.getTile();
 
                 if (receiverTile instanceof IEnergyReceiver)
                 {
-                    IEnergyReceiver receiver = (IEnergyReceiver) receiverTile;
-
                     boolean invalid = world.getChunkProvider().chunkExists(receiverTile.xCoord >> 4, receiverTile.zCoord >> 4) && (receiverTile.isInvalid() || !exists(world, receiverTile));
                     boolean outRange = !TFEnergyHelper.isInRange(owner, receiverTile);
                     boolean destroyed = !invalid && !exists(world, receiverTile);
@@ -106,7 +104,7 @@ public class TransmissionHandler
 
             TileEntity tile = receiver.getTile();
 
-            if (world.isRemote || (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.owner)))
+            if (world.isRemote || tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.owner))
             {
                 add(receiver);
                 return true;

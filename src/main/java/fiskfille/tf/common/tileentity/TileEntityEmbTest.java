@@ -48,7 +48,7 @@ public class TileEntityEmbTest extends TileEntityTF implements IEnergyReceiver
     public void readCustomNBT(NBTTagCompound nbt)
     {
         receiverHandler.readFromNBT(nbt);
-        
+
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
             NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
@@ -60,7 +60,7 @@ public class TileEntityEmbTest extends TileEntityTF implements IEnergyReceiver
     public void writeCustomNBT(NBTTagCompound nbt)
     {
         receiverHandler.writeToNBT(nbt);
-        
+
         if (storage.getEnergy() > 0)
         {
             NBTTagCompound config = new NBTTagCompound();
@@ -128,7 +128,7 @@ public class TileEntityEmbTest extends TileEntityTF implements IEnergyReceiver
     {
         return Vec3.createVectorHelper(0, 0.5D, 0);
     }
-    
+
     @Override
     public int getMapColor()
     {

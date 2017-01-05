@@ -1,7 +1,6 @@
 package fiskfille.tf.common.item;
 
 import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFHelper;
@@ -23,9 +22,7 @@ public class ItemVurpsSniper extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        boolean isCreativeMode = player.capabilities.isCreativeMode;
-
-        if (TFHelper.isPlayerVurp(player) && !TFDataManager.isTransformed(player))
+        if (TFHelper.isPlayerVurp(player) && !TFHelper.isFullyTransformed(player))
         {
             if (world.isRemote)
             {

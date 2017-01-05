@@ -31,13 +31,13 @@ public class TFBlocks
     public static Block transformiumStone;
     public static Block transformiumSeed;
     public static Block cosmicRust;
-    
+
     // Energon
     public static Block energonCrystal;
     public static Block redEnergonCrystal;
     public static Block energonCube;
     public static Block redEnergonCube;
-    
+
     // Aesthetic
     public static Block displayPillar;
     public static Block displayStation;
@@ -46,7 +46,7 @@ public class TFBlocks
     public static Block stainedGlass;
     public static Block stainedGlassPane;
     public static Block carpet;
-    
+
     // Functional
     public static Block assemblyTable;
     public static Block alloyCrucible;
@@ -59,7 +59,7 @@ public class TFBlocks
     public static Block groundBridgeFrame;
     public static Block groundBridgeTeleporter;
     public static Block groundBridgeControlPanel;
-    
+
     public static Block embTest;
 
     public static void register()
@@ -69,12 +69,12 @@ public class TFBlocks
         transformiumStone = new BlockTransformiumStone().setResistance(1000.0F);
         transformiumSeed = new BlockTransformiumSeed();
         cosmicRust = new BlockCosmicRust();
-        
+
         energonCrystal = new BlockEnergonCrystal(TFEnergonManager.energon);
         redEnergonCrystal = new BlockEnergonCrystal(TFEnergonManager.redEnergon);
         energonCube = new BlockEnergonCube(TFEnergonManager.energon);
         redEnergonCube = new BlockEnergonCube(TFEnergonManager.redEnergon);
-        
+
         displayPillar = new BlockDisplayPillar();
         displayStation = new BlockDisplayStation();
         wool = new BlockColoredTF(Material.cloth).setHardness(0.8F).setStepSound(Block.soundTypeCloth);
@@ -82,7 +82,7 @@ public class TFBlocks
         stainedGlass = new BlockStainedGlassTF().setHardness(0.3F).setStepSound(Block.soundTypeGlass);
         stainedGlassPane = new BlockStainedGlassPaneTF().setHardness(0.3F).setStepSound(Block.soundTypeGlass);
         carpet = new BlockCarpetTF().setHardness(0.1F).setStepSound(Block.soundTypeCloth).setLightOpacity(0);
-        
+
         assemblyTable = new BlockAssemblyTable();
         alloyCrucible = new BlockAlloyCrucible();
         energonProcessor = new BlockEnergonProcessor();
@@ -94,21 +94,20 @@ public class TFBlocks
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
         groundBridgeControlPanel = new BlockControlPanel();
-        
-        embTest = new BlockEmbTest();
 
+        embTest = new BlockEmbTest();
 
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore");
         TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium");
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone");
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class);
         TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust");
-        
+
         TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class);
         TFBlockRegistry.registerTileEntity(redEnergonCrystal, "Red Energon Crystal", TileEntityCrystal.class);
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube");
         TFBlockRegistry.registerBlock(redEnergonCube, "Red Energon Cube");
-        
+
         TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class);
         TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class);
         TFBlockRegistry.registerItemBlock(wool, "Wool", ItemColoredTF.class);
@@ -116,7 +115,7 @@ public class TFBlocks
         TFBlockRegistry.registerItemBlock(stainedGlass, "Stained Glass", ItemColoredTF.class);
         TFBlockRegistry.registerItemBlock(stainedGlassPane, "Stained Glass Pane", ItemColoredTF.class);
         TFBlockRegistry.registerItemBlock(carpet, "Carpet", ItemColoredTF.class);
-        
+
         TFBlockRegistry.registerTileEntity(assemblyTable, "Transformer Assembly Table", TileEntityAssemblyTable.class);
         TFBlockRegistry.registerMachine(alloyCrucible, "Alloy Crucible", TileEntityAlloyCrucible.class);
         TFBlockRegistry.registerMachine(energonProcessor, "Energon Processor", TileEntityEnergonProcessor.class);
@@ -128,9 +127,9 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class);
         TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);
         TFBlockRegistry.registerItemBlockAsTileEntity(groundBridgeControlPanel, "Ground Bridge Control Panel", TileEntityControlPanel.class, ItemGroundBridgeControl.class);
-        
+
         TFBlockRegistry.registerTileEntity(embTest, "EmB Test", TileEntityEmbTest.class);
-        
+
         groundBridgeTeleporter.setCreativeTab(null);
     }
 }

@@ -22,13 +22,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.motion.TFMotionManager;
-import fiskfille.tf.common.motion.VehicleMotion;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
@@ -37,19 +35,13 @@ import fiskfille.tf.helper.TFShootManager;
 
 public class GuiOverlay extends Gui
 {
-    private Minecraft mc;
-    private RenderItem itemRenderer;
+    private Minecraft mc = Minecraft.getMinecraft();
+    private RenderItem itemRenderer = new RenderItem();
+
     public static final ResourceLocation texture = new ResourceLocation(TransformersMod.modid, "textures/gui/mod_icons.png");
 
     public static double prevSpeed;
     public static double speed;
-
-    public GuiOverlay(Minecraft mc)
-    {
-        super();
-        this.mc = mc;
-        itemRenderer = new RenderItem();
-    }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
@@ -64,7 +56,7 @@ public class GuiOverlay extends Gui
             if (event.type == ElementType.HOTBAR)
             {
                 Transformer transformer = TFHelper.getTransformer(player);
-                boolean flag = transformer == null || transformer.renderSpeedAndNitro(player, TFDataManager.getAltMode(player));
+                boolean flag = transformer == null || transformer.renderSpeedAndNitro(player, TFData.ALT_MODE.get(player));
 
                 if (flag)
                 {
@@ -81,22 +73,23 @@ public class GuiOverlay extends Gui
 
     public void renderLaserCharge(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
-        int altMode = TFDataManager.getAltMode(player);
+        int altMode = TFData.ALT_MODE.get(player);
 
         ItemStack heldItem = player.getHeldItem();
         Transformer transformer = TFHelper.getTransformer(player);
-        boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick) == 20;
+        boolean hasSniper = heldItem != null && heldItem.getItem() instanceof ItemVurpsSniper && TFHelper.isInRobotMode(player);
 
         if (transformer instanceof TransformerVurp && (hasSniper || transformer.canShoot(player, altMode)))
         {
-            float stealthModeTimer = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
+            float stealthModeTimer = TFHelper.getStealthModeTimer(player);
 
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glColor4f(0F, 0F, 0F, 0.3F);
 
-            int x = (int) ((5 - stealthModeTimer) * 20 - 94);
+            int offset = Math.round((1 - Math.min(TFHelper.getTransformationTimer(player), stealthModeTimer)) * 210);
+            int x = 6 - offset;
 
             if (hasSniper)
             {
@@ -110,7 +103,7 @@ public class GuiOverlay extends Gui
                 y = 30;
             }
 
-            //Charge Outline
+            // Charge Outline
             drawTexturedModalRect(x + 17, y, 0, 0, 102, 12);
 
             if (hasSniper)
@@ -122,9 +115,8 @@ public class GuiOverlay extends Gui
                 GL11.glColor4f(1F, 0F, 0F, 0.5F);
             }
 
-            //Charge Bar
+            // Charge Bar
             drawTexturedModalRect(x + 18, y + 1, 0, 0, TFShootManager.laserCharge * 2, 10);
-
 
             GL11.glColor4f(0F, 0F, 0F, 0.2F);
             drawTexturedModalRect(x - 1, y, 0, 0, 16, 16);
@@ -132,7 +124,6 @@ public class GuiOverlay extends Gui
             GL11.glEnable(GL11.GL_TEXTURE_2D);
 
             drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.laser_charge.name"), x + 50 + 18, y + 2, 0xffffff);
-
 
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glDisable(GL11.GL_BLEND);
@@ -154,68 +145,51 @@ public class GuiOverlay extends Gui
 
     public void renderNitroAndSpeed(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
-        VehicleMotion transformedPlayer = TFMotionManager.getTransformerPlayer(player);
+        float transformationTimer = TFHelper.getTransformationTimer(player);
 
-        float transformationTimer = TFDataManager.getTransformationTimer(player, event.partialTicks);
-
-        if (transformedPlayer != null && transformationTimer <= 20)
+        if (transformationTimer > 0)
         {
-            float nitro = transformedPlayer.getPrevNitro() + (transformedPlayer.getNitro() - transformedPlayer.getPrevNitro()) * event.partialTicks;
-            int i = (int)(transformationTimer * 10);
-            
-            if (transformationTimer <= 19)
-            {
-                double speed = GuiOverlay.prevSpeed + (GuiOverlay.speed - GuiOverlay.prevSpeed) * event.partialTicks;
+            float nitro = TFHelper.median(TFData.NITRO.get(player), TFData.PREV_NITRO.get(player), event.partialTicks);
+            double speed = TFHelper.median(GuiOverlay.speed, GuiOverlay.prevSpeed, event.partialTicks);
+            int offset = Math.round((1 - transformationTimer) * 210);
 
-                GL11.glDisable(GL11.GL_TEXTURE_2D);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glColor4f(0F, 0F, 0F, 0.3F);
-                //Speed Outline
-                drawTexturedModalRect(5 - i, 3, 0, 0, 202, 12);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glColor4f(0F, 0F, 0F, 0.3F);
+            // Speed Outline
+            drawTexturedModalRect(5 - offset, 3, 0, 0, 202, 12);
 
-                //Nitro Outline
-                drawTexturedModalRect(5 - i, 16, 0, 0, 202, 12);
-                GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
-                //Nitro Bar
-                drawTexturedModalRect(6 - i, 4, 0, 0, (int) (nitro * 1.25F), 10);
-                GL11.glColor4f(1F, 0F, 0F, 0.5F);
-                //Speed Bar
-                drawTexturedModalRect(6 - i, 17, 0, 0, speed > 200 ? 200 : (int) speed, 10);
-                GL11.glEnable(GL11.GL_TEXTURE_2D);
+            // Nitro Outline
+            drawTexturedModalRect(5 - offset, 16, 0, 0, 202, 12);
+            GL11.glColor4f(0.0F, 1.0F, 1.0F, 0.5F);
+            // Nitro Bar
+            drawTexturedModalRect(6 - offset, 4, 0, 0, Math.round(nitro * 200), 10);
+            GL11.glColor4f(1F, 0F, 0F, 0.5F);
+            // Speed Bar
+            drawTexturedModalRect(6 - offset, 17, 0, 0, speed > 200 ? 200 : (int) speed, 10);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-                drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - i, 5, 0xffffff);
-                drawCenteredString(mc.fontRenderer, (int) (TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - i, 18, 0xffffff);
-            }
+            drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - offset, 5, 0xffffff);
+            drawCenteredString(mc.fontRenderer, (int) (TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - offset, 18, 0xffffff);
         }
     }
 
     public void renderShotsLeft(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
         Transformer transformer = TFHelper.getTransformer(player);
-
-        int altMode = TFDataManager.getAltMode(player);
+        int altMode = TFData.ALT_MODE.get(player);
 
         if (transformer != null && !(transformer instanceof TransformerVurp))
         {
-            float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
-            float stealthModeTimer = TFDataManager.getStealthModeTimer(player, ClientEventHandler.renderTick);
+            float transformationTimer = TFHelper.getTransformationTimer(player);
+            float stealthModeTimer = TFHelper.getStealthModeTimer(player);
 
-            if (transformationTimer <= 20 && transformer.canShoot(player, altMode))
+            if (transformationTimer > 0 && transformer.canShoot(player, altMode))
             {
-                int transformationOffsetX = 0;
-
-                if (transformer.hasStealthForce(player, altMode) && stealthModeTimer <= 5)
-                {
-                    transformationOffsetX = (int) (stealthModeTimer * 25);
-                }
-                else
-                {
-                    transformationOffsetX = (int) (transformationTimer * 8.5F);
-                }
-
+                int offset = Math.round((1 - Math.min(transformationTimer, stealthModeTimer)) * 210);
                 int y = 30;
-                int x = 100;
+                int x = 6;
                 int j = 20 - TFShootManager.shootCooldown;
                 double d = j * 2.5;
                 String shotsLeft = "" + TFShootManager.shotsLeft;
@@ -225,33 +199,34 @@ public class GuiOverlay extends Gui
                     shotsLeft = EnumChatFormatting.RED + shotsLeft;
                 }
 
-                drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, x - 75 - transformationOffsetX, 32, 0xffffff);
+                drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, x + 19 - offset, 32, 0xffffff);
 
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glColor4f(0F, 0F, 0F, 0.15F);
-                drawTexturedModalRect(x - transformationOffsetX, y, 0, 0, 52, 12);
+                drawTexturedModalRect(x + 94 - offset, y, 0, 0, 52, 12);
                 GL11.glColor4f(0F, 0F, 0F, 0.2F);
-                drawTexturedModalRect(x - 95 - transformationOffsetX, y - 1, 0, 0, 16, 16);
-                drawTexturedModalRect(x - 94 - transformationOffsetX, y, 0, 0, 14, 14);
+                drawTexturedModalRect(x - 1 - offset, y - 1, 0, 0, 16, 16);
+                drawTexturedModalRect(x - offset, y, 0, 0, 14, 14);
                 GL11.glColor4f(1F, 0F, 0F, 0.25F);
-                drawTexturedModalRect(x + 1 - transformationOffsetX, y + 1, 0, 0, (int) d, 10);
+                drawTexturedModalRect(x + 95 - offset, y + 1, 0, 0, (int) d, 10);
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
 
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glEnable(GL12.GL_RESCALE_NORMAL);
                 GL11.glEnable(GL11.GL_COLOR_MATERIAL);
                 GL11.glEnable(GL11.GL_LIGHTING);
-                itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(transformer.getShootItem(altMode)), x - 95 - transformationOffsetX, y - 1);
+                itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(transformer.getShootItem(altMode)), x - 1 - offset, y - 1);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDepthMask(true);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
 
                 float scale = 0.5F;
                 GL11.glPushMatrix();
+                GL11.glTranslatef(x - 1 - offset, y + 16, 0);
                 GL11.glScalef(scale, scale, scale);
-                drawString(mc.fontRenderer, StatCollector.translateToLocalFormatted("stats.ammo.name", StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), (int) ((x - 95 - transformationOffsetX) / scale), (int) ((y + 16) / scale), 0xffffff);
+                drawString(mc.fontRenderer, StatCollector.translateToLocalFormatted("stats.ammo.name", StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), 0, 0, 0xffffff);
                 GL11.glPopMatrix();
             }
         }
@@ -261,9 +236,9 @@ public class GuiOverlay extends Gui
 
             if (heldItem != null)
             {
-                float transformationTimer = TFDataManager.getTransformationTimer(player, ClientEventHandler.renderTick);
+                float transformationTimer = TFHelper.getTransformationTimer(player);
 
-                if (transformationTimer == 20 && heldItem.getItem() == TFItems.vurpsSniper && TFHelper.isPlayerVurp(player))
+                if (transformationTimer == 0 && heldItem.getItem() == TFItems.vurpsSniper)
                 {
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -296,7 +271,7 @@ public class GuiOverlay extends Gui
 
     public void renderKatanaDash(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.purgesKatana && !TFDataManager.isTransformed(player) && TFHelper.isPlayerPurge(player))
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.purgesKatana && !TFHelper.isFullyTransformed(player) && TFHelper.isPlayerPurge(player))
         {
             if (player.isUsingItem())
             {
@@ -357,7 +332,7 @@ public class GuiOverlay extends Gui
             {
                 Transformer transformer = TransformersAPI.getTransformers().get(j);
 
-                int altMode = TFDataManager.getAltMode(player);
+                int altMode = TFData.ALT_MODE.get(player);
 
                 if (transformer.getTutorialType(altMode) == TutorialHandler.completedTutorial && itemstack == null)
                 {

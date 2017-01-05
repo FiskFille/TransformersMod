@@ -53,7 +53,7 @@ public class ReceiverHandler
 
         if (!world.isRemote)
         {
-            for (Iterator<TargetingTransmitter> iterator = this.transmitters.iterator(); iterator.hasNext(); )
+            for (Iterator<TargetingTransmitter> iterator = this.transmitters.iterator(); iterator.hasNext();)
             {
                 TargetingTransmitter transmitter = iterator.next();
                 TileEntity transmitterTile = transmitter.getTile();
@@ -96,7 +96,7 @@ public class ReceiverHandler
 
                     TileEntity tile = transmitter.getTile();
 
-                    if ((tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.owner).canReceiveEnergy(tile)) || world.isRemote)
+                    if (tile instanceof IEnergyTransmitter && ((IEnergyReceiver) this.owner).canReceiveEnergy(tile) || world.isRemote)
                     {
                         add(transmitter);
                         dirty = true;

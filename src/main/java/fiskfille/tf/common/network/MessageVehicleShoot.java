@@ -1,12 +1,8 @@
 package fiskfille.tf.common.network;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
@@ -16,6 +12,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageVehicleShoot implements IMessage
 {
@@ -61,7 +61,7 @@ public class MessageVehicleShoot implements IMessage
 
                     if (transformer != null)
                     {
-                        int altMode = TFDataManager.getAltMode(player);
+                        int altMode = TFData.ALT_MODE.get(player);
                         String shootSound = transformer.getShootSound(altMode);
 
                         if (shootSound != null)
@@ -91,9 +91,9 @@ public class MessageVehicleShoot implements IMessage
 
                     if (transformer != null)
                     {
-                        int altMode = TFDataManager.getAltMode(from);
+                        int altMode = TFData.ALT_MODE.get(from);
 
-                        if (transformer.canShoot(from, altMode) && TFDataManager.isTransformed(from))
+                        if (transformer.canShoot(from, altMode) && TFHelper.isFullyTransformed(from))
                         {
                             Item shootItem = transformer.getShootItem(altMode);
                             boolean isCreative = from.capabilities.isCreativeMode;
@@ -109,7 +109,6 @@ public class MessageVehicleShoot implements IMessage
                                 }
 
                                 Entity entity = transformer.getShootEntity(from, altMode);
-                                entity.posY--;
                                 world.spawnEntityInWorld(entity);
 
                                 if (!isCreative)

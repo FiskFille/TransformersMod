@@ -29,15 +29,16 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.energon.power.TargetReceiver;
 import fiskfille.tf.common.energon.power.TargetingTransmitter;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.tick.ClientTickHandler;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRenderHelper
@@ -144,16 +145,6 @@ public class TFRenderHelper
         }
     }
 
-    public static float median(float curr, float prev, float partialTicks)
-    {
-        return prev + (curr - prev) * partialTicks;
-    }
-
-    public static double median(double curr, double prev, float partialTicks)
-    {
-        return prev + (curr - prev) * partialTicks;
-    }
-
     public static void startGlScissor(int x, int y, int width, int height)
     {
         Minecraft mc = Minecraft.getMinecraft();
@@ -189,7 +180,7 @@ public class TFRenderHelper
         double current = player == mc.thePlayer ? player.motionY : player.posY - player.prevPosY;
         double previous = TFRenderHelper.previousMotionY.containsKey(player) ? TFRenderHelper.previousMotionY.get(player) : 0.0;
 
-        return median(current, previous, ClientEventHandler.renderTick);
+        return TFHelper.median(current, previous, ClientTickHandler.renderTick);
     }
 
     public static void updateMotionY(EntityPlayer player)
@@ -475,5 +466,15 @@ public class TFRenderHelper
         renderer.renderFaceZPos(block, x, y, z, icon);
         renderer.renderFaceXNeg(block, x, y, z, icon);
         renderer.renderFaceXPos(block, x, y, z, icon);
+    }
+
+    public static boolean shouldOverrideView(EntityPlayer player)
+    {
+        return TFHelper.getHeight(player) != 1.8F || TFHelper.getScale(player) != 1;
+    }
+
+    public static boolean shouldOverrideThirdPersonDistance(EntityPlayer player)
+    {
+        return player.ridingEntity == null && (TFHelper.getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null);
     }
 }

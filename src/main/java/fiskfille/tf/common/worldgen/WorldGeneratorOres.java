@@ -12,19 +12,19 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 
 import java.util.Random;
 
-public class OreWorldGenerator implements IWorldGenerator
+public class WorldGeneratorOres implements IWorldGenerator
 {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
     {
         switch (world.provider.dimensionId)
         {
-            case 0:
-                generateOverworld(world, random, chunkX * 16, chunkZ * 16);
-                break;
-            case -1:
-                generateNether(world, random, chunkX * 16, chunkZ * 16);
-                break;
+        case 0:
+            generateOverworld(world, random, chunkX * 16, chunkZ * 16);
+            break;
+        case -1:
+            generateNether(world, random, chunkX * 16, chunkZ * 16);
+            break;
         }
     }
 

@@ -1,18 +1,18 @@
 package fiskfille.tf.common.transformer.cloudtrap;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.particle.TFParticleType;
 import fiskfille.tf.client.particle.TFParticles;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * @author gegy1000
@@ -39,7 +39,6 @@ public class CloudtrapJetpackManager
         else
         {
             boolean playerJetpacking = false;
-
             Boolean playerJetpackingObj = cloudtrapJetpacking.get(player);
 
             if (playerJetpackingObj != null)
@@ -51,15 +50,7 @@ public class CloudtrapJetpackManager
                 cloudtrapJetpacking.put(player, false);
             }
 
-            if (playerJetpacking)
-            {
-                for (int i = 0; i < 20; ++i)
-                {
-                    Random rand = new Random();
-                    Vec3 coords = TFVectorHelper.getSideCoords(player, 0.15, i > 10, false);
-                    TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, coords.xCoord, coords.yCoord + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
-                }
-            }
+            jetpacking = playerJetpacking;
         }
 
         if (jetpacking)
@@ -71,14 +62,11 @@ public class CloudtrapJetpackManager
                 player.motionY = 0.6F;
             }
 
-            if (isClientPlayer)
+            for (int i = 0; i < 20; ++i)
             {
-                for (int i = 0; i < 20; ++i)
-                {
-                    Random rand = new Random();
-                    Vec3 coords = TFVectorHelper.getSideCoords(player, 0.15, i > 10, false);
-                    TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, coords.xCoord, coords.yCoord - 1.5F + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 2 - 0.25F, -0.8F, rand.nextFloat() / 2 - 0.25F);
-                }
+                Random rand = new Random();
+                Vec3 coords = TFVectorHelper.getSideCoords(player, 0.15, i > 10, false);
+                TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, coords.xCoord, coords.yCoord + rand.nextFloat() / 4 - 0.125F, coords.zCoord, rand.nextFloat() / 4 - 0.125F, -0.8F, rand.nextFloat() / 4 - 0.125F);
             }
         }
     }

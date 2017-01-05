@@ -33,7 +33,7 @@ public class BlockEnergonCube extends BlockBasic implements IEnergon
     {
         return Energon.CRYSTAL_BLOCK;
     }
-    
+
     @Override
     public MapColor getMapColor(int metadata)
     {

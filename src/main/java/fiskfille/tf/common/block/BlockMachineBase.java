@@ -25,44 +25,44 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.Log;
+import fiskfille.tf.TFLog;
 import fiskfille.tf.helper.TFHelper;
 
 public class BlockMachineBase extends Block implements ITileEntityProvider
 {
     protected final Random rand = new Random();
-    
+
     public Class<? extends TileEntity> tileClass;
-    
+
     protected BlockMachineBase(Material material)
     {
         super(material);
     }
-    
+
     public int getBlockHeight()
     {
         return 1;
     }
-    
+
     public int getPlacedRotation(EntityLivingBase entity)
     {
-        return MathHelper.floor_double(((entity.rotationYaw * 4F) / 360F) + 2.5D) & 3;
+        return MathHelper.floor_double(entity.rotationYaw * 4F / 360F + 2.5D) & 3;
     }
-    
+
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
         boolean flag = super.canPlaceBlockAt(world, x, y, z);
         int height = getBlockHeight();
-        
+
         for (int i = 1; i < height; ++i)
         {
             flag &= super.canPlaceBlockAt(world, x, y + i, z);
         }
-        
+
         return y + height - 1 < world.getHeight() && flag;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
@@ -88,7 +88,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
     }
-    
+
     @Override
     public boolean hasComparatorInputOverride()
     {
@@ -96,7 +96,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -110,22 +110,22 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
             IFluidHandler fluidHandler = (IFluidHandler) tile;
             float amount = 0;
             float capacity = 0;
-            
+
             for (ForgeDirection dir : ForgeDirection.values())
             {
                 FluidTankInfo[] info = fluidHandler.getTankInfo(dir);
-                
+
                 for (int i = 0; i < info.length; ++i)
                 {
                     capacity += info[i].capacity;
-                    
+
                     if (info[i].fluid != null)
                     {
                         amount += info[i].fluid.amount;
                     }
                 }
             }
-            
+
             return Math.round(amount / capacity * 15);
         }
         else if (tile instanceof IInventory)
@@ -135,16 +135,16 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
         return 0;
     }
-    
+
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
-        
+
         if (tile instanceof IInventory)
         {
             IInventory inventory = (IInventory) tile;
-            
+
             for (int i = 0; i < inventory.getSizeInventory(); ++i)
             {
                 ItemStack itemstack = inventory.getStackInSlot(i);
@@ -183,9 +183,9 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
             world.func_147453_f(x, y, z, block);
         }
-        
+
         TileEntity tileBase = TFHelper.getTileBase(tile);
-        
+
         if (tileBase != null && tile != tileBase && getBlockHeight() > 0)
         {
             world.setBlockToAir(tileBase.xCoord, tileBase.yCoord, tileBase.zCoord);
@@ -201,12 +201,12 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         {
             ItemStack itemstack = new ItemStack(this, 1, damageDropped(world.getBlockMetadata(x, y, z)));
             TileEntity tile = world.getTileEntity(x, y, z);
-            
+
             if (getBlockHeight() > 0)
             {
                 tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
             }
-            
+
             if (tile != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -237,12 +237,13 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
         return super.removedByPlayer(world, player, x, y, z, willHarvest);
     }
-    
+
+    @Override
     protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
     {
         super.dropBlockAsItem(world, x, y, z, itemstack);
     }
-    
+
     @Override
     public int quantityDropped(Random random)
     {
@@ -254,7 +255,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
     {
         super.onBlockPlacedBy(world, x, y, z, entity, itemstack);
         TileEntity tile = world.getTileEntity(x, y, z);
-        
+
         if (tile != null)
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -266,16 +267,16 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
                 {
                     NBTTagCompound config = itemstack.getTagCompound().getCompoundTag("ConfigDataTF");
                     nbttagcompound.setTag("ConfigDataTF", config);
-                    
+
                     tile.readFromNBT(nbttagcompound);
                 }
             }
         }
-        
+
         for (int i = 0; i < getBlockHeight(); ++i)
         {
             int metadata = getPlacedRotation(entity) + i * 4;
-            
+
             if (metadata > 0)
             {
                 if (i == 0)
@@ -288,7 +289,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
                 }
             }
         }
-        
+
         if (!world.isRemote)
         {
             world.markBlockForUpdate(x, y, z);
@@ -301,30 +302,30 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         super.onBlockAdded(world, x, y, z);
         world.markBlockForUpdate(x, y, z);
     }
-    
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
         int metadata = world.getBlockMetadata(x, y, z);
-        
+
         if (tile != null && getBlockHeight() > 0)
         {
             int[] offsets = TFHelper.getTileBaseOffsets(tile, metadata);
-            
+
             if (world.getBlock(x + offsets[0], y + offsets[1], z + offsets[2]) != this)
             {
                 world.setBlockToAir(x, y, z);
             }
         }
     }
-    
+
     @Override
     public boolean hasTileEntity(int metadata)
     {
         return tileClass != null;
     }
-    
+
     @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
@@ -336,10 +337,10 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
             }
             catch (Exception e)
             {
-                Log.error("Could not create tile entity for block '%s' from class %s", delegate.name(), tileClass);
+                TFLog.error("Could not create tile entity for block '%s' from class %s", delegate.name(), tileClass);
             }
         }
-        
+
         return null;
     }
 }

@@ -16,7 +16,7 @@ public class InventoryGroundBridge implements IInventory
 {
     public EntityPlayer player;
     public ItemStack remoteItem;
-    
+
     public ItemStack[] inventory = new ItemStack[1];
 
     public InventoryGroundBridge(EntityPlayer player, ItemStack itemstack)
@@ -155,6 +155,7 @@ public class InventoryGroundBridge implements IInventory
                 crashreportcategory.addCrashSection("Item data", Integer.valueOf(itemstack.getItemDamage()));
                 crashreportcategory.addCrashSectionCallable("Item name", new Callable()
                 {
+                    @Override
                     public String call()
                     {
                         return itemstack.getDisplayName();
@@ -227,7 +228,7 @@ public class InventoryGroundBridge implements IInventory
 
                     if (itemstack.hasTagCompound())
                     {
-                        inventory[j].setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                        inventory[j].setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
                     }
                 }
 

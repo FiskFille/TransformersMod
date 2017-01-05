@@ -34,7 +34,7 @@ public class ItemGroundBridgeRemote extends Item
         DimensionalCoords coords = ItemCSD.getCoords(itemstack);
         list.add(coords.getFormatted().getFormattedText());
     }
-    
+
     @Override
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int slot, boolean currentItem)
     {
@@ -42,12 +42,12 @@ public class ItemGroundBridgeRemote extends Item
         {
             EntityPlayer player = (EntityPlayer) entity;
             TileEntityControlPanel tile = getTile(itemstack);
-            
+
             if (currentItem && tile != null)
             {
                 InventoryGroundBridge inventory = new InventoryGroundBridge(player, itemstack);
                 ItemStack itemstack1 = inventory.getStackInSlot(0);
-                
+
                 if (itemstack1 != null && itemstack1.getItem() == TFItems.csd)
                 {
                     DimensionalCoords coords = ItemCSD.getCoords(itemstack1);
@@ -59,7 +59,7 @@ public class ItemGroundBridgeRemote extends Item
                     }
                 }
             }
-        
+
         }
     }
 
@@ -108,7 +108,7 @@ public class ItemGroundBridgeRemote extends Item
 
             if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
             {
-                TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(x, y, z);
+                world.getTileEntity(x, y, z);
                 DimensionalCoords coords = new DimensionalCoords(x, y, z, world.provider.dimensionId);
 
                 ItemCSD.setCoords(itemstack, coords);
@@ -124,7 +124,7 @@ public class ItemGroundBridgeRemote extends Item
 
         return false;
     }
-    
+
     public TileEntityControlPanel getTile(ItemStack itemstack)
     {
         DimensionalCoords coords = ItemCSD.getCoords(itemstack);
@@ -140,7 +140,7 @@ public class ItemGroundBridgeRemote extends Item
                 return (TileEntityControlPanel) tile;
             }
         }
-        
+
         return null;
     }
 }

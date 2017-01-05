@@ -18,7 +18,7 @@ import net.minecraftforge.common.DimensionManager;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.network.IGuiHandler;
-import fiskfille.tf.Log;
+import fiskfille.tf.TFLog;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.container.ContainerAlloyCrucible;
@@ -62,7 +62,7 @@ public class GuiHandlerTF implements IGuiHandler
             {
                 int[] coords = {x, y, z};
                 int integer = 0;
-                
+
                 try
                 {
                     Constructor c = tfGui.containerClass.getConstructor(tfGui.containerArgs);
@@ -105,7 +105,7 @@ public class GuiHandlerTF implements IGuiHandler
                             {
                                 args[i] = 0;
                             }
-                            
+
                             ++integer;
                         }
                     }
@@ -114,7 +114,7 @@ public class GuiHandlerTF implements IGuiHandler
                 }
                 catch (Exception e)
                 {
-                    Log.error("Unable to load class for gui element %s", tfGui);
+                    TFLog.error("Unable to load class for gui element %s", tfGui);
                     e.printStackTrace();
                 }
 
@@ -142,7 +142,7 @@ public class GuiHandlerTF implements IGuiHandler
             {
                 int[] coords = {x, y, z};
                 int integer = 0;
-                
+
                 try
                 {
                     Constructor c = Class.forName(tfGui.guiPath).getConstructor(tfGui.guiArgs);
@@ -185,7 +185,7 @@ public class GuiHandlerTF implements IGuiHandler
                             {
                                 args[i] = 0;
                             }
-                            
+
                             ++integer;
                         }
                     }
@@ -194,7 +194,7 @@ public class GuiHandlerTF implements IGuiHandler
                 }
                 catch (Exception e)
                 {
-                    Log.error("Unable to load class for gui element '%s'", tfGui);
+                    TFLog.error("Unable to load class for gui element '%s'", tfGui);
                     e.printStackTrace();
                 }
 
@@ -233,15 +233,15 @@ public class GuiHandlerTF implements IGuiHandler
         private static final List<TFGui> list = Lists.newArrayList();
         private static int nextId = -1;
 
-        public static final TFGui ALLOY_CRUCIBLE = new TFGui(TFBlocks.alloyCrucible, ContainerAlloyCrucible.class, "fiskfille.tf.client.gui.GuiAlloyCrucible", InventoryPlayer.class, TileEntityAlloyCrucible.class);
-        public static final TFGui ASSEMBLY_TABLE = new TFGui(TFBlocks.assemblyTable, ContainerAssemblyTable.class, "fiskfille.tf.client.gui.GuiAssemblyTable", InventoryPlayer.class, TileEntityAssemblyTable.class);
-        public static final TFGui DISPLAY_STATION = new TFGui(TFBlocks.displayStation, ContainerDisplayStation.class, "fiskfille.tf.client.gui.GuiDisplayStation", InventoryPlayer.class, TileEntityDisplayStation.class);
-        public static final TFGui DISPLAY_STATION_ARMOR = new TFGui(TFBlocks.displayStation, ContainerDisplayStationArmor.class, "fiskfille.tf.client.gui.GuiDisplayStationArmor", InventoryPlayer.class, TileEntityDisplayStation.class);
-        public static final TFGui ENERGON_PROCESSOR = new TFGui(TFBlocks.energonProcessor, ContainerEnergonProcessor.class, "fiskfille.tf.client.gui.GuiEnergonProcessor", InventoryPlayer.class, TileEntityEnergonProcessor.class);
-        public static final TFGui ENERGON_TANK = new TFGui(TFBlocks.energonFluidTank, ContainerEnergonTank.class, "fiskfille.tf.client.gui.GuiEnergonTank", InventoryPlayer.class, TileEntityEnergonTank.class);
-        public static final TFGui ENERGON_TRANSMITTER = new TFGui(TFBlocks.transmitter, ContainerTransmitter.class, "fiskfille.tf.client.gui.GuiTransmitter", InventoryPlayer.class, TileEntityTransmitter.class);
-        public static final TFGui ENERGY_COLUMN = new TFGui(TFBlocks.energyColumn, ContainerColumn.class, "fiskfille.tf.client.gui.GuiColumn", InventoryPlayer.class, TileEntityColumn.class);
-        public static final TFGui GROUND_BRIDGE_REMOTE = new TFGui(TFBlocks.groundBridgeControlPanel, ContainerGroundBridge.class, "fiskfille.tf.client.gui.GuiGroundBridge", InventoryPlayer.class, InventoryGroundBridge.class, TileEntityControlPanel.class);
+        public static TFGui ALLOY_CRUCIBLE;
+        public static TFGui ASSEMBLY_TABLE;
+        public static TFGui DISPLAY_STATION;
+        public static TFGui DISPLAY_STATION_ARMOR;
+        public static TFGui ENERGON_PROCESSOR;
+        public static TFGui ENERGON_TANK;
+        public static TFGui ENERGON_TRANSMITTER;
+        public static TFGui ENERGY_COLUMN;
+        public static TFGui GROUND_BRIDGE_REMOTE;
 
         public final int guiId;
         private final Block containerBlock;
@@ -275,6 +275,19 @@ public class GuiHandlerTF implements IGuiHandler
             containerBlock = block;
 
             list.add(this);
+        }
+
+        public static void register()
+        {
+            ALLOY_CRUCIBLE = new TFGui(TFBlocks.alloyCrucible, ContainerAlloyCrucible.class, "fiskfille.tf.client.gui.GuiAlloyCrucible", InventoryPlayer.class, TileEntityAlloyCrucible.class);
+            ASSEMBLY_TABLE = new TFGui(TFBlocks.assemblyTable, ContainerAssemblyTable.class, "fiskfille.tf.client.gui.GuiAssemblyTable", InventoryPlayer.class, TileEntityAssemblyTable.class);
+            DISPLAY_STATION = new TFGui(TFBlocks.displayStation, ContainerDisplayStation.class, "fiskfille.tf.client.gui.GuiDisplayStation", InventoryPlayer.class, TileEntityDisplayStation.class);
+            DISPLAY_STATION_ARMOR = new TFGui(TFBlocks.displayStation, ContainerDisplayStationArmor.class, "fiskfille.tf.client.gui.GuiDisplayStationArmor", InventoryPlayer.class, TileEntityDisplayStation.class);
+            ENERGON_PROCESSOR = new TFGui(TFBlocks.energonProcessor, ContainerEnergonProcessor.class, "fiskfille.tf.client.gui.GuiEnergonProcessor", InventoryPlayer.class, TileEntityEnergonProcessor.class);
+            ENERGON_TANK = new TFGui(TFBlocks.energonFluidTank, ContainerEnergonTank.class, "fiskfille.tf.client.gui.GuiEnergonTank", InventoryPlayer.class, TileEntityEnergonTank.class);
+            ENERGON_TRANSMITTER = new TFGui(TFBlocks.transmitter, ContainerTransmitter.class, "fiskfille.tf.client.gui.GuiTransmitter", InventoryPlayer.class, TileEntityTransmitter.class);
+            ENERGY_COLUMN = new TFGui(TFBlocks.energyColumn, ContainerColumn.class, "fiskfille.tf.client.gui.GuiColumn", InventoryPlayer.class, TileEntityColumn.class);
+            GROUND_BRIDGE_REMOTE = new TFGui(TFBlocks.groundBridgeControlPanel, ContainerGroundBridge.class, "fiskfille.tf.client.gui.GuiGroundBridge", InventoryPlayer.class, InventoryGroundBridge.class, TileEntityControlPanel.class);
         }
 
         public void open(EntityPlayer player, TileEntity tile)

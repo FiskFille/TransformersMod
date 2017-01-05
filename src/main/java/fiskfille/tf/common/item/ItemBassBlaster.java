@@ -1,6 +1,5 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.entity.EntityBassCharge;
 import fiskfille.tf.helper.TFHelper;
 import net.minecraft.command.IEntitySelector;
@@ -58,7 +57,7 @@ public class ItemBassBlaster extends Item
                 {
                     EntityBassCharge entity = new EntityBassCharge(world, player);
 
-                    if (TFDataManager.isTransformed(player))
+                    if (TFHelper.isFullyTransformed(player))
                     {
                         entity.posY -= 1.;
                     }

@@ -341,13 +341,13 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot == 0 ? PowerManager.isPowerSource(stack) : (slot == 1 ? (stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon) : (slot == 2 && (stack.getItem() == TFItems.fuelCanister && ItemFuelCanister.isEmpty(stack) && stack.stackSize == 1 && inventory[slot] == null)));
+        return slot == 0 ? PowerManager.isPowerSource(stack) : slot == 1 ? stack.getItem() instanceof IEnergon || Block.getBlockFromItem(stack.getItem()) instanceof IEnergon : slot == 2 && stack.getItem() == TFItems.fuelCanister && ItemFuelCanister.isEmpty(stack) && stack.stackSize == 1 && inventory[slot] == null;
     }
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side)
     {
-        return side == 0 ? slotsBottom : (side == 1 ? slotsTop : slotsSides);
+        return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
     }
 
     @Override
@@ -360,7 +360,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
-        return side != 0 || slot == 0 || (slot == 2 && !ItemFuelCanister.isEmpty(stack));
+        return side != 0 || slot == 0 || slot == 2 && !ItemFuelCanister.isEmpty(stack);
     }
 
     @Override

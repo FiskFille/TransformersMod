@@ -30,10 +30,10 @@ public class RedEnergon extends Energon
     {
         return "red";
     }
-    
+
     @Override
     public float getEnergyValue()
     {
-    	return 10;
+        return 10;
     }
 }

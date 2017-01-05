@@ -26,7 +26,7 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
@@ -124,17 +124,17 @@ public class GuiEnergonTank extends GuiContainerTF
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFEnergyHelper.formatNumber(stack.amount), TFEnergyHelper.formatNumber(fluidTank.getCapacity())));
+        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(stack.amount), TFFormatHelper.formatNumber(fluidTank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
-        
+
         if (new Rectangle(x + 61, y + 17, 52, 52).contains(new Point(mouseX, mouseY)))
         {
             drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
         }
-        
+
         GL11.glPopMatrix();
     }
 

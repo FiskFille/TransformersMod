@@ -189,7 +189,7 @@ public class ModelAssemblyTable extends MowzieModelBase
         top2.addChild(top3);
         base1.addChild(base5);
         base1.addChild(base3);
-        
+
         setInitPose();
     }
 

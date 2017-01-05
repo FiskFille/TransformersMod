@@ -29,7 +29,7 @@ public class BlockStainedGlassPaneTF extends BlockStainedGlassPane
     {
         return TFBlocks.stainedGlass.getIcon(side, metadata);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata)

@@ -27,7 +27,7 @@ import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible.EnumSmeltingMode;
-import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFFormatHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCallback
@@ -116,17 +116,17 @@ public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCal
 
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
-        
+
         if (new Rectangle(x + 49, y + 19, 16, 52).contains(new Point(mouseX, mouseY)))
         {
-            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFEnergyHelper.formatNumber(tileentity.getEnergy()), TFEnergyHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
         }
 
         if (new Rectangle(x + 151, y + 5, 20, 20).contains(new Point(mouseX, mouseY)))
         {
             drawHoveringText(Arrays.asList(StatCollector.translateToLocal("gui.alloy_crucible.mode"), EnumChatFormatting.GRAY + StatCollector.translateToLocal(String.format("gui.alloy_crucible.mode.%s", tileentity.smeltingMode.name().toLowerCase()))), mouseX, mouseY, fontRendererObj);
         }
-        
+
         GL11.glPopMatrix();
     }
 

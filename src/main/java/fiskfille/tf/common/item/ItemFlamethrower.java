@@ -72,10 +72,10 @@ public class ItemFlamethrower extends Item
                     for (int i = 0; i < 50; ++i)
                     {
                         float motionX = (float) (backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
-                        float motionY = (float) (backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionY = (float) (backCoords.yCoord - player.boundingBox.minY) + (rand.nextFloat() - 0.5F) / divider;
                         float motionZ = (float) (backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
 
-                        TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, sideCoords.xCoord, sideCoords.yCoord - player.getEyeHeight(), sideCoords.zCoord, motionX, motionY, motionZ);
+                        TFParticles.spawnParticle(TFParticleType.FLAMETHROWER_FLAME, sideCoords.xCoord, sideCoords.yCoord + player.yOffset, sideCoords.zCoord, motionX, motionY, motionZ);
                     }
                 }
                 else
@@ -83,14 +83,14 @@ public class ItemFlamethrower extends Item
                     for (int i = 0; i < 5; ++i)
                     {
                         float motionX = (float) (backCoords.xCoord - player.posX) + (rand.nextFloat() - 0.5F) / divider;
-                        float motionY = (float) (backCoords.yCoord - (player.posY + player.getEyeHeight())) + (rand.nextFloat() - 0.5F) / divider;
+                        float motionY = (float) (backCoords.yCoord - player.boundingBox.minY) + (rand.nextFloat() - 0.5F) / divider;
                         float motionZ = (float) (backCoords.zCoord - player.posZ) + (rand.nextFloat() - 0.5F) / divider;
 
                         EntityFlamethrowerFire entity = new EntityFlamethrowerFire(world, player);
                         entity.motionX = motionX;
                         entity.motionY = motionY;
                         entity.motionZ = motionZ;
-                        entity.setPosition(sideCoords.xCoord, sideCoords.yCoord - player.getEyeHeight(), sideCoords.zCoord);
+                        entity.setPosition(sideCoords.xCoord, sideCoords.yCoord + player.getEyeHeight(), sideCoords.zCoord);
                         world.spawnEntityInWorld(entity);
                     }
                 }

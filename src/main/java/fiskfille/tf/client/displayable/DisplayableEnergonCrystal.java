@@ -7,10 +7,10 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.client.model.tileentity.ModelCrystal;
 import fiskfille.tf.common.block.BlockEnergonCrystal;
 import fiskfille.tf.common.energon.Energon;
+import fiskfille.tf.common.tick.ClientTickHandler;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class DisplayableEnergonCrystal extends Displayable
@@ -27,8 +27,8 @@ public class DisplayableEnergonCrystal extends Displayable
 
         GL11.glPushMatrix();
         float f = 0.75F;
-        float f1 = MathHelper.sin((mc.thePlayer.ticksExisted + ClientEventHandler.renderTick) / 15.0F) * 0.07F;
-        GL11.glRotatef((mc.thePlayer.ticksExisted + ClientEventHandler.renderTick) * 0.75F, 0.0F, 1.0F, 0.0F);
+        float f1 = MathHelper.sin((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) / 15.0F) * 0.07F;
+        GL11.glRotatef((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) * 0.75F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(0, -0.3F + f1, 0);
         GL11.glScalef(f, f, f);
 

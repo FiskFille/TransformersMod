@@ -5,7 +5,6 @@ import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 import fiskfille.tf.common.transformer.cloudtrap.CloudtrapJetpackManager;
 import fiskfille.tf.helper.TFVectorHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
@@ -47,9 +46,21 @@ public class TransformerCloudtrap extends TransformerJet
     }
 
     @Override
-    public void tick(EntityPlayer player, int timer)
+    public float getHeightOffset(EntityPlayer player, int altMode)
     {
-        if (timer > 10)
+        return -0.1F;
+    }
+
+    @Override
+    public float getVehicleHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -1.5F;
+    }
+
+    @Override
+    public void tick(EntityPlayer player, float timer)
+    {
+        if (timer < 0.5F)
         {
             if (player.worldObj.isRemote)
             {
@@ -57,7 +68,7 @@ public class TransformerCloudtrap extends TransformerJet
             }
         }
 
-        if (timer == 20)
+        if (timer == 0)
         {
             if (!player.capabilities.isFlying)
             {
@@ -84,17 +95,12 @@ public class TransformerCloudtrap extends TransformerJet
     @Override
     public void doNitroParticles(EntityPlayer player, int altMode)
     {
+        Random rand = new Random();
+
         for (int i = 0; i < 4; ++i)
         {
             Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.135F, i < 2, -2.5, true);
-            Random rand = new Random();
-
-            if (player != Minecraft.getMinecraft().thePlayer)
-            {
-                side.yCoord += 0.8F;
-            }
-
-            player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord - 0.4F, side.zCoord, (rand.nextFloat() - 0.5F) / 20, (rand.nextFloat() - 0.5F) / 20, (rand.nextFloat() - 0.5F) / 20);
+            player.worldObj.spawnParticle("flame", side.xCoord, side.yCoord + 0.25F, side.zCoord, (rand.nextFloat() - 0.5F) / 20, (rand.nextFloat() - 0.5F) / 20, (rand.nextFloat() - 0.5F) / 20);
         }
     }
 }

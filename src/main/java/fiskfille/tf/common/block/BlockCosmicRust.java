@@ -68,7 +68,7 @@ public class BlockCosmicRust extends Block
 
     private void tryRust(World world, int x, int y, int z)
     {
-        Random rand = new Random();
+        new Random();
 
         if (world.getBlock(x, y, z) == TFBlocks.transformiumStone)
         {
@@ -106,7 +106,7 @@ public class BlockCosmicRust extends Block
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
-    	blockIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust");
-    	coreIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_core");
+        blockIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust");
+        coreIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_core");
     }
 }

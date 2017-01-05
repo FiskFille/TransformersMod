@@ -13,12 +13,12 @@ public class ForcedChunk extends ChunkCoordIntPair
         super(chunkX, chunkZ);
         worldObj = world;
     }
-    
+
     public static ForcedChunk fromTile(TileEntity tile)
     {
         return new ForcedChunk(tile.getWorldObj(), tile.xCoord >> 4, tile.zCoord >> 4);
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
@@ -32,11 +32,11 @@ public class ForcedChunk extends ChunkCoordIntPair
         }
         else
         {
-            ForcedChunk forcedChunk = (ForcedChunk)obj;
+            ForcedChunk forcedChunk = (ForcedChunk) obj;
             return chunkXPos == forcedChunk.chunkXPos && chunkZPos == forcedChunk.chunkZPos && worldObj.equals(forcedChunk.worldObj);
         }
     }
-    
+
     @Override
     public String toString()
     {

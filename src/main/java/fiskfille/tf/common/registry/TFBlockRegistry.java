@@ -43,12 +43,12 @@ public class TFBlockRegistry
     {
         registerItemBlock(block, name, ItemBlockWithMetadata.class);
     }
-    
+
     public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz, Class clazz1)
     {
         registerItemBlock(block, name, clazz1);
         GameRegistry.registerTileEntity(clazz, name);
-        
+
         if (block instanceof BlockMachineBase)
         {
             ((BlockMachineBase) block).tileClass = clazz;
@@ -59,7 +59,7 @@ public class TFBlockRegistry
     {
         registerItemBlockAsTileEntity(block, name, clazz, ItemBlock.class);
     }
-    
+
     public static void registerMachine(Block block, String name, Class clazz)
     {
         registerItemBlockAsTileEntity(block, name, clazz, ItemMachine.class);

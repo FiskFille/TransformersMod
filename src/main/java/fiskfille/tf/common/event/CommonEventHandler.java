@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -33,14 +34,13 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.event.ClientEventHandler;
 import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.TFSubItems;
-import fiskfille.tf.common.motion.TFMotionManager;
 import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.base.TFNetworkManager;
@@ -60,36 +60,8 @@ public class CommonEventHandler
     private Map<EntityPlayer, Boolean> prevFlying = new HashMap<EntityPlayer, Boolean>();
 
     @SubscribeEvent
-    public void onTransform(PlayerTransformEvent event)
-    {
-        EntityPlayer player = event.entityPlayer;
-
-        Transformer transformer = event.transformer;
-
-        if (transformer != null && event.altMode == -1)
-        {
-            TFMotionManager.getTransformerPlayer(player).setLandingTimer(0);
-        }
-
-        if (transformer == null || transformer.canTransform(player))
-        {
-            //            if (!event.transformed)
-            //            {
-            //                IAttributeInstance entityAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            //                
-            //                entityAttribute.setBaseValue(1);
-            //            }
-        }
-        else
-        {
-            event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
     public void onHit(LivingAttackEvent event)
     {
-        EntityLivingBase entityLiving = event.entityLiving;
         Entity cause = event.source.getEntity();
 
         if (cause instanceof EntityPlayer)
@@ -97,9 +69,9 @@ public class CommonEventHandler
             EntityPlayer player = (EntityPlayer) cause;
             Transformer transformer = TFHelper.getTransformer(player);
 
-            int altMode = TFDataManager.getAltMode(player);
+            int altMode = TFData.ALT_MODE.get(player);
 
-            if (TFDataManager.isTransformed(player) && !event.source.isProjectile() && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
+            if (TFHelper.isFullyTransformed(player) && !event.source.isProjectile() && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
             {
                 event.setCanceled(true);
             }
@@ -141,9 +113,9 @@ public class CommonEventHandler
         EntityPlayer player = event.getPlayer();
         Transformer transformer = TFHelper.getTransformer(player);
 
-        int altMode = TFDataManager.getAltMode(player);
+        int altMode = TFData.ALT_MODE.get(player);
 
-        if (TFDataManager.isTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
+        if (TFHelper.isFullyTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
         {
             event.setCanceled(true);
         }
@@ -176,14 +148,20 @@ public class CommonEventHandler
     }
 
     @SubscribeEvent
+    public void onClonePlayer(PlayerEvent.Clone event)
+    {
+        TFPlayerData.getData(event.entityPlayer).copy(TFPlayerData.getData(event.original));
+    }
+
+    @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {
         EntityPlayer player = event.entityPlayer;
         Transformer transformer = TFHelper.getTransformer(player);
 
-        int altMode = TFDataManager.getAltMode(player);
+        int altMode = TFData.ALT_MODE.get(player);
 
-        if (TFDataManager.isTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
+        if (TFHelper.isFullyTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
         {
             event.setCanceled(true);
         }
@@ -206,9 +184,9 @@ public class CommonEventHandler
             }
             else
             {
-                boolean inVehicleMode = TFDataManager.isTransformed(player);
+                boolean inVehicleMode = TFHelper.isFullyTransformed(player);
 
-                if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) //Should also move to ClientEventHandler
+                if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) // Should also move to ClientEventHandler
                 {
                     ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
                 }
@@ -264,9 +242,9 @@ public class CommonEventHandler
 
             if (transformer != null)
             {
-                int altMode = TFDataManager.getAltMode(player);
+                int altMode = TFData.ALT_MODE.get(player);
 
-                if (!transformer.onJump(player) || (!transformer.canJumpAsVehicle(player, altMode) && TFDataManager.isTransformed(player) && TFDataManager.getTransformationTimer(player) < 10))
+                if (!transformer.onJump(player) || !transformer.canJumpAsVehicle(player, altMode) && TFHelper.getTransformationTimer(player) >= 0.5F)
                 {
                     player.motionY = 0;
                 }
@@ -289,49 +267,18 @@ public class CommonEventHandler
         {
             AssemblyTableCraftingManager.getInstance().getRecipeList().clear();
             CraftingManager.getInstance().getRecipeList().clear();
-            TFRecipes.registerRecipes();
+            TFRecipes.register();
         }
 
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-            Transformer transformer = TFHelper.getTransformer(player);
 
-            float yOffset = transformer != null ? transformer.getCameraYOffset(player, TFDataManager.getAltMode(player)) : 0;
-            boolean vehicleMode = TFDataManager.isTransformed(player);
-
-            if (transformer != null)
-            {
-                transformer.tick(player, TFDataManager.getTransformationTimer(player));
-            }
-
-            TFPlayerData.getData(player).onUpdate();
-
-            if (player.worldObj.isRemote)
-            {
-                if (player == Minecraft.getMinecraft().thePlayer)
-                {
-                    if (!vehicleMode)
-                    {
-                        float defaultEyeHeight = player.getDefaultEyeHeight();
-
-                        if (player.eyeHeight != defaultEyeHeight)
-                        {
-                            player.eyeHeight = defaultEyeHeight;
-                        }
-                    }
-                    else
-                    {
-                        player.eyeHeight = yOffset + 0.22F;
-                    }
-                }
-            }
-            else
+            if (!player.worldObj.isRemote)
             {
                 if (player.capabilities != null)
                 {
                     Boolean isFlying = prevFlying.get(player);
-
                     boolean capabilitiesFlying = player.capabilities.isFlying;
 
                     if (isFlying != null)
@@ -350,31 +297,6 @@ public class CommonEventHandler
                     }
                 }
             }
-
-            // TODO-TF: Re-implement player resizing for version 0.6
-            //			try 
-            //			{
-            //				if (vehicleMode && yOffset != 0)
-            //				{
-            //					TransformersMod.setSizeMethod.invoke(player, 0.6F, -yOffset - 0.6F);
-            //				}
-            //				else
-            //				{
-            //					TransformersMod.setSizeMethod.invoke(player, 0.6F, 1.8F);
-            //				}
-            //			} 
-            //			catch (IllegalAccessException e)
-            //			{
-            //				e.printStackTrace();
-            //			} 
-            //			catch (IllegalArgumentException e) 
-            //			{
-            //				e.printStackTrace();
-            //			} 
-            //			catch (InvocationTargetException e)
-            //			{
-            //				e.printStackTrace();
-            //			}
 
             if (!player.worldObj.isRemote)
             {
@@ -398,7 +320,7 @@ public class CommonEventHandler
 
             if (transformer != null)
             {
-                float newDist = transformer.fall(player, event.distance, TFDataManager.getAltMode(player));
+                float newDist = transformer.fall(player, event.distance, TFData.ALT_MODE.get(player));
 
                 if (newDist <= 0)
                 {

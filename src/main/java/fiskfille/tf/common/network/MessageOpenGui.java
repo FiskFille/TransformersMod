@@ -65,13 +65,13 @@ public class MessageOpenGui implements IMessage
             {
                 EntityPlayer clientPlayer = TransformersMod.proxy.getPlayer();
                 WorldServer world = DimensionManager.getWorld(message.dimension);
-                
+
                 if (world != null)
                 {
                     if (clientPlayer.worldObj.getEntityByID(message.id) instanceof EntityPlayer)
                     {
                         EntityPlayer player = (EntityPlayer) clientPlayer.worldObj.getEntityByID(message.id);
-                        
+
                         TFHelper.openGui(player, TransformersMod.instance, message.modGuiId, world, message.x, message.y, message.z);
                         player.openContainer.windowId = message.modGuiId;
                     }

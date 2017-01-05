@@ -1,4 +1,4 @@
-//package fiskfille.tf.client.model.transformer;
+// package fiskfille.tf.client.model.transformer;
 //
 //import fiskfille.tf.helper.TFRenderHelper;
 //import net.minecraft.client.model.ModelBiped;
@@ -2836,7 +2836,7 @@
 //    @Override
 //    public ModelRenderer getVehicle(EntityPlayer player)
 //    {
-//        int altMode = TFDataManager.getAltMode(player);
+//        int altMode = TFData.ALT_MODE.get(player);
 //        return altMode == 0 ? hovervehiclewaistbase : boatvehiclebase;
 //    }
 //
@@ -2935,21 +2935,21 @@
 //
 //            if (isRiding)
 //            {
-//                upperarmR1.rotateAngleX -= (float) Math.PI / 5F;
-//                upperarmL1.rotateAngleX -= (float) Math.PI / 5F;
-//                upperlegR1.rotateAngleX -= (float) Math.PI * 2F / 5F;
-//                upperlegL1.rotateAngleX -= (float) Math.PI * 2F / 5F;
+//                upperarmR1.rotateAngleX -= PI / 5F;
+//                upperarmL1.rotateAngleX -= PI / 5F;
+//                upperlegR1.rotateAngleX -= PI * 2F / 5F;
+//                upperlegL1.rotateAngleX -= PI * 2F / 5F;
 //
-//                upperlegR1.rotateAngleY += (float) Math.PI / 10F;
-//                upperlegL1.rotateAngleY -= (float) Math.PI / 10F;
+//                upperlegR1.rotateAngleY += PI / 10F;
+//                upperlegL1.rotateAngleY -= PI / 10F;
 //            }
 //
 //            if (aimedBow)
 //            {
 //                upperarmR1.rotateAngleY += -0.1F + headbase.rotateAngleY;
 //                upperarmL1.rotateAngleY += 0.1F + headbase.rotateAngleY + 0.4F;
-//                upperarmR1.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
-//                upperarmL1.rotateAngleX += -((float) Math.PI / 2F) + headbase.rotateAngleX;
+//                upperarmR1.rotateAngleX += -(PI / 2F) + headbase.rotateAngleX;
+//                upperarmL1.rotateAngleX += -(PI / 2F) + headbase.rotateAngleX;
 //                upperarmR1.rotateAngleZ += MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
 //                upperarmL1.rotateAngleZ -= MathHelper.cos(ticks * 0.09F) * 0.05F + 0.05F;
 //                upperarmR1.rotateAngleX += MathHelper.sin(ticks * 0.067F) * 0.05F;
@@ -3085,13 +3085,13 @@
 //            else
 //            {
 //                upperarmL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-//                upperarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+//                upperarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + PI) * 1.4F * limbSwingAmount / 2;
 //
 //                lowerarmL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 4;
-//                lowerarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 4;
+//                lowerarmR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + PI) * 1.4F * limbSwingAmount / 4;
 //
 //                upperlegR1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / 2;
-//                upperlegL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / 2;
+//                upperlegL1.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F + PI) * 1.4F * limbSwingAmount / 2;
 //
 //                if (isSneak)
 //                {
@@ -3127,7 +3127,7 @@
 //
 //                if (modelBiped != null)
 //                {
-//                    hovervehiclewaistbase.rotateAngleX = rotationPitch / (180F / (float) Math.PI);
+//                    hovervehiclewaistbase.rotateAngleX = rotationPitch / (180F / PI);
 //                    hovervehiclewaistbase.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY;
 //                }
 //
@@ -3140,7 +3140,7 @@
 //                    float f1 = (float) landingTimer / 20;
 //                    float f2 = 1 - f1;
 //
-//                    hovervehiclewaistbase.rotateAngleX = (rotationPitch / (180F / (float) Math.PI)) * f1;
+//                    hovervehiclewaistbase.rotateAngleX = (rotationPitch / (180F / PI)) * f1;
 //                    hovervehiclewaistbase.rotateAngleZ = -modelBiped.bipedHead.rotateAngleY * f1;
 //                    hovervehiclewaistbase.setRotationPoint(0.0F, 18 * f2, 0.0F);
 //                }

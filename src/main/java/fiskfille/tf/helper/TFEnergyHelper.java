@@ -24,30 +24,6 @@ import fiskfille.tf.common.energon.power.TransmissionHandler;
 
 public class TFEnergyHelper
 {
-    public static String formatNumber(float f)
-    {
-        String s = (long) f + "";
-
-        if (!s.contains("E"))
-        {
-            String s1 = "";
-
-            for (int i = 0; i < s.length(); ++i)
-            {
-                s1 += s.charAt(i);
-
-                if ((s.length() - i) % 3 == 1)
-                {
-                    s1 += ",";
-                }
-            }
-
-            return s1.substring(0, s1.length() - 1);
-        }
-
-        return s;
-    }
-
     public static boolean isInRange(TileEntity transmitterTile, TileEntity receiverTile)
     {
         try
@@ -205,11 +181,11 @@ public class TFEnergyHelper
 
                     if (x > x1)
                     {
-                        d0 = (double) x1 + 1.0D;
+                        d0 = x1 + 1.0D;
                     }
                     else if (x < x1)
                     {
-                        d0 = (double) x1 + 0.0D;
+                        d0 = x1 + 0.0D;
                     }
                     else
                     {
@@ -218,11 +194,11 @@ public class TFEnergyHelper
 
                     if (y > y1)
                     {
-                        d1 = (double) y1 + 1.0D;
+                        d1 = y1 + 1.0D;
                     }
                     else if (y < y1)
                     {
-                        d1 = (double) y1 + 0.0D;
+                        d1 = y1 + 0.0D;
                     }
                     else
                     {
@@ -231,11 +207,11 @@ public class TFEnergyHelper
 
                     if (z > z1)
                     {
-                        d2 = (double) z1 + 1.0D;
+                        d2 = z1 + 1.0D;
                     }
                     else if (z < z1)
                     {
-                        d2 = (double) z1 + 0.0D;
+                        d2 = z1 + 0.0D;
                     }
                     else
                     {
@@ -264,7 +240,6 @@ public class TFEnergyHelper
                         d5 = (d2 - src.zCoord) / d8;
                     }
 
-                    boolean flag5 = false;
                     byte b0;
 
                     if (d3 < d4 && d3 < d5)
@@ -314,7 +289,7 @@ public class TFEnergyHelper
                     }
 
                     Vec3 vec32 = Vec3.createVectorHelper(src.xCoord, src.yCoord, src.zCoord);
-                    x1 = (int) (vec32.xCoord = (double) MathHelper.floor_double(src.xCoord));
+                    x1 = (int) (vec32.xCoord = MathHelper.floor_double(src.xCoord));
 
                     if (b0 == 5)
                     {
@@ -322,7 +297,7 @@ public class TFEnergyHelper
                         ++vec32.xCoord;
                     }
 
-                    y1 = (int) (vec32.yCoord = (double) MathHelper.floor_double(src.yCoord));
+                    y1 = (int) (vec32.yCoord = MathHelper.floor_double(src.yCoord));
 
                     if (b0 == 1)
                     {
@@ -330,7 +305,7 @@ public class TFEnergyHelper
                         ++vec32.yCoord;
                     }
 
-                    z1 = (int) (vec32.zCoord = (double) MathHelper.floor_double(src.zCoord));
+                    z1 = (int) (vec32.zCoord = MathHelper.floor_double(src.zCoord));
 
                     if (b0 == 3)
                     {

@@ -5,20 +5,22 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.client.model.transformer.ModelChildBase;
 
 /**
  * @author BobMowzie, gegy1000
  */
 @SideOnly(Side.CLIENT)
-public class MowzieModelBase extends ModelChildBase.Biped
+public class MowzieModelBase extends ModelBiped
 {
+    public float PI = (float) Math.PI;
+
     /**
      * Store every MowzieModelRenderer in this array
      */
@@ -36,8 +38,7 @@ public class MowzieModelBase extends ModelChildBase.Biped
     }
 
     /**
-     * Saves the initial rotate angles and initial rotation points.
-     * Note: Call this at the end of the constructor.
+     * Saves the initial rotate angles and initial rotation points. Note: Call this at the end of the constructor.
      */
     protected void setInitPose()
     {
@@ -48,9 +49,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
     }
 
     /**
-     * Resets the rotate angles and rotation points to its original value if they were saved before.
-     * Note: Call this at the beginning of setRotationAngles.
-     *
+     * Resets the rotate angles and rotation points to its original value if they were saved before. Note: Call this at the beginning of setRotationAngles.
+     * 
      * @see #setInitPose() method in MowzieModelBase class.
      */
     public void setToInitPose()
@@ -64,16 +64,13 @@ public class MowzieModelBase extends ModelChildBase.Biped
     /**
      * Calculates the relative positions and rotations easily.
      * <p/>
-     * Note: When parenting a chain of boxes, such as a head to a neck to a
-     * body, the end of the chain should start first. In this case the head
-     * should be parented to the neck before parenting the neck to the body.
+     * Note: When parenting a chain of boxes, such as a head to a neck to a body, the end of the chain should start first. In this case the head should be parented to the neck before parenting the neck to the body.
      * <p/>
      * Some corrections and adjustments to the rotation point may be needed.
-     *
-     * @param child  is the child box;
+     * 
+     * @param child is the child box;
      * @param parent is the parent box.
      */
-    @Override
     protected void addChildTo(ModelRenderer child, ModelRenderer parent)
     {
         float distance = (float) Math.sqrt(Math.pow(child.rotationPointZ - parent.rotationPointZ, 2) + Math.pow(child.rotationPointY - parent.rotationPointY, 2));
@@ -96,10 +93,8 @@ public class MowzieModelBase extends ModelChildBase.Biped
      */
     protected void newAddChildTo(ModelRenderer child, ModelRenderer parent)
     {
-        float distance = (float) Math.sqrt(Math.pow(child.rotationPointZ - parent.rotationPointZ, 2) + Math.pow(child.rotationPointY - parent.rotationPointY, 2));
-        float angle = (float) Math.atan2(child.rotationPointY - parent.rotationPointY, child.rotationPointZ - parent.rotationPointZ);
-        float newRotationPointZ = (float) (distance * Math.cos(angle));
-        float newRotationPointY = (float) (distance * Math.sin(angle));
+        Math.sqrt(Math.pow(child.rotationPointZ - parent.rotationPointZ, 2) + Math.pow(child.rotationPointY - parent.rotationPointY, 2));
+        Math.atan2(child.rotationPointY - parent.rotationPointY, child.rotationPointZ - parent.rotationPointZ);
         parent.addChild(child);
         child.rotateAngleX -= parent.rotateAngleX;
         child.rotateAngleY -= parent.rotateAngleY;
@@ -110,31 +105,29 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Rotates a box to face where the entity is looking.
      * <p/>
      * Note: Just keep f3 and f4 from the setRotationAngles() method.
-     *
-     * @param f  is the number of boxes being used. (i.e. if you are
-     *           using this on a head and neck, set it to 2. Just a head, 1);
+     * 
+     * @param f is the number of boxes being used. (i.e. if you are using this on a head and neck, set it to 2. Just a head, 1);
      * @param f3 is the rotationYaw of the EntityLivingBase;
      * @param f4 is the rotationPitch of the EntityLivingBase.
      */
     public void faceTarget(MowzieModelRenderer box, float f, float f3, float f4)
     {
-        box.rotateAngleY += f3 / (180f / (float) Math.PI) / f;
-        box.rotateAngleX += f4 / (180f / (float) Math.PI) / f;
+        box.rotateAngleY += f3 / (180f / PI) / f;
+        box.rotateAngleX += f4 / (180f / PI) / f;
     }
 
     /**
      * Returns a float that can be used to rotate boxes.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param speed  is how fast the animation runs;
+     * 
+     * @param speed is how fast the animation runs;
      * @param degree is how far the box will rotate;
      * @param invert will invert the rotation;
      * @param offset will offset the timing of the animation;
-     * @param weight will make the animation favor one direction
-     *               more based on how fast the mob is moving;
-     * @param f      is the walked distance;
-     * @param f1     is the walk speed.
+     * @param weight will make the animation favor one direction more based on how fast the mob is moving;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public float rotateBox(float speed, float degree, boolean invert, float offset, float weight, float f, float f1)
     {
@@ -152,12 +145,12 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Returns a float that can be used to move boxes.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param speed  is how fast the animation runs;
+     * 
+     * @param speed is how fast the animation runs;
      * @param degree is how far the box will move;
      * @param bounce will make the box bounce;
-     * @param f      is the walked distance;
-     * @param f1     is the walk speed.
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public float moveBox(float speed, float degree, boolean bounce, float f, float f1)
     {
@@ -175,16 +168,15 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Rotates a box back and forth (rotateAngleX). Useful for arms and legs.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param box    is the ModelRenderer to be animated;
-     * @param speed  is how fast the animation runs;
+     * 
+     * @param box is the ModelRenderer to be animated;
+     * @param speed is how fast the animation runs;
      * @param degree is how far the box will rotate;
      * @param invert will invert the rotation;
      * @param offset will offset the timing of the animation;
-     * @param weight will make the animation favor one direction
-     *               more based on how fast the mob is moving;
-     * @param f      is the walked distance;
-     * @param f1     is the walk speed.
+     * @param weight will make the animation favor one direction more based on how fast the mob is moving;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void walk(MowzieModelRenderer box, float speed, float degree, boolean invert, float offset, float weight, float f, float f1)
     {
@@ -200,16 +192,15 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Rotates a box up and down (rotateAngleZ). Useful for wings and ears.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param box    is the ModelRenderer to be animated;
-     * @param speed  is how fast the animation runs;
+     * 
+     * @param box is the ModelRenderer to be animated;
+     * @param speed is how fast the animation runs;
      * @param degree is how far the box will rotate;
      * @param invert will invert the rotation;
      * @param offset will offset the timing of the animation;
-     * @param weight will make the animation favor one direction
-     *               more based on how fast the mob is moving;
-     * @param f      is the walked distance;
-     * @param f1     is the walk speed.
+     * @param weight will make the animation favor one direction more based on how fast the mob is moving;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void flap(MowzieModelRenderer box, float speed, float degree, boolean invert, float offset, float weight, float f, float f1)
     {
@@ -225,16 +216,15 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Rotates a box side to side (rotateAngleY).
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param box    is the ModelRenderer to be animated;
-     * @param speed  is how fast the animation runs;
+     * 
+     * @param box is the ModelRenderer to be animated;
+     * @param speed is how fast the animation runs;
      * @param degree is how far the box will rotate;
      * @param invert will invert the rotation;
      * @param offset will offset the timing of the animation;
-     * @param weight will make the animation favor one direction
-     *               more based on how fast the mob is moving;
-     * @param f      is the walked distance;
-     * @param f1     is the walk speed.
+     * @param weight will make the animation favor one direction more based on how fast the mob is moving;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void swing(MowzieModelRenderer box, float speed, float degree, boolean invert, float offset, float weight, float f, float f1)
     {
@@ -250,13 +240,13 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Moves a box up and down (rotationPointY). Useful for bodies.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param box    is the ModelRenderer to be animated;
-     * @param speed  is how fast the animation runs;
+     * 
+     * @param box is the ModelRenderer to be animated;
+     * @param speed is how fast the animation runs;
      * @param degree is how far the box will move;
      * @param bounce will make the box bounce;
-     * @param f      is the walked distance;
-     * @param f1     is the walk speed.
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void bob(MowzieModelRenderer box, float speed, float degree, boolean bounce, float f, float f1)
     {
@@ -272,14 +262,13 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Swings a chain of parented boxes back and forth (rotateAngleY). Useful for tails.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param boxes      are the ModelRenderers to be animated;
-     * @param speed      is how fast the animation runs;
-     * @param degree     is how far the box will move;
-     * @param rootOffset changes the delay between boxes.
-     *                   Try values from 0.0D to 5.0D or so until you like the effect;
-     * @param f          is the walked distance;
-     * @param f1         is the walk speed.
+     * 
+     * @param boxes are the ModelRenderers to be animated;
+     * @param speed is how fast the animation runs;
+     * @param degree is how far the box will move;
+     * @param rootOffset changes the delay between boxes. Try values from 0.0D to 5.0D or so until you like the effect;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void chainSwing(MowzieModelRenderer[] boxes, float speed, float degree, double rootOffset, float f, float f1)
     {
@@ -295,14 +284,13 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Swings a chain of parented boxes up and down (rotateAngleX). Useful for tails.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param boxes      are the ModelRenderers to be animated;
-     * @param speed      is how fast the animation runs;
-     * @param degree     is how far the box will move;
-     * @param rootOffset changes the delay between boxes.
-     *                   Try values from 0.0D to 5.0D or so until you like the effect;
-     * @param f          is the walked distance;
-     * @param f1         is the walk speed.
+     * 
+     * @param boxes are the ModelRenderers to be animated;
+     * @param speed is how fast the animation runs;
+     * @param degree is how far the box will move;
+     * @param rootOffset changes the delay between boxes. Try values from 0.0D to 5.0D or so until you like the effect;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void chainWave(MowzieModelRenderer[] boxes, float speed, float degree, double rootOffset, float f, float f1)
     {
@@ -318,14 +306,13 @@ public class MowzieModelBase extends ModelChildBase.Biped
      * Flaps a chain of parented boxes up and down (rotateAngleZ). Useful for tails.
      * <p/>
      * Note: Just keep f and f1 from the setRotationAngles() method.
-     *
-     * @param boxes      are the ModelRenderers to be animated;
-     * @param speed      is how fast the animation runs;
-     * @param degree     is how far the box will move;
-     * @param rootOffset changes the delay between boxes.
-     *                   Try values from 0.0D to 5.0D or so until you like the effect;
-     * @param f          is the walked distance;
-     * @param f1         is the walk speed.
+     * 
+     * @param boxes are the ModelRenderers to be animated;
+     * @param speed is how fast the animation runs;
+     * @param degree is how far the box will move;
+     * @param rootOffset changes the delay between boxes. Try values from 0.0D to 5.0D or so until you like the effect;
+     * @param f is the walked distance;
+     * @param f1 is the walk speed.
      */
     public void chainFlap(MowzieModelRenderer[] boxes, float speed, float degree, double rootOffset, float f, float f1)
     {
@@ -365,10 +352,10 @@ public class MowzieModelBase extends ModelChildBase.Biped
 
     /**
      * @param rotating The ModelRenderer you are moving.
-     * @param to       The ModelRenderer you are moving to
-     * @param t        The timer (20-0)
+     * @param to The ModelRenderer you are moving to
+     * @param f The progress (0-1)
      */
-    protected void rotateTo(ModelRenderer rotating, ModelRenderer to, float t)
+    protected void rotateTo(ModelRenderer rotating, ModelRenderer to, float f)
     {
         float rotXDif = to.rotateAngleX - rotating.rotateAngleX;
         float rotYDif = to.rotateAngleY - rotating.rotateAngleY;
@@ -382,17 +369,17 @@ public class MowzieModelBase extends ModelChildBase.Biped
         float offsetYDif = to.offsetY - rotating.offsetY;
         float offsetZDif = to.offsetZ - rotating.offsetZ;
 
-        rotating.rotateAngleX += rotXDif / 20 * t;
-        rotating.rotateAngleY += rotYDif / 20 * t;
-        rotating.rotateAngleZ += rotZDif / 20 * t;
+        rotating.rotateAngleX += rotXDif * f;
+        rotating.rotateAngleY += rotYDif * f;
+        rotating.rotateAngleZ += rotZDif * f;
 
-        rotating.offsetX += offsetXDif / 20 * t;
-        rotating.offsetY += offsetYDif / 20 * t;
-        rotating.offsetZ += offsetZDif / 20 * t;
+        rotating.offsetX += offsetXDif * f;
+        rotating.offsetY += offsetYDif * f;
+        rotating.offsetZ += offsetZDif * f;
 
-        rotating.rotationPointX += posXDif / 20 * t;
-        rotating.rotationPointY += posYDif / 20 * t;
-        rotating.rotationPointZ += posZDif / 20 * t;
+        rotating.rotationPointX += posXDif * f;
+        rotating.rotationPointY += posYDif * f;
+        rotating.rotationPointZ += posZDif * f;
     }
 
     public void addPart(MowzieModelRenderer mowzieModelRenderer)

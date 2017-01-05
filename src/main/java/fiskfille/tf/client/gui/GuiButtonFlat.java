@@ -13,12 +13,12 @@ import fiskfille.tf.TransformersMod;
 public class GuiButtonFlat extends GuiButton
 {
     public static final ResourceLocation buttonTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/widgets.png");
-    
+
     public GuiButtonFlat(int id, int x, int y, int width, String s)
     {
         super(id, x, y, width, 13, s);
     }
-    
+
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY)
     {
@@ -26,11 +26,11 @@ public class GuiButtonFlat extends GuiButton
         {
             FontRenderer fontrenderer = mc.fontRenderer;
             mc.getTextureManager().bindTexture(buttonTextures);
-            
+
             GL11.glColor4f(1, 1, 1, 1);
             field_146123_n = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
             int hoverState = getHoverState(field_146123_n);
-            
+
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -41,7 +41,7 @@ public class GuiButtonFlat extends GuiButton
             {
                 color = 0x7F7F7F;
             }
-            
+
             if (width % 2 == 0)
             {
                 drawTexturedModalRect(xPosition, yPosition, 60, hoverState * 13, width / 2, height);

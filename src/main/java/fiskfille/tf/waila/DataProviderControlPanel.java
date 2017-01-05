@@ -32,15 +32,15 @@ public class DataProviderControlPanel implements IWailaDataProvider
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
         TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
-        
+
         if (tileentity instanceof TileEntityControlPanel && config.getConfig("tf.control_panel", true))
         {
             TileEntityControlPanel tile = (TileEntityControlPanel) tileentity;
-            
+
             for (int i = 0; i < tile.getSizeInventory(); ++i)
             {
                 ItemStack itemstack1 = tile.getStackInSlot(i);
-                
+
                 if (itemstack1 != null)
                 {
                     list.add(DataCore.get(itemstack1.getItemDamage()).getTranslatedName());

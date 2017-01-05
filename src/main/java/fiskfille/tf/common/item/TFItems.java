@@ -1,6 +1,5 @@
 package fiskfille.tf.common.item;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -18,9 +17,9 @@ import fiskfille.tf.common.registry.TFItemRegistry;
 
 public class TFItems
 {
-    public static ArmorMaterial TRANSFORMERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[]{3, 9, 6, 3}, 2);
-    public static ArmorMaterial TANKMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1550 / 16, new int[]{4, 9, 7, 3}, 2);
-    public static ArmorMaterial SUBWOOFERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[]{3, 9, 7, 3}, 2);
+    public static ArmorMaterial TRANSFORMERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[] {3, 9, 6, 3}, 2);
+    public static ArmorMaterial TANKMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1550 / 16, new int[] {4, 9, 7, 3}, 2);
+    public static ArmorMaterial SUBWOOFERMATERIAL = EnumHelper.addArmorMaterial("Transformer", 1250 / 16, new int[] {3, 9, 7, 3}, 2);
 
     public static Item transformiumFragment;
     public static Item transformiumAlloy;
@@ -73,7 +72,7 @@ public class TFItems
 
     public static Item tankShell;
     public static Item missile;
-    
+
     public static Item transformiumDetector;
 
     public static void register()

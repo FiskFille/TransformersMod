@@ -11,16 +11,16 @@ public class ModelBoxBreakable extends ModelBox
 {
     private PositionTextureVertex[] vertexPositions;
     private TexturedQuad[] quadList;
-    
+
     public ModelRendererBreakable model;
-    
+
     public ModelBoxBreakable(ModelRendererBreakable modelRenderer, int textureX, int textureY, float x, float y, float z, int width, int height, int depth, float mcScale)
     {
         super(modelRenderer, textureX, textureY, x, y, z, width, height, depth, mcScale);
         model = modelRenderer;
         vertexPositions = new PositionTextureVertex[8];
         quadList = new TexturedQuad[6];
-        
+
         int textureWidth = 16;
         int textureHeight = 16;
         float x2 = x + width;
@@ -56,7 +56,7 @@ public class ModelBoxBreakable extends ModelBox
         quadList[4] = new TexturedQuad(new PositionTextureVertex[] {positiontexturevertex, positiontexturevertex7, positiontexturevertex2, positiontexturevertex1}, textureX + depth, textureY + depth, textureX + depth + width, textureY + depth + height, textureWidth, textureHeight);
         quadList[5] = new TexturedQuad(new PositionTextureVertex[] {positiontexturevertex3, positiontexturevertex4, positiontexturevertex5, positiontexturevertex6}, textureX + depth + width + depth, textureY + depth, textureX + depth + width + depth + width, textureY + depth + height, textureWidth, textureHeight);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void render(Tessellator tessellator, float f)

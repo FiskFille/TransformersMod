@@ -14,6 +14,7 @@ public class TransformerManager
     public static final Transformer VURP = new TransformerVurp();
     public static final Transformer SUBWOOFER = new TransformerSubwoofer();
     public static final Transformer CLOUDTRAP = new TransformerCloudtrap();
+
 //    public static final Transformer WARDEN = new TransformerWarden();
 
     public static void register()

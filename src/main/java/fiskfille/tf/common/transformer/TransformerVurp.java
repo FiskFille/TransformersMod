@@ -1,5 +1,11 @@
 package fiskfille.tf.common.transformer;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
@@ -8,12 +14,7 @@ import fiskfille.tf.common.entity.EntityLaser;
 import fiskfille.tf.common.item.ItemVurpsSniper;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.TransformerCar;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import fiskfille.tf.helper.TFHelper;
 
 /**
  * @author gegy1000, FiskFille
@@ -47,6 +48,18 @@ public class TransformerVurp extends TransformerCar
     public Item getBoots()
     {
         return TFItems.vurpBoots;
+    }
+
+    @Override
+    public float getHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -0.3F;
+    }
+
+    @Override
+    public float getVehicleHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -1.4F;
     }
 
     @Override
@@ -87,7 +100,7 @@ public class TransformerVurp extends TransformerCar
     }
 
     @Override
-    public void tick(EntityPlayer player, int timer)
+    public void tick(EntityPlayer player, float timer)
     {
         super.tick(player, timer);
 
@@ -113,7 +126,7 @@ public class TransformerVurp extends TransformerCar
 
         if (player.worldObj.isRemote)
         {
-            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFDataManager.isTransformed(player))
+            if (holdingSniper && TFKeyBinds.keyBindingZoom.getIsKeyPressed() && !TFHelper.isFullyTransformed(player))
             {
                 if (zoomTimer < 10)
                 {

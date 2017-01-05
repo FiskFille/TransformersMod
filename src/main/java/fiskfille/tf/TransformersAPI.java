@@ -26,7 +26,7 @@ public class TransformersAPI
 
     /**
      * Used to register the specified Transformer.
-     *
+     * 
      * @param transformer The Transformer registered.
      */
     public static void registerTransformer(Transformer transformer)
@@ -51,7 +51,7 @@ public class TransformersAPI
 
     /**
      * Gets an instance of a Transformer by name.
-     *
+     * 
      * @param name The name of the Transformer
      * @return the Transformer with the specified name, or null if there is none.
      */
@@ -70,7 +70,7 @@ public class TransformersAPI
 
     /**
      * Used to register the specified energon type.
-     *
+     * 
      * @param energon The energon type being registered.
      */
     public static void registerEnergonType(Energon energon)
@@ -112,8 +112,8 @@ public class TransformersAPI
 
     /**
      * Used to register the specified Displayable.
-     *
-     * @param item        The item to be assigned to.
+     * 
+     * @param item The item to be assigned to.
      * @param displayable The Displayable registered.
      */
     public static void registerDisplayable(Item item, Class<? extends Displayable> displayableClass)

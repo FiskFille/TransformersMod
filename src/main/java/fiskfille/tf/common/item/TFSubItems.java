@@ -51,9 +51,6 @@ public class TFSubItems
     public static ItemStack[] cloudtraps_greave;
     public static ItemStack[] cloudtraps_visor;
 
-
-    private static int ID_MAX;
-
     public static void register()
     {
         int id = 0;
@@ -98,8 +95,6 @@ public class TFSubItems
         {
             e.printStackTrace();
         }
-
-        ID_MAX = id;
     }
 
     public static boolean matches(ItemStack itemstack, ItemStack[] item)

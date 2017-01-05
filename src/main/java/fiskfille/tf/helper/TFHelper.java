@@ -24,6 +24,8 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
@@ -146,6 +148,39 @@ public class TFHelper
         return null;
     }
 
+    public static boolean isFullyTransformed(EntityPlayer player)
+    {
+        return isPlayerTransformer(player) && getTransformationTimer(player) == 1;
+    }
+
+    public static boolean isInRobotMode(EntityPlayer player)
+    {
+        return isPlayerTransformer(player) && getTransformationTimer(player) == 0;
+    }
+
+    public static boolean isInStealthMode(EntityPlayer player)
+    {
+        Transformer transformer = TFHelper.getTransformer(player);
+        int altMode = TFData.ALT_MODE.get(player);
+
+        if (altMode == -1)
+        {
+            altMode = TFData.PREV_ALT_MODE.get(player);
+        }
+
+        return transformer != null && transformer.hasStealthForce(player, altMode) && altMode != -1 && getStealthModeTimer(player) > 0;
+    }
+
+    public static float getTransformationTimer(EntityPlayer player)
+    {
+        return median(TFData.TRANSFORM_PROGRESS.get(player), TFData.PREV_TRANSFORM_PROGRESS.get(player), TransformersMod.proxy.getRenderTick());
+    }
+
+    public static float getStealthModeTimer(EntityPlayer player)
+    {
+        return median(TFData.STEALTH_FORCE_PROGRESS.get(player), TFData.PREV_STEALTH_FORCE_PROGRESS.get(player), TransformersMod.proxy.getRenderTick());
+    }
+
     public static void replaceBlock(World world, int x, int y, int z, Block block, Block replacement)
     {
         if (world.getBlock(x, y, z) == block)
@@ -219,7 +254,7 @@ public class TFHelper
                 {
                     ChunkCoordinates chunkcoordinates = worldserver1.getSpawnPoint();
                     chunkcoordinates.posY = entity.worldObj.getTopSolidOrLiquidBlock(chunkcoordinates.posX, chunkcoordinates.posZ);
-                    entity1.setLocationAndAngles((double)chunkcoordinates.posX, (double)chunkcoordinates.posY, (double)chunkcoordinates.posZ, entity1.rotationYaw, entity1.rotationPitch);
+                    entity1.setLocationAndAngles(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, entity1.rotationYaw, entity1.rotationPitch);
                 }
 
                 worldserver1.spawnEntityInWorld(entity1);
@@ -301,5 +336,54 @@ public class TFHelper
         }
 
         return tile;
+    }
+
+    public static float median(float curr, float prev, float partialTicks)
+    {
+        return prev + (curr - prev) * partialTicks;
+    }
+
+    public static double median(double curr, double prev, float partialTicks)
+    {
+        return prev + (curr - prev) * partialTicks;
+    }
+
+    public static float getWidth(EntityPlayer player)
+    {
+        return 0.6F;
+    }
+
+    public static float getHeight(EntityPlayer player)
+    {
+        return 1.8F + getCameraYOffset(player);
+    }
+
+    public static float getScale(EntityPlayer player)
+    {
+        return 1;
+    }
+
+    public static float getCameraYOffset(EntityPlayer player)
+    {
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        if (transformer != null)
+        {
+            int altMode = TFData.ALT_MODE.get(player);
+
+            return TFHelper.median(transformer.getVehicleHeightOffset(player, altMode), transformer.getHeightOffset(player, altMode), TFHelper.getTransformationTimer(player));
+        }
+
+        return 0;
+    }
+
+    public static boolean shouldOverrideScale(EntityPlayer player)
+    {
+        if (getTransformer(player) == null && TFData.PREV_TRANSFORMER.get(player) != null)
+        {
+            return true;
+        }
+
+        return !player.isEntityAlive() || (getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null) && (getHeight(player) != player.height || getWidth(player) != player.width);
     }
 }

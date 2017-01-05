@@ -16,25 +16,21 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModelRendererTF extends MowzieModelRenderer
 {
-    private ModelBase baseModel;
     private List<ModelRenderer> hideUntil = Lists.newArrayList();
 
     public ModelRendererTF(ModelBase modelBase, String name)
     {
         super(modelBase, name);
-        baseModel = modelBase;
     }
 
     public ModelRendererTF(ModelBase modelBase, int x, int y)
     {
         super(modelBase, x, y);
-        baseModel = modelBase;
     }
 
     public ModelRendererTF(ModelBase modelBase)
     {
         super(modelBase);
-        baseModel = modelBase;
     }
 
     @Override
@@ -104,7 +100,7 @@ public class ModelRendererTF extends MowzieModelRenderer
 
         GL11.glPopMatrix();
     }
-    
+
     protected void renderThis(float f)
     {
         if (hideUntil.isEmpty())
@@ -112,7 +108,7 @@ public class ModelRendererTF extends MowzieModelRenderer
             GL11.glCallList(displayList);
         }
     }
-    
+
     protected void renderChildren(float f)
     {
         if (childModels != null)
@@ -121,12 +117,12 @@ public class ModelRendererTF extends MowzieModelRenderer
             {
                 ModelRendererTF model = (ModelRendererTF) childModels.get(i);
                 List list = new ArrayList(hideUntil);
-                
+
                 if (hideUntil.contains(model))
                 {
                     list = Lists.newArrayList();
                 }
-                
+
                 model.hideUntil = list;
                 model.render(f);
             }
@@ -138,7 +134,7 @@ public class ModelRendererTF extends MowzieModelRenderer
         if (modelRenderers.length == 0)
         {
             hideUntil.clear();
-            
+
             if (childModels != null)
             {
                 for (int i = 0; i < childModels.size(); ++i)
@@ -147,10 +143,10 @@ public class ModelRendererTF extends MowzieModelRenderer
                     model.hideUntil();
                 }
             }
-            
+
             return;
         }
-        
+
         hideUntil.addAll(Arrays.asList(modelRenderers));
     }
 }

@@ -109,7 +109,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
         {
             transmissionHandler.readFromNBT(nbt);
             receiverHandler.readFromNBT(nbt);
-            
+
             if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
             {
                 NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
@@ -128,7 +128,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
         {
             transmissionHandler.writeToNBT(nbt);
             receiverHandler.writeToNBT(nbt);
-            
+
             if (storage.getEnergy() > 0)
             {
                 NBTTagCompound config = new NBTTagCompound();

@@ -26,9 +26,9 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
             {
                 percentage = MathHelper.clamp_float((float) (mouseY - (yPosition + 4)) / (float) (height - 8), 0, 1);
             }
-            
+
             percentage = MathHelper.clamp_float(1 - (float) parent.layers.indexOf(parent.getLayer()) / (parent.layers.size() - 1), 0, 1);
-            
+
             if (dragging)
             {
                 onChange.run();
@@ -38,7 +38,7 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
 
             for (int i = 0; i < parent.layers.size(); ++i)
             {
-                float f = 1 - (float)parent.layers.indexOf(parent.layers.get(i)) / (parent.layers.size() - 1);
+                float f = 1 - (float) parent.layers.indexOf(parent.layers.get(i)) / (parent.layers.size() - 1);
                 float shade = 0.1F;
 
                 GL11.glColor4f(shade, shade, shade, 1);
@@ -50,7 +50,7 @@ public class GuiVerticalHeightSlider extends GuiVerticalSlider
             drawTexturedModalRect(xPosition, yPosition + (int) (percentage * (height - 8)), 20, 0, width, 4);
             drawTexturedModalRect(xPosition, yPosition + (int) (percentage * (height - 8)) + 4, 20, 196, width, 4);
 
-            drawString(mc.fontRenderer, parent.getLayer() + "", xPosition + width + 3, yPosition + (int) (percentage * (float) (height - 8)), -1);
+            drawString(mc.fontRenderer, parent.getLayer() + "", xPosition + width + 3, yPosition + (int) (percentage * (height - 8)), -1);
         }
     }
 }

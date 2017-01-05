@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
@@ -77,11 +76,11 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
             model.render(tower, partialTicks);
             TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);
-            
+
             if (world != null)
             {
                 int progress = TFRenderHelper.getBlockDestroyProgress(world, tower.xCoord, tower.yCoord, tower.zCoord);
-                
+
                 if (progress >= 0)
                 {
                     OpenGlHelper.glBlendFunc(774, 768, 1, 0);
@@ -100,7 +99,7 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
                     GL11.glPopMatrix();
                 }
             }
-            
+
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
 

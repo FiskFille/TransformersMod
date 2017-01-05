@@ -19,10 +19,10 @@ public class RenderItemColumn extends RenderItemTileEntity
     {
         float scale = 0.65F;
         GL11.glScalef(scale, scale, scale);
-        
-        if (type == type.ENTITY || type == type.INVENTORY)
+
+        if (type == ItemRenderType.ENTITY || type == ItemRenderType.INVENTORY)
         {
-            if (type == type.INVENTORY)
+            if (type == ItemRenderType.INVENTORY)
             {
                 GL11.glRotatef(90, 0, 1, 0);
             }
@@ -30,18 +30,18 @@ public class RenderItemColumn extends RenderItemTileEntity
             {
                 GL11.glRotatef(180, 0, 1, 0);
             }
-            
+
             GL11.glTranslatef(-0.5F, -0.9F, -0.5F);
         }
-        else if (type == type.EQUIPPED)
+        else if (type == ItemRenderType.EQUIPPED)
         {
             GL11.glTranslatef(0.5F, 0.0F, 0.5F);
         }
-        else if (type == type.EQUIPPED_FIRST_PERSON || type == type.FIRST_PERSON_MAP)
+        else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.FIRST_PERSON_MAP)
         {
             GL11.glTranslatef(0.5F, 0.0F, 0.5F);
         }
-        
+
         TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 }

@@ -27,7 +27,7 @@ public class TFMathHelper
 
         for (int i = digits - 1; i >= 0; --i)
         {
-            int j = MathHelper.floor_double((float)number / increments[i]);
+            int j = MathHelper.floor_double((float) number / increments[i]);
 
             aint[i] = j * increments[i] - total;
             total = j * increments[i];

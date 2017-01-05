@@ -43,7 +43,7 @@ public class PowerManager
     {
         for (Map.Entry<ItemStack, Integer> e : powerSources.entrySet())
         {
-            ItemStack itemstack = new ItemStack(item, 1, metadata);
+            new ItemStack(item, 1, metadata);
 
             if (e.getKey().getItem() == item && e.getKey().getItemDamage() == metadata)
             {

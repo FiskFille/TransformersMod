@@ -42,11 +42,11 @@ public class RenderCrystal extends TileEntitySpecialRenderer
         model.render();
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        
+
         if (tile.getWorldObj() != null)
         {
             int progress = TFRenderHelper.getBlockDestroyProgress(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
-            
+
             if (progress >= 0)
             {
                 OpenGlHelper.glBlendFunc(774, 768, 1, 0);
@@ -65,7 +65,7 @@ public class RenderCrystal extends TileEntitySpecialRenderer
                 GL11.glPopMatrix();
             }
         }
-        
+
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }

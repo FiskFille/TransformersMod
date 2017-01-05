@@ -14,28 +14,28 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemPowerCanister extends ItemEnergyContainer
 {
     public final String[] tiers = {"iron", "gold", "diamond", "emerald"};
-    
+
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
-    
+
     public ItemPowerCanister()
     {
         super(0);
         setMaxStackSize(1);
         setHasSubtypes(true);
     }
-    
+
     @Override
     public float getEnergyCapacity(ItemStack itemstack)
     {
         int tier = Math.min(itemstack.getItemDamage(), tiers.length - 1);
         int i = 4;
-        
+
         for (int j = 0; j < tier; ++j)
         {
             i *= 2;
         }
-        
+
         return i * 1000;
     }
 
@@ -50,7 +50,7 @@ public class ItemPowerCanister extends ItemEnergyContainer
     {
         return super.getDurabilityForDisplay(itemstack);
     }
-    
+
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List subItems)
     {
@@ -58,7 +58,7 @@ public class ItemPowerCanister extends ItemEnergyContainer
         {
             ItemStack itemstack = new ItemStack(this, 1, i);
             subItems.add(itemstack.copy());
-            
+
             receiveEnergy(itemstack, getEnergyCapacity(itemstack), false);
             subItems.add(itemstack.copy());
         }
@@ -77,7 +77,7 @@ public class ItemPowerCanister extends ItemEnergyContainer
     {
         return icons[Math.min(damage, tiers.length - 1)];
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamageForRenderPass(int damage, int pass)
@@ -95,7 +95,7 @@ public class ItemPowerCanister extends ItemEnergyContainer
         {
             icons[i] = iconRegister.registerIcon(getIconString() + "_" + tiers[i]);
         }
-        
+
         icons[tiers.length] = iconRegister.registerIcon(getIconString() + "_overlay");
     }
 }

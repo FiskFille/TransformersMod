@@ -4,5 +4,5 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityGroundBridgeFrame extends TileEntity
 {
-	
+
 }

@@ -46,36 +46,36 @@ public class GuiDisplayStationArmor extends GuiContainer
         int k = (width - xSize) / 2;
         int l = (height - ySize) / 2;
         drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
-        
-        ContainerDisplayStationArmor container = (ContainerDisplayStationArmor)inventorySlots;
-        
+
+        ContainerDisplayStationArmor container = (ContainerDisplayStationArmor) inventorySlots;
+
         for (int i = 0; i < 4; ++i)
         {
-        	ItemStack itemstack = tileentity.getStackInSlot(i);
-        	ItemStack itemstack1 = container.craftMatrix.getStackInSlot(i);
-        	
-        	if (itemstack != null && itemstack1 != null)
-        	{
-        		ItemStack itemstack2 = new ItemStack(itemstack.getItem());
-        		
-        		int amount = getArmorValue(itemstack1, i) - getArmorValue(itemstack2, i);
-        		String s = (amount < 0 ? EnumChatFormatting.DARK_RED : EnumChatFormatting.DARK_BLUE) + I18n.format(amount < 0 ? "gui.display_station.armor.neg" : "gui.display_station.armor", amount < 0 ? -amount : amount);
-        		fontRendererObj.drawString(s, k + 71, l + 22 + i * 18, 0xffffff);
-        	}
+            ItemStack itemstack = tileentity.getStackInSlot(i);
+            ItemStack itemstack1 = container.craftMatrix.getStackInSlot(i);
+
+            if (itemstack != null && itemstack1 != null)
+            {
+                ItemStack itemstack2 = new ItemStack(itemstack.getItem());
+
+                int amount = getArmorValue(itemstack1, i) - getArmorValue(itemstack2, i);
+                String s = (amount < 0 ? EnumChatFormatting.DARK_RED : EnumChatFormatting.DARK_BLUE) + I18n.format(amount < 0 ? "gui.display_station.armor.neg" : "gui.display_station.armor", amount < 0 ? -amount : amount);
+                fontRendererObj.drawString(s, k + 71, l + 22 + i * 18, 0xffffff);
+            }
         }
     }
-    
+
     public int getArmorValue(ItemStack itemstack, int slot)
     {
         if (itemstack != null && itemstack.getItem() instanceof ISpecialArmor)
         {
-            return ((ISpecialArmor)itemstack.getItem()).getArmorDisplay(mc.thePlayer, itemstack, slot);
+            return ((ISpecialArmor) itemstack.getItem()).getArmorDisplay(mc.thePlayer, itemstack, slot);
         }
         else if (itemstack != null && itemstack.getItem() instanceof ItemArmor)
         {
-            return ((ItemArmor)itemstack.getItem()).damageReduceAmount;
+            return ((ItemArmor) itemstack.getItem()).damageReduceAmount;
         }
-        
+
         return 0;
     }
 }

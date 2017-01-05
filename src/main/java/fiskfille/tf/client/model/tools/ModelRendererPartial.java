@@ -58,7 +58,7 @@ public class ModelRendererPartial extends MowzieModelRenderer
     {
         cubeList.add(new ModelBoxPartial(this, textureOffsetX, textureOffsetY, p_78790_1_, p_78790_2_, p_78790_3_, p_78790_4_, p_78790_5_, p_78790_6_, p_78790_7_));
     }
-    
+
     public ModelBoxPartial getBox()
     {
         return (ModelBoxPartial) cubeList.get(0);

@@ -3,7 +3,6 @@ package fiskfille.tf.common.transformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import fiskfille.tf.common.achievement.TFAchievements;
-import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.TransformerJet;
 
@@ -42,6 +41,18 @@ public class TransformerSkystrike extends TransformerJet
     }
 
     @Override
+    public float getHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -0.1F;
+    }
+
+    @Override
+    public float getVehicleHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -1.25F;
+    }
+
+    @Override
     public boolean onJump(EntityPlayer player)
     {
         player.motionY += 0.205D;
@@ -49,23 +60,8 @@ public class TransformerSkystrike extends TransformerJet
     }
 
     @Override
-    public void tick(EntityPlayer player, int timer)
+    public void tick(EntityPlayer player, float timer)
     {
-        if (timer == 20)
-        {
-            if (!player.capabilities.isFlying && !(TFDataManager.getTransformationTimer(player) < 10))
-            {
-                if (player.motionY < 0.0D)
-                {
-                    player.motionY *= 0.85F;
-                }
-                else
-                {
-                    player.motionY += 0.02D;
-                }
-            }
-        }
-
         player.addStat(TFAchievements.skystrike, 1);
     }
 }

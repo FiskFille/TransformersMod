@@ -137,7 +137,7 @@ public class BlockRelayTorch extends BlockRelayTower
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
-        return (world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || func_150107_m(world, x, y - 1, z) || func_150107_m(world, x, y + 1, z));
+        return world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || func_150107_m(world, x, y - 1, z) || func_150107_m(world, x, y + 1, z);
     }
 
     @Override

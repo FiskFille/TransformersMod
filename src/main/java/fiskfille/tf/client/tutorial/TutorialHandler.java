@@ -1,15 +1,17 @@
 package fiskfille.tf.client.tutorial;
 
-import com.google.common.collect.Maps;
-import fiskfille.tf.common.data.TFDataManager;
-import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.entity.player.EntityPlayer;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Map;
+
+import net.minecraft.entity.player.EntityPlayer;
+
+import com.google.common.collect.Maps;
+
+import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TutorialHandler
 {
@@ -45,7 +47,7 @@ public class TutorialHandler
 
     public static void openTutorial(EntityPlayer player, Transformer transformer)
     {
-        EnumTutorialType type = transformer.getTutorialType(TFDataManager.getAltMode(player));
+        EnumTutorialType type = transformer.getTutorialType(TFData.ALT_MODE.get(player));
 
         if (type != null && !isCompleted(type))
         {

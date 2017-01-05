@@ -41,7 +41,19 @@ public class TransformerPurge extends TransformerTank
     }
 
     @Override
-    public void tick(EntityPlayer player, int timer)
+    public float getHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -0.1F;
+    }
+
+    @Override
+    public float getVehicleHeightOffset(EntityPlayer player, int altMode)
+    {
+        return -1.1F;
+    }
+
+    @Override
+    public void tick(EntityPlayer player, float timer)
     {
         super.tick(player, timer);
 

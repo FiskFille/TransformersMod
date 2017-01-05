@@ -38,7 +38,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
 
         addPlayerInventory(inventoryPlayer, 0);
     }
-    
+
     @Override
     public TileEntityEnergonProcessor getTile()
     {
@@ -192,7 +192,7 @@ public class ContainerEnergonProcessor extends ContainerBasic
 
             slot.onPickupFromSlot(player, itemstack1);
         }
-        
+
         return itemstack;
     }
 }

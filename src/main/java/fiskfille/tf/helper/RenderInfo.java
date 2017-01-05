@@ -169,7 +169,7 @@ public class RenderInfo
             tessellator.setNormal(1, 0, 0);
             renderBlocks.renderFaceXPos(baseBlock, 0, 0, 0, getBlockTextureFromSide(5));
         }
-        
+
         tessellator.draw();
     }
 }

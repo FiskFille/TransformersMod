@@ -22,7 +22,7 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
     public RenderTransformiumSeed()
     {
         model = new ModelTransformiumSeed();
-        ItemRenderer itemRenderer = new ItemRenderer(Minecraft.getMinecraft());
+        new ItemRenderer(Minecraft.getMinecraft());
     }
 
     public void renderModelAt(TileEntityTransformiumSeed seed, double x, double y, double z, float partialTicks)
@@ -32,7 +32,7 @@ public class RenderTransformiumSeed extends TileEntitySpecialRenderer
         GL11.glScalef(1.0F, -1F, -1F);
         bindTexture(texture);
         model.render(new EntityTransformiumSeed(seed.getWorldObj()));
-        
+
         GL11.glDisable(GL11.GL_LIGHTING);
         TFRenderHelper.setLighting(61680);
         bindTexture(new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/transformium_seed_lights.png"));

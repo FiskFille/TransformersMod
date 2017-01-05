@@ -55,7 +55,7 @@ public class MessageGroundBridgeTeleport implements IMessage
 
                 if (entity != null && entity.worldObj.getTileEntity(message.x, message.y, message.z) instanceof TileEntityGroundBridgeTeleporter)
                 {
-                    TileEntityGroundBridgeTeleporter teleporter = (TileEntityGroundBridgeTeleporter)entity.worldObj.getTileEntity(message.x, message.y, message.z);
+                    TileEntityGroundBridgeTeleporter teleporter = (TileEntityGroundBridgeTeleporter) entity.worldObj.getTileEntity(message.x, message.y, message.z);
                     BlockGroundBridgeTeleporter.doTeleportClient(entity, teleporter);
                 }
             }

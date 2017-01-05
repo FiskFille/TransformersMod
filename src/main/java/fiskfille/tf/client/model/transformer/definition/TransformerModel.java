@@ -10,7 +10,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
-import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.helper.TFHelper;
 
 @SideOnly(Side.CLIENT)
 public abstract class TransformerModel
@@ -18,9 +18,9 @@ public abstract class TransformerModel
     public abstract ModelTransformerBase getMainModel();
 
     public abstract ModelVehicleBase getVehicleModel();
-    
+
     public abstract ModelRendererTF[] getFeet();
-    
+
     public abstract ModelRendererTF[] getLegs();
 
     public abstract ModelRendererTF getLowerArm();
@@ -32,7 +32,7 @@ public abstract class TransformerModel
     public abstract ModelRendererTF getHead();
 
     public abstract ResourceLocation getTexture(Entity entity);
-    
+
     public abstract float getFootHeight();
 
     public ModelVehicleBase getStealthModel()
@@ -61,19 +61,19 @@ public abstract class TransformerModel
     {
         return TransformersMod.modid;
     }
-    
+
     public boolean hasLightsLayer()
-	{
-		return false;
-	}
-    
+    {
+        return false;
+    }
+
     public final ModelVehicleBase getEffectiveVehicleModel(EntityPlayer player)
     {
-        if (getStealthModel() != null && TFDataManager.getStealthModeTimer(player) != 5 && TFDataManager.isTransformed(player))
+        if (getStealthModel() != null && TFHelper.getStealthModeTimer(player) > 0 && TFHelper.isFullyTransformed(player))
         {
             return getStealthModel();
         }
-        
+
         return getVehicleModel();
     }
 

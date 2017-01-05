@@ -64,7 +64,7 @@ public class SlotAlloyCrucible extends Slot
             int amount = totalAmount;
             float xp = FurnaceRecipes.smelting().func_151398_b(itemstack);
             int i;
-            
+
             for (int j = 0; j < 2; ++j)
             {
                 if (xp > 0 && xp < 1.0F)
@@ -78,15 +78,15 @@ public class SlotAlloyCrucible extends Slot
 
                     amount += i;
                 }
-                
+
                 if (xp > 0)
                 {
                     break;
                 }
-                
+
                 xp = AlloyRecipes.getInstance().getXpYield(itemstack);
             }
-            
+
             while (amount > 0)
             {
                 i = EntityXPOrb.getXPSplit(amount);

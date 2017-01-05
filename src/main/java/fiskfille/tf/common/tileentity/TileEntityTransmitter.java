@@ -135,7 +135,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                     {
                         int amount = Math.min(ItemFuelCanister.getFluidAmount(fluidContainer), tank.getCapacity() - tank.getFluidAmount());
                         int success = fill(ForgeDirection.UNKNOWN, container.drain(fluidContainer, amount, false), true);
-                        
+
                         if (success > 0)
                         {
                             container.drain(fluidContainer, success, true);
@@ -200,7 +200,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         {
             transmissionHandler.readFromNBT(nbt);
             receiverHandler.readFromNBT(nbt);
-            
+
             if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
             {
                 NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
@@ -222,7 +222,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         {
             transmissionHandler.writeToNBT(nbt);
             receiverHandler.writeToNBT(nbt);
-            
+
             if (storage.getEnergy() > 0 || tank.getFluid() != null && tank.getFluidAmount() > 0)
             {
                 NBTTagCompound config = new NBTTagCompound();
@@ -309,7 +309,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
         FluidStack stack = tank.getFluid();
-        
+
         if (stack == null || stack.amount <= 0 || FluidStack.areFluidStackTagsEqual(stack, resource))
         {
             return tank.fill(resource, doFill);
@@ -378,7 +378,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
         {
             return false;
         }
-        
+
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return isItemValidForSlot(slot, itemstack);
     }
@@ -394,7 +394,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     {
         return getBlockMetadata() < 4 && itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
     }
-    
+
     @Override
     public String getInventoryName()
     {

@@ -26,7 +26,7 @@ import fiskfille.tf.helper.TFHelper;
 
 public class BlockControlPanel extends BlockDirectional implements ITileEntityProvider
 {
-    public static final int[][] directions = new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+    public static final int[][] directions = new int[][] { {-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
     private final Random rand = new Random();
 
@@ -97,7 +97,7 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
 
         if (isBlockTopOfPanel(metadata))
         {
-            if (tile instanceof TileEntityControlPanel && ((TileEntityControlPanel)tile).hasUpgrade(DataCore.spaceBridge))
+            if (tile instanceof TileEntityControlPanel && ((TileEntityControlPanel) tile).hasUpgrade(DataCore.spaceBridge))
             {
                 float width = f * 6;
                 float depth = f * 4;
@@ -254,7 +254,7 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
                         }
 
                         itemstack.stackSize -= k1;
-                        EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -262,9 +262,9 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
                         }
 
                         float f3 = 0.05F;
-                        entityitem.motionX = (double) ((float) rand.nextGaussian() * f3);
-                        entityitem.motionY = (double) ((float) rand.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double) ((float) rand.nextGaussian() * f3);
+                        entityitem.motionX = (float) rand.nextGaussian() * f3;
+                        entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
+                        entityitem.motionZ = (float) rand.nextGaussian() * f3;
                         world.spawnEntityInWorld(entityitem);
                     }
                 }

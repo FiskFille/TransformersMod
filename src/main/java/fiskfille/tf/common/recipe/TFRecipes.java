@@ -31,7 +31,7 @@ import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRecipes
 {
-    public static void registerRecipes()
+    public static void register()
     {
         PowerManager.load();
         addSmelting();
@@ -41,12 +41,12 @@ public class TFRecipes
         addCraftingComponentRecipes();
         addProjectileRecipes();
         addArmorRecipes();
-        
+
         GameRegistry.addRecipe(new RecipeClearConfig());
         GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector), "IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformiumFragment, 'R', Blocks.redstone_block, 'r', Items.redstone);
         GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), "TET", "TNT", "DND", 'T', TFBlocks.transformiumBlock, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block);
 
-        Item[] materials = { Items.gold_ingot, Items.diamond, Items.emerald };
+        Item[] materials = {Items.gold_ingot, Items.diamond, Items.emerald};
 
         for (int i = 0; i < materials.length; ++i)
         {
@@ -154,7 +154,7 @@ public class TFRecipes
         GameRegistry.addShapelessRecipe(Dyes.get(PALE_GREEN, 2), Dyes.get(LIME), Dyes.get(WHITE));
         GameRegistry.addShapelessRecipe(Dyes.get(PALE_BROWN, 2), Dyes.get(BEIGE), Dyes.get(GRAY));
         GameRegistry.addShapelessRecipe(Dyes.get(PALE_BROWN, 3), Dyes.get(BROWN), Dyes.get(WHITE), Dyes.get(GRAY));
-        
+
         for (int index = 16; index < Dyes.dyes.size(); ++index)
         {
             int id = Dyes.dyes.get(index);

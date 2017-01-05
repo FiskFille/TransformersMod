@@ -5,11 +5,11 @@ import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFHelper;
 
 public class ModelControlPanel extends MowzieModelBase
 {
-	public MowzieModelRenderer table1;
+    public MowzieModelRenderer table1;
     public MowzieModelRenderer dimPanel1;
     public MowzieModelRenderer table2;
     public MowzieModelRenderer table10;
@@ -80,7 +80,7 @@ public class ModelControlPanel extends MowzieModelBase
 
     public ModelControlPanel()
     {
-    	textureWidth = 128;
+        textureWidth = 128;
         textureHeight = 128;
         switchmiddle_1 = new ModelRendererBreakable(this, false, 0, 9);
         switchmiddle_1.setRotationPoint(0.2F, 0.5F, 1.0F);
@@ -373,7 +373,7 @@ public class ModelControlPanel extends MowzieModelBase
         table2.addChild(table4);
         screen1.addChild(screen4);
         dimPanel6.addChild(dimPanel9);
-        
+
         setInitPose();
     }
 
@@ -383,7 +383,7 @@ public class ModelControlPanel extends MowzieModelBase
 
         if (tile != null && tile.getWorldObj() != null)
         {
-            MowzieModelRenderer[][] models = {{switchtop_1, switchtop_2, switchtop_3, switchtop_4}, {switchmiddle_1, switchmiddle_2, switchmiddle_3, switchmiddle_4}, {switchbottom_1, switchbottom_2, switchbottom_3, switchbottom_4}};
+            MowzieModelRenderer[][] models = { {switchtop_1, switchtop_2, switchtop_3, switchtop_4}, {switchmiddle_1, switchmiddle_2, switchmiddle_3, switchmiddle_4}, {switchbottom_1, switchbottom_2, switchbottom_3, switchbottom_4}};
 
             for (int i = 0; i < models.length; ++i)
             {
@@ -393,17 +393,17 @@ public class ModelControlPanel extends MowzieModelBase
                 }
             }
 
-            needle_1.rotateAngleY = (float) Math.PI / 2 * TFRenderHelper.median(tile.animPortalDirection, tile.prevAnimPortalDirection, partialTicks);
-            levercover1.rotateAngleX = 0.45378560551852565F - 1.9F * TFRenderHelper.median(tile.activationLeverCoverTimer, tile.prevActivationLeverCoverTimer, partialTicks);
-            levercover2.rotateAngleX = 1.4311699866353502F - 0.5F * TFRenderHelper.median(tile.activationLeverCoverTimer, tile.prevActivationLeverCoverTimer, partialTicks);
-            lever1.rotateAngleX = 0.17453292519943295F + 2.5F * TFRenderHelper.median(tile.activationLeverTimer, tile.prevActivationLeverTimer, partialTicks);
+            needle_1.rotateAngleY = PI / 2 * TFHelper.median(tile.animPortalDirection, tile.prevAnimPortalDirection, partialTicks);
+            levercover1.rotateAngleX = 0.45378560551852565F - 1.9F * TFHelper.median(tile.activationLeverCoverTimer, tile.prevActivationLeverCoverTimer, partialTicks);
+            levercover2.rotateAngleX = 1.4311699866353502F - 0.5F * TFHelper.median(tile.activationLeverCoverTimer, tile.prevActivationLeverCoverTimer, partialTicks);
+            lever1.rotateAngleX = 0.17453292519943295F + 2.5F * TFHelper.median(tile.activationLeverTimer, tile.prevActivationLeverTimer, partialTicks);
         }
 
         table1.render(0.0625F);
-        
+
         if (tile.hasUpgrade(DataCore.spaceBridge))
         {
-        	dimPanel1.render(0.0625F);
+            dimPanel1.render(0.0625F);
         }
     }
 }

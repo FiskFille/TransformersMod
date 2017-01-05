@@ -48,24 +48,24 @@ public class RenderColumn extends TileEntitySpecialRenderer
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             TFRenderHelper.setLighting(61680);
             model.render(tile);
-            
+
             Tessellator tessellator = Tessellator.instance;
             float f = 0.001F;
             float texX = 30;
             float texY = 31;
             float texWidth = 7;
             float width = texWidth * 0.0625F;
-            
+
             tessellator.startDrawingQuads();
             tessellator.addVertexWithUV(width / 2, -(0.5F + f), -width / 2, (texX + texWidth) * (1F / 128), (texY + texWidth) * (1F / 64));
             tessellator.addVertexWithUV(width / 2, -(0.5F + f), width / 2, (texX + texWidth) * (1F / 128), texY * (1F / 64));
             tessellator.addVertexWithUV(-width / 2, -(0.5F + f), width / 2, texX * (1F / 128), texY * (1F / 64));
             tessellator.addVertexWithUV(-width / 2, -(0.5F + f), -width / 2, texX * (1F / 128), (texY + texWidth) * (1F / 64));
             texX += texWidth;
-            tessellator.addVertexWithUV(width / 2, (1.5F + f), -width / 2, (texX + texWidth) * (1F / 128), (texY + texWidth) * (1F / 64));
-            tessellator.addVertexWithUV(-width / 2, (1.5F + f), -width / 2, texX * (1F / 128), (texY + texWidth) * (1F / 64));
-            tessellator.addVertexWithUV(-width / 2, (1.5F + f), width / 2, texX * (1F / 128), texY * (1F / 64));
-            tessellator.addVertexWithUV(width / 2, (1.5F + f), width / 2, (texX + texWidth) * (1F / 128), texY * (1F / 64));
+            tessellator.addVertexWithUV(width / 2, 1.5F + f, -width / 2, (texX + texWidth) * (1F / 128), (texY + texWidth) * (1F / 64));
+            tessellator.addVertexWithUV(-width / 2, 1.5F + f, -width / 2, texX * (1F / 128), (texY + texWidth) * (1F / 64));
+            tessellator.addVertexWithUV(-width / 2, 1.5F + f, width / 2, texX * (1F / 128), texY * (1F / 64));
+            tessellator.addVertexWithUV(width / 2, 1.5F + f, width / 2, (texX + texWidth) * (1F / 128), texY * (1F / 64));
             tessellator.draw();
             TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);

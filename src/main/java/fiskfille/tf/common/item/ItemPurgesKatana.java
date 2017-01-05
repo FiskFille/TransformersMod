@@ -3,7 +3,6 @@ package fiskfille.tf.common.item;
 import com.google.common.collect.Multimap;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.command.IEntitySelector;
@@ -33,7 +32,7 @@ public class ItemPurgesKatana extends ItemSword
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (!TFDataManager.isTransformed(player) && TFHelper.isPlayerPurge(player))
+        if (!TFHelper.isFullyTransformed(player) && TFHelper.isPlayerPurge(player))
         {
             int timeLeft = getMaxItemUseDuration(stack) - time;
             double force = (double) timeLeft / 10;
@@ -46,7 +45,7 @@ public class ItemPurgesKatana extends ItemSword
             stack.damageItem(1, player);
             Vec3 vec3 = TFVectorHelper.getFrontCoords(player, player.onGround ? force : force * 0.75D, true);
             player.motionX += vec3.xCoord - player.posX;
-            player.motionY += vec3.yCoord - player.posY;
+            player.motionY += vec3.yCoord - player.boundingBox.minY;
             player.motionZ += vec3.zCoord - player.posZ;
             player.fallDistance = 0;
             player.swingItem();
@@ -76,7 +75,7 @@ public class ItemPurgesKatana extends ItemSword
     {
         if (TFHelper.isPlayerPurge(player))
         {
-            if (!TFDataManager.isTransformed(player))
+            if (!TFHelper.isFullyTransformed(player))
             {
                 player.setItemInUse(stack, getMaxItemUseDuration(stack));
             }
