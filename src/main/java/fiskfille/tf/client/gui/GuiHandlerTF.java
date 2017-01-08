@@ -4,14 +4,11 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -32,8 +29,6 @@ import fiskfille.tf.common.container.ContainerGroundBridge;
 import fiskfille.tf.common.container.ContainerTransmitter;
 import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
@@ -58,6 +53,11 @@ public class GuiHandlerTF implements IGuiHandler
 
         if (tfGui != null)
         {
+            if (tfGui.containerClass == null)
+            {
+                return null;
+            }
+
             if (world.getBlock(x, y, z) == tfGui.containerBlock)
             {
                 int[] coords = {x, y, z};
@@ -138,6 +138,11 @@ public class GuiHandlerTF implements IGuiHandler
 
         if (tfGui != null)
         {
+            if (tfGui.guiPath == null)
+            {
+                return null;
+            }
+
             if (world.getBlock(x, y, z) == tfGui.containerBlock)
             {
                 int[] coords = {x, y, z};
@@ -205,29 +210,6 @@ public class GuiHandlerTF implements IGuiHandler
         return null;
     }
 
-    public static void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
-    {
-        if (world.isRemote)
-        {
-            openSetReceiversClient(tile, grandparents);
-        }
-        else
-        {
-            openSetReceiversServer(player, tile, grandparents);
-        }
-    }
-
-    private static void openSetReceiversClient(TileEntity tile, List<ChunkCoordinates> grandparents)
-    {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
-    }
-
-    private static void openSetReceiversServer(EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
-    {
-        ChunkCoordinates coordinates = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
-        TFNetworkManager.networkWrapper.sendTo(new MessageOpenSetReceiversGUI(coordinates, grandparents), (EntityPlayerMP) player);
-    }
-
     public static class TFGui
     {
         private static final List<TFGui> list = Lists.newArrayList();
@@ -237,6 +219,7 @@ public class GuiHandlerTF implements IGuiHandler
         public static TFGui ASSEMBLY_TABLE;
         public static TFGui DISPLAY_STATION;
         public static TFGui DISPLAY_STATION_ARMOR;
+        public static TFGui DISPLAY_STATION_COLOR;
         public static TFGui ENERGON_PROCESSOR;
         public static TFGui ENERGON_TANK;
         public static TFGui ENERGON_TRANSMITTER;
@@ -283,6 +266,7 @@ public class GuiHandlerTF implements IGuiHandler
             ASSEMBLY_TABLE = new TFGui(TFBlocks.assemblyTable, ContainerAssemblyTable.class, "fiskfille.tf.client.gui.GuiAssemblyTable", InventoryPlayer.class, TileEntityAssemblyTable.class);
             DISPLAY_STATION = new TFGui(TFBlocks.displayStation, ContainerDisplayStation.class, "fiskfille.tf.client.gui.GuiDisplayStation", InventoryPlayer.class, TileEntityDisplayStation.class);
             DISPLAY_STATION_ARMOR = new TFGui(TFBlocks.displayStation, ContainerDisplayStationArmor.class, "fiskfille.tf.client.gui.GuiDisplayStationArmor", InventoryPlayer.class, TileEntityDisplayStation.class);
+            DISPLAY_STATION_COLOR = new TFGui(TFBlocks.displayStation, null, "fiskfille.tf.client.gui.GuiColor", TileEntityDisplayStation.class);
             ENERGON_PROCESSOR = new TFGui(TFBlocks.energonProcessor, ContainerEnergonProcessor.class, "fiskfille.tf.client.gui.GuiEnergonProcessor", InventoryPlayer.class, TileEntityEnergonProcessor.class);
             ENERGON_TANK = new TFGui(TFBlocks.energonFluidTank, ContainerEnergonTank.class, "fiskfille.tf.client.gui.GuiEnergonTank", InventoryPlayer.class, TileEntityEnergonTank.class);
             ENERGON_TRANSMITTER = new TFGui(TFBlocks.transmitter, ContainerTransmitter.class, "fiskfille.tf.client.gui.GuiTransmitter", InventoryPlayer.class, TileEntityTransmitter.class);

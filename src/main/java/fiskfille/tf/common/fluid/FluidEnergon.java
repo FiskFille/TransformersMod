@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
-import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFTextureHelper;
 
 public class FluidEnergon extends Fluid
@@ -166,7 +166,7 @@ public class FluidEnergon extends Fluid
                 }
                 else
                 {
-                    liquidColor = TFRenderHelper.blend(liquidColor, energon.getColor(), e.getValue());
+                    liquidColor = TFHelper.blend(liquidColor, energon.getColor(), e.getValue());
                 }
             }
         }

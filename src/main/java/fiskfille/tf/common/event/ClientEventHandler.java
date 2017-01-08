@@ -84,7 +84,7 @@ public class ClientEventHandler
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public RenderPlayerHand renderHandInstance;
-    public static boolean prevViewBobbing;
+    public boolean prevViewBobbing = mc.gameSettings.viewBobbing;
 
     private Map<EntityPlayer, Item> prevHelm = new HashMap<EntityPlayer, Item>();
     private Map<EntityPlayer, Item> prevChest = new HashMap<EntityPlayer, Item>();

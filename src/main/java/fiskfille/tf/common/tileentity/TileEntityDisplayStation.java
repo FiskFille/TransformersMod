@@ -52,8 +52,6 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
     public boolean transform()
     {
         ItemStack vehicle = getStackInSlot(6);
-        ItemDisplayVehicle item = (ItemDisplayVehicle) TFItems.displayVehicle;
-
         if (vehicle != null)
         {
             if (getStackInSlot(0) == null && getStackInSlot(1) == null && getStackInSlot(2) == null && getStackInSlot(3) == null)

@@ -2,9 +2,9 @@ package fiskfille.tf.common.energon.power;
 
 public interface IEnergyContainer
 {
-    float receiveEnergy(float amount);
+    float receiveEnergy(float amount, boolean simulate);
 
-    float extractEnergy(float amount);
+    float extractEnergy(float amount, boolean simulate);
 
     float getEnergy();
 

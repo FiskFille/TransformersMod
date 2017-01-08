@@ -68,7 +68,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
                 for (TargetReceiver target : receiversToPower)
                 {
                     IEnergyReceiver receiver = (IEnergyReceiver) target.getTile();
-                    TFEnergyHelper.transferEnergy(receiver, this, Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size());
+                    TFEnergyHelper.transferEnergy(receiver, this, Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size(), false);
                 }
 
                 float usage = storage.calculateUsage();
@@ -187,15 +187,15 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     }
 
     @Override
-    public float receiveEnergy(float amount)
+    public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount);
+        return storage.add(amount, simulate);
     }
 
     @Override
-    public float extractEnergy(float amount)
+    public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount);
+        return storage.remove(amount, simulate);
     }
 
     @Override

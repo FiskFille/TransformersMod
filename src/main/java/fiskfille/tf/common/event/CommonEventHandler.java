@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.crafting.CraftingManager;
@@ -184,12 +182,12 @@ public class CommonEventHandler
             }
             else
             {
-                boolean inVehicleMode = TFHelper.isFullyTransformed(player);
+                TFHelper.isFullyTransformed(player);
 
-                if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) // Should also move to ClientEventHandler
-                {
-                    ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
-                }
+//                if (!inVehicleMode && TransformersMod.proxy.getPlayer() == player) // TODO: Should also move to ClientEventHandler
+//                {
+//                    ClientEventHandler.prevViewBobbing = Minecraft.getMinecraft().gameSettings.viewBobbing;
+//                }
 
                 if (!displayedUpdates && TFConfig.checkForUpdates)
                 {
@@ -262,13 +260,6 @@ public class CommonEventHandler
     public void onLivingUpdate(LivingUpdateEvent event)
     {
         TFEntityData.getData(event.entity).onUpdate();
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_I)) // TODO: Remove
-        {
-            AssemblyTableCraftingManager.getInstance().getRecipeList().clear();
-            CraftingManager.getInstance().getRecipeList().clear();
-            TFRecipes.register();
-        }
 
         if (event.entity instanceof EntityPlayer)
         {

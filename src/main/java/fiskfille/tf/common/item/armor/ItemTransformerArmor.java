@@ -84,7 +84,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     }
 
     @Override
-    public void registerIcons(IIconRegister par1IIconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
 
     }

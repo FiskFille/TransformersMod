@@ -172,7 +172,6 @@ public class GuiColor extends GuiScreen
         {
             int i = Integer.MIN_VALUE;
             TFNetworkManager.networkWrapper.sendToServer(new MessageColorArmor(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, i, i));
-            TFNetworkManager.networkWrapper.sendToAll(new MessageColorArmor(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, i, i));
 
             mc.displayGuiScreen(null);
         }

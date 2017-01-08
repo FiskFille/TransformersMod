@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.client.gui.GuiColor;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
@@ -29,6 +30,6 @@ public class ComponentColor extends Component
     @Override
     public void load(TileEntityDisplayStation tile, int slot, EntityPlayer player)
     {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiColor(tile));
+        TFGui.DISPLAY_STATION_COLOR.open(player, tile);
     }
 }

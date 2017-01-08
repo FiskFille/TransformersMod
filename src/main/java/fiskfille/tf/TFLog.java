@@ -27,7 +27,7 @@ public class TFLog
     {
         if (args.length > 0)
         {
-//            s = String.format(s, Arrays.asList(args));
+            s = String.format(s, args);
         }
 
         logger.log(level, s);

@@ -30,18 +30,26 @@ public class EnergyStorage
         nbt.setTag("EmB", storage);
     }
 
-    public float remove(float amount)
+    public float remove(float amount, boolean simulate)
     {
         float actual = Math.min(amount, energy);
-        energy -= actual;
+
+        if (!simulate)
+        {
+            energy -= actual;
+        }
 
         return actual;
     }
 
-    public float add(float amount)
+    public float add(float amount, boolean simulate)
     {
         float actual = Math.max(Math.min(amount, maxEnergy - energy), 0);
-        energy += actual;
+
+        if (!simulate)
+        {
+            energy += actual;
+        }
 
         return actual;
     }

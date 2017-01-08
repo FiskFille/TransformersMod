@@ -79,8 +79,8 @@ public class BlockColumn extends BlockMachineBase
     }
 
     @Override
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        blockIcon = par1IIconRegister.registerIcon("iron_block");
+        blockIcon = iconRegister.registerIcon("iron_block");
     }
 }

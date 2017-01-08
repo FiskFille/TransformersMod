@@ -47,7 +47,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
                 if (tile instanceof IEnergyContainer)
                 {
                     IEnergyContainer receiver = (IEnergyContainer) tile;
-                    TFEnergyHelper.transferEnergy(receiver, this, 100);
+                    TFEnergyHelper.transferEnergy(receiver, this, 100, false);
                 }
 
                 tile = TFHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + 2, zCoord));
@@ -58,7 +58,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
 
                     if (getMaxEnergy() > 0)
                     {
-                        TFEnergyHelper.transferEnergy(this, receiver, 100);
+                        TFEnergyHelper.transferEnergy(this, receiver, 100, false);
                     }
                 }
 
@@ -129,15 +129,15 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     }
 
     @Override
-    public float receiveEnergy(float amount)
+    public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount);
+        return storage.add(amount, simulate);
     }
 
     @Override
-    public float extractEnergy(float amount)
+    public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount);
+        return storage.remove(amount, simulate);
     }
 
     @Override
@@ -179,7 +179,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     @Override
     public boolean canReceiveEnergy(TileEntity from)
     {
-        return true;
+        return getBlockMetadata() < 4;
     }
 
     @Override

@@ -10,6 +10,7 @@ public class DataCore
 
     public static final DataCore spaceBridge = new DataCore("space_bridge", 0x5FEEEE);
     public static final DataCore leveler = new DataCore("leveler", 0x61C37B);
+    public static final DataCore range = new DataCore("range", 0x7C65EA);
 
     private final String id;
     private final int color;

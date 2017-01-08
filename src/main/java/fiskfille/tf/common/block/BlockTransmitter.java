@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import fiskfille.tf.client.gui.GuiHandlerTF;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFEnergyHelper;
@@ -277,7 +277,7 @@ public class BlockTransmitter extends BlockMachineBase
         {
             if (hitX > f * 5.5F && hitX < f * 10.5F && hitY > f * 10 && hitY < f * 20)
             {
-                GuiHandlerTF.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
+                TransformersMod.proxy.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
                 return true;
             }
         }

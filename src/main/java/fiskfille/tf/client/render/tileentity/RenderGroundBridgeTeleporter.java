@@ -75,7 +75,7 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
 
-            float zOffset = 0.2F;
+            float zOffset = 0.6F;
             float scale = 2.0F;
             float shade = 0.95F;
 

@@ -62,7 +62,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
         {
             if (canSmelt())
             {
-                if (extractEnergy(getConsumptionRate()) >= getConsumptionRate())
+                if (extractEnergy(getConsumptionRate(), false) >= getConsumptionRate())
                 {
                     if (++smeltTime == getSmeltTimeMax())
                     {
@@ -310,15 +310,15 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     }
 
     @Override
-    public float receiveEnergy(float amount)
+    public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount);
+        return storage.add(amount, simulate);
     }
 
     @Override
-    public float extractEnergy(float amount)
+    public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount);
+        return storage.remove(amount, simulate);
     }
 
     @Override

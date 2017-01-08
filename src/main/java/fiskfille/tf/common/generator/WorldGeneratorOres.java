@@ -1,4 +1,4 @@
-package fiskfille.tf.common.worldgen;
+package fiskfille.tf.common.generator;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import fiskfille.tf.common.block.TFBlocks;

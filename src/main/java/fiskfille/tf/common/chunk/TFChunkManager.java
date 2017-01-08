@@ -13,6 +13,7 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import fiskfille.tf.TFLog;
 import fiskfille.tf.TransformersMod;
 
 public class TFChunkManager
@@ -52,7 +53,14 @@ public class TFChunkManager
 
                 if (ticket.getChunkList().size() == 0)
                 {
-                    ForgeChunkManager.releaseTicket(ticket);
+                    try
+                    {
+                        ForgeChunkManager.releaseTicket(ticket);
+                    }
+                    catch (Exception e1)
+                    {
+                    }
+
                     ticketsForWorld.get(e.getKey()).remove(j);
                 }
             }
@@ -75,17 +83,17 @@ public class TFChunkManager
         {
             if (e.getValue() != null)
             {
-                for (int j = 0; j < e.getValue().size(); ++j)
+                for (int i = 0; i < e.getValue().size(); ++i)
                 {
-                    Ticket ticket1 = e.getValue().get(j);
-                    chunks += ticket1.getChunkList().size();
+                    Ticket ticket = e.getValue().get(i);
+                    chunks += ticket.getChunkList().size();
 
-                    for (int k = 0; k < ticket1.getChunkList().size(); ++k)
+                    for (int j = 0; j < ticket.getChunkList().size(); ++j)
                     {
-                        ChunkCoordIntPair coords = ticket1.getChunkList().asList().get(k);
-                        Integer l = chunkForcers.get(new ForcedChunk(ticket1.world, coords.chunkXPos, coords.chunkZPos));
+                        ChunkCoordIntPair coords = ticket.getChunkList().asList().get(j);
+                        Integer k = chunkForcers.get(new ForcedChunk(ticket.world, coords.chunkXPos, coords.chunkZPos));
 
-                        entries += l != null ? l : 0;
+                        entries += k != null ? k : 0;
                     }
                 }
 
@@ -93,7 +101,7 @@ public class TFChunkManager
             }
         }
 
-        System.out.println(String.format("%s entries / %s chunks / %s tickets", entries, chunks, tickets));
+        TFLog.info("%s entries / %s chunks / %s tickets", entries, chunks, tickets);
     }
 
     public static Ticket getTicketForChunk(ForcedChunk chunk)

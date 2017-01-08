@@ -80,14 +80,14 @@ public class ClientTickHandler
                                 gameSettings.thirdPersonView = 1;
                             }
                         }
-                        
+
                         boolean useNitro = false;
-                        
+
                         if (transformationTimer >= 0.5F && transformer.canUseNitro(player, altMode))
                         {
                             useNitro = gameSettings.keyBindForward.getIsKeyPressed() && (gameSettings.keyBindSprint.getIsKeyPressed() || TFKeyBinds.keyBindingNitro.getIsKeyPressed());
                         }
-                        
+
                         TFData.BOOSTING.set(player, useNitro);
 
                         if (transformationTimer == 0 && TFData.PREV_TRANSFORM_PROGRESS.get(player) > 0)

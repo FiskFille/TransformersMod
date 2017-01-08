@@ -14,7 +14,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidStack;
@@ -270,11 +269,11 @@ public class TFHelper
 
     public static String getDimensionName(int id)
     {
-        WorldProvider provider = DimensionManager.getProvider(id);
+        WorldServer world = DimensionManager.getWorld(id);
 
-        if (provider != null)
+        if (world != null)
         {
-            return provider.getDimensionName();
+            return world.provider.getDimensionName();
         }
 
         return "Unknown";
@@ -385,5 +384,36 @@ public class TFHelper
         }
 
         return !player.isEntityAlive() || (getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null) && (getHeight(player) != player.height || getWidth(player) != player.width);
+    }
+    
+    public static int blend(int a, int b, float ratio)
+    {
+        if (ratio > 1.0F)
+        {
+            ratio = 1.0F;
+        }
+        else if (ratio < 0.0F)
+        {
+            ratio = 0.0F;
+        }
+
+        float iRatio = 1.0F - ratio;
+
+        int aA = a >> 24 & 0xff;
+        int aR = (a & 0xff0000) >> 16;
+        int aG = (a & 0xff00) >> 8;
+        int aB = a & 0xff;
+
+        int bA = b >> 24 & 0xff;
+        int bR = (b & 0xff0000) >> 16;
+        int bG = (b & 0xff00) >> 8;
+        int bB = b & 0xff;
+
+        int A = (int) (aA * iRatio + bA * ratio);
+        int R = (int) (aR * iRatio + bR * ratio);
+        int G = (int) (aG * iRatio + bG * ratio);
+        int B = (int) (aB * iRatio + bB * ratio);
+
+        return A << 24 | R << 16 | G << 8 | B;
     }
 }

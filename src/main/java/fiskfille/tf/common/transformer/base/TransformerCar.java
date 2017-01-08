@@ -83,7 +83,7 @@ public abstract class TransformerCar extends Transformer
     public void doNitroParticles(EntityPlayer player, int altMode)
     {
         Random rand = new Random();
-        
+
         for (int i = 0; i < 4; ++i)
         {
             Vec3 side = TFVectorHelper.getBackSideCoords(player, 0.15F, i < 2, -1.4, false);

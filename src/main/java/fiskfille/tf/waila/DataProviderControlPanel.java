@@ -1,65 +1,59 @@
 package fiskfille.tf.waila;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.util.StatCollector;
+
+import com.google.common.collect.Maps;
+
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFHelper;
 
-public class DataProviderControlPanel implements IWailaDataProvider
+public class DataProviderControlPanel extends DataProviderMachine
 {
-    @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config)
+    public DataProviderControlPanel(String s)
     {
-        return null;
-    }
-
-    @Override
-    public List<String> getWailaHead(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
-    {
-        return list;
+        super(s, TileEntityControlPanel.class);
     }
 
     @Override
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
+        list = super.getWailaBody(itemstack, list, accessor, config);
         TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
 
-        if (tileentity instanceof TileEntityControlPanel && config.getConfig("tf.control_panel", true))
+        if (tileentity instanceof TileEntityControlPanel && config.getConfig(key, true))
         {
             TileEntityControlPanel tile = (TileEntityControlPanel) tileentity;
+            List<DataCore> upgrades = tile.getUpgrades();
+            LinkedHashMap<DataCore, Integer> map = Maps.newLinkedHashMap();
 
-            for (int i = 0; i < tile.getSizeInventory(); ++i)
+            for (int i = 0; i < upgrades.size(); ++i)
             {
-                ItemStack itemstack1 = tile.getStackInSlot(i);
+                DataCore dataCore = upgrades.get(i);
+                map.put(dataCore, map.containsKey(dataCore) ? map.get(dataCore) + 1 : 1);
+            }
 
-                if (itemstack1 != null)
+            for (Map.Entry<DataCore, Integer> e : map.entrySet())
+            {
+                String s = e.getKey().getTranslatedName();
+
+                if (e.getValue() > 1)
                 {
-                    list.add(DataCore.get(itemstack1.getItemDamage()).getTranslatedName());
+                    s = String.format("%s %s", s, StatCollector.translateToLocalFormatted("tile.display_pillar.amount", e.getValue()));
                 }
+
+                list.add(s);
             }
         }
 
         return list;
-    }
-
-    @Override
-    public List<String> getWailaTail(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
-    {
-        return list;
-    }
-
-    @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity tile, NBTTagCompound nbttagcompound, World world, int x, int y, int z)
-    {
-        return null;
     }
 }

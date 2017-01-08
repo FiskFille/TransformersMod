@@ -17,7 +17,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -71,6 +70,13 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+    {
+        setBlockBoundsBasedOnState(world, x, y, z);
+        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+    }
+
     public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {
         setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
@@ -82,11 +88,6 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         }
 
         setBlockBoundsBasedOnState(world, x, y, z);
-    }
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-    {
     }
 
     @Override
@@ -236,12 +237,6 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         }
 
         return super.removedByPlayer(world, player, x, y, z, willHarvest);
-    }
-
-    @Override
-    protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemstack)
-    {
-        super.dropBlockAsItem(world, x, y, z, itemstack);
     }
 
     @Override

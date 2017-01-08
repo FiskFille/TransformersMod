@@ -3,6 +3,7 @@ package fiskfille.tf.client.render.tileentity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -82,6 +83,33 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.render(tile, partialTicks);
             model.table1.postRender(0.0625F);
             model.table2.postRender(0.0625F);
+
+            if (tile.getWorldObj() != null)
+            {
+                Tessellator tessellator = Tessellator.instance;
+                float energy = tile.getEnergy();
+
+                if (energy > 0)
+                {
+                    float f = 1.0F / 32;
+                    float f1 = energy / tile.getMaxEnergy();
+                    float length = f * 18;
+                    float width = f * 4;
+                    tessellator.startDrawingQuads();
+                    tessellator.addVertexWithUV(width, 0, 0, width, length);
+                    tessellator.addVertexWithUV(width, 0, length * f1, width, length * (1 - f1));
+                    tessellator.addVertexWithUV(0, 0, length * f1, 0, length * (1 - f1));
+                    tessellator.addVertexWithUV(0, 0, 0, 0, length);
+
+                    GL11.glPushMatrix();
+                    GL11.glDisable(GL11.GL_LIGHTING);
+                    bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/energy_meter.png"));
+                    GL11.glTranslatef(f * 40, -0.1251F, f * 7);
+                    tessellator.draw();
+                    GL11.glEnable(GL11.GL_LIGHTING);
+                    GL11.glPopMatrix();
+                }
+            }
 
             String dimensionName = "";
 

@@ -73,37 +73,6 @@ public class TFRenderHelper
         return new float[] {r, g, b};
     }
 
-    public static int blend(int a, int b, float ratio)
-    {
-        if (ratio > 1.0F)
-        {
-            ratio = 1.0F;
-        }
-        else if (ratio < 0.0F)
-        {
-            ratio = 0.0F;
-        }
-
-        float iRatio = 1.0F - ratio;
-
-        int aA = a >> 24 & 0xff;
-        int aR = (a & 0xff0000) >> 16;
-        int aG = (a & 0xff00) >> 8;
-        int aB = a & 0xff;
-
-        int bA = b >> 24 & 0xff;
-        int bR = (b & 0xff0000) >> 16;
-        int bG = (b & 0xff00) >> 8;
-        int bB = b & 0xff;
-
-        int A = (int) (aA * iRatio + bA * ratio);
-        int R = (int) (aR * iRatio + bR * ratio);
-        int G = (int) (aG * iRatio + bG * ratio);
-        int B = (int) (aB * iRatio + bB * ratio);
-
-        return A << 24 | R << 16 | G << 8 | B;
-    }
-
     public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
     {
         if (itemstack != null && itemstack.getItem() instanceof ItemTransformerArmor)

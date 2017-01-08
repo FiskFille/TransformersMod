@@ -70,15 +70,15 @@ public class TileEntityEmbTest extends TileEntityTF implements IEnergyReceiver
     }
 
     @Override
-    public float receiveEnergy(float amount)
+    public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount);
+        return storage.add(amount, simulate);
     }
 
     @Override
-    public float extractEnergy(float amount)
+    public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount);
+        return storage.remove(amount, simulate);
     }
 
     @Override

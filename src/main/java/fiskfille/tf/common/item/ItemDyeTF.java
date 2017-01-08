@@ -17,8 +17,7 @@ public class ItemDyeTF extends Item
     public static final String[] dyes = new String[] {"dark_red", "beige", "dark_gray", "pale_green", "pale_brown"};
     public static final int[] dyeColors = new int[] {0, 0, 0, 0, 0};
 
-    @SideOnly(Side.CLIENT)
-    protected IIcon[] icons = new IIcon[dyes.length];
+    protected IIcon[] icons;
 
     public ItemDyeTF()
     {

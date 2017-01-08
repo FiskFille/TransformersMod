@@ -20,7 +20,7 @@ item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
 item.data_core.name=Data Core
-item.csd.name=Coordinate Storage Device
+item.csd.name=Coordinate Storage Drive
 item.ground_bridge_remote.name=Ground Bridge Remote
 item.power_canister_iron.name=Power Canister (I)
 item.power_canister_gold.name=Power Canister (II)
@@ -236,7 +236,7 @@ option.tf.control_panel=Control Panel
 
 ------Keybinds------
 key.category.transformers=Transformers
-key.transform1=Transform-Alt-1
+key.transform1=Transform
 key.transform2=Transform-Alt-2
 key.nitro=Nitro Boost
 key.brake=Brake
@@ -298,13 +298,15 @@ ground_bridge.error=Error:
 ground_bridge.error.other_error=%s more error was detected.
 ground_bridge.error.other_errors=%s more errors were detected.
 ground_bridge.error.no_other_errors=No other errors were detected.
-ground_bridge.error.invalid_coords=Invalid coordinates! Destination must be at least 64 blocks from point of origin!
+ground_bridge.error.invalid_coords=Invalid coordinates! Destination must be at least %s blocks from point of origin!
 ground_bridge.error.not_enough_space=Not enough space! Destination does not have have enough empty space to fit a Ground Bridge portal!
+ground_bridge.error.not_enough_energy=Not enough energy! Control panel does not have enough energy to sustain a Ground Bridge portal!
 ground_bridge.error.no_portal_linked=No portal linked! Locator was unable to find a functioning Ground Bridge portal frame within range!
 ground_bridge.error.portal_obstructed=Portal obstructed! The linked Ground Bridge portal frame is being obscured by adjacent blocks!
 ground_bridge.error.out_of_bounds=Out of bounds! Destination cannot be lower than y=0 or higher than y=%s!
 ground_bridge.upgrade.space_bridge=Space Bridge
 ground_bridge.upgrade.leveler=Leveler
+ground_bridge.upgrade.range=Range
 
 
 ------Message------
@@ -312,10 +314,7 @@ transformium_detector.no_space.message=There is no space in your inventory for t
 transformium_detector.insert_fuel.message=Inserted Fuel.
 transformium_detector.no_energon.message=You do not have any Energon Crystal Pieces!
 transformium_detector.no_fuel.message=You have run out of fuel for your Transformium Detector!
-csd.mode=Mode: %s
-csd.save=Save
 csd.save.success=Saved coordinates (%s)
-csd.load=Load
 csd.load.success=Loaded coordinates (%s)
 csd.load.fail=Cannot load coordinates while Ground Bridge is active!
 csd.format=%1$s: %2$s, %3$s, %4$s

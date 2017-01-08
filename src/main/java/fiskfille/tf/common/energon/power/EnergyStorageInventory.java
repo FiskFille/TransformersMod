@@ -17,7 +17,7 @@ public class EnergyStorageInventory extends EnergyStorage
     }
 
     @Override
-    public float remove(float amount)
+    public float remove(float amount, boolean simulate)
     {
         if (amount <= 0)
         {
@@ -37,7 +37,7 @@ public class EnergyStorageInventory extends EnergyStorage
                 float extracted = container.extractEnergy(stack, max, true);
 
                 extracted = Math.min(extracted, max);
-                removed += container.extractEnergy(stack, extracted, tile.getWorldObj().isRemote);
+                removed += container.extractEnergy(stack, extracted, simulate || tile.getWorldObj().isRemote);
                 max -= extracted;
 
                 if (max <= 0)
@@ -53,7 +53,7 @@ public class EnergyStorageInventory extends EnergyStorage
     }
 
     @Override
-    public float add(float amount)
+    public float add(float amount, boolean simulate)
     {
         if (amount <= 0)
         {
@@ -73,7 +73,7 @@ public class EnergyStorageInventory extends EnergyStorage
                 float extracted = container.receiveEnergy(stack, max, true);
 
                 extracted = Math.min(extracted, max);
-                added += container.receiveEnergy(stack, extracted, tile.getWorldObj().isRemote);
+                added += container.receiveEnergy(stack, extracted, simulate || tile.getWorldObj().isRemote);
                 max -= extracted;
 
                 if (max <= 0)

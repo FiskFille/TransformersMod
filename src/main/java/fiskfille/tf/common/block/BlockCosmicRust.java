@@ -104,9 +104,9 @@ public class BlockCosmicRust extends Block
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        blockIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust");
-        coreIcon = par1IIconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_core");
+        blockIcon = iconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust");
+        coreIcon = iconRegister.registerIcon(TransformersMod.modid + ":cosmic_rust_core");
     }
 }

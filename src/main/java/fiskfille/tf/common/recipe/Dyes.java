@@ -2,7 +2,6 @@ package fiskfille.tf.common.recipe;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;

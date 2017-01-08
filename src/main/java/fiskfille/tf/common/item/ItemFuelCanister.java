@@ -208,19 +208,19 @@ public class ItemFuelCanister extends ItemFluidContainer
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister par1IIconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         icons = new IIcon[unlocalizedNames.length];
         overlays = new IIcon[5];
 
         for (int i = 0; i < icons.length; ++i)
         {
-            icons[i] = par1IIconRegister.registerIcon(TransformersMod.modid + ":" + unlocalizedNames[i] + "fuel_canister");
+            icons[i] = iconRegister.registerIcon(TransformersMod.modid + ":" + unlocalizedNames[i] + "fuel_canister");
         }
 
         for (int i = 0; i < overlays.length; ++i)
         {
-            overlays[i] = par1IIconRegister.registerIcon(TransformersMod.modid + ":fuel_canister_overlay_" + i);
+            overlays[i] = iconRegister.registerIcon(TransformersMod.modid + ":fuel_canister_overlay_" + i);
         }
     }
 }

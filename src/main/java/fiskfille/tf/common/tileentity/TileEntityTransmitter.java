@@ -100,7 +100,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
 
                         if (receiver.canReceiveEnergy(this))
                         {
-                            TFEnergyHelper.transferEnergy(receiver, this, Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size());
+                            TFEnergyHelper.transferEnergy(receiver, this, Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size(), false);
                         }
                     }
                 }
@@ -117,7 +117,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                         if (energon != null)
                         {
                             float factor = energon.getEnergyValue();
-                            float receivedEnergy = receiveEnergy(e.getValue() * factor * max);
+                            float receivedEnergy = receiveEnergy(e.getValue() * factor * max, false);
                             drain(ForgeDirection.UNKNOWN, Math.round(receivedEnergy / factor), true);
                         }
                     }
@@ -264,15 +264,15 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     }
 
     @Override
-    public float receiveEnergy(float amount)
+    public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount);
+        return storage.add(amount, simulate);
     }
 
     @Override
-    public float extractEnergy(float amount)
+    public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount);
+        return storage.remove(amount, simulate);
     }
 
     @Override

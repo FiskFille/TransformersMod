@@ -2,14 +2,13 @@ package fiskfille.tf.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.block.TFBlocks;
 
-public class ItemGroundBridgeControl extends ItemBlock
+public class ItemGroundBridgeControl extends ItemMachine
 {
     public ItemGroundBridgeControl(Block block)
     {
@@ -17,7 +16,7 @@ public class ItemGroundBridgeControl extends ItemBlock
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float f, float f1, float f2)
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         if (world.isRemote)
         {
@@ -84,9 +83,7 @@ public class ItemGroundBridgeControl extends ItemBlock
             {
                 if (world.isAirBlock(x, y, z) && world.isAirBlock(x + x1, y, z + z1) && world.isAirBlock(x, y + 1, z) && world.isAirBlock(x + x1, y + 1, z + z1))
                 {
-                    world.setBlock(x, y, z, block, direction, 3);
-
-                    if (world.getBlock(x, y, z) == block)
+                    if (placeBlockAt(itemstack, player, world, x, y, z, side, hitX, hitY, hitZ, direction))
                     {
                         world.setBlock(x + x1, y, z + z1, block, direction + 4, 3);
 
@@ -94,21 +91,15 @@ public class ItemGroundBridgeControl extends ItemBlock
                         {
                             world.setBlock(x + x1, y + 1, z + z1, block, direction + 8, 3);
                         }
-                    }
 
-                    world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, block.stepSound.func_150496_b(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
-                    --itemstack.stackSize;
-                    return true;
+                        world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, block.stepSound.func_150496_b(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
+                        --itemstack.stackSize;
+                        return true;
+                    }
                 }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
             }
         }
+
+        return false;
     }
 }

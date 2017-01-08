@@ -1,14 +1,19 @@
 package fiskfille.tf.common.proxy;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.TFReflection;
 import fiskfille.tf.client.gui.GuiOverlay;
+import fiskfille.tf.client.gui.GuiSelectReceivers;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.render.block.RenderBlockEnergonTank;
@@ -187,5 +192,11 @@ public class ClientProxy extends CommonProxy
         {
             super.runTasks();
         }
+    }
+    
+    @Override
+    public void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
+    {
+        Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
     }
 }

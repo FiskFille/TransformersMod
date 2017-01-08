@@ -470,17 +470,9 @@ public class TFEnergyHelper
         }
     }
 
-    public static float transferEnergy(IEnergyContainer to, IEnergyContainer from, float amount)
+    public static float transferEnergy(IEnergyContainer to, IEnergyContainer from, float amount, boolean simulate)
     {
-        float f = from.extractEnergy(amount);
-        float f1 = to.receiveEnergy(f);
-
-        if (f > f1)
-        {
-            return from.receiveEnergy(f - f1);
-        }
-
-        return f1;
+        return to.receiveEnergy(from.extractEnergy(to.receiveEnergy(amount, true), simulate), simulate);
     }
 
     public static void applyClientEnergyUsage(IEnergyContainer container)
@@ -489,11 +481,11 @@ public class TFEnergyHelper
 
         if (usage < 0.0F)
         {
-            container.extractEnergy(-usage);
+            container.extractEnergy(-usage, false);
         }
         else if (usage > 0.0F)
         {
-            container.receiveEnergy(usage);
+            container.receiveEnergy(usage, false);
         }
     }
 }

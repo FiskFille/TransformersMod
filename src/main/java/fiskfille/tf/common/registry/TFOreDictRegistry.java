@@ -27,9 +27,4 @@ public class TFOreDictRegistry
     {
         OreDictionary.registerOre(name, new ItemStack(block, 1, metadata));
     }
-
-    private static void registerOre(String name, Item item, int metadata)
-    {
-        OreDictionary.registerOre(name, new ItemStack(item, 1, metadata));
-    }
 }

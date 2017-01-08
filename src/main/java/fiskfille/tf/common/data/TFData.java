@@ -416,15 +416,20 @@ public class TFData<T>
     {
         for (Field field : TFData.class.getFields())
         {
-            try
+            String s = field.getType().getName();
+
+            if (s.equals(TFData.class.getName()))
             {
-                TFData<?> data = (TFData<?>) field.get(null);
-                data.id = TFFormatHelper.getUnconventionalName(field.getName());
-                TFData.VALUES.add(data);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
+                try
+                {
+                    TFData<?> data = (TFData<?>) field.get(null);
+                    data.id = TFFormatHelper.getUnconventionalName(field.getName());
+                    TFData.VALUES.add(data);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }

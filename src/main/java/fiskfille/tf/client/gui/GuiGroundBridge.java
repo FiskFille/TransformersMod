@@ -1,6 +1,7 @@
 package fiskfille.tf.client.gui;
 
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
@@ -27,6 +28,7 @@ import fiskfille.tf.common.network.MessageControlPanel;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFHelper;
 
 @SideOnly(Side.CLIENT)
@@ -237,12 +239,6 @@ public class GuiGroundBridge extends GuiContainerTF
     }
 
     @Override
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
-    }
-
-    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         int x = (width - xSize) / 2;
@@ -275,20 +271,30 @@ public class GuiGroundBridge extends GuiContainerTF
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glColor4f(1, 1, 1, 1);
 
+            mc.getTextureManager().bindTexture(guiTextures);
+            drawTexturedModalRect(xSize + 2, 2, 192, 0, 16, 86);
+
+            float energy = controlPanel.getEnergy();
+
+            if (energy > 0)
+            {
+                float f = energy / controlPanel.getMaxEnergy();
+                drawTexturedModalRect(xSize + 6, 6 + Math.round(78 * (1 - f)), 208, Math.round(78 * (1 - f)), 16, Math.round(78 * f));
+            }
+
             for (int i = 0; i < controlPanel.errors.size(); ++i)
             {
                 controlPanel.errors.get(i);
-                boolean flag = new Rectangle(ySize + 12, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
+                boolean flag = new Rectangle(xSize + 20, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
 
-                mc.getTextureManager().bindTexture(guiTextures);
-                drawTexturedModalRect(ySize + 12, 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
+                drawTexturedModalRect(xSize + 20, 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
             }
 
             for (int i = 0; i < 3; ++i)
             {
                 ItemStack itemstack = controlPanel.getStackInSlot(i);
 
-                if (itemstack != null && new Rectangle(116 + i * 18, 28, 16, 16).contains(mouseX - x, mouseY - y))
+                if (itemstack != null && new Rectangle(115 + i * 18, 27, 18, 18).contains(mouseX - x, mouseY - y))
                 {
                     renderToolTip(itemstack, mouseX - x, mouseY - y);
                 }
@@ -297,12 +303,16 @@ public class GuiGroundBridge extends GuiContainerTF
             GL11.glPushMatrix();
             GL11.glTranslatef(-x, -y, 0);
 
+            if (new Rectangle(xSize + 2, 2, 16, 86).contains(mouseX - x, mouseY - y))
+            {
+                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(controlPanel.getEnergy()), TFFormatHelper.formatNumber(controlPanel.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+            }
+
             for (int i = 0; i < controlPanel.errors.size(); ++i)
             {
                 GroundBridgeError error = controlPanel.errors.get(i);
-                boolean flag = new Rectangle(ySize + 12, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
 
-                if (flag)
+                if (new Rectangle(xSize + 20, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y))
                 {
                     List<String> list = fontRendererObj.listFormattedStringToWidth(error.translate(), 200);
 

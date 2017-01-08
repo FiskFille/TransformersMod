@@ -30,6 +30,6 @@ public class WailaRegistrar
         registrar.registerBodyProvider(new DataProviderMachine("tf.relay_tower", TileEntityRelayTower.class), TileEntityRelayTower.class);
         registrar.registerBodyProvider(new DataProviderMachine("tf.relay_torch", TileEntityRelayTorch.class), TileEntityRelayTorch.class);
         registrar.registerBodyProvider(new DataProviderMachine("tf.energy_column", TileEntityColumn.class), TileEntityColumn.class);
-        registrar.registerBodyProvider(new DataProviderControlPanel(), TileEntityControlPanel.class);
+        registrar.registerBodyProvider(new DataProviderControlPanel("tf.control_panel"), TileEntityControlPanel.class);
     }
 }

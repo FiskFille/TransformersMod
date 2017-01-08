@@ -1,41 +1,32 @@
 package fiskfille.tf.common.block;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.network.MessageControlPanel;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFHelper;
 
-public class BlockControlPanel extends BlockDirectional implements ITileEntityProvider
+public class BlockControlPanel extends BlockMachineBase
 {
-    public static final int[][] directions = new int[][] { {-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-
-    private final Random rand = new Random();
-
     public BlockControlPanel()
     {
         super(Material.iron);
         setHardness(4.0F);
         setResistance(10.0F);
         setStepSound(soundTypeMetal);
+    }
+
+    @Override
+    public int getPlacedRotation(EntityLivingBase entity)
+    {
+        return 0;
     }
 
     @Override
@@ -57,40 +48,10 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
     }
 
     @Override
-    public boolean hasTileEntity()
-    {
-        return true;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getSelectedBoundingBoxFromPool(world, x, y, z);
-    }
-
-    @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-    }
-
-    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
+        TileEntity tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
         int metadata = world.getBlockMetadata(x, y, z);
-        int direction = getDirection(metadata);
-        boolean isSide = !isBlockLeftSideOfPanel(metadata);
-        boolean isTop = isBlockTopOfPanel(metadata);
-
-        TileEntity tile = world.getTileEntity(x - (isSide ? directions[direction][0] : 0), y - (isTop ? 1 : 0), z - (isSide ? directions[direction][1] : 0));
-        setBounds(tile, metadata);
-    }
-
-    public void setBounds(TileEntity tile, int metadata)
-    {
         int direction = getDirection(metadata);
         float f = 0.0625F;
         float f1 = 0.9575F;
@@ -131,54 +92,9 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
         }
     }
 
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
-        int metadata = world.getBlockMetadata(x, y, z);
-        int direction = getDirection(metadata);
-
-        if (isBlockRightSideOfPanel(metadata))
-        {
-            if (world.getBlock(x - directions[direction][0], y, z - directions[direction][1]) != this || world.getBlock(x, y + 1, z) != this)
-            {
-                world.setBlockToAir(x, y, z);
-            }
-        }
-        else if (isBlockTopOfPanel(metadata))
-        {
-            if (world.getBlock(x, y - 1, z) != this || world.getBlock(x - directions[direction][0], y - 1, z - directions[direction][1]) != this)
-            {
-                world.setBlockToAir(x, y, z);
-            }
-        }
-        else if (isBlockLeftSideOfPanel(metadata))
-        {
-            if (world.getBlock(x + directions[direction][0], y, z + directions[direction][1]) != this || world.getBlock(x + directions[direction][0], y + 1, z + directions[direction][1]) != this)
-            {
-                world.setBlockToAir(x, y, z);
-
-                if (!world.isRemote)
-                {
-                    dropBlockAsItem(world, x, y, z, metadata, 0);
-                }
-            }
-        }
-    }
-
-    @Override
-    public Item getItemDropped(int metadata, Random rand, int p_149650_3_)
-    {
-        return !isBlockLeftSideOfPanel(metadata) ? Item.getItemById(0) : super.getItemDropped(metadata, rand, p_149650_3_);
-    }
-
     public static boolean isBlockLeftSideOfPanel(int metadata)
     {
         return metadata < 4;
-    }
-
-    public static boolean isBlockRightSideOfPanel(int metadata)
-    {
-        return metadata >= 4 && metadata < 8;
     }
 
     public static boolean isBlockTopOfPanel(int metadata)
@@ -192,88 +108,9 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float p_149690_6_, int p_149690_7_)
-    {
-        if (isBlockLeftSideOfPanel(metadata))
-        {
-            super.dropBlockAsItemWithChance(world, x, y, z, metadata, p_149690_6_, 0);
-        }
-    }
-
-    @Override
     public int getMobilityFlag()
     {
         return 1;
-    }
-
-    @Override
-    public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player)
-    {
-        if (player.capabilities.isCreativeMode && !isBlockLeftSideOfPanel(metadata))
-        {
-            int direction = getDirection(metadata);
-            x -= directions[direction][0];
-            z -= directions[direction][1];
-
-            if (isBlockTopOfPanel(metadata))
-            {
-                y -= 1;
-            }
-
-            if (world.getBlock(x, y, z) == this)
-            {
-                world.setBlockToAir(x, y, z);
-            }
-        }
-    }
-
-    @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-    {
-        TileEntityControlPanel tileentity = (TileEntityControlPanel) world.getTileEntity(x, y, z);
-
-        if (tileentity != null)
-        {
-            for (int j1 = 0; j1 < tileentity.getSizeInventory(); ++j1)
-            {
-                ItemStack itemstack = tileentity.getStackInSlot(j1);
-
-                if (itemstack != null)
-                {
-                    float f = rand.nextFloat() * 0.8F + 0.1F;
-                    float f1 = rand.nextFloat() * 0.8F + 0.1F;
-                    float f2 = rand.nextFloat() * 0.8F + 0.1F;
-
-                    while (itemstack.stackSize > 0)
-                    {
-                        int k1 = rand.nextInt(21) + 10;
-
-                        if (k1 > itemstack.stackSize)
-                        {
-                            k1 = itemstack.stackSize;
-                        }
-
-                        itemstack.stackSize -= k1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
-
-                        if (itemstack.hasTagCompound())
-                        {
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-                        }
-
-                        float f3 = 0.05F;
-                        entityitem.motionX = (float) rand.nextGaussian() * f3;
-                        entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
-                        entityitem.motionZ = (float) rand.nextGaussian() * f3;
-                        world.spawnEntityInWorld(entityitem);
-                    }
-                }
-            }
-
-            world.func_147453_f(x, y, z, block);
-        }
-
-        super.breakBlock(world, x, y, z, block, metadata);
     }
 
     @Override
@@ -581,14 +418,8 @@ public class BlockControlPanel extends BlockDirectional implements ITileEntityPr
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        return new TileEntityControlPanel();
-    }
-
-    @Override
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
-    {
-        blockIcon = par1IIconRegister.registerIcon("iron_block");
+        blockIcon = iconRegister.registerIcon("iron_block");
     }
 }

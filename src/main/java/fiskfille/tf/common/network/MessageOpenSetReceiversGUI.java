@@ -1,20 +1,20 @@
 package fiskfille.tf.common.network;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.gui.GuiHandlerTF;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import io.netty.buffer.ByteBuf;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageOpenSetReceiversGUI implements IMessage
 {
@@ -85,7 +85,7 @@ public class MessageOpenSetReceiversGUI implements IMessage
 
                 if (tile instanceof IEnergyTransmitter && (!(tile instanceof ISidedInventory) || ((ISidedInventory) tile).isUseableByPlayer(player)))
                 {
-                    GuiHandlerTF.openSetReceivers(world, player, tile, message.grandparents);
+                    TransformersMod.proxy.openSetReceivers(world, player, tile, message.grandparents);
                 }
             }
 
