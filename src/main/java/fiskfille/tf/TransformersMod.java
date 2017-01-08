@@ -1,5 +1,7 @@
 package fiskfille.tf;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import fiskfille.tf.asm.TFLoadingPlugin;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -43,6 +45,12 @@ public class TransformersMod
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        if (!TFLoadingPlugin.loaded)
+        {
+            System.out.println("TransformersMod coremod not added! -Dfml.coreMods.load=fiskfille.tf.asm.TFLoadingPlugin");
+            FMLCommonHandler.instance().exitJava(0, false);
+        }
+
         try
         {
             WebHelper.readPastebin("Kyct1Dvz");
