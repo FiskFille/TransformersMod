@@ -1,17 +1,9 @@
 package fiskfille.tf.common.proxy;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.TFReflection;
+import fiskfille.tf.client.gui.GuiGroundBridge;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.gui.GuiSelectReceivers;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
@@ -56,6 +48,7 @@ import fiskfille.tf.client.render.tileentity.RenderTransformiumSeed;
 import fiskfille.tf.client.render.tileentity.RenderTransmitter;
 import fiskfille.tf.client.tutorial.TutorialHandler;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.entity.EntityBassCharge;
 import fiskfille.tf.common.entity.EntityFlamethrowerFire;
 import fiskfille.tf.common.entity.EntityLaser;
@@ -64,6 +57,7 @@ import fiskfille.tf.common.entity.EntityMissile;
 import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.entity.EntityTransformiumSeed;
 import fiskfille.tf.common.event.ClientEventHandler;
+import fiskfille.tf.common.groundbridge.RemoteData;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tick.ClientTickHandler;
@@ -82,6 +76,18 @@ import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
+
+import java.util.List;
 
 public class ClientProxy extends CommonProxy
 {
@@ -193,10 +199,39 @@ public class ClientProxy extends CommonProxy
             super.runTasks();
         }
     }
-    
+
     @Override
     public void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
     {
         Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
+    }
+
+    @Override
+    public void updateRemote(RemoteData data, boolean open)
+    {
+        super.updateRemote(data, open);
+
+        if (open)
+        {
+            if (this.mc.currentScreen == null)
+            {
+                EntityClientPlayerMP player = mc.thePlayer;
+                ItemStack heldItem = player.getHeldItem();
+
+                if (heldItem != null)
+                {
+                    this.mc.displayGuiScreen(new GuiGroundBridge(player.inventory, new InventoryGroundBridge(player, heldItem), data));
+                }
+            }
+        }
+        else
+        {
+            GuiScreen gui = this.mc.currentScreen;
+
+            if (gui instanceof GuiGroundBridge)
+            {
+                ((GuiGroundBridge) gui).update(data);
+            }
+        }
     }
 }

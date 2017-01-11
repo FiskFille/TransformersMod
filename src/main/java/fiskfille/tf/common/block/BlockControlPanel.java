@@ -414,7 +414,7 @@ public class BlockControlPanel extends BlockMachineBase
 
     public void sendActionPacket(TileEntityControlPanel tile, EntityPlayer player, int action)
     {
-        TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(player, tile.xCoord, tile.yCoord, tile.zCoord, tile.getWorldObj().provider.dimensionId, action));
+        TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(tile.xCoord, tile.yCoord, tile.zCoord, tile.getWorldObj().provider.dimensionId, action));
     }
 
     @Override

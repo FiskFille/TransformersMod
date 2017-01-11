@@ -1,9 +1,13 @@
 package fiskfille.tf.helper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
+import fiskfille.tf.common.energon.power.IEnergyContainer;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.energon.power.TargetReceiver;
+import fiskfille.tf.common.energon.power.TargetingTransmitter;
+import fiskfille.tf.common.energon.power.TransmissionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
@@ -12,15 +16,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Lists;
-
-import fiskfille.tf.common.energon.power.IEnergyContainer;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TargetReceiver;
-import fiskfille.tf.common.energon.power.TargetingTransmitter;
-import fiskfille.tf.common.energon.power.TransmissionHandler;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class TFEnergyHelper
 {
@@ -390,13 +388,17 @@ public class TFEnergyHelper
                     for (TargetingTransmitter target : transmitters)
                     {
                         TileEntity tile = target.getTile();
-                        IEnergyTransmitter transmitter = target.getTransmitter();
 
-                        if (canPowerReach(tile, receiverHandler.getReceiver()))
+                        if (tile != origin)
                         {
-                            if (transmitter.getEnergy() > 0 || canPowerChainReach(tile))
+                            IEnergyTransmitter transmitter = target.getTransmitter();
+
+                            if (canPowerReach(tile, receiverHandler.getReceiver()))
                             {
-                                return true;
+                                if (transmitter.getEnergy() > 0 || canPowerChainReach(tile))
+                                {
+                                    return true;
+                                }
                             }
                         }
                     }

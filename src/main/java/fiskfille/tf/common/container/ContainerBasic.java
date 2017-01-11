@@ -17,7 +17,7 @@ public class ContainerBasic extends Container
     public ContainerBasic(TileEntity tile)
     {
         tileentity = tile;
-        worldObj = tile.getWorldObj();
+        worldObj = tile != null ? tile.getWorldObj() : null;
     }
 
     public TileEntity getTile()

@@ -1,21 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Rectangle;
-import java.util.Arrays;
-import java.util.List;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
@@ -23,19 +7,34 @@ import fiskfille.tf.common.container.ContainerGroundBridge;
 import fiskfille.tf.common.container.InventoryGroundBridge;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.groundbridge.RemoteData;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageCloseRemote;
 import fiskfille.tf.common.network.MessageControlPanel;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.awt.Rectangle;
+import java.util.Collections;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiGroundBridge extends GuiContainerTF
 {
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/ground_bridge.png");
-    public TileEntityControlPanel controlPanel;
     public InventoryGroundBridge inventory;
 
     public GuiTextField[] coordinateFields = new GuiTextField[3];
@@ -47,11 +46,13 @@ public class GuiGroundBridge extends GuiContainerTF
     public GuiButton buttonDimLeft;
     public GuiButton buttonDirection;
 
-    public GuiGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, TileEntityControlPanel tile)
+    public RemoteData remoteData;
+
+    public GuiGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, RemoteData remoteData)
     {
-        super(new ContainerGroundBridge(inventoryPlayer, inventoryGroundBridge, tile));
-        controlPanel = tile;
-        inventory = inventoryGroundBridge;
+        super(new ContainerGroundBridge(inventoryPlayer, inventoryGroundBridge, null));
+        this.inventory = inventoryGroundBridge;
+        this.remoteData = remoteData;
     }
 
     @Override
@@ -68,13 +69,13 @@ public class GuiGroundBridge extends GuiContainerTF
         buttonList.add(buttonDirection = new GuiButtonFlat(4, x + 156, y + 49, 13, ""));
 
         Keyboard.enableRepeatEvents(true);
-        int[] aint = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
+        int[] destination = { remoteData.getDestinationX(), remoteData.getDestinationY(), remoteData.getDestinationZ() };
 
         for (int i = 0; i < coordinateFields.length; ++i)
         {
             coordinateFields[i] = new GuiTextFieldFlat(fontRendererObj, x + 7 + 55 * i, y + 7, 52);
             coordinateFields[i].setMaxStringLength(20);
-            coordinateFields[i].setText(aint[i] + "");
+            coordinateFields[i].setText(destination[i] + "");
         }
 
         dimensionField = new GuiTextFieldFlat(fontRendererObj, x + 81, y + 49, 71);
@@ -87,65 +88,59 @@ public class GuiGroundBridge extends GuiContainerTF
     {
         super.updateScreen();
 
+        remoteData.updateEnergy();
+
         DimensionalCoords coords = new DimensionalCoords();
-        int[] aint = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
-        int[] aint1 = new int[aint.length];
+        int[] originalDestination = { remoteData.getDestinationX(), remoteData.getDestinationY(), remoteData.getDestinationZ() };
+        int[] newDestination = new int[originalDestination.length];
 
         for (int i = 0; i < coordinateFields.length; ++i)
         {
             coordinateFields[i].updateCursorCounter();
 
-            int j = aint[i];
+            int coord = originalDestination[i];
 
             try
             {
-                j = Integer.valueOf(coordinateFields[i].getText());
+                coord = Integer.valueOf(coordinateFields[i].getText());
             }
             catch (Exception e)
             {
             }
 
-            aint1[i] = j;
+            newDestination[i] = coord;
         }
 
-        if (controlPanel != null)
+        if (inventory.getStackInSlot(0) != null)
         {
-            if (inventory.getStackInSlot(0) != null)
+            for (int i = 0; i < coordinateFields.length; ++i)
             {
-                int[] aint2 = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
+                coordinateFields[i].setText(originalDestination[i] + "");
+            }
+        }
+        else if (!remoteData.getActivationLeverState())
+        {
+            boolean updatedDestination = false;
+
+            for (int i = 0; i < originalDestination.length; ++i)
+            {
+                if (originalDestination[i] != newDestination[i])
+                {
+                    updatedDestination = true;
+                }
+            }
+
+            if (updatedDestination)
+            {
+                coords.set(newDestination[0], newDestination[1], newDestination[2], remoteData.getDestinationDimensionIndex());
+                remoteData.setDestination(coords);
 
                 for (int i = 0; i < coordinateFields.length; ++i)
                 {
-                    coordinateFields[i].setText(aint2[i] + "");
-                }
-            }
-            else if (!controlPanel.activationLeverState)
-            {
-                boolean flag = false;
-
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    if (aint[i] != aint1[i])
-                    {
-                        flag = true;
-                    }
+                    coordinateFields[i].setText(newDestination[i] + "");
                 }
 
-                if (flag)
-                {
-                    coords.set(aint1[0], aint1[1], aint1[2], controlPanel.destDimIndex);
-                    controlPanel.setSwitchesTo(coords);
-                    controlPanel.markBlockForUpdate();
-
-                    int[] aint2 = {controlPanel.destX, controlPanel.prevDestY, controlPanel.destZ};
-
-                    for (int i = 0; i < coordinateFields.length; ++i)
-                    {
-                        coordinateFields[i].setText(aint2[i] + "");
-                    }
-
-                    TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(controlPanel.xCoord, controlPanel.yCoord, controlPanel.zCoord, controlPanel.getWorldObj().provider.dimensionId, coords));
-                }
+                TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanelSetConfig(remoteData.getX(), remoteData.getY(), remoteData.getZ(), remoteData.getSourceDimension(), coords));
             }
         }
 
@@ -154,25 +149,27 @@ public class GuiGroundBridge extends GuiContainerTF
 
     public void updateButtons()
     {
-        boolean canEditCoords = controlPanel != null && !controlPanel.activationLeverState && inventory.getStackInSlot(0) == null;
+        boolean activationLeverState = remoteData.getActivationLeverState();
 
-        for (int i = 0; i < coordinateFields.length; ++i)
+        boolean canEditCoords = remoteData != null && !activationLeverState && inventory.getStackInSlot(0) == null;
+
+        for (GuiTextField coordinateField : coordinateFields)
         {
-            coordinateFields[i].setEnabled(canEditCoords);
+            coordinateField.setEnabled(canEditCoords);
         }
 
-        buttonActivate.enabled = controlPanel != null && !controlPanel.activationLeverState && controlPanel.errors.isEmpty();
-        buttonDeactivate.enabled = controlPanel != null && controlPanel.activationLeverState;
-        buttonDimLeft.enabled = buttonDimRight.enabled = canEditCoords && controlPanel.hasUpgrade(DataCore.spaceBridge);
-        buttonDirection.enabled = controlPanel != null && !controlPanel.activationLeverState;
-        dimensionField.setEnabled(canEditCoords && controlPanel.hasUpgrade(DataCore.spaceBridge));
+        buttonActivate.enabled = remoteData != null && !activationLeverState && remoteData.getErrors().isEmpty();
+        buttonDeactivate.enabled = remoteData != null && activationLeverState;
+        buttonDimLeft.enabled = buttonDimRight.enabled = canEditCoords && remoteData.hasUpgrade(DataCore.spaceBridge);
+        buttonDirection.enabled = remoteData != null && !activationLeverState;
+        dimensionField.setEnabled(canEditCoords && remoteData.hasUpgrade(DataCore.spaceBridge));
 
-        if (controlPanel != null)
+        if (remoteData != null)
         {
-            String[] astring = {"north", "east", "south", "west"};
-            buttonDirection.displayString = StatCollector.translateToLocal("ground_bridge.direction." + astring[controlPanel.portalDirection % astring.length]);
+            String[] directions = { "north", "east", "south", "west" };
+            buttonDirection.displayString = StatCollector.translateToLocal("ground_bridge.direction." + directions[remoteData.getDirection() % directions.length]);
 
-            dimensionField.setText(TFHelper.getDimensionName(controlPanel.getDestDimensionID()));
+            dimensionField.setText(TFHelper.getDimensionName(remoteData.getDestinationDimension()));
             dimensionField.setCursorPositionZero();
         }
     }
@@ -181,19 +178,23 @@ public class GuiGroundBridge extends GuiContainerTF
     protected void actionPerformed(GuiButton button)
     {
         int id = button.id;
-        int dimension = controlPanel.getWorldObj().provider.dimensionId;
+        int dimension = remoteData.getSourceDimension();
+
+        int x = remoteData.getX();
+        int y = remoteData.getY();
+        int z = remoteData.getZ();
 
         if (id == 0 || id == 1)
         {
-            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(mc.thePlayer, controlPanel.xCoord, controlPanel.yCoord, controlPanel.zCoord, dimension, 14));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(x, y, z, dimension, 14));
         }
         else if (id == 2 || id == 3)
         {
-            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(mc.thePlayer, controlPanel.xCoord, controlPanel.yCoord, controlPanel.zCoord, dimension, 16 + id));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(x, y, z, dimension, 16 + id));
         }
         else if (id == 4)
         {
-            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(mc.thePlayer, controlPanel.xCoord, controlPanel.yCoord, controlPanel.zCoord, dimension, 13));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(x, y, z, dimension, 13));
         }
 
         updateButtons();
@@ -204,15 +205,15 @@ public class GuiGroundBridge extends GuiContainerTF
     {
         super.keyTyped(c, key);
 
-        for (int i = 0; i < coordinateFields.length; ++i)
+        for (GuiTextField coordinateField : coordinateFields)
         {
-            coordinateFields[i].textboxKeyTyped(c, key);
+            coordinateField.textboxKeyTyped(c, key);
 
             String s = "";
 
-            for (int k = 0; k < coordinateFields[i].getText().length(); ++k)
+            for (int k = 0; k < coordinateField.getText().length(); ++k)
             {
-                char c1 = coordinateFields[i].getText().charAt(k);
+                char c1 = coordinateField.getText().charAt(k);
 
                 if (Character.isDigit(c1) || k == 0 && c1 == '-')
                 {
@@ -220,9 +221,9 @@ public class GuiGroundBridge extends GuiContainerTF
                 }
             }
 
-            if (!s.equals(coordinateFields[i].getText()))
+            if (!s.equals(coordinateField.getText()))
             {
-                coordinateFields[i].setText(s);
+                coordinateField.setText(s);
             }
         }
     }
@@ -232,9 +233,9 @@ public class GuiGroundBridge extends GuiContainerTF
     {
         super.mouseClicked(mouseX, mouseY, button);
 
-        for (int i = 0; i < coordinateFields.length; ++i)
+        for (GuiTextField coordinateField : coordinateFields)
         {
-            coordinateFields[i].mouseClicked(mouseX, mouseY, button);
+            coordinateField.mouseClicked(mouseX, mouseY, button);
         }
     }
 
@@ -244,10 +245,10 @@ public class GuiGroundBridge extends GuiContainerTF
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
-        if (controlPanel != null)
+        if (remoteData != null)
         {
-            String s = controlPanel.getDestDimensionID() + "";
-            fontRendererObj.drawString(s, (buttonDimLeft.xPosition + buttonDimRight.xPosition + buttonDimRight.width - fontRendererObj.getStringWidth(s)) / 2 - x, (buttonDimLeft.yPosition + buttonDimLeft.height / 2 + buttonDimRight.yPosition + buttonDimRight.height / 2 - fontRendererObj.FONT_HEIGHT + 1) / 2 + 1 - y, -1);
+            String destDimension = String.valueOf(remoteData.getDestinationDimension());
+            fontRendererObj.drawString(destDimension, (buttonDimLeft.xPosition + buttonDimRight.xPosition + buttonDimRight.width - fontRendererObj.getStringWidth(destDimension)) / 2 - x, (buttonDimLeft.yPosition + buttonDimLeft.height / 2 + buttonDimRight.yPosition + buttonDimRight.height / 2 - fontRendererObj.FONT_HEIGHT + 1) / 2 + 1 - y, -1);
 
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -257,11 +258,11 @@ public class GuiGroundBridge extends GuiContainerTF
 
             for (int i = 0; i < 3; ++i)
             {
-                ItemStack itemstack = controlPanel.getStackInSlot(i);
+                ItemStack stack = remoteData.getStackInSlot(i);
 
-                if (itemstack != null)
+                if (stack != null)
                 {
-                    itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 116 + i * 18, 28);
+                    itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, 116 + i * 18, 28);
                 }
             }
 
@@ -274,17 +275,16 @@ public class GuiGroundBridge extends GuiContainerTF
             mc.getTextureManager().bindTexture(guiTextures);
             drawTexturedModalRect(xSize + 2, 2, 192, 0, 16, 86);
 
-            float energy = controlPanel.getEnergy();
+            float energy = remoteData.getEnergy();
 
             if (energy > 0)
             {
-                float f = energy / controlPanel.getMaxEnergy();
+                float f = energy / remoteData.getMaxEnergy();
                 drawTexturedModalRect(xSize + 6, 6 + Math.round(78 * (1 - f)), 208, Math.round(78 * (1 - f)), 16, Math.round(78 * f));
             }
 
-            for (int i = 0; i < controlPanel.errors.size(); ++i)
+            for (int i = 0; i < remoteData.getErrors().size(); ++i)
             {
-                controlPanel.errors.get(i);
                 boolean flag = new Rectangle(xSize + 20, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
 
                 drawTexturedModalRect(xSize + 20, 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
@@ -292,11 +292,11 @@ public class GuiGroundBridge extends GuiContainerTF
 
             for (int i = 0; i < 3; ++i)
             {
-                ItemStack itemstack = controlPanel.getStackInSlot(i);
+                ItemStack stack = remoteData.getStackInSlot(i);
 
-                if (itemstack != null && new Rectangle(115 + i * 18, 27, 18, 18).contains(mouseX - x, mouseY - y))
+                if (stack != null && new Rectangle(115 + i * 18, 27, 18, 18).contains(mouseX - x, mouseY - y))
                 {
-                    renderToolTip(itemstack, mouseX - x, mouseY - y);
+                    renderToolTip(stack, mouseX - x, mouseY - y);
                 }
             }
 
@@ -305,12 +305,12 @@ public class GuiGroundBridge extends GuiContainerTF
 
             if (new Rectangle(xSize + 2, 2, 16, 86).contains(mouseX - x, mouseY - y))
             {
-                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(controlPanel.getEnergy()), TFFormatHelper.formatNumber(controlPanel.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+                drawHoveringText(Collections.singletonList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(remoteData.getEnergy()), TFFormatHelper.formatNumber(remoteData.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
             }
 
-            for (int i = 0; i < controlPanel.errors.size(); ++i)
+            for (int i = 0; i < remoteData.getErrors().size(); ++i)
             {
-                GroundBridgeError error = controlPanel.errors.get(i);
+                GroundBridgeError error = remoteData.getErrors().get(i);
 
                 if (new Rectangle(xSize + 20, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y))
                 {
@@ -327,6 +327,8 @@ public class GuiGroundBridge extends GuiContainerTF
 
             GL11.glPopMatrix();
         }
+
+        RenderHelper.enableGUIStandardItemLighting();
     }
 
     @Override
@@ -339,11 +341,24 @@ public class GuiGroundBridge extends GuiContainerTF
         mc.getTextureManager().bindTexture(guiTextures);
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 
-        for (int i = 0; i < coordinateFields.length; ++i)
+        for (GuiTextField coordinateField : coordinateFields)
         {
-            coordinateFields[i].drawTextBox();
+            coordinateField.drawTextBox();
         }
 
         dimensionField.drawTextBox();
+    }
+
+    @Override
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+
+        TFNetworkManager.networkWrapper.sendToServer(new MessageCloseRemote(remoteData.getX(), remoteData.getY(), remoteData.getZ(), remoteData.getSourceDimension()));
+    }
+
+    public void update(RemoteData data)
+    {
+        this.remoteData = data;
     }
 }

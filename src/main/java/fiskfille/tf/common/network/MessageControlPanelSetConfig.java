@@ -1,16 +1,14 @@
 package fiskfille.tf.common.network;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 
 public class MessageControlPanelSetConfig implements IMessage
 {
@@ -62,31 +60,24 @@ public class MessageControlPanelSetConfig implements IMessage
         @Override
         public IMessage onMessage(MessageControlPanelSetConfig message, MessageContext ctx)
         {
-            EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
-            World world = MinecraftServer.getServer().worldServerForDimension(message.dimension);
-            boolean flag = true;
-
-            if (world != null)
+            if (ctx.side.isServer())
             {
-                if (clientPlayer.worldObj.provider.dimensionId == message.dimension)
-                {
-                    world = clientPlayer.worldObj;
-                }
-                else
-                {
-                    flag = ctx.side.isServer();
-                }
+                EntityPlayer player = ctx.getServerHandler().playerEntity;
+                World world = MinecraftServer.getServer().worldServerForDimension(message.dimension);
 
-                TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
-
-                if (tile != null && flag)
+                if (world != null)
                 {
-                    tile.setSwitchesTo(message.configuration);
-                    tile.markBlockForUpdate();
-
-                    if (ctx.side.isServer())
+                    if (player.worldObj.provider.dimensionId == message.dimension)
                     {
-                        TFNetworkManager.networkWrapper.sendToAll(new MessageControlPanelSetConfig(tile.xCoord, tile.yCoord, tile.zCoord, message.dimension, message.configuration));
+                        world = player.worldObj;
+                    }
+
+                    TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
+
+                    if (tile != null)
+                    {
+                        tile.setSwitchesTo(message.configuration);
+                        tile.markBlockForUpdate();
                     }
                 }
             }

@@ -1,14 +1,30 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import fiskfille.tf.common.block.BlockControlPanel;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.energon.power.EnergyStorage;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.groundbridge.RemoteData;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.MessageUpdateRemote;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFMathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -27,34 +43,21 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.network.NetworkRegistry;
-import fiskfille.tf.common.block.BlockControlPanel;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFMathHelper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IEnergyReceiver, IChunkLoaderTile, IMultiTile
 {
-    public static final int[][] directions = new int[][] { {-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+    public static final int[][] directions = new int[][] { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
 
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
-    public Integer[][] switches = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    public Integer[][] switches = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
     public EnergyStorage storage = new EnergyStorage(64000);
 
@@ -85,11 +88,18 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket) null, (Ticket) null));
     public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk) null, (ForcedChunk) null));
 
+    public Set<EntityPlayer> controllingPlayers = new HashSet<EntityPlayer>();
+
     private Integer[] cachedDimensionIDs;
+    private RemoteData lastRemoteData;
+
+    private int updates;
 
     @Override
     public void updateEntity()
     {
+        updates++;
+
         prevActivationLeverTimer = activationLeverTimer;
         prevActivationLeverCoverTimer = activationLeverCoverTimer;
         prevAnimPortalDirection = animPortalDirection;
@@ -100,28 +110,32 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
             calculateCoords();
             errors.clear();
 
-            if (hasUpgrade(DataCore.leveler))
-            {
-                World world = getDestWorld();
-
-                if (world != null)
-                {
-                    int x = destX;
-                    int y = destY;
-                    int z = destZ;
-
-                    while (y > 0 && checkForSpace(world, x, y - 1, z))
-                    {
-                        --y;
-                    }
-
-                    destY = y;
-                }
-            }
-
             if (!worldObj.isRemote)
             {
                 loadChunks();
+
+                if (hasUpgrade(DataCore.leveler))
+                {
+                    World world = getDestWorld();
+
+                    if (world != null)
+                    {
+                        int x = destX;
+                        int y = destY;
+                        int z = destZ;
+
+                        while (y > 0 && checkForSpace(world, x, y - 1, z))
+                        {
+                            --y;
+                        }
+
+                        if (y != destY)
+                        {
+                            destY = y;
+                            world.markBlockForUpdate(xCoord, yCoord, zCoord);
+                        }
+                    }
+                }
             }
 
             if (groundBridgeFramePos != null)
@@ -182,13 +196,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
             if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64 && getDestDimensionID() == worldObj.provider.dimensionId)
             {
-                GroundBridgeError.INVALID_COORDS.arguments = new Object[] {64};
-                 errors.add(GroundBridgeError.INVALID_COORDS);
+                GroundBridgeError.INVALID_COORDS.arguments = new Object[] { 64 };
+                errors.add(GroundBridgeError.INVALID_COORDS);
             }
 
             if (destY < 0 || destY + 5 >= worldObj.getHeight())
             {
-                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] {worldObj.getHeight()};
+                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] { worldObj.getHeight() };
                 errors.add(GroundBridgeError.OUT_OF_BOUNDS);
             }
 
@@ -258,30 +272,31 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
             if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
             {
-                try
+                if (!worldObj.isRemote)
                 {
-                    int x = groundBridgeFramePos.posX;
-                    int y = groundBridgeFramePos.posY;
-                    int z = groundBridgeFramePos.posZ;
-                    BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
+                    try
+                    {
+                        int x = groundBridgeFramePos.posX;
+                        int y = groundBridgeFramePos.posY;
+                        int z = groundBridgeFramePos.posZ;
+                        BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
 
-                    if (portalDirection % 2 == 0)
-                    {
-                        BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
-                    }
-                    else
-                    {
-                        BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
-                    }
+                        if (portalDirection % 2 == 0)
+                        {
+                            BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                        }
+                        else
+                        {
+                            BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
+                        }
 
-                    if (!worldObj.isRemote)
-                    {
+
                         extractEnergy(getConsumptionRate(), false);
                     }
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -319,6 +334,42 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                 }
 
                 lastUsage = usage;
+
+                if (controllingPlayers.isEmpty())
+                {
+                    lastRemoteData = null;
+                }
+                else
+                {
+                    if (updates % 20 == 0)
+                    {
+                        Set<EntityPlayer> deadPlayers = new HashSet<EntityPlayer>();
+
+                        for (EntityPlayer player : controllingPlayers)
+                        {
+                            if (player.isDead || !player.worldObj.playerEntities.contains(player))
+                            {
+                                deadPlayers.add(player);
+                            }
+                        }
+
+                        controllingPlayers.removeAll(deadPlayers);
+                    }
+
+                    RemoteData remoteData = new RemoteData(this);
+
+                    if (lastRemoteData != null && !lastRemoteData.equals(remoteData))
+                    {
+                        MessageUpdateRemote message = new MessageUpdateRemote(remoteData, false);
+
+                        for (EntityPlayer player : controllingPlayers)
+                        {
+                            TFNetworkManager.networkWrapper.sendTo(message, (EntityPlayerMP) player);
+                        }
+                    }
+
+                    lastRemoteData = remoteData;
+                }
             }
         }
     }
@@ -352,7 +403,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     public int[] getCoordinateIncrements()
     {
         List<DataCore> upgrades = getUpgrades();
-        int[] increments = {1, 10, 100, 1000};
+        int[] increments = { 1, 10, 100, 1000 };
 
         for (int i = 0; i < upgrades.size(); ++i)
         {
@@ -486,10 +537,10 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         if (!activationLeverState)
         {
             int[] increments = getCoordinateIncrements();
-            int[] aint = {coords.posX, coords.posY, coords.posZ};
-            int[] aint1 = {xCoord, yCoord, zCoord};
+            int[] aint = { coords.posX, coords.posY, coords.posZ };
+            int[] aint1 = { xCoord, yCoord, zCoord };
 
-            switches = new Integer[][] { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+            switches = new Integer[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
             for (int i = 0; i < aint.length; ++i)
             {
@@ -997,6 +1048,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         int direction = BlockControlPanel.getDirection(metadata);
         boolean isSide = !BlockControlPanel.isBlockLeftSideOfPanel(metadata);
 
-        return new int[] {-(isSide ? directions[direction][0] : 0), -(BlockControlPanel.isBlockTopOfPanel(metadata) ? 1 : 0), -(isSide ? directions[direction][1] : 0)};
+        return new int[] { -(isSide ? directions[direction][0] : 0), -(BlockControlPanel.isBlockTopOfPanel(metadata) ? 1 : 0), -(isSide ? directions[direction][1] : 0) };
     }
 }

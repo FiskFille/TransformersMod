@@ -1,11 +1,21 @@
 package fiskfille.tf.helper;
 
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.fluid.FluidTankTF;
+import fiskfille.tf.common.fluid.IFluidHandlerTF;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.tileentity.IMultiTile;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
+import fiskfille.tf.common.transformer.TransformerPurge;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.common.transformer.TransformerSubwoofer;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -17,26 +27,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidStack;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.data.TFData;
-import fiskfille.tf.common.fluid.FluidTankTF;
-import fiskfille.tf.common.fluid.IFluidHandlerTF;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.network.MessageOpenGui;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.IMultiTile;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
-import fiskfille.tf.common.transformer.TransformerPurge;
-import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.TransformerSubwoofer;
-import fiskfille.tf.common.transformer.TransformerVurp;
-import fiskfille.tf.common.transformer.base.Transformer;
 
 /**
  * @author FiskFille, gegy1000
@@ -277,42 +267,6 @@ public class TFHelper
         }
 
         return "Unknown";
-    }
-
-    /**
-     * A world-sensitive version of {@link FMLNetworkHandler#openGui()}
-     */
-    public static void openGui(EntityPlayer player, Object mod, int modGuiId, World world, int x, int y, int z)
-    {
-        ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
-
-        if (player instanceof EntityPlayerMP)
-        {
-            EntityPlayerMP playerMP = (EntityPlayerMP) player;
-            Container remoteGuiContainer = NetworkRegistry.INSTANCE.getRemoteGuiContainer(mc, playerMP, modGuiId, world, x, y, z);
-
-            if (remoteGuiContainer != null)
-            {
-                playerMP.getNextWindowId();
-                playerMP.closeContainer();
-                int windowId = playerMP.currentWindowId;
-
-                TFNetworkManager.networkWrapper.sendTo(new MessageOpenGui(playerMP, modGuiId, x, y, z, world.provider.dimensionId), playerMP);
-
-                playerMP.openContainer = remoteGuiContainer;
-                playerMP.openContainer.windowId = windowId;
-                playerMP.openContainer.addCraftingToCrafters(playerMP);
-            }
-        }
-        else if (FMLCommonHandler.instance().getSide().equals(Side.CLIENT))
-        {
-            Object guiContainer = NetworkRegistry.INSTANCE.getLocalGuiContainer(mc, player, modGuiId, world, x, y, z);
-            FMLCommonHandler.instance().showGuiScreen(guiContainer);
-        }
-        else
-        {
-            FMLLog.fine("Invalid attempt to open a local GUI on a dedicated server. This is likely a bug. GUIID: %s,%d", mc.getModId(), modGuiId);
-        }
     }
 
     public static int[] getTileBaseOffsets(TileEntity tile, int metadata)

@@ -1,15 +1,5 @@
 package fiskfille.tf.common.proxy;
 
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -25,6 +15,7 @@ import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.generator.WorldGeneratorOres;
+import fiskfille.tf.common.groundbridge.RemoteData;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
 import fiskfille.tf.common.network.base.TFNetworkManager;
@@ -32,6 +23,16 @@ import fiskfille.tf.common.recipe.TFRecipes;
 import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tick.CommonTickHandler;
 import fiskfille.tf.helper.TFShootManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class CommonProxy
 {
@@ -107,5 +108,9 @@ public class CommonProxy
     {
         ChunkCoordinates coordinates = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
         TFNetworkManager.networkWrapper.sendTo(new MessageOpenSetReceiversGUI(coordinates, grandparents), (EntityPlayerMP) player);
+    }
+
+    public void updateRemote(RemoteData data, boolean open)
+    {
     }
 }

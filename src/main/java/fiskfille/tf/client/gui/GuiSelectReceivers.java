@@ -1,25 +1,6 @@
 package fiskfille.tf.client.gui;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
-
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
@@ -30,6 +11,22 @@ import fiskfille.tf.common.network.MessageSetReceivers;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiSelectReceivers extends GuiScreen
@@ -216,28 +213,31 @@ public class GuiSelectReceivers extends GuiScreen
 
                             if (coords != null)
                             {
-                                TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
-
-                                if (tile != this.tile && tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile) && (!(tile instanceof IEnergyTransmitter) || !isGrandParent(coords)))
+                                if (!(coords.posX == this.tile.xCoord && coords.posY == this.tile.yCoord && coords.posZ == this.tile.zCoord))
                                 {
-                                    ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
+                                    TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
 
-                                    if (receiverHandler != null)
+                                    if (tile != this.tile && tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile) && (!(tile instanceof IEnergyTransmitter) || !isGrandParent(coords)))
                                     {
-                                        TargetReceiver receiver = receiverHandler.getReceiver();
+                                        ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
 
-                                        if (receivers.contains(receiver))
+                                        if (receiverHandler != null)
                                         {
-                                            receivers.remove(receiver);
-                                            receiverCoords.remove(receiver.getCoordinates());
-                                        }
-                                        else
-                                        {
-                                            receivers.add(receiver);
-                                            receiverCoords.add(receiver.getCoordinates());
-                                        }
+                                            TargetReceiver receiver = receiverHandler.getReceiver();
 
-                                        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1));
+                                            if (receivers.contains(receiver))
+                                            {
+                                                receivers.remove(receiver);
+                                                receiverCoords.remove(receiver.getCoordinates());
+                                            }
+                                            else
+                                            {
+                                                receivers.add(receiver);
+                                                receiverCoords.add(receiver.getCoordinates());
+                                            }
+
+                                            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1));
+                                        }
                                     }
                                 }
                             }

@@ -1,19 +1,6 @@
 package fiskfille.tf.client.gui;
 
-import java.lang.reflect.Constructor;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
-
 import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.network.IGuiHandler;
 import fiskfille.tf.TFLog;
 import fiskfille.tf.TransformersMod;
@@ -37,6 +24,17 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
+
+import java.lang.reflect.Constructor;
+import java.util.List;
 
 public class GuiHandlerTF implements IGuiHandler
 {
@@ -212,7 +210,7 @@ public class GuiHandlerTF implements IGuiHandler
 
     public static class TFGui
     {
-        private static final List<TFGui> list = Lists.newArrayList();
+        private static final List<TFGui> guis = Lists.newArrayList();
         private static int nextId = -1;
 
         public static TFGui ALLOY_CRUCIBLE;
@@ -257,7 +255,7 @@ public class GuiHandlerTF implements IGuiHandler
             containerArgs = container;
             containerBlock = block;
 
-            list.add(this);
+            guis.add(this);
         }
 
         public static void register()
@@ -296,10 +294,8 @@ public class GuiHandlerTF implements IGuiHandler
 
         public static TFGui get(int id)
         {
-            for (int i = 0; i < list.size(); ++i)
+            for (TFGui gui : guis)
             {
-                TFGui gui = list.get(i);
-
                 if (gui.guiId == id)
                 {
                     return gui;
