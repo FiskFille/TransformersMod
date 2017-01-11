@@ -43,7 +43,6 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
 
     public float lastUsage;
 
-    @SideOnly(Side.CLIENT)
     public boolean renderOverlay = false;
 
     @Override
