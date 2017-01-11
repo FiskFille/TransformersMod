@@ -1,13 +1,5 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.List;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.util.Constants.NBT;
 import fiskfille.tf.common.chunk.ForcedChunk;
 import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
@@ -20,6 +12,14 @@ import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.Constants.NBT;
+
+import java.util.List;
 
 public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmitter, IEnergyReceiver, IChunkLoaderTile, IMultiTile
 {

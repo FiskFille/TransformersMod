@@ -1,20 +1,19 @@
 package fiskfille.tf.common.network;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
 import io.netty.buffer.ByteBuf;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageOpenSetReceiversGUI implements IMessage
 {
@@ -46,11 +45,6 @@ public class MessageOpenSetReceiversGUI implements IMessage
         }
     }
 
-    private ChunkCoordinates readCoordinates(ByteBuf buf)
-    {
-        return new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt());
-    }
-
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -61,6 +55,11 @@ public class MessageOpenSetReceiversGUI implements IMessage
         {
             writeCoordinates(coordinates, buf);
         }
+    }
+
+    private ChunkCoordinates readCoordinates(ByteBuf buf)
+    {
+        return new ChunkCoordinates(buf.readInt(), buf.readInt(), buf.readInt());
     }
 
     private void writeCoordinates(ChunkCoordinates coordinates, ByteBuf buf)

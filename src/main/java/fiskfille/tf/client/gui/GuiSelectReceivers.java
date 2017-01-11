@@ -47,6 +47,8 @@ public class GuiSelectReceivers extends GuiScreen
 
     private List<ChunkCoordinates> grandparents;
 
+    private int ticks;
+
     @Override
     public void initGui()
     {
@@ -93,16 +95,27 @@ public class GuiSelectReceivers extends GuiScreen
 
     public GuiSelectReceivers(TileEntity tile, List<ChunkCoordinates> grandparents)
     {
+        this.update(tile, grandparents);
+    }
+
+    public void update(TileEntity tile, List<ChunkCoordinates> grandparents)
+    {
         this.tile = tile;
         this.grandparents = grandparents;
 
-        transmitter = (IEnergyTransmitter) tile;
+        receivers.clear();
+        receiverCoords.clear();
+
+        transmitter = (IEnergyTransmitter) this.tile;
         receivers.addAll(transmitter.getTransmissionHandler().getReceivers());
 
         for (TargetReceiver receiver : receivers)
         {
             receiverCoords.add(receiver.getCoordinates());
         }
+
+        coordArray = null;
+        layers = Lists.newArrayList();
     }
 
     protected void updateBlocks()
@@ -286,7 +299,7 @@ public class GuiSelectReceivers extends GuiScreen
         drawDefaultBackground();
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.transmitter.select_receivers"), width / 2, 15, 16777215);
 
-        if (coordArray == null || layers.isEmpty())
+        if (coordArray == null || layers.isEmpty() || ticks++ % 10 == 0)
         {
             updateBlocks();
         }

@@ -1,21 +1,6 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.Constants.NBT;
-
 import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,6 +13,19 @@ import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.recipe.AlloyRecipes;
 import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
 import fiskfille.tf.helper.TFEnergyHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.Constants.NBT;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TileEntityAlloyCrucible extends TileEntityContainer implements IEnergyReceiver, ISidedInventory, ITileDataCallback
 {

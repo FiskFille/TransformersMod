@@ -113,4 +113,8 @@ public class CommonProxy
     public void updateRemote(RemoteData data, boolean open)
     {
     }
+
+    public void updateReceivers(TileEntity tileEntity, List<ChunkCoordinates> grandparents)
+    {
+    }
 }
