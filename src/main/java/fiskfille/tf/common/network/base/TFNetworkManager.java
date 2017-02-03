@@ -7,24 +7,23 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageClosePortal;
-import fiskfille.tf.common.network.MessageCloseRemote;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.MessageColorArmor;
-import fiskfille.tf.common.network.MessageControlPanel;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
 import fiskfille.tf.common.network.MessageLaserShoot;
+import fiskfille.tf.common.network.MessageOpenGui;
 import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
 import fiskfille.tf.common.network.MessagePlayerData;
 import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetPlayerData;
 import fiskfille.tf.common.network.MessageSetReceivers;
+import fiskfille.tf.common.network.MessageSetTileData;
 import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
 import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.MessageUpdateFluidState;
-import fiskfille.tf.common.network.MessageUpdateRemote;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 
 public class TFNetworkManager
@@ -40,24 +39,22 @@ public class TFNetworkManager
         registerPacket(MessagePlayerData.Handler.class, MessagePlayerData.class);
         registerPacket(MessagePlayerJoin.Handler.class, MessagePlayerJoin.class);
         registerPacket(MessageBroadcastState.Handler.class, MessageBroadcastState.class);
-
         registerPacket(MessageVehicleShoot.Handler.class, MessageVehicleShoot.class);
         registerPacket(MessageCloudtrapJetpack.Handler.class, MessageCloudtrapJetpack.class);
         registerPacket(MessageLaserShoot.Handler.class, MessageLaserShoot.class);
         registerPacket(MessageSendFlying.Handler.class, MessageSendFlying.class);
         registerPacket(MessageTransformDisplayStation.Handler.class, MessageTransformDisplayStation.class);
         registerPacket(MessageColorArmor.Handler.class, MessageColorArmor.class);
-        registerPacket(MessageControlPanel.Handler.class, MessageControlPanel.class);
         registerPacket(MessageControlPanelSetConfig.Handler.class, MessageControlPanelSetConfig.class);
         registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);
         registerPacket(MessageUpdateEnergyState.Handler.class, MessageUpdateEnergyState.class);
         registerPacket(MessageSetReceivers.Handler.class, MessageSetReceivers.class);
         registerPacket(MessageClosePortal.Handler.class, MessageClosePortal.class);
         registerPacket(MessageUpdateFluidState.Handler.class, MessageUpdateFluidState.class);
+        registerPacket(MessageOpenGui.Handler.class, MessageOpenGui.class);
         registerPacket(MessageOpenSetReceiversGUI.Handler.class, MessageOpenSetReceiversGUI.class);
         registerPacket(MessageTileTrigger.Handler.class, MessageTileTrigger.class);
-        registerPacket(MessageUpdateRemote.Handler.class, MessageUpdateRemote.class);
-        registerPacket(MessageCloseRemote.Handler.class, MessageCloseRemote.class);
+        registerPacket(MessageSetTileData.Handler.class, MessageSetTileData.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

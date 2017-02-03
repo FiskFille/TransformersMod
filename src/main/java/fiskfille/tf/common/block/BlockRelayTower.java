@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockRelayTower extends BlockTransmitter
 {
@@ -64,7 +64,7 @@ public class BlockRelayTower extends BlockTransmitter
     {
         if (!player.isSneaking())
         {
-            TileEntity tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
+            TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
             if (tile instanceof TileEntityRelayTower)
             {

@@ -12,8 +12,8 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.helper.TFFluidRenderHelper;
-import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class RenderEnergonTank extends TileEntitySpecialRenderer
 {
@@ -54,16 +54,16 @@ public class RenderEnergonTank extends TileEntitySpecialRenderer
 
         if (world != null)
         {
-            TileEntityEnergonTank tileBase = TFHelper.getTileBase(tile);
+            TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(tile);
             boolean connectAbove = false;
             boolean connectBelow = false;
 
-            if (tileBase == TFHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord + 1, tile.zCoord)))
+            if (tileBase == TFTileHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord + 1, tile.zCoord)))
             {
                 connectAbove = true;
             }
 
-            if (tileBase == TFHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord - 1, tile.zCoord)))
+            if (tileBase == TFTileHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord - 1, tile.zCoord)))
             {
                 connectBelow = true;
             }

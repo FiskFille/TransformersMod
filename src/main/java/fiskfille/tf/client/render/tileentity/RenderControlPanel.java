@@ -15,9 +15,10 @@ import org.lwjgl.opengl.GL11;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.tileentity.ModelControlPanel;
 import fiskfille.tf.common.block.BlockControlPanel;
+import fiskfille.tf.common.data.tile.TileDataControlPanel;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFDimensionHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderControlPanel extends TileEntitySpecialRenderer
@@ -111,31 +112,32 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
                 }
             }
 
+            TileDataControlPanel data = tile.data;
             String dimensionName = "";
 
             if (tile.getWorldObj() != null)
             {
-                dimensionName = TFHelper.getDimensionName(tile.getDestDimensionID());
+                dimensionName = TFDimensionHelper.getDimensionName(data.destination.dimension);
             }
 
             GL11.glPushMatrix();
             model.screen1.postRender(0.0625F);
             model.screen2.postRender(0.0625F);
             renderText(StatCollector.translateToLocal("ground_bridge.destination"), 0, 0, 0, -1);
-            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", tile.destX, tile.hasUpgrade(DataCore.leveler) ? String.format("%s -> %s", tile.prevDestY, tile.destY) : tile.destY, tile.destZ, dimensionName), 1, 0, 0, -1);
+            renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", data.destination.posX, tile.hasUpgrade(DataCore.leveler) ? String.format("%s -> %s", data.destination.posY, data.modifiedDestY) : data.destination.posY, data.destination.posZ, dimensionName), 1, 0, 0, -1);
 
-            if (!tile.errors.isEmpty())
+            if (!data.errors.isEmpty())
             {
                 renderText(StatCollector.translateToLocal("ground_bridge.error"), 2, 0, 0.025F, 0xC10000);
-                renderText(tile.errors.get(0).translate(), 3, 0, 0.025F, 0xC10000);
+                renderText(data.errors.get(0).translate(), 3, 0, 0.025F, 0xC10000);
 
-                if (tile.errors.size() == 1)
+                if (data.errors.size() == 1)
                 {
                     renderText(StatCollector.translateToLocal("ground_bridge.error.no_other_errors"), 7, 0, 0, -1);
                 }
                 else
                 {
-                    renderText(StatCollector.translateToLocalFormatted("ground_bridge.error.other_error" + (tile.errors.size() == 2 ? "" : "s"), tile.errors.size() - 1), 7, 0, 0, 0xC10000);
+                    renderText(StatCollector.translateToLocalFormatted("ground_bridge.error.other_error" + (tile.data.errors.size() == 2 ? "" : "s"), tile.data.errors.size() - 1), 7, 0, 0, 0xC10000);
                 }
             }
 
@@ -159,7 +161,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
                 model.dimPanel7.postRender(0.0625F);
                 GL11.glTranslatef(0.345F, -0.025F, -0.0625F * 6.3F);
                 GL11.glRotatef(5, 1, 0, 0);
-                renderCenteredText(tile.getDestDimensionID() + "", 0, 0, 0.02F, -1, 0.00725F);
+                renderCenteredText(data.destination.dimension + "", 0, 0, 0.02F, -1, 0.00725F);
                 GL11.glPopMatrix();
                 GL11.glPopMatrix();
             }

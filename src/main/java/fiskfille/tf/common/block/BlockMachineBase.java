@@ -25,7 +25,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TFLog;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockMachineBase extends Block implements ITileEntityProvider
 {
@@ -185,7 +185,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
             world.func_147453_f(x, y, z, block);
         }
 
-        TileEntity tileBase = TFHelper.getTileBase(tile);
+        TileEntity tileBase = TFTileHelper.getTileBase(tile);
 
         if (tileBase != null && tile != tileBase && getBlockHeight() > 0)
         {
@@ -205,7 +205,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
             if (getBlockHeight() > 0)
             {
-                tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
+                tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
             }
 
             if (tile != null)
@@ -306,7 +306,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
         if (tile != null && getBlockHeight() > 0)
         {
-            int[] offsets = TFHelper.getTileBaseOffsets(tile, metadata);
+            int[] offsets = TFTileHelper.getTileBaseOffsets(tile, metadata);
 
             if (world.getBlock(x + offsets[0], y + offsets[1], z + offsets[2]) != this)
             {

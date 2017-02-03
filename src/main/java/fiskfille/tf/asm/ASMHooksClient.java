@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
@@ -43,34 +42,5 @@ public class ASMHooksClient
     public static double getScaledSneakOffset(EntityPlayer player)
     {
         return 0.125D;
-    }
-
-    public static float getViewBobbingMultiplier(float partialTicks)
-    {
-        EntityPlayer player = mc.thePlayer;
-
-        if (mc.gameSettings.thirdPersonView == 0)
-        {
-            return 1.0F;
-        }
-        else
-        {
-            return ASMHooks.getEntityScale(player);
-        }
-    }
-
-    public static float getInventoryPlayerScale(int scale, EntityLivingBase entity)
-    {
-        return scale / ASMHooks.getModifiedEntityScale(entity);
-    }
-
-    public static float getInventoryPlayerOffset(int offset, int originalScale, EntityLivingBase entity)
-    {
-        return offset;
-    }
-
-    public static float getInventoryPlayerOffsetPost(int offset, int originalScale, EntityLivingBase entity)
-    {
-        return entity.yOffset - 1.62F;
     }
 }

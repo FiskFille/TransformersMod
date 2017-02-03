@@ -1,6 +1,18 @@
 package fiskfille.tf.client.gui;
 
+import java.lang.reflect.Constructor;
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import com.google.common.collect.Lists;
+
 import cpw.mods.fml.common.network.IGuiHandler;
 import fiskfille.tf.TFLog;
 import fiskfille.tf.TransformersMod;
@@ -15,39 +27,23 @@ import fiskfille.tf.common.container.ContainerEnergonTank;
 import fiskfille.tf.common.container.ContainerGroundBridge;
 import fiskfille.tf.common.container.ContainerTransmitter;
 import fiskfille.tf.common.container.InventoryGroundBridge;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
-
-import java.lang.reflect.Constructor;
-import java.util.List;
 
 public class GuiHandlerTF implements IGuiHandler
 {
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        if (id == TFGui.GROUND_BRIDGE_REMOTE.guiId)
-        {
-            world = DimensionManager.getWorld(world.provider.dimensionId);
-        }
-
-        TileEntity tile = world.getTileEntity(x, y, z);
-        TFGui tfGui = TFGui.get(id);
+        int dimension = id >> 8;
+        TFGui tfGui = TFGui.get(id ^= dimension << 8);
 
         if (tfGui != null)
         {
@@ -56,9 +52,11 @@ public class GuiHandlerTF implements IGuiHandler
                 return null;
             }
 
-            if (world.getBlock(x, y, z) == tfGui.containerBlock)
+            DimensionalCoords coords = new DimensionalCoords(x, y, z, dimension);
+
+            if (world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
             {
-                int[] coords = {x, y, z};
+                int[] aint = coords.toArray();
                 int integer = 0;
 
                 try
@@ -76,7 +74,11 @@ public class GuiHandlerTF implements IGuiHandler
                         }
                         else if (TileEntity.class.isAssignableFrom(clazz))
                         {
-                            args[i] = clazz.cast(tile);
+                            args[i] = clazz.cast(world.getTileEntity(x, y, z));
+                        }
+                        else if (DimensionalCoords.class.isAssignableFrom(clazz))
+                        {
+                            args[i] = coords;
                         }
                         else if (InventoryGroundBridge.class.isAssignableFrom(clazz))
                         {
@@ -95,9 +97,9 @@ public class GuiHandlerTF implements IGuiHandler
                         }
                         else if (int.class.isAssignableFrom(clazz))
                         {
-                            if (integer < 3)
+                            if (integer < aint.length)
                             {
-                                args[i] = coords[integer];
+                                args[i] = aint[integer];
                             }
                             else
                             {
@@ -126,13 +128,8 @@ public class GuiHandlerTF implements IGuiHandler
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        if (id == TFGui.GROUND_BRIDGE_REMOTE.guiId)
-        {
-            world = DimensionManager.getWorld(world.provider.dimensionId);
-        }
-
-        TileEntity tile = world.getTileEntity(x, y, z);
-        TFGui tfGui = TFGui.get(id);
+        int dimension = id >> 8;
+        TFGui tfGui = TFGui.get(id ^= dimension << 8);
 
         if (tfGui != null)
         {
@@ -141,9 +138,11 @@ public class GuiHandlerTF implements IGuiHandler
                 return null;
             }
 
-            if (world.getBlock(x, y, z) == tfGui.containerBlock)
+            DimensionalCoords coords = new DimensionalCoords(x, y, z, dimension);
+
+            if (world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
             {
-                int[] coords = {x, y, z};
+                int[] aint = coords.toArray();
                 int integer = 0;
 
                 try
@@ -161,7 +160,11 @@ public class GuiHandlerTF implements IGuiHandler
                         }
                         else if (TileEntity.class.isAssignableFrom(clazz))
                         {
-                            args[i] = clazz.cast(tile);
+                            args[i] = clazz.cast(world.getTileEntity(x, y, z));
+                        }
+                        else if (DimensionalCoords.class.isAssignableFrom(clazz))
+                        {
+                            args[i] = coords;
                         }
                         else if (InventoryGroundBridge.class.isAssignableFrom(clazz))
                         {
@@ -180,9 +183,9 @@ public class GuiHandlerTF implements IGuiHandler
                         }
                         else if (int.class.isAssignableFrom(clazz))
                         {
-                            if (integer < 3)
+                            if (integer < aint.length)
                             {
-                                args[i] = coords[integer];
+                                args[i] = aint[integer];
                             }
                             else
                             {
@@ -269,7 +272,7 @@ public class GuiHandlerTF implements IGuiHandler
             ENERGON_TANK = new TFGui(TFBlocks.energonFluidTank, ContainerEnergonTank.class, "fiskfille.tf.client.gui.GuiEnergonTank", InventoryPlayer.class, TileEntityEnergonTank.class);
             ENERGON_TRANSMITTER = new TFGui(TFBlocks.transmitter, ContainerTransmitter.class, "fiskfille.tf.client.gui.GuiTransmitter", InventoryPlayer.class, TileEntityTransmitter.class);
             ENERGY_COLUMN = new TFGui(TFBlocks.energyColumn, ContainerColumn.class, "fiskfille.tf.client.gui.GuiColumn", InventoryPlayer.class, TileEntityColumn.class);
-            GROUND_BRIDGE_REMOTE = new TFGui(TFBlocks.groundBridgeControlPanel, ContainerGroundBridge.class, "fiskfille.tf.client.gui.GuiGroundBridge", InventoryPlayer.class, InventoryGroundBridge.class, TileEntityControlPanel.class);
+            GROUND_BRIDGE_REMOTE = new TFGui(TFBlocks.groundBridgeControlPanel, ContainerGroundBridge.class, "fiskfille.tf.client.gui.GuiGroundBridge", new Class[] {InventoryPlayer.class, InventoryGroundBridge.class, DimensionalCoords.class}, new Class[] {InventoryPlayer.class, InventoryGroundBridge.class});
         }
 
         public void open(EntityPlayer player, TileEntity tile)

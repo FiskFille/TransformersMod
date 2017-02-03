@@ -7,7 +7,7 @@ import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class DataProviderEnergonTank extends DataProviderMachine
 {
@@ -21,11 +21,11 @@ public class DataProviderEnergonTank extends DataProviderMachine
     public void updateFluids(TileEntity tile)
     {
         FluidStack stack = new FluidStack(TFFluids.energon, 0);
-        TileEntity tileBase = TFHelper.getTileBase(tile);
+        TileEntity tileBase = TFTileHelper.getTileBase(tile);
         int y = tileBase.yCoord;
         int capacity = 0;
 
-        while (y < tile.getWorldObj().getHeight() && TFHelper.getTileBase(tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord)) == tileBase && tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord) instanceof IFluidHandlerTF)
+        while (y < tile.getWorldObj().getHeight() && TFTileHelper.getTileBase(tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord)) == tileBase && tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord) instanceof IFluidHandlerTF)
         {
             IFluidHandlerTF fluidHandler = (IFluidHandlerTF) tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord);
             capacity += fluidHandler.getTank().getCapacity();

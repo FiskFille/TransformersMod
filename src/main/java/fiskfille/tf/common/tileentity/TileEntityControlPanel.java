@@ -1,30 +1,14 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import fiskfille.tf.common.block.BlockControlPanel;
-import fiskfille.tf.common.block.BlockGroundBridgeFrame;
-import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.chunk.ForcedChunk;
-import fiskfille.tf.common.chunk.SubTicket;
-import fiskfille.tf.common.chunk.TFChunkManager;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.groundbridge.GroundBridgeError;
-import fiskfille.tf.common.groundbridge.RemoteData;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.MessageUpdateRemote;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFMathHelper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -33,126 +17,83 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import com.google.common.collect.Lists;
 
-public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IEnergyReceiver, IChunkLoaderTile, IMultiTile
+import cpw.mods.fml.common.network.NetworkRegistry;
+import fiskfille.tf.common.block.BlockControlPanel;
+import fiskfille.tf.common.block.BlockGroundBridgeFrame;
+import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.chunk.ForcedChunk;
+import fiskfille.tf.common.chunk.SubTicket;
+import fiskfille.tf.common.chunk.TFChunkManager;
+import fiskfille.tf.common.data.tile.TileData;
+import fiskfille.tf.common.data.tile.TileDataControlPanel;
+import fiskfille.tf.common.energon.power.EnergyStorage;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.groundbridge.DataCore;
+import fiskfille.tf.common.groundbridge.GroundBridgeError;
+import fiskfille.tf.common.groundbridge.GroundBridgeError.ErrorContainer;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.network.MessageSetTileData;
+import fiskfille.tf.common.network.MessageTileTrigger.ITileDataCallback;
+import fiskfille.tf.common.network.MessageUpdateEnergyState;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.config.TFConfig;
+import fiskfille.tf.helper.TFDimensionHelper;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFMathHelper;
+import fiskfille.tf.helper.TFTileHelper;
+
+public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
 {
-    public static final int[][] directions = new int[][] { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
+    public static final int[][] directions = new int[][] { {-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
-    public Integer[][] switches = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+    public Integer[][] switches = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
     public EnergyStorage storage = new EnergyStorage(64000);
-
     private ItemStack[] inventory = new ItemStack[3];
 
-    public int destX;
-    public int destY;
-    public int prevDestY;
-    public int destZ;
-    public int destDimIndex = 1;
-
-    public int portalDirection;
     public float animPortalDirection;
     public float prevAnimPortalDirection;
-    public int srcPortalDirection;
-    public boolean activationLeverState = false;
     public boolean activationLeverCoverState = false;
     public float activationLeverTimer;
     public float prevActivationLeverTimer;
     public float activationLeverCoverTimer;
     public float prevActivationLeverCoverTimer;
 
-    public List<GroundBridgeError> errors = Lists.newArrayList();
     public boolean hasSpace;
     public float lastUsage;
+    public int destDimIndex = 1;
 
-    public ChunkCoordinates groundBridgeFramePos;
     public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket) null, (Ticket) null));
     public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk) null, (ForcedChunk) null));
-
-    public Set<EntityPlayer> controllingPlayers = new HashSet<EntityPlayer>();
-
-    private Integer[] cachedDimensionIDs;
-    private RemoteData lastRemoteData;
-
-    private int updates;
+    public TileDataControlPanel data = new TileDataControlPanel();
 
     @Override
     public void updateEntity()
     {
-        updates++;
-
-        prevActivationLeverTimer = activationLeverTimer;
-        prevActivationLeverCoverTimer = activationLeverCoverTimer;
-        prevAnimPortalDirection = animPortalDirection;
-
         if (BlockControlPanel.isBlockLeftSideOfPanel(getBlockMetadata()))
         {
             receiverHandler.onUpdate(worldObj);
-            calculateCoords();
-            errors.clear();
 
-            if (!worldObj.isRemote)
+            if (!data.isInitialized())
             {
-                loadChunks();
-
-                if (hasUpgrade(DataCore.leveler))
-                {
-                    World world = getDestWorld();
-
-                    if (world != null)
-                    {
-                        int x = destX;
-                        int y = destY;
-                        int z = destZ;
-
-                        while (y > 0 && checkForSpace(world, x, y - 1, z))
-                        {
-                            --y;
-                        }
-
-                        if (y != destY)
-                        {
-                            destY = y;
-                            world.markBlockForUpdate(xCoord, yCoord, zCoord);
-                        }
-                    }
-                }
+                data.initialize(this);
             }
 
-            if (groundBridgeFramePos != null)
-            {
-                int x = groundBridgeFramePos.posX;
-                int y = groundBridgeFramePos.posY;
-                int z = groundBridgeFramePos.posZ;
-
-                if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == null)
-                {
-                    groundBridgeFramePos = null;
-                }
-            }
-
-            boolean flag = false;
-
-            if (!activationLeverState)
+            if (!data.activationLeverState)
             {
                 List<TileEntity> list = new ArrayList<TileEntity>(worldObj.loadedTileEntityList);
                 Collections.sort(list, new Comparator<TileEntity>()
@@ -164,19 +105,17 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                     }
                 });
 
-                for (TileEntity tileentity : list)
+                for (TileEntity tile : list)
                 {
-                    if (Math.sqrt(getDistanceFrom(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)) <= 20)
+                    if (Math.sqrt(getDistanceFrom(tile.xCoord, tile.yCoord, tile.zCoord)) <= 20)
                     {
-                        if (tileentity instanceof TileEntityGroundBridgeFrame)
+                        if (tile instanceof TileEntityGroundBridgeFrame)
                         {
-                            TileEntityGroundBridgeFrame tile = (TileEntityGroundBridgeFrame) tileentity;
                             ForgeDirection direction = BlockGroundBridgeFrame.getFrameDirection(worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
 
                             if (direction != null)
                             {
-                                flag = isPortalObstructed(tile.xCoord, tile.yCoord, tile.zCoord, direction);
-                                groundBridgeFramePos = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
+                                data.framePos = new DimensionalCoords(tile.xCoord, tile.yCoord, tile.zCoord, worldObj.provider.dimensionId);
                                 break;
                             }
                         }
@@ -184,104 +123,106 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                 }
             }
 
-            if (groundBridgeFramePos == null)
+            if (data.framePos != null)
             {
-                errors.add(GroundBridgeError.NO_PORTAL_LINKED);
-            }
+                int x = data.framePos.posX;
+                int y = data.framePos.posY;
+                int z = data.framePos.posZ;
 
-            if (flag)
-            {
-                errors.add(GroundBridgeError.PORTAL_OBSTRUCTED);
-            }
+                if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == null)
+                {
+                    data.framePos = null;
+                }
+                else if (!data.activationLeverState)
+                {
+                    int dir = worldObj.getBlockMetadata(x, y, z) * 2;
 
-            if (Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64 && getDestDimensionID() == worldObj.provider.dimensionId)
-            {
-                GroundBridgeError.INVALID_COORDS.arguments = new Object[] { 64 };
-                errors.add(GroundBridgeError.INVALID_COORDS);
-            }
+                    if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == ForgeDirection.EAST)
+                    {
+                        dir += 1;
+                    }
 
-            if (destY < 0 || destY + 5 >= worldObj.getHeight())
-            {
-                GroundBridgeError.OUT_OF_BOUNDS.arguments = new Object[] { worldObj.getHeight() };
-                errors.add(GroundBridgeError.OUT_OF_BOUNDS);
+                    data.frameDirection = dir;
+                }
             }
 
             if (!worldObj.isRemote)
             {
-                boolean newSpace = checkForSpace();
+                data.errors.clear();
+                data.upgrades.clear();
+                List<DataCore> upgrades = Lists.newArrayList();
 
-                if (newSpace != hasSpace)
+                for (int i = 0; i < getSizeInventory(); ++i)
                 {
-                    markBlockForUpdate();
-                    hasSpace = newSpace;
+                    ItemStack itemstack = getStackInSlot(i);
+
+                    if (itemstack != null && itemstack.getItem() == TFItems.dataCore)
+                    {
+                        upgrades.add(DataCore.get(itemstack.getItemDamage()));
+                    }
                 }
-            }
 
-            if (!hasSpace)
-            {
-                errors.add(GroundBridgeError.NOT_ENOUGH_SPACE);
-            }
+                data.upgrades.addAll(upgrades);
 
-            if (extractEnergy(getConsumptionRate(), true) < getConsumptionRate())
-            {
-                errors.add(GroundBridgeError.NOT_ENOUGH_ENERGY);
-            }
-
-            activationLeverCoverState = !(!errors.isEmpty() && !activationLeverState);
-
-            if (activationLeverState)
-            {
-                if (activationLeverTimer < 1)
+                if (!data.activationLeverState)
                 {
-                    activationLeverTimer += 0.125F;
+                    calculateCoords();
                 }
-            }
-            else
-            {
-                if (activationLeverTimer > 0)
+
+                loadChunks();
+
+                if (data.framePos != null)
                 {
-                    activationLeverTimer -= 0.125F;
-                }
-            }
+                    int x = data.framePos.posX;
+                    int y = data.framePos.posY;
+                    int z = data.framePos.posZ;
 
-            if (activationLeverCoverState)
-            {
-                if (activationLeverCoverTimer < 1)
+                    ForgeDirection direction = BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z);
+
+                    if (direction == null || isPortalObstructed(x, y, z, direction))
+                    {
+                        data.errors.add(new ErrorContainer(GroundBridgeError.PORTAL_OBSTRUCTED));
+                    }
+                }
+                else
                 {
-                    activationLeverCoverTimer += 0.1F;
+                    data.errors.add(new ErrorContainer(GroundBridgeError.NO_PORTAL_LINKED));
                 }
-            }
-            else
-            {
-                if (activationLeverCoverTimer > 0)
+
+                int destX = data.destination.posX;
+                int destY = data.modifiedDestY;
+                int destZ = data.destination.posZ;
+
+                if (!TFConfig.groundBridgeMinRange || Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64 && getDestDimensionID() == worldObj.provider.dimensionId)
                 {
-                    activationLeverCoverTimer -= 0.1F;
+                    data.errors.add(new ErrorContainer(GroundBridgeError.INVALID_COORDS, 64));
                 }
-            }
 
-            activationLeverTimer = MathHelper.clamp_float(activationLeverTimer, 0, 1);
-            activationLeverCoverTimer = MathHelper.clamp_float(activationLeverCoverTimer, 0, 1);
+                if (destY < 0 || destY + 5 >= getDestWorld().getHeight())
+                {
+                    data.errors.add(new ErrorContainer(GroundBridgeError.OUT_OF_BOUNDS, getDestWorld().getHeight()));
+                }
 
-            if (!activationLeverState && groundBridgeFramePos != null)
-            {
-                int x = groundBridgeFramePos.posX;
-                int y = groundBridgeFramePos.posY;
-                int z = groundBridgeFramePos.posZ;
-                srcPortalDirection = worldObj.getBlockMetadata(x, y, z);
-            }
+                if (!(hasSpace = checkForSpace(getDestWorld(), destX, destY, destZ)))
+                {
+                    data.errors.add(new ErrorContainer(GroundBridgeError.NOT_ENOUGH_SPACE));
+                }
 
-            if (errors.isEmpty() && activationLeverState && groundBridgeFramePos != null)
-            {
-                if (!worldObj.isRemote)
+                if (extractEnergy(getConsumptionRate(), true) < getConsumptionRate())
+                {
+                    data.errors.add(new ErrorContainer(GroundBridgeError.NOT_ENOUGH_ENERGY));
+                }
+
+                if (data.errors.isEmpty() && data.activationLeverState && data.framePos != null)
                 {
                     try
                     {
-                        int x = groundBridgeFramePos.posX;
-                        int y = groundBridgeFramePos.posY;
-                        int z = groundBridgeFramePos.posZ;
+                        int x = data.framePos.posX;
+                        int y = data.framePos.posY;
+                        int z = data.framePos.posZ;
                         BlockGroundBridgeTeleporter.spawnTeleporter(worldObj, x, y, z, this);
 
-                        if (portalDirection % 2 == 0)
+                        if (data.direction % 2 == 0)
                         {
                             BlockGroundBridgeTeleporter.fillNorthFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
                         }
@@ -290,7 +231,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                             BlockGroundBridgeTeleporter.fillEastFacingFrame(getDestWorld(), destX, destY - 1, destZ, TFBlocks.groundBridgeTeleporter, this, true);
                         }
 
-
                         extractEnergy(getConsumptionRate(), false);
                     }
                     catch (Exception e)
@@ -298,27 +238,76 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                         e.printStackTrace();
                     }
                 }
+
+                if (!data.equals(TFTileHelper.getTileData(new DimensionalCoords(this))))
+                {
+                    TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(data));
+                    TFTileHelper.putServerData(data);
+                }
             }
-
-            int dir = portalDirection == 0 && animPortalDirection > portalDirection ? animPortalDirection == 0 ? 0 : 4 : portalDirection;
-            float incr = 0.2F;
-
-            if (animPortalDirection < dir)
+            else
             {
-                animPortalDirection += incr;
-            }
-            else if (animPortalDirection > dir)
-            {
-                animPortalDirection -= incr;
+                prevActivationLeverTimer = activationLeverTimer;
+                prevActivationLeverCoverTimer = activationLeverCoverTimer;
+                prevAnimPortalDirection = animPortalDirection;
+
+                activationLeverCoverState = data.activationLeverState || data.errors.isEmpty();
+
+                if (data.activationLeverState)
+                {
+                    if (activationLeverTimer < 1)
+                    {
+                        activationLeverTimer += 0.125F;
+                    }
+                }
+                else
+                {
+                    if (activationLeverTimer > 0)
+                    {
+                        activationLeverTimer -= 0.125F;
+                    }
+                }
+
+                if (activationLeverCoverState)
+                {
+                    if (activationLeverCoverTimer < 1)
+                    {
+                        activationLeverCoverTimer += 0.1F;
+                    }
+                }
+                else
+                {
+                    if (activationLeverCoverTimer > 0)
+                    {
+                        activationLeverCoverTimer -= 0.1F;
+                    }
+                }
+
+                activationLeverTimer = MathHelper.clamp_float(activationLeverTimer, 0, 1);
+                activationLeverCoverTimer = MathHelper.clamp_float(activationLeverCoverTimer, 0, 1);
+
+                int dir = data.direction == 0 && animPortalDirection > data.direction ? animPortalDirection == 0 ? 0 : 4 : data.direction;
+                float incr = 0.2F;
+
+                if (animPortalDirection < dir)
+                {
+                    animPortalDirection += incr;
+                }
+                else if (animPortalDirection > dir)
+                {
+                    animPortalDirection -= incr;
+                }
+
+                animPortalDirection = (float) Math.round(animPortalDirection * 1000) / 1000;
+
+                if (animPortalDirection > 3)
+                {
+                    animPortalDirection -= 4;
+                    prevAnimPortalDirection -= 4;
+                }
             }
 
-            animPortalDirection = (float) Math.round(animPortalDirection * 1000) / 1000;
-
-            if (animPortalDirection > 3)
-            {
-                animPortalDirection -= 4;
-                prevAnimPortalDirection -= 4;
-            }
+            // TODO: Sync energy through TileData instead
 
             if (worldObj.isRemote)
             {
@@ -334,86 +323,74 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                 }
 
                 lastUsage = usage;
+            }
 
-                if (controllingPlayers.isEmpty())
-                {
-                    lastRemoteData = null;
-                }
-                else
-                {
-                    if (updates % 20 == 0)
-                    {
-                        Set<EntityPlayer> deadPlayers = new HashSet<EntityPlayer>();
+            TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
 
-                        for (EntityPlayer player : controllingPlayers)
-                        {
-                            if (player.isDead || !player.worldObj.playerEntities.contains(player))
-                            {
-                                deadPlayers.add(player);
-                            }
-                        }
-
-                        controllingPlayers.removeAll(deadPlayers);
-                    }
-
-                    RemoteData remoteData = new RemoteData(this);
-
-                    if (lastRemoteData != null && !lastRemoteData.equals(remoteData))
-                    {
-                        MessageUpdateRemote message = new MessageUpdateRemote(remoteData, false);
-
-                        for (EntityPlayer player : controllingPlayers)
-                        {
-                            TFNetworkManager.networkWrapper.sendTo(message, (EntityPlayerMP) player);
-                        }
-                    }
-
-                    lastRemoteData = remoteData;
-                }
+            if (prevData instanceof TileDataControlPanel)
+            {
+                data = new TileDataControlPanel((TileDataControlPanel) prevData);
             }
         }
     }
 
-    public void calculateCoords()
+    private void calculateCoords()
     {
-        destX = xCoord;
-        destY = yCoord;
-        destZ = zCoord;
+        data.destination.set(this);
 
         int[] increments = getCoordinateIncrements();
+        int[] coordArray = data.destination.toArray();
 
-        for (int i = 0; i < switches[0].length; ++i)
+        for (int i = 0; i < switches.length; ++i)
         {
-            destX += switches[0][i] * increments[i];
+            for (int j = 0; j < switches[i].length; ++j)
+            {
+                coordArray[i] += switches[i][j] * increments[j];
+            }
         }
 
-        for (int i = 0; i < switches[1].length; ++i)
-        {
-            destY += switches[1][i] * increments[i];
-        }
+        data.destination.set(coordArray);
+        data.destination.dimension = getDestDimensionID();
 
-        for (int i = 0; i < switches[2].length; ++i)
+        if (!worldObj.isRemote)
         {
-            destZ += switches[2][i] * increments[i];
-        }
+            World world = getDestWorld();
 
-        prevDestY = destY;
+            if (world != null)
+            {
+                int x = data.destination.posX;
+                int y = data.destination.posY;
+                int z = data.destination.posZ;
+
+                if (hasUpgrade(DataCore.leveler))
+                {
+                    while (y > 0 && checkForSpace(world, x, y - 1, z))
+                    {
+                        --y;
+                    }
+                }
+
+                data.modifiedDestY = y;
+            }
+        }
     }
 
-    public int[] getCoordinateIncrements()
+    private int[] getCoordinateIncrements()
     {
-        List<DataCore> upgrades = getUpgrades();
-        int[] increments = { 1, 10, 100, 1000 };
+        int[] increments = {1, 10, 100, 1000};
 
-        for (int i = 0; i < upgrades.size(); ++i)
+        if (hasUpgrade(DataCore.range))
         {
-            DataCore dataCore = upgrades.get(i);
-
-            if (dataCore == DataCore.range)
+            for (int i = 0; i < data.upgrades.size(); ++i)
             {
-                for (int j = 0; j < increments.length; ++j)
+                DataCore dataCore = data.upgrades.get(i);
+
+                if (dataCore == DataCore.range)
                 {
-                    increments[j] *= 2;
+                    for (int j = 0; j < increments.length; ++j)
+                    {
+                        increments[j] *= 2;
+                    }
                 }
             }
         }
@@ -421,7 +398,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         return increments;
     }
 
-    public boolean isPortalObstructed(int x, int y, int z, ForgeDirection direction)
+    private boolean isPortalObstructed(int x, int y, int z, ForgeDirection direction)
     {
         if (direction == ForgeDirection.NORTH)
         {
@@ -453,17 +430,12 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         return false;
     }
 
-    public boolean checkForSpace()
-    {
-        return checkForSpace(getDestWorld(), destX, destY, destZ);
-    }
-
-    public boolean checkForSpace(World world, int x, int y, int z)
+    private boolean checkForSpace(World world, int x, int y, int z)
     {
         Block b = Blocks.air;
         Block b1 = TFBlocks.groundBridgeTeleporter;
 
-        if (portalDirection % 2 == 0)
+        if (data.direction % 2 == 0)
         {
             for (int i = 0; i < 5; ++i)
             {
@@ -493,26 +465,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         return true;
     }
 
-    public int getSrcPortalDirection()
-    {
-        int i = 0;
-
-        if (groundBridgeFramePos != null)
-        {
-            int x = groundBridgeFramePos.posX;
-            int y = groundBridgeFramePos.posY;
-            int z = groundBridgeFramePos.posZ;
-
-            if (BlockGroundBridgeFrame.getFrameDirection(worldObj, x, y, z) == ForgeDirection.EAST)
-            {
-                i = 1;
-            }
-        }
-
-        return i + srcPortalDirection * 2;
-    }
-
-    public WorldServer getDestWorld()
+    private WorldServer getDestWorld()
     {
         MinecraftServer server = MinecraftServer.getServer();
         return server.worldServerForDimension(getDestDimensionID());
@@ -520,7 +473,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
     public void changeSwitch(int group, int id, int amount)
     {
-        if (!activationLeverState)
+        if (!data.activationLeverState)
         {
             if (switches[group][id] + amount <= 10 && switches[group][id] + amount >= -10)
             {
@@ -534,13 +487,13 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
     public void setSwitchesTo(DimensionalCoords coords)
     {
-        if (!activationLeverState)
+        if (!data.activationLeverState)
         {
             int[] increments = getCoordinateIncrements();
-            int[] aint = { coords.posX, coords.posY, coords.posZ };
-            int[] aint1 = { xCoord, yCoord, zCoord };
+            int[] aint = {coords.posX, coords.posY, coords.posZ};
+            int[] aint1 = {xCoord, yCoord, zCoord};
 
-            switches = new Integer[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+            switches = new Integer[][] { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
             for (int i = 0; i < aint.length; ++i)
             {
@@ -571,9 +524,9 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                 }
             }
 
-            for (int i = 0; i < getDimensionIDs().length; ++i)
+            for (int i = 0; i < TFDimensionHelper.dimensionIDs.length; ++i)
             {
-                int id = getDimensionIDs()[i];
+                int id = TFDimensionHelper.dimensionIDs[i];
 
                 if (coords.dimension == id)
                 {
@@ -588,90 +541,51 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
     public void cycleDimensionID(int amount)
     {
-        if (!activationLeverState)
+        if (!data.activationLeverState)
         {
             destDimIndex += amount;
-            destDimIndex %= getDimensionIDs().length;
 
             if (destDimIndex < 0)
             {
-                destDimIndex = getDimensionIDs().length - 1;
+                destDimIndex = TFDimensionHelper.dimensionIDs.length - 1;
+            }
+            else if (destDimIndex >= TFDimensionHelper.dimensionIDs.length)
+            {
+                destDimIndex = 0;
             }
 
+            calculateCoords();
             markBlockForUpdate();
         }
     }
 
     public List<DataCore> getUpgrades()
     {
-        List<DataCore> list = Lists.newArrayList();
-
-        for (int i = 0; i < getSizeInventory(); ++i)
-        {
-            ItemStack itemstack = getStackInSlot(i);
-
-            if (itemstack != null && itemstack.getItem() == TFItems.dataCore)
-            {
-                list.add(DataCore.get(itemstack.getItemDamage()));
-            }
-        }
-
-        return list;
+        return data.upgrades;
     }
 
     public boolean hasUpgrade(DataCore dataCore)
     {
-        return getUpgrades().contains(dataCore);
+        return data.hasUpgrade(dataCore);
     }
 
-    public int getDestDimensionID()
+    private int getDestDimensionID()
     {
-        if (!hasUpgrade(DataCore.spaceBridge) || getDimensionIDs().length < 1)
+        if (!hasUpgrade(DataCore.spaceBridge) || TFDimensionHelper.dimensionIDs.length < 2)
         {
             return worldObj.provider.dimensionId;
         }
 
-        return getDimensionIDs()[MathHelper.clamp_int(destDimIndex, 0, getDimensionIDs().length - 1)];
-    }
-
-    private Integer[] getDimensionIDs()
-    {
-        if (cachedDimensionIDs == null)
-        {
-            Integer[] aint = DimensionManager.getIDs();
-            List<Integer> list = Lists.newArrayList();
-
-            for (int i = 0; i < aint.length; ++i)
-            {
-                if (DimensionManager.shouldLoadSpawn(aint[i]))
-                {
-                    list.add(aint[i]);
-                }
-            }
-
-            Collections.sort(list, new Comparator<Integer>()
-            {
-                @Override
-                public int compare(Integer arg0, Integer arg1)
-                {
-                    return Double.valueOf(arg0).compareTo(Double.valueOf(arg1));
-                }
-            });
-
-            cachedDimensionIDs = list.toArray(new Integer[list.size()]);
-        }
-
-        return cachedDimensionIDs;
+        return TFDimensionHelper.dimensionIDs[MathHelper.clamp_int(destDimIndex, 0, TFDimensionHelper.dimensionIDs.length - 1)];
     }
 
     public float getConsumptionRate()
     {
-        List<DataCore> upgrades = getUpgrades();
         float base = 10;
 
-        for (int i = 0; i < upgrades.size(); ++i)
+        for (int i = 0; i < data.upgrades.size(); ++i)
         {
-            DataCore dataCore = upgrades.get(i);
+            DataCore dataCore = data.upgrades.get(i);
 
             if (dataCore == DataCore.range)
             {
@@ -690,7 +604,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public void markBlockForUpdate()
     {
-        super.markBlockForUpdate();
+//        super.markBlockForUpdate(); // TODO
 
         if (!worldObj.isRemote)
         {
@@ -702,10 +616,10 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
                 if (subTicket != null)
                 {
-                    NBTTagCompound data = subTicket.getTag();
+                    NBTTagCompound nbt = subTicket.getTag();
                     boolean updateTicket = true;
 
-                    if (destX == data.getInteger("destX") && destZ == data.getInteger("destZ") && getDestWorld() == subTicket.owner.world)
+                    if (data.destination.posX == nbt.getInteger("destX") && data.destination.posZ == nbt.getInteger("destZ") && getDestWorld() == subTicket.owner.world)
                     {
                         updateTicket = false;
                     }
@@ -748,20 +662,17 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     public void readCustomNBT(NBTTagCompound nbt)
     {
         super.readCustomNBT(nbt);
-        portalDirection = nbt.getInteger("PortalDirection");
-        srcPortalDirection = nbt.getInteger("SrcPortalDirection");
-        activationLeverState = nbt.getBoolean("Lever");
+        data.direction = nbt.getInteger("PortalDirection");
+        data.frameDirection = nbt.getInteger("SrcPortalDirection");
+        data.activationLeverState = nbt.getBoolean("Lever");
         activationLeverCoverState = nbt.getBoolean("LeverCover");
-        activationLeverTimer = prevActivationLeverTimer = activationLeverState ? 1 : 0;
+        activationLeverTimer = prevActivationLeverTimer = data.activationLeverState ? 1 : 0;
         hasSpace = nbt.getBoolean("HasSpace");
-        destX = nbt.getInteger("DestX");
-        destY = nbt.getInteger("DestY");
-        destZ = nbt.getInteger("DestZ");
         destDimIndex = nbt.getInteger("DestDimIndex");
 
         if (nbt.getBoolean("ReadFramePos"))
         {
-            groundBridgeFramePos = new ChunkCoordinates(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"));
+            data.framePos = new DimensionalCoords(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"), nbt.getInteger("FrameDim"));
         }
 
         receiverHandler.readFromNBT(nbt);
@@ -774,7 +685,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
         if (nbt.hasKey("Switches"))
         {
-            NBTTagList nbttaglist = nbt.getTagList("Switches", 10);
+            NBTTagList nbttaglist = nbt.getTagList("Switches", NBT.TAG_COMPOUND);
 
             for (int i = 0; i < nbttaglist.tagCount(); i++)
             {
@@ -792,22 +703,20 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     public void writeCustomNBT(NBTTagCompound nbt)
     {
         super.writeCustomNBT(nbt);
-        nbt.setInteger("PortalDirection", portalDirection);
-        nbt.setInteger("SrcPortalDirection", srcPortalDirection);
-        nbt.setBoolean("Lever", activationLeverState);
+        nbt.setInteger("PortalDirection", data.direction);
+        nbt.setInteger("SrcPortalDirection", data.frameDirection);
+        nbt.setBoolean("Lever", data.activationLeverState);
         nbt.setBoolean("LeverCover", activationLeverCoverState);
         nbt.setBoolean("HasSpace", hasSpace);
-        nbt.setBoolean("ReadFramePos", groundBridgeFramePos != null);
-        nbt.setInteger("DestX", destX);
-        nbt.setInteger("DestY", destY);
-        nbt.setInteger("DestZ", destZ);
+        nbt.setBoolean("ReadFramePos", data.framePos != null);
         nbt.setInteger("DestDimIndex", destDimIndex);
 
-        if (groundBridgeFramePos != null)
+        if (data.framePos != null)
         {
-            nbt.setInteger("FrameX", groundBridgeFramePos.posX);
-            nbt.setInteger("FrameY", groundBridgeFramePos.posY);
-            nbt.setInteger("FrameZ", groundBridgeFramePos.posZ);
+            nbt.setInteger("FrameX", data.framePos.posX);
+            nbt.setInteger("FrameY", data.framePos.posY);
+            nbt.setInteger("FrameZ", data.framePos.posZ);
+            nbt.setInteger("FrameDim", data.framePos.dimension);
         }
 
         receiverHandler.writeToNBT(nbt);
@@ -864,7 +773,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return true;
+        return super.isUseableByPlayer(player) || player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
     }
 
     @Override
@@ -924,10 +833,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public Vec3 getEnergyInputOffset()
     {
-        float pitch = 0;
         float yaw = (getBlockMetadata() + 2) * 90;
         Vec3 vec3 = Vec3.createVectorHelper(-0.055F, 0.175F, -0.5F);
-        vec3.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
         vec3.rotateAroundY(-yaw * (float) Math.PI / 180.0F);
 
         return vec3;
@@ -953,6 +860,14 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
         if (!worldObj.isRemote)
         {
+            DimensionalCoords coords = new DimensionalCoords(this);
+
+            if (TFTileHelper.getTileData(coords) != null)
+            {
+                TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(coords, null));
+                TFTileHelper.putServerData(coords, null);
+            }
+
             releaseChunk(0);
             releaseChunk(1);
         }
@@ -963,7 +878,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     {
         if (subTicket.getTag().hasKey("destX") && subTicket.getTag().hasKey("destZ"))
         {
-            forceChunk(subTicket, 1, new ForcedChunk(getDestWorld(), destX >> 4, destZ >> 4));
+            forceChunk(subTicket, 1, new ForcedChunk(getDestWorld(), data.destination.posX >> 4, data.destination.posZ >> 4));
         }
         else
         {
@@ -984,11 +899,11 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         if (chunkTickets.get(0) == null || chunkTickets.get(1) == null)
         {
             SubTicket subTicket = SubTicket.fromTile(this);
-            subTicket.getTag().setInteger("destX", destX);
-            subTicket.getTag().setInteger("destZ", destZ);
+            subTicket.getTag().setInteger("destX", data.destination.posX);
+            subTicket.getTag().setInteger("destZ", data.destination.posZ);
 
             loadChunk(SubTicket.fromTile(this), 0, ForcedChunk.fromTile(this));
-            loadChunk(subTicket, 1, new ForcedChunk(getDestWorld(), destX >> 4, destZ >> 4));
+            loadChunk(subTicket, 1, new ForcedChunk(getDestWorld(), data.destination.posX >> 4, data.destination.posZ >> 4));
         }
     }
 
@@ -1048,6 +963,74 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         int direction = BlockControlPanel.getDirection(metadata);
         boolean isSide = !BlockControlPanel.isBlockLeftSideOfPanel(metadata);
 
-        return new int[] { -(isSide ? directions[direction][0] : 0), -(BlockControlPanel.isBlockTopOfPanel(metadata) ? 1 : 0), -(isSide ? directions[direction][1] : 0) };
+        return new int[] {-(isSide ? directions[direction][0] : 0), -(BlockControlPanel.isBlockTopOfPanel(metadata) ? 1 : 0), -(isSide ? directions[direction][1] : 0)};
+    }
+
+    @Override
+    public void receive(EntityPlayer player, int action)
+    {
+        if (player != null)
+        {
+            if (isUseableByPlayer(player) || player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote)
+            {
+                int increment = player.isSneaking() ? -1 : 1;
+
+                if (action >= 1 && action <= 4)
+                {
+                    changeSwitch(0, action - 1, increment);
+                }
+                else if (action >= 5 && action <= 8)
+                {
+                    changeSwitch(1, action - 5, increment);
+                }
+                else if (action >= 9 && action <= 12)
+                {
+                    changeSwitch(2, action - 9, increment);
+                }
+                else if (action == 13)
+                {
+                    if (!player.worldObj.isRemote)
+                    {
+                        data.direction = (data.direction + 1) % 4;
+                    }
+                }
+                else if (action == 14)
+                {
+                    if (!player.worldObj.isRemote)
+                    {
+                        data.activationLeverState = !data.activationLeverState;
+                    }
+                }
+                else if (action >= 15 && action <= 17)
+                {
+                    if (!data.activationLeverState)
+                    {
+                        int slot = action - 15;
+
+                        if (getStackInSlot(slot) == null && player.getHeldItem() != null && isItemValidForSlot(slot, player.getHeldItem()))
+                        {
+                            setInventorySlotContents(slot, player.getHeldItem());
+                            player.setCurrentItemOrArmor(0, null);
+                        }
+                        else if (getStackInSlot(slot) != null && (player.getHeldItem() == null || isItemValidForSlot(slot, player.getHeldItem())))
+                        {
+                            ItemStack itemstack = getStackInSlot(slot).copy();
+
+                            setInventorySlotContents(slot, player.getHeldItem());
+                            player.setCurrentItemOrArmor(0, itemstack);
+                        }
+
+                        markBlockForUpdate();
+                    }
+                }
+                else if (action == 18 || action == 19)
+                {
+                    if (hasUpgrade(DataCore.spaceBridge))
+                    {
+                        cycleDimensionID(action == 18 ? -1 : 1);
+                    }
+                }
+            }
+        }
     }
 }

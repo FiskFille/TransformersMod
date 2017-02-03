@@ -1,53 +1,56 @@
 package fiskfille.tf.common.network;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 
 public class MessageTileTrigger implements IMessage
 {
+    private DimensionalCoords coordinates;
     private int id;
-    private int x;
-    private int y;
-    private int z;
     private int action;
+    private int playerDimension;
 
     public MessageTileTrigger()
     {
 
     }
 
-    public MessageTileTrigger(EntityPlayer player, int x, int y, int z, int action)
+    public MessageTileTrigger(DimensionalCoords coords, EntityPlayer player, int action)
     {
-        this.id = player != null ? player.getEntityId() : 0;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.coordinates = coords;
         this.action = action;
+
+        if (player != null)
+        {
+            id = player.getEntityId();
+            playerDimension = player.worldObj.provider.dimensionId;
+        }
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
         id = buf.readInt();
-        x = buf.readInt();
-        y = buf.readInt();
-        z = buf.readInt();
         action = buf.readInt();
+        playerDimension = buf.readInt();
+        coordinates = new DimensionalCoords().fromBytes(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(id);
-        buf.writeInt(x);
-        buf.writeInt(y);
-        buf.writeInt(z);
         buf.writeInt(action);
+        buf.writeInt(playerDimension);
+        coordinates.toBytes(buf);
     }
 
     public static class Handler implements IMessageHandler<MessageTileTrigger, IMessage>
@@ -57,20 +60,44 @@ public class MessageTileTrigger implements IMessage
         {
             EntityPlayer clientPlayer = ctx.side.isClient() ? TransformersMod.proxy.getPlayer() : ctx.getServerHandler().playerEntity;
             EntityPlayer player = null;
+            World world = clientPlayer.worldObj;
 
-            if (clientPlayer.worldObj.getEntityByID(message.id) instanceof EntityPlayer)
+            if (world.provider.dimensionId != message.playerDimension)
             {
-                player = (EntityPlayer) clientPlayer.worldObj.getEntityByID(message.id);
+                if (!ctx.side.isServer())
+                {
+                    return null;
+                }
+
+                world = MinecraftServer.getServer().worldServerForDimension(message.playerDimension);
             }
 
-            if (clientPlayer.worldObj.getTileEntity(message.x, message.y, message.z) instanceof ITileDataCallback)
+            if (world.getEntityByID(message.id) instanceof EntityPlayer)
             {
-                ITileDataCallback callback = (ITileDataCallback) clientPlayer.worldObj.getTileEntity(message.x, message.y, message.z);
+                player = (EntityPlayer) world.getEntityByID(message.id);
+            }
+
+            DimensionalCoords coords = message.coordinates;
+            world = clientPlayer.worldObj;
+
+            if (world.provider.dimensionId != coords.dimension)
+            {
+                if (!ctx.side.isServer())
+                {
+                    return null;
+                }
+
+                world = MinecraftServer.getServer().worldServerForDimension(coords.dimension);
+            }
+
+            if (world.getTileEntity(coords.posX, coords.posY, coords.posZ) instanceof ITileDataCallback)
+            {
+                ITileDataCallback callback = (ITileDataCallback) world.getTileEntity(coords.posX, coords.posY, coords.posZ);
                 callback.receive(player, message.action);
 
                 if (ctx.side.isServer())
                 {
-                    TFNetworkManager.networkWrapper.sendToAll(new MessageTileTrigger(player, message.x, message.y, message.z, message.action));
+                    TFNetworkManager.networkWrapper.sendToAll(new MessageTileTrigger(coords, player, message.action));
                 }
             }
 

@@ -14,7 +14,7 @@ import com.google.common.collect.Maps;
 
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class DataProviderControlPanel extends DataProviderMachine
 {
@@ -27,7 +27,7 @@ public class DataProviderControlPanel extends DataProviderMachine
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
         list = super.getWailaBody(itemstack, list, accessor, config);
-        TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
+        TileEntity tileentity = TFTileHelper.getTileBase(accessor.getTileEntity());
 
         if (tileentity instanceof TileEntityControlPanel && config.getConfig(key, true))
         {

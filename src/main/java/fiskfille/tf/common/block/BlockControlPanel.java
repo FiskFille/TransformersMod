@@ -8,10 +8,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fiskfille.tf.common.groundbridge.DataCore;
-import fiskfille.tf.common.network.MessageControlPanel;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockControlPanel extends BlockMachineBase
 {
@@ -50,7 +51,7 @@ public class BlockControlPanel extends BlockMachineBase
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
-        TileEntity tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
+        TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
         int metadata = world.getBlockMetadata(x, y, z);
         int direction = getDirection(metadata);
         float f = 0.0625F;
@@ -268,7 +269,7 @@ public class BlockControlPanel extends BlockMachineBase
                 --hitY;
             }
 
-            TileEntity tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
+            TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
             if (tile instanceof TileEntityControlPanel)
             {
@@ -326,22 +327,26 @@ public class BlockControlPanel extends BlockMachineBase
                         sendActionPacket(tile, player, 1);
                         return true;
                     }
+
                     if (hitX > f * 3.25F && hitX <= f * 5.39F)
                     {
                         sendActionPacket(tile, player, 2);
                         return true;
                     }
+
                     if (hitX > f * 5.55F && hitX <= f * 7.6F)
                     {
                         sendActionPacket(tile, player, 3);
                         return true;
                     }
+
                     if (hitX > f * 7.6F && hitX <= f * 10F)
                     {
                         sendActionPacket(tile, player, 4);
                         return true;
                     }
                 }
+
                 if (hitY > f * 6.2F && hitY <= f * 8.8F)
                 {
                     if (hitX > f * 1.15F && hitX <= f * 3.21F)
@@ -349,22 +354,26 @@ public class BlockControlPanel extends BlockMachineBase
                         sendActionPacket(tile, player, 5);
                         return true;
                     }
+
                     if (hitX > f * 3.25F && hitX <= f * 5.39F)
                     {
                         sendActionPacket(tile, player, 6);
                         return true;
                     }
+
                     if (hitX > f * 5.55F && hitX <= f * 7.6F)
                     {
                         sendActionPacket(tile, player, 7);
                         return true;
                     }
+
                     if (hitX > f * 7.6F && hitX <= f * 10F)
                     {
                         sendActionPacket(tile, player, 8);
                         return true;
                     }
                 }
+
                 if (hitY > f * 10F && hitY <= f * 13F)
                 {
                     if (hitX > f * 1.15F && hitX <= f * 3.21F)
@@ -372,31 +381,36 @@ public class BlockControlPanel extends BlockMachineBase
                         sendActionPacket(tile, player, 9);
                         return true;
                     }
+
                     if (hitX > f * 3.25F && hitX <= f * 5.39F)
                     {
                         sendActionPacket(tile, player, 10);
                         return true;
                     }
+
                     if (hitX > f * 5.55F && hitX <= f * 7.6F)
                     {
                         sendActionPacket(tile, player, 11);
                         return true;
                     }
+
                     if (hitX > f * 7.6F && hitX <= f * 10F)
                     {
                         sendActionPacket(tile, player, 12);
                         return true;
                     }
                 }
+
                 if (hitX > f * 13.5F && hitX <= f * 18.5F && hitY > f * 5.65F && hitY <= f * 10.85F)
                 {
-                    if (!tile.activationLeverState)
+                    if (!tile.data.activationLeverState)
                     {
                         sendActionPacket(tile, player, 13);
                     }
 
                     return true;
                 }
+
                 if (hitX > f * 23F && hitX <= f * 31F && hitY > f * 4F && hitY <= f * 12.75F)
                 {
                     if (tile.activationLeverCoverState && (tile.activationLeverTimer == 0 || tile.activationLeverTimer == 1))
@@ -414,7 +428,10 @@ public class BlockControlPanel extends BlockMachineBase
 
     public void sendActionPacket(TileEntityControlPanel tile, EntityPlayer player, int action)
     {
-        TFNetworkManager.networkWrapper.sendToServer(new MessageControlPanel(tile.xCoord, tile.yCoord, tile.zCoord, tile.getWorldObj().provider.dimensionId, action));
+        if (player.worldObj.isRemote)
+        {
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tile), player, action));
+        }
     }
 
     @Override

@@ -3,13 +3,12 @@ package fiskfille.tf.client.render.block;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
-
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.common.block.BlockEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
-import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
 {
@@ -28,14 +27,14 @@ public class RenderBlockEnergonTank implements ISimpleBlockRenderingHandler
         if (world.getTileEntity(x, y, z) instanceof TileEntityEnergonTank)
         {
             TileEntityEnergonTank tile = (TileEntityEnergonTank) world.getTileEntity(x, y, z);
-            TileEntityEnergonTank tileBase = TFHelper.getTileBase(tile);
+            TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(tile);
 
-            if (tileBase == TFHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord + 1, tile.zCoord)))
+            if (tileBase == TFTileHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord + 1, tile.zCoord)))
             {
                 connectAbove = true;
             }
 
-            if (tileBase == TFHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord - 1, tile.zCoord)))
+            if (tileBase == TFTileHelper.getTileBase(world.getTileEntity(tile.xCoord, tile.yCoord - 1, tile.zCoord)))
             {
                 connectBelow = true;
             }

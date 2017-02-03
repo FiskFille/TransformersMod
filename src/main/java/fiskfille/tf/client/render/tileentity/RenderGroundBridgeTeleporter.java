@@ -11,8 +11,10 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.render.shader.PortalShader;
+import fiskfille.tf.common.data.tile.TileDataControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 {
@@ -41,7 +43,7 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
             metadata = tileentity.getBlockMetadata();
         }
 
-        if (metadata == 1)
+        if (metadata % 2 == 1)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
@@ -49,13 +51,18 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
 
             if (tileentity.controlPanel != null)
             {
-                if (tileentity.returnPortal)
+                TileDataControlPanel data = (TileDataControlPanel) TFTileHelper.getTileData(tileentity.controlPanel);
+
+                if (data != null)
                 {
-                    GL11.glRotatef(90 * tileentity.controlPanel.portalDirection, 0, 1, 0);
-                }
-                else
-                {
-                    GL11.glRotatef(90 * tileentity.controlPanel.getSrcPortalDirection(), 0, 1, 0);
+                    if (tileentity.isReturnPortal(metadata))
+                    {
+                        GL11.glRotatef(90 * data.direction, 0, 1, 0);
+                    }
+                    else
+                    {
+                        GL11.glRotatef(90 * data.frameDirection, 0, 1, 0);
+                    }
                 }
             }
 
@@ -66,8 +73,10 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
                 f1 = MathHelper.clamp_float(tileentity.ticks + partialTicks, 0, 6) / 6;
             }
 
-            GL11.glScalef(MathHelper.clamp_float(f1 * 2, 0, 1), f1, 1);
+            f1 = MathHelper.clamp_float(f1, 0, 1);
 
+            GL11.glRotatef((tileentity.ticks + partialTicks) * 2, 0, 0, 1);
+            GL11.glScalef(f1, f1, 1);
             GL11.glColor4f(1, 1, 1, 1);
             TFRenderHelper.setLighting(61680);
             GL11.glDisable(GL11.GL_LIGHTING);
@@ -76,8 +85,7 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
 
             float zOffset = 0.6F;
-            float scale = 2.0F;
-            float shade = 0.95F;
+            float scale = 1.9F;
 
             bindTexture(PORTAL_EFFECT);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -85,7 +93,6 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
             shader.start();
             shader.setTime(tileentity.ticks + partialTicks);
             drawPortal(0, 0, zOffset, scale, false);
-            GL11.glColor4f(shade, shade, shade, 1);
             drawPortal(0, 0, zOffset, scale, true);
             shader.stop();
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
@@ -138,18 +145,25 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
                 radius = 0.25F;
             }
 
-            for (int j = 0; j < corners; ++j)
+            for (float f = 0; f < corners; ++f)
             {
+                float f1 = f - 1;
+
+                if (f == corners - 1)
+                {
+                    f += 0.001F;
+                }
+
                 Vec3 pos1 = Vec3.createVectorHelper(0, radius, 0);
                 Vec3 pos2 = Vec3.createVectorHelper(0, radius, 0);
-                pos1.rotateAroundZ(angle * j * (float) Math.PI / 180.0F);
-                pos2.rotateAroundZ(angle * (j - 1) * (float) Math.PI / 180.0F);
+                pos1.rotateAroundZ(angle * f * (float) Math.PI / 180.0F);
+                pos2.rotateAroundZ(angle * f1 * (float) Math.PI / 180.0F);
                 Vec3 pos3 = Vec3.createVectorHelper((pos1.xCoord + pos2.xCoord) / 2, (pos1.yCoord + pos2.yCoord) / 2, (pos1.zCoord + pos2.zCoord) / 2);
 
                 Vec3 pos4 = Vec3.createVectorHelper(0, innerRadius, 0);
                 Vec3 pos5 = Vec3.createVectorHelper(0, innerRadius, 0);
-                pos4.rotateAroundZ(angle * j * (float) Math.PI / 180.0F);
-                pos5.rotateAroundZ(angle * (j - 1) * (float) Math.PI / 180.0F);
+                pos4.rotateAroundZ(angle * f * (float) Math.PI / 180.0F);
+                pos5.rotateAroundZ(angle * f1 * (float) Math.PI / 180.0F);
 
                 if (!invert)
                 {

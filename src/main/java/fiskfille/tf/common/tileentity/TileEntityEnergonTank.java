@@ -24,6 +24,7 @@ import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.network.MessageUpdateFluidState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class TileEntityEnergonTank extends TileEntityContainer implements IFluidHandlerTF, ISidedInventory, IMultiTile
 {
@@ -85,12 +86,12 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
 
                 FluidStack mix = new FluidStack(TFFluids.energon, 0);
 
-                if (TFHelper.getTileBase(this) != this)
+                if (TFTileHelper.getTileBase(this) != this)
                 {
-                    TileEntityEnergonTank tileBase = TFHelper.getTileBase(this);
+                    TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(this);
                     max = 0;
 
-                    if (TFHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord)) == tileBase)
+                    if (TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord)) == tileBase)
                     {
                         TileEntityEnergonTank tile1 = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 
@@ -111,10 +112,10 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                     }
                 }
 
-                TileEntityEnergonTank tileBase = TFHelper.getTileBase(this);
+                TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(this);
                 int y = tileBase.yCoord;
 
-                while (y < worldObj.getHeight() && TFHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
+                while (y < worldObj.getHeight() && TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
                 {
                     TileEntityEnergonTank tile1 = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, y, zCoord);
 
@@ -183,7 +184,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
 
                 if (fluid != null && fluid.amount > 0 && fluid.getFluid() == TFFluids.energon)
                 {
-                    int success = TFHelper.getTileBase(this).fill(ForgeDirection.UNKNOWN, container.drain(input, ItemFuelCanister.getFluidAmount(input), false), true);
+                    int success = TFTileHelper.getTileBase(this).fill(ForgeDirection.UNKNOWN, container.drain(input, ItemFuelCanister.getFluidAmount(input), false), true);
 
                     if (success > 0)
                     {
@@ -288,7 +289,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
         {
             int y = yCoord + 1;
 
-            while (y < worldObj.getHeight() && TFHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == TFHelper.getTileBase(this))
+            while (y < worldObj.getHeight() && TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == TFTileHelper.getTileBase(this))
             {
                 TileEntityEnergonTank tile = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, y, zCoord);
                 resource.amount -= tile.fill(ForgeDirection.UNKNOWN, resource, doFill);
@@ -319,11 +320,11 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
     {
-        TileEntity tileBase = TFHelper.getTileBase(this);
+        TileEntity tileBase = TFTileHelper.getTileBase(this);
         TileEntityEnergonTank topTile = null;
         int y = tileBase.yCoord;
 
-        while (y < worldObj.getHeight() && TFHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
+        while (y < worldObj.getHeight() && TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
         {
             topTile = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, y, zCoord);
             ++y;
@@ -334,7 +335,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
             FluidStack drained = new FluidStack(TFFluids.energon, 0);
             y = topTile.yCoord;
 
-            while (y > 0 && TFHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
+            while (y > 0 && TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, y, zCoord)) == tileBase)
             {
                 TileEntityEnergonTank tile = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, y, zCoord);
                 FluidStack stack = tile.getTank().drain(maxDrain - drained.amount, doDrain);

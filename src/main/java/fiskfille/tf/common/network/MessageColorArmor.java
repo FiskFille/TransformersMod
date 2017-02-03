@@ -67,7 +67,7 @@ public class MessageColorArmor implements IMessage
                 if (tileentity.setColor(message.primaryColor, message.secondaryColor))
                 {
                     world.markBlockForUpdate(message.x, message.y, message.z);
-                    
+
                     if (ctx.side.isServer())
                     {
                         TFNetworkManager.networkWrapper.sendToAll(new MessageColorArmor(message.x, message.y, message.z, message.primaryColor, message.secondaryColor));

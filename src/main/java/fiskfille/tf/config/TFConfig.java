@@ -17,6 +17,7 @@ public class TFConfig
     public static boolean allowTankShellExplosions;
     public static boolean useMiles;
     public static boolean checkForUpdates;
+    public static boolean groundBridgeMinRange;
 
     public static Map<Transformer, Boolean> canTransform = Maps.newHashMap();
 
@@ -26,8 +27,9 @@ public class TFConfig
     {
         configFile = config;
 
-        checkForUpdates = getBoolean("Check For Updates", true, "If false, the Transformers Mod will not check for updates.");
+        checkForUpdates = getBoolean("Check For Updates", true, "If false, the mod will not check for updates.");
         useMiles = getBoolean("Use Miles For Speed-Measurement", false, "If true, miles will be used instead of kilometers when measuring speed.");
+        groundBridgeMinRange = getBoolean("Ground Bridge Min Range", true, "If false, the 'Invalid Coords' Ground Bridge error will be discarded.");
 
         purgeDashTop = getAestheticBoolean("Show Purge-Dash At Top Of Screen", false, "If true, Purge's Dash Bar will appear at the top of the screen instead of in the middle of it.");
 

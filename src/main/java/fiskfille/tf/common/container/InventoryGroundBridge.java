@@ -9,8 +9,17 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ReportedException;
+import net.minecraft.world.WorldServer;
+import fiskfille.tf.common.block.BlockControlPanel;
+import fiskfille.tf.common.data.tile.TileDataControlPanel;
+import fiskfille.tf.common.item.ItemCSD;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class InventoryGroundBridge implements IInventory
 {
@@ -314,11 +323,34 @@ public class InventoryGroundBridge implements IInventory
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
+        ItemStack remote = player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? player.getHeldItem() : remoteItem;
         inventory[slot] = stack;
+
         if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
             stack.stackSize = getInventoryStackLimit();
         }
+
+        if (remote != null && stack != null && !player.worldObj.isRemote)
+        {
+            DimensionalCoords tileCoords = ItemCSD.getCoords(remote);
+            DimensionalCoords coords = ItemCSD.getCoords(stack);
+            WorldServer targetWorld = MinecraftServer.getServer().worldServerForDimension(tileCoords.dimension);
+
+            if (targetWorld != null)
+            {
+                TileEntity tile = targetWorld.getTileEntity(tileCoords.posX, tileCoords.posY, tileCoords.posZ);
+                int metadata = targetWorld.getBlockMetadata(tileCoords.posX, tileCoords.posY, tileCoords.posZ);
+
+                if (tile instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
+                {
+                    TileEntityControlPanel panel = (TileEntityControlPanel) tile;
+                    panel.setSwitchesTo(coords);
+                    panel.markBlockForUpdate();
+                }
+            }
+        }
+
         markDirty();
     }
 
@@ -343,11 +375,11 @@ public class InventoryGroundBridge implements IInventory
     @Override
     public void markDirty()
     {
-        ItemStack itemstack = player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? player.getHeldItem() : remoteItem;
+        ItemStack remote = player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? player.getHeldItem() : remoteItem;
 
-        if (itemstack != null)
+        if (remote != null)
         {
-            NBTTagCompound nbt = itemstack.getTagCompound();
+            NBTTagCompound nbt = remote.getTagCompound();
 
             for (int i = 0; i < getSizeInventory(); i++)
             {
@@ -382,6 +414,23 @@ public class InventoryGroundBridge implements IInventory
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
+        ItemStack remote = player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote ? player.getHeldItem() : remoteItem;
+
+        if (remote != null)
+        {
+            DimensionalCoords tileCoords = ItemCSD.getCoords(remote);
+
+            if (TFTileHelper.getTileData(tileCoords) instanceof TileDataControlPanel)
+            {
+                TileDataControlPanel data = (TileDataControlPanel) TFTileHelper.getTileData(tileCoords);
+
+                if (data.activationLeverState)
+                {
+                    return false;
+                }
+            }
+        }
+
         return stack.getItem() == TFItems.csd;
     }
 }

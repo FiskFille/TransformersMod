@@ -355,7 +355,7 @@ public class TFRenderHelper
                 DestroyBlockProgress progress = (DestroyBlockProgress) iterator.next();
 
                 int metadata = world.getBlockMetadata(progress.getPartialBlockX(), progress.getPartialBlockY(), progress.getPartialBlockZ());
-                int[] offsets = TFHelper.getTileBaseOffsets(world.getTileEntity(x, y, z), metadata);
+                int[] offsets = TFTileHelper.getTileBaseOffsets(world.getTileEntity(x, y, z), metadata);
 
                 if (x == progress.getPartialBlockX() + offsets[0] && y == progress.getPartialBlockY() + offsets[1] && z == progress.getPartialBlockZ() + offsets[2])
                 {

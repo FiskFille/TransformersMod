@@ -15,7 +15,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageUpdateEnergyState;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class TileEntityColumn extends TileEntityContainer implements IEnergyReceiver, IMultiTile
 {
@@ -42,7 +42,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
             }
             else
             {
-                TileEntity tile = TFHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord));
+                TileEntity tile = TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord));
 
                 if (tile instanceof IEnergyContainer)
                 {
@@ -50,7 +50,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
                     TFEnergyHelper.transferEnergy(receiver, this, 100, false);
                 }
 
-                tile = TFHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + 2, zCoord));
+                tile = TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + 2, zCoord));
 
                 if (tile instanceof IEnergyContainer)
                 {

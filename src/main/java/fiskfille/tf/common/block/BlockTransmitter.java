@@ -14,7 +14,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockTransmitter extends BlockMachineBase
 {
@@ -102,7 +102,7 @@ public class BlockTransmitter extends BlockMachineBase
         if (!player.isSneaking())
         {
             TileEntity tile = world.getTileEntity(x, y, z);
-            TileEntity tileBase = TFHelper.getTileBase(tile);
+            TileEntity tileBase = TFTileHelper.getTileBase(tile);
             int metadata = world.getBlockMetadata(x, y, z);
             int direction = metadata % 4;
             int face = -1;
@@ -245,7 +245,7 @@ public class BlockTransmitter extends BlockMachineBase
                 if (face < 4)
                 {
                     hitY = 1 - hitY;
-                    hitY += TFHelper.getTileBaseOffsets(tile, metadata)[1];
+                    hitY += TFTileHelper.getTileBaseOffsets(tile, metadata)[1];
                 }
 
                 if (tileBase instanceof TileEntityTransmitter)

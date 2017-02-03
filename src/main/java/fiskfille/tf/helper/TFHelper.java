@@ -1,32 +1,20 @@
 package fiskfille.tf.helper;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.tileentity.IMultiTile;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
 import fiskfille.tf.common.transformer.TransformerSkystrike;
 import fiskfille.tf.common.transformer.TransformerSubwoofer;
 import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.Teleporter;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.fluids.FluidStack;
 
 /**
  * @author FiskFille, gegy1000
@@ -170,25 +158,6 @@ public class TFHelper
         return median(TFData.STEALTH_FORCE_PROGRESS.get(player), TFData.PREV_STEALTH_FORCE_PROGRESS.get(player), TransformersMod.proxy.getRenderTick());
     }
 
-    public static void replaceBlock(World world, int x, int y, int z, Block block, Block replacement)
-    {
-        if (world.getBlock(x, y, z) == block)
-        {
-            world.setBlock(x, y, z, replacement);
-        }
-    }
-
-    public static AxisAlignedBB wrapAroundAABB(AxisAlignedBB aabb, AxisAlignedBB aabb1)
-    {
-        double d0 = Math.min(aabb.minX, aabb1.minX);
-        double d1 = Math.min(aabb.minY, aabb1.minY);
-        double d2 = Math.min(aabb.minZ, aabb1.minZ);
-        double d3 = Math.max(aabb.maxX, aabb1.maxX);
-        double d4 = Math.max(aabb.maxY, aabb1.maxY);
-        double d5 = Math.max(aabb.maxZ, aabb1.maxZ);
-        return AxisAlignedBB.getBoundingBox(d0, d1, d2, d3, d4, d5);
-    }
-
     public static void applyClientFluidUsage(IFluidHandlerTF tankContainer)
     {
         FluidTankTF tank = tankContainer.getTank();
@@ -209,86 +178,6 @@ public class TFHelper
                 fluidStack.amount = tank.getCapacity();
             }
         }
-    }
-
-    public static void travelToDimension(Entity entity, int dimension, Teleporter teleporter)
-    {
-        if (!entity.worldObj.isRemote && !entity.isDead)
-        {
-            entity.worldObj.theProfiler.startSection("changeDimension");
-            MinecraftServer server = MinecraftServer.getServer();
-            int j = entity.dimension;
-            WorldServer worldserver = server.worldServerForDimension(j);
-            WorldServer worldserver1 = server.worldServerForDimension(dimension);
-            entity.dimension = dimension;
-
-            if (j == 1 && dimension == 1)
-            {
-                worldserver1 = server.worldServerForDimension(0);
-                entity.dimension = 0;
-            }
-
-            entity.worldObj.removeEntity(entity);
-            entity.isDead = false;
-            entity.worldObj.theProfiler.startSection("reposition");
-            server.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, teleporter);
-            entity.worldObj.theProfiler.endStartSection("reloading");
-            Entity entity1 = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
-
-            if (entity1 != null)
-            {
-                entity1.copyDataFrom(entity, true);
-
-                if (j == 1 && dimension == 1)
-                {
-                    ChunkCoordinates chunkcoordinates = worldserver1.getSpawnPoint();
-                    chunkcoordinates.posY = entity.worldObj.getTopSolidOrLiquidBlock(chunkcoordinates.posX, chunkcoordinates.posZ);
-                    entity1.setLocationAndAngles(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, entity1.rotationYaw, entity1.rotationPitch);
-                }
-
-                worldserver1.spawnEntityInWorld(entity1);
-            }
-
-            entity.isDead = true;
-            entity.worldObj.theProfiler.endSection();
-            worldserver.resetUpdateEntityTick();
-            worldserver1.resetUpdateEntityTick();
-            entity.worldObj.theProfiler.endSection();
-        }
-    }
-
-    public static String getDimensionName(int id)
-    {
-        WorldServer world = DimensionManager.getWorld(id);
-
-        if (world != null)
-        {
-            return world.provider.getDimensionName();
-        }
-
-        return "Unknown";
-    }
-
-    public static int[] getTileBaseOffsets(TileEntity tile, int metadata)
-    {
-        if (tile instanceof IMultiTile)
-        {
-            return ((IMultiTile) tile).getBaseOffsets(metadata);
-        }
-
-        return new int[] {0, 0, 0};
-    }
-
-    public static <T extends TileEntity> T getTileBase(T tile)
-    {
-        int[] offsets = getTileBaseOffsets(tile, tile != null ? tile.getBlockMetadata() : 0);
-
-        if (offsets[0] != 0 || offsets[1] != 0 || offsets[2] != 0)
-        {
-            return (T) tile.getWorldObj().getTileEntity(tile.xCoord + offsets[0], tile.yCoord + offsets[1], tile.zCoord + offsets[2]);
-        }
-
-        return tile;
     }
 
     public static float median(float curr, float prev, float partialTicks)
@@ -339,7 +228,7 @@ public class TFHelper
 
         return !player.isEntityAlive() || (getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null) && (getHeight(player) != player.height || getWidth(player) != player.width);
     }
-    
+
     public static int blend(int a, int b, float ratio)
     {
         if (ratio > 1.0F)

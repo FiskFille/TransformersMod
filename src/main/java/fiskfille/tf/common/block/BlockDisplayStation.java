@@ -7,7 +7,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockDisplayStation extends BlockMachineBase
 {
@@ -62,7 +62,7 @@ public class BlockDisplayStation extends BlockMachineBase
     {
         if (!player.isSneaking())
         {
-            TileEntity tile = TFHelper.getTileBase(world.getTileEntity(x, y, z));
+            TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
             if (tile instanceof TileEntityDisplayStation)
             {

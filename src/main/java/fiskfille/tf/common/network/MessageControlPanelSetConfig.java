@@ -1,21 +1,17 @@
 package fiskfille.tf.common.network;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
 
 public class MessageControlPanelSetConfig implements IMessage
 {
-    private int x;
-    private int y;
-    private int z;
-    private int dimension;
+    private DimensionalCoords coordinates;
     private DimensionalCoords configuration;
 
     public MessageControlPanelSetConfig()
@@ -23,36 +19,24 @@ public class MessageControlPanelSetConfig implements IMessage
 
     }
 
-    public MessageControlPanelSetConfig(int x, int y, int z, int dimension, DimensionalCoords coords)
+    public MessageControlPanelSetConfig(DimensionalCoords coords, DimensionalCoords dest)
     {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.dimension = dimension;
-        this.configuration = coords;
+        this.coordinates = coords;
+        this.configuration = dest;
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        x = buf.readInt();
-        y = buf.readInt();
-        z = buf.readInt();
-        dimension = buf.readInt();
-        configuration = new DimensionalCoords(buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
+        coordinates = new DimensionalCoords().fromBytes(buf);
+        configuration = new DimensionalCoords().fromBytes(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeInt(x);
-        buf.writeInt(y);
-        buf.writeInt(z);
-        buf.writeInt(dimension);
-        buf.writeInt(configuration.posX);
-        buf.writeInt(configuration.posY);
-        buf.writeInt(configuration.posZ);
-        buf.writeInt(configuration.dimension);
+        coordinates.toBytes(buf);
+        configuration.toBytes(buf);
     }
 
     public static class Handler implements IMessageHandler<MessageControlPanelSetConfig, IMessage>
@@ -62,17 +46,12 @@ public class MessageControlPanelSetConfig implements IMessage
         {
             if (ctx.side.isServer())
             {
-                EntityPlayer player = ctx.getServerHandler().playerEntity;
-                World world = MinecraftServer.getServer().worldServerForDimension(message.dimension);
+                DimensionalCoords coords = message.coordinates;
+                World world = MinecraftServer.getServer().worldServerForDimension(coords.dimension);
 
                 if (world != null)
                 {
-                    if (player.worldObj.provider.dimensionId == message.dimension)
-                    {
-                        world = player.worldObj;
-                    }
-
-                    TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(message.x, message.y, message.z);
+                    TileEntityControlPanel tile = (TileEntityControlPanel) world.getTileEntity(coords.posX, coords.posY, coords.posZ);
 
                     if (tile != null)
                     {

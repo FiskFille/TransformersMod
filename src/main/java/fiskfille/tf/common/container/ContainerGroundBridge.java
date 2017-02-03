@@ -5,15 +5,14 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 
 public class ContainerGroundBridge extends ContainerBasic
 {
     public InventoryGroundBridge inventory;
 
-    public ContainerGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, TileEntityControlPanel tile)
+    public ContainerGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge)
     {
-        super(tile);
+        super(null);
         inventory = inventoryGroundBridge;
 
         addSlotToContainer(new Slot(inventoryGroundBridge, 0, 13, 56)
@@ -21,7 +20,13 @@ public class ContainerGroundBridge extends ContainerBasic
             @Override
             public boolean isItemValid(ItemStack itemstack)
             {
-                return itemstack.getItem() == TFItems.csd;
+                return inventory.isItemValidForSlot(slotNumber, itemstack);
+            }
+
+            @Override
+            public boolean canTakeStack(EntityPlayer player)
+            {
+                return isItemValid(getStack());
             }
         });
 
@@ -31,11 +36,11 @@ public class ContainerGroundBridge extends ContainerBasic
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return super.canInteractWith(player) && player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
+        return player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote;
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId)
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
@@ -46,9 +51,20 @@ public class ContainerGroundBridge extends ContainerBasic
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (slotId > CSD)
+            if (slotId == CSD)
             {
-                if (itemstack1.getItem() == TFItems.csd)
+                if (!mergeItemStack(itemstack1, CSD + 1, CSD + 37, true))
+                {
+                    return null;
+                }
+
+                slot.onSlotChange(itemstack1, itemstack);
+            }
+            else if (slotId > CSD)
+            {
+                Slot slot1 = (Slot) inventorySlots.get(CSD);
+
+                if (slot1 != null && slot1.isItemValid(itemstack1))
                 {
                     if (!mergeItemStack(itemstack1, CSD, CSD + 1, false))
                     {
@@ -86,7 +102,7 @@ public class ContainerGroundBridge extends ContainerBasic
                 return null;
             }
 
-            slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+            slot.onPickupFromSlot(player, itemstack1);
         }
 
         return itemstack;

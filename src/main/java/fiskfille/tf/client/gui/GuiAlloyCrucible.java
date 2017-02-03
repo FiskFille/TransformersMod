@@ -23,6 +23,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiIconFlat.IButtonRenderCallback;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.container.ContainerAlloyCrucible;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
@@ -59,7 +60,7 @@ public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCal
 
         if (id == 0)
         {
-            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(mc.thePlayer, tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, id));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, id));
         }
     }
 

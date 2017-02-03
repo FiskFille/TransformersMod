@@ -1,30 +1,32 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.common.block.BlockControlPanel;
-import fiskfille.tf.common.container.ContainerGroundBridge;
-import fiskfille.tf.common.container.InventoryGroundBridge;
-import fiskfille.tf.common.groundbridge.RemoteData;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.common.network.MessageUpdateRemote;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import java.util.List;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
-
-import java.util.List;
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
+import fiskfille.tf.common.block.BlockControlPanel;
+import fiskfille.tf.common.data.tile.TileDataControlPanel;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.tileentity.TileEntityControlPanel;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class ItemGroundBridgeRemote extends Item
 {
+    public IIcon[] icons;
+
     public ItemGroundBridgeRemote()
     {
         setMaxStackSize(1);
@@ -38,33 +40,17 @@ public class ItemGroundBridgeRemote extends Item
     }
 
     @Override
-    public void onUpdate(ItemStack itemstack, World world, Entity entity, int slot, boolean currentItem)
+    public void onUpdate(ItemStack itemstack, World world, Entity entity, int usingTick, boolean holding)
     {
-        if (entity instanceof EntityPlayer)
+        DimensionalCoords coords = ItemCSD.getCoords(itemstack);
+
+        if (TFTileHelper.getTileData(coords) instanceof TileDataControlPanel)
         {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            if (!player.worldObj.isRemote)
-            {
-                TileEntityControlPanel tile = getTile(itemstack);
-
-                if (currentItem && tile != null)
-                {
-                    InventoryGroundBridge inventory = new InventoryGroundBridge(player, itemstack);
-                    ItemStack itemstack1 = inventory.getStackInSlot(0);
-
-                    if (itemstack1 != null && itemstack1.getItem() == TFItems.csd)
-                    {
-                        DimensionalCoords coords = ItemCSD.getCoords(itemstack1);
-
-                        if (coords.posX != tile.destX || coords.posY != tile.prevDestY || coords.posZ != tile.destZ || coords.dimension != tile.getDestDimensionID())
-                        {
-                            tile.setSwitchesTo(coords);
-                            tile.markBlockForUpdate();
-                        }
-                    }
-                }
-            }
+            itemstack.setItemDamage(1);
+        }
+        else
+        {
+            itemstack.setItemDamage(0);
         }
     }
 
@@ -74,31 +60,19 @@ public class ItemGroundBridgeRemote extends Item
         if (!world.isRemote)
         {
             DimensionalCoords coords = ItemCSD.getCoords(stack);
-            WorldServer targetWorld = DimensionManager.getWorld(coords.dimension);
+            WorldServer targetWorld = MinecraftServer.getServer().worldServerForDimension(coords.dimension);
 
             if (!player.isSneaking())
             {
                 if (targetWorld != null)
                 {
-                    int metadata = targetWorld.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
-
                     TileEntity tile = targetWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
+                    int metadata = targetWorld.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 
                     if (tile instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
                     {
-                        EntityPlayerMP playerMP = (EntityPlayerMP) player;
-
+                        player.openGui(TransformersMod.instance, coords.dimension << 8 | TFGui.GROUND_BRIDGE_REMOTE.guiId, targetWorld, coords.posX, coords.posY, coords.posZ);
                         player.addChatComponentMessage(new ChatComponentTranslation("ground_bridge_remote.connect", coords.getFormatted()));
-                        TFNetworkManager.networkWrapper.sendTo(new MessageUpdateRemote(new RemoteData((TileEntityControlPanel) tile), true), playerMP);
-
-                        playerMP.getNextWindowId();
-                        playerMP.closeContainer();
-                        int windowId = playerMP.currentWindowId;
-                        playerMP.openContainer = new ContainerGroundBridge(player.inventory, new InventoryGroundBridge(player, stack), (TileEntityControlPanel) tile);
-                        playerMP.openContainer.windowId = windowId;
-                        playerMP.openContainer.addCraftingToCrafters(playerMP);
-
-                        ((TileEntityControlPanel) tile).controllingPlayers.add(player);
 
                         return stack;
                     }
@@ -116,13 +90,11 @@ public class ItemGroundBridgeRemote extends Item
     {
         if (player.isSneaking())
         {
-            int metadata = world.getBlockMetadata(x, y, z);
+            TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
-            if (world.getTileEntity(x, y, z) instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
+            if (tile instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(tile.getBlockMetadata()))
             {
-                world.getTileEntity(x, y, z);
-                DimensionalCoords coords = new DimensionalCoords(x, y, z, world.provider.dimensionId);
-
+                DimensionalCoords coords = new DimensionalCoords(tile.xCoord, tile.yCoord, tile.zCoord, world.provider.dimensionId);
                 ItemCSD.setCoords(itemstack, coords);
 
                 if (world.isRemote)
@@ -137,22 +109,17 @@ public class ItemGroundBridgeRemote extends Item
         return false;
     }
 
-    public TileEntityControlPanel getTile(ItemStack itemstack)
+    @Override
+    public IIcon getIconFromDamage(int damage)
     {
-        DimensionalCoords coords = ItemCSD.getCoords(itemstack);
-        WorldServer worldserver = DimensionManager.getWorld(coords.dimension);
+        return icons[Math.min(damage, 1)];
+    }
 
-        if (worldserver != null)
-        {
-            TileEntity tile = worldserver.getTileEntity(coords.posX, coords.posY, coords.posZ);
-            int metadata = worldserver.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
-
-            if (tile instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(metadata))
-            {
-                return (TileEntityControlPanel) tile;
-            }
-        }
-
-        return null;
+    @Override
+    public void registerIcons(IIconRegister iconRegister)
+    {
+        icons = new IIcon[2];
+        icons[0] = iconRegister.registerIcon(getIconString() + "_off");
+        icons[1] = iconRegister.registerIcon(getIconString() + "_on");
     }
 }

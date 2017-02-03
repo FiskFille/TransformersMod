@@ -24,7 +24,7 @@ public class EnergyStorage
 
     public void writeToNBT(NBTTagCompound nbt)
     {
-        NBTTagCompound storage = nbt.getCompoundTag("EmB");
+        NBTTagCompound storage = new NBTTagCompound();
         storage.setFloat("Energy", energy);
         storage.setFloat("Usage", energyUsage);
         nbt.setTag("EmB", storage);

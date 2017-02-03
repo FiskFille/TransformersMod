@@ -38,6 +38,7 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
@@ -263,6 +264,7 @@ public class ClientEventHandler
         if (TFHelper.getTransformationTimer(player) >= 0.5F)
         {
             event.setCanceled(true);
+            return;
         }
 
         if (!event.isCanceled())
@@ -586,11 +588,11 @@ public class ClientEventHandler
                         GL11.glPopMatrix();
                     }
 
-                    net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderPlayerEvent.Specials.Post(player, event.renderer, event.partialRenderTick));
+                    MinecraftForge.EVENT_BUS.post(new RenderPlayerEvent.Specials.Post(player, event.renderer, event.partialRenderTick));
                 }
             }
 
-            if (TFHelper.getTransformerFromArmor(player, 0) == null && TFHelper.getTransformerFromArmor(player, 1) != null || TFHelper.getTransformerFromArmor(player, 1) == null && TFHelper.getTransformerFromArmor(player, 0) != null)
+            if (!player.isInvisibleToPlayer(mc.thePlayer) && (TFHelper.getTransformerFromArmor(player, 0) == null && TFHelper.getTransformerFromArmor(player, 1) != null || TFHelper.getTransformerFromArmor(player, 1) == null && TFHelper.getTransformerFromArmor(player, 0) != null))
             {
                 ModelBipedPartial model = TFModelHelper.modelBipedPartial;
                 ModelRenderer[] bipedLegs = {model.bipedLeftLeg, model.bipedRightLeg};

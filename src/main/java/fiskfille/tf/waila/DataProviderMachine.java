@@ -20,7 +20,7 @@ import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.helper.TFFormatHelper;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class DataProviderMachine implements IWailaDataProvider
 {
@@ -48,7 +48,7 @@ public class DataProviderMachine implements IWailaDataProvider
     @Override
     public List<String> getWailaBody(ItemStack itemstack, List<String> list, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
-        TileEntity tileentity = TFHelper.getTileBase(accessor.getTileEntity());
+        TileEntity tileentity = TFTileHelper.getTileBase(accessor.getTileEntity());
 
         if (tileentity.getClass() == targetClass && config.getConfig(key, true))
         {

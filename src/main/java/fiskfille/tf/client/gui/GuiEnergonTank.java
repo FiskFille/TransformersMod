@@ -27,8 +27,8 @@ import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.helper.TFFormatHelper;
-import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergonTank extends GuiContainerTF
@@ -47,11 +47,11 @@ public class GuiEnergonTank extends GuiContainerTF
     public void updateFluids()
     {
         FluidStack stack = new FluidStack(TFFluids.energon, 0);
-        TileEntityEnergonTank tileBase = TFHelper.getTileBase(tileentity);
+        TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(tileentity);
         int y = tileBase.yCoord;
         int capacity = 0;
 
-        while (y < tileentity.getWorldObj().getHeight() && TFHelper.getTileBase(tileentity.getWorldObj().getTileEntity(tileentity.xCoord, y, tileentity.zCoord)) == tileBase)
+        while (y < tileentity.getWorldObj().getHeight() && TFTileHelper.getTileBase(tileentity.getWorldObj().getTileEntity(tileentity.xCoord, y, tileentity.zCoord)) == tileBase)
         {
             TileEntityEnergonTank tile = (TileEntityEnergonTank) tileentity.getWorldObj().getTileEntity(tileentity.xCoord, y, tileentity.zCoord);
             capacity += tile.getTank().getCapacity();

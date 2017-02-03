@@ -24,9 +24,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFEntityData;
+import fiskfille.tf.common.data.tile.TileDataControlPanel;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.world.TeleporterGroundBridge;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITileEntityProvider
 {
@@ -82,7 +85,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
 
     public static boolean spawnTeleporter(World world, int x, int y, int z, TileEntityControlPanel tile)
     {
-        if (!tile.errors.isEmpty())
+        if (!tile.data.errors.isEmpty())
         {
             return false;
         }
@@ -180,59 +183,65 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
 
     public static void doTeleportClient(Entity entity, TileEntityGroundBridgeTeleporter teleporter)
     {
-        TileEntityControlPanel controlPanel = teleporter.controlPanel;
-
-        if (controlPanel.groundBridgeFramePos != null)
+        if (teleporter.controlPanel != null)
         {
-            double posX = controlPanel.destX + 0.5D;
-            double posY = controlPanel.destY;
-            double posZ = controlPanel.destZ + 0.5D;
-            int dimension = controlPanel.getDestDimensionID();
-            int srcYaw = controlPanel.getSrcPortalDirection();
-            int dstYaw = controlPanel.portalDirection;
+            TileDataControlPanel data = (TileDataControlPanel) TFTileHelper.getTileData(teleporter.controlPanel);
 
-            if (teleporter.returnPortal)
+            if (data != null)
             {
-                posX = controlPanel.groundBridgeFramePos.posX + 0.5D;
-                posY = controlPanel.groundBridgeFramePos.posY + 1.0D;
-                posZ = controlPanel.groundBridgeFramePos.posZ + 0.5D;
-                dimension = controlPanel.getWorldObj().provider.dimensionId;
-                srcYaw = controlPanel.portalDirection;
-                dstYaw = controlPanel.getSrcPortalDirection();
-            }
-
-            float yawDiff = entity.rotationYaw - (srcYaw * 90 + 180);
-            float yaw = dstYaw * 90 + 180 * 90 + yawDiff;
-
-            if (entity instanceof EntityPlayerMP)
-            {
-                EntityPlayerMP playerMP = (EntityPlayerMP) entity;
-                double motionX = entity.motionX;
-                double motionZ = entity.motionZ;
-
-                if (dimension != entity.dimension)
+                if (data.framePos != null)
                 {
-                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension, new TeleporterGroundBridge(playerMP.mcServer.worldServerForDimension(dimension)));
+                    double posX = data.destination.posX + 0.5D;
+                    double posY = data.modifiedDestY;
+                    double posZ = data.destination.posZ + 0.5D;
+                    int dimension = data.destination.dimension;
+                    int srcYaw = data.frameDirection;
+                    int dstYaw = data.direction;
+
+                    if (teleporter.returnPortal())
+                    {
+                        posX = data.framePos.posX + 0.5D;
+                        posY = data.framePos.posY + 1.0D;
+                        posZ = data.framePos.posZ + 0.5D;
+                        dimension = data.framePos.dimension;
+                        srcYaw = data.direction;
+                        dstYaw = data.frameDirection;
+                    }
+
+                    float yawDiff = entity.rotationYaw - (srcYaw * 90 + 180);
+                    float yaw = dstYaw * 90 + 180 * 90 + yawDiff;
+
+                    if (entity instanceof EntityPlayerMP)
+                    {
+                        EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+                        double motionX = entity.motionX;
+                        double motionZ = entity.motionZ;
+
+                        if (dimension != entity.dimension)
+                        {
+                            playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension, new TeleporterGroundBridge(playerMP.mcServer.worldServerForDimension(dimension)));
+                        }
+
+                        playerMP.playerNetServerHandler.setPlayerLocation(posX, posY, posZ, yaw, entity.rotationPitch);
+                        entity.motionX = motionX;
+                        entity.motionZ = motionZ;
+                    }
+                    else if (!(entity instanceof EntityPlayer) && dimension == entity.dimension)
+                    {
+                        double motionX = entity.motionX;
+                        double motionZ = entity.motionZ;
+
+//                        TODO: Re-enable Ground Bridge functionality for non-player entities
+//                        if (dimension != entity.dimension)
+//                        {
+//                            TFHelper.travelToDimension(entity, dimension, new TeleporterGroundBridge(controlPanel.getDestWorld()));
+//                        }
+
+                        entity.setLocationAndAngles(posX, posY, posZ, yaw, entity.rotationPitch);
+                        entity.motionX = motionX;
+                        entity.motionZ = motionZ;
+                    }
                 }
-
-                playerMP.playerNetServerHandler.setPlayerLocation(posX, posY, posZ, yaw, entity.rotationPitch);
-                entity.motionX = motionX;
-                entity.motionZ = motionZ;
-            }
-            else if (!(entity instanceof EntityPlayer) && dimension == entity.dimension)
-            {
-                double motionX = entity.motionX;
-                double motionZ = entity.motionZ;
-
-//                TODO: Re-enable Ground Bridge functionality for non-player entities
-//                if (dimension != entity.dimension)
-//                {
-//                    TFHelper.travelToDimension(entity, dimension, new TeleporterGroundBridge(controlPanel.getDestWorld()));
-//                }
-
-                entity.setLocationAndAngles(posX, posY, posZ, yaw, entity.rotationPitch);
-                entity.motionX = motionX;
-                entity.motionZ = motionZ;
             }
         }
     }
@@ -254,6 +263,11 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
     public static int func_149999_b(int meta)
     {
         return meta & 3;
+    }
+
+    public static boolean isReturnPortal(int metadata)
+    {
+        return metadata > 1;
     }
 
     public static boolean isNorthSouthFacingFramePresent(IBlockAccess world, int x, int y, int z)
@@ -326,6 +340,9 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
 
     public static void fillNorthFacingFrame(World world, int x, int y, int z, Block block, TileEntityControlPanel tile, boolean returnPortal)
     {
+        DimensionalCoords coords = new DimensionalCoords(tile);
+        int metadata = returnPortal ? 2 : 0;
+
         for (int i = 0; i < 5; ++i)
         {
             for (int j = 0; j < 3; ++j)
@@ -344,33 +361,34 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     l = tileentity.ticks;
                 }
 
-                world.setBlock(x - 1 + j, y + 1 + i, z, block);
-                world.setBlock(x - 2 + i, y + 2 + j, z, block);
+                world.setBlock(x - 1 + j, y + 1 + i, z, block, metadata, 2);
+                world.setBlock(x - 2 + i, y + 2 + j, z, block, metadata, 2);
 
                 if (world.getTileEntity(x - 1 + j, y + 1 + i, z) instanceof TileEntityGroundBridgeTeleporter)
                 {
                     TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x - 1 + j, y + 1 + i, z);
-                    tileentity.controlPanel = tile;
-                    tileentity.returnPortal = returnPortal;
+                    tileentity.controlPanel = coords;
                     tileentity.lastUpdate = 0;
                     tileentity.ticks = ++k;
                 }
                 if (world.getTileEntity(x - 2 + i, y + 2 + j, z) instanceof TileEntityGroundBridgeTeleporter)
                 {
                     TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x - 2 + i, y + 2 + j, z);
-                    tileentity.controlPanel = tile;
-                    tileentity.returnPortal = returnPortal;
+                    tileentity.controlPanel = coords;
                     tileentity.lastUpdate = 0;
                     tileentity.ticks = l;
                 }
             }
         }
 
-        world.setBlockMetadataWithNotify(x, y + 2, z, 1, 2);
+        world.setBlockMetadataWithNotify(x, y + 2, z, metadata + 1, 2);
     }
 
     public static void fillEastFacingFrame(World world, int x, int y, int z, Block block, TileEntityControlPanel tile, boolean returnPortal)
     {
+        DimensionalCoords coords = new DimensionalCoords(tile);
+        int metadata = returnPortal ? 2 : 0;
+
         for (int i = 0; i < 5; ++i)
         {
             for (int j = 0; j < 3; ++j)
@@ -389,29 +407,27 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
                     l = tileentity.ticks;
                 }
 
-                world.setBlock(x, y + 1 + i, z - 1 + j, block);
-                world.setBlock(x, y + 2 + j, z - 2 + i, block);
+                world.setBlock(x, y + 1 + i, z - 1 + j, block, metadata, 2);
+                world.setBlock(x, y + 2 + j, z - 2 + i, block, metadata, 2);
 
                 if (world.getTileEntity(x, y + 1 + i, z - 1 + j) instanceof TileEntityGroundBridgeTeleporter)
                 {
                     TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x, y + 1 + i, z - 1 + j);
-                    tileentity.controlPanel = tile;
-                    tileentity.returnPortal = returnPortal;
+                    tileentity.controlPanel = coords;
                     tileentity.lastUpdate = 0;
                     tileentity.ticks = ++k;
                 }
                 if (world.getTileEntity(x, y + 2 + j, z - 2 + i) instanceof TileEntityGroundBridgeTeleporter)
                 {
                     TileEntityGroundBridgeTeleporter tileentity = (TileEntityGroundBridgeTeleporter) world.getTileEntity(x, y + 2 + j, z - 2 + i);
-                    tileentity.controlPanel = tile;
-                    tileentity.returnPortal = returnPortal;
+                    tileentity.controlPanel = coords;
                     tileentity.lastUpdate = 0;
                     tileentity.ticks = l;
                 }
             }
         }
 
-        world.setBlockMetadataWithNotify(x, y + 2, z, 1, 2);
+        world.setBlockMetadataWithNotify(x, y + 2, z, metadata + 1, 2);
     }
 
     @Override
