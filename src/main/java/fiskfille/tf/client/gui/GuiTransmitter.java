@@ -8,11 +8,12 @@ import java.util.Map;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.FluidTank;
 
 import org.lwjgl.opengl.GL11;
 
@@ -52,10 +53,10 @@ public class GuiTransmitter extends GuiContainerTF
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
 
+        FluidTank tank = tileentity.data.tank;
+        FluidStack stack = tank.getFluid();
         ArrayList text = Lists.newArrayList();
         ArrayList colors = Lists.newArrayList();
-        FluidStack stack = tileentity.tank.getFluid();
-        int liquidAmount = stack != null ? stack.amount : 0;
 
         if (stack != null && stack.amount > 0)
         {
@@ -87,20 +88,23 @@ public class GuiTransmitter extends GuiContainerTF
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(liquidAmount), TFFormatHelper.formatNumber(tileentity.tank.getCapacity())));
+        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(tank.getFluidAmount()), TFFormatHelper.formatNumber(tank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
 
-        if (new Rectangle(x + 77, y + 17, 20, 52).contains(new Point(mouseX, mouseY)))
+        if (new Rectangle(x + 77, y + 17, 20, 52).contains(mouseX, mouseY))
         {
             drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
         }
 
-        if (new Rectangle(x + 107, y + 17, 16, 52).contains(new Point(mouseX, mouseY)))
+        if (new Rectangle(x + 107, y + 17, 16, 52).contains(mouseX, mouseY))
         {
-            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+            float usage = tileentity.getEnergyUsage();
+            String prefix = usage > 0 ? EnumChatFormatting.GREEN + "+" : usage < 0 ? EnumChatFormatting.RED + "-" : EnumChatFormatting.GRAY.toString();
+            
+            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy())), prefix + StatCollector.translateToLocalFormatted("gui.emb.rate", TFFormatHelper.formatNumber(Math.abs(usage)) + EnumChatFormatting.GRAY)), mouseX, mouseY, fontRendererObj);
         }
 
         GL11.glPopMatrix();
@@ -122,14 +126,14 @@ public class GuiTransmitter extends GuiContainerTF
             drawTexturedModalRect(x + 107, y + 17 + Math.round(52 * (1 - f)), 196, Math.round(52 * (1 - f)), 16, Math.round(52 * f));
         }
 
-        FluidTankInfo info = tileentity.tank.getInfo();
-        FluidStack stack = info.fluid;
+        FluidTank tank = tileentity.data.tank;
+        FluidStack stack = tank.getFluid();
 
         if (stack != null && stack.amount > 0)
         {
             mc.getTextureManager().bindTexture(mc.getTextureMapBlocks().locationBlocksTexture);
             float[] rgb = TFRenderHelper.hexToRGB(FluidEnergon.getLiquidColor(stack));
-            float f = (float) stack.amount / info.capacity;
+            float f = (float) stack.amount / tank.getCapacity();
 
             GL11.glPushMatrix();
             GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);

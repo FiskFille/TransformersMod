@@ -1,5 +1,6 @@
 package fiskfille.tf.common.energon.power;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class EnergyStorage
@@ -13,6 +14,29 @@ public class EnergyStorage
     {
         maxEnergy = max;
     }
+    
+    public EnergyStorage copy()
+    {
+        EnergyStorage storage = new EnergyStorage(getMaxEnergy());
+        storage.energy = energy;
+        storage.energyUsage = energyUsage;
+        storage.lastEnergy = lastEnergy;
+        
+        return storage;
+    }
+    
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeFloat(energy);
+        buf.writeFloat(energyUsage);
+    }
+    
+    public void fromBytes(ByteBuf buf)
+    {
+        energy = buf.readFloat();
+        energyUsage = buf.readFloat();
+        lastEnergy = energy - energyUsage;
+    }
 
     public void readFromNBT(NBTTagCompound nbt)
     {
@@ -24,7 +48,7 @@ public class EnergyStorage
 
     public void writeToNBT(NBTTagCompound nbt)
     {
-        NBTTagCompound storage = new NBTTagCompound();
+        NBTTagCompound storage = nbt.getCompoundTag("EmB");
         storage.setFloat("Energy", energy);
         storage.setFloat("Usage", energyUsage);
         nbt.setTag("EmB", storage);
@@ -32,7 +56,7 @@ public class EnergyStorage
 
     public float remove(float amount, boolean simulate)
     {
-        float actual = Math.min(amount, energy);
+        float actual = Math.min(amount, getEnergy());
 
         if (!simulate)
         {
@@ -44,7 +68,7 @@ public class EnergyStorage
 
     public float add(float amount, boolean simulate)
     {
-        float actual = Math.max(Math.min(amount, maxEnergy - energy), 0);
+        float actual = Math.max(Math.min(amount, getMaxEnergy() - getEnergy()), 0);
 
         if (!simulate)
         {
@@ -69,16 +93,16 @@ public class EnergyStorage
         return maxEnergy;
     }
 
-    public float set(float energy)
+    public float set(float amount)
     {
-        this.energy = Math.min(getMaxEnergy(), Math.max(0.0F, energy));
-        return this.energy;
+        energy = Math.min(getMaxEnergy(), Math.max(0.0F, amount));
+        return energy;
     }
 
     public void setUsage(float usage)
     {
-        this.energyUsage = usage;
-        this.lastEnergy = energy;
+        energyUsage = usage;
+        lastEnergy = energy;
     }
 
     public float getUsage()

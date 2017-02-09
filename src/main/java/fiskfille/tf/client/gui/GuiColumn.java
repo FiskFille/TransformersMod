@@ -7,6 +7,7 @@ import java.util.Arrays;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -50,7 +51,10 @@ public class GuiColumn extends GuiContainerTF
         {
             if (new Rectangle(x + 25 + i * 22, y + 19, 16, 52).contains(new Point(mouseX, mouseY)))
             {
-                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+                float usage = tileentity.getEnergyUsage();   
+                String prefix = usage > 0 ? EnumChatFormatting.GREEN + "+" : usage < 0 ? EnumChatFormatting.RED + "-" : EnumChatFormatting.GRAY.toString();
+                
+                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy())), prefix + StatCollector.translateToLocalFormatted("gui.emb.rate", TFFormatHelper.formatNumber(Math.abs(usage)) + EnumChatFormatting.GRAY)), mouseX, mouseY, fontRendererObj);
             }
         }
 

@@ -3,7 +3,6 @@ package fiskfille.tf.waila;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
@@ -19,23 +18,29 @@ public class DataProviderEnergonTank extends DataProviderMachine
     }
 
     public void updateFluids(TileEntity tile)
-    {
-        FluidStack stack = new FluidStack(TFFluids.energon, 0);
+    {   
         TileEntity tileBase = TFTileHelper.getTileBase(tile);
+        FluidStack stack = null;
         int y = tileBase.yCoord;
         int capacity = 0;
 
         while (y < tile.getWorldObj().getHeight() && TFTileHelper.getTileBase(tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord)) == tileBase && tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord) instanceof IFluidHandlerTF)
         {
             IFluidHandlerTF fluidHandler = (IFluidHandlerTF) tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord);
-            capacity += fluidHandler.getTank().getCapacity();
-
-            if (fluidHandler.getTank().getFluid() != null)
+            FluidTank tank = fluidHandler.getTank();
+            
+            if (stack == null && tank.getFluid() != null)
             {
-                FluidEnergon.merge(stack, fluidHandler.getTank().getFluid(), fluidHandler.getTank().getFluidAmount());
-                stack.amount += fluidHandler.getTank().getFluidAmount();
+                stack = tank.getFluid().copy();
+                stack.amount = 0;
             }
-
+            
+            if (stack != null)
+            {
+                stack.amount += tank.getFluidAmount();
+            }
+            
+            capacity += tank.getCapacity();
             ++y;
         }
 

@@ -1,53 +1,56 @@
 package fiskfille.tf.client.gui;
 
-import com.google.common.collect.Lists;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TargetReceiver;
-import fiskfille.tf.common.network.MessageSetReceivers;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFRenderHelper;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
-import org.lwjgl.opengl.GL11;
-
+import java.awt.Rectangle;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
+
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverEntry;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageConnectReceiver;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFEnergyHelper;
+import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFVectorHelper;
+
 @SideOnly(Side.CLIENT)
 public class GuiSelectReceivers extends GuiScreen
 {
-    public TileEntity tile;
+    public TileEntity owner;
     public IEnergyTransmitter transmitter;
 
-    public Set<TargetReceiver> receivers = new HashSet<TargetReceiver>();
-    public Set<ChunkCoordinates> receiverCoords = new HashSet<ChunkCoordinates>();
-
-    public ChunkCoordinates[] coordArray;
+    public DimensionalCoords[] coordArray;
     public List<Integer> layers = Lists.newArrayList();
 
     public GuiVerticalHeightSlider heightSlider;
 
     public int spacing = 1;
     public int size = 3;
-
-    private List<ChunkCoordinates> grandparents;
-
-    private int ticks;
+    
+    public GuiSelectReceivers(TileEntity tile)
+    {
+        owner = tile;
+        transmitter = (IEnergyTransmitter) owner;
+    }
 
     @Override
     public void initGui()
@@ -69,15 +72,15 @@ public class GuiSelectReceivers extends GuiScreen
             }
         }));
 
-        coordArray = new ChunkCoordinates[boardWidthFl * boardWidthFl];
+        coordArray = new DimensionalCoords[boardWidthFl * boardWidthFl];
         layers.clear();
-        layers.add(tile.yCoord);
+        layers.add(owner.yCoord);
 
         List<TileEntity> tiles = mc.theWorld.loadedTileEntityList;
 
         for (TileEntity loadedTile : tiles)
         {
-            if (loadedTile instanceof IEnergyReceiver && ((IEnergyReceiver) loadedTile).canReceiveEnergy(this.tile) && TFEnergyHelper.isInRange(this.tile, loadedTile))
+            if (loadedTile instanceof IEnergyReceiver && ((IEnergyReceiver) loadedTile).canReceiveEnergy(owner) && TFEnergyHelper.isInRange(owner, loadedTile))
             {
                 if (!layers.contains(loadedTile.yCoord))
                 {
@@ -92,30 +95,12 @@ public class GuiSelectReceivers extends GuiScreen
 
         updateBlocks();
     }
-
-    public GuiSelectReceivers(TileEntity tile, List<ChunkCoordinates> grandparents)
+    
+    @Override
+    public void updateScreen()
     {
-        this.update(tile, grandparents);
-    }
-
-    public void update(TileEntity tile, List<ChunkCoordinates> grandparents)
-    {
-        this.tile = tile;
-        this.grandparents = grandparents;
-
-        receivers.clear();
-        receiverCoords.clear();
-
-        transmitter = (IEnergyTransmitter) this.tile;
-        receivers.addAll(transmitter.getTransmissionHandler().getReceivers());
-
-        for (TargetReceiver receiver : receivers)
-        {
-            receiverCoords.add(receiver.getCoordinates());
-        }
-
-        coordArray = null;
-        layers = Lists.newArrayList();
+        super.updateScreen();
+        updateBlocks();
     }
 
     protected void updateBlocks()
@@ -123,18 +108,20 @@ public class GuiSelectReceivers extends GuiScreen
         float range = transmitter.getRange();
         float boardWidth = 1 + range * 2;
         int boardWidthFl = MathHelper.floor_float(boardWidth);
+        int dimension = owner.getWorldObj().provider.dimensionId;
 
-        coordArray = new ChunkCoordinates[boardWidthFl * boardWidthFl];
+        coordArray = new DimensionalCoords[boardWidthFl * boardWidthFl];
 
         for (int i = 0; i < boardWidthFl; ++i)
         {
             for (int j = 0; j < boardWidthFl; ++j)
             {
-                int x = MathHelper.floor_double(tile.xCoord - boardWidthFl / 2 + i);
-                int z = MathHelper.floor_double(tile.zCoord - boardWidthFl / 2 + j);
-                ChunkCoordinates coords = new ChunkCoordinates(x, getLayer(), z);
+                int x = MathHelper.floor_double(owner.xCoord - boardWidthFl / 2 + i);
+                int z = MathHelper.floor_double(owner.zCoord - boardWidthFl / 2 + j);
+                
+                DimensionalCoords coords = new DimensionalCoords(x, getLayer(), z, dimension);
 
-                if (TFEnergyHelper.isInRange(tile, coords))
+                if (TFEnergyHelper.isInRange(owner, coords))
                 {
                     coordArray[i + j * boardWidthFl] = coords;
                 }
@@ -145,13 +132,13 @@ public class GuiSelectReceivers extends GuiScreen
 
         if (direction > 0)
         {
-            ChunkCoordinates[] coordArray1 = coordArray.clone();
+            DimensionalCoords[] coordArray1 = coordArray.clone();
 
             for (int i = 0; i < boardWidthFl; ++i)
             {
                 for (int j = 0; j < boardWidthFl; ++j)
                 {
-                    ChunkCoordinates coords = coordArray[i + j * boardWidthFl];
+                    DimensionalCoords coords = coordArray[i + j * boardWidthFl];
 
                     if (direction == 1)
                     {
@@ -197,7 +184,7 @@ public class GuiSelectReceivers extends GuiScreen
     @Override
     public void onGuiClosed()
     {
-        TFNetworkManager.networkWrapper.sendToServer(new MessageSetReceivers(tile.xCoord, tile.yCoord, tile.zCoord, receivers));
+//        TFNetworkManager.networkWrapper.sendToServer(new MessageSetReceivers(owner.xCoord, owner.yCoord, owner.zCoord, receivers));
     }
 
     @Override
@@ -220,38 +207,33 @@ public class GuiSelectReceivers extends GuiScreen
                         int x = baseX + (spacing + size) * i;
                         int y = baseY + (spacing + size) * j;
 
-                        if (mouseX >= x && mouseX < x + size && mouseY >= y && mouseY < y + size)
+//                        if (mouseX >= x && mouseX < x + size && mouseY >= y && mouseY < y + size)
+                        if (new Rectangle(x, y, size, size).contains(mouseX, mouseY))
                         {
-                            ChunkCoordinates coords = coordArray[i + j * boardWidth];
+                            DimensionalCoords coords = coordArray[i + j * boardWidth];
 
-                            if (coords != null)
+                            if (coords != null && !coords.equals(new DimensionalCoords(owner)))
                             {
-                                if (!(coords.posX == this.tile.xCoord && coords.posY == this.tile.yCoord && coords.posZ == this.tile.zCoord))
+                                TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
+
+                                if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(owner) && !(tile instanceof IEnergyTransmitter && TFEnergyHelper.getDescendants((IEnergyTransmitter) tile).contains(new DimensionalCoords(owner))))
                                 {
-                                    TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
-
-                                    if (tile != this.tile && tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile) && (!(tile instanceof IEnergyTransmitter) || !isGrandParent(coords)))
-                                    {
-                                        ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
-
-                                        if (receiverHandler != null)
-                                        {
-                                            TargetReceiver receiver = receiverHandler.getReceiver();
-
-                                            if (receivers.contains(receiver))
-                                            {
-                                                receivers.remove(receiver);
-                                                receiverCoords.remove(receiver.getCoordinates());
-                                            }
-                                            else
-                                            {
-                                                receivers.add(receiver);
-                                                receiverCoords.add(receiver.getCoordinates());
-                                            }
-
-                                            mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1));
-                                        }
-                                    }
+//                                    ReceiverHandler receiverHandler = TFEnergyHelper.getReceiverHandler(tile);
+//                                    NetworkEntry entry = receiverHandler.getOwner();
+//
+//                                    if (receivers.contains(entry))
+//                                    {
+//                                        receivers.remove(entry);
+//                                        receiverCoords.remove(entry.getCoords());
+//                                    }
+//                                    else
+//                                    {
+//                                        receivers.add(new ReceiverEntry(tile));
+//                                        receiverCoords.add(entry.getCoords());
+//                                    }
+                                    
+                                    TFNetworkManager.networkWrapper.sendToServer(new MessageConnectReceiver(new DimensionalCoords(owner), coords));
+                                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1));
                                 }
                             }
                         }
@@ -261,10 +243,10 @@ public class GuiSelectReceivers extends GuiScreen
         }
     }
 
-    private boolean isGrandParent(ChunkCoordinates coords)
-    {
-        return grandparents.contains(coords);
-    }
+//    private boolean isGrandParent(DimensionalCoords coords)
+//    {
+//        return grandparents.contains(coords);
+//    }
 
     public int getLayer()
     {
@@ -279,7 +261,7 @@ public class GuiSelectReceivers extends GuiScreen
             }
         }
 
-        return tile.yCoord;
+        return owner.yCoord;
     }
 
     public int getRange()
@@ -299,7 +281,7 @@ public class GuiSelectReceivers extends GuiScreen
         drawDefaultBackground();
         drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.transmitter.select_receivers"), width / 2, 15, 16777215);
 
-        if (coordArray == null || layers.isEmpty() || ticks++ % 10 == 0)
+        if (coordArray == null || layers.isEmpty())
         {
             updateBlocks();
         }
@@ -325,11 +307,11 @@ public class GuiSelectReceivers extends GuiScreen
             {
                 for (int j = 0; j < boardWidth; ++j)
                 {
-                    ChunkCoordinates coords = coordArray[i + j * boardWidth];
+                    DimensionalCoords coords = coordArray[i + j * boardWidth];
 
                     if (coords != null)
                     {
-                        Vec3 src1 = Vec3.createVectorHelper(tile.xCoord + 0.5F, 0, tile.zCoord + 0.5F);
+                        Vec3 src1 = Vec3.createVectorHelper(owner.xCoord + 0.5F, 0, owner.zCoord + 0.5F);
                         Vec3 dst = Vec3.createVectorHelper(coords.posX + 0.5F, 0, coords.posZ + 0.5F);
                         maxWidth = Math.max(maxWidth, MathHelper.floor_double(src1.distanceTo(dst)));
                     }
@@ -350,13 +332,10 @@ public class GuiSelectReceivers extends GuiScreen
                     GL11.glColor4f(0.075F, 0.075F, 0.075F, 1);
                     drawTexturedModalRect(x, y, 0, 0, size, size);
 
-                    ChunkCoordinates coords = coordArray[i + j * boardWidth];
+                    DimensionalCoords coords = coordArray[i + j * boardWidth];
 
                     if (coords != null)
                     {
-                        mc.theWorld.getBlock(coords.posX, coords.posY, coords.posZ);
-                        mc.theWorld.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
-
                         if (!mc.theWorld.isAirBlock(coords.posX, coords.posY, coords.posZ))
                         {
                             float[] afloat = TFRenderHelper.hexToRGB(0x707070);
@@ -367,27 +346,144 @@ public class GuiSelectReceivers extends GuiScreen
                     }
                 }
             }
+            
+            Set<DimensionalCoords> receiverCoords = new HashSet<DimensionalCoords>();
+            
+            for (ReceiverEntry entry : transmitter.getTransmissionHandler().getReceivers())
+            {
+                receiverCoords.add(entry.getCoords());
+            }
 
             Tessellator tessellator = Tessellator.instance;
             float prevWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH);
             GL11.glLineWidth(size);
             GL11.glColor4f(0, 1, 1, 1);
+            
+            List<DimensionalCoords> coordList = Lists.newArrayList(coordArray);
+//            float f = 1 - ((mc.thePlayer.ticksExisted + partialTicks) / 30) % 1;
+            float f = 0.5F;
+            float angle = 35;
+            float length = 4;
 
             for (int i = 0; i < boardWidth; ++i)
             {
                 for (int j = 0; j < boardWidth; ++j)
                 {
-                    ChunkCoordinates coords = coordArray[i + j * boardWidth];
+                    DimensionalCoords coords = coordArray[i + j * boardWidth];
                     int x = baseX + (spacing + size) * i;
                     int y = baseY + (spacing + size) * j;
-
-                    if (receiverCoords.contains(coords))
+                    
+                    if (coords != null)
                     {
-                        tessellator.startDrawing(3);
-                        tessellator.addVertex(x + (float) size / 2, y + (float) size / 2, 0);
-                        tessellator.addVertex(baseX + (spacing + size) * boardWidth / 2 - 0.5F, baseY + (spacing + size) * boardWidth / 2 - 0.5F, 0);
-                        tessellator.draw();
+                        TileEntity tile = mc.theWorld.getTileEntity(coords.posX, coords.posY, coords.posZ);
+                        
+                        if (tile instanceof IEnergyTransmitter && tile != owner)
+                        {
+                            IEnergyTransmitter transmitter1 = (IEnergyTransmitter) tile;
+                            int color = 0x00FFFF;
+                            
+                            if (tile instanceof IEnergyReceiver)
+                            {
+                                color = ((IEnergyReceiver) tile).getMapColor();
+                            }
+                            
+                            for (ReceiverEntry entry : transmitter1.getTransmissionHandler().getReceivers())
+                            {
+                                int index = coordList.indexOf(entry.getCoords());
+                                
+                                if (index >= 0 && entry.getCoords().posY == getLayer())
+                                {
+                                    int k = index;
+                                    int l = 0;
+
+                                    for (l = 0; k >= boardWidth; ++l)
+                                    {
+                                        k -= boardWidth;
+                                    }
+                                    
+                                    Vec3 vec3 = Vec3.createVectorHelper(x + (float) size / 2, y + (float) size / 2, 0);
+                                    Vec3 vec31 = Vec3.createVectorHelper(baseX + (spacing + size) * k + (float) size / 2, baseY + (spacing + size) * l + (float) size / 2, 0);
+                                    Vec3 vec32 = vec31.subtract(vec3);
+                                    Vec3 vec33 = vec31.subtract(vec3);
+                                    Vec3 vec34 = vec31.subtract(vec3);
+                                    vec33.xCoord *= f;
+                                    vec33.yCoord *= f;
+                                    vec33 = TFVectorHelper.add(vec33, vec31);
+                                    vec32.rotateAroundZ((float) Math.toRadians(angle));
+                                    vec34.rotateAroundZ((float) Math.toRadians(-angle));
+                                    vec32 = vec32.normalize();
+                                    vec34 = vec34.normalize();
+                                    vec32.xCoord *= length;
+                                    vec32.yCoord *= length;
+                                    vec34.xCoord *= length;
+                                    vec34.yCoord *= length;
+                                    vec32 = TFVectorHelper.add(vec32, vec33);
+                                    vec34 = TFVectorHelper.add(vec34, vec33);
+                                    
+                                    tessellator.startDrawing(GL11.GL_LINE_STRIP);
+                                    tessellator.setColorRGBA_I(0x00FFFF, 50);
+                                    tessellator.addVertex(vec3.xCoord, vec3.yCoord, 0);
+                                    tessellator.addVertex(vec31.xCoord, vec31.yCoord, 0);
+                                    tessellator.draw();
+                                    
+                                    tessellator.startDrawing(GL11.GL_TRIANGLES);
+                                    tessellator.setColorRGBA_I(color, 150);
+                                    tessellator.addVertex(vec32.xCoord, vec32.yCoord, 0);
+                                    tessellator.addVertex(vec33.xCoord, vec33.yCoord, 0);
+                                    tessellator.addVertex(vec34.xCoord, vec34.yCoord, 0);
+                                    tessellator.draw();
+                                }
+                            }
+                        }
                     }
+                }
+            }
+            
+            for (DimensionalCoords coords : receiverCoords)
+            {
+                int index = coordList.indexOf(coords);
+                
+                if (index >= 0 && coords.posY == getLayer())
+                {
+                    int k = index;
+                    int l = 0;
+
+                    for (l = 0; k >= boardWidth; ++l)
+                    {
+                        k -= boardWidth;
+                    }
+                    
+                    Vec3 vec3 = Vec3.createVectorHelper(baseX + (spacing + size) * boardWidth / 2 - 0.5F, baseY + (spacing + size) * boardWidth / 2 - 0.5F, 0);
+                    Vec3 vec31 = Vec3.createVectorHelper(baseX + (spacing + size) * k + (float) size / 2, baseY + (spacing + size) * l + (float) size / 2, 0);
+                    Vec3 vec32 = vec31.subtract(vec3);
+                    Vec3 vec33 = vec31.subtract(vec3);
+                    Vec3 vec34 = vec31.subtract(vec3);
+                    vec33.xCoord *= f;
+                    vec33.yCoord *= f;
+                    vec33 = TFVectorHelper.add(vec33, vec31);
+                    vec32.rotateAroundZ((float) Math.toRadians(angle));
+                    vec34.rotateAroundZ((float) Math.toRadians(-angle));
+                    vec32 = vec32.normalize();
+                    vec34 = vec34.normalize();
+                    vec32.xCoord *= length;
+                    vec32.yCoord *= length;
+                    vec34.xCoord *= length;
+                    vec34.yCoord *= length;
+                    vec32 = TFVectorHelper.add(vec32, vec33);
+                    vec34 = TFVectorHelper.add(vec34, vec33);
+                    
+                    tessellator.startDrawing(GL11.GL_LINE_STRIP);
+                    tessellator.setColorRGBA_I(0x00FFFF, 200);
+                    tessellator.addVertex(vec3.xCoord, vec3.yCoord, 0);
+                    tessellator.addVertex(vec31.xCoord, vec31.yCoord, 0);
+                    tessellator.draw();
+                    
+                    tessellator.startDrawing(GL11.GL_TRIANGLES);
+                    tessellator.setColorRGBA_I(0x00FFFF, 150);
+                    tessellator.addVertex(vec32.xCoord, vec32.yCoord, 0);
+                    tessellator.addVertex(vec33.xCoord, vec33.yCoord, 0);
+                    tessellator.addVertex(vec34.xCoord, vec34.yCoord, 0);
+                    tessellator.draw();
                 }
             }
 
@@ -399,7 +495,8 @@ public class GuiSelectReceivers extends GuiScreen
                     float opacity = MathHelper.clamp_float((1 - (float) src.distanceTo(dst) / boardWidth * 2 / size) * 2.5F, 0, 1);
                     int x = baseX + (spacing + size) * i;
                     int y = baseY + (spacing + size) * j;
-                    ChunkCoordinates coords = coordArray[i + j * boardWidth];
+                    
+                    DimensionalCoords coords = coordArray[i + j * boardWidth];
 
                     if (coords != null)
                     {
@@ -411,17 +508,17 @@ public class GuiSelectReceivers extends GuiScreen
                             drawTexturedModalRect(x - spacing, y - spacing, 0, 0, size + spacing * 2, size + spacing * 2);
                         }
 
-                        if (tile == this.tile)
+                        if (tile == owner)
                         {
                             GL11.glColor4f(0, 0.6F, 0, opacity);
                         }
                         else
                         {
-                            if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(this.tile))
+                            if (tile instanceof IEnergyReceiver && ((IEnergyReceiver) tile).canReceiveEnergy(owner))
                             {
                                 float[] afloat = TFRenderHelper.hexToRGB(((IEnergyReceiver) tile).getMapColor());
 
-                                if (tile instanceof IEnergyTransmitter && TFEnergyHelper.isPowering((IEnergyTransmitter) tile, this.tile))
+                                if (tile instanceof IEnergyTransmitter && TFEnergyHelper.isPowering((IEnergyTransmitter) tile, owner))
                                 {
                                     for (int k = 0; k < afloat.length; ++k)
                                     {
@@ -431,7 +528,7 @@ public class GuiSelectReceivers extends GuiScreen
 
                                 GL11.glColor4f(afloat[0], afloat[1], afloat[2], opacity);
                             }
-                            else if (tile instanceof IEnergyTransmitter && isGrandParent(coords))
+                            else if (tile instanceof IEnergyTransmitter && TFEnergyHelper.getDescendants((IEnergyTransmitter) tile).contains(new DimensionalCoords(owner)))
                             {
                                 GL11.glColor4f(0.2F, 0, 0.2F, opacity);
                             }
@@ -464,17 +561,17 @@ public class GuiSelectReceivers extends GuiScreen
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         int direction = MathHelper.floor_double(mc.thePlayer.rotationYaw * 4F / 360F + 2.5D) & 3;
-        String[] astring = {"north", "east", "south", "west"};
-        String[] dirs = new String[astring.length];
+        String[] dirs = {"north", "east", "south", "west"};
+        String[] astring = new String[dirs.length];
 
-        for (int i = 0; i < astring.length; ++i)
+        for (int i = 0; i < dirs.length; ++i)
         {
-            dirs[i] = StatCollector.translateToLocal("ground_bridge.direction." + astring[(i + direction) % astring.length]);
+            astring[i] = StatCollector.translateToLocal("ground_bridge.direction." + dirs[(i + direction) % dirs.length]);
         }
 
-        drawCenteredString(fontRendererObj, dirs[0], baseX + (spacing + size) * boardWidth / 2, baseY - fontRendererObj.FONT_HEIGHT / 2, -1);
-        drawCenteredString(fontRendererObj, dirs[1], baseX + (spacing + size) * boardWidth, baseY + (spacing + size) * boardWidth / 2 - fontRendererObj.FONT_HEIGHT / 2, -1);
-        drawCenteredString(fontRendererObj, dirs[2], baseX + (spacing + size) * boardWidth / 2, baseY + (spacing + size) * boardWidth - fontRendererObj.FONT_HEIGHT / 2, -1);
-        drawCenteredString(fontRendererObj, dirs[3], baseX, baseY + (spacing + size) * boardWidth / 2 - fontRendererObj.FONT_HEIGHT / 2, -1);
+        drawCenteredString(fontRendererObj, astring[0], baseX + (spacing + size) * boardWidth / 2, baseY - fontRendererObj.FONT_HEIGHT / 2, -1);
+        drawCenteredString(fontRendererObj, astring[1], baseX + (spacing + size) * boardWidth, baseY + (spacing + size) * boardWidth / 2 - fontRendererObj.FONT_HEIGHT / 2, -1);
+        drawCenteredString(fontRendererObj, astring[2], baseX + (spacing + size) * boardWidth / 2, baseY + (spacing + size) * boardWidth - fontRendererObj.FONT_HEIGHT / 2, -1);
+        drawCenteredString(fontRendererObj, astring[3], baseX, baseY + (spacing + size) * boardWidth / 2 - fontRendererObj.FONT_HEIGHT / 2, -1);
     }
 }

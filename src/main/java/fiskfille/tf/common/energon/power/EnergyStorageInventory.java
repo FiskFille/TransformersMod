@@ -9,11 +9,19 @@ public class EnergyStorageInventory extends EnergyStorage
     protected final TileEntity tile;
     protected final IInventory energyInventory;
 
-    public EnergyStorageInventory(TileEntity tile, IInventory inventory)
+    public EnergyStorageInventory(TileEntity tileentity, IInventory inventory)
     {
         super(0);
-        this.tile = tile;
-        this.energyInventory = inventory;
+        tile = tileentity;
+        energyInventory = inventory;
+    }
+    
+    @Override
+    public EnergyStorageInventory copy()
+    {
+        EnergyStorageInventory storage = new EnergyStorageInventory(tile, energyInventory);
+        
+        return storage;
     }
 
     @Override

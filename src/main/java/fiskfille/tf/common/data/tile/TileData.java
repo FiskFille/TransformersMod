@@ -3,6 +3,9 @@ package fiskfille.tf.common.data.tile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageSetTileData;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.helper.TFTileHelper;
 
 public abstract class TileData
 {
@@ -16,6 +19,7 @@ public abstract class TileData
     public TileData(TileData data)
     {
         coords = DimensionalCoords.copy(data.coords);
+        init = data.init;
     }
 
     public boolean isInitialized()
@@ -50,6 +54,30 @@ public abstract class TileData
     {
         return coords;
     }
+    
+    public void serverTick()
+    {
+        if (!equals(TFTileHelper.getTileData(coords)))
+        {
+            TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(this));
+            System.out.println("Syncing " + getClass().getSimpleName() + " at " + coords);
+        }
+        
+        TFTileHelper.putServerData(this);
+    }
+    
+    public void clientTick()
+    {
+    }
+    
+    public void kill()
+    {
+        if (TFTileHelper.getTileData(coords) != null)
+        {
+            TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(coords, null));
+            TFTileHelper.putServerData(coords, null);
+        }
+    }
 
     @Override
     public final boolean equals(Object obj)
@@ -64,5 +92,5 @@ public abstract class TileData
         return false;
     }
 
-    public abstract boolean matches(TileData data);
+    public abstract boolean matches(TileData tileData);
 }

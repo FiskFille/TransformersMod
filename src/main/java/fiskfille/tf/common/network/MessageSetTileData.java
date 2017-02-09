@@ -22,8 +22,8 @@ public class MessageSetTileData implements IMessage
 
     public MessageSetTileData(DimensionalCoords coords, TileData data)
     {
-        this.tileData = data;
-        this.tileCoords = coords;
+        tileData = data;
+        tileCoords = coords;
     }
 
     public MessageSetTileData(TileData data)

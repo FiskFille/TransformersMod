@@ -182,16 +182,16 @@ public class ItemCSD extends Item
             return set(coords.toArray());
         }
 
-        public DimensionalCoords set(int[] aint)
+        public DimensionalCoords set(int... args)
         {
-            int[] aint1 = toArray();
+            int[] aint = toArray();
 
-            for (int i = 0; i < Math.min(aint.length, aint1.length); ++i)
+            for (int i = 0; i < Math.min(args.length, aint.length); ++i)
             {
-                aint1[i] = aint[i];
+                aint[i] = args[i];
             }
 
-            return set(aint1[0], aint1[1], aint1[2], aint1[3]);
+            return set(aint[0], aint[1], aint[2], aint[3]);
         }
 
         public IChatComponent getFormatted()

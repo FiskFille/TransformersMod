@@ -9,21 +9,18 @@ import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageClosePortal;
 import fiskfille.tf.common.network.MessageCloudtrapJetpack;
 import fiskfille.tf.common.network.MessageColorArmor;
+import fiskfille.tf.common.network.MessageConnectReceiver;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.MessageGroundBridgeTeleport;
 import fiskfille.tf.common.network.MessageLaserShoot;
 import fiskfille.tf.common.network.MessageOpenGui;
-import fiskfille.tf.common.network.MessageOpenSetReceiversGUI;
 import fiskfille.tf.common.network.MessagePlayerData;
 import fiskfille.tf.common.network.MessagePlayerJoin;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetPlayerData;
-import fiskfille.tf.common.network.MessageSetReceivers;
 import fiskfille.tf.common.network.MessageSetTileData;
 import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.MessageUpdateFluidState;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 
 public class TFNetworkManager
@@ -47,14 +44,11 @@ public class TFNetworkManager
         registerPacket(MessageColorArmor.Handler.class, MessageColorArmor.class);
         registerPacket(MessageControlPanelSetConfig.Handler.class, MessageControlPanelSetConfig.class);
         registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);
-        registerPacket(MessageUpdateEnergyState.Handler.class, MessageUpdateEnergyState.class);
-        registerPacket(MessageSetReceivers.Handler.class, MessageSetReceivers.class);
         registerPacket(MessageClosePortal.Handler.class, MessageClosePortal.class);
-        registerPacket(MessageUpdateFluidState.Handler.class, MessageUpdateFluidState.class);
         registerPacket(MessageOpenGui.Handler.class, MessageOpenGui.class);
-        registerPacket(MessageOpenSetReceiversGUI.Handler.class, MessageOpenSetReceiversGUI.class);
         registerPacket(MessageTileTrigger.Handler.class, MessageTileTrigger.class);
         registerPacket(MessageSetTileData.Handler.class, MessageSetTileData.class);
+        registerPacket(MessageConnectReceiver.Handler.class, MessageConnectReceiver.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

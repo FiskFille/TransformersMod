@@ -54,7 +54,7 @@ public class GuiHandlerTF implements IGuiHandler
 
             DimensionalCoords coords = new DimensionalCoords(x, y, z, dimension);
 
-            if (world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
+            if (tfGui.containerBlock == null || world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
             {
                 int[] aint = coords.toArray();
                 int integer = 0;
@@ -140,7 +140,7 @@ public class GuiHandlerTF implements IGuiHandler
 
             DimensionalCoords coords = new DimensionalCoords(x, y, z, dimension);
 
-            if (world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
+            if (tfGui.containerBlock == null || world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
             {
                 int[] aint = coords.toArray();
                 int integer = 0;
@@ -226,6 +226,7 @@ public class GuiHandlerTF implements IGuiHandler
         public static TFGui ENERGON_TRANSMITTER;
         public static TFGui ENERGY_COLUMN;
         public static TFGui GROUND_BRIDGE_REMOTE;
+        public static TFGui RECEIVER_NETWORK;
 
         public final int guiId;
         private final Block containerBlock;
@@ -273,6 +274,7 @@ public class GuiHandlerTF implements IGuiHandler
             ENERGON_TRANSMITTER = new TFGui(TFBlocks.transmitter, ContainerTransmitter.class, "fiskfille.tf.client.gui.GuiTransmitter", InventoryPlayer.class, TileEntityTransmitter.class);
             ENERGY_COLUMN = new TFGui(TFBlocks.energyColumn, ContainerColumn.class, "fiskfille.tf.client.gui.GuiColumn", InventoryPlayer.class, TileEntityColumn.class);
             GROUND_BRIDGE_REMOTE = new TFGui(TFBlocks.groundBridgeControlPanel, ContainerGroundBridge.class, "fiskfille.tf.client.gui.GuiGroundBridge", new Class[] {InventoryPlayer.class, InventoryGroundBridge.class, DimensionalCoords.class}, new Class[] {InventoryPlayer.class, InventoryGroundBridge.class});
+            RECEIVER_NETWORK = new TFGui(null, null, "fiskfille.tf.client.gui.GuiSelectReceivers", TileEntity.class);
         }
 
         public void open(EntityPlayer player, TileEntity tile)

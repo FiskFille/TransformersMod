@@ -10,7 +10,7 @@ import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.GroundBridgeError.ErrorContainer;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 
-public class TileDataControlPanel extends TileData
+public class TileDataControlPanel extends TileDataEnergyContainer
 {
     public DimensionalCoords framePos;
     public DimensionalCoords destination = new DimensionalCoords();
@@ -22,12 +22,9 @@ public class TileDataControlPanel extends TileData
     public List<DataCore> upgrades = Lists.newArrayList();
     public List<ErrorContainer> errors = Lists.newArrayList();
 
-    private float energy;
-    private float energyUsage;
-    private float maxEnergy;
-
     public TileDataControlPanel()
     {
+        super(64000);
     }
 
     public TileDataControlPanel(TileDataControlPanel data)
@@ -41,9 +38,6 @@ public class TileDataControlPanel extends TileData
         activationLeverState = data.activationLeverState;
         upgrades = Lists.newArrayList(data.upgrades);
         errors = Lists.newArrayList(data.errors);
-        energy = data.energy;
-        energyUsage = data.energyUsage;
-        maxEnergy = data.maxEnergy;
     }
 
     @Override
@@ -54,9 +48,6 @@ public class TileDataControlPanel extends TileData
         buf.writeByte(direction & 0xFF);
         buf.writeByte(frameDirection & 0xFF);
         buf.writeBoolean(activationLeverState);
-        buf.writeFloat(energy);
-        buf.writeFloat(energyUsage);
-        buf.writeFloat(maxEnergy);
         buf.writeByte(upgrades.size() & 0xFF);
 
         for (DataCore core : upgrades)
@@ -92,9 +83,6 @@ public class TileDataControlPanel extends TileData
         direction = buf.readByte() & 0xFF;
         frameDirection = buf.readByte() & 0xFF;
         activationLeverState = buf.readBoolean();
-        energy = buf.readFloat();
-        energyUsage = buf.readFloat();
-        maxEnergy = buf.readFloat();
 
         upgrades = Lists.newArrayList();
         int upgradeCount = buf.readByte() & 0xFF;
@@ -132,51 +120,6 @@ public class TileDataControlPanel extends TileData
         destination.fromBytes(buf);
     }
 
-    public void updateEnergy()
-    {
-//        energy += energyUsage;
-//
-//        if (energy < 0)
-//        {
-//            energy = 0;
-//        }
-//
-//        if (energy > maxEnergy)
-//        {
-//            energy = maxEnergy;
-//        }
-    }
-
-    public float getEnergy()
-    {
-        return energy;
-    }
-
-    public float getEnergyUsage()
-    {
-        return energyUsage;
-    }
-
-    public float getMaxEnergy()
-    {
-        return maxEnergy;
-    }
-
-    public void setEnergy(float f)
-    {
-        energy = f;
-    }
-
-    public void setEnergyUsage(float f)
-    {
-        energyUsage = f;
-    }
-
-    public void setMaxEnergy(float f)
-    {
-        maxEnergy = f;
-    }
-
     public boolean hasUpgrade(DataCore core)
     {
         return upgrades.contains(core);
@@ -190,7 +133,6 @@ public class TileDataControlPanel extends TileData
             TileDataControlPanel data = (TileDataControlPanel) tileData;
             boolean frameEquals = data.framePos == null && framePos == null || data.framePos != null && data.framePos.equals(framePos);
             boolean destinationEquals = data.destination.equals(destination) && data.modifiedDestY == modifiedDestY;
-            boolean energyEquals = data.maxEnergy == maxEnergy && energyUsage == data.energyUsage;
             boolean errorsEqual = data.errors.size() == errors.size();
 
             if (errorsEqual)
@@ -219,7 +161,7 @@ public class TileDataControlPanel extends TileData
                 }
             }
 
-            return frameEquals && coresEqual && errorsEqual && destinationEquals && data.activationLeverState == activationLeverState && data.direction == direction && data.frameDirection == frameDirection && energyEquals;
+            return super.matches(data) && frameEquals && coresEqual && errorsEqual && destinationEquals && data.activationLeverState == activationLeverState && data.direction == direction && data.frameDirection == frameDirection;
         }
 
         return false;

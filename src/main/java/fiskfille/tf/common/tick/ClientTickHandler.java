@@ -1,6 +1,7 @@
 package fiskfille.tf.common.tick;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -18,10 +19,13 @@ import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.render.entity.EntityRendererTF;
 import fiskfille.tf.client.tutorial.TutorialHandler;
 import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.data.tile.TileData;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class ClientTickHandler
 {
@@ -113,6 +117,14 @@ public class ClientTickHandler
                 for (EntityPlayer player : (List<EntityPlayer>) mc.theWorld.playerEntities)
                 {
                     TFRenderHelper.updateMotionY(player);
+                }
+                
+                if (!mc.theWorld.isRemote && mc.isGamePaused())
+                {
+                    for (Map.Entry<DimensionalCoords, TileData> e : TFTileHelper.getTileData().entrySet())
+                    {
+                        e.getValue().clientTick();
+                    }
                 }
             }
         }

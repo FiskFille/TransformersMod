@@ -4,8 +4,6 @@ import net.minecraft.util.Vec3;
 
 public interface IEnergyTransmitter extends IEnergyContainer
 {
-    ReceiverHandler getReceiverHandler();
-
     TransmissionHandler getTransmissionHandler();
 
     float getTransmissionRate();

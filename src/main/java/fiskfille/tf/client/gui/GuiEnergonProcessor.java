@@ -23,6 +23,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFRenderHelper;
@@ -49,10 +50,11 @@ public class GuiEnergonProcessor extends GuiContainerTF
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
 
-        FluidStack stack = tileentity.tank.getFluid();
+        FluidTankTF tank = tileentity.getTank();
+        FluidStack stack = tank.getFluid();
+        
         ArrayList text = Lists.newArrayList();
         ArrayList colors = Lists.newArrayList();
-        int liquidAmount = stack != null ? stack.amount : 0;
 
         if (stack != null && stack.amount > 0)
         {
@@ -84,7 +86,7 @@ public class GuiEnergonProcessor extends GuiContainerTF
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(liquidAmount), TFFormatHelper.formatNumber(tileentity.tank.getCapacity())));
+        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(tank.getFluidAmount()), TFFormatHelper.formatNumber(tank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();
@@ -125,13 +127,13 @@ public class GuiEnergonProcessor extends GuiContainerTF
             drawTexturedModalRect(x + 25, y + 48 - i, 176, 12 - i, 14, i + 2);
         }
 
-        FluidStack stack = tileentity.tank.getFluid();
+        FluidStack stack = tileentity.getTank().getFluid();
 
         if (stack != null && stack.amount > 0)
         {
             mc.getTextureManager().bindTexture(mc.getTextureMapBlocks().locationBlocksTexture);
             float[] rgb = TFRenderHelper.hexToRGB(stack.getFluid().getColor(stack));
-            float f = (float) stack.amount / tileentity.tank.getCapacity();
+            float f = (float) stack.amount / tileentity.getTank().getCapacity();
 
             GL11.glPushMatrix();
             GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);

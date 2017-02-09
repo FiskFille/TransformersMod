@@ -22,7 +22,7 @@ public class RenderEnergonTank extends TileEntitySpecialRenderer
     public void render(TileEntityEnergonTank tile, double x, double y, double z, float partialTicks)
     {
         World world = tile.getWorldObj();
-        FluidStack stack = tile.tank.getFluid();
+        FluidStack stack = tile.data.getFluid();
 
         if (stack == null || stack.getFluid() == null || stack.amount <= 0)
         {
@@ -91,7 +91,7 @@ public class RenderEnergonTank extends TileEntitySpecialRenderer
         GL11.glScalef(scale, scaleY, scale);
         GL11.glTranslatef(-0.5F, -0.5F - scaleOffset, -0.5F);
 
-        int dl = (int) ((float) stack.amount / tile.tank.getCapacity() * (TFFluidRenderHelper.DISPLAY_STAGES - 1));
+        int dl = (int) ((float) stack.amount / tile.data.getCapacity() * (TFFluidRenderHelper.DISPLAY_STAGES - 1));
         GL11.glCallList(displayList[MathHelper.clamp_int(dl, 0, TFFluidRenderHelper.DISPLAY_STAGES - 1)]);
         GL11.glPopAttrib();
         GL11.glPopMatrix();

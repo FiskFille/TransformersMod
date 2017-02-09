@@ -381,7 +381,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
             }
         }
 
-        world.setBlockMetadataWithNotify(x, y + 2, z, metadata + 1, 2);
+        world.setBlockMetadataWithNotify(x, y + 3, z, metadata + 1, 2);
     }
 
     public static void fillEastFacingFrame(World world, int x, int y, int z, Block block, TileEntityControlPanel tile, boolean returnPortal)
@@ -427,7 +427,7 @@ public class BlockGroundBridgeTeleporter extends BlockBreakable implements ITile
             }
         }
 
-        world.setBlockMetadataWithNotify(x, y + 2, z, metadata + 1, 2);
+        world.setBlockMetadataWithNotify(x, y + 3, z, metadata + 1, 2);
     }
 
     @Override

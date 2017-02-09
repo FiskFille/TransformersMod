@@ -15,6 +15,4 @@ public interface IEnergyContainer
     float getEnergyUsage();
 
     void setEnergyUsage(float usage);
-
-    void updateClientEnergy();
 }

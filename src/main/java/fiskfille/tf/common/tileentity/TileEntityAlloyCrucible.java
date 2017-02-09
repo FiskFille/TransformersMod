@@ -1,18 +1,9 @@
 package fiskfille.tf.common.tileentity;
 
-import com.google.common.collect.Lists;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.common.energon.power.EnergyStorage;
-import fiskfille.tf.common.energon.power.IEnergyReceiver;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.network.MessageTileTrigger.ITileDataCallback;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.common.recipe.AlloyRecipes;
-import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
-import fiskfille.tf.helper.TFEnergyHelper;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -23,9 +14,19 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.Constants.NBT;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.data.tile.TileData;
+import fiskfille.tf.common.data.tile.TileDataEnergyContainer;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.ReceiverHandler;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageTileTrigger.ITileDataCallback;
+import fiskfille.tf.common.recipe.AlloyRecipes;
+import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class TileEntityAlloyCrucible extends TileEntityContainer implements IEnergyReceiver, ISidedInventory, ITileDataCallback
 {
@@ -33,7 +34,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     private static final int[] slotsSides = new int[] {0, 1, 2};
 
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
-    public EnergyStorage storage = new EnergyStorage(32000);
+    public TileDataEnergyContainer data = new TileDataEnergyContainer(32000);
 
     public ItemStack[] inventory = new ItemStack[4];
     public EnumSmeltingMode smeltingMode = EnumSmeltingMode.ALLOY;
@@ -41,21 +42,19 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     public boolean alloyResult;
     public int smeltTime;
 
-    public float lastUsage;
-
     public boolean renderOverlay = false;
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
-        receiverHandler.onUpdate(worldObj);
-
-        if (worldObj.isRemote)
+        
+        if (!data.isInitialized())
         {
-            TFEnergyHelper.applyClientEnergyUsage(this);
+            data.initialize(this);
         }
-        else
+
+        if (!worldObj.isRemote)
         {
             if (canSmelt())
             {
@@ -73,16 +72,33 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             {
                 smeltTime = 0;
             }
-
-            float usage = storage.calculateUsage();
-
-            if (Math.abs(usage - lastUsage) > 0.001F)
-            {
-                updateClientEnergy();
-            }
-
-            lastUsage = usage;
+            
+            data.serverTick();
         }
+        
+        TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
+        
+        if (prevData instanceof TileDataEnergyContainer)
+        {
+            data = new TileDataEnergyContainer((TileDataEnergyContainer) prevData);
+        }
+    }
+    
+    @Override
+    public void invalidate()
+    {
+        super.invalidate();
+
+        if (!worldObj.isRemote)
+        {
+            data.kill();
+        }
+    }
+    
+    @Override
+    public String getInventoryName()
+    {
+        return "gui.alloy_crucible";
     }
 
     @Override
@@ -280,12 +296,10 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
         smeltingMode = EnumSmeltingMode.values()[MathHelper.clamp_int(nbt.getByte("Mode"), 0, EnumSmeltingMode.values().length - 1)];
         smeltTime = nbt.getShort("SmeltTime");
 
-        receiverHandler.readFromNBT(nbt);
-
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
             NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
-            storage.readFromNBT(config);
+            data.storage.readFromNBT(config);
         }
     }
 
@@ -296,12 +310,10 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
         nbt.setByte("Mode", (byte) smeltingMode.ordinal());
         nbt.setShort("SmeltTime", (short) smeltTime);
 
-        receiverHandler.writeToNBT(nbt);
-
-        if (storage.getEnergy() > 0)
+        if (data.storage.getEnergy() > 0)
         {
             NBTTagCompound config = new NBTTagCompound();
-            storage.writeToNBT(config);
+            data.storage.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }
     }
@@ -309,43 +321,43 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     @Override
     public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount, simulate);
+        return data.storage.add(amount, simulate);
     }
 
     @Override
     public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount, simulate);
+        return data.storage.remove(amount, simulate);
     }
 
     @Override
     public float getEnergy()
     {
-        return storage.getEnergy();
+        return data.storage.getEnergy();
     }
 
     @Override
     public float getMaxEnergy()
     {
-        return storage.getMaxEnergy();
+        return data.storage.getMaxEnergy();
     }
 
     @Override
     public float setEnergy(float energy)
     {
-        return storage.set(energy);
+        return data.storage.set(energy);
     }
 
     @Override
     public float getEnergyUsage()
     {
-        return storage.getUsage();
+        return data.storage.getUsage();
     }
 
     @Override
     public void setEnergyUsage(float usage)
     {
-        storage.setUsage(usage);
+        data.storage.setUsage(usage);
     }
 
     @Override
@@ -370,19 +382,6 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     public int getMapColor()
     {
         return 0xFF0000;
-    }
-
-    @Override
-    public String getInventoryName()
-    {
-        return "gui.alloy_crucible";
-    }
-
-    @Override
-    public void updateClientEnergy()
-    {
-        NetworkRegistry.TargetPoint target = new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5F, yCoord, zCoord + 0.5F, 128);
-        TFNetworkManager.networkWrapper.sendToAllAround(new MessageUpdateEnergyState(this), target);
     }
 
     @Override

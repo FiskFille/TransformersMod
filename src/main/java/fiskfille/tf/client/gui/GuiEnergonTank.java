@@ -24,7 +24,6 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerEnergonTank;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
-import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFRenderHelper;
@@ -46,22 +45,28 @@ public class GuiEnergonTank extends GuiContainerTF
 
     public void updateFluids()
     {
-        FluidStack stack = new FluidStack(TFFluids.energon, 0);
         TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(tileentity);
+        FluidStack stack = null;
         int y = tileBase.yCoord;
         int capacity = 0;
 
         while (y < tileentity.getWorldObj().getHeight() && TFTileHelper.getTileBase(tileentity.getWorldObj().getTileEntity(tileentity.xCoord, y, tileentity.zCoord)) == tileBase)
         {
             TileEntityEnergonTank tile = (TileEntityEnergonTank) tileentity.getWorldObj().getTileEntity(tileentity.xCoord, y, tileentity.zCoord);
-            capacity += tile.getTank().getCapacity();
-
-            if (tile.getTank().getFluid() != null)
+            FluidTank tank = tile.getTank();
+            
+            if (stack == null && tank.getFluid() != null)
             {
-                FluidEnergon.merge(stack, tile.getTank().getFluid(), tile.getTank().getFluidAmount());
-                stack.amount += tile.getTank().getFluidAmount();
+                stack = tank.getFluid().copy();
+                stack.amount = 0;
             }
-
+            
+            if (stack != null)
+            {
+                stack.amount += tank.getFluidAmount();
+            }
+            
+            capacity += tank.getCapacity();
             ++y;
         }
 
@@ -94,7 +99,7 @@ public class GuiEnergonTank extends GuiContainerTF
         ArrayList text = Lists.newArrayList();
         ArrayList colors = Lists.newArrayList();
 
-        if (stack.amount > 0)
+        if (stack != null && stack.amount > 0)
         {
             Map<String, Float> ratios = FluidEnergon.getRatios(stack);
             boolean flag = false;
@@ -124,7 +129,7 @@ public class GuiEnergonTank extends GuiContainerTF
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(stack.amount), TFFormatHelper.formatNumber(fluidTank.getCapacity())));
+        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(fluidTank.getFluidAmount()), TFFormatHelper.formatNumber(fluidTank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();
@@ -161,7 +166,7 @@ public class GuiEnergonTank extends GuiContainerTF
 
         FluidStack stack = fluidTank.getFluid();
 
-        if (stack.amount > 0)
+        if (stack != null && stack.amount > 0)
         {
             mc.getTextureManager().bindTexture(mc.getTextureMapBlocks().locationBlocksTexture);
             float[] rgb = TFRenderHelper.hexToRGB(stack.getFluid().getColor(stack));

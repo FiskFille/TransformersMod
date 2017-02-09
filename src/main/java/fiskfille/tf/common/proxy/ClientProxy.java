@@ -195,30 +195,30 @@ public class ClientProxy extends CommonProxy
         }
     }
 
-    @Override
-    public void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
-    {
-        if (mc.thePlayer == player)
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
-        }
-    }
-
-    @Override
-    public void updateReceivers(TileEntity tileEntity, List<ChunkCoordinates> grandparents)
-    {
-        super.updateReceivers(tileEntity, grandparents);
-
-        GuiScreen screen = mc.currentScreen;
-
-        if (screen instanceof GuiSelectReceivers)
-        {
-            GuiSelectReceivers receivers = (GuiSelectReceivers) screen;
-
-            if (receivers.tile.xCoord == tileEntity.xCoord && receivers.tile.yCoord == tileEntity.yCoord && receivers.tile.zCoord == tileEntity.zCoord)
-            {
-                receivers.update(tileEntity, grandparents);
-            }
-        }
-    }
+//    @Override
+//    public void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
+//    {
+//        if (mc.thePlayer == player)
+//        {
+//            Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
+//        }
+//    }
+//
+//    @Override
+//    public void updateReceivers(TileEntity tileEntity, List<ChunkCoordinates> grandparents)
+//    {
+//        super.updateReceivers(tileEntity, grandparents);
+//
+//        GuiScreen screen = mc.currentScreen;
+//
+//        if (screen instanceof GuiSelectReceivers)
+//        {
+//            GuiSelectReceivers receivers = (GuiSelectReceivers) screen;
+//
+//            if (receivers.owner.xCoord == tileEntity.xCoord && receivers.owner.yCoord == tileEntity.yCoord && receivers.owner.zCoord == tileEntity.zCoord)
+//            {
+//                receivers.update(tileEntity, grandparents);
+//            }
+//        }
+//    }
 }

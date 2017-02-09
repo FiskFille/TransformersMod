@@ -6,23 +6,24 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import fiskfille.tf.common.data.tile.TileData;
+import fiskfille.tf.common.data.tile.TileDataEnergonTank;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.fluid.FluidEnergon;
 import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageUpdateFluidState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.recipe.PowerManager;
-import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFTileHelper;
 
 public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandlerTF, ISidedInventory
 {
@@ -30,8 +31,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     private static final int[] slotsBottom = {2};
     private static final int[] slotsSides = {0, 2};
 
-    public FluidTankTF tank = new FluidTankTF(2000);
-
+    public TileDataEnergonTank data = new TileDataEnergonTank(2000);
     private ItemStack[] inventory = new ItemStack[3];
 
     public int burnTime;
@@ -41,8 +41,6 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     public float animationTimer;
     public float prevAnimationTimer;
     public int animationBurnTime;
-
-    public int lastFluidUsage;
 
     @Override
     public void updateEntity()
@@ -65,6 +63,11 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         {
             animationTimer = 1.0F;
         }
+        
+        if (!data.isInitialized())
+        {
+            data.initialize(this);
+        }
 
         ItemStack power = getStackInSlot(0);
         ItemStack crystal = getStackInSlot(1);
@@ -82,8 +85,6 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
             markDirty();
         }
 
-        boolean updated = false;
-
         if (powerTime > 0 && canProcessCrystal(crystal))
         {
             if (burnTime < 200)
@@ -92,7 +93,6 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
             }
             else if (addContents(crystal))
             {
-                updated = true;
                 decrStackSize(1, 1);
                 burnTime = 0;
 
@@ -105,7 +105,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
             --burnTime;
         }
 
-        if (tank.getFluidAmount() > 0 && canister != null && canister.getItem() instanceof IFluidContainerItem && (ItemFuelCanister.isEmpty(canister) || ItemFuelCanister.getContainerFluid(canister).getFluid() == TFFluids.energon && !ItemFuelCanister.isFull(canister)))
+        if (data.getFluidAmount() > 0 && canister != null && canister.getItem() instanceof IFluidContainerItem && (ItemFuelCanister.isEmpty(canister) || ItemFuelCanister.getContainerFluid(canister).getFluid() == TFFluids.energon && !ItemFuelCanister.isFull(canister)))
         {
             if (fillTime < 100)
             {
@@ -116,8 +116,6 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
                 if (!worldObj.isRemote)
                 {
                     fillCanister(canister);
-                    updateClientFluid();
-                    updated = true;
                 }
 
                 fillTime = 0;
@@ -128,25 +126,21 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
             --fillTime;
         }
 
-        if (tank.getFluid() != null && tank.getFluidAmount() == 0)
+        if (data.getFluid() != null && data.getFluidAmount() == 0)
         {
-            tank.setFluid(null);
+            data.setFluid(null);
         }
 
         if (!worldObj.isRemote)
         {
-            int fluidUsage = tank.calculateUsage();
-
-            if (fluidUsage != lastFluidUsage && !updated)
-            {
-                updateClientFluid();
-            }
-
-            lastFluidUsage = fluidUsage;
+            data.serverTick();
         }
-        else
+        
+        TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
+
+        if (prevData instanceof TileDataEnergonTank)
         {
-            TFHelper.applyClientFluidUsage(this);
+            data = new TileDataEnergonTank((TileDataEnergonTank) prevData);
         }
     }
 
@@ -155,7 +149,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         if (fluidContainer.getItem() instanceof IFluidContainerItem)
         {
             IFluidContainerItem item = (IFluidContainerItem) fluidContainer.getItem();
-            int amount = Math.min(tank.getFluidAmount(), item.getCapacity(fluidContainer) - ItemFuelCanister.getFluidAmount(fluidContainer));
+            int amount = Math.min(data.getFluidAmount(), item.getCapacity(fluidContainer) - ItemFuelCanister.getFluidAmount(fluidContainer));
 
             FluidStack stack = item.getFluid(fluidContainer);
 
@@ -165,7 +159,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
             }
 
             FluidStack stack1 = new FluidStack(TFFluids.energon, amount);
-            FluidEnergon.setRatios(stack1, FluidEnergon.getRatios(tank.getFluid()));
+            FluidEnergon.setRatios(stack1, FluidEnergon.getRatios(data.getFluid()));
             NBTTagCompound prevNBT = stack1.tag;
 
             stack1.tag = stack.tag;
@@ -192,12 +186,12 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     {
         if (!worldObj.isRemote)
         {
-            FluidStack stack = tank.getFluid();
+            FluidStack stack = data.getFluid();
 
             if (stack == null)
             {
-                tank.setFluid(new FluidStack(TFFluids.energon, 0));
-                stack = tank.getFluid();
+                data.setFluid(new FluidStack(TFFluids.energon, 0));
+                stack = data.getFluid();
             }
 
             if (stack.getFluid() == TFFluids.energon)
@@ -231,13 +225,24 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         {
             IEnergon ienergon = (IEnergon) (itemstack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(itemstack.getItem()) : itemstack.getItem());
 
-            if (tank.getFluidAmount() + ienergon.getMass() <= tank.getCapacity())
+            if (data.getFluidAmount() + ienergon.getMass() <= data.getCapacity())
             {
                 return true;
             }
         }
 
         return false;
+    }
+    
+    @Override
+    public void invalidate()
+    {
+        super.invalidate();
+
+        if (!worldObj.isRemote)
+        {
+            data.kill();
+        }
     }
 
     @Override
@@ -261,24 +266,24 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
-        return tank.fill(resource, doFill);
+        return data.tank.fill(resource, doFill);
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
     {
-        if (resource == null || !resource.isFluidEqual(tank.getFluid()))
+        if (resource == null || !resource.isFluidEqual(data.getFluid()))
         {
             return null;
         }
 
-        return tank.drain(resource.amount, doDrain);
+        return data.tank.drain(resource.amount, doDrain);
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
     {
-        return tank.drain(maxDrain, doDrain);
+        return data.tank.drain(maxDrain, doDrain);
     }
 
     @Override
@@ -296,7 +301,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from)
     {
-        return new FluidTankInfo[] {tank.getInfo()};
+        return new FluidTankInfo[] {data.tank.getInfo()};
     }
 
     @Override
@@ -317,7 +322,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
             NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
-            tank.readFromNBT(config);
+            data.tank.readFromNBT(config);
         }
     }
 
@@ -330,10 +335,10 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         nbt.setInteger("FillTime", fillTime);
         nbt.setInteger("MaxPowerTime", currentMaxPowerTime);
 
-        if (tank.getFluid() != null && tank.getFluidAmount() > 0)
+        if (data.getFluid() != null && data.getFluidAmount() > 0)
         {
             NBTTagCompound config = new NBTTagCompound();
-            tank.writeToNBT(config);
+            data.tank.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }
     }
@@ -366,12 +371,6 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public FluidTankTF getTank()
     {
-        return tank;
-    }
-
-    @Override
-    public void updateClientFluid()
-    {
-        TFNetworkManager.networkWrapper.sendToDimension(new MessageUpdateFluidState(this), this.worldObj.provider.dimensionId);
+        return data.tank;
     }
 }

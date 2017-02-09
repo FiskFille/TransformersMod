@@ -27,7 +27,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
 import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
@@ -37,7 +36,6 @@ import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
 import fiskfille.tf.common.data.tile.TileData;
 import fiskfille.tf.common.data.tile.TileDataControlPanel;
-import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.groundbridge.DataCore;
@@ -45,13 +43,9 @@ import fiskfille.tf.common.groundbridge.GroundBridgeError;
 import fiskfille.tf.common.groundbridge.GroundBridgeError.ErrorContainer;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.network.MessageSetTileData;
 import fiskfille.tf.common.network.MessageTileTrigger.ITileDataCallback;
-import fiskfille.tf.common.network.MessageUpdateEnergyState;
-import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFDimensionHelper;
-import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFMathHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
@@ -61,8 +55,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     public Integer[][] switches = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-
-    public EnergyStorage storage = new EnergyStorage(64000);
+    
+    public TileDataControlPanel data = new TileDataControlPanel();
     private ItemStack[] inventory = new ItemStack[3];
 
     public float animPortalDirection;
@@ -79,15 +73,12 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
     public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket) null, (Ticket) null));
     public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk) null, (ForcedChunk) null));
-    public TileDataControlPanel data = new TileDataControlPanel();
 
     @Override
     public void updateEntity()
     {
         if (BlockControlPanel.isBlockLeftSideOfPanel(getBlockMetadata()))
         {
-            receiverHandler.onUpdate(worldObj);
-
             if (!data.isInitialized())
             {
                 data.initialize(this);
@@ -239,11 +230,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                     }
                 }
 
-                if (!data.equals(TFTileHelper.getTileData(new DimensionalCoords(this))))
-                {
-                    TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(data));
-                    TFTileHelper.putServerData(data);
-                }
+                data.serverTick();
             }
             else
             {
@@ -305,24 +292,6 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
                     animPortalDirection -= 4;
                     prevAnimPortalDirection -= 4;
                 }
-            }
-
-            // TODO: Sync energy through TileData instead
-
-            if (worldObj.isRemote)
-            {
-                TFEnergyHelper.applyClientEnergyUsage(this);
-            }
-            else
-            {
-                float usage = storage.calculateUsage();
-
-                if (Math.abs(usage - lastUsage) > 0.001F)
-                {
-                    updateClientEnergy();
-                }
-
-                lastUsage = usage;
             }
 
             TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
@@ -675,12 +644,10 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
             data.framePos = new DimensionalCoords(nbt.getInteger("FrameX"), nbt.getInteger("FrameY"), nbt.getInteger("FrameZ"), nbt.getInteger("FrameDim"));
         }
 
-        receiverHandler.readFromNBT(nbt);
-
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
             NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
-            storage.readFromNBT(config);
+            data.storage.readFromNBT(config);
         }
 
         if (nbt.hasKey("Switches"))
@@ -719,12 +686,10 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
             nbt.setInteger("FrameDim", data.framePos.dimension);
         }
 
-        receiverHandler.writeToNBT(nbt);
-
-        if (storage.getEnergy() > 0)
+        if (data.storage.getEnergy() > 0)
         {
             NBTTagCompound config = new NBTTagCompound();
-            storage.writeToNBT(config);
+            data.storage.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }
 
@@ -779,43 +744,43 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount, simulate);
+        return data.storage.add(amount, simulate);
     }
 
     @Override
     public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount, simulate);
+        return data.storage.remove(amount, simulate);
     }
 
     @Override
     public float getEnergy()
     {
-        return storage.getEnergy();
+        return data.storage.getEnergy();
     }
 
     @Override
     public float getMaxEnergy()
     {
-        return storage.getMaxEnergy();
+        return data.storage.getMaxEnergy();
     }
 
     @Override
     public float setEnergy(float energy)
     {
-        return storage.set(energy);
+        return data.storage.set(energy);
     }
 
     @Override
     public float getEnergyUsage()
     {
-        return storage.getUsage();
+        return data.storage.getUsage();
     }
 
     @Override
     public void setEnergyUsage(float usage)
     {
-        storage.setUsage(usage);
+        data.storage.setUsage(usage);
     }
 
     @Override
@@ -847,27 +812,14 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     }
 
     @Override
-    public void updateClientEnergy()
-    {
-        NetworkRegistry.TargetPoint target = new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5F, yCoord, zCoord + 0.5F, 128);
-        TFNetworkManager.networkWrapper.sendToAllAround(new MessageUpdateEnergyState(this), target);
-    }
-
-    @Override
     public void invalidate()
     {
         super.invalidate();
 
         if (!worldObj.isRemote)
         {
-            DimensionalCoords coords = new DimensionalCoords(this);
-
-            if (TFTileHelper.getTileData(coords) != null)
-            {
-                TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(coords, null));
-                TFTileHelper.putServerData(coords, null);
-            }
-
+            data.kill();
+            
             releaseChunk(0);
             releaseChunk(1);
         }

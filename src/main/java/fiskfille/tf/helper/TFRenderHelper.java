@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -32,13 +31,14 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
-import fiskfille.tf.common.energon.power.ReceiverHandler;
-import fiskfille.tf.common.energon.power.TargetReceiver;
-import fiskfille.tf.common.energon.power.TargetingTransmitter;
+import fiskfille.tf.common.energon.power.ReceiverEntry;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tick.ClientTickHandler;
+import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRenderHelper
@@ -216,17 +216,35 @@ public class TFRenderHelper
 
         IEnergyTransmitter transmitter = (IEnergyTransmitter) transmitterTile;
         TransmissionHandler transmissionHandler = transmitter.getTransmissionHandler();
-        ReceiverHandler receiverHandler = transmitter.getReceiverHandler();
+        
         Vec3 outOffset = transmitter.getEnergyOutputOffset();
-
-        if (transmitter.getEnergy() > 0 || !receiverHandler.getTransmitters().isEmpty())
+        boolean flag = false;
+        
+        if (transmitterTile instanceof TileEntityRelayTower)
         {
-            for (TargetReceiver target : transmissionHandler.getReceivers())
+            TileEntityRelayTower relay = (TileEntityRelayTower) transmitterTile;
+            flag = relay.data.isPowered;
+        }
+        else
+        {
+            flag = transmitter.getEnergy() > 0;
+        }
+        
+        if (flag)
+        {
+            for (ReceiverEntry entry : transmissionHandler.getReceivers())
             {
-                ChunkCoordinates coordinates = target.getCoordinates();
+                TileEntity receiverTile = entry.getTile();
+                IEnergyReceiver receiver = entry.getReceiver();
+                DimensionalCoords coords = entry.getCoords();
 
+                if (receiverTile == null)
+                {
+                    continue;
+                }
+                
                 Vec3 src = outOffset.addVector(transmitterTile.xCoord + 0.5F, transmitterTile.yCoord + 0.5F, transmitterTile.zCoord + 0.5F);
-                Vec3 dst = target.getEnergyInputOffset().addVector(coordinates.posX + 0.5F, coordinates.posY + 0.5F, coordinates.posZ + 0.5F);
+                Vec3 dst = receiver.getEnergyInputOffset().addVector(coords.posX + 0.5F, coords.posY + 0.5F, coords.posZ + 0.5F);
 
                 double d = 1F / dst.distanceTo(src);
                 src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
@@ -255,28 +273,15 @@ public class TFRenderHelper
                 float[] parentSecondary = secondary;
                 int segments = MathHelper.floor_double(length * 8);
 
-                if (!TFEnergyHelper.canPowerReach(transmitterTile, target) || !receiverHandler.canReach() && transmitter.getEnergy() + transmitter.getEnergyUsage() <= 0)
+                if (!entry.canReach())
                 {
                     primary = TFRenderHelper.hexToRGB(0xAF5B57);
                     secondary = TFRenderHelper.hexToRGB(0xF8817B);
                 }
-                else if (target.getReceiver() != null && !(target.getTile() instanceof IEnergyTransmitter))
+                else if (!(receiverTile instanceof IEnergyTransmitter) && receiver.getEnergy() >= receiver.getMaxEnergy())
                 {
-                    float f = target.getReceiver().getEnergy();
-
-                    for (TargetingTransmitter parent : target.getReceiver().getReceiverHandler().getTransmitters())
-                    {
-                        if (parent != null && parent.getTransmitter() != null)
-                        {
-                            f += parent.getTransmitter().getTransmissionRate() / parent.getTransmitter().getTransmissionHandler().getReceivers().size();
-                        }
-                    }
-
-                    if (f >= target.getReceiver().getMaxEnergy())
-                    {
-                        primary = TFRenderHelper.hexToRGB(0x62AF57);
-                        secondary = TFRenderHelper.hexToRGB(0x8AF87B);
-                    }
+                    primary = TFRenderHelper.hexToRGB(0x62AF57);
+                    secondary = TFRenderHelper.hexToRGB(0x8AF87B);
                 }
 
                 GL11.glPushMatrix();

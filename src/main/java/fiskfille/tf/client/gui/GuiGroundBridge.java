@@ -1,19 +1,21 @@
 package fiskfille.tf.client.gui;
 
 import java.awt.Rectangle;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,6 +27,7 @@ import fiskfille.tf.common.data.tile.TileDataControlPanel;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.groundbridge.GroundBridgeError.ErrorContainer;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.base.TFNetworkManager;
@@ -107,7 +110,6 @@ public class GuiGroundBridge extends GuiContainerTF
             return;
         }
 
-        data.updateEnergy();
         int[] newDestination = data.destination.toArray();
 
         for (int i = 0; i < coordinateFields.length; ++i)
@@ -253,27 +255,27 @@ public class GuiGroundBridge extends GuiContainerTF
         String destDimension = String.valueOf(data.destination.dimension);
         fontRendererObj.drawString(destDimension, (buttonDimLeft.xPosition + buttonDimRight.xPosition + buttonDimRight.width - fontRendererObj.getStringWidth(destDimension)) / 2 - x, (buttonDimLeft.yPosition + buttonDimLeft.height / 2 + buttonDimRight.yPosition + buttonDimRight.height / 2 - fontRendererObj.FONT_HEIGHT + 1) / 2 + 1 - y, -1);
 
-        // GL11.glDisable(GL11.GL_LIGHTING);
-        // GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        // GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        // GL11.glEnable(GL11.GL_LIGHTING);
-        // GL11.glEnable(GL11.GL_BLEND);
-        //
-        // for (int i = 0; i < 3; ++i)
-        // {
-        // ItemStack stack = data.getStackInSlot(i);
-        //
-        // if (stack != null)
-        // {
-        // itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, 116 + i * 18, 28);
-        // }
-        // }
-        //
-        // GL11.glDisable(GL11.GL_BLEND);
-        // GL11.glDisable(GL11.GL_LIGHTING);
-        // GL11.glDepthMask(true);
-        // GL11.glEnable(GL11.GL_DEPTH_TEST);
-        // GL11.glColor4f(1, 1, 1, 1);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_BLEND);
+
+        for (int i = 0; i < data.upgrades.size(); ++i)
+        {
+            DataCore core = data.upgrades.get(i);
+            
+            if (core != null)
+            {
+                itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(TFItems.dataCore, 1, core.index), 116 + i * 18, 28);
+            }
+        }
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glColor4f(1, 1, 1, 1);
 
         mc.getTextureManager().bindTexture(guiTextures);
         drawTexturedModalRect(xSize + 2, 2, 192, 0, 16, 86);
@@ -292,22 +294,27 @@ public class GuiGroundBridge extends GuiContainerTF
             drawTexturedModalRect(xSize + 20, 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
         }
 
-        // for (int i = 0; i < 3; ++i)
-        // {
-        // ItemStack stack = data.getStackInSlot(i);
-        //
-        // if (stack != null && new Rectangle(115 + i * 18, 27, 18, 18).contains(mouseX - x, mouseY - y))
-        // {
-        // renderToolTip(stack, mouseX - x, mouseY - y);
-        // }
-        // }
+        
 
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
+        
+        for (int i = 0; i < data.upgrades.size(); ++i)
+        {
+            DataCore core = data.upgrades.get(i);
+            
+            if (core != null && new Rectangle(115 + i * 18, 27, 18, 18).contains(mouseX - x, mouseY - y))
+            {
+                drawHoveringText(Arrays.asList(core.getTranslatedName()), mouseX, mouseY, fontRendererObj);
+            }
+        }
 
         if (new Rectangle(xSize + 2, 2, 16, 86).contains(mouseX - x, mouseY - y))
         {
-            drawHoveringText(Collections.singletonList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(data.getEnergy()), TFFormatHelper.formatNumber(data.getMaxEnergy()))), mouseX, mouseY, fontRendererObj);
+            float usage = data.getEnergyUsage();
+            String prefix = usage > 0 ? EnumChatFormatting.GREEN + "+" : usage < 0 ? EnumChatFormatting.RED + "-" : EnumChatFormatting.GRAY.toString();
+            
+            drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(data.getEnergy()), TFFormatHelper.formatNumber(data.getMaxEnergy())), prefix + StatCollector.translateToLocalFormatted("gui.emb.rate", TFFormatHelper.formatNumber(Math.abs(usage)) + EnumChatFormatting.GRAY)), mouseX, mouseY, fontRendererObj);
         }
 
         for (int i = 0; i < data.errors.size(); ++i)

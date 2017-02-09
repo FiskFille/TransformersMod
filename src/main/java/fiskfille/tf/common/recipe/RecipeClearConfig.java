@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
-import fiskfille.tf.common.item.ItemMachine;
 
 public class RecipeClearConfig implements IRecipe
 {
@@ -20,7 +19,7 @@ public class RecipeClearConfig implements IRecipe
 
             if (itemstack != null)
             {
-                if (itemstack.getItem() instanceof ItemMachine && itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
+                if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
                 {
                     flag = true;
                 }

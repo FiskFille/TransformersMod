@@ -8,9 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
-import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockRelayTower extends BlockTransmitter
@@ -68,7 +67,7 @@ public class BlockRelayTower extends BlockTransmitter
 
             if (tile instanceof TileEntityRelayTower)
             {
-                TransformersMod.proxy.openSetReceivers(world, player, tile, TFEnergyHelper.getGrandparents(tile));
+                TFGui.RECEIVER_NETWORK.open(player, tile);
             }
 
             return true;

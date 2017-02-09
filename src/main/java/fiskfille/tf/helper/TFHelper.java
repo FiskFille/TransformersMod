@@ -7,7 +7,6 @@ import net.minecraftforge.fluids.FluidStack;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.fluid.FluidTankTF;
-import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.TransformerCloudtrap;
 import fiskfille.tf.common.transformer.TransformerPurge;
@@ -157,12 +156,10 @@ public class TFHelper
     {
         return median(TFData.STEALTH_FORCE_PROGRESS.get(player), TFData.PREV_STEALTH_FORCE_PROGRESS.get(player), TransformersMod.proxy.getRenderTick());
     }
-
-    public static void applyClientFluidUsage(IFluidHandlerTF tankContainer)
+    
+    public static void applyFluidUsage(FluidTankTF tank)
     {
-        FluidTankTF tank = tankContainer.getTank();
         FluidStack fluidStack = tank.getFluid();
-
         int usage = tank.getUsage();
 
         if (fluidStack != null)

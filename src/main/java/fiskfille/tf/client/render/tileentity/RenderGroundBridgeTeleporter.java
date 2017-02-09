@@ -43,10 +43,10 @@ public class RenderGroundBridgeTeleporter extends TileEntitySpecialRenderer
             metadata = tileentity.getBlockMetadata();
         }
 
-        if (metadata % 2 == 1)
+        if ((metadata & 1) == 1)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+            GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
             GL11.glScalef(1F, -1F, -1F);
 
             if (tileentity.controlPanel != null)
