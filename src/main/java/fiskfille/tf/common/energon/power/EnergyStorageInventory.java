@@ -15,12 +15,12 @@ public class EnergyStorageInventory extends EnergyStorage
         tile = tileentity;
         energyInventory = inventory;
     }
-    
+
     @Override
     public EnergyStorageInventory copy()
     {
         EnergyStorageInventory storage = new EnergyStorageInventory(tile, energyInventory);
-        
+
         return storage;
     }
 

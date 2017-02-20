@@ -1,6 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class GuiEnergonProcessor extends GuiContainerTF
 
         FluidTankTF tank = tileentity.getTank();
         FluidStack stack = tank.getFluid();
-        
+
         ArrayList text = Lists.newArrayList();
         ArrayList colors = Lists.newArrayList();
 
@@ -92,7 +91,7 @@ public class GuiEnergonProcessor extends GuiContainerTF
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
 
-        if (new Rectangle(x + 77, y + 17, 52, 52).contains(new Point(mouseX, mouseY)))
+        if (new Rectangle(x + 77, y + 17, 52, 52).contains(mouseX, mouseY))
         {
             drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
         }

@@ -1,5 +1,7 @@
 package fiskfille.tf.helper;
 
+import net.minecraft.item.ItemStack;
+
 public class TFFormatHelper
 {
     public static String formatNumber(float f)
@@ -21,6 +23,19 @@ public class TFFormatHelper
             }
 
             return s1.substring(0, s1.length() - 1);
+        }
+
+        return s;
+    }
+
+    public static String formatNumberPrecise(float f)
+    {
+        String s = formatNumber(f);
+        String s1 = ItemStack.field_111284_a.format(f);
+
+        if (s1.contains("."))
+        {
+            s += s1.substring(s1.lastIndexOf("."));
         }
 
         return s;

@@ -21,7 +21,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
             for (ReceiverEntry entry : receivers)
             {
                 TileEntity tile = entry.getTile();
-                
+
                 if (tile != null)
                 {
                     bounds = bounds.func_111270_a(tile.getRenderBoundingBox());
@@ -31,7 +31,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
 
         return bounds;
     }
-    
+
     @Override
     public float getTransmissionRate()
     {

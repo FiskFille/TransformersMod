@@ -1,6 +1,5 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Map;
@@ -54,18 +53,18 @@ public class GuiEnergonTank extends GuiContainerTF
         {
             TileEntityEnergonTank tile = (TileEntityEnergonTank) tileentity.getWorldObj().getTileEntity(tileentity.xCoord, y, tileentity.zCoord);
             FluidTank tank = tile.getTank();
-            
+
             if (stack == null && tank.getFluid() != null)
             {
                 stack = tank.getFluid().copy();
                 stack.amount = 0;
             }
-            
+
             if (stack != null)
             {
                 stack.amount += tank.getFluidAmount();
             }
-            
+
             capacity += tank.getCapacity();
             ++y;
         }
@@ -135,7 +134,7 @@ public class GuiEnergonTank extends GuiContainerTF
         GL11.glPushMatrix();
         GL11.glTranslatef(-x, -y, 0);
 
-        if (new Rectangle(x + 61, y + 17, 52, 52).contains(new Point(mouseX, mouseY)))
+        if (new Rectangle(x + 61, y + 17, 52, 52).contains(mouseX, mouseY))
         {
             drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
         }

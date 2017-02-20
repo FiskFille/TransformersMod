@@ -16,10 +16,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
@@ -36,8 +36,8 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
 
         setHarvestLvl("pickaxe", 1);
         setStepSound(Block.soundTypeGlass);
-        setHardness(6.0F);
-        setResistance(10.0F);
+        setHardness(6);
+        setResistance(10);
         setLightLevel(0.75F);
     }
 
@@ -84,9 +84,51 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+    {
+        setBlockBoundsBasedOnState(world, x, y, z);
+        return super.getSelectedBoundingBoxFromPool(world, x, y, z);
+    }
+
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         return null;
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+    {
+        int direction = world.getBlockMetadata(x, y, z) & 7;
+        float f = 0.21F;
+
+        if (direction == 1)
+        {
+            setBlockBounds(0, 0.2F, 0.5F - f, f * 2, 0.8F, 0.5F + f);
+        }
+        else if (direction == 2)
+        {
+            setBlockBounds(1 - f * 2, 0.2F, 0.5F - f, 1, 0.8F, 0.5F + f);
+        }
+        else if (direction == 3)
+        {
+            setBlockBounds(0.5F - f, 0.2F, 0, 0.5F + f, 0.8F, f * 2);
+        }
+        else if (direction == 4)
+        {
+            setBlockBounds(0.5F - f, 0.2F, 1 - f * 2, 0.5F + f, 0.8F, 1);
+        }
+        else if (direction == 6)
+        {
+            f = 0.2F;
+            setBlockBounds(0.5F - f, 0 + f * 2, 0.5F - f, 0.5F + f, 1, 0.5F + f);
+        }
+        else
+        {
+            f = 0.2F;
+            setBlockBounds(0.5F - f, 0, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
+        }
     }
 
     @Override
@@ -249,9 +291,9 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
                     if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops") && !world.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
                     {
                         float f = 0.7F;
-                        double motionX = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
-                        double motionY = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
-                        double motionZ = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+                        double motionX = world.rand.nextFloat() * f + (1 - f) * 0.5D;
+                        double motionY = world.rand.nextFloat() * f + (1 - f) * 0.5D;
+                        double motionZ = world.rand.nextFloat() * f + (1 - f) * 0.5D;
                         EntityItem entityitem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, new ItemStack(energonType.getCrystal()));
                         entityitem.delayBeforeCanPickup = 10;
                         world.spawnEntityInWorld(entityitem);
@@ -283,42 +325,6 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         {
             return true;
         }
-    }
-
-    @Override
-    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 src, Vec3 dst)
-    {
-        int direction = world.getBlockMetadata(x, y, z) & 7;
-        float f = 0.21F;
-
-        if (direction == 1)
-        {
-            setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
-        }
-        else if (direction == 2)
-        {
-            setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
-        }
-        else if (direction == 3)
-        {
-            setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
-        }
-        else if (direction == 4)
-        {
-            setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
-        }
-        else if (direction == 6)
-        {
-            f = 0.2F;
-            setBlockBounds(0.5F - f, 0.0F + f * 2, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
-        }
-        else
-        {
-            f = 0.2F;
-            setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
-        }
-
-        return super.collisionRayTrace(world, x, y, z, src, dst);
     }
 
     @Override

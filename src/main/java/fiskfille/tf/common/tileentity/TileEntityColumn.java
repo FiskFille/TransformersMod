@@ -70,11 +70,11 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
                 if (dirty)
                 {
                     markBlockForUpdate();
-                    
+
                     for (int i = 0; i < inventory.length; i++)
                     {
                         ItemStack itemstack = inventory[i];
-                        
+
                         if (itemstack != null)
                         {
                             lastInventory[i] = itemstack.copy();
@@ -82,7 +82,7 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
                     }
                 }
             }
-            
+
             lastUsage = storage.getUsage();
             storage.calculateUsage();
         }

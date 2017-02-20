@@ -7,8 +7,10 @@ import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -64,26 +66,26 @@ public class TFEnergyHelper
 
         return null;
     }
-    
+
     public static List<DimensionalCoords> getDescendants(IEnergyTransmitter transmitter)
     {
         return getDescendants(transmitter, new ArrayList<DimensionalCoords>());
     }
-    
+
     private static List<DimensionalCoords> getDescendants(IEnergyTransmitter transmitter, List<DimensionalCoords> list)
     {
         TransmissionHandler handler = transmitter.getTransmissionHandler();
-        
+
         for (ReceiverEntry entry : handler.getReceivers())
         {
             list.add(entry.getCoords());
-            
+
             if (entry.getTile() instanceof IEnergyTransmitter)
             {
                 getDescendants(entry.getTransmitter(), list);
             }
         }
-        
+
         return list;
     }
 
@@ -347,7 +349,7 @@ public class TFEnergyHelper
 
         return false;
     }
-    
+
     public static boolean isPowering(IEnergyTransmitter transmitter, TileEntity tile)
     {
         return isPowering(transmitter, new DimensionalCoords(tile));
@@ -357,7 +359,7 @@ public class TFEnergyHelper
     {
         return to.receiveEnergy(from.extractEnergy(to.receiveEnergy(amount, true), simulate), simulate);
     }
-    
+
     public static void applyEnergyUsage(EnergyStorage storage)
     {
         float usage = storage.getUsage();
@@ -371,15 +373,15 @@ public class TFEnergyHelper
             storage.add(usage, false);
         }
     }
-    
+
     public static boolean canPowerChainReach(IEnergyReceiver receiver)
     {
         TileEntity tile = receiver.getReceiverHandler().getOwner().getTile();
-        
+
         if (tile != null)
         {
             Set<NetworkEntry> transmitters = receiver.getReceiverHandler().getTransmitters();
-            
+
             for (NetworkEntry ownerEntry : transmitters)
             {
                 if (ownerEntry.getTile() instanceof IEnergyReceiver)
@@ -395,7 +397,19 @@ public class TFEnergyHelper
                 }
             }
         }
-        
+
         return false;
+    }
+
+    public static List<String> getHoverText(EnergyStorage storage)
+    {
+        float usage = storage.getUsage();
+        String prefix = usage > 0 ? EnumChatFormatting.GREEN + "+" : usage < 0 ? EnumChatFormatting.RED + "-" : EnumChatFormatting.GRAY.toString();
+        List<String> list = Lists.newArrayList();
+
+        list.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(storage.getEnergy()), TFFormatHelper.formatNumber(storage.getMaxEnergy())));
+        list.add(prefix + StatCollector.translateToLocalFormatted("gui.emb.rate", TFFormatHelper.formatNumberPrecise(Math.abs(usage)) + EnumChatFormatting.GRAY));
+
+        return list;
     }
 }

@@ -48,7 +48,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     public void updateEntity()
     {
         super.updateEntity();
-        
+
         if (!data.isInitialized())
         {
             data.initialize(this);
@@ -72,18 +72,18 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             {
                 smeltTime = 0;
             }
-            
+
             data.serverTick();
         }
-        
+
         TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
-        
+
         if (prevData instanceof TileDataEnergyContainer)
         {
             data = new TileDataEnergyContainer((TileDataEnergyContainer) prevData);
         }
     }
-    
+
     @Override
     public void invalidate()
     {
@@ -94,7 +94,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
             data.kill();
         }
     }
-    
+
     @Override
     public String getInventoryName()
     {

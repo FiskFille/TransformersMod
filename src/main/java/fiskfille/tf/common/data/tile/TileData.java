@@ -54,7 +54,7 @@ public abstract class TileData
     {
         return coords;
     }
-    
+
     public void serverTick()
     {
         if (!equals(TFTileHelper.getTileData(coords)))
@@ -62,14 +62,14 @@ public abstract class TileData
             TFNetworkManager.networkWrapper.sendToAll(new MessageSetTileData(this));
             System.out.println("Syncing " + getClass().getSimpleName() + " at " + coords);
         }
-        
+
         TFTileHelper.putServerData(this);
     }
-    
+
     public void clientTick()
     {
     }
-    
+
     public void kill()
     {
         if (TFTileHelper.getTileData(coords) != null)

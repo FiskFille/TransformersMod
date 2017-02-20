@@ -1,20 +1,14 @@
 package fiskfille.tf.common.proxy;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fiskfille.tf.TFReflection;
 import fiskfille.tf.client.gui.GuiOverlay;
-import fiskfille.tf.client.gui.GuiSelectReceivers;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.render.block.RenderBlockEnergonTank;
@@ -52,6 +46,7 @@ import fiskfille.tf.client.render.tileentity.RenderEmlTest;
 import fiskfille.tf.client.render.tileentity.RenderEnergonProcessor;
 import fiskfille.tf.client.render.tileentity.RenderEnergonTank;
 import fiskfille.tf.client.render.tileentity.RenderGroundBridgeTeleporter;
+import fiskfille.tf.client.render.tileentity.RenderIsoCondenser;
 import fiskfille.tf.client.render.tileentity.RenderRelayTower;
 import fiskfille.tf.client.render.tileentity.RenderTransformiumSeed;
 import fiskfille.tf.client.render.tileentity.RenderTransmitter;
@@ -79,6 +74,7 @@ import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
+import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
 import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
@@ -126,6 +122,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTower), new RenderItemRelayTower());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTorch), new RenderItemTileEntity(new TileEntityRelayTorch()));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energyColumn), new RenderItemColumn());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.isoCondenser), new RenderItemTileEntity(new TileEntityIsoCondenser()));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.groundBridgeControlPanel), new RenderItemControlPanel());
         MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
         MinecraftForgeClient.registerItemRenderer(TFItems.dataCore, new RenderItemDataCore());
@@ -150,6 +147,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransmitter.class, new RenderTransmitter());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRelayTower.class, new RenderRelayTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityColumn.class, new RenderColumn());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIsoCondenser.class, new RenderIsoCondenser());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssemblyTable.class, new RenderAssemblyTable());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAlloyCrucible.class, new RenderAlloyCrucible());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityControlPanel.class, new RenderControlPanel());

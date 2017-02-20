@@ -25,10 +25,10 @@ public class TransmissionHandler
 {
     private Set<ReceiverEntry> receivers = new HashSet<ReceiverEntry>();
     private Queue<ReceiverEntry> queuedReceivers = new ArrayDeque<ReceiverEntry>();
-    
+
     private NetworkEntry owner;
     private boolean needsUpdate = false;
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(receivers.size());
@@ -38,7 +38,7 @@ public class TransmissionHandler
             receiver.toBytes(buf);
         }
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         int receiverCount = buf.readInt();
@@ -55,12 +55,12 @@ public class TransmissionHandler
         {
             return;
         }
-        
+
         for (Iterator<ReceiverEntry> iterator = receivers.iterator(); iterator.hasNext();)
         {
             ReceiverEntry receiver = iterator.next();
             TileEntity receiverTile = receiver.getTile();
-            
+
             if (receiverTile == null)
             {
                 receiver.load(world);
@@ -77,16 +77,16 @@ public class TransmissionHandler
                 {
                     boolean flag = receiver.canReach();
                     receiver.setCanReach(canPowerReach(receiver));
-                    
+
                     if (flag != receiver.canReach())
                     {
                         needsUpdate = true;
                     }
-                    
+
                     continue;
                 }
             }
-            
+
             iterator.remove();
             needsUpdate = true;
         }
@@ -96,13 +96,13 @@ public class TransmissionHandler
             ReceiverEntry receiver = queuedReceivers.poll();
             needsUpdate |= processQueue(world, receiver);
         }
-        
+
         if (needsUpdate)
         {
             owner.getTile().markDirty();
         }
     }
-    
+
     private boolean canPowerReach(ReceiverEntry entry)
     {
         TileEntity tile = owner.getTile();
@@ -125,14 +125,14 @@ public class TransmissionHandler
 
         return hit.xCoord == original.xCoord && hit.yCoord == original.yCoord && hit.zCoord == original.zCoord;
     }
-    
+
     public void kill()
     {
         for (Iterator<ReceiverEntry> iterator = receivers.iterator(); iterator.hasNext();)
         {
             ReceiverEntry entry = iterator.next();
             IEnergyReceiver receiver = entry.getReceiver();
-            
+
             receiver.getReceiverHandler().remove(owner);
         }
     }
@@ -143,7 +143,7 @@ public class TransmissionHandler
         {
             receiver.load(world);
             TileEntity tile = receiver.getTile();
-            
+
             if (tile instanceof IEnergyTransmitter && TFEnergyHelper.getDescendants(receiver.getTransmitter()).contains(owner.getCoords()))
             {
                 return false;
@@ -173,7 +173,7 @@ public class TransmissionHandler
             needsUpdate = true;
         }
     }
-    
+
     public void remove(ReceiverEntry entry)
     {
         if (receivers.contains(entry))
@@ -286,7 +286,7 @@ public class TransmissionHandler
     {
         return owner;
     }
-    
+
     public void setOwner(TileEntity tile)
     {
         owner = new NetworkEntry(tile);

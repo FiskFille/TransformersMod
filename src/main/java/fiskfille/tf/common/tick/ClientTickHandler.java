@@ -118,7 +118,7 @@ public class ClientTickHandler
                 {
                     TFRenderHelper.updateMotionY(player);
                 }
-                
+
                 if (!mc.theWorld.isRemote && mc.isGamePaused())
                 {
                     for (Map.Entry<DimensionalCoords, TileData> e : TFTileHelper.getTileData().entrySet())

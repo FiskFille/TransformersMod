@@ -9,13 +9,11 @@ item.tank_shell.name=Tank Shell
 item.transformium_detector.name=Transformium Detector
 item.fuel_canister.name=Fuel Canister
 item.creative_fuel_canister.name=Creative Fuel Canister
-
 item.dye.dark_red.name=Dark Red Dye
 item.dye.beige.name=Beige Dye
 item.dye.dark_gray.name=Dark Gray Dye
 item.dye.pale_green.name=Pale Green Dye
 item.dye.pale_brown.name=Pale Brown Dye
-
 item.component_base.name=Base Component
 item.color_component.name=Customization Component
 item.armor_component.name=Armor Component
@@ -126,42 +124,39 @@ tile.transformium_seed.name=Transformium Seed
 tile.block_of_transformium.name=Block of Transformium
 tile.cosmic_rust.name=Cosmic Rust
 tile.transformer_display_station.name=Transformer Display Station
+tile.transformer_assembly_table.name=Transformer Assembly Table
+tile.alloy_crucible.name=Alloy Crucible
 tile.energon_processor.name=Energon Processor
 tile.energon_fluid_tank.name=Energon Fluid Tank
 tile.energon_transmitter.name=Energon Transmitter
 tile.energy_relay.name=Energy Relay
 tile.energy_relay_torch.name=Energy Relay Torch
 tile.energy_column.name=Energy Column
+tile.isotopic_condenser.name=Isotopic Condenser
 tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
 tile.ground_bridge_frame.name=Ground Bridge Frame
 tile.ground_bridge_teleporter.name=Ground Bridge Portal
-tile.transformer_assembly_table.name=Transformer Assembly Table
-tile.alloy_crucible.name=Alloy Crucible
 
 tile.wool.dark_red.name=Dark Red Wool
 tile.wool.beige.name=Beige Wool
 tile.wool.dark_gray.name=Dark Gray Wool
 tile.wool.pale_green.name=Pale Green Wool
 tile.wool.pale_brown.name=Pale Brown Wool
-
 tile.stained_hardened_clay.dark_red.name=Dark Red Stained Clay
 tile.stained_hardened_clay.beige.name=Beige Stained Clay
 tile.stained_hardened_clay.dark_gray.name=Dark Gray Stained Clay
 tile.stained_hardened_clay.pale_green.name=Pale Green Stained Clay
 tile.stained_hardened_clay.pale_brown.name=Pale Brown Stained Clay
-
 tile.stained_glass.dark_red.name=Dark Red Stained Glass
 tile.stained_glass.beige.name=Beige Stained Glass
 tile.stained_glass.dark_gray.name=Dark Gray Stained Glass
 tile.stained_glass.pale_green.name=Pale Green Stained Glass
 tile.stained_glass.pale_brown.name=Pale Brown Stained Glass
-
 tile.stained_glass_pane.dark_red.name=Dark Red Stained Glass Pane
 tile.stained_glass_pane.beige.name=Beige Stained Glass Pane
 tile.stained_glass_pane.dark_gray.name=Dark Gray Stained Glass Pane
 tile.stained_glass_pane.pale_green.name=Pale Green Stained Glass Pane
 tile.stained_glass_pane.pale_brown.name=Pale Brown Stained Glass Pane
-
 tile.carpet.dark_red.name=Dark Red Carpet
 tile.carpet.beige.name=Beige Carpet
 tile.carpet.dark_gray.name=Dark Gray Carpet
@@ -218,6 +213,9 @@ gui.alloy_crucible.mode.alloy=Alloys
 gui.alloy_crucible.mode.furnace=Furnace
 gui.alloy_crucible.mode.both=Both
 gui.energy_column=Energy Column
+gui.isotopic_condenser=Isotopic Condenser
+gui.isotopic_condenser.percent=%s%%
+gui.isotopic_condenser.generating=Generating %s EmB/t
 
 recipe.energon_processor=Energon Processor
 recipe.power_source=Power Source
@@ -231,6 +229,7 @@ option.tf.transmitter=Transmitter
 option.tf.relay_tower=Relay Tower
 option.tf.relay_torch=Relay Torch
 option.tf.energy_column=Energy Column
+option.tf.isotopic_condenser=Isotopic Condenser
 option.tf.control_panel=Control Panel
 
 

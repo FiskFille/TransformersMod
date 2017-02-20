@@ -51,7 +51,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
     public void updateEntity()
     {
         ++animationTimer;
-        
+
         if (!data.isInitialized())
         {
             data.initialize(this);
@@ -71,7 +71,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                         forceChunks(subTicket.assign(ticket));
                     }
                 }
-                
+
                 data.serverTickPre();
 
                 if (getEnergy() > 0)
@@ -88,7 +88,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                         }
                     }
                 }
-                
+
                 ItemStack fluidContainer = getStackInSlot(0);
                 FluidStack fluidStack = data.tank.getFluid();
 
@@ -126,19 +126,19 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
                         }
                     }
                 }
-                
+
                 data.serverTick();
             }
 
             TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
-            
+
             if (prevData instanceof TileDataTransmitter)
             {
                 data = new TileDataTransmitter((TileDataTransmitter) prevData);
             }
         }
     }
-    
+
     @Override
     public String getInventoryName()
     {
@@ -169,7 +169,7 @@ public class TileEntityTransmitter extends TileEntityContainer implements IEnerg
             for (ReceiverEntry entry : receivers)
             {
                 TileEntity tile = entry.getTile();
-                
+
                 if (tile != null)
                 {
                     bounds = bounds.func_111270_a(tile.getRenderBoundingBox());

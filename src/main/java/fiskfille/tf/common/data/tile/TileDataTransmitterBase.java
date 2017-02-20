@@ -10,16 +10,16 @@ import fiskfille.tf.helper.TFTileHelper;
 public class TileDataTransmitterBase extends TileDataEnergyContainer
 {
     public TransmissionHandler transmissionHandler = new TransmissionHandler();
-    
+
     public TileDataTransmitterBase()
     {
     }
-    
+
     public TileDataTransmitterBase(float max)
     {
         super(max);
     }
-    
+
     public TileDataTransmitterBase(TileDataTransmitterBase data)
     {
         super(data);
@@ -34,34 +34,34 @@ public class TileDataTransmitterBase extends TileDataEnergyContainer
         {
             transmissionHandler.setOwner(tile);
         }
-        
+
         return super.initialize(tile);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
         super.toBytes(buf);
         transmissionHandler.toBytes(buf);
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
         super.fromBytes(buf);
         transmissionHandler.fromBytes(buf);
     }
-    
+
     public void serverTickPre()
     {
         WorldServer world = MinecraftServer.getServer().worldServerForDimension(getCoords().dimension);
-        
+
         if (world != null)
         {
             transmissionHandler.onUpdate(world);
         }
     }
-    
+
     @Override
     public void kill()
     {
@@ -69,20 +69,18 @@ public class TileDataTransmitterBase extends TileDataEnergyContainer
         {
             transmissionHandler.kill();
         }
-        
+
         super.kill();
     }
-    
+
     @Override
     public boolean matches(TileData tileData)
     {
         if (tileData instanceof TileDataTransmitterBase)
         {
-            TileDataTransmitterBase data = (TileDataTransmitterBase) tileData;
-            
             return super.matches(tileData) && !transmissionHandler.needsUpdate();
         }
-        
+
         return false;
     }
 }

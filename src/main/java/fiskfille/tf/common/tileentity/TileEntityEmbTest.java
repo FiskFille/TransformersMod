@@ -23,20 +23,20 @@ public class TileEntityEmbTest extends TileEntityTF implements IEnergyReceiver
         {
             data.initialize(this);
         }
-        
+
         if (!worldObj.isRemote)
         {
             data.serverTick();
         }
-        
+
         TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
-        
+
         if (prevData instanceof TileDataEnergyContainer)
         {
             data = new TileDataEnergyContainer((TileDataEnergyContainer) prevData);
         }
     }
-    
+
     @Override
     public void invalidate()
     {

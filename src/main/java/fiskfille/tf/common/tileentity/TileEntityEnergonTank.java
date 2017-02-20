@@ -42,12 +42,12 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
     {
         ItemStack input = getStackInSlot(0);
         ItemStack output = getStackInSlot(1);
-        
+
         if (!data.isInitialized())
         {
             data.initialize(this);
         }
-        
+
         if (data.getFluidAmount() > 0 && output != null && output.getItem() instanceof IFluidContainerItem && (ItemFuelCanister.isEmpty(output) || ItemFuelCanister.getContainerFluid(output).getFluid() == TFFluids.energon && !ItemFuelCanister.isFull(output)))
         {
             if (fillTime < 100)
@@ -60,7 +60,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                 {
                     fillCanister(output);
                 }
-                
+
                 fillTime = 0;
             }
         }
@@ -79,7 +79,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
             if (data.getFluidAmount() > 0)
             {
                 TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(this);
-                
+
                 if (tileBase != this)
                 {
                     if (TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord)) == tileBase)
@@ -141,15 +141,15 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                     }
                 }
             }
-            
+
             TileEntityEnergonTank tileBase = TFTileHelper.getTileBase(this);
-            
+
             if (tileBase == this)
             {
                 FluidStack mix = new FluidStack(TFFluids.energon, 0);
                 int y = tileBase.yCoord;
                 float f = 0;
-                
+
                 Map<String, Float> ratios = FluidEnergon.getRatios(mix);
                 List<TileEntityEnergonTank> tiles = Lists.newArrayList();
 
@@ -157,16 +157,16 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                 {
                     TileEntityEnergonTank tile = (TileEntityEnergonTank) worldObj.getTileEntity(xCoord, y, zCoord);
                     tiles.add(tile);
-                    
+
                     if (tile.getTank().getFluid() != null)
                     {
                         Map<String, Float> ratios1 = FluidEnergon.getRatios(tile.getTank().getFluid());
-                        
+
                         for (Map.Entry<String, Float> e : ratios1.entrySet())
                         {
                             ratios.put(e.getKey(), ratios.get(e.getKey()) + e.getValue() * tile.getTank().getFluidAmount());
                         }
-                        
+
                         f += tile.getTank().getFluidAmount();
                     }
 
@@ -179,12 +179,12 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                     {
                         ratios.put(e.getKey(), ratios.get(e.getKey()) / f);
                     }
-                    
+
                     for (int i = 0; i < tiles.size(); ++i)
                     {
                         TileEntityEnergonTank tile = tiles.get(i);
                         FluidStack fluid = tile.getTank().getFluid();
-                        
+
                         if (fluid != null)
                         {
                             FluidEnergon.setRatios(fluid, ratios);
@@ -192,10 +192,10 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                     }
                 }
             }
-            
+
             data.serverTick();
         }
-        
+
         TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
 
         if (prevData instanceof TileDataEnergonTank)
@@ -249,7 +249,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
         worldObj.getBlock(xCoord, yCoord, zCoord + 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord + 1, blockType);
         worldObj.getBlock(xCoord, yCoord, zCoord - 1).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord - 1, blockType);
     }
-    
+
     @Override
     public void invalidate()
     {
@@ -260,7 +260,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
             data.kill();
         }
     }
-    
+
     @Override
     public String getInventoryName()
     {

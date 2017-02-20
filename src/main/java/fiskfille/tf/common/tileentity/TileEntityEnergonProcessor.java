@@ -63,7 +63,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         {
             animationTimer = 1.0F;
         }
-        
+
         if (!data.isInitialized())
         {
             data.initialize(this);
@@ -135,7 +135,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
         {
             data.serverTick();
         }
-        
+
         TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
 
         if (prevData instanceof TileDataEnergonTank)
@@ -233,7 +233,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 
         return false;
     }
-    
+
     @Override
     public void invalidate()
     {

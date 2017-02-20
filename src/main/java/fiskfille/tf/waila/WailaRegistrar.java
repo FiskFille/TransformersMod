@@ -6,6 +6,7 @@ import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
+import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
 import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
@@ -21,6 +22,7 @@ public class WailaRegistrar
         registrar.addConfig("Transformers Mod", "tf.relay_tower");
         registrar.addConfig("Transformers Mod", "tf.relay_torch");
         registrar.addConfig("Transformers Mod", "tf.energy_column");
+        registrar.addConfig("Transformers Mod", "tf.isotopic_condenser");
         registrar.addConfig("Transformers Mod", "tf.control_panel");
 
         registrar.registerBodyProvider(new DataProviderMachine("tf.energon_processor", TileEntityEnergonProcessor.class), TileEntityEnergonProcessor.class);
@@ -30,6 +32,7 @@ public class WailaRegistrar
         registrar.registerBodyProvider(new DataProviderMachine("tf.relay_tower", TileEntityRelayTower.class), TileEntityRelayTower.class);
         registrar.registerBodyProvider(new DataProviderMachine("tf.relay_torch", TileEntityRelayTorch.class), TileEntityRelayTorch.class);
         registrar.registerBodyProvider(new DataProviderMachine("tf.energy_column", TileEntityColumn.class), TileEntityColumn.class);
+        registrar.registerBodyProvider(new DataProviderMachine("tf.isotopic_condenser", TileEntityIsoCondenser.class), TileEntityIsoCondenser.class);
         registrar.registerBodyProvider(new DataProviderControlPanel("tf.control_panel"), TileEntityControlPanel.class);
     }
 }

@@ -8,27 +8,27 @@ import fiskfille.tf.helper.TFHelper;
 public class TileDataEnergonTank extends TileData
 {
     public FluidTankTF tank;
-    
+
     public TileDataEnergonTank()
     {
     }
-    
+
     public TileDataEnergonTank(FluidTankTF fluidTank)
     {
         tank = fluidTank;
     }
-    
+
     public TileDataEnergonTank(int max)
     {
         this(new FluidTankTF(max));
     }
-    
+
     public TileDataEnergonTank(TileDataEnergonTank data)
     {
         super(data);
         tank = data.tank.copy();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -36,7 +36,7 @@ public class TileDataEnergonTank extends TileData
         buf.writeInt(getCapacity());
         tank.toBytes(buf);
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -44,20 +44,20 @@ public class TileDataEnergonTank extends TileData
         tank = new FluidTankTF(buf.readInt());
         tank.fromBytes(buf);
     }
-    
+
     @Override
     public void serverTick()
     {
         tank.calculateUsage();
         super.serverTick();
     }
-    
+
     @Override
     public void clientTick()
     {
         TFHelper.applyFluidUsage(tank);
     }
-    
+
     public FluidStack getFluid()
     {
         return tank.getFluid();
@@ -82,17 +82,17 @@ public class TileDataEnergonTank extends TileData
     {
         return tank.getCapacity();
     }
-    
+
     @Override
     public boolean matches(TileData tileData)
     {
         if (tileData instanceof TileDataEnergonTank)
         {
             TileDataEnergonTank data = (TileDataEnergonTank) tileData;
-            
+
             return getUsage() == data.getUsage() && FluidStack.areFluidStackTagsEqual(getFluid(), data.getFluid());
         }
-        
+
         return false;
     }
 }

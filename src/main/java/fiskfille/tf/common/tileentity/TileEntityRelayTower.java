@@ -28,7 +28,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
 {
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     public TileDataRelay data = new TileDataRelay();
-    
+
     public EnergyStorage storage = new EnergyStorageRelay(this);
 
     public int animationTimer;
@@ -39,7 +39,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     public void updateEntity()
     {
         ++animationTimer;
-        
+
         if (!data.isInitialized())
         {
             data.initialize(this);
@@ -59,14 +59,14 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
                         forceChunks(subTicket.assign(ticket));
                     }
                 }
-                
+
                 data.serverTickPre();
                 data.isPowered = TFEnergyHelper.canPowerChainReach(this);
                 data.serverTick();
             }
-            
+
             TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
-            
+
             if (prevData instanceof TileDataRelay)
             {
                 data = new TileDataRelay((TileDataRelay) prevData);
@@ -91,7 +91,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
             for (ReceiverEntry entry : receivers)
             {
                 TileEntity tile = entry.getTile();
-                
+
                 if (tile != null)
                 {
                     bounds = bounds.func_111270_a(tile.getRenderBoundingBox());

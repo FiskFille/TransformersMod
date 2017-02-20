@@ -1,13 +1,10 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Arrays;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -19,7 +16,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerColumn;
 import fiskfille.tf.common.energon.power.IEnergyContainerItem;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
-import fiskfille.tf.helper.TFFormatHelper;
+import fiskfille.tf.helper.TFEnergyHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiColumn extends GuiContainerTF
@@ -49,12 +46,9 @@ public class GuiColumn extends GuiContainerTF
 
         for (int i = 0; i < tileentity.getSizeInventory(); ++i)
         {
-            if (new Rectangle(x + 25 + i * 22, y + 19, 16, 52).contains(new Point(mouseX, mouseY)))
+            if (new Rectangle(x + 25 + i * 22, y + 19, 16, 52).contains(mouseX, mouseY))
             {
-                float usage = tileentity.getEnergyUsage();   
-                String prefix = usage > 0 ? EnumChatFormatting.GREEN + "+" : usage < 0 ? EnumChatFormatting.RED + "-" : EnumChatFormatting.GRAY.toString();
-                
-                drawHoveringText(Arrays.asList(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(tileentity.getEnergy()), TFFormatHelper.formatNumber(tileentity.getMaxEnergy())), prefix + StatCollector.translateToLocalFormatted("gui.emb.rate", TFFormatHelper.formatNumber(Math.abs(usage)) + EnumChatFormatting.GRAY)), mouseX, mouseY, fontRendererObj);
+                drawHoveringText(TFEnergyHelper.getHoverText(tileentity.storage), mouseX, mouseY, fontRendererObj);
             }
         }
 

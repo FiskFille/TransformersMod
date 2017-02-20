@@ -22,6 +22,7 @@ import fiskfille.tf.common.container.ContainerAssemblyTable;
 import fiskfille.tf.common.container.ContainerColumn;
 import fiskfille.tf.common.container.ContainerDisplayStation;
 import fiskfille.tf.common.container.ContainerDisplayStationArmor;
+import fiskfille.tf.common.container.ContainerEmpty;
 import fiskfille.tf.common.container.ContainerEnergonProcessor;
 import fiskfille.tf.common.container.ContainerEnergonTank;
 import fiskfille.tf.common.container.ContainerGroundBridge;
@@ -35,6 +36,7 @@ import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
+import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
 
 public class GuiHandlerTF implements IGuiHandler
@@ -226,6 +228,7 @@ public class GuiHandlerTF implements IGuiHandler
         public static TFGui ENERGON_TRANSMITTER;
         public static TFGui ENERGY_COLUMN;
         public static TFGui GROUND_BRIDGE_REMOTE;
+        public static TFGui ISOTOPIC_CONDENSER;
         public static TFGui RECEIVER_NETWORK;
 
         public final int guiId;
@@ -274,6 +277,7 @@ public class GuiHandlerTF implements IGuiHandler
             ENERGON_TRANSMITTER = new TFGui(TFBlocks.transmitter, ContainerTransmitter.class, "fiskfille.tf.client.gui.GuiTransmitter", InventoryPlayer.class, TileEntityTransmitter.class);
             ENERGY_COLUMN = new TFGui(TFBlocks.energyColumn, ContainerColumn.class, "fiskfille.tf.client.gui.GuiColumn", InventoryPlayer.class, TileEntityColumn.class);
             GROUND_BRIDGE_REMOTE = new TFGui(TFBlocks.groundBridgeControlPanel, ContainerGroundBridge.class, "fiskfille.tf.client.gui.GuiGroundBridge", new Class[] {InventoryPlayer.class, InventoryGroundBridge.class, DimensionalCoords.class}, new Class[] {InventoryPlayer.class, InventoryGroundBridge.class});
+            ISOTOPIC_CONDENSER = new TFGui(TFBlocks.isoCondenser, ContainerEmpty.class, "fiskfille.tf.client.gui.GuiIsoCondenser", new Class[] {InventoryPlayer.class, TileEntityIsoCondenser.class}, new Class[] {InventoryPlayer.class});
             RECEIVER_NETWORK = new TFGui(null, null, "fiskfille.tf.client.gui.GuiSelectReceivers", TileEntity.class);
         }
 

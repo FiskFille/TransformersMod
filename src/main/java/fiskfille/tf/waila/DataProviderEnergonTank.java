@@ -18,7 +18,7 @@ public class DataProviderEnergonTank extends DataProviderMachine
     }
 
     public void updateFluids(TileEntity tile)
-    {   
+    {
         TileEntity tileBase = TFTileHelper.getTileBase(tile);
         FluidStack stack = null;
         int y = tileBase.yCoord;
@@ -28,18 +28,18 @@ public class DataProviderEnergonTank extends DataProviderMachine
         {
             IFluidHandlerTF fluidHandler = (IFluidHandlerTF) tile.getWorldObj().getTileEntity(tile.xCoord, y, tile.zCoord);
             FluidTank tank = fluidHandler.getTank();
-            
+
             if (stack == null && tank.getFluid() != null)
             {
                 stack = tank.getFluid().copy();
                 stack.amount = 0;
             }
-            
+
             if (stack != null)
             {
                 stack.amount += tank.getFluidAmount();
             }
-            
+
             capacity += tank.getCapacity();
             ++y;
         }

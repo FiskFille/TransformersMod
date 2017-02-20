@@ -11,11 +11,11 @@ public class TileDataRelay extends TileData
 {
     public TransmissionHandler transmissionHandler = new TransmissionHandler();
     public boolean isPowered;
-    
+
     public TileDataRelay()
     {
     }
-    
+
     public TileDataRelay(TileDataRelay data)
     {
         super(data);
@@ -31,10 +31,10 @@ public class TileDataRelay extends TileData
         {
             transmissionHandler.setOwner(tile);
         }
-        
+
         return super.initialize(tile);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -42,7 +42,7 @@ public class TileDataRelay extends TileData
         transmissionHandler.toBytes(buf);
         buf.writeBoolean(isPowered);
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -50,17 +50,17 @@ public class TileDataRelay extends TileData
         transmissionHandler.fromBytes(buf);
         isPowered = buf.readBoolean();
     }
-    
+
     public void serverTickPre()
     {
         WorldServer world = MinecraftServer.getServer().worldServerForDimension(getCoords().dimension);
-        
+
         if (world != null)
         {
             transmissionHandler.onUpdate(world);
         }
     }
-    
+
     @Override
     public void kill()
     {
@@ -68,20 +68,20 @@ public class TileDataRelay extends TileData
         {
             transmissionHandler.kill();
         }
-        
+
         super.kill();
     }
-    
+
     @Override
     public boolean matches(TileData tileData)
     {
         if (tileData instanceof TileDataRelay)
         {
             TileDataRelay data = (TileDataRelay) tileData;
-            
+
             return isPowered == data.isPowered && !transmissionHandler.needsUpdate();
         }
-        
+
         return false;
     }
 }

@@ -2,6 +2,7 @@ package fiskfille.tf.helper;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.WeakHashMap;
 
 import net.minecraft.block.Block;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -26,6 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
@@ -44,6 +47,8 @@ import fiskfille.tf.common.transformer.base.Transformer;
 public class TFRenderHelper
 {
     private static Minecraft mc = Minecraft.getMinecraft();
+    private static RenderItem itemRender = new RenderItem();
+
     private static float lastBrightnessX;
     private static float lastBrightnessY;
     private static final Map<EntityPlayer, Double> previousMotionY = new WeakHashMap<EntityPlayer, Double>();
@@ -205,8 +210,6 @@ public class TFRenderHelper
 
     public static void renderEnergyTransmissions(TileEntity transmitterTile, double x, double y, double z, float partialTicks)
     {
-        Tessellator tessellator = Tessellator.instance;
-
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -230,7 +233,7 @@ public class TFRenderHelper
             flag = transmitter.getEnergy() > 0;
         }
         
-        if (flag)
+        if (flag) // TODO: Fix beams not rendered by relays if there isn't a transmitter in ancestry
         {
             for (ReceiverEntry entry : transmissionHandler.getReceivers())
             {
@@ -265,79 +268,183 @@ public class TFRenderHelper
                 src = Vec3.createVectorHelper(x1, y1, z1);
                 dst = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
 
-                double width = 1F / 16;
-                double length = src.distanceTo(dst);
-                float[] primary = TFRenderHelper.hexToRGB(0x57ABAF);
-                float[] secondary = TFRenderHelper.hexToRGB(0x7BF2F8);
-                float[] parentPrimary = primary;
-                float[] parentSecondary = secondary;
-                int segments = MathHelper.floor_double(length * 8);
-
+                int primary = 0x57ABAF;
+                int secondary = 0x7BF2F8;
+                int parentPrimary = primary;
+                int parentSecondary = secondary;
+                
                 if (!entry.canReach())
                 {
-                    primary = TFRenderHelper.hexToRGB(0xAF5B57);
-                    secondary = TFRenderHelper.hexToRGB(0xF8817B);
+                    primary = 0xAF5B57;
+                    secondary = 0xF8817B;
                 }
                 else if (!(receiverTile instanceof IEnergyTransmitter) && receiver.getEnergy() >= receiver.getMaxEnergy())
                 {
-                    primary = TFRenderHelper.hexToRGB(0x62AF57);
-                    secondary = TFRenderHelper.hexToRGB(0x8AF87B);
+                    primary = 0x62AF57;
+                    secondary = 0x8AF87B;
                 }
 
                 GL11.glPushMatrix();
                 GL11.glTranslated(x + x1, y + y1, z + z1);
-                TFRenderHelper.faceVec(src, dst);
-
-                for (int i = 0; i < segments; ++i)
-                {
-                    double segmentLength = length / segments;
-                    double start = i * segmentLength;
-                    double end = i * segmentLength + segmentLength;
-                    float f = (float) Math.cos(i / (segments * 0.15625F) - (mc.thePlayer.ticksExisted + partialTicks) / 5);
-                    float f1 = 1 - f;
-                    float f2 = Math.min((float) i / segments * 3, 1);
-                    float f3 = 1 - f2;
-
-                    tessellator.startDrawingQuads();
-                    tessellator.setColorRGBA_F((primary[0] * f + secondary[0] * f1) * f2 + (parentPrimary[0] * f + parentSecondary[0] * f1) * f3, (primary[1] * f + secondary[1] * f1) * f2 + (parentPrimary[1] * f + parentSecondary[1] * f1) * f3, (primary[2] * f + secondary[2] * f1) * f2 + (parentPrimary[2] * f + parentSecondary[2] * f1) * f3, 1);
-
-                    tessellator.addVertex(width, width, end);
-                    tessellator.addVertex(width, width, start);
-                    tessellator.addVertex(-width, width, start);
-                    tessellator.addVertex(-width, width, end);
-                    tessellator.addVertex(-width, -width, start);
-                    tessellator.addVertex(width, -width, start);
-                    tessellator.addVertex(width, -width, end);
-                    tessellator.addVertex(-width, -width, end);
-                    tessellator.addVertex(-width, width, start);
-                    tessellator.addVertex(-width, -width, start);
-                    tessellator.addVertex(-width, -width, end);
-                    tessellator.addVertex(-width, width, end);
-                    tessellator.addVertex(width, -width, end);
-                    tessellator.addVertex(width, -width, start);
-                    tessellator.addVertex(width, width, start);
-                    tessellator.addVertex(width, width, end);
-
-                    if (i == segments - 1)
-                    {
-                        tessellator.addVertex(width, -width, end);
-                        tessellator.addVertex(width, width, end);
-                        tessellator.addVertex(-width, width, end);
-                        tessellator.addVertex(-width, -width, end);
-                    }
-                    else if (i == 0)
-                    {
-                        tessellator.addVertex(-width, width, start);
-                        tessellator.addVertex(width, width, start);
-                        tessellator.addVertex(width, -width, start);
-                        tessellator.addVertex(-width, -width, start);
-                    }
-
-                    tessellator.draw();
-                }
-
+                renderEnergyBeam(src, dst, primary, secondary, parentPrimary, parentSecondary);
                 GL11.glPopMatrix();
             }
+        }
+
+        TFRenderHelper.resetLighting();
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
+    }
+
+    public static void renderEnergyBeam(Vec3 src, Vec3 dst, int primaryColor, int secondaryColor, int primaryParentColor, int secondaryParentColor)
+    {
+        Tessellator tessellator = Tessellator.instance;
+        float partialTicks = ClientTickHandler.renderTick;
+        float[] primary = hexToRGB(primaryColor);
+        float[] secondary = hexToRGB(secondaryColor);
+        float[] parentPrimary = hexToRGB(primaryParentColor);
+        float[] parentSecondary = hexToRGB(primaryParentColor);
+
+        double width = 1F / 16;
+        double length = src.distanceTo(dst);
+        int segments = MathHelper.floor_double(length * 8);
+
+        TFRenderHelper.faceVec(src, dst);
+
+        for (int i = 0; i < segments; ++i)
+        {
+            double segmentLength = length / segments;
+            double start = i * segmentLength;
+            double end = i * segmentLength + segmentLength;
+            float f = (float) Math.cos(i / (segments * 0.15625F) - (mc.thePlayer.ticksExisted + partialTicks) / 5);
+            float f1 = 1 - f;
+            float f2 = Math.min((float) i / segments * 3, 1);
+            float f3 = 1 - f2;
+
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_F((primary[0] * f + secondary[0] * f1) * f2 + (parentPrimary[0] * f + parentSecondary[0] * f1) * f3, (primary[1] * f + secondary[1] * f1) * f2 + (parentPrimary[1] * f + parentSecondary[1] * f1) * f3, (primary[2] * f + secondary[2] * f1) * f2 + (parentPrimary[2] * f + parentSecondary[2] * f1) * f3, 1);
+
+            tessellator.addVertex(width, width, end);
+            tessellator.addVertex(width, width, start);
+            tessellator.addVertex(-width, width, start);
+            tessellator.addVertex(-width, width, end);
+            tessellator.addVertex(-width, -width, start);
+            tessellator.addVertex(width, -width, start);
+            tessellator.addVertex(width, -width, end);
+            tessellator.addVertex(-width, -width, end);
+            tessellator.addVertex(-width, width, start);
+            tessellator.addVertex(-width, -width, start);
+            tessellator.addVertex(-width, -width, end);
+            tessellator.addVertex(-width, width, end);
+            tessellator.addVertex(width, -width, end);
+            tessellator.addVertex(width, -width, start);
+            tessellator.addVertex(width, width, start);
+            tessellator.addVertex(width, width, end);
+
+            if (i == segments - 1)
+            {
+                tessellator.addVertex(width, -width, end);
+                tessellator.addVertex(width, width, end);
+                tessellator.addVertex(-width, width, end);
+                tessellator.addVertex(-width, -width, end);
+            }
+            else if (i == 0)
+            {
+                tessellator.addVertex(-width, width, start);
+                tessellator.addVertex(width, width, start);
+                tessellator.addVertex(width, -width, start);
+                tessellator.addVertex(-width, -width, start);
+            }
+
+            tessellator.draw();
+        }
+    }
+
+    public static void renderEnergyStatic(Vec3 src, Vec3 dst, double width, float intensity)
+    {
+        Tessellator tessellator = Tessellator.instance;
+
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        TFRenderHelper.setLighting(61680);
+
+        GL11.glTranslated(-src.xCoord, -src.yCoord, -src.zCoord);
+        faceVec(dst, src);
+        GL11.glRotatef(90, 1, 0, 0);
+
+        float[] primary = TFRenderHelper.hexToRGB(0x57ABAF);
+        float[] secondary = TFRenderHelper.hexToRGB(0x7BF2F8);
+        double length = src.distanceTo(dst);
+        int segments = 16;
+
+        Random rand = new Random(8964355487L + mc.thePlayer.ticksExisted * 100000);
+        Random randPrev = new Random(8964355487L + (mc.thePlayer.ticksExisted - 1) * 100000);
+
+        src = Vec3.createVectorHelper(0, 0, 0);
+
+        for (int i = 0; i < segments; ++i)
+        {
+            float f = (float) i / segments;
+            dst = Vec3.createVectorHelper(0, (i + 1) * length / segments, 0);
+
+            if (i < segments - 1)
+            {
+                float angle = (float) Math.toRadians(90 * intensity) * (1 - f);
+                dst.rotateAroundX((TFHelper.median(rand.nextFloat(), randPrev.nextFloat(), ClientTickHandler.renderTick) - 0.5F) * 2 * angle);
+                dst.rotateAroundY((TFHelper.median(rand.nextFloat(), randPrev.nextFloat(), ClientTickHandler.renderTick) - 0.5F) * 2 * angle);
+                dst.rotateAroundZ((TFHelper.median(rand.nextFloat(), randPrev.nextFloat(), ClientTickHandler.renderTick) - 0.5F) * 2 * angle);
+            }
+            else
+            {
+                dst = Vec3.createVectorHelper(0, length, 0);
+            }
+
+            dst.xCoord = MathHelper.clamp_double(dst.xCoord, -0.0625F * 1.25F, 0.0625F * 1.25F);
+            dst.zCoord = MathHelper.clamp_double(dst.zCoord, -0.0625F * 1.25F, 0.0625F * 1.25F);
+            dst.yCoord = MathHelper.clamp_double(dst.yCoord, 0, length);
+
+            double segmentLength = src.distanceTo(dst);
+            float f1 = (float) Math.cos(i / (segments * 0.15625F));
+            float f2 = 1 - f1;
+
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_F(primary[0] * f1 + secondary[0] * f2, primary[1] * f1 + secondary[1] * f2, primary[2] * f1 + secondary[2] * f2, 1);
+            tessellator.addVertex(width, width, segmentLength);
+            tessellator.addVertex(width, width, 0);
+            tessellator.addVertex(-width, width, 0);
+            tessellator.addVertex(-width, width, segmentLength);
+            tessellator.addVertex(-width, -width, 0);
+            tessellator.addVertex(width, -width, 0);
+            tessellator.addVertex(width, -width, segmentLength);
+            tessellator.addVertex(-width, -width, segmentLength);
+            tessellator.addVertex(-width, width, 0);
+            tessellator.addVertex(-width, -width, 0);
+            tessellator.addVertex(-width, -width, segmentLength);
+            tessellator.addVertex(-width, width, segmentLength);
+            tessellator.addVertex(width, -width, segmentLength);
+            tessellator.addVertex(width, -width, 0);
+            tessellator.addVertex(width, width, 0);
+            tessellator.addVertex(width, width, segmentLength);
+            tessellator.addVertex(width, -width, segmentLength);
+            tessellator.addVertex(width, width, segmentLength);
+            tessellator.addVertex(-width, width, segmentLength);
+            tessellator.addVertex(-width, -width, segmentLength);
+            tessellator.addVertex(-width, width, 0);
+            tessellator.addVertex(width, width, 0);
+            tessellator.addVertex(width, -width, 0);
+            tessellator.addVertex(-width, -width, 0);
+
+            GL11.glPushMatrix();
+            GL11.glTranslated(src.xCoord, src.yCoord, src.zCoord);
+            TFRenderHelper.faceVec(src, dst);
+            tessellator.draw();
+            GL11.glPopMatrix();
+            src = dst;
         }
 
         TFRenderHelper.resetLighting();
@@ -450,5 +557,43 @@ public class TFRenderHelper
     public static boolean shouldOverrideThirdPersonDistance(EntityPlayer player)
     {
         return player.ridingEntity == null && (TFHelper.getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null);
+    }
+
+    public static void renderItemIntoGUI(int x, int y, ItemStack itemstack)
+    {
+        if (itemstack != null)
+        {
+            FontRenderer font = itemstack.getItem().getFontRenderer(itemstack);
+
+            if (font == null)
+            {
+                font = mc.fontRenderer;
+            }
+
+            itemRender.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), itemstack, x, y);
+
+            if (itemstack.stackSize > 1)
+            {
+                itemRender.renderItemOverlayIntoGUI(font, mc.getTextureManager(), itemstack, x, y, itemstack.stackSize + "");
+            }
+        }
+    }
+
+    public static void setupRenderItemIntoGUI()
+    {
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_BLEND);
+    }
+
+    public static void finishRenderItemIntoGUI()
+    {
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glColor4f(1, 1, 1, 1);
     }
 }

@@ -47,6 +47,7 @@ public class BlockDisplayStation extends BlockMachineBase
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         int metadata = world.getBlockMetadata(x, y, z);
+
         if (metadata >= 4)
         {
             setBlockBounds(0.0F, -1.0F, 0.0F, 1.0F, 1.0F, 1.0F);

@@ -62,10 +62,8 @@ public class MessageConnectReceiver implements IMessage
                     if (transmitterTile instanceof IEnergyTransmitter && receiverTile instanceof IEnergyReceiver)
                     {
                         IEnergyTransmitter transmitter = (IEnergyTransmitter) transmitterTile;
-                        IEnergyReceiver receiver = (IEnergyReceiver) receiverTile;
-                        
                         TransmissionHandler handler = transmitter.getTransmissionHandler();
-                        
+
                         if (handler.getReceiver(coords1) != null)
                         {
                             handler.remove(new ReceiverEntry(receiverTile));

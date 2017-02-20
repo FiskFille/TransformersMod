@@ -15,21 +15,21 @@ public class FluidTankTF extends FluidTank
     {
         super(capacity);
     }
-    
+
     public FluidTankTF copy()
     {
         FluidTankTF tank = new FluidTankTF(getCapacity());
-        
+
         if (getFluid() != null)
         {
             tank.setFluid(getFluid().copy());
         }
-        
+
         tank.setUsage(getUsage());
-        
+
         return tank;
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         boolean hasFluid = fluid != null;
@@ -40,10 +40,10 @@ public class FluidTankTF extends FluidTank
             NBTTagCompound tag = fluid.writeToNBT(new NBTTagCompound());
             ByteBufUtils.writeTag(buf, tag);
         }
-        
+
         buf.writeShort(fluidUsage);
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         if (buf.readBoolean())
@@ -51,7 +51,7 @@ public class FluidTankTF extends FluidTank
             NBTTagCompound tag = ByteBufUtils.readTag(buf);
             fluid = FluidStack.loadFluidStackFromNBT(tag);
         }
-        
+
         fluidUsage = buf.readShort();
         lastFluidAmount = getFluidAmount() - fluidUsage;
     }
@@ -89,7 +89,7 @@ public class FluidTankTF extends FluidTank
         int amount = getFluidAmount();
         fluidUsage = amount - lastFluidAmount;
         lastFluidAmount = amount;
-        
+
         return fluidUsage;
     }
 }

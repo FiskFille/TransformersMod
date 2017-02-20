@@ -18,12 +18,12 @@ public class TFTileHelper
     {
         return tileData.get(coords);
     }
-    
+
     public static Map<DimensionalCoords, TileData> getTileData()
     {
         return tileData;
     }
-    
+
     public static void clearTileData()
     {
         for (Map.Entry<DimensionalCoords, TileData> e : tileData.entrySet())
@@ -44,7 +44,7 @@ public class TFTileHelper
             tileData.remove(coords);
             return;
         }
-        
+
         tileData.put(coords, data);
     }
 

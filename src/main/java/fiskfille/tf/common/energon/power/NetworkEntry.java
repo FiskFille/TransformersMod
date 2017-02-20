@@ -16,7 +16,7 @@ public class NetworkEntry
         coords = coordinates;
         owner = tile;
     }
-    
+
     public NetworkEntry(TileEntity tile)
     {
         this(new DimensionalCoords(tile), tile);
@@ -36,7 +36,7 @@ public class NetworkEntry
     {
         return (IEnergyTransmitter) getTile();
     }
-    
+
     public IEnergyReceiver getReceiver()
     {
         return (IEnergyReceiver) getTile();
@@ -59,7 +59,7 @@ public class NetworkEntry
         compound.setInteger("Z", coords.posZ);
         compound.setInteger("Dim", coords.dimension);
     }
-    
+
     public static NetworkEntry readFromNBT(NBTTagCompound compound)
     {
         return new NetworkEntry(new DimensionalCoords(compound.getInteger("X"), compound.getInteger("Y"), compound.getInteger("Z"), compound.getInteger("Dim")), null);

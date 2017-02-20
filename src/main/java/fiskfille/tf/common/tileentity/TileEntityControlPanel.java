@@ -55,7 +55,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     public Integer[][] switches = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    
+
     public TileDataControlPanel data = new TileDataControlPanel();
     private ItemStack[] inventory = new ItemStack[3];
 
@@ -819,7 +819,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
         if (!worldObj.isRemote)
         {
             data.kill();
-            
+
             releaseChunk(0);
             releaseChunk(1);
         }

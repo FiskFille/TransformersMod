@@ -14,23 +14,23 @@ public class EnergyStorage
     {
         maxEnergy = max;
     }
-    
+
     public EnergyStorage copy()
     {
         EnergyStorage storage = new EnergyStorage(getMaxEnergy());
         storage.energy = energy;
         storage.energyUsage = energyUsage;
         storage.lastEnergy = lastEnergy;
-        
+
         return storage;
     }
-    
+
     public void toBytes(ByteBuf buf)
     {
         buf.writeFloat(energy);
         buf.writeFloat(energyUsage);
     }
-    
+
     public void fromBytes(ByteBuf buf)
     {
         energy = buf.readFloat();

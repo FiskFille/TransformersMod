@@ -156,7 +156,7 @@ public class TFHelper
     {
         return median(TFData.STEALTH_FORCE_PROGRESS.get(player), TFData.PREV_STEALTH_FORCE_PROGRESS.get(player), TransformersMod.proxy.getRenderTick());
     }
-    
+
     public static void applyFluidUsage(FluidTankTF tank)
     {
         FluidStack fluidStack = tank.getFluid();
