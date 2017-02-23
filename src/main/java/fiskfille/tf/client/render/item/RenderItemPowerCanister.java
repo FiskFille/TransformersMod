@@ -53,15 +53,16 @@ public class RenderItemPowerCanister implements IItemRenderer
                 IEnergyContainerItem container = (IEnergyContainerItem) itemstack.getItem();
                 float energy = container.getEnergyStored(itemstack);
                 float max = container.getEnergyCapacity(itemstack);
-
+                float filled = energy / max;
+                
                 if (energy > 0)
                 {
-                    boolean flag = renderItem.renderWithColor;
+                    boolean flag = renderItem.renderWithColor;   
                     TFRenderHelper.setLighting(61680);
                     GL11.glDisable(GL11.GL_LIGHTING);
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                    GL11.glColor4f(1, 1, 1, energy / max);
+                    GL11.glColor4f(1, 1, 1, filled);
                     renderItem.renderWithColor = false;
                     renderItem.renderIcon(0, 0, TFItems.powerCanister.getIconFromDamageForRenderPass(0, 1), 16, 16);
                     renderItem.renderWithColor = flag;
@@ -69,6 +70,23 @@ public class RenderItemPowerCanister implements IItemRenderer
                     GL11.glEnable(GL11.GL_LIGHTING);
                     TFRenderHelper.resetLighting();
                 }
+                
+                int shade = Math.round(255);
+                
+                GL11.glDisable(GL11.GL_LIGHTING);
+                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                GL11.glDisable(GL11.GL_ALPHA_TEST);
+                GL11.glShadeModel(GL11.GL_SMOOTH);
+                Tessellator tessellator = Tessellator.instance;
+                renderQuad(tessellator, 2, 13, 13, 2, 0);
+                renderQuad(tessellator, 2, 13, 12, 1, 0x003F3F);
+                renderQuad(tessellator, 2, 13, Math.round(filled * 12), 1, 0, shade << 8 | shade);
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glEnable(GL11.GL_LIGHTING);
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                GL11.glColor4f(1, 1, 1, 1);
             }
         }
         else
@@ -78,7 +96,7 @@ public class RenderItemPowerCanister implements IItemRenderer
 
             if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)
             {
-                GL11.glTranslatef(0.5F, 0.0F, 0.5F);
+                GL11.glTranslatef(0.5F, 0, 0.5F);
             }
             else if (type == ItemRenderType.ENTITY)
             {
@@ -195,5 +213,22 @@ public class RenderItemPowerCanister implements IItemRenderer
         mc.getTextureManager().bindTexture(new ResourceLocation(TransformersMod.modid, String.format("textures/models/tiles/power_canister_%s.png", container.tiers[Math.min(itemstack.getItemDamage(), container.tiers.length - 1)])));
         modelCanister.render();
         GL11.glEnable(GL11.GL_CULL_FACE);
+    }
+
+    private void renderQuad(Tessellator tessellator, int x, int y, int width, int height, int color1, int color2)
+    {
+        tessellator.startDrawingQuads();
+        tessellator.setColorOpaque_I(color1);
+        tessellator.addVertex(x, y, 0.0D);
+        tessellator.addVertex(x, y + height, 0.0D);
+        tessellator.setColorOpaque_I(color2);
+        tessellator.addVertex(x + width, y + height, 0.0D);
+        tessellator.addVertex(x + width, y, 0.0D);
+        tessellator.draw();
+    }
+    
+    private void renderQuad(Tessellator tessellator, int x, int y, int width, int height, int color)
+    {
+        renderQuad(tessellator, x, y, width, height, color, color);
     }
 }
