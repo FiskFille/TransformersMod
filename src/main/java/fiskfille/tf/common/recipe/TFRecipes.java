@@ -16,12 +16,20 @@ import static fiskfille.tf.common.recipe.Dyes.RED;
 import static fiskfille.tf.common.recipe.Dyes.SILVER;
 import static fiskfille.tf.common.recipe.Dyes.WHITE;
 import static fiskfille.tf.common.recipe.Dyes.YELLOW;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import com.google.common.collect.Lists;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.common.block.TFBlocks;
@@ -31,8 +39,15 @@ import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRecipes
 {
+    public static List<IRecipe> tempRecipes = Lists.newArrayList();
+    public static List<IRecipe> tempAssemblyRecipes = Lists.newArrayList();
+    
     public static void register()
     {
+        restore();
+        List<IRecipe> prevRecipes = Lists.newArrayList(CraftingManager.getInstance().getRecipeList());
+        List<IRecipe> prevAssemblyRecipes = Lists.newArrayList(AssemblyTableCraftingManager.getInstance().getRecipeList());
+        
         PowerManager.load();
         addSmelting();
         addDisplayRecipes();
@@ -57,6 +72,31 @@ public class TFRecipes
         addMaterialCompression(TFItems.redEnergonCrystalShard, TFBlocks.redEnergonCube);
         addMaterialCompression(TFItems.transformiumFragment, TFBlocks.transformiumBlock);
         addMaterialCompression(TFItems.transformiumAlloyNugget, TFItems.transformiumAlloy);
+        
+        for (IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList())
+        {
+            if (!prevRecipes.contains(recipe))
+            {
+                tempRecipes.add(recipe);
+            }
+        }
+        
+        for (IRecipe recipe : (List<IRecipe>) AssemblyTableCraftingManager.getInstance().getRecipeList())
+        {
+            if (!prevAssemblyRecipes.contains(recipe))
+            {
+                tempAssemblyRecipes.add(recipe);
+            }
+        }
+    }
+    
+    public static void restore()
+    {
+        CraftingManager.getInstance().getRecipeList().removeAll(tempRecipes);
+        AssemblyTableCraftingManager.getInstance().getRecipeList().removeAll(tempAssemblyRecipes);
+        
+        tempRecipes.clear();
+        tempAssemblyRecipes.clear();
     }
 
     private static void addSmelting()

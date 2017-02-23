@@ -1,62 +1,108 @@
 package fiskfille.tf.common.item;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.StringUtils;
+import net.minecraft.world.World;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 
 public class ItemMetaBasic extends Item
 {
-    @SideOnly(Side.CLIENT)
-    protected IIcon[] icons;
-    public final String[] itemNames;
+    public static Map<String, Integer> subItems = Maps.newHashMap();
+    public Map<String, IIcon> mappedIcons = Maps.newHashMap();
+    
+    public static String[] iconNames;
 
-    public ItemMetaBasic(String... itemNames)
+    public ItemMetaBasic()
     {
-        this.itemNames = itemNames;
         setHasSubtypes(true);
     }
 
     @Override
-    public void getSubItems(Item item, CreativeTabs tab, List subItems)
+    public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        for (int i = 0; i < itemNames.length; ++i)
+        List<Double> list1 = Lists.newArrayList();
+        
+        for (Map.Entry<String, Integer> e : subItems.entrySet())
         {
-            subItems.add(new ItemStack(this, 1, i));
+            list1.add(e.getValue().doubleValue());
+        }
+        
+        Collections.sort(list1);
+        
+        for (int i = 0; i < list1.size(); ++i)
+        {
+            list.add(new ItemStack(this, 1, list1.get(i).intValue()));
+        }
+    }
+    
+    @Override
+    public void onUpdate(ItemStack itemstack, World world, Entity entity, int slot, boolean isHeld)
+    {
+        if (StringUtils.isNullOrEmpty(getNameFromId(itemstack.getItemDamage())))
+        {
+            if (entity instanceof EntityPlayer)
+            {
+                EntityPlayer player = (EntityPlayer) entity;
+                player.inventory.mainInventory[slot] = null;
+            }
         }
     }
 
     @Override
     public String getItemStackDisplayName(ItemStack stack)
     {
-        int damage = stack.getItemDamage();
-        return StatCollector.translateToLocal("item." + itemNames[MathHelper.clamp_int(damage, 0, itemNames.length - 1)].toLowerCase().replace(" ", "_").replace("'", "") + ".name");
+        return StatCollector.translateToLocal(String.format("item.%s.name", getNameFromId(stack.getItemDamage())));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int damage)
     {
-        return icons[MathHelper.clamp_int(damage, 0, icons.length - 1)];
+        return mappedIcons.get(getNameFromId(damage));
+    }
+    
+    public String getNameFromId(int id)
+    {
+        if (subItems.containsValue(id))
+        {
+            for (Map.Entry<String, Integer> e : subItems.entrySet())
+            {
+                if (e.getValue() == id)
+                {
+                    return e.getKey();
+                }
+            }
+        }
+        
+        return null;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister)
     {
-        icons = new IIcon[itemNames.length];
+        mappedIcons.clear();
 
-        for (int i = 0; i < itemNames.length; ++i)
+        for (int i = 0; i < iconNames.length; ++i)
         {
-            icons[i] = iconRegister.registerIcon(TransformersMod.modid + ":" + itemNames[i].toLowerCase().replaceAll(" ", "_").replaceAll("'", ""));
+            mappedIcons.put(iconNames[i], iconRegister.registerIcon(TransformersMod.modid + ":" + iconNames[i]));
         }
     }
 }

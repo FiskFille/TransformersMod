@@ -14,7 +14,6 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.TFDisplayableManager;
 import fiskfille.tf.client.gui.GuiHandlerTF;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
-import fiskfille.tf.common.achievement.TFAchievements;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.entity.TFEntities;
@@ -22,7 +21,6 @@ import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.generator.WorldGeneratorOres;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.recipe.TFRecipes;
 import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tick.CommonTickHandler;
 import fiskfille.tf.helper.TFShootManager;
@@ -40,9 +38,7 @@ public class CommonProxy
         TFBlocks.register();
         TFFluids.register();
         TFOreDictRegistry.register();
-        TFRecipes.register();
         TFEntities.register();
-        TFAchievements.register();
         TFDisplayableManager.registerDisplayables();
         TFGui.register();
 

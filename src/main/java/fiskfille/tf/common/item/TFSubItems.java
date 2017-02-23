@@ -4,8 +4,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
+
+import fiskfille.tf.common.achievement.TFAchievements;
+import fiskfille.tf.common.data.TFWorldData;
+import fiskfille.tf.common.recipe.TFRecipes;
 
 public class TFSubItems
 {
@@ -50,11 +55,27 @@ public class TFSubItems
     public static ItemStack[] cloudtrap_torso_base;
     public static ItemStack[] cloudtraps_greave;
     public static ItemStack[] cloudtraps_visor;
-
+    
     public static void register()
     {
-        int id = 0;
-        List<String> list = Lists.newArrayList();
+        List<String> names = Lists.newArrayList();
+
+        for (Field field : TFSubItems.class.getFields())
+        {
+            String s = field.getType().getName();
+
+            if (s.equals(ItemStack[].class.getName()))
+            {
+                names.add(field.getName());
+            }
+        }
+
+        ItemMetaBasic.iconNames = names.toArray(new String[names.size()]);
+    }
+
+    public static void load(World world)
+    {
+        TFWorldData data = TFWorldData.get(world);
 
         for (Field field : TFSubItems.class.getFields())
         {
@@ -66,6 +87,16 @@ public class TFSubItems
                 {
                     ItemStack[] itemstacks = new ItemStack[65];
                     String name = field.getName();
+                    int id = data.getNextAvailableId();
+                    
+                    if (data.subItems.containsKey(name))
+                    {
+                        id = data.subItems.get(name);
+                    }
+                    else
+                    {
+                        data.subItems.put(name, id);
+                    }
 
                     for (int amount = 0; amount < itemstacks.length; ++amount)
                     {
@@ -73,8 +104,6 @@ public class TFSubItems
                     }
 
                     field.set(null, itemstacks);
-                    list.add(name);
-                    ++id;
                 }
                 catch (Exception e)
                 {
@@ -82,19 +111,10 @@ public class TFSubItems
                 }
             }
         }
-
-        try
-        {
-            Field field = ItemMetaBasic.class.getField("itemNames");
-            String[] astring = list.toArray(new String[list.size()]);
-
-            field.setAccessible(true);
-            field.set(TFItems.craftingMaterial, astring);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        
+        ItemMetaBasic.subItems = data.subItems;
+        TFRecipes.register();
+        TFAchievements.register();
     }
 
     public static boolean matches(ItemStack itemstack, ItemStack[] item)

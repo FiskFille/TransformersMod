@@ -23,7 +23,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
@@ -34,6 +33,7 @@ import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
+import fiskfille.tf.common.data.TFWorldData;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.TFSubItems;
 import fiskfille.tf.common.network.MessageBroadcastState;
@@ -249,6 +249,19 @@ public class CommonEventHandler
     public void onWorldUnload(WorldEvent.Unload event)
     {
 //        TFChunkManager.clearCache();
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load event)
+    {
+        World world = event.world;
+
+        if (!world.isRemote)
+        {
+            TFWorldData.load(world);
+        }
+        
+        TFSubItems.load(world);
     }
 
     @SubscribeEvent
