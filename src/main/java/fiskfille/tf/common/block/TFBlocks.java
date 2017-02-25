@@ -34,6 +34,7 @@ public class TFBlocks
     public static Block cosmicRust;
 
     // Energon
+    public static Block energonOre;
     public static Block energonCrystal;
     public static Block redEnergonCrystal;
     public static Block energonCube;
@@ -72,6 +73,7 @@ public class TFBlocks
         transformiumSeed = new BlockTransformiumSeed();
         cosmicRust = new BlockCosmicRust();
 
+        energonOre = new BlockEnergonOre();
         energonCrystal = new BlockEnergonCrystal(TFEnergonManager.energon);
         redEnergonCrystal = new BlockEnergonCrystal(TFEnergonManager.redEnergon);
         energonCube = new BlockEnergonCube(TFEnergonManager.energon);
@@ -99,6 +101,7 @@ public class TFBlocks
         groundBridgeControlPanel = new BlockControlPanel();
 
         embTest = new BlockEmbTest();
+        
 
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore");
         TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium");
@@ -106,6 +109,7 @@ public class TFBlocks
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class);
         TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust");
 
+        TFBlockRegistry.registerBlock(energonOre, "Energon Ore");
         TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class);
         TFBlockRegistry.registerTileEntity(redEnergonCrystal, "Red Energon Crystal", TileEntityCrystal.class);
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube");

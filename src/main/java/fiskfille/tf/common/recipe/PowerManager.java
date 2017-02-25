@@ -13,8 +13,10 @@ public class PowerManager
 {
     public static Map<ItemStack, Integer> powerSources = Maps.newHashMap();
 
-    public static void load()
+    public static void register()
     {
+        powerSources.clear();
+        
         addPowerSource(Items.redstone, 0, 400);
         addPowerSource(Blocks.redstone_block, 0, 3600);
     }

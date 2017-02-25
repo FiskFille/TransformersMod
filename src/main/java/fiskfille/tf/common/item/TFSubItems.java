@@ -14,6 +14,22 @@ import fiskfille.tf.common.recipe.TFRecipes;
 
 public class TFSubItems
 {
+    public static ItemStack[] iron_pole;
+    public static ItemStack[] iron_support;
+    public static ItemStack[] canister_lid;
+    public static ItemStack[] lcd_panel;
+    public static ItemStack[] crude_alloy_wire;
+    public static ItemStack[] refined_alloy_wire;
+    public static ItemStack[] energon_coil;
+    public static ItemStack[] focusing_crystal;
+    public static ItemStack[] transmission_orb;
+    public static ItemStack[] energy_converter;
+    public static ItemStack[] superconductor;
+    public static ItemStack[] singularity;
+    public static ItemStack[] basic_circuit;
+    public static ItemStack[] improved_circuit;
+    public static ItemStack[] advanced_circuit;
+    
     public static ItemStack[] optic_sensor;
     public static ItemStack[] protoform_head;
     public static ItemStack[] transformium_alloy_rod;

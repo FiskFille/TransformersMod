@@ -24,7 +24,12 @@ public class TFItems
     public static Item transformiumFragment;
     public static Item transformiumAlloy;
     public static Item transformiumAlloyNugget;
-    public static ItemMetaBasic craftingMaterial;
+    public static Item crudeFluxAlloy;
+    public static Item refinedFluxAlloy;
+    public static Item energonDust;
+    public static Item energonAlloy;
+    public static Item craftingMaterial;
+    
     public static Item fuelCanister;
     public static Item dye;
     public static Item componentBase;
@@ -80,6 +85,10 @@ public class TFItems
         transformiumFragment = new Item();
         transformiumAlloy = new Item();
         transformiumAlloyNugget = new Item();
+        crudeFluxAlloy = new Item();
+        refinedFluxAlloy = new Item();
+        energonDust = new Item();
+        energonAlloy = new Item();
         craftingMaterial = new ItemMetaBasic();
         fuelCanister = new ItemFuelCanister();
         dye = new ItemDyeTF();
@@ -138,6 +147,10 @@ public class TFItems
         TFItemRegistry.registerItem(transformiumFragment, "Transformium Fragment");
         TFItemRegistry.registerItem(transformiumAlloy, "Transformium Alloy");
         TFItemRegistry.registerItem(transformiumAlloyNugget, "Transformium Alloy Nugget");
+        TFItemRegistry.registerItem(crudeFluxAlloy, "Crude Flux Alloy");
+        TFItemRegistry.registerItem(refinedFluxAlloy, "Refined Flux Alloy");
+        TFItemRegistry.registerItem(energonDust, "Energon Dust");
+        TFItemRegistry.registerItem(energonAlloy, "Energon Alloy");
         TFItemRegistry.registerItem(craftingMaterial, "Crafting Material");
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector");
         TFItemRegistry.registerItem(fuelCanister, "Fuel Canister");

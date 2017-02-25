@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TFReflection;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.TFDisplayableManager;
@@ -19,7 +18,7 @@ import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.fluid.TFFluids;
-import fiskfille.tf.common.generator.WorldGeneratorOres;
+import fiskfille.tf.common.generator.TFWorldGenHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tick.CommonTickHandler;
@@ -43,7 +42,7 @@ public class CommonProxy
         TFGui.register();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(TransformersMod.modid, new GuiHandlerTF());
-        GameRegistry.registerWorldGenerator(new WorldGeneratorOres(), 0);
+        registerEventHandler(new TFWorldGenHandler());
         registerEventHandler(new CommonEventHandler());
         registerEventHandler(new CommonTickHandler());
         registerEventHandler(new TFShootManager());
@@ -57,6 +56,7 @@ public class CommonProxy
     public void registerEventHandler(Object obj)
     {
         MinecraftForge.EVENT_BUS.register(obj);
+        MinecraftForge.ORE_GEN_BUS.register(obj);
         FMLCommonHandler.instance().bus().register(obj);
     }
 
@@ -92,14 +92,4 @@ public class CommonProxy
             }
         }
     }
-
-//    public void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
-//    {
-//        ChunkCoordinates coordinates = new ChunkCoordinates(tile.xCoord, tile.yCoord, tile.zCoord);
-//        TFNetworkManager.networkWrapper.sendTo(new MessageOpenSetReceiversGUI(coordinates, grandparents), (EntityPlayerMP) player);
-//    }
-//
-//    public void updateReceivers(TileEntity tileEntity, List<ChunkCoordinates> grandparents)
-//    {
-//    }
 }

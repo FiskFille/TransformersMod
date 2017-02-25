@@ -2,6 +2,27 @@
 item.transformium_fragment.name=Transformium Fragment
 item.transformium_alloy.name=Transformium Alloy
 item.transformium_alloy_nugget.name=Transformium Alloy Nugget
+item.crude_flux_alloy.name=Crude Flux Alloy
+item.refined_flux_alloy.name=Refined Flux Alloy
+item.energon_dust.name=Energon Dust
+item.energon_alloy.name=Energon Alloy
+
+item.iron_pole.name=Iron Pole
+item.iron_support.name=Iron Support
+item.canister_lid.name=Canister Lid
+item.lcd_panel.name=LCD Panel
+item.crude_alloy_wire.name=Crude Alloy Wire
+item.refined_alloy_wire.name=Refined Alloy Wire
+item.energon_coil.name=Energon Coil
+item.focusing_crystal.name=Focusing Crystal
+item.transmission_orb.name=Transmission Orb
+item.energy_converter.name=Energy Converter
+item.superconductor.name=Superconductor
+item.singularity.name=Singularity
+item.basic_circuit.name=Basic Circuit
+item.improved_circuit.name=Improved Circuit
+item.advanced_circuit.name=Advanced Circuit
+
 item.energon_crystal_shard.name=Energon Crystal Shard
 item.red_energon_crystal_shard.name=Red Energon Crystal Shard
 item.missile.name=Missile
@@ -112,31 +133,21 @@ item.flame_thrower.name=Cloudtrap's Flamethrower
 
 
 ------Blocks------
-tile.display_pillar.name=Display Pillar
-tile.display_pillar.amount=x%s
 tile.transformium_ore.name=Transformium Ore
+tile.block_of_transformium.name=Block of Transformium
+tile.transformium_stone.name=Transformium Stone
+tile.transformium_seed.name=Transformium Seed
+tile.cosmic_rust.name=Cosmic Rust
+
+tile.energon_ore.name=Energon Ore
 tile.energon_crystal.name=Energon Crystal
 tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.red_energon_cube.name=Red Energon Cube
-tile.transformium_stone.name=Transformium Stone
-tile.transformium_seed.name=Transformium Seed
-tile.block_of_transformium.name=Block of Transformium
-tile.cosmic_rust.name=Cosmic Rust
-tile.transformer_display_station.name=Transformer Display Station
-tile.transformer_assembly_table.name=Transformer Assembly Table
-tile.alloy_crucible.name=Alloy Crucible
-tile.energon_processor.name=Energon Processor
-tile.energon_fluid_tank.name=Energon Fluid Tank
-tile.energon_transmitter.name=Energon Transmitter
-tile.energy_relay.name=Energy Relay
-tile.energy_relay_torch.name=Energy Relay Torch
-tile.energy_column.name=Energy Column
-tile.isotopic_condenser.name=Isotopic Condenser
-tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
-tile.ground_bridge_frame.name=Ground Bridge Frame
-tile.ground_bridge_teleporter.name=Ground Bridge Portal
 
+tile.display_pillar.name=Display Pillar
+tile.display_pillar.amount=x%s
+tile.transformer_display_station.name=Transformer Display Station
 tile.wool.dark_red.name=Dark Red Wool
 tile.wool.beige.name=Beige Wool
 tile.wool.dark_gray.name=Dark Gray Wool
@@ -163,6 +174,19 @@ tile.carpet.dark_gray.name=Dark Gray Carpet
 tile.carpet.pale_green.name=Pale Green Carpet
 tile.carpet.pale_brown.name=Pale Brown Carpet
 
+tile.transformer_assembly_table.name=Transformer Assembly Table
+tile.alloy_crucible.name=Alloy Crucible
+tile.energon_processor.name=Energon Processor
+tile.energon_fluid_tank.name=Energon Fluid Tank
+tile.energon_transmitter.name=Energon Transmitter
+tile.energy_relay.name=Energy Relay
+tile.energy_relay_torch.name=Energy Relay Torch
+tile.energy_column.name=Energy Column
+tile.isotopic_condenser.name=Isotopic Condenser
+tile.ground_bridge_frame.name=Ground Bridge Frame
+tile.ground_bridge_teleporter.name=Ground Bridge Portal
+tile.ground_bridge_control_panel.name=Ground Bridge Control Panel
+
 
 ------Fluids------
 fluid.energon=Energon
@@ -173,7 +197,7 @@ itemGroup.Transformers=Transformers
 
 
 -----Energon------
-energon.default=Default Energon
+energon.default=Standard Energon
 energon.red=Red Energon
 
 

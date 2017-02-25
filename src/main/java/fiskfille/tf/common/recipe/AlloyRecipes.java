@@ -18,29 +18,43 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
+import fiskfille.tf.TFLog;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.TFSubItems;
 
 public class AlloyRecipes
 {
     private static final AlloyRecipes instance = new AlloyRecipes();
 
-    private Map<AlloyIngredients, ItemStack> smeltingList = Maps.newHashMap();
-    private Map<ItemStack, Integer> durationList = Maps.newHashMap();
-    private Map<ItemStack, Float> experienceList = Maps.newHashMap();
+    private Map<AlloyIngredients, ItemStack> smeltingMap = Maps.newHashMap();
+    private Map<ItemStack, Integer> durationMap = Maps.newHashMap();
+    private Map<ItemStack, Float> experienceMap = Maps.newHashMap();
 
     public static AlloyRecipes getInstance()
     {
         return instance;
     }
-
-    private AlloyRecipes()
+    
+    public static void register()
+    {
+        getInstance().smeltingMap.clear();
+        getInstance().durationMap.clear();
+        getInstance().experienceMap.clear();
+        getInstance().registerRecipes();
+    }
+    
+    private void registerRecipes()
     {
         addRecipe(new AlloyIngredients(TFItems.transformiumFragment, "ingotIron", "ingotIron"), new ItemStack(TFItems.transformiumAlloy, 2), 400, 1.0F);
         addRecipe(new AlloyIngredients(TFBlocks.transformiumStone, Blocks.clay, "gemQuartz"), new ItemStack(TFItems.transformiumFragment), 600, 0.35F);
-
+        addRecipe(new AlloyIngredients("ingotIron", "ingotGold", "dustRedstone"), new ItemStack(TFItems.crudeFluxAlloy), 0.4F);
+        addRecipe(new AlloyIngredients(TFItems.crudeFluxAlloy, TFItems.crudeFluxAlloy, "dustRedstone"), new ItemStack(TFItems.refinedFluxAlloy), 300, 0.6F);
+        addRecipe(new AlloyIngredients("ingotIron", "dustEnergon"), new ItemStack(TFItems.energonAlloy), 800, 0.4F);
+        addRecipe(new AlloyIngredients("dustEnergon", TFItems.transformiumFragment, "dustEnergon"), TFSubItems.focusing_crystal[1], 0.1F);
+        addRecipe(new AlloyIngredients("dustEnergon", "dustEnergon", "dustEnergon"), new ItemStack(TFItems.energonCrystalShard), 100, 0);
+        
         addRecipe(new AlloyIngredients("stone", Items.ender_pearl), new ItemStack(Blocks.end_stone), 0.2F);
         addRecipe(new AlloyIngredients("blockGlass"), new ItemStack(Blocks.glass), 0);
         addRecipe(new AlloyIngredients("paneGlass"), new ItemStack(Blocks.glass_pane), 0);
@@ -56,13 +70,13 @@ public class AlloyRecipes
     {
         if (alloy == null || alloy.getIngredients()[0] == null)
         {
-            FMLLog.warning("[TransformersMod] Mod '%s' attempted to register unknown or empty AlloyIngredients for item %s!", Loader.instance().activeModContainer().getModId(), Item.itemRegistry.getNameForObject(result.getItem()));
+            TFLog.warn("Mod '%s' attempted to register unknown or empty AlloyIngredients for item %s!", Loader.instance().activeModContainer().getModId(), Item.itemRegistry.getNameForObject(result.getItem()));
             return;
         }
 
-        smeltingList.put(alloy, result);
-        durationList.put(result, duration);
-        experienceList.put(result, Float.valueOf(xp));
+        smeltingMap.put(alloy, result);
+        durationMap.put(result, duration);
+        experienceMap.put(result, Float.valueOf(xp));
     }
 
     public ItemStack getSmeltingResult(AlloyIngredients ingredients)
@@ -73,7 +87,7 @@ public class AlloyRecipes
 
     public ItemStack getSmeltingResult(ItemStack input1, ItemStack input2, ItemStack input3)
     {
-        Iterator<Entry<AlloyIngredients, ItemStack>> iterator = smeltingList.entrySet().iterator();
+        Iterator<Entry<AlloyIngredients, ItemStack>> iterator = smeltingMap.entrySet().iterator();
         Entry<AlloyIngredients, ItemStack> entry;
 
         do
@@ -114,12 +128,12 @@ public class AlloyRecipes
 
     public Map getSmeltingList()
     {
-        return smeltingList;
+        return smeltingMap;
     }
 
     public int getSmeltTime(ItemStack itemstack)
     {
-        Iterator iterator = durationList.entrySet().iterator();
+        Iterator iterator = durationMap.entrySet().iterator();
         Entry entry;
 
         do
@@ -145,7 +159,7 @@ public class AlloyRecipes
             return xp;
         }
 
-        Iterator iterator = experienceList.entrySet().iterator();
+        Iterator iterator = experienceMap.entrySet().iterator();
         Entry entry;
 
         do

@@ -3,6 +3,7 @@ package fiskfille.tf.common.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 
@@ -14,7 +15,11 @@ public class BlockIsoCondenser extends BlockMachineBase
         setHarvestLevel("pickaxe", 1);
         setHardness(6.0F);
         setResistance(10.0F);
-
+    }
+    
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+    {
         float f = 0.0625F * 3;
         setBlockBounds(f, 0, f, 1 - f, 1, 1 - f);
     }
