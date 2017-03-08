@@ -15,6 +15,7 @@ import net.minecraftforge.common.AchievementPage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import fiskfille.tf.asm.TFTranslator;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.TFSubItems;
@@ -75,7 +76,7 @@ public class TFAchievements
         
         try
         {
-            Field itemField = Achievement.class.getField("theItemStack");
+            Field itemField = Achievement.class.getField(TFTranslator.getMappedName("field_75990_d", "theItemStack"));
             Field modifiersField = Field.class.getDeclaredField("modifiers");
             modifiersField.setAccessible(true);
             modifiersField.setInt(itemField, itemField.getModifiers() & ~Modifier.FINAL);
