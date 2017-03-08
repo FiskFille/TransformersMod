@@ -1,5 +1,9 @@
 package fiskfille.tf.client.gui;
 
+import java.awt.Rectangle;
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -8,8 +12,11 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 
+@SideOnly(Side.CLIENT)
 public class GuiButtonFlat extends GuiButton
 {
     public static final ResourceLocation buttonTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/widgets.png");
@@ -28,7 +35,7 @@ public class GuiButtonFlat extends GuiButton
             mc.getTextureManager().bindTexture(buttonTextures);
 
             GL11.glColor4f(1, 1, 1, 1);
-            field_146123_n = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+            field_146123_n = new Rectangle(xPosition, yPosition, width, height).contains(mouseX, mouseY);
             int hoverState = getHoverState(field_146123_n);
 
             GL11.glEnable(GL11.GL_BLEND);
@@ -55,5 +62,10 @@ public class GuiButtonFlat extends GuiButton
                 fontrenderer.drawString(displayString, xPosition + width / 2 - fontrenderer.getStringWidth(displayString) / 2 + 1, yPosition + (height - 6) / 2, color);
             }
         }
+    }
+    
+    public List<String> getHoverText()
+    {
+        return Arrays.asList();
     }
 }

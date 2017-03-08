@@ -10,10 +10,10 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 
 import org.lwjgl.opengl.GL11;
@@ -62,7 +62,7 @@ public class GuiSelectReceivers extends GuiScreen
         int baseX = MathHelper.floor_double(width / 2 - (spacing + size) * boardWidth / 2);
         int baseY = MathHelper.floor_double(height / 2 - (spacing + size) * boardWidth / 2);
 
-        buttonList.add(new GuiButton(0, width / 2 - 100, height - height / 7, StatCollector.translateToLocal("gui.done")));
+        buttonList.add(new GuiButton(0, width / 2 - 100, height - height / 7, I18n.format("gui.done")));
         buttonList.add(heightSlider = new GuiVerticalHeightSlider(1, this, baseX + boardWidthFl * (spacing + size), baseY - 1, boardWidthFl * (spacing + size) + 1, new Runnable()
         {
             @Override
@@ -279,7 +279,7 @@ public class GuiSelectReceivers extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         drawDefaultBackground();
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.transmitter.select_receivers"), width / 2, 15, 16777215);
+        drawCenteredString(fontRendererObj, I18n.format("gui.transmitter.select_receivers"), width / 2, 15, 16777215);
 
         if (coordArray == null || layers.isEmpty())
         {
@@ -566,7 +566,7 @@ public class GuiSelectReceivers extends GuiScreen
 
         for (int i = 0; i < dirs.length; ++i)
         {
-            astring[i] = StatCollector.translateToLocal("ground_bridge.direction." + dirs[(i + direction) % dirs.length]);
+            astring[i] = I18n.format("direction." + dirs[(i + direction) % dirs.length] + ".short");
         }
 
         drawCenteredString(fontRendererObj, astring[0], baseX + (spacing + size) * boardWidth / 2, baseY - fontRendererObj.FONT_HEIGHT / 2, -1);

@@ -7,11 +7,11 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -73,8 +73,8 @@ public class GuiGroundBridge extends GuiContainerTF
             return;
         }
 
-        buttonList.add(buttonDeactivate = new GuiButtonFlat(0, x + 37, y + 66, 64, StatCollector.translateToLocal("ground_bridge_remote.ui.deactivate")));
-        buttonList.add(buttonActivate = new GuiButtonFlat(1, x + 105, y + 66, 64, StatCollector.translateToLocal("ground_bridge_remote.ui.activate")));
+        buttonList.add(buttonDeactivate = new GuiButtonFlat(0, x + 37, y + 66, 64, I18n.format("ground_bridge_remote.ui.deactivate")));
+        buttonList.add(buttonActivate = new GuiButtonFlat(1, x + 105, y + 66, 64, I18n.format("ground_bridge_remote.ui.activate")));
         buttonList.add(buttonDimLeft = new GuiButtonFlat(2, x + 37, y + 49, 13, "<"));
         buttonList.add(buttonDimRight = new GuiButtonFlat(3, x + 64, y + 49, 13, ">"));
         buttonList.add(buttonDirection = new GuiButtonFlat(4, x + 156, y + 49, 13, ""));
@@ -136,7 +136,6 @@ public class GuiGroundBridge extends GuiContainerTF
         }
         else if (!data.activationLeverState)
         {
-            new DimensionalCoords();
             DimensionalCoords coords = DimensionalCoords.fromArray(newDestination);
 
             if (!data.destination.equals(coords))
@@ -175,7 +174,7 @@ public class GuiGroundBridge extends GuiContainerTF
         if (data != null)
         {
             String[] directions = {"north", "east", "south", "west"};
-            buttonDirection.displayString = StatCollector.translateToLocal("ground_bridge.direction." + directions[data.direction % directions.length]);
+            buttonDirection.displayString = I18n.format("direction." + directions[data.direction % directions.length] + ".short");
 
             dimensionField.setText(TFDimensionHelper.getDimensionName(data.destination.dimension));
             dimensionField.setCursorPositionZero();

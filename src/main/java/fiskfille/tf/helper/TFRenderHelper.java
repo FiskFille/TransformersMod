@@ -233,7 +233,7 @@ public class TFRenderHelper
             flag = transmitter.getEnergy() > 0;
         }
         
-        if (flag) // TODO: Fix beams not rendered by relays if there isn't a transmitter in ancestry
+//        if (flag) // TODO: Fix beams not rendered by relays if there isn't a transmitter in ancestry
         {
             for (ReceiverEntry entry : transmissionHandler.getReceivers())
             {

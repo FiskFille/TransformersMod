@@ -49,10 +49,10 @@ public class GuiColor extends GuiScreen
     {
         super.initGui();
         buttonList.add(new GuiButton(0, width / 2 - 100, height / 6 + 168, I18n.format("gui.done", new Object[0])));
-        buttonList.add(sliderRed = new GuiColorSlider(1, width / 2 - 22, height / 6, 0, StatCollector.translateToLocal("gui.display_station.color.red")));
-        buttonList.add(sliderGreen = new GuiColorSlider(2, width / 2 - 22, height / 6 + 21, 1, StatCollector.translateToLocal("gui.display_station.color.green")));
-        buttonList.add(sliderBlue = new GuiColorSlider(3, width / 2 - 22, height / 6 + 42, 2, StatCollector.translateToLocal("gui.display_station.color.blue")));
-        buttonList.add(new GuiButton(4, width / 2 + 29, height / 6 + 63, 78, 20, StatCollector.translateToLocal("gui.display_station.color.presets")));
+        buttonList.add(sliderRed = new GuiColorSlider(1, width / 2 - 22, height / 6, 0, I18n.format("gui.display_station.color.red")));
+        buttonList.add(sliderGreen = new GuiColorSlider(2, width / 2 - 22, height / 6 + 21, 1, I18n.format("gui.display_station.color.green")));
+        buttonList.add(sliderBlue = new GuiColorSlider(3, width / 2 - 22, height / 6 + 42, 2, I18n.format("gui.display_station.color.blue")));
+        buttonList.add(new GuiButton(4, width / 2 + 29, height / 6 + 63, 78, 20, I18n.format("gui.display_station.color.presets")));
         buttonList.add(new GuiButtonSwapColors(5, width / 2 + 108, height / 6 + 63));
         buttonList.add(new GuiButtonAlt(6, width / 2 + 112, height / 6 + 84, 16, 16, "X"));
 
@@ -219,7 +219,7 @@ public class GuiColor extends GuiScreen
     {
         drawDefaultBackground();
         inputField.drawTextBox();
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.display_station.color"), width / 2, 15, 16777215);
+        drawCenteredString(fontRendererObj, I18n.format("gui.display_station.color"), width / 2, 15, 16777215);
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);

@@ -1,6 +1,7 @@
 package fiskfille.tf.client.render.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
@@ -56,10 +57,11 @@ public class RenderItemDataCore implements IItemRenderer
         float colorMultiplier = 1;
 
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
 
         for (int i = 0; i < 2; ++i)
         {
-            IIcon iicon = itemstack.getItem().getIcon(itemstack, i);
+            IIcon icon = itemstack.getItem().getIcon(itemstack, i);
             int color = itemstack.getItem().getColorFromItemStack(itemstack, i);
             float f1 = (float) (color >> 16 & 255) / 255;
             float f2 = (float) (color >> 8 & 255) / 255;
@@ -82,27 +84,27 @@ public class RenderItemDataCore implements IItemRenderer
             GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
             tessellator.startDrawingQuads();
             tessellator.setNormal(0, -1, 0);
-            renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, iicon);
+            renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, icon);
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(0, 1, 0);
-            renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, iicon);
+            renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, icon);
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(0, 0, -1);
-            renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, iicon);
+            renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, icon);
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(0, 0, 1);
-            renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, iicon);
+            renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, icon);
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(-1, 0, 0);
-            renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, iicon);
+            renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, icon);
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(1, 0, 0);
-            renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, iicon);
+            renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, icon);
             tessellator.draw();
             GL11.glPopMatrix();
 

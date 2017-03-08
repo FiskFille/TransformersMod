@@ -803,7 +803,6 @@ public class ModelIsoCondenser extends MowzieModelBase
             float f = 1 - TFHelper.median(tile.animationTimer.get(e.getKey()) == null ? 0 : tile.animationTimer.get(e.getKey()), tile.prevAnimationTimer.get(e.getKey()) == null ? 0 : tile.prevAnimationTimer.get(e.getKey()), ClientTickHandler.renderTick);
             MowzieModelRenderer[] parts = e.getValue();
 
-            parts[0].rotationPointX += f * 0.5F;
             parts[0].rotateAngleX -= f * 0.6F;
             parts[1].rotateAngleX -= f * 1.1F;
             parts[2].rotateAngleX -= f * 0.3F;
@@ -813,15 +812,19 @@ public class ModelIsoCondenser extends MowzieModelBase
             switch (e.getKey())
             {
             case EAST:
+                parts[0].rotationPointX -= f * 0.4F;
                 parts[5].rotationPointX -= f * 0.6F;
                 break;
             case NORTH:
+                parts[0].rotationPointZ -= f * 0.4F;
                 parts[5].rotationPointZ -= f * 0.6F;
                 break;
             case SOUTH:
+                parts[0].rotationPointZ += f * 0.4F;
                 parts[5].rotationPointZ += f * 0.6F;
                 break;
             case WEST:
+                parts[0].rotationPointX += f * 0.4F;
                 parts[5].rotationPointX += f * 0.6F;
                 break;
             default:

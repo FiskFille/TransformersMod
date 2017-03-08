@@ -45,7 +45,7 @@ public class GuiEnergonProcessor extends GuiContainerTF
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
-        String s = StatCollector.translateToLocal(tileentity.getInventoryName());
+        String s = I18n.format(tileentity.getInventoryName());
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
 
@@ -67,7 +67,7 @@ public class GuiEnergonProcessor extends GuiContainerTF
 
                 if (percent > 0)
                 {
-                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
+                    text.add(I18n.format("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
                     colors.add(energon.getColor());
                     flag = true;
                 }
@@ -80,12 +80,12 @@ public class GuiEnergonProcessor extends GuiContainerTF
             }
             else
             {
-                text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
+                text.add(I18n.format("gui.energon_processor.unidentified"));
                 colors.add(0xbf0000);
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(tank.getFluidAmount()), TFFormatHelper.formatNumber(tank.getCapacity())));
+        text.add(I18n.format("gui.energon_processor.filled", TFFormatHelper.formatNumber(tank.getFluidAmount()), TFFormatHelper.formatNumber(tank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();

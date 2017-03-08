@@ -6,11 +6,11 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
@@ -123,7 +123,7 @@ public class GuiOverlay extends Gui
             drawTexturedModalRect(x, y + 1, 0, 0, 14, 14);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-            drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.laser_charge.name"), x + 50 + 18, y + 2, 0xffffff);
+            drawCenteredString(mc.fontRenderer, I18n.format("stats.laser_charge.name"), x + 50 + 18, y + 2, 0xffffff);
 
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glDisable(GL11.GL_BLEND);
@@ -138,7 +138,7 @@ public class GuiOverlay extends Gui
             float scale = 0.5F;
             GL11.glPushMatrix();
             GL11.glScalef(scale, scale, scale);
-            drawString(mc.fontRenderer, StatCollector.translateToLocalFormatted("stats.ammo.name", StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
+            drawString(mc.fontRenderer, I18n.format("stats.ammo.name", I18n.format(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), (int) ((x - 1) / scale), (int) ((y + 17) / scale), 0xffffff);
             GL11.glPopMatrix();
         }
     }
@@ -170,7 +170,7 @@ public class GuiOverlay extends Gui
             drawTexturedModalRect(6 - offset, 17, 0, 0, speed > 200 ? 200 : (int) speed, 10);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-            drawCenteredString(mc.fontRenderer, StatCollector.translateToLocal("stats.nitro.name"), 106 - offset, 5, 0xffffff);
+            drawCenteredString(mc.fontRenderer, I18n.format("stats.nitro.name"), 106 - offset, 5, 0xffffff);
             drawCenteredString(mc.fontRenderer, (int) (TFConfig.useMiles ? speed * 0.621371192 : speed) + (TFConfig.useMiles ? " mph" : " km/h"), 106 - offset, 18, 0xffffff);
         }
     }
@@ -199,7 +199,7 @@ public class GuiOverlay extends Gui
                     shotsLeft = EnumChatFormatting.RED + shotsLeft;
                 }
 
-                drawString(mc.fontRenderer, StatCollector.translateToLocal("stats.shots_left.name") + ": " + shotsLeft, x + 19 - offset, 32, 0xffffff);
+                drawString(mc.fontRenderer, I18n.format("stats.shots_left.name") + ": " + shotsLeft, x + 19 - offset, 32, 0xffffff);
 
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
                 GL11.glEnable(GL11.GL_BLEND);
@@ -226,7 +226,7 @@ public class GuiOverlay extends Gui
                 GL11.glPushMatrix();
                 GL11.glTranslatef(x - 1 - offset, y + 16, 0);
                 GL11.glScalef(scale, scale, scale);
-                drawString(mc.fontRenderer, StatCollector.translateToLocalFormatted("stats.ammo.name", StatCollector.translateToLocal(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), 0, 0, 0xffffff);
+                drawString(mc.fontRenderer, I18n.format("stats.ammo.name", I18n.format(transformer.getShootItem(altMode).getUnlocalizedName() + ".name")), 0, 0, 0xffffff);
                 GL11.glPopMatrix();
             }
         }

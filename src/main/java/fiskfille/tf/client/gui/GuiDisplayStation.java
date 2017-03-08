@@ -33,7 +33,7 @@ public class GuiDisplayStation extends GuiContainer
     public void initGui()
     {
         super.initGui();
-        buttonList.add(new GuiButton(0, width / 2 - 50, height / 2 - 28, 70, 20, StatCollector.translateToLocal("gui.display_station.transform")));
+        buttonList.add(new GuiButton(0, width / 2 - 50, height / 2 - 28, 70, 20, I18n.format("gui.display_station.transform")));
         buttonList.add(new GuiButtonAlt(1, width / 2 + 43, height / 2 - 73, 12, 12, ">"));
         buttonList.add(new GuiButtonAlt(2, width / 2 + 43, height / 2 - 73 + 18, 12, 12, ">"));
 

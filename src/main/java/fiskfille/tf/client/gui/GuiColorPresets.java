@@ -181,7 +181,7 @@ public class GuiColorPresets extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         drawDefaultBackground();
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal("gui.display_station.color.presets"), width / 2, 15, 16777215);
+        drawCenteredString(fontRendererObj, I18n.format("gui.display_station.color.presets"), width / 2, 15, 16777215);
 
         int maxPresetsPerPage = columnsPerPage * rowsPerPage;
         int xOffset = 0;
@@ -321,7 +321,7 @@ public class GuiColorPresets extends GuiScreen
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
 
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocalFormatted("gui.display_station.color.presets.page", page + 1, maxPages + 1), width / 2, height / 6 + 135, 16777215);
+        drawCenteredString(fontRendererObj, I18n.format("gui.display_station.color.presets.page", page + 1, maxPages + 1), width / 2, height / 6 + 135, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
         tempLayerColors[0][0] = 0;
         tempLayerColors[0][1] = 0;

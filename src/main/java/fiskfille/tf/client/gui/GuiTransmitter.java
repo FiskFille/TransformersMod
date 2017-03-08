@@ -4,11 +4,11 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Map;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
@@ -23,8 +23,10 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerTransmitter;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageTileTrigger;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
-import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFFormatHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 import fiskfille.tf.helper.TFTextureHelper;
@@ -35,10 +37,47 @@ public class GuiTransmitter extends GuiContainerTF
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/transmitter.png");
     private TileEntityTransmitter tileentity;
 
+    private GuiHoverFieldEnergy fieldEnergy;
+    
     public GuiTransmitter(InventoryPlayer inventoryPlayer, TileEntityTransmitter tile)
     {
         super(new ContainerTransmitter(inventoryPlayer, tile));
         tileentity = tile;
+    }
+    
+    @Override
+    public void initGui()
+    {
+        super.initGui();
+        int x = (width - xSize) / 2;
+        int y = (height - ySize) / 2;
+
+        buttonList.add(fieldEnergy = new GuiHoverFieldEnergy(x + 107, y + 17, 16, 52, tileentity.data.storage));
+        buttonList.add(new GuiButtonConfigSides(0, x + xSize - 18, y + 5));
+        buttonList.add(new GuiButtonConfigRedstone(1, x + xSize - 18, y + 20, tileentity));
+    }
+    
+    @Override
+    public void updateScreen()
+    {
+        super.updateScreen();
+        fieldEnergy.update(tileentity.data.storage);
+    }
+    
+    @Override
+    protected void actionPerformed(GuiButton button)
+    {
+        int id = button.id;
+
+        if (id == 0)
+        {
+            mc.displayGuiScreen(new GuiConfigSides(mc.thePlayer.inventory, this, tileentity));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, -tileentity.io.length - 1));
+        }
+        else if (id == 1)
+        {
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, -tileentity.io.length - 2));
+        }
     }
 
     @Override
@@ -47,7 +86,7 @@ public class GuiTransmitter extends GuiContainerTF
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
-        String s = StatCollector.translateToLocal(tileentity.getInventoryName());
+        String s = I18n.format(tileentity.getInventoryName());
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
 
@@ -68,7 +107,7 @@ public class GuiTransmitter extends GuiContainerTF
 
                 if (percent > 0)
                 {
-                    text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
+                    text.add(I18n.format("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
                     colors.add(energon.getColor());
                     flag = true;
                 }
@@ -81,12 +120,12 @@ public class GuiTransmitter extends GuiContainerTF
             }
             else
             {
-                text.add(StatCollector.translateToLocal("gui.energon_processor.unidentified"));
+                text.add(I18n.format("gui.energon_processor.unidentified"));
                 colors.add(0xbf0000);
             }
         }
 
-        text.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", TFFormatHelper.formatNumber(tank.getFluidAmount()), TFFormatHelper.formatNumber(tank.getCapacity())));
+        text.add(I18n.format("gui.energon_processor.filled", TFFormatHelper.formatNumber(tank.getFluidAmount()), TFFormatHelper.formatNumber(tank.getCapacity())));
         colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
 
         GL11.glPushMatrix();
@@ -95,11 +134,6 @@ public class GuiTransmitter extends GuiContainerTF
         if (new Rectangle(x + 77, y + 17, 20, 52).contains(mouseX, mouseY))
         {
             drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
-        }
-
-        if (new Rectangle(x + 107, y + 17, 16, 52).contains(mouseX, mouseY))
-        {
-            drawHoveringText(TFEnergyHelper.getHoverText(tileentity.data.storage), mouseX, mouseY, fontRendererObj);
         }
 
         GL11.glPopMatrix();

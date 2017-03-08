@@ -228,9 +228,8 @@ public class ClientEventHandler
     {
         if (event.map.getTextureType() == 0)
         {
-            TFFluidRenderHelper.onTextureReload();
-            TFTextureHelper.energonFlowingIcon = event.map.registerIcon(TransformersMod.modid + ":energon_flow");
-            TFTextureHelper.energonStillIcon = event.map.registerIcon(TransformersMod.modid + ":energon_still");
+            TFFluidRenderHelper.onTextureStitch(event.map);
+            TFTextureHelper.onTextureStitch(event.map);
         }
     }
 

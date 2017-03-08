@@ -1,7 +1,8 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Rectangle;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,7 +13,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
@@ -27,13 +27,14 @@ import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible.EnumSmeltingMode;
-import fiskfille.tf.helper.TFEnergyHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCallback
 {
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/alloy_crucible.png");
     private TileEntityAlloyCrucible tileentity;
+    
+    private GuiHoverFieldEnergy fieldEnergy;
 
     public GuiAlloyCrucible(InventoryPlayer inventoryPlayer, TileEntityAlloyCrucible tile)
     {
@@ -49,7 +50,17 @@ public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCal
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
+        buttonList.add(fieldEnergy = new GuiHoverFieldEnergy(x + 49, y + 19, 16, 52, tileentity.data.storage));
         buttonList.add(new GuiIconFlat(0, x + 151, y + 5, this));
+        buttonList.add(new GuiButtonConfigSides(1, x + xSize - 18, y + 27));
+        buttonList.add(new GuiButtonConfigRedstone(2, x + xSize - 18, y + 42, tileentity));
+    }
+    
+    @Override
+    public void updateScreen()
+    {
+        super.updateScreen();
+        fieldEnergy.update(tileentity.data.storage);
     }
 
     @Override
@@ -59,7 +70,16 @@ public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCal
 
         if (id == 0)
         {
-            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, id));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, 0));
+        }
+        else if (id == 1)
+        {
+            mc.displayGuiScreen(new GuiConfigSides(mc.thePlayer.inventory, this, tileentity));
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, -tileentity.io.length - 1));
+        }
+        else if (id == 2)
+        {
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, -tileentity.io.length - 2));
         }
     }
 
@@ -103,6 +123,12 @@ public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCal
             }
         }
     }
+    
+    @Override
+    public List<String> getHoverText(GuiButton button)
+    {
+        return Arrays.asList(I18n.format("gui.alloy_crucible.mode"), EnumChatFormatting.GRAY + I18n.format(String.format("gui.alloy_crucible.mode.%s", tileentity.smeltingMode.name().toLowerCase(Locale.ENGLISH))));
+    }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
@@ -110,24 +136,9 @@ public class GuiAlloyCrucible extends GuiContainerTF implements IButtonRenderCal
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
-        String s = StatCollector.translateToLocal(tileentity.getInventoryName());
+        String s = I18n.format(tileentity.getInventoryName());
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
-
-        GL11.glPushMatrix();
-        GL11.glTranslatef(-x, -y, 0);
-
-        if (new Rectangle(x + 49, y + 19, 16, 52).contains(mouseX, mouseY))
-        {
-            drawHoveringText(TFEnergyHelper.getHoverText(tileentity.data.storage), mouseX, mouseY, fontRendererObj);
-        }
-
-        if (new Rectangle(x + 151, y + 5, 20, 20).contains(mouseX, mouseY))
-        {
-            drawHoveringText(Arrays.asList(StatCollector.translateToLocal("gui.alloy_crucible.mode"), EnumChatFormatting.GRAY + StatCollector.translateToLocal(String.format("gui.alloy_crucible.mode.%s", tileentity.smeltingMode.name().toLowerCase()))), mouseX, mouseY, fontRendererObj);
-        }
-
-        GL11.glPopMatrix();
     }
 
     @Override

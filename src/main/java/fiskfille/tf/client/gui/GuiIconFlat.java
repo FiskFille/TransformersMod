@@ -1,19 +1,22 @@
 package fiskfille.tf.client.gui;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiIconFlat extends GuiButton
+public class GuiIconFlat extends GuiButtonFlat
 {
     public IButtonRenderCallback callback;
 
     public GuiIconFlat(int id, int x, int y, IButtonRenderCallback renderCallback)
     {
-        super(id, x, y, 20, 20, "");
+        super(id, x, y, 20, "");
         callback = renderCallback;
+        height = 20;
     }
 
     @Override
@@ -31,9 +34,6 @@ public class GuiIconFlat extends GuiButton
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             mouseDragged(mc, mouseX, mouseY);
-            if (!enabled)
-            {
-            }
 
             drawTexturedModalRect(xPosition, yPosition, 210, hoverState * height, width, height);
 
@@ -43,9 +43,17 @@ public class GuiIconFlat extends GuiButton
             GL11.glPopMatrix();
         }
     }
+    
+    @Override
+    public List<String> getHoverText()
+    {
+        return callback.getHoverText(this);
+    }
 
     public static interface IButtonRenderCallback
     {
         void render(GuiButton button, int mouseX, int mouseY);
+        
+        List<String> getHoverText(GuiButton button);
     }
 }

@@ -22,7 +22,7 @@ public final class TFFluidRenderHelper
     private static Map<Fluid, int[]> stillRenderCache = new HashMap<Fluid, int[]>();
     private static final RenderInfo liquidBlock = new RenderInfo();
 
-    public static void onTextureReload()
+    public static void onTextureStitch(TextureMap map)
     {
         for (int[] aint : flowingRenderCache.values())
         {

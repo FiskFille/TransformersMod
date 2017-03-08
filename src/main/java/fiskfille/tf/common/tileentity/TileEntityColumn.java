@@ -7,14 +7,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import fiskfille.tf.common.energon.power.EnergyStorage;
 import fiskfille.tf.common.energon.power.EnergyStorageInventory;
-import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.helper.TFEnergyHelper;
-import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityColumn extends TileEntityContainer implements IEnergyReceiver, IMultiTile
+public class TileEntityColumn extends TileEntityMachineContainer implements IEnergyReceiver, IMultiTile
 {
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     public EnergyStorage storage = new EnergyStorageInventory(this, this);
@@ -22,37 +19,15 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     public ItemStack[] inventory = new ItemStack[6];
     public ItemStack[] lastInventory = new ItemStack[6];
 
-    public float lastUsage;
-
     @Override
     public void updateEntity()
     {
-        super.updateEntity();
-
         if (getBlockMetadata() < 4)
         {
+            super.updateEntity();
+            
             if (!worldObj.isRemote)
             {
-                TileEntity tile = TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord));
-
-                if (tile instanceof IEnergyContainer)
-                {
-                    IEnergyContainer receiver = (IEnergyContainer) tile;
-                    TFEnergyHelper.transferEnergy(receiver, this, 100, false);
-                }
-
-                tile = TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + 2, zCoord));
-
-                if (tile instanceof IEnergyContainer)
-                {
-                    IEnergyContainer receiver = (IEnergyContainer) tile;
-
-                    if (getMaxEnergy() > 0)
-                    {
-                        TFEnergyHelper.transferEnergy(this, receiver, 100, false);
-                    }
-                }
-
                 boolean dirty = false;
 
                 for (int i = 0; i < inventory.length; i++)
@@ -83,7 +58,6 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
                 }
             }
 
-            lastUsage = storage.getUsage();
             storage.calculateUsage();
         }
     }
@@ -123,12 +97,22 @@ public class TileEntityColumn extends TileEntityContainer implements IEnergyRece
     @Override
     public float receiveEnergy(float amount, boolean simulate)
     {
+        if (!canActivate())
+        {
+            return 0;
+        }
+        
         return storage.add(amount, simulate);
     }
 
     @Override
     public float extractEnergy(float amount, boolean simulate)
     {
+        if (!canActivate())
+        {
+            return 0;
+        }
+        
         return storage.remove(amount, simulate);
     }
 

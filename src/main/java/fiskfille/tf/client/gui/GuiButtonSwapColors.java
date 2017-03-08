@@ -1,5 +1,7 @@
 package fiskfille.tf.client.gui;
 
+import java.awt.Rectangle;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -23,7 +25,7 @@ public class GuiButtonSwapColors extends GuiButton
         {
             mc.getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
             GL11.glColor4f(1, 1, 1, 1);
-            boolean flag = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+            boolean flag = new Rectangle(xPosition, yPosition, width, height).contains(mouseX, mouseY);
             drawTexturedModalRect(xPosition, yPosition, 0, 200 + (flag ? height : 0), width, height);
         }
     }

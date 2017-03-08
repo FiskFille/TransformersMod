@@ -156,11 +156,9 @@ public class EnergyStorageInventory extends EnergyStorage
 
     @Override
     public float calculateUsage()
-    {
-        float energy = getEnergy();
+    {        
         energyUsage = energy - lastEnergy;
         lastEnergy = energy;
-
         return energyUsage;
     }
 }

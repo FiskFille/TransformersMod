@@ -123,7 +123,7 @@ public class AlloyRecipes
 
     public static boolean matches(ItemStack itemstack, ItemStack itemstack1)
     {
-        return itemstack1.getItem() == itemstack.getItem() && (itemstack1.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack1.getItemDamage() == itemstack.getItemDamage());
+        return itemstack1.getItem() == itemstack.getItem() && (itemstack.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack1.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack1.getItemDamage() == itemstack.getItemDamage());
     }
 
     public Map getSmeltingList()
@@ -234,7 +234,7 @@ public class AlloyRecipes
         public boolean matches(ItemStack input1, ItemStack input2, ItemStack input3)
         {
             ItemStack[] ingredients = new ItemStack[] {input1, input2, input3};
-
+            
             for (int i = 0; i < getIngredients().length; ++i)
             {
                 ItemStack itemstack = getIngredients()[i];

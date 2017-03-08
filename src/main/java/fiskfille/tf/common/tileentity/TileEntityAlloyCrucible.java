@@ -28,7 +28,7 @@ import fiskfille.tf.common.recipe.AlloyRecipes;
 import fiskfille.tf.common.recipe.AlloyRecipes.AlloyIngredients;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityAlloyCrucible extends TileEntityContainer implements IEnergyReceiver, ISidedInventory, ITileDataCallback
+public class TileEntityAlloyCrucible extends TileEntityMachineContainer implements IEnergyReceiver, ISidedInventory, ITileDataCallback
 {
     private static final int[] slotsBottom = new int[] {3};
     private static final int[] slotsSides = new int[] {0, 1, 2};
@@ -115,7 +115,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
 
     public boolean canSmelt()
     {
-        return getEnergy() >= getConsumptionRate() && getStacksToSmelt().length > 0;
+        return canActivate() && getEnergy() >= getConsumptionRate() && getStacksToSmelt().length > 0;
     }
 
     public float getConsumptionRate()
@@ -290,7 +290,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     }
 
     @Override
-    protected void readCustomNBT(NBTTagCompound nbt)
+    public void readCustomNBT(NBTTagCompound nbt)
     {
         super.readCustomNBT(nbt);
         smeltingMode = EnumSmeltingMode.values()[MathHelper.clamp_int(nbt.getByte("Mode"), 0, EnumSmeltingMode.values().length - 1)];
@@ -304,7 +304,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     }
 
     @Override
-    protected void writeCustomNBT(NBTTagCompound nbt)
+    public void writeCustomNBT(NBTTagCompound nbt)
     {
         super.writeCustomNBT(nbt);
         nbt.setByte("Mode", (byte) smeltingMode.ordinal());
@@ -312,7 +312,7 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
 
         if (data.storage.getEnergy() > 0)
         {
-            NBTTagCompound config = new NBTTagCompound();
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
             data.storage.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }
@@ -411,6 +411,8 @@ public class TileEntityAlloyCrucible extends TileEntityContainer implements IEne
     @Override
     public void receive(EntityPlayer player, int action)
     {
+        super.receive(player, action);
+        
         if (action == 0)
         {
             smeltingMode = EnumSmeltingMode.values()[(smeltingMode.ordinal() + 1) % EnumSmeltingMode.values().length];

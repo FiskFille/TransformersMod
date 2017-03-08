@@ -4,7 +4,6 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -18,10 +17,9 @@ import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
-import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyContainer
+public class TileEntityIsoCondenser extends TileEntityMachine implements IEnergyContainer
 {
     public TileDataEnergyContainer data = new TileDataEnergyContainer(8000);
     public Map<ForgeDirection, Block> providers = Maps.newHashMap();
@@ -31,6 +29,8 @@ public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyConta
     @Override
     public void updateEntity()
     {
+        super.updateEntity();
+        
         for (Map.Entry<ForgeDirection, Float> e : animationTimer.entrySet())
         {
             prevAnimationTimer.put(e.getKey(), e.getValue());
@@ -47,10 +47,17 @@ public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyConta
         {
             Block block = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
             float f = animationTimer.get(dir) == null ? 0 : animationTimer.get(dir);
-
+            
+            boolean active = false;
+            
             if (block instanceof IEnergon && ((IEnergon) block).getMass() > 0)
             {
                 providers.put(dir, block);
+                active = canActivate();
+            }
+            
+            if (active)
+            {
                 animationTimer.put(dir, MathHelper.clamp_float(f + 1F / 10, 0, 1));
             }
             else
@@ -61,18 +68,13 @@ public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyConta
 
         if (!worldObj.isRemote)
         {
-            TileEntity tile = TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + 1, zCoord));
-
-            if (tile instanceof IEnergyContainer)
+            if (canActivate())
             {
-                IEnergyContainer receiver = (IEnergyContainer) tile;
-                TFEnergyHelper.transferEnergy(receiver, this, 10, false);
-            }
-
-            for (Map.Entry<ForgeDirection, Block> e : providers.entrySet())
-            {
-                IEnergon ienergon = (IEnergon) e.getValue();
-                receiveEnergy(getGenerationRate(ienergon.getMass()), false);
+                for (Map.Entry<ForgeDirection, Block> e : providers.entrySet())
+                {
+                    IEnergon ienergon = (IEnergon) e.getValue();
+                    receiveEnergy(getGenerationRate(ienergon.getMass()), false);
+                }
             }
 
             data.serverTick();
@@ -88,6 +90,11 @@ public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyConta
 
     public float getGenerationRate(int mass)
     {
+        if (!canActivate())
+        {
+            return 0;
+        }
+        
         return (float) mass / Energon.CRYSTAL_BLOCK * 0.1F;
     }
 
@@ -111,6 +118,8 @@ public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyConta
     @Override
     public void readCustomNBT(NBTTagCompound nbt)
     {
+        super.readCustomNBT(nbt);
+        
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
             NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
@@ -121,9 +130,11 @@ public class TileEntityIsoCondenser extends TileEntityTF implements IEnergyConta
     @Override
     public void writeCustomNBT(NBTTagCompound nbt)
     {
+        super.writeCustomNBT(nbt);
+        
         if (data.storage.getEnergy() > 0)
         {
-            NBTTagCompound config = new NBTTagCompound();
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
             data.storage.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }

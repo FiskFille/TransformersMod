@@ -38,6 +38,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     @Override
     public void updateEntity()
     {
+        super.updateEntity();
         ++animationTimer;
 
         if (!data.isInitialized())
@@ -125,7 +126,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
         {
             if (!data.transmissionHandler.getReceivers().isEmpty())
             {
-                NBTTagCompound config = new NBTTagCompound();
+                NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
                 data.transmissionHandler.writeToNBT(config);
                 nbt.setTag("ConfigDataTF", config);
             }

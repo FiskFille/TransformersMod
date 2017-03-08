@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.StatCollector;
+import net.minecraft.client.resources.I18n;
 
 import org.lwjgl.opengl.GL11;
 
@@ -74,7 +74,7 @@ public class GuiColorSlider extends GuiSliderBase
                 l = 16777120;
             }
 
-            drawCenteredString(fontrenderer, StatCollector.translateToLocalFormatted("gui.display_station.color.amount", displayString, (int) (percentage * 100)), xPosition + width / 2, yPosition + (height - 8) / 2, l);
+            drawCenteredString(fontrenderer, I18n.format("gui.display_station.color.amount", displayString, (int) (percentage * 100)), xPosition + width / 2, yPosition + (height - 8) / 2, l);
         }
     }
 
