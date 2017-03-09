@@ -316,9 +316,9 @@ public class TFEnergyHelper
 
     public static List<ReceiverEntry> getReceiversToPower(IEnergyTransmitter transmitter)
     {
-        List<ReceiverEntry> tilesToPower = Lists.newArrayList();
         TransmissionHandler transmissionHandler = transmitter.getTransmissionHandler();
-
+        List<ReceiverEntry> tilesToPower = Lists.newArrayList();
+        
         for (ReceiverEntry receiver : transmissionHandler.getReceivers())
         {
             if (receiver.canReach() && receiver.getTile() != null)
@@ -328,6 +328,48 @@ public class TFEnergyHelper
         }
 
         return tilesToPower;
+    }
+    
+    /**
+     * 
+     * @param transmitter
+     * @returns A list of every descendant of this transmitter
+     */
+    public static List<ReceiverEntry> getReceiverChain(IEnergyTransmitter transmitter)
+    {
+        List<ReceiverEntry> tilesToPower = getReceiversToPower(transmitter);
+        List<ReceiverEntry> list = Lists.newArrayList(tilesToPower);
+        
+        for (ReceiverEntry receiver : tilesToPower)
+        {
+            if (receiver.getTile() instanceof IEnergyTransmitter)
+            {
+                list.addAll(getReceiverChain(receiver.getTransmitter()));
+            }
+        }
+        
+        return list;
+    }
+    
+    /**
+     * 
+     * @param transmitter
+     * @returns A list of receivers which are at the very end of the lineage of this transmitter
+     */
+    public static List<ReceiverEntry> getReceiverDescendants(IEnergyTransmitter transmitter)
+    {
+        List<ReceiverEntry> tiles = getReceiverChain(transmitter);
+        List<ReceiverEntry> list = Lists.newArrayList();
+        
+        for (ReceiverEntry receiver : tiles)
+        {
+            if (!list.contains(receiver) && (!(receiver.getTile() instanceof IEnergyTransmitter) || getReceiversToPower(receiver.getTransmitter()).isEmpty()))
+            {
+                list.add(receiver);
+            }
+        }
+        
+        return list;
     }
 
     public static boolean isPowering(IEnergyTransmitter transmitter, ReceiverEntry entry)

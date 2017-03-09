@@ -219,55 +219,76 @@ public class TFRenderHelper
 
         IEnergyTransmitter transmitter = (IEnergyTransmitter) transmitterTile;
         TransmissionHandler transmissionHandler = transmitter.getTransmissionHandler();
-        
-        Vec3 outOffset = transmitter.getEnergyOutputOffset();
-        boolean flag = false;
+        boolean renderBeams = false;
         
         if (transmitterTile instanceof TileEntityRelayTower)
         {
             TileEntityRelayTower relay = (TileEntityRelayTower) transmitterTile;
-            flag = relay.data.isPowered;
+            renderBeams = relay.data.isPowered;
         }
         else
         {
-            flag = transmitter.getEnergy() > 0;
+            renderBeams = transmitter.getEnergy() > 0;
         }
         
-//        if (flag) // TODO: Fix beams not rendered by relays if there isn't a transmitter in ancestry
+        if (renderBeams)
         {
             for (ReceiverEntry entry : transmissionHandler.getReceivers())
             {
-                TileEntity receiverTile = entry.getTile();
-                IEnergyReceiver receiver = entry.getReceiver();
-                DimensionalCoords coords = entry.getCoords();
-
-                if (receiverTile == null)
+                boolean invertCurrent = transmitterTile instanceof TileEntityRelayTower && ((TileEntityRelayTower) transmitterTile).data.invertCurrent.contains(entry.getCoords());
+                
+                if (entry.getTile() == null)
                 {
                     continue;
                 }
                 
-                Vec3 src = outOffset.addVector(transmitterTile.xCoord + 0.5F, transmitterTile.yCoord + 0.5F, transmitterTile.zCoord + 0.5F);
-                Vec3 dst = receiver.getEnergyInputOffset().addVector(coords.posX + 0.5F, coords.posY + 0.5F, coords.posZ + 0.5F);
+                TileEntity tile = transmitterTile;
+                Vec3 srcOffset1 = transmitter.getEnergyOutputOffset();
+                Vec3 dstOffset1 = entry.getReceiver().getEnergyInputOffset();
+                Vec3 srcOffset;
+                Vec3 dstOffset;
+                
+                if (invertCurrent)
+                {
+                    boolean canReach = entry.canReach();
+                    
+                    tile = entry.getTile();
+                    entry = new ReceiverEntry(transmitterTile);
+                    entry.setCanReach(canReach);
+                    
+                    srcOffset = dstOffset1.addVector(0, 0, 0);
+                    dstOffset = srcOffset1.addVector(0, 0, 0);
+                }
+                else
+                {
+                    srcOffset = srcOffset1.addVector(0, 0, 0);
+                    dstOffset = dstOffset1.addVector(0, 0, 0);
+                }
+                
+                IEnergyReceiver receiver = entry.getReceiver();
+                DimensionalCoords coords = entry.getCoords();
+                Vec3 src = srcOffset.addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
+                Vec3 dst = dstOffset.addVector(coords.posX + 0.5F, coords.posY + 0.5F, coords.posZ + 0.5F);
 
                 double d = 1F / dst.distanceTo(src);
                 src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
-                MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(transmitterTile.getWorldObj(), src, dst);
+                MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(tile.getWorldObj(), src, dst);
 
                 if (mop != null)
                 {
                     dst = mop.hitVec;
                 }
 
-                double x1 = 0.5F + outOffset.xCoord;
-                double y1 = 0.5F + outOffset.yCoord;
-                double z1 = 0.5F + outOffset.zCoord;
-                double deltaX = dst.xCoord - transmitterTile.xCoord;
-                double deltaY = dst.yCoord - transmitterTile.yCoord;
-                double deltaZ = dst.zCoord - transmitterTile.zCoord;
+                double x1 = 0.5F + srcOffset.xCoord;
+                double y1 = 0.5F + srcOffset.yCoord;
+                double z1 = 0.5F + srcOffset.zCoord;
+                double deltaX = dst.xCoord - tile.xCoord;
+                double deltaY = dst.yCoord - tile.yCoord;
+                double deltaZ = dst.zCoord - tile.zCoord;
 
                 src = Vec3.createVectorHelper(x1, y1, z1);
                 dst = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
-
+                
                 int primary = 0x57ABAF;
                 int secondary = 0x7BF2F8;
                 int parentPrimary = primary;
@@ -278,14 +299,20 @@ public class TFRenderHelper
                     primary = 0xAF5B57;
                     secondary = 0xF8817B;
                 }
-                else if (!(receiverTile instanceof IEnergyTransmitter) && receiver.getEnergy() >= receiver.getMaxEnergy())
-                {
-                    primary = 0x62AF57;
-                    secondary = 0x8AF87B;
-                }
-
+//                else if (!(receiverTile instanceof IEnergyTransmitter) && receiver.getEnergy() >= receiver.getMaxEnergy())
+//                {
+//                    primary = 0x62AF57;
+//                    secondary = 0x8AF87B;
+//                }
+                
                 GL11.glPushMatrix();
                 GL11.glTranslated(x + x1, y + y1, z + z1);
+                
+                if (invertCurrent)
+                {
+                    GL11.glTranslated((tile.xCoord - coords.posX), (tile.yCoord - coords.posY), (tile.zCoord - coords.posZ));
+                }
+                
                 renderEnergyBeam(src, dst, primary, secondary, parentPrimary, parentSecondary);
                 GL11.glPopMatrix();
             }
@@ -305,7 +332,7 @@ public class TFRenderHelper
         float[] primary = hexToRGB(primaryColor);
         float[] secondary = hexToRGB(secondaryColor);
         float[] parentPrimary = hexToRGB(primaryParentColor);
-        float[] parentSecondary = hexToRGB(primaryParentColor);
+        float[] parentSecondary = hexToRGB(secondaryParentColor);
 
         double width = 1F / 16;
         double length = src.distanceTo(dst);
@@ -317,15 +344,15 @@ public class TFRenderHelper
         {
             double segmentLength = length / segments;
             double start = i * segmentLength;
-            double end = i * segmentLength + segmentLength;
+            double end = (i + 1) * segmentLength;
             float f = (float) Math.cos(i / (segments * 0.15625F) - (mc.thePlayer.ticksExisted + partialTicks) / 5);
             float f1 = 1 - f;
-            float f2 = Math.min((float) i / segments * 3, 1);
+            float f2 = Math.min(i / segments * 3, 1);
             float f3 = 1 - f2;
 
             tessellator.startDrawingQuads();
             tessellator.setColorRGBA_F((primary[0] * f + secondary[0] * f1) * f2 + (parentPrimary[0] * f + parentSecondary[0] * f1) * f3, (primary[1] * f + secondary[1] * f1) * f2 + (parentPrimary[1] * f + parentSecondary[1] * f1) * f3, (primary[2] * f + secondary[2] * f1) * f2 + (parentPrimary[2] * f + parentSecondary[2] * f1) * f3, 1);
-
+            
             tessellator.addVertex(width, width, end);
             tessellator.addVertex(width, width, start);
             tessellator.addVertex(-width, width, start);

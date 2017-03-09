@@ -54,7 +54,10 @@ public class EnergyStorageRelay extends EnergyStorage
 
         for (ReceiverEntry entry : receivers)
         {
-            removed += entry.getReceiver().extractEnergy(amount / receivers.size(), simulate);
+            float f = entry.getReceiver().extractEnergy(amount / receivers.size(), simulate);
+            removed += f;
+            
+            relay.netEnergyTransfer.put(entry.getCoords(), relay.getNetTransfer(entry.getCoords()) - f);
         }
 
         return removed;
@@ -68,7 +71,10 @@ public class EnergyStorageRelay extends EnergyStorage
 
         for (ReceiverEntry entry : receivers)
         {
-            added += entry.getReceiver().receiveEnergy(amount / receivers.size(), simulate);
+            float f = entry.getReceiver().receiveEnergy(amount / receivers.size(), simulate);
+            added += f;
+            
+            relay.netEnergyTransfer.put(entry.getCoords(), relay.getNetTransfer(entry.getCoords()) + f);
         }
 
         return added;
@@ -77,7 +83,7 @@ public class EnergyStorageRelay extends EnergyStorage
     @Override
     public float getEnergy()
     {
-        List<ReceiverEntry> receivers = TFEnergyHelper.getReceiversToPower(relay);
+        List<ReceiverEntry> receivers = TFEnergyHelper.getReceiverDescendants(relay);
         float energy = 0;
 
         for (ReceiverEntry entry : receivers)
@@ -91,7 +97,7 @@ public class EnergyStorageRelay extends EnergyStorage
     @Override
     public float getMaxEnergy()
     {
-        List<ReceiverEntry> receivers = TFEnergyHelper.getReceiversToPower(relay);
+        List<ReceiverEntry> receivers = TFEnergyHelper.getReceiverDescendants(relay);
         float maxEnergy = 0;
 
         for (ReceiverEntry entry : receivers)
@@ -111,17 +117,23 @@ public class EnergyStorageRelay extends EnergyStorage
     @Override
     public void setUsage(float usage)
     {
+        energyUsage = usage;
+        lastEnergy = getEnergy();
     }
 
     @Override
     public float getUsage()
     {
-        return 0;
+        return energyUsage;
     }
 
     @Override
     public float calculateUsage()
     {
-        return 0;
+        float energy = getEnergy();
+        energyUsage = energy - lastEnergy;
+        lastEnergy = energy;
+        
+        return energyUsage;
     }
 }

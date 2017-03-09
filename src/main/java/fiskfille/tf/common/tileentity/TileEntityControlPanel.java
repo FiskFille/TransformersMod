@@ -573,7 +573,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public void markBlockForUpdate()
     {
-//        super.markBlockForUpdate(); // TODO
+//        super.markBlockForUpdate(); TODO: Uncomment, or remove...?
 
         if (!worldObj.isRemote)
         {

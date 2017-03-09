@@ -80,8 +80,8 @@ public class RenderItemPowerCanister implements IItemRenderer
                 GL11.glShadeModel(GL11.GL_SMOOTH);
                 Tessellator tessellator = Tessellator.instance;
                 renderQuad(tessellator, 2, 13, 13, 2, 0);
-                renderQuad(tessellator, 2, 13, 12, 1, 0x003F3F);
-                renderQuad(tessellator, 2, 13, Math.round(filled * 12), 1, 0, shade << 8 | shade);
+                renderQuad(tessellator, 2, 13, 12, 1, 0x003838);
+                renderQuad(tessellator, 2, 13, filled * 12, 1, 0x005151, shade << 8 | shade);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
                 GL11.glEnable(GL11.GL_LIGHTING);
@@ -215,19 +215,19 @@ public class RenderItemPowerCanister implements IItemRenderer
         GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
-    private void renderQuad(Tessellator tessellator, int x, int y, int width, int height, int color1, int color2)
+    private void renderQuad(Tessellator tessellator, float x, float y, float width, float height, int color1, int color2)
     {
         tessellator.startDrawingQuads();
         tessellator.setColorOpaque_I(color1);
-        tessellator.addVertex(x, y, 0.0D);
-        tessellator.addVertex(x, y + height, 0.0D);
+        tessellator.addVertex(x, y, 0);
+        tessellator.addVertex(x, y + height, 0);
         tessellator.setColorOpaque_I(color2);
-        tessellator.addVertex(x + width, y + height, 0.0D);
-        tessellator.addVertex(x + width, y, 0.0D);
+        tessellator.addVertex(x + width, y + height, 0);
+        tessellator.addVertex(x + width, y, 0);
         tessellator.draw();
     }
     
-    private void renderQuad(Tessellator tessellator, int x, int y, int width, int height, int color)
+    private void renderQuad(Tessellator tessellator, float x, float y, float width, float height, int color)
     {
         renderQuad(tessellator, x, y, width, height, color, color);
     }

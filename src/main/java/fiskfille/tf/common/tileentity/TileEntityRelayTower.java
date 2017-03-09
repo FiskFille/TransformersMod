@@ -1,5 +1,6 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,6 +9,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.util.Constants.NBT;
+
+import com.google.common.collect.Maps;
+
 import fiskfille.tf.common.chunk.ForcedChunk;
 import fiskfille.tf.common.chunk.SubTicket;
 import fiskfille.tf.common.chunk.TFChunkManager;
@@ -30,16 +34,16 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     public TileDataRelay data = new TileDataRelay();
 
     public EnergyStorage storage = new EnergyStorageRelay(this);
-
-    public int animationTimer;
-
+    
+    public Map<DimensionalCoords, Float> netEnergyTransfer = Maps.newHashMap();
+    public float energyTransfer;
+    
     public Ticket chunkTicket;
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
-        ++animationTimer;
 
         if (!data.isInitialized())
         {
@@ -62,7 +66,17 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
                 }
 
                 data.serverTickPre();
-                data.isPowered = TFEnergyHelper.canPowerChainReach(this);
+                data.isPowered = energyTransfer > 0 || TFEnergyHelper.canPowerChainReach(this);
+                data.invertCurrent.clear();
+                
+                for (Map.Entry<DimensionalCoords, Float> e : netEnergyTransfer.entrySet())
+                {
+                    if (e.getValue() < 0)
+                    {
+                        data.invertCurrent.add(e.getKey());
+                    }
+                }
+                
                 data.serverTick();
             }
 
@@ -73,6 +87,14 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
                 data = new TileDataRelay((TileDataRelay) prevData);
             }
         }
+        
+        energyTransfer = 0;
+        netEnergyTransfer.clear();
+    }
+    
+    public float getNetTransfer(DimensionalCoords coords)
+    {
+        return netEnergyTransfer.containsKey(coords) ? netEnergyTransfer.get(coords) : 0;
     }
 
     public boolean isValid(int metadata)
@@ -184,13 +206,27 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     @Override
     public float receiveEnergy(float amount, boolean simulate)
     {
-        return storage.add(amount, simulate);
+        float f = storage.add(amount, simulate);
+        
+        if (!simulate)
+        {
+            energyTransfer += f;
+        }
+        
+        return f;
     }
 
     @Override
     public float extractEnergy(float amount, boolean simulate)
     {
-        return storage.remove(amount, simulate);
+        float f = storage.remove(amount, simulate);
+        
+        if (!simulate)
+        {
+            energyTransfer += f;
+        }
+        
+        return f;
     }
 
     @Override
