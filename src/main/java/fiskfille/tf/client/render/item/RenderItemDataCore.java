@@ -71,7 +71,7 @@ public class RenderItemDataCore implements IItemRenderer
             if (i == 1)
             {
                 GL11.glDisable(GL11.GL_LIGHTING);
-                TFRenderHelper.setLighting(61680);
+                TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
             }
 
             if (renderBlocks.useInventoryTint)

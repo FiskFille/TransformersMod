@@ -53,7 +53,9 @@ public class TFRenderHelper
     private static float lastBrightnessX;
     private static float lastBrightnessY;
     private static final Map<EntityPlayer, Double> previousMotionY = new WeakHashMap<EntityPlayer, Double>();
-
+    
+    public static final int LIGHTING_LUMINOUS = 0xF0F0;
+    
     public static void setLighting(int lighting)
     {
         storeLighting();
@@ -110,10 +112,10 @@ public class TFRenderHelper
 
             if (hasLightsLayer)
             {
-                setLighting(61680);
+                setLighting(LIGHTING_LUMINOUS);
                 mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
                 model.render(0.0625F);
-                TFRenderHelper.resetLighting();
+                resetLighting();
             }
 
             GL11.glDisable(GL11.GL_BLEND);
@@ -153,14 +155,14 @@ public class TFRenderHelper
     public static double getMotionY(EntityPlayer player)
     {
         double current = player == mc.thePlayer ? player.motionY : player.posY - player.prevPosY;
-        double previous = TFRenderHelper.previousMotionY.containsKey(player) ? TFRenderHelper.previousMotionY.get(player) : 0.0;
+        double previous = previousMotionY.containsKey(player) ? previousMotionY.get(player) : 0.0;
 
         return TFHelper.median(current, previous, ClientTickHandler.renderTick);
     }
 
     public static void updateMotionY(EntityPlayer player)
     {
-        TFRenderHelper.previousMotionY.put(player, player == mc.thePlayer ? player.motionY : player.posY - player.prevPosY);
+        previousMotionY.put(player, player == mc.thePlayer ? player.motionY : player.posY - player.prevPosY);
     }
 
     public static void renderTag(String s, float x, float y, float z)
@@ -216,7 +218,7 @@ public class TFRenderHelper
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        TFRenderHelper.setLighting(61680);
+        setLighting(LIGHTING_LUMINOUS);
 
         IEnergyTransmitter transmitter = (IEnergyTransmitter) transmitterTile;
         TransmissionHandler transmissionHandler = transmitter.getTransmissionHandler();
@@ -325,7 +327,7 @@ public class TFRenderHelper
             }
         }
 
-        TFRenderHelper.resetLighting();
+        resetLighting();
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -345,7 +347,7 @@ public class TFRenderHelper
         double length = src.distanceTo(dst);
         int segments = MathHelper.floor_double(length * 8);
 
-        TFRenderHelper.faceVec(src, dst);
+        faceVec(src, dst);
 
         for (int i = 0; i < segments; ++i)
         {
@@ -396,7 +398,7 @@ public class TFRenderHelper
         }
     }
 
-    public static void renderEnergyStatic(Vec3 src, Vec3 dst, double width, float intensity)
+    public static void renderEnergyStatic(Vec3 src, Vec3 dst, double width, float intensity, int segments, long seed)
     {
         Tessellator tessellator = Tessellator.instance;
 
@@ -405,19 +407,18 @@ public class TFRenderHelper
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        TFRenderHelper.setLighting(61680);
+        setLighting(LIGHTING_LUMINOUS);
 
         GL11.glTranslated(-src.xCoord, -src.yCoord, -src.zCoord);
         faceVec(dst, src);
         GL11.glRotatef(90, 1, 0, 0);
 
-        float[] primary = TFRenderHelper.hexToRGB(0x57ABAF);
-        float[] secondary = TFRenderHelper.hexToRGB(0x7BF2F8);
+        float[] primary = hexToRGB(0x57ABAF);
+        float[] secondary = hexToRGB(0x7BF2F8);
         double length = src.distanceTo(dst);
-        int segments = 16;
 
-        Random rand = new Random(8964355487L + mc.thePlayer.ticksExisted * 100000);
-        Random randPrev = new Random(8964355487L + (mc.thePlayer.ticksExisted - 1) * 100000);
+        Random rand = new Random(seed + mc.thePlayer.ticksExisted * 10);
+        Random randPrev = new Random(seed + (mc.thePlayer.ticksExisted - 1) * 10);
 
         src = Vec3.createVectorHelper(0, 0, 0);
 
@@ -475,13 +476,13 @@ public class TFRenderHelper
 
             GL11.glPushMatrix();
             GL11.glTranslated(src.xCoord, src.yCoord, src.zCoord);
-            TFRenderHelper.faceVec(src, dst);
+            faceVec(src, dst);
             tessellator.draw();
             GL11.glPopMatrix();
             src = dst;
         }
 
-        TFRenderHelper.resetLighting();
+        resetLighting();
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_TEXTURE_2D);

@@ -36,7 +36,7 @@ public class RenderIsoCondenser extends TileEntitySpecialRenderer
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        TFRenderHelper.setLighting(61680);
+        TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
         model.render(tile);
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -82,7 +82,7 @@ public class RenderIsoCondenser extends TileEntitySpecialRenderer
 
                 Vec3 src = Vec3.createVectorHelper(-dir.offsetX * 0.5F, 0.2F, -dir.offsetZ * 0.5F);
                 Vec3 dst = Vec3.createVectorHelper(-dir.offsetX + 0.5F - (block.getBlockBoundsMinX() + block.getBlockBoundsMaxX()) / 2, 0.5F - (block.getBlockBoundsMinY() + block.getBlockBoundsMaxY()) / 2, -dir.offsetZ + 0.5F - (block.getBlockBoundsMinZ() + block.getBlockBoundsMaxZ()) / 2);
-                TFRenderHelper.renderEnergyStatic(src, dst, 1F / 64, 0.5F);
+                TFRenderHelper.renderEnergyStatic(src, dst, 1F / 64, 0.5F, 8, e.getKey().hashCode());
             }
         }
 

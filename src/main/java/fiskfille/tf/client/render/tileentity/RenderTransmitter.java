@@ -42,7 +42,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            TFRenderHelper.setLighting(61680);
+            TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
             model.render(transmitter, partialTicks);
             TFRenderHelper.resetLighting();
             GL11.glEnable(GL11.GL_LIGHTING);

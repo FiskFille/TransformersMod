@@ -30,7 +30,7 @@ public class RenderTransformiumSeedEntity extends Render
         model.render(seed);
 
         GL11.glDisable(GL11.GL_LIGHTING);
-        TFRenderHelper.setLighting(61680);
+        TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
         bindTexture(new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/transformium_seed_lights.png"));
         model.render(seed);
         TFRenderHelper.resetLighting();

@@ -78,7 +78,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             model.setBreaking(false);
             model.render(tile, partialTicks);
 
-            TFRenderHelper.setLighting(61680);
+            TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
             bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/tiles/ground_bridge_control_panel_lights.png"));
             model.setBreaking(false);
             model.render(tile, partialTicks);

@@ -39,7 +39,7 @@ public class DisplayableEnergonCrystal extends Displayable
         float[] rgb = TFRenderHelper.hexToRGB(energon.getColor());
         GL11.glColor4f(rgb[0], rgb[1], rgb[2], 0.5F);
 
-        TFRenderHelper.setLighting(61680);
+        TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
         model.render();
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
