@@ -57,6 +57,7 @@ public class RenderItemDataCore implements IItemRenderer
         float colorMultiplier = 1;
 
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
 
         for (int i = 0; i < 2; ++i)

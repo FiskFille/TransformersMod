@@ -36,6 +36,8 @@ public class RenderAlloyCrucible extends TileEntitySpecialRenderer
 
             tile.renderOverlay = true;
             GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             TFRenderHelper.setLighting(61680);
             tessellator.startDrawingQuads();
             block.setBlockBoundsBasedOnState(world, tile.xCoord, tile.yCoord, tile.zCoord);
@@ -63,6 +65,7 @@ public class RenderAlloyCrucible extends TileEntitySpecialRenderer
 
             tessellator.draw();
             TFRenderHelper.resetLighting();
+            GL11.glDisable(GL11.GL_BLEND);
             GL11.glEnable(GL11.GL_LIGHTING);
             tile.renderOverlay = false;
         }
