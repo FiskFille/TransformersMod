@@ -74,6 +74,22 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
                 }
 
                 data.serverTickPre();
+                
+                if (getEnergy() > 0 && canActivate())
+                {
+                    List<ReceiverEntry> receiversToPower = TFEnergyHelper.getReceiversToPower(this);
+                    float f = Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size();
+                    
+                    for (ReceiverEntry entry : receiversToPower)
+                    {
+                        IEnergyReceiver receiver = entry.getReceiver();
+
+                        if (receiver.canReceiveEnergy(this))
+                        {
+                            TFEnergyHelper.transferEnergy(receiver, this, f, false);
+                        }
+                    }
+                }
 
                 ItemStack fluidContainer = getStackInSlot(0);
                 FluidStack fluidStack = data.tank.getFluid();
@@ -109,22 +125,6 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
                         if (success > 0)
                         {
                             container.drain(fluidContainer, success, true);
-                        }
-                    }
-                }
-                
-                if (getEnergy() > 0 && canActivate())
-                {
-                    List<ReceiverEntry> receiversToPower = TFEnergyHelper.getReceiversToPower(this);
-                    float f = Math.min(getEnergy(), getTransmissionRate()) / receiversToPower.size();
-                    
-                    for (ReceiverEntry entry : receiversToPower)
-                    {
-                        IEnergyReceiver receiver = entry.getReceiver();
-
-                        if (receiver.canReceiveEnergy(this))
-                        {
-                            TFEnergyHelper.transferEnergy(receiver, this, f, false);
                         }
                     }
                 }

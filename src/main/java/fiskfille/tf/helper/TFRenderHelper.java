@@ -41,6 +41,7 @@ import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tick.ClientTickHandler;
+import fiskfille.tf.common.tileentity.TileEntityMachine;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.transformer.base.Transformer;
 
@@ -231,6 +232,12 @@ public class TFRenderHelper
             renderBeams = transmitter.getEnergy() > 0;
         }
         
+        if (transmitterTile instanceof TileEntityMachine)
+        {
+            TileEntityMachine machine = (TileEntityMachine) transmitterTile;
+            renderBeams &= machine.canActivate();
+        }
+        
         if (renderBeams)
         {
             for (ReceiverEntry entry : transmissionHandler.getReceivers())
@@ -347,7 +354,7 @@ public class TFRenderHelper
             double end = (i + 1) * segmentLength;
             float f = (float) Math.cos(i / (segments * 0.15625F) - (mc.thePlayer.ticksExisted + partialTicks) / 5);
             float f1 = 1 - f;
-            float f2 = Math.min(i / segments * 3, 1);
+            float f2 = Math.min((float) i / segments * 3, 1);
             float f3 = 1 - f2;
 
             tessellator.startDrawingQuads();

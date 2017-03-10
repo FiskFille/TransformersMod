@@ -25,6 +25,7 @@ import fiskfille.tf.common.energon.power.ReceiverEntry;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.tileentity.TileEntityMachine;
 
 public class TFEnergyHelper
 {
@@ -435,6 +436,16 @@ public class TFEnergyHelper
                 }
                 else if (ownerEntry.getTransmitter().getEnergy() > 0 && isPowering(ownerEntry.getTransmitter(), tile))
                 {
+                    if (ownerEntry.getTile() instanceof TileEntityMachine)
+                    {
+                        TileEntityMachine machine = (TileEntityMachine) ownerEntry.getTile();
+                        
+                        if (!machine.canActivate())
+                        {
+                            continue;
+                        }
+                    }
+                    
                     return true;
                 }
             }

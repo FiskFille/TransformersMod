@@ -60,8 +60,6 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
         ItemStack heldItem = player.getHeldItem();
         
-        
-        
         if (tile instanceof IFluidHandlerTF && heldItem != null && heldItem.getItem() instanceof IFluidContainerItem)
         {
             IFluidHandlerTF fluidHandler = (IFluidHandlerTF) tile;
@@ -128,7 +126,6 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
                     newItem.getTagCompound().setTag("Fluid", stack1.writeToNBT(new NBTTagCompound()));
                     
-                    
                     player.setCurrentItemOrArmor(0, addItem(player, heldItem, newItem));
                     
                     return true;
@@ -139,7 +136,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         return false;
     }
     
-    private ItemStack addItem(EntityPlayer player, ItemStack itemstack, ItemStack newItem)
+    public ItemStack addItem(EntityPlayer player, ItemStack itemstack, ItemStack newItem)
     {
         if (player.capabilities.isCreativeMode)
         {
