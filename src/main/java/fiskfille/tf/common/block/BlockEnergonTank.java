@@ -68,7 +68,11 @@ public class BlockEnergonTank extends BlockMachineBase
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        world.getTileEntity(x, y, z);
+        if (super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ))
+        {
+            return true;
+        }
+        
         int metadata = world.getBlockMetadata(x, y, z);
         boolean flag = true;
 
@@ -82,10 +86,8 @@ public class BlockEnergonTank extends BlockMachineBase
             TFGui.ENERGON_TANK.open(player, x, y, z);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     @Override

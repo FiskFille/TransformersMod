@@ -117,6 +117,11 @@ public class BlockControlPanel extends BlockMachineBase
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
+        if (super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ))
+        {
+            return true;
+        }
+        
         int metadata = world.getBlockMetadata(x, y, z);
         int direction = getDirection(metadata);
         int face = -1;

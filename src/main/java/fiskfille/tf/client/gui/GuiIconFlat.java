@@ -24,7 +24,7 @@ public class GuiIconFlat extends GuiButtonFlat
     {
         if (visible)
         {
-            mc.getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
+            mc.getTextureManager().bindTexture(GuiButtonFlat.tfButtonTextures);
 
             GL11.glColor4f(1, 1, 1, 1);
             field_146123_n = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;

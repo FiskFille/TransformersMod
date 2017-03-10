@@ -23,7 +23,7 @@ public class GuiButtonSwapColors extends GuiButton
     {
         if (visible)
         {
-            mc.getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
+            mc.getTextureManager().bindTexture(GuiButtonFlat.tfButtonTextures);
             GL11.glColor4f(1, 1, 1, 1);
             boolean flag = new Rectangle(xPosition, yPosition, width, height).contains(mouseX, mouseY);
             drawTexturedModalRect(xPosition, yPosition, 0, 200 + (flag ? height : 0), width, height);

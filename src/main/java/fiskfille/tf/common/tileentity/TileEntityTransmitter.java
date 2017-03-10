@@ -300,7 +300,7 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
             NBTTagCompound prevNBT = resource.tag;
 
             resource.tag = stack.tag;
-            int amount = data.tank.fill(resource, true);
+            int amount = data.tank.fill(resource, doFill);
             resource.tag = prevNBT;
 
             FluidEnergon.merge(stack, resource, amount);

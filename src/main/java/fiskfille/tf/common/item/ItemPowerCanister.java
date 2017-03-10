@@ -40,18 +40,6 @@ public class ItemPowerCanister extends ItemEnergyContainer
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack itemstack)
-    {
-        return super.showDurabilityBar(itemstack);
-    }
-
-    @Override
-    public double getDurabilityForDisplay(ItemStack itemstack)
-    {
-        return super.getDurabilityForDisplay(itemstack);
-    }
-
-    @Override
     public void getSubItems(Item item, CreativeTabs tab, List subItems)
     {
         for (int i = 0; i < tiers.length; ++i)

@@ -20,11 +20,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TFLog;
+import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.IFluidHandlerTF;
+import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.helper.TFTileHelper;
 
 public class BlockMachineBase extends Block implements ITileEntityProvider
@@ -46,6 +52,114 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
     public int getPlacedRotation(EntityLivingBase entity)
     {
         return MathHelper.floor_double(entity.rotationYaw * 4F / 360F + 2.5D) & 3;
+    }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
+        ItemStack heldItem = player.getHeldItem();
+        
+        
+        
+        if (tile instanceof IFluidHandlerTF && heldItem != null && heldItem.getItem() instanceof IFluidContainerItem)
+        {
+            IFluidHandlerTF fluidHandler = (IFluidHandlerTF) tile;
+            IFluidContainerItem item = (IFluidContainerItem) heldItem.getItem();
+            
+            boolean empty = ItemFuelCanister.isEmpty(heldItem);
+            
+            if (!empty)
+            {
+                FluidStack stack = item.getFluid(heldItem);
+                
+                if (stack != null && fluidHandler.canFill(ForgeDirection.UNKNOWN, stack.getFluid()))
+                {
+                    int amount = fluidHandler.fill(ForgeDirection.UNKNOWN, item.drain(heldItem, stack.amount, false), true);
+                    
+                    if (amount > 0)
+                    {
+                        ItemStack newItem = new ItemStack(heldItem.getItem(), 1, heldItem.getItemDamage());
+                        item.fill(newItem, stack, true);
+                        item.drain(newItem, amount, true);
+                        
+                        player.setCurrentItemOrArmor(0, addItem(player, heldItem, newItem));
+                        
+                        return true;
+                    }
+                }
+            }
+            
+            FluidStack stack = fluidHandler.getTank().getFluid();
+            
+            if (stack != null && fluidHandler.canDrain(ForgeDirection.UNKNOWN, item.getFluid(heldItem) == null ? stack.getFluid() : item.getFluid(heldItem).getFluid()))
+            {
+                FluidStack drained = fluidHandler.drain(ForgeDirection.UNKNOWN, item.getCapacity(heldItem) - ItemFuelCanister.getFluidAmount(heldItem), false);
+                
+                if (drained != null && drained.amount > 0)
+                {
+                    ItemStack newItem = new ItemStack(heldItem.getItem(), 1, heldItem.getItemDamage());
+                    item.fill(newItem, item.getFluid(heldItem), true);
+                    
+                    int amount = drained.amount;
+                    FluidStack stack1 = item.getFluid(newItem);
+
+                    if (stack1 == null)
+                    {
+                        stack1 = new FluidStack(TFFluids.energon, 0);
+                    }
+
+                    FluidStack stack2 = new FluidStack(TFFluids.energon, amount);
+                    FluidEnergon.setRatios(stack2, FluidEnergon.getRatios(stack));
+                    NBTTagCompound prevNBT = stack2.tag;
+
+                    stack2.tag = stack1.tag;
+                    int i = item.fill(newItem, stack2, true);
+                    fluidHandler.drain(ForgeDirection.UNKNOWN, amount, true);
+                    stack1.amount += i;
+                    stack2.tag = prevNBT;
+
+                    FluidEnergon.merge(stack1, stack2, amount);
+
+                    if (!newItem.hasTagCompound())
+                    {
+                        newItem.setTagCompound(new NBTTagCompound());
+                    }
+
+                    newItem.getTagCompound().setTag("Fluid", stack1.writeToNBT(new NBTTagCompound()));
+                    
+                    
+                    player.setCurrentItemOrArmor(0, addItem(player, heldItem, newItem));
+                    
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    private ItemStack addItem(EntityPlayer player, ItemStack itemstack, ItemStack newItem)
+    {
+        if (player.capabilities.isCreativeMode)
+        {
+            return itemstack;
+        }
+        else if (itemstack.stackSize - 1 <= 0)
+        {
+            return newItem;
+        }
+        else
+        {
+            --itemstack.stackSize;
+            
+            if (!player.inventory.addItemStackToInventory(newItem))
+            {
+                player.dropPlayerItemWithRandomChoice(newItem, false);
+            }
+
+            return itemstack;
+        }
     }
 
     @Override

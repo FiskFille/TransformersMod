@@ -61,7 +61,14 @@ public class FluidEnergon extends Fluid
     public static FluidStack create(Energon energon, int amount)
     {
         FluidStack stack = new FluidStack(TFFluids.energon, amount);
-        setRatio(stack, energon.getId(), 1);
+        Map<String, Float> ratios = Maps.newHashMap();
+        
+        for (Energon energon1 : TransformersAPI.getEnergonTypes())
+        {
+            ratios.put(energon1.getId(), energon == energon1 ? 1.0F : 0);
+        }
+        
+        setRatios(stack, ratios);
 
         return stack;
     }

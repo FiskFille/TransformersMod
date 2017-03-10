@@ -19,7 +19,7 @@ import fiskfille.tf.TransformersMod;
 @SideOnly(Side.CLIENT)
 public class GuiButtonFlat extends GuiButton
 {
-    public static final ResourceLocation buttonTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/widgets.png");
+    public static final ResourceLocation tfButtonTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/widgets.png");
 
     public GuiButtonFlat(int id, int x, int y, int width, String s)
     {
@@ -32,7 +32,7 @@ public class GuiButtonFlat extends GuiButton
         if (visible)
         {
             FontRenderer fontrenderer = mc.fontRenderer;
-            mc.getTextureManager().bindTexture(buttonTextures);
+            mc.getTextureManager().bindTexture(tfButtonTextures);
 
             GL11.glColor4f(1, 1, 1, 1);
             field_146123_n = new Rectangle(xPosition, yPosition, width, height).contains(mouseX, mouseY);

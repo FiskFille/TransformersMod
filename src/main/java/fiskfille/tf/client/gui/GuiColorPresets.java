@@ -369,7 +369,7 @@ public class GuiColorPresets extends GuiScreen
             Color color = new Color(primaryColor);
             Color color1 = new Color(secondaryColor);
 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(GuiButtonFlat.tfButtonTextures);
             GL11.glColor4f((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, 1);
             drawTexturedModalRect(posX, posY, 156, 206, 50, 50);
             GL11.glColor4f((float) color1.getRed() / 255, (float) color1.getGreen() / 255, (float) color1.getBlue() / 255, 1);

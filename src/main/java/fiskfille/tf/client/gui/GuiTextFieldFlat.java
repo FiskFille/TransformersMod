@@ -445,7 +445,7 @@ public class GuiTextFieldFlat extends GuiTextField
         {
             if (getEnableBackgroundDrawing())
             {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(GuiButtonFlat.buttonTextures);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(GuiButtonFlat.tfButtonTextures);
 
                 GL11.glEnable(GL11.GL_BLEND);
                 OpenGlHelper.glBlendFunc(770, 771, 1, 0);

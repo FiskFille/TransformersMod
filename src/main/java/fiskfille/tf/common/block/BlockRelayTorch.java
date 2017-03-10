@@ -111,6 +111,11 @@ public class BlockRelayTorch extends BlockRelayTower
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
+        if (super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ))
+        {
+            return true;
+        }
+        
         if (!player.isSneaking())
         {
             TileEntity tile = world.getTileEntity(x, y, z);
@@ -179,7 +184,7 @@ public class BlockRelayTorch extends BlockRelayTower
 
     private boolean func_150107_m(World world, int x, int y, int z)
     {
-        if (World.doesBlockHaveSolidTopSurface(world, x, y, z))
+        if (World.doesBlockHaveSolidTopSurface(world, x, y, z)) // TODO: Port new crystal code
         {
             return true;
         }

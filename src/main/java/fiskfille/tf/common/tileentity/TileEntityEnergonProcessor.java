@@ -266,7 +266,26 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
-        return data.tank.fill(resource, doFill);
+        FluidStack stack = data.tank.getFluid();
+
+        if (stack == null || stack.amount <= 0 || FluidStack.areFluidStackTagsEqual(stack, resource))
+        {
+            return data.tank.fill(resource, doFill);
+        }
+        else if (stack.getFluid() == TFFluids.energon)
+        {
+            NBTTagCompound prevNBT = resource.tag;
+
+            resource.tag = stack.tag;
+            int amount = data.tank.fill(resource, doFill);
+            resource.tag = prevNBT;
+
+            FluidEnergon.merge(stack, resource, amount);
+
+            return amount;
+        }
+
+        return 0;
     }
 
     @Override
@@ -289,7 +308,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid)
     {
-        return false;
+        return fluid == TFFluids.energon;
     }
 
     @Override

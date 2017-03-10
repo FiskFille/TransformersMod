@@ -43,8 +43,13 @@ public class BlockIsoCondenser extends BlockMachineBase
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
+        if (super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ))
+        {
+            return true;
+        }
+        
         if (!player.isSneaking())
         {
             TFGui.ISOTOPIC_CONDENSER.open(player, x, y, z);
