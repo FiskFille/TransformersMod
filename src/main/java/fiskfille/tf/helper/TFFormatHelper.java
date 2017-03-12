@@ -1,6 +1,11 @@
 package fiskfille.tf.helper;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
+
+import com.google.common.collect.Lists;
 
 public class TFFormatHelper
 {
@@ -61,5 +66,17 @@ public class TFFormatHelper
 
         s = s.replace(" ", "").replace("'", "").replace("/", "").replace("\\", "").replace("_", "").replace("-", "").replace("(", "").replace(")", "");
         return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+    
+    public static List<String> toString(List<IChatComponent> list)
+    {
+        List<String> list1 = Lists.newArrayList();
+        
+        for (IChatComponent component : list)
+        {
+            list1.add(component == null ? "" : component.getFormattedText());
+        }
+        
+        return list1;
     }
 }

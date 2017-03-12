@@ -213,7 +213,7 @@ public class PowerSourceRecipeHandler extends EnergonProcessorRecipeHandler
     }
 
     @Override
-    public List<CachedProcessorRecipe> getProcessorRecipes(EnergonProcessorRecipeHandler handler)
+    public List<CachedProcessorRecipe> getProcessorRecipes()
     {
         return processorRecipes;
     }

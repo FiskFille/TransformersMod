@@ -25,7 +25,7 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.PowerManager;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityEnergonProcessor extends TileEntityContainer implements IFluidHandlerTF, ISidedInventory
+public class TileEntityEnergonProcessor extends TileEntityMachineContainer implements IFluidHandlerTF, ISidedInventory
 {
     private static final int[] slotsTop = {1};
     private static final int[] slotsBottom = {2};
@@ -100,9 +100,9 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
                 notifyNeighborBlocksOfChange();
             }
         }
-        else if (burnTime > 0)
+        else
         {
-            --burnTime;
+            burnTime = 0;
         }
 
         if (data.getFluidAmount() > 0 && canister != null && canister.getItem() instanceof IFluidContainerItem && (ItemFuelCanister.isEmpty(canister) || ItemFuelCanister.getContainerFluid(canister).getFluid() == TFFluids.energon && !ItemFuelCanister.isFull(canister)))
@@ -121,9 +121,9 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
                 fillTime = 0;
             }
         }
-        else if (fillTime > 0)
+        else
         {
-            --fillTime;
+            fillTime = 0;
         }
 
         if (data.getFluid() != null && data.getFluidAmount() == 0)
@@ -221,7 +221,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 
     public boolean canProcessCrystal(ItemStack itemstack)
     {
-        if (itemstack != null && isItemValidForSlot(1, itemstack))
+        if (itemstack != null && isItemValidForSlot(1, itemstack) && canActivate())
         {
             IEnergon ienergon = (IEnergon) (itemstack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(itemstack.getItem()) : itemstack.getItem());
 
@@ -356,7 +356,7 @@ public class TileEntityEnergonProcessor extends TileEntityContainer implements I
 
         if (data.getFluid() != null && data.getFluidAmount() > 0)
         {
-            NBTTagCompound config = new NBTTagCompound();
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
             data.tank.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }

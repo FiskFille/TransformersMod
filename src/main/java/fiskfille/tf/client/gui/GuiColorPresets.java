@@ -44,7 +44,7 @@ public class GuiColorPresets extends GuiScreen
     public void initGui()
     {
         super.initGui();
-        buttonList.add(new GuiButton(0, width / 2 - 100, height / 6 + 168, I18n.format("gui.done", new Object[0])));
+        buttonList.add(new GuiButton(0, width / 2 - 100, height / 6 + 168, I18n.format("gui.done")));
         buttonList.add(new GuiButton(1, width / 2 - 85, height / 6 + 130, 20, 20, "<"));
         buttonList.add(new GuiButton(2, width / 2 + 65, height / 6 + 130, 20, 20, ">"));
 

@@ -27,7 +27,7 @@ import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityEnergonTank extends TileEntityContainer implements IFluidHandlerTF, ISidedInventory, IMultiTile
+public class TileEntityEnergonTank extends TileEntityMachineContainer implements IFluidHandlerTF, ISidedInventory, IMultiTile
 {
     private static final int[] slotsSides = {0, 1};
 
@@ -108,7 +108,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
                     TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
                     int maxTransfer = 100;
 
-                    if (maxTransfer > 0 && tile instanceof IFluidHandler)
+                    if (canActivate() && maxTransfer > 0 && tile instanceof IFluidHandler)
                     {
                         IFluidHandler fluidHandler = (IFluidHandler) tile;
                         FluidStack fluid = drain(dir, maxTransfer, false);
@@ -415,7 +415,7 @@ public class TileEntityEnergonTank extends TileEntityContainer implements IFluid
 
         if (data.getFluid() != null && data.getFluidAmount() > 0)
         {
-            NBTTagCompound config = new NBTTagCompound();
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
             data.tank.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }

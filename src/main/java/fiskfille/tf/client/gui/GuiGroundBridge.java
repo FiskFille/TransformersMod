@@ -2,11 +2,12 @@ package fiskfille.tf.client.gui;
 
 import java.awt.Rectangle;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,6 +17,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import codechicken.nei.VisiblityData;
+import codechicken.nei.api.INEIGuiHandler;
+import codechicken.nei.api.TaggedInventoryArea;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
@@ -31,12 +36,12 @@ import fiskfille.tf.common.network.MessageControlPanelSetConfig;
 import fiskfille.tf.common.network.MessageTileTrigger;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.helper.TFDimensionHelper;
-import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
 @SideOnly(Side.CLIENT)
-public class GuiGroundBridge extends GuiContainerTF
+@Optional.Interface(iface = "codechicken.nei.api.INEIGuiHandler", modid = "NotEnoughItems")
+public class GuiGroundBridge extends GuiContainerTF implements INEIGuiHandler
 {
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/ground_bridge.png");
     public InventoryGroundBridge inventory;
@@ -50,15 +55,17 @@ public class GuiGroundBridge extends GuiContainerTF
     public GuiButton buttonDimLeft;
     public GuiButton buttonDirection;
 
+    private GuiHoverFieldEnergy fieldEnergy;
+
     public DimensionalCoords tileCoords;
     public TileDataControlPanel data;
 
     public GuiGroundBridge(InventoryPlayer inventoryPlayer, InventoryGroundBridge inventoryGroundBridge, DimensionalCoords coords)
     {
         super(new ContainerGroundBridge(inventoryPlayer, inventoryGroundBridge));
-        this.inventory = inventoryGroundBridge;
-        this.tileCoords = coords;
-        this.data = (TileDataControlPanel) TFTileHelper.getTileData(coords);
+        inventory = inventoryGroundBridge;
+        tileCoords = coords;
+        data = (TileDataControlPanel) TFTileHelper.getTileData(coords);
     }
 
     @Override
@@ -73,6 +80,7 @@ public class GuiGroundBridge extends GuiContainerTF
             return;
         }
 
+        buttonList.add(fieldEnergy = new GuiHoverFieldEnergy(x + xSize + 2, y + 2, 16, 86, data.storage));
         buttonList.add(buttonDeactivate = new GuiButtonFlat(0, x + 37, y + 66, 64, I18n.format("ground_bridge_remote.ui.deactivate")));
         buttonList.add(buttonActivate = new GuiButtonFlat(1, x + 105, y + 66, 64, I18n.format("ground_bridge_remote.ui.activate")));
         buttonList.add(buttonDimLeft = new GuiButtonFlat(2, x + 37, y + 49, 13, "<"));
@@ -152,6 +160,7 @@ public class GuiGroundBridge extends GuiContainerTF
             }
         }
 
+        fieldEnergy.update(data.storage);
         updateButtons();
     }
 
@@ -268,60 +277,7 @@ public class GuiGroundBridge extends GuiContainerTF
 
         TFRenderHelper.finishRenderItemIntoGUI();
 
-        mc.getTextureManager().bindTexture(guiTextures);
-        drawTexturedModalRect(xSize + 2, 2, 192, 0, 16, 86);
-
-        float energy = data.getEnergy();
-
-        if (energy > 0)
-        {
-            float f = energy / data.getMaxEnergy();
-            drawTexturedModalRect(xSize + 6, 6 + Math.round(78 * (1 - f)), 208, Math.round(78 * (1 - f)), 16, Math.round(78 * f));
-        }
-
-        for (int i = 0; i < data.errors.size(); ++i)
-        {
-            boolean flag = new Rectangle(xSize + 20, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y);
-            drawTexturedModalRect(xSize + 20, 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
-        }
-
-        GL11.glPushMatrix();
-        GL11.glTranslatef(-x, -y, 0);
-
-        for (int i = 0; i < data.upgrades.size(); ++i)
-        {
-            DataCore core = data.upgrades.get(i);
-
-            if (core != null && new Rectangle(115 + i * 18, 27, 18, 18).contains(mouseX - x, mouseY - y))
-            {
-                drawHoveringText(Arrays.asList(core.getTranslatedName()), mouseX, mouseY, fontRendererObj);
-            }
-        }
-
-        if (new Rectangle(xSize + 2, 2, 16, 86).contains(mouseX - x, mouseY - y))
-        {
-            drawHoveringText(TFEnergyHelper.getHoverText(data.storage), mouseX, mouseY, fontRendererObj);
-        }
-
-        for (int i = 0; i < data.errors.size(); ++i)
-        {
-            ErrorContainer container = data.errors.get(i);
-
-            if (new Rectangle(xSize + 20, 10 + i * 17, 16, 16).contains(mouseX - x, mouseY - y))
-            {
-                List<String> list = fontRendererObj.listFormattedStringToWidth(container.translate(), 200);
-
-                for (int j = 0; j < list.size(); ++j)
-                {
-                    list.set(j, EnumChatFormatting.RED + list.get(j));
-                }
-
-                drawHoveringText(list, mouseX, mouseY, fontRendererObj);
-            }
-        }
-
-        GL11.glPopMatrix();
-        RenderHelper.enableGUIStandardItemLighting();
+//        RenderHelper.enableGUIStandardItemLighting();
     }
 
     @Override
@@ -334,11 +290,120 @@ public class GuiGroundBridge extends GuiContainerTF
         mc.getTextureManager().bindTexture(guiTextures);
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 
+        drawTexturedModalRect(x + xSize + 2, y + 2, 192, 0, 16, 86);
+        float energy = data.getEnergy();
+
+        if (energy > 0)
+        {
+            float f = energy / data.getMaxEnergy();
+            drawTexturedModalRect(x + xSize + 6, y + 6 + Math.round(78 * (1 - f)), 208, Math.round(78 * (1 - f)), 8, Math.round(78 * f));
+        }
+
+        for (int i = 0; i < data.errors.size(); ++i)
+        {
+            boolean flag = new Rectangle(x + xSize + 20, y + 10 + i * 17, 16, 16).contains(mouseX, mouseY);
+            drawTexturedModalRect(x + xSize + 20, y + 10 + i * 17, 176, flag ? 16 : 0, 16, 16);
+        }
+
         for (GuiTextField coordinateField : coordinateFields)
         {
             coordinateField.drawTextBox();
         }
 
         dimensionField.drawTextBox();
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        int x = (width - xSize) / 2;
+        int y = (height - ySize) / 2;
+
+        for (int i = 0; i < data.upgrades.size(); ++i)
+        {
+            DataCore core = data.upgrades.get(i);
+
+            if (core != null && new Rectangle(x + 115 + i * 18, y + 27, 18, 18).contains(mouseX, mouseY))
+            {
+                drawHoveringText(Arrays.asList(core.getTranslatedName()), mouseX, mouseY, fontRendererObj);
+            }
+        }
+
+        for (int i = 0; i < data.errors.size(); ++i)
+        {
+            ErrorContainer container = data.errors.get(i);
+
+            if (new Rectangle(x + xSize + 20, y + 10 + i * 17, 16, 16).contains(mouseX, mouseY))
+            {
+                List<String> list = fontRendererObj.listFormattedStringToWidth(container.translate(), 200);
+
+                for (int j = 0; j < list.size(); ++j)
+                {
+                    list.set(j, EnumChatFormatting.RED + list.get(j));
+                }
+
+                drawHoveringText(list, mouseX, mouseY, fontRendererObj);
+            }
+        }
+    }
+
+    @Override
+    public VisiblityData modifyVisiblity(GuiContainer gui, VisiblityData currentVisibility)
+    {
+        if (width - xSize < 107)
+        {
+            currentVisibility.showWidgets = false;
+        }
+        else
+        {
+            currentVisibility.showWidgets = true;
+        }
+
+        if (guiLeft < 58)
+        {
+            currentVisibility.showStateButtons = false;
+        }
+
+        return currentVisibility;
+    }
+
+    @Override
+    public Iterable<Integer> getItemSpawnSlots(GuiContainer gui, ItemStack item)
+    {
+        return null;
+    }
+
+    @Override
+    public List<TaggedInventoryArea> getInventoryAreas(GuiContainer gui)
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public boolean handleDragNDrop(GuiContainer gui, int mousex, int mousey, ItemStack draggedStack, int button)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hideItemPanelSlot(GuiContainer gui, int x, int y, int w, int h)
+    {
+        Rectangle slot = new Rectangle(x, y, w, h);
+        Rectangle bounds = new Rectangle(guiLeft + xSize, guiTop, 18, 88);
+        
+        slot.grow(4, 4);
+        
+        if (!data.errors.isEmpty())
+        {
+            bounds.width += 18;
+        }
+        
+        if (slot.intersects(bounds))
+        {
+            return true;
+        }
+        
+        return false;
     }
 }

@@ -2,6 +2,8 @@ package fiskfille.tf.common.block;
 
 import java.util.List;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,12 +14,37 @@ import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class BlockRelayTower extends BlockTransmitter
+public class BlockRelayTower extends BlockMachineBase
 {
+    public BlockRelayTower()
+    {
+        super(Material.rock);
+        setHardness(5.0F);
+        setResistance(10.0F);
+    }
+    
     @Override
     public int getBlockHeight()
     {
         return 2;
+    }
+    
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    @Override
+    public int getRenderType()
+    {
+        return -1;
+    }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
     }
 
     @Override
@@ -79,5 +106,11 @@ public class BlockRelayTower extends BlockTransmitter
         }
 
         return false;
+    }
+    
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        blockIcon = iconRegister.registerIcon("stone");
     }
 }

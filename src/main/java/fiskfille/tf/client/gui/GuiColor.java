@@ -48,7 +48,7 @@ public class GuiColor extends GuiScreen
     public void initGui()
     {
         super.initGui();
-        buttonList.add(new GuiButton(0, width / 2 - 100, height / 6 + 168, I18n.format("gui.done", new Object[0])));
+        buttonList.add(new GuiButton(0, width / 2 - 100, height / 6 + 168, I18n.format("gui.done")));
         buttonList.add(sliderRed = new GuiColorSlider(1, width / 2 - 22, height / 6, 0, I18n.format("gui.display_station.color.red")));
         buttonList.add(sliderGreen = new GuiColorSlider(2, width / 2 - 22, height / 6 + 21, 1, I18n.format("gui.display_station.color.green")));
         buttonList.add(sliderBlue = new GuiColorSlider(3, width / 2 - 22, height / 6 + 42, 2, I18n.format("gui.display_station.color.blue")));

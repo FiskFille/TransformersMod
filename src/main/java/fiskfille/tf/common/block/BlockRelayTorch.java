@@ -10,13 +10,9 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
-import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 
 public class BlockRelayTorch extends BlockRelayTower
 {
@@ -106,29 +102,6 @@ public class BlockRelayTorch extends BlockRelayTower
         {
             setBlockBounds(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2);
         }
-    }
-
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    {
-        if (super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ))
-        {
-            return true;
-        }
-        
-        if (!player.isSneaking())
-        {
-            TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (tile instanceof TileEntityRelayTorch)
-            {
-                TFGui.RECEIVER_NETWORK.open(player, tile);
-            }
-
-            return true;
-        }
-
-        return false;
     }
 
     @Override

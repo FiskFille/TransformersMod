@@ -80,6 +80,7 @@ public class BlockTransmitter extends BlockMachineBase
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         int metadata = world.getBlockMetadata(x, y, z);
+        
         if (metadata < 4)
         {
             setBlockBounds(0, 0, 0, 1, 3, 1);

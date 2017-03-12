@@ -1,31 +1,24 @@
 package fiskfille.tf.client.gui;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Map;
-
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.container.ContainerEnergonTank;
-import fiskfille.tf.common.energon.Energon;
-import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.FluidTankTF;
+import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.network.MessageTileTrigger;
+import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
-import fiskfille.tf.helper.TFFormatHelper;
-import fiskfille.tf.helper.TFRenderHelper;
+import fiskfille.tf.helper.TFFluidRenderHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
 @SideOnly(Side.CLIENT)
@@ -34,12 +27,44 @@ public class GuiEnergonTank extends GuiContainerTF
     private static final ResourceLocation guiTextures = new ResourceLocation(TransformersMod.modid, "textures/gui/container/energon_fluid_tank.png");
     private TileEntityEnergonTank tileentity;
 
-    public FluidTank fluidTank;
+    public FluidTankTF fluidTank;
+    
+    private GuiHoverFieldFluid fieldFluid;
 
     public GuiEnergonTank(InventoryPlayer inventoryPlayer, TileEntityEnergonTank tile)
     {
         super(new ContainerEnergonTank(inventoryPlayer, tile));
         tileentity = tile;
+    }
+    
+    @Override
+    public void initGui()
+    {
+        super.initGui();
+        int x = (width - xSize) / 2;
+        int y = (height - ySize) / 2;
+
+        buttonList.add(fieldFluid = new GuiHoverFieldFluid(x + 61, y + 17, 52, 52, tileentity.data.tank));
+        buttonList.add(new GuiButtonConfigRedstone(1, x + xSize - 18, y + 5, tileentity));
+    }
+    
+    @Override
+    public void updateScreen()
+    {
+        super.updateScreen();
+        updateFluids();
+        fieldFluid.update(fluidTank);
+    }
+    
+    @Override
+    protected void actionPerformed(GuiButton button)
+    {
+        int id = button.id;
+
+        if (id == 1)
+        {
+            TFNetworkManager.networkWrapper.sendToServer(new MessageTileTrigger(new DimensionalCoords(tileentity), mc.thePlayer, -tileentity.io.length - 2));
+        }
     }
 
     public void updateFluids()
@@ -69,14 +94,7 @@ public class GuiEnergonTank extends GuiContainerTF
             ++y;
         }
 
-        fluidTank = new FluidTank(stack, capacity);
-    }
-
-    @Override
-    public void updateScreen()
-    {
-        super.updateScreen();
-        updateFluids();
+        fluidTank = new FluidTankTF(stack, capacity);
     }
 
     @Override
@@ -87,59 +105,12 @@ public class GuiEnergonTank extends GuiContainerTF
 
         String s = I18n.format(tileentity.getInventoryName());
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-        fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
 
         if (fluidTank == null)
         {
             updateFluids();
         }
-
-        FluidStack stack = fluidTank.getFluid();
-        ArrayList text = Lists.newArrayList();
-        ArrayList colors = Lists.newArrayList();
-
-        if (stack != null && stack.amount > 0)
-        {
-            Map<String, Float> ratios = FluidEnergon.getRatios(stack);
-            boolean flag = false;
-
-            for (Map.Entry<String, Float> e : ratios.entrySet())
-            {
-                Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                int percent = Math.round(e.getValue() * 100);
-
-                if (percent > 0)
-                {
-                    text.add(I18n.format("gui.energon_processor.content", energon.getTranslatedName(), Math.round(e.getValue() * 100)));
-                    colors.add(energon.getColor());
-                    flag = true;
-                }
-            }
-
-            if (flag)
-            {
-                text.add("");
-                colors.add(-1);
-            }
-            else
-            {
-                text.add(I18n.format("gui.energon_processor.unidentified"));
-                colors.add(0xbf0000);
-            }
-        }
-
-        text.add(I18n.format("gui.energon_processor.filled", TFFormatHelper.formatNumber(fluidTank.getFluidAmount()), TFFormatHelper.formatNumber(fluidTank.getCapacity())));
-        colors.add(stack != null ? stack.getFluid().getColor(stack) : -1);
-
-        GL11.glPushMatrix();
-        GL11.glTranslatef(-x, -y, 0);
-
-        if (new Rectangle(x + 61, y + 17, 52, 52).contains(mouseX, mouseY))
-        {
-            drawHoveringText(text, colors, mouseX, mouseY, fontRendererObj);
-        }
-
-        GL11.glPopMatrix();
     }
 
     @Override
@@ -162,25 +133,10 @@ public class GuiEnergonTank extends GuiContainerTF
         {
             updateFluids();
         }
-
-        FluidStack stack = fluidTank.getFluid();
-
-        if (stack != null && stack.amount > 0)
-        {
-            mc.getTextureManager().bindTexture(mc.getTextureMapBlocks().locationBlocksTexture);
-            float[] rgb = TFRenderHelper.hexToRGB(stack.getFluid().getColor(stack));
-            float f = (float) stack.amount / fluidTank.getCapacity();
-
-            GL11.glPushMatrix();
-            GL11.glColor4f(rgb[0], rgb[1], rgb[2], 1);
-            GL11.glTranslatef(x + 64, y + 19, 0);
-            GL11.glScalef(3, 3, 3);
-            TFRenderHelper.startGlScissor(x + 64, y + 19 + MathHelper.floor_float(48 * (1 - f)), 48, MathHelper.ceiling_float_int(48 * f));
-            drawTexturedModelRectFromIcon(0, 0, stack.getFluid().getStillIcon(), 16, 16);
-            TFRenderHelper.endGlScissor();
-            GL11.glColor4f(1, 1, 1, 1);
-            GL11.glPopMatrix();
-        }
+        
+        GL11.glEnable(GL11.GL_BLEND);
+        TFFluidRenderHelper.renderIntoGUI(fluidTank, x + 64, y + 19, 48, 48, zLevel);
+        GL11.glDisable(GL11.GL_BLEND);
 
         mc.getTextureManager().bindTexture(guiTextures);
         drawTexturedModalRect(x + 62, y + 17, 204, 0, 52, 52);

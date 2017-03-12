@@ -1,17 +1,14 @@
 package fiskfille.tf.common.item;
 
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -21,7 +18,9 @@ import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.fluid.FluidEnergon;
+import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.fluid.TFFluids;
+import fiskfille.tf.helper.TFFormatHelper;
 
 public class ItemFuelCanister extends ItemFluidContainer
 {
@@ -98,41 +97,10 @@ public class ItemFuelCanister extends ItemFluidContainer
     @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
     {
-        FluidStack stack = getFluid(itemstack);
-        int liquidAmount = stack != null ? stack.amount : 0;
-
-        if (stack != null && stack.amount > 0)
-        {
-            Map<String, Float> ratios = FluidEnergon.getRatios(stack);
-            boolean flag = false;
-
-            for (Map.Entry<String, Float> e : ratios.entrySet())
-            {
-                Energon energon = TransformersAPI.getEnergonTypeByName(e.getKey());
-                int percent = Math.round(e.getValue() * 100);
-
-                if (percent > 0)
-                {
-                    list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.content", energon.getTranslatedName(), percent));
-                    flag = true;
-                }
-            }
-
-            if (flag)
-            {
-                list.add("");
-            }
-            else
-            {
-                list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gui.energon_processor.unidentified"));
-            }
-
-            list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, capacity));
-        }
-        else
-        {
-            list.add(StatCollector.translateToLocalFormatted("gui.energon_processor.filled", liquidAmount, capacity));
-        }
+        FluidTankTF tank = new FluidTankTF(getCapacity(itemstack));
+        tank.setFluid(getFluid(itemstack));
+        
+        list.addAll(TFFormatHelper.toString(tank.format()));
     }
 
     @Override

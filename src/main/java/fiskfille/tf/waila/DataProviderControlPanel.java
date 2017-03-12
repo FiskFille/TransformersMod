@@ -6,9 +6,9 @@ import java.util.Map;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 
 import com.google.common.collect.Maps;
 
@@ -47,7 +47,7 @@ public class DataProviderControlPanel extends DataProviderMachine
 
                 if (e.getValue() > 1)
                 {
-                    s = String.format("%s %s", s, StatCollector.translateToLocalFormatted("tile.display_pillar.amount", e.getValue()));
+                    s = String.format("%s %s", s, I18n.format("tile.display_pillar.amount", e.getValue()));
                 }
 
                 list.add(s);

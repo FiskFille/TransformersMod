@@ -3,6 +3,7 @@ package fiskfille.tf.waila;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.fluid.IFluidHandlerTF;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
@@ -10,7 +11,7 @@ import fiskfille.tf.helper.TFTileHelper;
 
 public class DataProviderEnergonTank extends DataProviderMachine
 {
-    public FluidTank fluidTank = new FluidTank(TFFluids.energon, 0, 0);
+    public FluidTankTF fluidTank = new FluidTankTF(TFFluids.energon, 0, 0);
 
     public DataProviderEnergonTank(String s)
     {
@@ -44,25 +45,13 @@ public class DataProviderEnergonTank extends DataProviderMachine
             ++y;
         }
 
-        fluidTank = new FluidTank(stack, capacity);
+        fluidTank = new FluidTankTF(stack, capacity);
     }
 
     @Override
-    public FluidStack getFluid(TileEntity tile, IFluidHandlerTF fluidHandler)
+    public FluidTankTF getFluid(TileEntity tile, IFluidHandlerTF fluidHandler)
     {
         updateFluids(tile);
-        return fluidTank.getFluid();
-    }
-
-    @Override
-    public int getFluidAmount(TileEntity tile, IFluidHandlerTF fluidHandler)
-    {
-        return fluidTank.getFluidAmount();
-    }
-
-    @Override
-    public int getFluidCapacity(TileEntity tile, IFluidHandlerTF fluidHandler)
-    {
-        return fluidTank.getCapacity();
+        return fluidTank;
     }
 }

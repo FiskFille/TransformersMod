@@ -7,10 +7,8 @@ import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -452,17 +450,5 @@ public class TFEnergyHelper
         }
 
         return false;
-    }
-
-    public static List<String> getHoverText(EnergyStorage storage)
-    {
-        float usage = storage.getUsage();
-        String prefix = usage > 0 ? EnumChatFormatting.GREEN + "+" : usage < 0 ? EnumChatFormatting.RED + "-" : EnumChatFormatting.GRAY.toString();
-        List<String> list = Lists.newArrayList();
-
-        list.add(StatCollector.translateToLocalFormatted("gui.emb.storage", TFFormatHelper.formatNumber(storage.getEnergy()), TFFormatHelper.formatNumber(storage.getMaxEnergy())));
-        list.add(prefix + StatCollector.translateToLocalFormatted("gui.emb.rate", TFFormatHelper.formatNumberPrecise(Math.abs(usage)) + EnumChatFormatting.GRAY));
-
-        return list;
     }
 }

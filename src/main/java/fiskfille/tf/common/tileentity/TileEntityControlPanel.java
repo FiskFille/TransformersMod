@@ -49,7 +49,7 @@ import fiskfille.tf.helper.TFDimensionHelper;
 import fiskfille.tf.helper.TFMathHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityControlPanel extends TileEntityContainer implements ISidedInventory, IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
+public class TileEntityControlPanel extends TileEntityMachineContainer implements ISidedInventory, IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
 {
     public static final int[][] directions = new int[][] { {-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
@@ -688,7 +688,7 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
 
         if (data.storage.getEnergy() > 0)
         {
-            NBTTagCompound config = new NBTTagCompound();
+            NBTTagCompound config = nbt.getCompoundTag("ConfigDataTF");
             data.storage.writeToNBT(config);
             nbt.setTag("ConfigDataTF", config);
         }
@@ -921,6 +921,8 @@ public class TileEntityControlPanel extends TileEntityContainer implements ISide
     @Override
     public void receive(EntityPlayer player, int action)
     {
+        super.receive(player, action);
+        
         if (player != null)
         {
             if (isUseableByPlayer(player) || player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote)
