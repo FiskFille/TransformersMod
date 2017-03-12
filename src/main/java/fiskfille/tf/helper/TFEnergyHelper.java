@@ -284,7 +284,7 @@ public class TFEnergyHelper
 
                     if (!flag1 || block1.getCollisionBoundingBoxFromPool(world, x1, y1, z1) != null)
                     {
-                        if (block1.canCollideCheck(l1, flag) && !(!block1.isOpaqueCube() && world.getTileEntity(x1, y1, z1) instanceof IEnergyReceiver))
+                        if (block1.canCollideCheck(l1, flag) && !(world.getTileEntity(x1, y1, z1) instanceof IEnergyReceiver && world.getTileEntity(x1, y1, z1) instanceof IEnergyTransmitter))
                         {
                             MovingObjectPosition movingobjectposition1 = block1.collisionRayTrace(world, x1, y1, z1, src, dst);
 

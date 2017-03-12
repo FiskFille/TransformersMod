@@ -42,6 +42,13 @@ public class RenderItemTileEntity implements IItemRenderer
             GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         }
 
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+        try
+        {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -16,6 +16,7 @@ import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
+import fiskfille.tf.common.tileentity.TileEntityEnergyPort;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeFrame;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
@@ -58,6 +59,7 @@ public class TFBlocks
     public static Block relayTower;
     public static Block relayTorch;
     public static Block energyColumn;
+    public static Block energyPort;
     public static Block isoCondenser;
     public static Block groundBridgeFrame;
     public static Block groundBridgeTeleporter;
@@ -95,6 +97,7 @@ public class TFBlocks
         relayTower = new BlockRelayTower();
         relayTorch = new BlockRelayTorch();
         energyColumn = new BlockColumn();
+        energyPort = new BlockEnergyPort();
         isoCondenser = new BlockIsoCondenser();
         groundBridgeFrame = new BlockGroundBridgeFrame();
         groundBridgeTeleporter = new BlockGroundBridgeTeleporter();
@@ -131,6 +134,7 @@ public class TFBlocks
         TFBlockRegistry.registerMachine(relayTower, "Energy Relay", TileEntityRelayTower.class);
         TFBlockRegistry.registerMachine(relayTorch, "Energy Relay Torch", TileEntityRelayTorch.class);
         TFBlockRegistry.registerMachine(energyColumn, "Energy Column", TileEntityColumn.class);
+        TFBlockRegistry.registerMachine(energyPort, "Energy Port", TileEntityEnergyPort.class);
         TFBlockRegistry.registerMachine(isoCondenser, "Isotopic Condenser", TileEntityIsoCondenser.class);
         TFBlockRegistry.registerTileEntity(groundBridgeFrame, "Ground Bridge Frame", TileEntityGroundBridgeFrame.class);
         TFBlockRegistry.registerTileEntity(groundBridgeTeleporter, "Ground Bridge Teleporter", TileEntityGroundBridgeTeleporter.class);

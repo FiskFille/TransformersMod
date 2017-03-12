@@ -182,6 +182,7 @@ tile.energon_transmitter.name=Energon Transmitter
 tile.energy_relay.name=Energy Relay
 tile.energy_relay_torch.name=Energy Relay Torch
 tile.energy_column.name=Energy Column
+tile.energy_port.name=Energy Port
 tile.isotopic_condenser.name=Isotopic Condenser
 tile.ground_bridge_frame.name=Ground Bridge Frame
 tile.ground_bridge_teleporter.name=Ground Bridge Portal

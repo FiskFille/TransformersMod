@@ -161,9 +161,9 @@ public abstract class TileEntityMachine extends TileEntityTF implements ITileDat
     public boolean canActivate()
     {
         boolean isPowered = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
-        int y = 1;
+        int y = 0;
         
-        while (++y <= ((BlockMachineBase) getBlockType()).getBlockHeight() && TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + y, zCoord)) == TFTileHelper.getTileBase(this))
+        while (++y < getBlockType().getBlockHeight() && TFTileHelper.getTileBase(worldObj.getTileEntity(xCoord, yCoord + y, zCoord)) == TFTileHelper.getTileBase(this))
         {
             isPowered |= worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord + y, zCoord);
         }
