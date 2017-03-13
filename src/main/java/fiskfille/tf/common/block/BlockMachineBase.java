@@ -53,52 +53,52 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
     {
         return MathHelper.floor_double(entity.rotationYaw * 4F / 360F + 2.5D) & 3;
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
         ItemStack heldItem = player.getHeldItem();
-        
+
         if (tile instanceof IFluidHandlerTF && heldItem != null && heldItem.getItem() instanceof IFluidContainerItem)
         {
             IFluidHandlerTF fluidHandler = (IFluidHandlerTF) tile;
             IFluidContainerItem item = (IFluidContainerItem) heldItem.getItem();
-            
+
             boolean empty = ItemFuelCanister.isEmpty(heldItem);
-            
+
             if (!empty)
             {
                 FluidStack stack = item.getFluid(heldItem);
-                
+
                 if (stack != null && fluidHandler.canFill(ForgeDirection.UNKNOWN, stack.getFluid()))
                 {
                     int amount = fluidHandler.fill(ForgeDirection.UNKNOWN, item.drain(heldItem, stack.amount, false), true);
-                    
+
                     if (amount > 0)
                     {
                         ItemStack newItem = new ItemStack(heldItem.getItem(), 1, heldItem.getItemDamage());
                         item.fill(newItem, stack, true);
                         item.drain(newItem, amount, true);
-                        
+
                         player.setCurrentItemOrArmor(0, addItem(player, heldItem, newItem));
-                        
+
                         return true;
                     }
                 }
             }
-            
+
             FluidStack stack = fluidHandler.getTank().getFluid();
-            
+
             if (stack != null && fluidHandler.canDrain(ForgeDirection.UNKNOWN, item.getFluid(heldItem) == null ? stack.getFluid() : item.getFluid(heldItem).getFluid()))
             {
                 FluidStack drained = fluidHandler.drain(ForgeDirection.UNKNOWN, item.getCapacity(heldItem) - ItemFuelCanister.getFluidAmount(heldItem), false);
-                
+
                 if (drained != null && drained.amount > 0)
                 {
                     ItemStack newItem = new ItemStack(heldItem.getItem(), 1, heldItem.getItemDamage());
                     item.fill(newItem, item.getFluid(heldItem), true);
-                    
+
                     int amount = drained.amount;
                     FluidStack stack1 = item.getFluid(newItem);
 
@@ -125,17 +125,17 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
                     }
 
                     newItem.getTagCompound().setTag("Fluid", stack1.writeToNBT(new NBTTagCompound()));
-                    
+
                     player.setCurrentItemOrArmor(0, addItem(player, heldItem, newItem));
-                    
+
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     public ItemStack addItem(EntityPlayer player, ItemStack itemstack, ItemStack newItem)
     {
         if (player.capabilities.isCreativeMode)
@@ -149,7 +149,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         else
         {
             --itemstack.stackSize;
-            
+
             if (!player.inventory.addItemStackToInventory(newItem))
             {
                 player.dropPlayerItemWithRandomChoice(newItem, false);
@@ -190,15 +190,12 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
 
     public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {
-        setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-        AxisAlignedBB aabb1 = getCollisionBoundingBoxFromPool(world, x, y, z);
+        AxisAlignedBB aabb1 = AxisAlignedBB.getBoundingBox(x + minX, y + minY, z + minZ, x + maxX, y + maxY, z + maxZ);
 
         if (aabb1 != null && aabb.intersectsWith(aabb1))
         {
             list.add(aabb1);
         }
-
-        setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override
@@ -215,7 +212,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
     @Override
     public int getComparatorInputOverride(World world, int x, int y, int z, int metadata)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
         if (tile instanceof IFluidHandler)
         {
@@ -312,12 +309,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         if (!world.isRemote && (player == null || !player.capabilities.isCreativeMode))
         {
             ItemStack itemstack = new ItemStack(this, 1, damageDropped(world.getBlockMetadata(x, y, z)));
-            TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (getBlockHeight() > 0)
-            {
-                tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
-            }
+            TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
             if (tile != null)
             {
@@ -360,7 +352,7 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
     {
         super.onBlockPlacedBy(world, x, y, z, entity, itemstack);
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity tile = TFTileHelper.getTileBase(world.getTileEntity(x, y, z));
 
         if (tile != null)
         {

@@ -1,10 +1,5 @@
 package fiskfille.tf.common.block;
 
-import static net.minecraftforge.common.util.ForgeDirection.EAST;
-import static net.minecraftforge.common.util.ForgeDirection.NORTH;
-import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
-import static net.minecraftforge.common.util.ForgeDirection.WEST;
-
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -13,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockRelayTorch extends BlockRelayTower
 {
@@ -32,243 +28,130 @@ public class BlockRelayTorch extends BlockRelayTower
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
     {
         int metadata = world.getBlockMetadata(x, y, z);
+        ForgeDirection dir = ForgeDirection.getOrientation(metadata);
         float f = 0.0625F;
         float width = f * 8;
         float height = f * 4.75F;
 
         for (int i = 0; i < 2; ++i)
         {
-            if (metadata == 1)
+            switch (dir)
             {
-                addBox(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
-            }
-            else if (metadata == 2)
-            {
-                addBox(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
-            }
-            else if (metadata == 3)
-            {
-                addBox(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height, world, x, y, z, aabb, list, entity);
-            }
-            else if (metadata == 4)
-            {
-                addBox(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1, world, x, y, z, aabb, list, entity);
-            }
-            else if (metadata == 5)
-            {
+            case DOWN:
                 addBox(0.5F - width / 2, 0, 0.5F - width / 2, 0.5F + width / 2, height, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
-            }
-            else
-            {
+                break;
+            case UP:
                 addBox(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                break;
+            case NORTH:
+                addBox(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height, world, x, y, z, aabb, list, entity);
+                break;
+            case SOUTH:
+                addBox(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1, world, x, y, z, aabb, list, entity);
+                break;
+            case WEST:
+                addBox(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                break;
+            case EAST:
+                addBox(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                break;
+            default:
+                addBox(0, 0, 0, 1, 0.1F, 1, world, x, y, z, aabb, list, entity);
+                break;
             }
 
             width = f * 2.25F;
             height = f * 12;
         }
-
-        setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         int metadata = world.getBlockMetadata(x, y, z);
+        ForgeDirection dir = ForgeDirection.getOrientation(metadata);
         float f = 0.0625F;
         float width = f * 8;
         float height = f * 12;
 
-        if (metadata == 1)
+        switch (dir)
         {
-            setBlockBounds(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2);
-        }
-        else if (metadata == 2)
-        {
-            setBlockBounds(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2);
-        }
-        else if (metadata == 3)
-        {
-            setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height);
-        }
-        else if (metadata == 4)
-        {
-            setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1);
-        }
-        else if (metadata == 5)
-        {
+        case DOWN:
             setBlockBounds(0.5F - width / 2, 0, 0.5F - width / 2, 0.5F + width / 2, height, 0.5F + width / 2);
-        }
-        else
-        {
+            break;
+        case UP:
             setBlockBounds(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2);
+            break;
+        case NORTH:
+            setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height);
+            break;
+        case SOUTH:
+            setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1);
+            break;
+        case WEST:
+            setBlockBounds(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2);
+            break;
+        case EAST:
+            setBlockBounds(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2);
+            break;
+        default:
+            setBlockBounds(0, 0, 0, 1, 1, 1);
+            break;
         }
-    }
-
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
-        super.onNeighborBlockChange(world, x, y, z, block);
-        func_150108_b(world, x, y, z, block);
     }
 
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
-        return world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || func_150107_m(world, x, y - 1, z) || func_150107_m(world, x, y + 1, z);
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+        {            
+            if (canPlaceAt(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
-        int newMeta = metadata;
+        ForgeDirection dir = ForgeDirection.getOrientation(side);
 
-        if (side == 0 && func_150107_m(world, x, y + 1, z))
+        if (canPlaceAt(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite()))
         {
-            newMeta = 6;
+            return side;
         }
 
-        if (side == 1 && func_150107_m(world, x, y - 1, z))
+        for (ForgeDirection dir1 : ForgeDirection.VALID_DIRECTIONS)
         {
-            newMeta = 5;
+            if (canPlaceAt(world, x + dir1.offsetX, y + dir1.offsetY, z + dir1.offsetZ, dir1.getOpposite()))
+            {
+                return dir1.ordinal();
+            }
         }
 
-        if (side == 2 && world.isSideSolid(x, y, z + 1, NORTH, true))
-        {
-            newMeta = 4;
-        }
-
-        if (side == 3 && world.isSideSolid(x, y, z - 1, SOUTH, true))
-        {
-            newMeta = 3;
-        }
-
-        if (side == 4 && world.isSideSolid(x + 1, y, z, WEST, true))
-        {
-            newMeta = 2;
-        }
-
-        if (side == 5 && world.isSideSolid(x - 1, y, z, EAST, true))
-        {
-            newMeta = 1;
-        }
-
-        return newMeta;
+        return 0;
     }
-
-    private boolean func_150107_m(World world, int x, int y, int z)
-    {
-        if (World.doesBlockHaveSolidTopSurface(world, x, y, z)) // TODO: Port new crystal code
-        {
-            return true;
-        }
-        else
-        {
-            Block block = world.getBlock(x, y, z);
-            return block.canPlaceTorchOnTop(world, x, y, z);
-        }
-    }
-
+    
     @Override
-    public void onBlockAdded(World world, int x, int y, int z)
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
-        super.onBlockAdded(world, x, y, z);
+        int metadata = world.getBlockMetadata(x, y, z);
+        ForgeDirection dir = ForgeDirection.getOrientation(metadata);
 
-        if (world.getBlockMetadata(x, y, z) == 0)
+        if (!canPlaceAt(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite()))
         {
-            if (world.isSideSolid(x - 1, y, z, EAST, true))
-            {
-                world.setBlockMetadataWithNotify(x, y, z, 1, 2);
-            }
-            else if (world.isSideSolid(x + 1, y, z, WEST, true))
-            {
-                world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-            }
-            else if (world.isSideSolid(x, y, z - 1, SOUTH, true))
-            {
-                world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-            }
-            else if (world.isSideSolid(x, y, z + 1, NORTH, true))
-            {
-                world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-            }
-            else if (func_150107_m(world, x, y - 1, z))
-            {
-                world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-            }
-            else if (func_150107_m(world, x, y + 1, z))
-            {
-                world.setBlockMetadataWithNotify(x, y, z, 6, 2);
-            }
+            removedByPlayer(world, null, x, y, z, true);
+            world.setBlockToAir(x, y, z);
         }
-
-        updateCanStay(world, x, y, z);
     }
-
-    protected boolean func_150108_b(World world, int x, int y, int z, Block block)
+    
+    public boolean canPlaceAt(World world, int x, int y, int z, ForgeDirection dir)
     {
-        if (updateCanStay(world, x, y, z))
-        {
-            int l = world.getBlockMetadata(x, y, z);
-            boolean flag = false;
-
-            if (!world.isSideSolid(x - 1, y, z, EAST, true) && l == 1)
-            {
-                flag = true;
-            }
-
-            if (!world.isSideSolid(x + 1, y, z, WEST, true) && l == 2)
-            {
-                flag = true;
-            }
-
-            if (!world.isSideSolid(x, y, z - 1, SOUTH, true) && l == 3)
-            {
-                flag = true;
-            }
-
-            if (!world.isSideSolid(x, y, z + 1, NORTH, true) && l == 4)
-            {
-                flag = true;
-            }
-
-            if (!func_150107_m(world, x, y - 1, z) && l == 5)
-            {
-                flag = true;
-            }
-
-            if (!func_150107_m(world, x, y + 1, z) && l == 6)
-            {
-                flag = true;
-            }
-
-            if (flag)
-            {
-                removedByPlayer(world, null, x, y, z, true);
-                world.setBlockToAir(x, y, z);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    protected boolean updateCanStay(World world, int x, int y, int z)
-    {
-        if (!canPlaceBlockAt(world, x, y, z))
-        {
-            if (world.getBlock(x, y, z) == this)
-            {
-                removedByPlayer(world, null, x, y, z, true);
-                world.setBlockToAir(x, y, z);
-            }
-
-            return false;
-        }
-
-        return true;
+        Block block = world.getBlock(x, y, z);
+        
+        return block.isSideSolid(world, x, y, z, dir) || block == TFBlocks.energyColumn && (dir == ForgeDirection.UP || dir == ForgeDirection.DOWN);
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -35,33 +36,54 @@ public class RenderRelayTower extends TileEntitySpecialRenderer
             ModelRelayTower model = getModel(tower);
 
             GL11.glPushMatrix();
-            GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+            GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
             GL11.glScalef(1, -1F, -1F);
 
             if (tower instanceof TileEntityRelayTorch && world != null)
             {
-                int[] aint = {0, 2, 1, 3};
-
-                if (metadata > 0 && metadata < 5)
+//                int[] rotations = {0, 2, 1, 3};
+//
+//                if (metadata > 0 && metadata < 5)
+//                {
+//                    GL11.glRotatef(rotations[metadata - 1] * 90, 0, 1, 0);
+//                }
+//
+//                if (metadata == 6)
+//                {
+//                    GL11.glTranslatef(0, 2, 0);
+//                    GL11.glRotatef(180, 0, 0, 1);
+//                }
+//
+//                if (metadata != 5 && metadata != 6)
+//                {
+//                    GL11.glTranslatef(1, 1, 0);
+//                    GL11.glRotatef(90, 0, 0, 1);
+//                }
+                
+                ForgeDirection dir = ForgeDirection.getOrientation(metadata);
+                
+                if (dir == ForgeDirection.UP)
                 {
-                    GL11.glRotatef(aint[metadata - 1] * 90, 0, 1, 0);
-                }
-
-                if (metadata == 6)
-                {
-                    GL11.glTranslatef(0, 2, 0);
+                    GL11.glTranslatef(0, 1, 0);
                     GL11.glRotatef(180, 0, 0, 1);
                 }
-
-                if (metadata != 5 && metadata != 6)
+                else if (dir == ForgeDirection.DOWN)
                 {
-                    GL11.glTranslatef(1, 1, 0);
-                    GL11.glRotatef(90, 0, 0, 1);
+                    GL11.glTranslatef(0, -1, 0);
+                }
+                else
+                {
+                    int[] rotations = {0, 2, 3, 1};
+                    
+                    GL11.glRotatef(90 * rotations[metadata - 2], 0, 1, 0);
+                    GL11.glRotatef(90, 1, 0, 0);
+                    GL11.glTranslatef(0, -1, 0);
                 }
             }
             else
             {
                 GL11.glRotatef(metadata * 90, 0, 1, 0);
+                GL11.glTranslatef(0, -1, 0);
             }
 
             bindTexture(new ResourceLocation(TransformersMod.modid, String.format("textures/models/tiles/relay_%s.png", tower instanceof TileEntityRelayTorch ? "torch" : "tower")));

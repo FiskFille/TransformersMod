@@ -2,10 +2,11 @@ package fiskfille.tf.common.tileentity;
 
 import java.util.Set;
 
-import fiskfille.tf.common.energon.power.ReceiverEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
+import fiskfille.tf.common.energon.power.ReceiverEntry;
 
 public class TileEntityRelayTorch extends TileEntityRelayTower
 {
@@ -47,35 +48,25 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
     @Override
     public Vec3 getEnergyInputOffset()
     {
-        int metadata = worldObj != null ? getBlockMetadata() : 0;
-        float offset = 0.0625F * 3.5F;
+        ForgeDirection dir = ForgeDirection.getOrientation(getBlockMetadata());
+        float f = 0.0625F * 3.5F;
+        
+        if (dir == ForgeDirection.UP)
+        {
+            return Vec3.createVectorHelper(0, -f, 0);
+        }
+        else if (dir == ForgeDirection.DOWN)
+        {
+            return Vec3.createVectorHelper(0, f, 0);
+        }
+        
+        int[] rotations = {2, 0, 1, 3};
+        float yaw = rotations[dir.ordinal() - 2] * 90;
+        
+        Vec3 vec3 = Vec3.createVectorHelper(0, 0, -f);
+        vec3.rotateAroundY(-yaw * (float) Math.PI / 180.0F);
 
-        if (metadata == 1)
-        {
-            return Vec3.createVectorHelper(offset, 0, 0);
-        }
-        else if (metadata == 2)
-        {
-            return Vec3.createVectorHelper(-offset, 0, 0);
-        }
-        else if (metadata == 3)
-        {
-            return Vec3.createVectorHelper(0, 0, offset);
-        }
-        else if (metadata == 4)
-        {
-            return Vec3.createVectorHelper(0, 0, -offset);
-        }
-        else if (metadata == 5)
-        {
-            return Vec3.createVectorHelper(0, offset, 0);
-        }
-        else if (metadata == 6)
-        {
-            return Vec3.createVectorHelper(0, -offset, 0);
-        }
-
-        return Vec3.createVectorHelper(0, 0, 0);
+        return vec3;
     }
 
     @Override

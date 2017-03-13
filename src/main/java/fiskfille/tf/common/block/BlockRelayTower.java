@@ -64,8 +64,6 @@ public class BlockRelayTower extends BlockMachineBase
             width = f * 6;
             addBox(width, f * 22, width, 1 - width, 2, 1 - width, world, x, y, z, aabb, list, entity);
         }
-
-        setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override

@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.helper.TFTileHelper;
@@ -80,6 +81,13 @@ public class BlockColumn extends BlockMachineBase
             return true;
         }
 
+        return false;
+    }
+    
+    @Override
+    public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side)
+    {
+//        return side == ForgeDirection.UP || side == ForgeDirection.DOWN;
         return false;
     }
 
