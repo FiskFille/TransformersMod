@@ -9,10 +9,11 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 import fiskfille.tf.common.energon.power.IEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
+import fiskfille.tf.common.energon.power.IReceiverRender;
 import fiskfille.tf.common.energon.power.ReceiverHandler;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityEnergyPort extends TileEntityTF implements IEnergyReceiver
+public class TileEntityEnergyPort extends TileEntityTF implements IEnergyReceiver, IReceiverRender
 {
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     
@@ -60,8 +61,19 @@ public class TileEntityEnergyPort extends TileEntityTF implements IEnergyReceive
     @Override
     public Vec3 getEnergyInputOffset()
     {
+        return getInputVec(3.5F);
+    }
+    
+    @Override
+    public Vec3 getRenderInputOffset()
+    {
+        return getInputVec(1.5F);
+    }
+    
+    public Vec3 getInputVec(float height)
+    {
         ForgeDirection dir = ForgeDirection.getOrientation(getBlockMetadata());
-        float f = 0.0625F * 3.5F;
+        float f = 0.0625F * height;
         
         if (dir == ForgeDirection.UP)
         {

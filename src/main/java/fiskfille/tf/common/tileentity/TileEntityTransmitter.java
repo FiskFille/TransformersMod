@@ -27,6 +27,7 @@ import fiskfille.tf.common.data.tile.TileDataTransmitter;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.ITransmitterRender;
 import fiskfille.tf.common.energon.power.ReceiverEntry;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.fluid.FluidEnergon;
@@ -38,7 +39,7 @@ import fiskfille.tf.common.item.ItemFuelCanister;
 import fiskfille.tf.helper.TFEnergyHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityTransmitter extends TileEntityMachineContainer implements IEnergyTransmitter, IFluidHandlerTF, ISidedInventory, IChunkLoaderTile, IMultiTile
+public class TileEntityTransmitter extends TileEntityMachineContainer implements IEnergyTransmitter, IFluidHandlerTF, ISidedInventory, IChunkLoaderTile, IMultiTile, ITransmitterRender
 {
     public TileDataTransmitter data = new TileDataTransmitter(16000, 6000);
     public ItemStack[] inventory = new ItemStack[1];
@@ -241,7 +242,14 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
     @Override
     public Vec3 getEnergyOutputOffset()
     {
-        return Vec3.createVectorHelper(0, 2 + (Math.cos((animationTimer + TransformersMod.proxy.getRenderTick()) / 10) * 2 + 2) / 16, 0);
+        return Vec3.createVectorHelper(0, 2.25F, 0);
+    }
+    
+    @Override
+    public Vec3 getRenderOutputOffset()
+    {
+        float f = animationTimer + TransformersMod.proxy.getRenderTick();
+        return Vec3.createVectorHelper(0, 2 + (Math.cos(f / 10) * 2 + 2) / 16, 0);
     }
 
     @Override

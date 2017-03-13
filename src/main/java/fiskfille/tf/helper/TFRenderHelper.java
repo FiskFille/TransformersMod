@@ -36,6 +36,8 @@ import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
 import fiskfille.tf.common.energon.power.IEnergyTransmitter;
+import fiskfille.tf.common.energon.power.IReceiverRender;
+import fiskfille.tf.common.energon.power.ITransmitterRender;
 import fiskfille.tf.common.energon.power.ReceiverEntry;
 import fiskfille.tf.common.energon.power.TransmissionHandler;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
@@ -245,6 +247,7 @@ public class TFRenderHelper
             for (ReceiverEntry entry : transmissionHandler.getReceivers())
             {
                 boolean invertCurrent = transmitterTile instanceof TileEntityRelayTower && ((TileEntityRelayTower) transmitterTile).data.invertCurrent.contains(entry.getCoords());
+                boolean canReach = entry.canReach();
                 
                 if (entry.getTile() == null)
                 {
@@ -257,10 +260,18 @@ public class TFRenderHelper
                 Vec3 srcOffset;
                 Vec3 dstOffset;
                 
+                if (tile instanceof ITransmitterRender)
+                {
+                    srcOffset1 = ((ITransmitterRender) tile).getRenderOutputOffset();
+                }
+
+                if (entry.getTile() instanceof IReceiverRender)
+                {
+                    dstOffset1 = ((IReceiverRender) entry.getTile()).getRenderInputOffset();
+                }
+                
                 if (invertCurrent)
                 {
-                    boolean canReach = entry.canReach();
-                    
                     tile = entry.getTile();
                     entry = new ReceiverEntry(transmitterTile);
                     entry.setCanReach(canReach);
@@ -279,13 +290,16 @@ public class TFRenderHelper
                 Vec3 src = srcOffset.addVector(tile.xCoord + 0.5F, tile.yCoord + 0.5F, tile.zCoord + 0.5F);
                 Vec3 dst = dstOffset.addVector(coords.posX + 0.5F, coords.posY + 0.5F, coords.posZ + 0.5F);
 
-                double d = 1F / dst.distanceTo(src);
-                src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
-                MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(tile.getWorldObj(), src, dst);
-
-                if (mop != null)
+                if (!canReach)
                 {
-                    dst = mop.hitVec;
+                    double d = 1F / dst.distanceTo(src);
+                    src = Vec3.createVectorHelper(src.xCoord + (dst.xCoord - src.xCoord) * d, src.yCoord + (dst.yCoord - src.yCoord) * d, src.zCoord + (dst.zCoord - src.zCoord) * d);
+                    MovingObjectPosition mop = TFEnergyHelper.rayTraceBlocks(tile.getWorldObj(), src, dst);
+
+                    if (mop != null)
+                    {
+                        dst = mop.hitVec;
+                    }
                 }
 
                 double x1 = 0.5F + srcOffset.xCoord;
@@ -303,7 +317,7 @@ public class TFRenderHelper
                 int parentPrimary = primary;
                 int parentSecondary = secondary;
                 
-                if (!entry.canReach())
+                if (!canReach)
                 {
                     primary = 0xAF5B57;
                     secondary = 0xF8817B;
