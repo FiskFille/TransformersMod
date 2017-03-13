@@ -3,13 +3,10 @@ package fiskfille.tf.common.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.common.component.IComponent;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 
 public class ContainerDisplayStation extends ContainerBasic
@@ -23,7 +20,7 @@ public class ContainerDisplayStation extends ContainerBasic
 
         for (int i = 0; i < 4; ++i)
         {
-            final int k = i;
+            final int j = i;
             addSlotToContainer(new Slot(tile, i, 13, 18 + i * 18)
             {
                 @Override
@@ -35,14 +32,7 @@ public class ContainerDisplayStation extends ContainerBasic
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    return itemstack != null && itemstack.getItem().isValidArmor(itemstack, k, player);
-                }
-
-                @Override
-                @SideOnly(Side.CLIENT)
-                public IIcon getBackgroundIconIndex()
-                {
-                    return ItemArmor.func_94602_b(k);
+                    return itemstack.getItem().isValidArmor(itemstack, j, player) && itemstack.getItem() instanceof ItemTransformerArmor;
                 }
             });
         }
@@ -60,7 +50,7 @@ public class ContainerDisplayStation extends ContainerBasic
             @Override
             public boolean isItemValid(ItemStack itemstack)
             {
-                return itemstack != null && itemstack.getItem() == TFItems.displayVehicle;
+                return itemstack.getItem() == TFItems.displayVehicle;
             }
         });
 

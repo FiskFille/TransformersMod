@@ -27,6 +27,46 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
         super(material, renderIndex, armorPiece);
         setCreativeTab(TransformersMod.tabTransformers);
     }
+    
+    @Override
+    public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
+    {
+        if (!source.isUnblockable())
+        {
+            ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
+
+            if (itemstack != null)
+            {
+                ItemArmor item = (ItemArmor) itemstack.getItem();
+                return new ArmorProperties(0, item.damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
+            }
+            else
+            {
+                return new ArmorProperties(0, damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
+            }
+        }
+
+        return new ArmorProperties(0, 0, 0);
+    }
+
+    @Override
+    public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
+    {
+        ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
+
+        if (itemstack != null)
+        {
+            return TFArmorHelper.getArmorValue(player, itemstack, slot);
+        }
+
+        return damageReduceAmount;
+    }
+
+    @Override
+    public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
+    {
+        stack.damageItem(damage, entity);
+    }
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
@@ -86,47 +126,5 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     @Override
     public void registerIcons(IIconRegister iconRegister)
     {
-
-    }
-
-    @Override
-    public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
-    {
-        if (!source.isUnblockable())
-        {
-            ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
-
-            if (itemstack != null)
-            {
-                ItemArmor item = (ItemArmor) itemstack.getItem();
-                return new ArmorProperties(0, item.damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
-            }
-            else
-            {
-                return new ArmorProperties(0, damageReduceAmount / 25D, armor.getMaxDamage() + 1 - armor.getItemDamage());
-            }
-        }
-
-        return new ArmorProperties(0, 0, 0);
-    }
-
-    @Override
-    public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
-    {
-        ItemStack itemstack = TFArmorHelper.getArmorShell(armor);
-
-        if (itemstack != null)
-        {
-            ItemArmor item = (ItemArmor) itemstack.getItem();
-            return item.damageReduceAmount;
-        }
-
-        return damageReduceAmount;
-    }
-
-    @Override
-    public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
-    {
-        stack.damageItem(damage, entity);
     }
 }

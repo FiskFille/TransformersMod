@@ -1,15 +1,18 @@
 package fiskfille.tf.client.gui;
 
+import java.util.List;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,6 +25,9 @@ import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.MessageTransformDisplayStation;
 import fiskfille.tf.common.network.base.TFNetworkManager;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFRenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiDisplayStation extends GuiContainer
@@ -96,27 +102,6 @@ public class GuiDisplayStation extends GuiContainer
         String s = tileentity.hasCustomInventoryName() ? tileentity.getInventoryName() : I18n.format(tileentity.getInventoryName());
         fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
-
-        if (tileentity.getStackInSlot(6) == null)
-        {
-            boolean prevColor = itemRender.renderWithColor;
-            int i = mc.thePlayer.ticksExisted / 20;
-            ItemStack itemstack = new ItemStack(TFItems.displayVehicle, 1, i % TransformersAPI.getTransformers().size());
-
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glColor4f(0.6F, 0.6F, 0.6F, 0.25F);
-            itemRender.renderWithColor = false;
-            itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, 75, 45);
-            itemRender.renderWithColor = prevColor;
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDepthMask(true);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-        }
     }
 
     @Override
@@ -124,8 +109,60 @@ public class GuiDisplayStation extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(guiTextures);
-        int k = (width - xSize) / 2;
-        int l = (height - ySize) / 2;
-        drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
+        int x = (width - xSize) / 2;
+        int y = (height - ySize) / 2;
+        drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+        
+        List<Transformer> list = Lists.newArrayList();
+        
+        for (int i = 0; i < 4; ++i)
+        {
+            ItemStack itemstack = tileentity.getStackInSlot(i);
+
+            if (itemstack != null)
+            {
+                Transformer transformer = TFHelper.getTransformerFromArmor(itemstack);
+                
+                if (transformer != null && !list.contains(transformer))
+                {
+                    list.add(transformer);
+                }
+            }
+        }
+        
+        Transformer transformer = TransformersAPI.getTransformers().get((mc.thePlayer.ticksExisted / 20) % TransformersAPI.getTransformers().size());
+        
+        if (list.size() == 1)
+        {
+            transformer = list.get(0);
+        }
+        
+        if (transformer != null)
+        {
+            Item[] items = {transformer.getHelmet(), transformer.getChestplate(), transformer.getLeggings(), transformer.getBoots()};
+            boolean prevColor = itemRender.renderWithColor;
+            
+            TFRenderHelper.setupRenderItemIntoGUI();
+            GL11.glColor4f(0.6F, 0.6F, 0.6F, 0.25F);
+            itemRender.renderWithColor = false;
+            
+            for (int i = 0; i < 4; ++i)
+            {
+                if (tileentity.getStackInSlot(i) == null)
+                {
+                    itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(items[i], 1, 0), x + 13, y + 18 + i * 18);
+                }
+            }
+            
+            if (tileentity.getStackInSlot(6) == null)
+            {
+                ItemStack itemstack = new ItemStack(TFItems.displayVehicle, 1, TransformersAPI.getTransformers().indexOf(transformer));
+                itemRender.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemstack, x + 75, y + 45);
+            }
+            
+            itemRender.renderWithColor = prevColor;
+            GL11.glColor4f(1, 1, 1, 1);
+            TFRenderHelper.finishRenderItemIntoGUI();
+        }
     }
 }

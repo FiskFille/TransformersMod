@@ -1,7 +1,10 @@
 package fiskfille.tf.helper;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.ISpecialArmor;
 
 public class TFArmorHelper
 {
@@ -45,5 +48,22 @@ public class TFArmorHelper
                 itemstack.getTagCompound().setTag("ArmorShell", nbt);
             }
         }
+    }
+    
+    public static int getArmorValue(EntityPlayer player, ItemStack itemstack, int slot)
+    {
+        if (itemstack != null)
+        {
+            if (itemstack.getItem() instanceof ISpecialArmor)
+            {
+                return ((ISpecialArmor) itemstack.getItem()).getArmorDisplay(player, itemstack, slot);
+            }
+            else if (itemstack.getItem() instanceof ItemArmor)
+            {
+                return ((ItemArmor) itemstack.getItem()).damageReduceAmount;
+            }
+        }
+
+        return 0;
     }
 }

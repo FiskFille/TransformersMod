@@ -46,7 +46,7 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return super.getRenderBoundingBox().addCoord(0, 1, 0);
+        return super.getRenderBoundingBox().addCoord(0, 1, 0).expand(0.5F, 0.5F, 0.5F);
     }
 
     public boolean transform()

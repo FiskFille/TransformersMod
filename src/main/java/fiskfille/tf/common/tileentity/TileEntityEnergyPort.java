@@ -96,7 +96,7 @@ public class TileEntityEnergyPort extends TileEntityTF implements IEnergyReceive
     @Override
     public int getMapColor()
     {
-        return 0x547D96;
+        return 0x12547A;
     }
 
     @Override
