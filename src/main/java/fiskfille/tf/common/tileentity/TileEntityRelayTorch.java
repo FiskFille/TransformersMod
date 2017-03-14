@@ -36,7 +36,7 @@ public class TileEntityRelayTorch extends TileEntityRelayTower
     @Override
     public float getTransmissionRate()
     {
-        return 300;
+        return 40;
     }
 
     @Override

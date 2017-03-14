@@ -37,6 +37,8 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     
     public Map<DimensionalCoords, Float> netEnergyTransfer = Maps.newHashMap();
     public float energyTransfer;
+    public float energyReceived;
+    public float energyExtracted;
     
     public Ticket chunkTicket;
 
@@ -88,6 +90,8 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
             }
         }
         
+        energyTransfer = 0;
+        energyReceived = 0;
         energyTransfer = 0;
         netEnergyTransfer.clear();
     }
@@ -170,7 +174,7 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     @Override
     public float getTransmissionRate()
     {
-        return 350;
+        return 50;
     }
 
     @Override
@@ -206,11 +210,19 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     @Override
     public float receiveEnergy(float amount, boolean simulate)
     {
+        amount = Math.min(amount, getTransmissionRate() - energyReceived);
+        
+        if (amount <= 0)
+        {
+            return 0;
+        }
+        
         float f = storage.add(amount, simulate);
         
         if (!simulate)
         {
             energyTransfer += f;
+            energyReceived += f;
         }
         
         return f;
@@ -219,11 +231,19 @@ public class TileEntityRelayTower extends TileEntityTF implements IEnergyTransmi
     @Override
     public float extractEnergy(float amount, boolean simulate)
     {
+        amount = Math.min(amount, getTransmissionRate() - energyExtracted);
+        
+        if (amount <= 0)
+        {
+            return 0;
+        }
+        
         float f = storage.remove(amount, simulate);
         
         if (!simulate)
         {
             energyTransfer += f;
+            energyExtracted += f;
         }
         
         return f;
