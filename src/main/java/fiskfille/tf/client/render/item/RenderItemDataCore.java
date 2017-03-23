@@ -117,5 +117,6 @@ public class RenderItemDataCore implements IItemRenderer
         }
 
         GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
     }
 }

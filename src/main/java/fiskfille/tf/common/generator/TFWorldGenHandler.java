@@ -29,7 +29,7 @@ public class TFWorldGenHandler
     public TFWorldGenHandler()
     {
         transformiumGen = new WorldGenMinable(TFBlocks.transformiumOre, 8);
-        energonGen = new WorldGenMinable(TFBlocks.energonOre, 7);
+        energonGen = new WorldGenMinable(TFBlocks.energonOre, 6);
         energonCrystalGen = new WorldGenCrystal(TFBlocks.energonCrystal, Material.rock);
         redEnergonCrystalGen = new WorldGenCrystal(TFBlocks.redEnergonCrystal, Material.rock);
     }
@@ -43,7 +43,7 @@ public class TFWorldGenHandler
         zCoord = event.worldZ;
 
         genStandardOre(2, transformiumGen, 16);
-        genStandardOre(6, energonGen, 24);
+        genStandardOre(4, energonGen, 32);
     }
     
     @SubscribeEvent
@@ -55,7 +55,7 @@ public class TFWorldGenHandler
         zCoord = event.chunkZ * 16;
         
         genStandardOre(100, energonCrystalGen, 48);
-        genStandardOre(5, redEnergonCrystalGen, 24);
+        genStandardOre(10, redEnergonCrystalGen, 24);
     }
 
     protected void genStandardOre(int veins, WorldGenerator generator, int maxHeight)

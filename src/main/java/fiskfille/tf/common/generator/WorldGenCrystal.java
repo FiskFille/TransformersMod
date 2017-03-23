@@ -20,16 +20,19 @@ public class WorldGenCrystal extends WorldGenerator
         growthMaterial = material;
     }
 
+    @Override
     public boolean generate(World world, Random rand, int x, int y, int z)
     {
         boolean flag = false;
-        int range = 2;
-        
+        int range = 3;
+
         for (int i = -range; i <= range && !flag; ++i)
         {
             for (int j = -range; j <= range; ++j)
             {
-                Random random = new Random((long) (world.getSeed() + 5.257E7 * (x >> 4 + i) - 2.763E9 * (z >> 4 + j)));
+                int xPosition = x >> 4 + i;
+                int zPosition = z >> 4 + j;
+                Random random = new Random(world.getSeed() + (long) (xPosition * xPosition * 0x4c1906) + (long) (xPosition * 0x5ac0db) + (long) (zPosition * zPosition) * 0x4307a7L + (long) (zPosition * 0x5f24f) ^ 0x3ad8025f);
                 
                 if (random.nextInt(300) == 0)
                 {
@@ -38,7 +41,7 @@ public class WorldGenCrystal extends WorldGenerator
                 }
             }
         }
-        
+
         if (flag && world.getBlock(x, y, z) == Blocks.air)
         {
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
@@ -47,12 +50,12 @@ public class WorldGenCrystal extends WorldGenerator
                 {
                     System.out.println(x + " " + y + " " + z);
                     world.setBlock(x, y, z, target, dir.getOpposite().ordinal(), 2);
-                    
+
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
 }
