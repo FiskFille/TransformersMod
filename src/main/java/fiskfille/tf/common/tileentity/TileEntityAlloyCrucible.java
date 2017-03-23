@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.common.block.BlockAlloyCrucible;
 import fiskfille.tf.common.data.tile.TileData;
 import fiskfille.tf.common.data.tile.TileDataEnergyContainer;
 import fiskfille.tf.common.energon.power.IEnergyReceiver;
@@ -74,6 +75,19 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
             }
 
             data.serverTick();
+            int metadata = BlockAlloyCrucible.getRotation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+            
+            if (getEnergy() > 0)
+            {
+                metadata |= BlockAlloyCrucible.FLAG_TOP;
+            }
+            
+            if (canSmelt())
+            {
+                metadata |= BlockAlloyCrucible.FLAG_FRONT;
+            }
+            
+            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, metadata, 2);
         }
 
         TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));

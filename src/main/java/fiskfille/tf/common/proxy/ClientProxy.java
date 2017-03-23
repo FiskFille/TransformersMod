@@ -11,6 +11,7 @@ import fiskfille.tf.TFReflection;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.render.block.RenderBlockAlloyCrucible;
 import fiskfille.tf.client.render.block.RenderBlockEnergonTank;
 import fiskfille.tf.client.render.block.RenderBlockGroundBridgeFrame;
 import fiskfille.tf.client.render.entity.RenderBassCharge;
@@ -35,7 +36,6 @@ import fiskfille.tf.client.render.item.RenderItemSkystrikesCrossbow;
 import fiskfille.tf.client.render.item.RenderItemTileEntity;
 import fiskfille.tf.client.render.item.RenderItemTransmitter;
 import fiskfille.tf.client.render.item.RenderItemVurpsSniper;
-import fiskfille.tf.client.render.tileentity.RenderAlloyCrucible;
 import fiskfille.tf.client.render.tileentity.RenderAssemblyTable;
 import fiskfille.tf.client.render.tileentity.RenderColumn;
 import fiskfille.tf.client.render.tileentity.RenderControlPanel;
@@ -64,7 +64,6 @@ import fiskfille.tf.common.event.ClientEventHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tick.ClientTickHandler;
-import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
 import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
@@ -146,7 +145,6 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransformiumSeed.class, new RenderTransformiumSeed());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayStation.class, new RenderDisplayStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssemblyTable.class, new RenderAssemblyTable());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAlloyCrucible.class, new RenderAlloyCrucible());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEnergonProcessor.class, new RenderEnergonProcessor());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEnergonTank.class, new RenderEnergonTank());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransmitter.class, new RenderTransmitter());
@@ -160,7 +158,7 @@ public class ClientProxy extends CommonProxy
 
         RenderingRegistry.registerBlockHandler(RenderBlockGroundBridgeFrame.instance);
         RenderingRegistry.registerBlockHandler(RenderBlockEnergonTank.instance);
-//        RenderingRegistry.registerBlockHandler(RenderBlockCrystal.instance);
+        RenderingRegistry.registerBlockHandler(RenderBlockAlloyCrucible.instance);
     }
 
     public void registerArmorRenderer(ItemTransformerArmor helmet, ItemTransformerArmor chest, ItemTransformerArmor legs, ItemTransformerArmor boots)
@@ -197,31 +195,4 @@ public class ClientProxy extends CommonProxy
             super.runTasks();
         }
     }
-
-//    @Override
-//    public void openSetReceivers(World world, EntityPlayer player, TileEntity tile, List<ChunkCoordinates> grandparents)
-//    {
-//        if (mc.thePlayer == player)
-//        {
-//            Minecraft.getMinecraft().displayGuiScreen(new GuiSelectReceivers(tile, grandparents));
-//        }
-//    }
-//
-//    @Override
-//    public void updateReceivers(TileEntity tileEntity, List<ChunkCoordinates> grandparents)
-//    {
-//        super.updateReceivers(tileEntity, grandparents);
-//
-//        GuiScreen screen = mc.currentScreen;
-//
-//        if (screen instanceof GuiSelectReceivers)
-//        {
-//            GuiSelectReceivers receivers = (GuiSelectReceivers) screen;
-//
-//            if (receivers.owner.xCoord == tileEntity.xCoord && receivers.owner.yCoord == tileEntity.yCoord && receivers.owner.zCoord == tileEntity.zCoord)
-//            {
-//                receivers.update(tileEntity, grandparents);
-//            }
-//        }
-//    }
 }

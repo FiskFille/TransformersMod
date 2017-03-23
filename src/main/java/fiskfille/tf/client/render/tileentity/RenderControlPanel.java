@@ -123,6 +123,7 @@ public class RenderControlPanel extends TileEntitySpecialRenderer
             GL11.glPushMatrix();
             model.screen1.postRender(0.0625F);
             model.screen2.postRender(0.0625F);
+            GL11.glTranslatef(0, 0, -0.001F);
             renderText(StatCollector.translateToLocal("ground_bridge.destination"), 0, 0, 0, -1);
             renderText(StatCollector.translateToLocalFormatted("ground_bridge.destination.format", data.destination.posX, tile.hasUpgrade(DataCore.leveler) ? String.format("%s -> %s", data.destination.posY, data.modifiedDestY) : data.destination.posY, data.destination.posZ, dimensionName), 1, 0, 0, -1);
 
