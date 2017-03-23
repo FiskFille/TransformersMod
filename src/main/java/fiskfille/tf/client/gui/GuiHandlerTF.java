@@ -56,7 +56,7 @@ public class GuiHandlerTF implements IGuiHandler
 
             DimensionalCoords coords = new DimensionalCoords(x, y, z, dimension);
 
-            if (tfGui.containerBlock == null || world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
+            if (tfGui == TFGui.GROUND_BRIDGE_REMOTE || tfGui.containerBlock == null || world.getBlock(x, y, z) == tfGui.containerBlock)
             {
                 int[] aint = coords.toArray();
                 int integer = 0;
@@ -142,7 +142,7 @@ public class GuiHandlerTF implements IGuiHandler
 
             DimensionalCoords coords = new DimensionalCoords(x, y, z, dimension);
 
-            if (tfGui.containerBlock == null || world.getBlock(x, y, z) == tfGui.containerBlock || coords.dimension != player.dimension)
+            if (tfGui == TFGui.GROUND_BRIDGE_REMOTE || tfGui.containerBlock == null || world.getBlock(x, y, z) == tfGui.containerBlock)
             {
                 int[] aint = coords.toArray();
                 int integer = 0;
