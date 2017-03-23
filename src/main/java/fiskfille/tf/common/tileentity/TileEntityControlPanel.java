@@ -155,11 +155,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
 
                 data.upgrades.addAll(upgrades);
 
-                if (!data.activationLeverState)
-                {
-                    calculateCoords();
-                }
-
+                calculateCoords();
                 loadChunks();
 
                 if (data.framePos != null)
@@ -331,7 +327,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
                 int y = data.destination.posY;
                 int z = data.destination.posZ;
 
-                if (hasUpgrade(DataCore.leveler))
+                if (hasUpgrade(DataCore.leveler) && !data.activationLeverState)
                 {
                     while (y > 0 && checkForSpace(world, x, y - 1, z))
                     {
