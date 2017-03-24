@@ -34,7 +34,13 @@ public class BlockEnergonCrystal extends BlockBasic implements ITileEntityProvid
         setStepSound(Block.soundTypeGlass);
         setHardness(6);
         setResistance(10);
-        setLightLevel(0.75F);
+        setLightLevel(0.5F);
+    }
+    
+    @Override
+    public int getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z)
+    {
+        return 255;
     }
 
     @Override

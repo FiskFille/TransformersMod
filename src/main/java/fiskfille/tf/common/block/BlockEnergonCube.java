@@ -2,6 +2,7 @@ package fiskfille.tf.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
+import net.minecraft.world.IBlockAccess;
 import fiskfille.tf.common.energon.Energon;
 import fiskfille.tf.common.energon.IEnergon;
 import fiskfille.tf.helper.TFMathHelper;
@@ -19,7 +20,13 @@ public class BlockEnergonCube extends BlockBasic implements IEnergon
         setStepSound(Block.soundTypeMetal);
         setHardness(6.0F);
         setResistance(10.0F);
-        setLightLevel(0.75F);
+        setLightLevel(0.5F);
+    }
+    
+    @Override
+    public int getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z)
+    {
+        return 255;
     }
 
     @Override

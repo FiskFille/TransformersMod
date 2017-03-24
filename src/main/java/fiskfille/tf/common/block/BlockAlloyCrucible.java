@@ -11,7 +11,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.client.render.block.RenderBlockAlloyCrucible;
-import fiskfille.tf.helper.TFRenderHelper;
 
 public class BlockAlloyCrucible extends BlockMachineBase
 {
@@ -105,7 +104,7 @@ public class BlockAlloyCrucible extends BlockMachineBase
     {
         if (renderPass == 1)
         {
-            return TFRenderHelper.LIGHTING_LUMINOUS;
+            return 255;
         }
         
         return super.getMixedBrightnessForBlock(world, x, y, z);
