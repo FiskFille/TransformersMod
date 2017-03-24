@@ -48,10 +48,7 @@ public class WorldGenCrystal extends WorldGenerator
             {
                 if (world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).getMaterial() == growthMaterial)
                 {
-                    System.out.println(x + " " + y + " " + z);
-                    world.setBlock(x, y, z, target, dir.getOpposite().ordinal(), 2);
-
-                    return true;
+                    return world.setBlock(x, y, z, target, dir.getOpposite().ordinal(), 2);
                 }
             }
         }

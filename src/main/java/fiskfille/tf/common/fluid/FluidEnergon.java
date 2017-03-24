@@ -65,7 +65,7 @@ public class FluidEnergon extends Fluid
         
         for (Energon energon1 : TransformersAPI.getEnergonTypes())
         {
-            ratios.put(energon1.getId(), energon == energon1 ? 1.0F : 0);
+            ratios.put(energon1.getId(), energon.getId().equals(energon1.getId()) ? 1.0F : 0);
         }
         
         setRatios(stack, ratios);

@@ -5,8 +5,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import fiskfille.tf.common.component.ComponentArmor;
 import fiskfille.tf.common.component.ComponentColor;
-import fiskfille.tf.common.energon.DefaultEnergon;
-import fiskfille.tf.common.energon.RedEnergon;
+import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
 import fiskfille.tf.common.item.armor.ItemPurgeArmor;
 import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
@@ -134,8 +133,8 @@ public class TFItems
         transformiumDetector = new ItemTransformiumDetector();
 
         displayVehicle = new ItemDisplayVehicle();
-        energonCrystalShard = new ItemEnergon(new DefaultEnergon());
-        redEnergonCrystalShard = new ItemEnergon(new RedEnergon());
+        energonCrystalShard = new ItemEnergon(TFEnergonManager.energon);
+        redEnergonCrystalShard = new ItemEnergon(TFEnergonManager.redEnergon);
 
         tankShell = new Item();
         missile = new Item().setFull3D();
