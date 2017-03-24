@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.Constants.NBT;
 
@@ -42,8 +41,11 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
     public ItemStack smeltingResult;
     public boolean alloyResult;
     public int smeltTime;
-
-    public boolean renderOverlay = false;
+    
+    public int alloyResults;
+    public int furnaceResults;
+    
+    private int metadataFlags;
 
     @Override
     public void updateEntity()
@@ -75,19 +77,6 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
             }
 
             data.serverTick();
-            int metadata = BlockAlloyCrucible.getRotation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-            
-            if (getEnergy() > 0)
-            {
-                metadata |= BlockAlloyCrucible.FLAG_TOP;
-            }
-            
-            if (canSmelt())
-            {
-                metadata |= BlockAlloyCrucible.FLAG_FRONT;
-            }
-            
-            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, metadata, 2);
         }
 
         TileData prevData = TFTileHelper.getTileData(new DimensionalCoords(this));
@@ -96,6 +85,31 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
         {
             data = new TileDataEnergyContainer((TileDataEnergyContainer) prevData);
         }
+        
+        int i = getMetadataFlags();
+
+        if (i != metadataFlags)
+        {
+            metadataFlags = i;
+            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i, 2);
+        }
+    }
+    
+    public int getMetadataFlags()
+    {
+        int metadata = BlockAlloyCrucible.getRotation(getBlockMetadata());
+        
+        if (getEnergy() > 0)
+        {
+            metadata |= BlockAlloyCrucible.FLAG_TOP;
+        }
+        
+        if (canSmelt())
+        {
+            metadata |= BlockAlloyCrucible.FLAG_FRONT;
+        }
+        
+        return metadata;
     }
 
     @Override
@@ -262,6 +276,7 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
                     }
 
                     smeltingResult = null;
+                    ++alloyResults;
 
                     return;
                 }
@@ -294,6 +309,7 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
                             }
 
                             smeltingResult = null;
+                            ++furnaceResults;
 
                             return;
                         }
@@ -307,8 +323,10 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
     public void readCustomNBT(NBTTagCompound nbt)
     {
         super.readCustomNBT(nbt);
-        smeltingMode = EnumSmeltingMode.values()[MathHelper.clamp_int(nbt.getByte("Mode"), 0, EnumSmeltingMode.values().length - 1)];
+        smeltingMode = EnumSmeltingMode.values()[nbt.getByte("Mode") % EnumSmeltingMode.values().length];
         smeltTime = nbt.getShort("SmeltTime");
+        alloyResults = nbt.getByte("AlloySmelts");
+        furnaceResults = nbt.getByte("FurnaceSmelts");
 
         if (nbt.hasKey("ConfigDataTF", NBT.TAG_COMPOUND))
         {
@@ -323,6 +341,8 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
         super.writeCustomNBT(nbt);
         nbt.setByte("Mode", (byte) smeltingMode.ordinal());
         nbt.setShort("SmeltTime", (short) smeltTime);
+        nbt.setByte("AlloySmelts", (byte) alloyResults);
+        nbt.setByte("FurnaceSmelts", (byte) furnaceResults);
 
         if (data.storage.getEnergy() > 0)
         {
@@ -396,6 +416,27 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
     public int getMapColor()
     {
         return 0xFF0000;
+    }
+    
+    @Override
+    public ItemStack decrStackSize(int slot, int amount)
+    {
+        if (slot == 3)
+        {
+            ItemStack itemstack = getStackInSlot(slot);
+            
+            if (itemstack != null)
+            {
+                int toRemove = Math.min(itemstack.stackSize, amount);
+                int i = Math.min(alloyResults, toRemove);
+                
+                toRemove -= i;
+                alloyResults -= i;
+                furnaceResults -= Math.min(furnaceResults, toRemove);
+            }
+        }
+        
+        return super.decrStackSize(slot, amount);
     }
 
     @Override
