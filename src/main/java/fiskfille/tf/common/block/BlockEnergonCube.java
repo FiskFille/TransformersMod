@@ -26,7 +26,7 @@ public class BlockEnergonCube extends BlockBasic implements IEnergon
     @Override
     public int getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z)
     {
-        return 255;
+        return 0xF000F0;
     }
 
     @Override

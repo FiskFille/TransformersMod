@@ -104,7 +104,7 @@ public class BlockAlloyCrucible extends BlockMachineBase
     {
         if (renderPass == 1)
         {
-            return 255;
+            return 0xF000F0;
         }
         
         return super.getMixedBrightnessForBlock(world, x, y, z);
