@@ -779,7 +779,7 @@ public class ModelVurp extends ModelTransformerBase
     {
         ModelVurpVehicle vehicle = (ModelVurpVehicle) getTransformerModel().getVehicleModel();
 
-        if (!TFHelper.isInRobotMode(player))
+        if (TFHelper.getTransformationTimer(player) != 0)
         {
             float f = 1 - progress;
 

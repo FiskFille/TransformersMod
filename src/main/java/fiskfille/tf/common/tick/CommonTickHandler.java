@@ -6,12 +6,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TFReflection;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFPlayerData;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFHelper;
 
@@ -47,6 +49,32 @@ public class CommonTickHandler
             {
                 speedAttribute.applyModifier(speedModifier);
                 player.stepHeight = 1.0F;
+            }
+            
+            Transformer prevArmor = null;
+            
+            for (int i = 0; i < 4; ++i)
+            {
+                ItemStack armor = player.getEquipmentInSlot(1 + i);
+                
+                if (armor != null && armor.getItem() instanceof ItemTransformerArmor)
+                {
+                    ItemTransformerArmor tfArmor = (ItemTransformerArmor) armor.getItem();
+                    
+                    if (prevArmor == null)
+                    {
+                        prevArmor = tfArmor.getTransformer();
+                    }
+                    else if (prevArmor != tfArmor.getTransformer())
+                    {
+                        player.setCurrentItemOrArmor(1 + i, null);
+                        
+                        if (!player.inventory.addItemStackToInventory(armor))
+                        {
+                            player.dropPlayerItemWithRandomChoice(armor, false);
+                        }
+                    }
+                }
             }
         }
         else
