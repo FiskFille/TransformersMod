@@ -1,7 +1,9 @@
 package fiskfille.tf.client.render.tileentity;
 
-import java.util.Map;
-
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.model.tileentity.ModelIsoCondenser;
+import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
+import fiskfille.tf.helper.TFRenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -9,13 +11,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.model.tileentity.ModelIsoCondenser;
-import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
-import fiskfille.tf.helper.TFRenderHelper;
+import java.util.Map;
 
 public class RenderIsoCondenser extends TileEntitySpecialRenderer
 {
@@ -30,14 +28,14 @@ public class RenderIsoCondenser extends TileEntitySpecialRenderer
         GL11.glScalef(1.0F, -1F, -1F);
         bindTexture(texture);
         model.setBreaking(false);
-        model.render(tile);
+        model.render(tile, false);
 
         bindTexture(textureLights);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
-        model.render(tile);
+        model.render(tile, true);
         TFRenderHelper.resetLighting();
         GL11.glEnable(GL11.GL_LIGHTING);
 
@@ -55,7 +53,7 @@ public class RenderIsoCondenser extends TileEntitySpecialRenderer
                 GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 model.setBreaking(true);
-                model.render(tile);
+                model.render(tile, false);
                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                 GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);

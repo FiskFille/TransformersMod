@@ -1,16 +1,14 @@
 package fiskfille.tf.client.model.tileentity;
 
-import java.util.Map;
-
-import net.minecraftforge.common.util.ForgeDirection;
-
 import com.google.common.collect.Maps;
-
 import fiskfille.tf.client.model.tools.MowzieModelBase;
 import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.common.tick.ClientTickHandler;
 import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
 import fiskfille.tf.helper.TFHelper;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Map;
 
 public class ModelIsoCondenser extends MowzieModelBase
 {
@@ -788,54 +786,64 @@ public class ModelIsoCondenser extends MowzieModelBase
         setInitPose();
     }
 
-    public void render(TileEntityIsoCondenser tile)
+    public void render(TileEntityIsoCondenser tile, boolean light)
     {
         setToInitPose();
 
-        Map<ForgeDirection, MowzieModelRenderer[]> map = Maps.newHashMap();
-        map.put(ForgeDirection.WEST, new MowzieModelRenderer[] {arm1_1, arm1_2, arm1_8, arm1_9, arm1_11, shape81, shape82});
-        map.put(ForgeDirection.SOUTH, new MowzieModelRenderer[] {arm2_1, arm2_2, arm2_8, arm2_9, arm2_11, shape77, shape78});
-        map.put(ForgeDirection.EAST, new MowzieModelRenderer[] {arm3_1, arm3_2, arm3_8, arm3_9, arm3_11, shape73, shape74});
-        map.put(ForgeDirection.NORTH, new MowzieModelRenderer[] {arm4_1, arm4_2, arm4_8, arm4_9, arm4_11, shape64, shape65});
+        shape2.showModel = light;
 
-        for (Map.Entry<ForgeDirection, MowzieModelRenderer[]> e : map.entrySet())
+        if (!light)
         {
-            float f = 1 - TFHelper.median(tile.animationTimer.get(e.getKey()) == null ? 0 : tile.animationTimer.get(e.getKey()), tile.prevAnimationTimer.get(e.getKey()) == null ? 0 : tile.prevAnimationTimer.get(e.getKey()), ClientTickHandler.renderTick);
-            MowzieModelRenderer[] parts = e.getValue();
+            Map<ForgeDirection, MowzieModelRenderer[]> map = Maps.newHashMap();
+            map.put(ForgeDirection.WEST, new MowzieModelRenderer[] { arm1_1, arm1_2, arm1_8, arm1_9, arm1_11, shape81, shape82 });
+            map.put(ForgeDirection.SOUTH, new MowzieModelRenderer[] { arm2_1, arm2_2, arm2_8, arm2_9, arm2_11, shape77, shape78 });
+            map.put(ForgeDirection.EAST, new MowzieModelRenderer[] { arm3_1, arm3_2, arm3_8, arm3_9, arm3_11, shape73, shape74 });
+            map.put(ForgeDirection.NORTH, new MowzieModelRenderer[] { arm4_1, arm4_2, arm4_8, arm4_9, arm4_11, shape64, shape65 });
 
-            parts[0].rotateAngleX -= f * 0.6F;
-            parts[1].rotateAngleX -= f * 1.1F;
-            parts[2].rotateAngleX -= f * 0.3F;
-            parts[3].rotateAngleX += f * 0.6F;
-            parts[4].rotateAngleX += f * 0.6F;
-
-            switch (e.getKey())
+            for (Map.Entry<ForgeDirection, MowzieModelRenderer[]> e : map.entrySet())
             {
-            case EAST:
-                parts[0].rotationPointX -= f * 0.4F;
-                parts[5].rotationPointX -= f * 0.6F;
-                break;
-            case NORTH:
-                parts[0].rotationPointZ -= f * 0.4F;
-                parts[5].rotationPointZ -= f * 0.6F;
-                break;
-            case SOUTH:
-                parts[0].rotationPointZ += f * 0.4F;
-                parts[5].rotationPointZ += f * 0.6F;
-                break;
-            case WEST:
-                parts[0].rotationPointX += f * 0.4F;
-                parts[5].rotationPointX += f * 0.6F;
-                break;
-            default:
-                break;
+                float f = 1 - TFHelper.median(tile.animationTimer.get(e.getKey()) == null ? 0 : tile.animationTimer.get(e.getKey()), tile.prevAnimationTimer.get(e.getKey()) == null ? 0 : tile.prevAnimationTimer.get(e.getKey()), ClientTickHandler.renderTick);
+                MowzieModelRenderer[] parts = e.getValue();
+
+                parts[0].rotateAngleX -= f * 0.6F;
+                parts[1].rotateAngleX -= f * 1.1F;
+                parts[2].rotateAngleX -= f * 0.3F;
+                parts[3].rotateAngleX += f * 0.6F;
+                parts[4].rotateAngleX += f * 0.6F;
+
+                switch (e.getKey())
+                {
+                    case EAST:
+                        parts[0].rotationPointX -= f * 0.4F;
+                        parts[5].rotationPointX -= f * 0.6F;
+                        break;
+                    case NORTH:
+                        parts[0].rotationPointZ -= f * 0.4F;
+                        parts[5].rotationPointZ -= f * 0.6F;
+                        break;
+                    case SOUTH:
+                        parts[0].rotationPointZ += f * 0.4F;
+                        parts[5].rotationPointZ += f * 0.6F;
+                        break;
+                    case WEST:
+                        parts[0].rotationPointX += f * 0.4F;
+                        parts[5].rotationPointX += f * 0.6F;
+                        break;
+                    default:
+                        break;
+                }
+
+                parts[5].rotateAngleX -= f * 0.175F;
+                parts[5].rotationPointY += f * 2;
+                parts[6].rotateAngleX -= f * 0.6F;
             }
 
-            parts[5].rotateAngleX -= f * 0.175F;
-            parts[5].rotationPointY += f * 2;
-            parts[6].rotateAngleX -= f * 0.6F;
+            shape1.render(0.0625F);
         }
-
-        shape1.render(0.0625F);
+        else
+        {
+            shape1.postRender(0.0625F);
+            shape2.render(0.0625F);
+        }
     }
 }
