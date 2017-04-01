@@ -277,21 +277,9 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
     }
 
     @Override
-    public float setEnergy(float energy)
-    {
-        return data.storage.set(energy);
-    }
-
-    @Override
     public float getEnergyUsage()
     {
         return data.storage.getUsage();
-    }
-
-    @Override
-    public void setEnergyUsage(float usage)
-    {
-        data.storage.setUsage(usage);
     }
 
     @Override

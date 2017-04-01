@@ -129,21 +129,9 @@ public class TileEntityColumn extends TileEntityMachineContainer implements IEne
     }
 
     @Override
-    public float setEnergy(float energy)
-    {
-        return storage.set(energy);
-    }
-
-    @Override
     public float getEnergyUsage()
     {
         return storage.getUsage();
-    }
-
-    @Override
-    public void setEnergyUsage(float usage)
-    {
-        storage.setUsage(usage);
     }
 
     @Override

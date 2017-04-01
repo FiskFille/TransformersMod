@@ -42,7 +42,6 @@ import fiskfille.tf.client.render.tileentity.RenderControlPanel;
 import fiskfille.tf.client.render.tileentity.RenderCrystal;
 import fiskfille.tf.client.render.tileentity.RenderDisplayPillar;
 import fiskfille.tf.client.render.tileentity.RenderDisplayStation;
-import fiskfille.tf.client.render.tileentity.RenderEmlTest;
 import fiskfille.tf.client.render.tileentity.RenderEnergonProcessor;
 import fiskfille.tf.client.render.tileentity.RenderEnergonTank;
 import fiskfille.tf.client.render.tileentity.RenderEnergyPort;
@@ -70,7 +69,6 @@ import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.common.tileentity.TileEntityEmbTest;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityEnergyPort;
@@ -154,7 +152,6 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIsoCondenser.class, new RenderIsoCondenser());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityControlPanel.class, new RenderControlPanel());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundBridgeTeleporter.class, new RenderGroundBridgeTeleporter());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmbTest.class, new RenderEmlTest());
 
         RenderingRegistry.registerBlockHandler(RenderBlockGroundBridgeFrame.instance);
         RenderingRegistry.registerBlockHandler(RenderBlockEnergonTank.instance);

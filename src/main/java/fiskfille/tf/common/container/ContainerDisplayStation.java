@@ -8,6 +8,7 @@ import fiskfille.tf.common.component.IComponent;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class ContainerDisplayStation extends ContainerBasic
 {
@@ -32,6 +33,26 @@ public class ContainerDisplayStation extends ContainerBasic
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
+                    Transformer newArmor = null;
+                    
+                    if (itemstack.getItem() instanceof ItemTransformerArmor)
+                    {
+                        newArmor = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
+                        
+                        for (int k = 0; k < 4; ++k)
+                        {
+                            ItemStack armor = getTile().getStackInSlot(k);
+                            
+                            if (armor != null && armor.getItem() instanceof ItemTransformerArmor)
+                            {
+                                if (newArmor != ((ItemTransformerArmor) armor.getItem()).getTransformer())
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    
                     return itemstack.getItem().isValidArmor(itemstack, j, player) && itemstack.getItem() instanceof ItemTransformerArmor;
                 }
             });
@@ -56,16 +77,18 @@ public class ContainerDisplayStation extends ContainerBasic
 
         addPlayerInventory(inventoryPlayer, 20);
     }
+    
+    @Override
+    public TileEntityDisplayStation getTile()
+    {
+        return (TileEntityDisplayStation) super.getTile();
+    }
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
-        int HEAD = 0;
-        int CHEST = 1;
-        int LEGS = 2;
-        int FEET = 3;
         int COMPONENT1 = 4;
         int COMPONENT2 = 5;
         int VEHICLE = 6;
@@ -90,63 +113,53 @@ public class ContainerDisplayStation extends ContainerBasic
             // itemstack is in player inventory, try to place in appropriate furnace slot
             else if (slotId > VEHICLE)
             {
-                if (itemstack1.getItem().isValidArmor(itemstack1, HEAD, player))
+                boolean flag = true;
+                
+                for (int i = 0; i < 4; ++i)
                 {
-                    if (!mergeItemStack(itemstack1, HEAD, HEAD + 1, false))
+                    Slot slot1 = (Slot) inventorySlots.get(i);
+                    
+                    if (itemstack1.getItem().isValidArmor(itemstack1, i, player) && slot1.isItemValid(itemstack1))
                     {
-                        return null;
+                        if (!mergeItemStack(itemstack1, i, i + 1, false))
+                        {
+                            return null;
+                        }
+                        
+                        flag = false;
+                        break;
                     }
                 }
-                else if (itemstack1.getItem().isValidArmor(itemstack1, CHEST, player))
+                
+                if (flag)
                 {
-                    if (!mergeItemStack(itemstack1, CHEST, CHEST + 1, false))
+                    if (itemstack1.getItem() == TFItems.displayVehicle)
                     {
-                        return null;
-                    }
-                }
-                else if (itemstack1.getItem().isValidArmor(itemstack1, LEGS, player))
-                {
-                    if (!mergeItemStack(itemstack1, LEGS, LEGS + 1, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (itemstack1.getItem().isValidArmor(itemstack1, FEET, player))
-                {
-                    if (!mergeItemStack(itemstack1, FEET, FEET + 1, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (itemstack1.getItem() == TFItems.displayVehicle)
-                {
-                    if (!mergeItemStack(itemstack1, VEHICLE, VEHICLE + 1, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (itemstack1.getItem() instanceof IComponent)
-                {
-                    if (!mergeItemStack(itemstack1, COMPONENT1, COMPONENT1 + 1, false))
-                    {
-                        if (!mergeItemStack(itemstack1, COMPONENT2, COMPONENT2 + 1, false))
+                        if (!mergeItemStack(itemstack1, VEHICLE, VEHICLE + 1, false))
                         {
                             return null;
                         }
                     }
-                }
-                else if (slotId >= VEHICLE + 1 && slotId < VEHICLE + 28)
-                {
-                    // place in action bar
-                    if (!mergeItemStack(itemstack1, VEHICLE + 28, VEHICLE + 37, false))
+                    else if (itemstack1.getItem() instanceof IComponent)
+                    {
+                        if (!mergeItemStack(itemstack1, COMPONENT1, COMPONENT2 + 1, false))
+                        {
+                            return null;
+                        }
+                    }
+                    else if (slotId >= VEHICLE + 1 && slotId < VEHICLE + 28)
+                    {
+                        // place in action bar
+                        if (!mergeItemStack(itemstack1, VEHICLE + 28, VEHICLE + 37, false))
+                        {
+                            return null;
+                        }
+                    }
+                    // item in action bar - place in player inventory
+                    else if (slotId >= VEHICLE + 28 && slotId < VEHICLE + 37 && !mergeItemStack(itemstack1, VEHICLE + 1, VEHICLE + 28, false))
                     {
                         return null;
                     }
-                }
-                // item in action bar - place in player inventory
-                else if (slotId >= VEHICLE + 28 && slotId < VEHICLE + 37 && !mergeItemStack(itemstack1, VEHICLE + 1, VEHICLE + 28, false))
-                {
-                    return null;
                 }
             }
             // In one of the infuser slots; try to place in player inventory / action bar

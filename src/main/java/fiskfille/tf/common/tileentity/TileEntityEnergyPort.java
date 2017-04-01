@@ -1,7 +1,5 @@
 package fiskfille.tf.common.tileentity;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -152,19 +150,6 @@ public class TileEntityEnergyPort extends TileEntityTF implements IEnergyReceive
     }
 
     @Override
-    public float setEnergy(float energy)
-    {
-        IEnergyContainer container = getReceiver();
-        
-        if (container != null)
-        {
-            return container.setEnergy(energy);
-        }
-        
-        return 0;
-    }
-
-    @Override
     public float getEnergyUsage()
     {
         IEnergyContainer container = getReceiver();
@@ -175,16 +160,5 @@ public class TileEntityEnergyPort extends TileEntityTF implements IEnergyReceive
         }
         
         return 0;
-    }
-
-    @Override
-    public void setEnergyUsage(float usage)
-    {
-        IEnergyContainer container = getReceiver();
-        
-        if (container != null)
-        {
-            container.setEnergyUsage(usage);
-        }
     }
 }

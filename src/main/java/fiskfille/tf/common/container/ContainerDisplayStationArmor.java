@@ -6,6 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
+import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorHelper;
 
 public class ContainerDisplayStationArmor extends ContainerBasic
@@ -24,6 +25,26 @@ public class ContainerDisplayStationArmor extends ContainerBasic
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
+                    Transformer newArmor = null;
+                    
+                    if (itemstack.getItem() instanceof ItemTransformerArmor)
+                    {
+                        newArmor = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
+                        
+                        for (int k = 0; k < 4; ++k)
+                        {
+                            ItemStack armor = getTile().getStackInSlot(k);
+                            
+                            if (armor != null && armor.getItem() instanceof ItemTransformerArmor)
+                            {
+                                if (newArmor != ((ItemTransformerArmor) armor.getItem()).getTransformer())
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    
                     return super.isItemValid(itemstack) && itemstack.getItem().isValidArmor(itemstack, j, inventoryPlayer.player);
                 }
             });
@@ -54,6 +75,12 @@ public class ContainerDisplayStationArmor extends ContainerBasic
             }
         }
     }
+    
+    @Override
+    public TileEntityDisplayStation getTile()
+    {
+        return (TileEntityDisplayStation) super.getTile();
+    }
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
@@ -72,11 +99,11 @@ public class ContainerDisplayStationArmor extends ContainerBasic
                 boolean flag = true;
                 boolean flag1 = itemstack1.getItem() instanceof ItemTransformerArmor;
                 
-                for (int i = 0; i <= 8; ++i)
+                for (int i = 0; i < 8; ++i)
                 {
                     Slot slot1 = (Slot) inventorySlots.get(i % 4);
                     
-                    if (itemstack1.getItem().isValidArmor(itemstack1, i % 4, player) && (i < 4 ? flag1 : !flag1 && slot1.getHasStack()))
+                    if (itemstack1.getItem().isValidArmor(itemstack1, i % 4, player) && (i < 4 ? flag1 && slot1.isItemValid(itemstack1) : !flag1 && slot1.getHasStack()))
                     {
                         if (!mergeItemStack(itemstack1, i, i + 1, false))
                         {

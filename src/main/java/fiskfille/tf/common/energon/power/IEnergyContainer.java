@@ -10,9 +10,5 @@ public interface IEnergyContainer
 
     float getMaxEnergy();
 
-    float setEnergy(float energy);
-
     float getEnergyUsage();
-
-    void setEnergyUsage(float usage);
 }
