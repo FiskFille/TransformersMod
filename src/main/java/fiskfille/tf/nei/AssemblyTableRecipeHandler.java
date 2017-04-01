@@ -19,6 +19,7 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiAssemblyTable;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.AssemblyTableCraftingManager;
 import fiskfille.tf.common.recipe.AssemblyTableRecipe;
 
@@ -164,6 +165,11 @@ public class AssemblyTableRecipeHandler extends TemplateRecipeHandler
     @Override
     public void loadCraftingRecipes(ItemStack result)
     {
+        if (result.getItem() == TFItems.groundBridgeRemote && result.getItemDamage() > 0)
+        {
+            result.setItemDamage(0);
+        }
+        
         for (IRecipe irecipe : (List<IRecipe>) AssemblyTableCraftingManager.getInstance().getRecipeList())
         {
             if (NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result))
