@@ -252,7 +252,7 @@ public class TFRecipes
         for (int index = 16; index < Dyes.dyes.size(); ++index)
         {
             int id = Dyes.dyes.get(index);
-            GameRegistry.addRecipe(new ItemStack(TFBlocks.carpet, 3, id - 16), "###", '#', Dyes.dye(TFBlocks.wool, id));
+            GameRegistry.addRecipe(new ItemStack(TFBlocks.carpet, 3, id - 16), "##", '#', Dyes.dye(TFBlocks.wool, id));
         }
     }
 
