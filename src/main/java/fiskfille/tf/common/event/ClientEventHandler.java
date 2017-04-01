@@ -191,14 +191,14 @@ public class ClientEventHandler
                 }
             }
 
-            if (isTransformed)
-            {
-                TutorialHandler.openTutorial(player, transformer);
-            }
-            else
-            {
-                TutorialHandler.currentTutorial = null;
-            }
+//            if (isTransformed)
+//            {
+//                TutorialHandler.openTutorial(player, transformer);
+//            }
+//            else
+//            {
+//                TutorialHandler.currentTutorial = null;
+//            }
         }
     }
 
@@ -831,161 +831,161 @@ public class ClientEventHandler
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onItemToolTip(ItemTooltipEvent event)
-    {
-        ItemStack itemstack = event.itemStack;
-        String s = itemstack.getUnlocalizedName() + ".desc";
-
-        if (!s.equals(StatCollector.translateToLocal(s)))
-        {
-            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
-            {
-                s = StatCollector.translateToLocal(s);
-
-                if (s.startsWith("\\l"))
-                {
-                    s = parseLineDividing(s, 200).substring(2);
-                }
-
-                for (String s1 : parseDescVariables(s).split("\\\\n"))
-                {
-                    s1 = parseDescSpoilers(s1);
-
-                    Collections.addAll(event.toolTip, parseDescVariables(s1).split("\\\\sn"));
-                }
-            }
-            else
-            {
-                event.toolTip.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("item-info.prompt"));
-            }
-        }
-    }
-
-    public String parseLineDividing(String s, int width)
-    {
-        s = trimStringNewline(s);
-        s = splitString(s, width);
-        return s;
-    }
-
-    private String trimStringNewline(String s)
-    {
-        while (s != null && s.endsWith("\\n"))
-        {
-            s = s.substring(0, s.length() - 1);
-        }
-
-        return s;
-    }
-
-    private String splitString(String s, int width)
-    {
-        List list = mc.fontRenderer.listFormattedStringToWidth(s, width);
-        String s2 = "";
-
-        for (Object aList : list)
-        {
-            String s1 = (String) aList;
-            s2 += s1 + "\\n";
-        }
-
-        return s2;
-    }
-
-    public String parseDescVariables(String s)
-    {
-        {
-            String[] keys = {"KEYBIND_ZOOM", "LIST_DISPLAYABLES"};
-            String[] values = {GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingZoom.getKeyCode()), getDisplayableItemsList()};
-
-            for (int i = 0; i < keys.length; ++i)
-            {
-                s = s.replace("VAR_" + keys[i], values[i]);
-            }
-        }
-
-        String[] keys = {"BLACK", "DARK_BLUE", "DARK_GREEN", "DARK_AQUA", "DARK_RED", "DARK_PURPLE", "GOLD", "GRAY", "DARK_GRAY", "BLUE", "GREEN", "AQUA", "RED", "LIGHT_PURPLE", "YELLOW", "WHITE", "OBFUSCATED", "BOLD", "STRIKETHROUGH", "UNDERLINE", "ITALIC", "RESET"};
-        char[] values = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'k', 'l', 'm', 'n', 'o', 'r'};
-
-        for (int i = 0; i < keys.length; ++i)
-        {
-            s = s.replace("<FORMAT_" + keys[i] + ">", "\u00A7" + values[i]);
-        }
-
-        return s;
-    }
-
-    public String parseDescSpoilers(String s)
-    {
-        int varKey = 0;
-        String varName = "";
-        String varContent = "";
-
-        if (s.startsWith("[") && s.endsWith("]"))
-        {
-            s = s.substring(1, s.length() - 1);
-            String[] astring = s.split(",");
-
-            for (String s1 : astring)
-            {
-                String[] astring1 = s1.split("=");
-                String key = astring1[0];
-                String value = astring1[1];
-
-                if (key.equals("key"))
-                {
-                    varKey = Integer.valueOf(value);
-                }
-                else if (key.equals("name"))
-                {
-                    varName = parseDescVariables(value.substring(1, value.length() - 1));
-                }
-                else if (key.equals("content"))
-                {
-                    varContent = parseDescVariables(value.substring(1, value.length() - 1));
-                }
-            }
-
-            if (Keyboard.isKeyDown(varKey))
-            {
-                s = varContent;
-            }
-            else
-            {
-                s = varName;
-            }
-        }
-
-        return s;
-    }
-
-    public String getDisplayableItemsList()
-    {
-        String s = "";
-        String prefix = "   ";
-
-        for (Map.Entry<Item, Displayable> e : TransformersAPI.getDisplayables().entrySet())
-        {
-            Item item = e.getKey();
-
-            if (item.getHasSubtypes())
-            {
-                List<ItemStack> list = Lists.newArrayList();
-                item.getSubItems(item, item.getCreativeTab(), list);
-
-                for (ItemStack itemstack : list)
-                {
-                    s += prefix + itemstack.getDisplayName() + "\\sn";
-                }
-            }
-            else
-            {
-                ItemStack itemstack = new ItemStack(item);
-                s += prefix + itemstack.getDisplayName() + "\\sn";
-            }
-        }
-
-        return s;
-    }
+//    @SubscribeEvent(priority = EventPriority.HIGHEST)
+//    public void onItemToolTip(ItemTooltipEvent event)
+//    {
+//        ItemStack itemstack = event.itemStack;
+//        String s = itemstack.getUnlocalizedName() + ".desc";
+//
+//        if (!s.equals(StatCollector.translateToLocal(s)))
+//        {
+//            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+//            {
+//                s = StatCollector.translateToLocal(s);
+//
+//                if (s.startsWith("\\l"))
+//                {
+//                    s = parseLineDividing(s, 200).substring(2);
+//                }
+//
+//                for (String s1 : parseDescVariables(s).split("\\\\n"))
+//                {
+//                    s1 = parseDescSpoilers(s1);
+//
+//                    Collections.addAll(event.toolTip, parseDescVariables(s1).split("\\\\sn"));
+//                }
+//            }
+//            else
+//            {
+//                event.toolTip.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("item-info.prompt"));
+//            }
+//        }
+//    }
+//
+//    public String parseLineDividing(String s, int width)
+//    {
+//        s = trimStringNewline(s);
+//        s = splitString(s, width);
+//        return s;
+//    }
+//
+//    private String trimStringNewline(String s)
+//    {
+//        while (s != null && s.endsWith("\\n"))
+//        {
+//            s = s.substring(0, s.length() - 1);
+//        }
+//
+//        return s;
+//    }
+//
+//    private String splitString(String s, int width)
+//    {
+//        List list = mc.fontRenderer.listFormattedStringToWidth(s, width);
+//        String s2 = "";
+//
+//        for (Object aList : list)
+//        {
+//            String s1 = (String) aList;
+//            s2 += s1 + "\\n";
+//        }
+//
+//        return s2;
+//    }
+//
+//    public String parseDescVariables(String s)
+//    {
+//        {
+//            String[] keys = {"KEYBIND_ZOOM", "LIST_DISPLAYABLES"};
+//            String[] values = {GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingZoom.getKeyCode()), getDisplayableItemsList()};
+//
+//            for (int i = 0; i < keys.length; ++i)
+//            {
+//                s = s.replace("VAR_" + keys[i], values[i]);
+//            }
+//        }
+//
+//        String[] keys = {"BLACK", "DARK_BLUE", "DARK_GREEN", "DARK_AQUA", "DARK_RED", "DARK_PURPLE", "GOLD", "GRAY", "DARK_GRAY", "BLUE", "GREEN", "AQUA", "RED", "LIGHT_PURPLE", "YELLOW", "WHITE", "OBFUSCATED", "BOLD", "STRIKETHROUGH", "UNDERLINE", "ITALIC", "RESET"};
+//        char[] values = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'k', 'l', 'm', 'n', 'o', 'r'};
+//
+//        for (int i = 0; i < keys.length; ++i)
+//        {
+//            s = s.replace("<FORMAT_" + keys[i] + ">", "\u00A7" + values[i]);
+//        }
+//
+//        return s;
+//    }
+//
+//    public String parseDescSpoilers(String s)
+//    {
+//        int varKey = 0;
+//        String varName = "";
+//        String varContent = "";
+//
+//        if (s.startsWith("[") && s.endsWith("]"))
+//        {
+//            s = s.substring(1, s.length() - 1);
+//            String[] astring = s.split(",");
+//
+//            for (String s1 : astring)
+//            {
+//                String[] astring1 = s1.split("=");
+//                String key = astring1[0];
+//                String value = astring1[1];
+//
+//                if (key.equals("key"))
+//                {
+//                    varKey = Integer.valueOf(value);
+//                }
+//                else if (key.equals("name"))
+//                {
+//                    varName = parseDescVariables(value.substring(1, value.length() - 1));
+//                }
+//                else if (key.equals("content"))
+//                {
+//                    varContent = parseDescVariables(value.substring(1, value.length() - 1));
+//                }
+//            }
+//
+//            if (Keyboard.isKeyDown(varKey))
+//            {
+//                s = varContent;
+//            }
+//            else
+//            {
+//                s = varName;
+//            }
+//        }
+//
+//        return s;
+//    }
+//
+//    public String getDisplayableItemsList()
+//    {
+//        String s = "";
+//        String prefix = "   ";
+//
+//        for (Map.Entry<Item, Displayable> e : TransformersAPI.getDisplayables().entrySet())
+//        {
+//            Item item = e.getKey();
+//
+//            if (item.getHasSubtypes())
+//            {
+//                List<ItemStack> list = Lists.newArrayList();
+//                item.getSubItems(item, item.getCreativeTab(), list);
+//
+//                for (ItemStack itemstack : list)
+//                {
+//                    s += prefix + itemstack.getDisplayName() + "\\sn";
+//                }
+//            }
+//            else
+//            {
+//                ItemStack itemstack = new ItemStack(item);
+//                s += prefix + itemstack.getDisplayName() + "\\sn";
+//            }
+//        }
+//
+//        return s;
+//    }
 }
