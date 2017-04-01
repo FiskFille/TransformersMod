@@ -148,11 +148,11 @@ public class CommonTickHandler
 
             TFData.STEALTH_FORCE_PROGRESS.clampWithoutNotify(player, 0.0F, 1.0F);
 
-            if (TFData.BOOSTING.get(player) && TFData.NITRO.get(player) > 0)
+            if (!player.capabilities.isCreativeMode && TFData.BOOSTING.get(player) && TFData.NITRO.get(player) > 0)
             {
                 TFData.NITRO.incrWithoutNotify(player, -1.0F / nitroTicks);
             }
-            else if (!TFData.BOOSTING.get(player))
+            else if (!TFData.BOOSTING.get(player) || player.capabilities.isCreativeMode)
             {
                 TFData.NITRO.incrWithoutNotify(player, 1.0F / nitroTicks);
             }
