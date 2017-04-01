@@ -28,7 +28,7 @@ public class TFModelHelper
 
         if (modelOffset == null)
         {
-            modelOffset = new ModelOffset();
+            modelOffset = new ModelOffset(false);
             offsets.put(entity, modelOffset);
         }
 
@@ -50,14 +50,27 @@ public class TFModelHelper
      */
     public static void renderBipedPre(ModelBiped model, Entity entity, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale)
     {
-        ModelOffset offsets = TFModelHelper.getOffsets(entity);
-
-        model.bipedHead.rotationPointY = offsets.headOffsetY;
-        model.bipedHeadwear.rotationPointY = offsets.headOffsetY;
-        model.bipedHead.rotationPointX = offsets.headOffsetX;
-        model.bipedHeadwear.rotationPointX = offsets.headOffsetX;
-        model.bipedHead.rotationPointZ = offsets.headOffsetZ;
-        model.bipedHeadwear.rotationPointZ = offsets.headOffsetZ;
+        ModelOffset offset = TFModelHelper.getOffsets(entity);
+        
+        if (!offset.isInitialized())
+        {
+            offset = new ModelOffset(true);
+            offset.headOffsetX = model.bipedHead.rotationPointX;
+            offset.headOffsetY = model.bipedHead.rotationPointY;
+            offset.headOffsetZ = model.bipedHead.rotationPointZ;
+            
+            offsets.put(entity, offset);
+        }
+        
+        if (offset.isInitialized())
+        {
+            model.bipedHead.rotationPointY = offset.headOffsetY;
+            model.bipedHeadwear.rotationPointY = offset.headOffsetY;
+            model.bipedHead.rotationPointX = offset.headOffsetX;
+            model.bipedHeadwear.rotationPointX = offset.headOffsetX;
+            model.bipedHead.rotationPointZ = offset.headOffsetZ;
+            model.bipedHeadwear.rotationPointZ = offset.headOffsetZ;
+        }
     }
 
     /**
@@ -75,6 +88,5 @@ public class TFModelHelper
      */
     public static void renderBipedPost(ModelBiped model, Entity entity, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale)
     {
-
     }
 }
