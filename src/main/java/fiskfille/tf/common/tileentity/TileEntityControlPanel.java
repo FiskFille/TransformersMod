@@ -1,32 +1,6 @@
 package fiskfille.tf.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.common.util.ForgeDirection;
-
 import com.google.common.collect.Lists;
-
 import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
@@ -48,6 +22,30 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFDimensionHelper;
 import fiskfille.tf.helper.TFMathHelper;
 import fiskfille.tf.helper.TFTileHelper;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TileEntityControlPanel extends TileEntityMachineContainer implements ISidedInventory, IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
 {
@@ -454,38 +452,32 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
     {
         if (!data.activationLeverState)
         {
-            int[] increments = getCoordinateIncrements();
-            int[] aint = {coords.posX, coords.posY, coords.posZ};
-            int[] aint1 = {xCoord, yCoord, zCoord};
+            int coordinateScale = 1;
+
+            for (int i = 0; i < data.upgrades.size(); ++i)
+            {
+                DataCore dataCore = data.upgrades.get(i);
+
+                if (dataCore == DataCore.range)
+                {
+                    coordinateScale *= 2;
+                }
+            }
+
+            int[] increments = { 1, 10, 100, 1000 };
+            int[] target = { coords.posX, coords.posY, coords.posZ };
+            int[] current = { xCoord, yCoord, zCoord };
 
             switches = new Integer[][] { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
-            for (int i = 0; i < aint.length; ++i)
+            for (int axisIndex = 0; axisIndex < target.length; ++axisIndex)
             {
-                int[] aint2 = TFMathHelper.split(aint[i] - aint1[i], increments.length);
-                int[] aint3 = new int[increments.length];
+                int delta = (target[axisIndex] - current[axisIndex]) / coordinateScale;
+                int[] split = TFMathHelper.split(delta, increments.length, 10);
 
-                for (int index = aint2.length - 1; index >= 0; --index)
+                for (int i = 0; i < split.length; ++i)
                 {
-                    int num = aint2[index];
-
-                    if (index > 0)
-                    {
-                        int nextNum = aint2[index - 1] / increments[index - 1];
-
-                        if (nextNum == 0)
-                        {
-                            num -= increments[index];
-                            aint2[index - 1] += increments[index];
-                        }
-                    }
-
-                    aint3[index] = num;
-                }
-
-                for (int j = 0; j < aint3.length; ++j)
-                {
-                    switches[i][j] = MathHelper.clamp_int(aint3[j] / increments[j], -10, 10);
+                    switches[axisIndex][i] = MathHelper.clamp_int(split[i] / increments[i], -10, 10);
                 }
             }
 
@@ -906,7 +898,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
     public void receive(EntityPlayer player, int action)
     {
         super.receive(player, action);
-        
+
         if (player != null)
         {
             if (isUseableByPlayer(player) || player.getHeldItem() != null && player.getHeldItem().getItem() == TFItems.groundBridgeRemote)

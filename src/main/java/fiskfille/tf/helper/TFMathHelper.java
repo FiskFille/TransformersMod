@@ -1,18 +1,17 @@
 package fiskfille.tf.helper;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.util.MathHelper;
+
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.material.MapColor;
-import net.minecraft.util.MathHelper;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 public class TFMathHelper
 {
-    public static int[] split(int number, int digits)
+    public static int[] split(int number, int digits, int m)
     {
         int[] increments = new int[digits];
         int[] aint = new int[digits];
@@ -22,7 +21,7 @@ public class TFMathHelper
         for (int i = 0; i < digits; ++i)
         {
             increments[i] = incr;
-            incr *= 10;
+            incr *= m;
         }
 
         for (int i = digits - 1; i >= 0; --i)
