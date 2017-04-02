@@ -24,9 +24,12 @@ public class TFItems
     public static Item transformiumAlloy;
     public static Item transformiumAlloyNugget;
     public static Item crudeFluxAlloy;
+    public static Item crudeFluxAlloyNugget;
     public static Item refinedFluxAlloy;
-    public static Item energonDust;
+    public static Item refinedFluxAlloyNugget;
     public static Item energonAlloy;
+    public static Item energonAlloyNugget;
+    public static Item energonDust;
     public static Item craftingMaterial;
     
     public static Item fuelCanister;
@@ -85,9 +88,12 @@ public class TFItems
         transformiumAlloy = new Item();
         transformiumAlloyNugget = new Item();
         crudeFluxAlloy = new Item();
+        crudeFluxAlloyNugget = new Item();
         refinedFluxAlloy = new Item();
-        energonDust = new Item();
+        refinedFluxAlloyNugget = new Item();
         energonAlloy = new Item();
+        energonAlloyNugget = new Item();
+        energonDust = new Item();
         craftingMaterial = new ItemMetaBasic();
         fuelCanister = new ItemFuelCanister();
         dye = new ItemDyeTF();
@@ -147,13 +153,16 @@ public class TFItems
         TFItemRegistry.registerItem(transformiumAlloy, "Transformium Alloy");
         TFItemRegistry.registerItem(transformiumAlloyNugget, "Transformium Alloy Nugget");
         TFItemRegistry.registerItem(crudeFluxAlloy, "Crude Flux Alloy");
+        TFItemRegistry.registerItem(crudeFluxAlloyNugget, "Crude Flux Alloy Nugget");
         TFItemRegistry.registerItem(refinedFluxAlloy, "Refined Flux Alloy");
-        TFItemRegistry.registerItem(energonDust, "Energon Dust");
+        TFItemRegistry.registerItem(refinedFluxAlloyNugget, "Refined Flux Alloy Nugget");
         TFItemRegistry.registerItem(energonAlloy, "Energon Alloy");
+        TFItemRegistry.registerItem(energonAlloyNugget, "Energon Alloy Nugget");
+        TFItemRegistry.registerItem(energonDust, "Energon Dust");
         TFItemRegistry.registerItem(craftingMaterial, "Crafting Material");
         TFItemRegistry.registerItem(transformiumDetector, "Transformium Detector");
         TFItemRegistry.registerItem(fuelCanister, "Fuel Canister");
-        TFItemRegistry.registerIngot(dye, "Dye", "dye");
+        TFItemRegistry.registerItem(dye, "Dye");
         TFItemRegistry.registerItem(componentBase, "Component Base");
         TFItemRegistry.registerItem(colorComponent, "Color Component");
         TFItemRegistry.registerItem(armorComponent, "Armor Component");

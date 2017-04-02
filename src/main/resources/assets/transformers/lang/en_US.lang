@@ -3,9 +3,12 @@ item.transformium_fragment.name=Transformium Fragment
 item.transformium_alloy.name=Transformium Alloy
 item.transformium_alloy_nugget.name=Transformium Alloy Nugget
 item.crude_flux_alloy.name=Crude Flux Alloy
+item.crude_flux_alloy_nugget.name=Crude Flux Alloy Nugget
 item.refined_flux_alloy.name=Refined Flux Alloy
-item.energon_dust.name=Energon Dust
+item.refined_flux_alloy_nugget.name=Refined Flux Alloy Nugget
 item.energon_alloy.name=Energon Alloy
+item.energon_alloy_nugget.name=Energon Alloy Nugget
+item.energon_dust.name=Energon Dust
 
 item.iron_pole.name=Iron Pole
 item.iron_support.name=Iron Support
@@ -134,10 +137,14 @@ item.flame_thrower.name=Cloudtrap's Flamethrower
 
 ------Blocks------
 tile.transformium_ore.name=Transformium Ore
-tile.block_of_transformium.name=Block of Transformium
 tile.transformium_stone.name=Transformium Stone
 tile.transformium_seed.name=Transformium Seed
 tile.cosmic_rust.name=Cosmic Rust
+tile.block_of_transformium.name=Block of Transformium
+tile.block_of_transformium_alloy.name=Block of Transformium Alloy
+tile.block_of_crude_flux_alloy.name=Block of Crude Flux Alloy
+tile.block_of_refined_flux_alloy.name=Block of Refined Flux Alloy
+tile.block_of_energon_alloy.name=Block of Energon Alloy
 
 tile.energon_ore.name=Energon Ore
 tile.energon_crystal.name=Energon Crystal

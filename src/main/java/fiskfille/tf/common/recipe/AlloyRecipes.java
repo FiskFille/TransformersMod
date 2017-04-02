@@ -47,12 +47,12 @@ public class AlloyRecipes
     
     private void registerRecipes()
     {
-        addRecipe(new AlloyIngredients(TFItems.transformiumFragment, "ingotIron", "ingotIron"), new ItemStack(TFItems.transformiumAlloy, 2), 400, 1.0F);
+        addRecipe(new AlloyIngredients("transformium", "ingotIron", "ingotIron"), new ItemStack(TFItems.transformiumAlloy, 2), 400, 1.0F);
         addRecipe(new AlloyIngredients(TFBlocks.transformiumStone, Blocks.clay, "gemQuartz"), new ItemStack(TFItems.transformiumFragment), 600, 0.35F);
         addRecipe(new AlloyIngredients("ingotIron", "ingotGold", "dustRedstone"), new ItemStack(TFItems.crudeFluxAlloy), 0.4F);
-        addRecipe(new AlloyIngredients(TFItems.crudeFluxAlloy, TFItems.crudeFluxAlloy, "dustRedstone"), new ItemStack(TFItems.refinedFluxAlloy), 300, 0.6F);
+        addRecipe(new AlloyIngredients("ingotFluxAlloyCrude", "ingotFluxAlloyCrude", "dustRedstone"), new ItemStack(TFItems.refinedFluxAlloy), 300, 0.6F);
         addRecipe(new AlloyIngredients("ingotIron", "dustEnergon"), new ItemStack(TFItems.energonAlloy), 800, 0.4F);
-        addRecipe(new AlloyIngredients("dustEnergon", TFItems.transformiumFragment, "dustEnergon"), TFSubItems.focusing_crystal[1], 0.1F);
+        addRecipe(new AlloyIngredients("dustEnergon", "transformium", "dustEnergon"), TFSubItems.focusing_crystal[1], 0.1F);
         addRecipe(new AlloyIngredients("dustEnergon", "dustEnergon", "dustEnergon"), new ItemStack(TFItems.energonCrystalShard), 100, 0);
         
         addRecipe(new AlloyIngredients("stone", Items.ender_pearl), new ItemStack(Blocks.end_stone), 0.2F);

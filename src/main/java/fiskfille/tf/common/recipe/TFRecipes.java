@@ -29,7 +29,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -64,40 +66,43 @@ public class TFRecipes
         addArmorRecipes();
 
         GameRegistry.addRecipe(new RecipeClearConfig());
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), "TET", "TNT", "DND", 'T', TFBlocks.transformiumBlock, 'E', TFBlocks.energonCube, 'N', Items.nether_star, 'D', Blocks.diamond_block);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.assemblyTable, 1), "EEE", "WCW", "IBI", 'E', TFItems.energonDust, 'W', TFSubItems.crude_alloy_wire[1], 'C', Blocks.crafting_table, 'I', Items.iron_ingot, 'B', Blocks.iron_block);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.alloyCrucible, 1), "IFI", "IUI", "IRI", 'I', Items.iron_ingot, 'F', Blocks.furnace, 'U', Items.cauldron, 'R', Items.redstone);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.energonProcessor, 1), " I ", "2W2", "BFB", 'I', Items.iron_ingot, '2', TFSubItems.improved_circuit[1], 'W', TFSubItems.refined_alloy_wire[1], 'B', Blocks.iron_block, 'F', TFItems.fuelCanister);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.energonFluidTank, 1), "IGI", "GFG", "IGI", 'I', Items.iron_ingot, 'G', Blocks.glass_pane, 'F', TFItems.fuelCanister);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.transmitter, 1), "EOE", "PRP", "S2S", 'E', TFItems.energonDust, 'O', TFSubItems.transmission_orb[1], 'P', TFSubItems.iron_pole[1], 'R', TFBlocks.relayTower, 'S', TFSubItems.superconductor[1], '2', TFSubItems.improved_circuit[1]);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.transformiumSeed, 1), "TET", "TNT", "DND", 'T', "blockTransformium", 'E', "blockEnergonBlue", 'N', Items.nether_star, 'D', "blockDiamond"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.assemblyTable, 1), "EEE", "WCW", "IBI", 'E', "dustEnergon", 'W', TFSubItems.crude_alloy_wire[1], 'C', Blocks.crafting_table, 'I', "ingotIron", 'B', "blockIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.alloyCrucible, 1), "IFI", "IUI", "IRI", 'I', "ingotIron", 'F', Blocks.furnace, 'U', Items.cauldron, 'R', "dustRedstone"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.energonProcessor, 1), " I ", "2W2", "BFB", 'I', "ingotIron", '2', TFSubItems.improved_circuit[1], 'W', TFSubItems.refined_alloy_wire[1], 'B', "blockIron", 'F', TFItems.fuelCanister));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.energonFluidTank, 1), "IGI", "GFG", "IGI", 'I', "ingotIron", 'G', "paneGlass", 'F', TFItems.fuelCanister));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.transmitter, 1), "EOE", "PRP", "S2S", 'E', "dustEnergon", 'O', TFSubItems.transmission_orb[1], 'P', TFSubItems.iron_pole[1], 'R', TFBlocks.relayTower, 'S', TFSubItems.superconductor[1], '2', TFSubItems.improved_circuit[1]));
         GameRegistry.addRecipe(new ItemStack(TFBlocks.relayTower, 1), " R ", " W ", "PSP", 'R', TFBlocks.relayTorch, 'W', TFSubItems.crude_alloy_wire[1], 'P', TFSubItems.iron_pole[1], 'S', TFSubItems.iron_support[1]);
         GameRegistry.addRecipe(new ItemStack(TFBlocks.relayTorch, 2), "O", "1", "W", 'O', TFSubItems.transmission_orb[1], '1', TFSubItems.basic_circuit[1], 'W', TFSubItems.refined_alloy_wire[1]);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.energyColumn, 1), "LCL", "EPE", "IBI", 'L', TFSubItems.canister_lid[1], 'C', TFSubItems.energy_converter[1], 'E', TFItems.energonAlloy, 'P', TFSubItems.lcd_panel[1], 'I', Items.iron_ingot, 'B', Blocks.iron_block);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.energyPort, 1), "IEI", "ECE", "IEI", 'I', Items.iron_ingot, 'E', TFItems.energonAlloy, 'C', TFSubItems.energon_coil[1]);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.isoCondenser, 1), "III", "RER", "ISI", 'I', Items.iron_ingot, 'R', Items.redstone, 'E', TFBlocks.energonCube, 'S', TFSubItems.iron_support[1]);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.energyColumn, 1), "LCL", "EPE", "IBI", 'L', TFSubItems.canister_lid[1], 'C', TFSubItems.energy_converter[1], 'E', "ingotEnergonAlloy", 'P', TFSubItems.lcd_panel[1], 'I', "ingotIron", 'B', "blockIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.energyPort, 1), "IEI", "ECE", "IEI", 'I', "ingotIron", 'E', "ingotEnergonAlloy", 'C', TFSubItems.energon_coil[1]));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.isoCondenser, 1), "III", "RER", "ISI", 'I', "ingotIron", 'R', "dustRedstone", 'E', "blockEnergonBlue", 'S', TFSubItems.iron_support[1]));
         AssemblyTable.addRecipe(new ItemStack(TFBlocks.groundBridgeFrame, 1), new Dyes(), "     ", " SES ", " E1E ", " SES ", "     ", 'S', TFSubItems.iron_support, 'E', TFItems.energonDust, '1', TFSubItems.basic_circuit);
         AssemblyTable.addRecipe(new ItemStack(TFBlocks.groundBridgeControlPanel, 1), new Dyes(), " PPP ", "IW3WI", "SCOCS", "FF3FF", "     ", 'P', TFSubItems.lcd_panel, 'I', Items.iron_ingot, 'W', TFSubItems.refined_alloy_wire, '3', TFSubItems.advanced_circuit, 'S', TFSubItems.iron_support, 'C', TFSubItems.energy_converter, 'O', TFSubItems.singularity, 'F', TFBlocks.groundBridgeFrame);
         
-        GameRegistry.addRecipe(new ItemStack(TFItems.transformiumDetector, 1), "IEI", "TRT", "rrr", 'I', Items.iron_ingot, 'E', TFBlocks.energonCrystal, 'T', TFItems.transformiumFragment, 'R', Blocks.redstone_block, 'r', Items.redstone);
-        GameRegistry.addRecipe(new ItemStack(TFItems.csd, 1), "I", "1", "I", 'I', Items.iron_ingot, '1', TFSubItems.basic_circuit[1]);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.transformiumDetector, 1), "IEI", "TRT", "rrr", 'I', "ingotIron", 'E', TFBlocks.energonCrystal, 'T', "transformium", 'R', "blockRedstone", 'r', "dustRedstone"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.csd, 1), "I", "1", "I", 'I', "ingotIron", '1', TFSubItems.basic_circuit[1]));
         GameRegistry.addRecipe(new ItemStack(TFItems.fuelCanister, 1), "L", "B", "L", 'L', TFSubItems.canister_lid[1], 'B', Items.bucket);
-        GameRegistry.addRecipe(new ItemStack(TFItems.powerCanister, 1), "L", "G", "L", 'L', TFSubItems.canister_lid[1], 'G', Blocks.glass);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.powerCanister, 1), "L", "G", "L", 'L', TFSubItems.canister_lid[1], 'G', "blockGlass"));
         AssemblyTable.addRecipe(new ItemStack(TFItems.dataCore, 1, DataCore.spaceBridge.index), new Dyes(), "     ", " F3F ", " EOE ", " F3F ", "     ", 'F', new ItemStack(TFItems.dataCore, 1, DataCore.range.index), '3', TFSubItems.advanced_circuit, 'E', TFItems.energonDust, 'O', TFSubItems.singularity);
         AssemblyTable.addRecipe(new ItemStack(TFItems.dataCore, 1, DataCore.leveler.index), new Dyes(), "     ", " F2F ", " EOE ", " F2F ", "     ", 'F', TFBlocks.groundBridgeFrame, '2', TFSubItems.improved_circuit, 'E', TFItems.energonDust, 'O', Items.comparator);
         AssemblyTable.addRecipe(new ItemStack(TFItems.dataCore, 1, DataCore.range.index), new Dyes(), "     ", " F2F ", " EOE ", " F2F ", "     ", 'F', TFBlocks.groundBridgeFrame, '2', TFSubItems.improved_circuit, 'E', TFItems.energonDust, 'O', Items.ender_pearl);
         AssemblyTable.addRecipe(new ItemStack(TFItems.groundBridgeRemote, 1), new Dyes(), " PPP ", " QRQ ", " 3W3 ", " III ", "     ", 'P', TFSubItems.lcd_panel, 'Q', Items.quartz, 'R', Items.redstone, '3', TFSubItems.advanced_circuit, 'W', TFSubItems.refined_alloy_wire, 'I', Items.iron_ingot);
         
-        Item[] materials = {Items.gold_ingot, Items.diamond, Items.emerald};
+        String[] materials = {"ingotGold", "gemDiamond", "gemEmerald"};
 
         for (int i = 0; i < materials.length; ++i)
         {
-            GameRegistry.addRecipe(new ItemStack(TFItems.powerCanister, 1, i + 1), "**", "##", "**", '*', materials[i], '#', new ItemStack(TFItems.powerCanister, 1, i));
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.powerCanister, 1, i + 1), "**", "##", "**", '*', materials[i], '#', new ItemStack(TFItems.powerCanister, 1, i)));
         }
 
-        addMaterialCompression(TFItems.energonCrystalShard, TFBlocks.energonCube);
-        addMaterialCompression(TFItems.redEnergonCrystalShard, TFBlocks.redEnergonCube);
-        addMaterialCompression(TFItems.transformiumFragment, TFBlocks.transformiumBlock);
-        addMaterialCompression(TFItems.transformiumAlloyNugget, TFItems.transformiumAlloy);
+        addMaterialCompression(TFItems.energonCrystalShard, "blockEnergonBlue");
+        addMaterialCompression(TFItems.redEnergonCrystalShard, "blockEnergonRed");
+        addMaterialCompression("transformium", "blockTransformium");
+        addMaterialCompression("nuggetTransformiumAlloy", "ingotTransformiumAlloy", "blockTransformiumAlloy");
+        addMaterialCompression("nuggetFluxAlloyCrude", "ingotFluxAlloyCrude", "blockFluxAlloyCrude");
+        addMaterialCompression("nuggetFluxAlloyRefined", "ingotFluxAlloyRefined", "blockFluxAlloyRefined");
+        addMaterialCompression("nuggetEnergonAlloy", "ingotEnergonAlloy", "blockEnergonAlloy");
         
         for (IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList())
         {
@@ -139,43 +144,44 @@ public class TFRecipes
 
     private static void addSmelting()
     {
+        
         GameRegistry.addSmelting(TFBlocks.transformiumOre, new ItemStack(TFItems.transformiumFragment, 1), 1.0F);
         GameRegistry.addSmelting(TFBlocks.energonOre, new ItemStack(TFItems.energonDust, 1), 0.7F);
     }
 
     private static void addWeaponRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(TFItems.skystrikesCrossbow, 1), "EII", "ITC", "ICT", 'E', TFBlocks.energonCrystal, 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment, 'C', TFItems.energonCrystalShard);
-        GameRegistry.addRecipe(new ItemStack(TFItems.purgesKatana, 1), "CtC", "TET", "CIC", 'E', TFBlocks.energonCrystal, 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment, 'C', TFItems.energonCrystalShard, 't', TFSubItems.tank_track[1]);
-        GameRegistry.addRecipe(new ItemStack(TFItems.vurpsSniper, 1), "EI ", "CTG", "CIT", 'E', TFBlocks.energonCrystal, 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment, 'C', TFItems.energonCrystalShard, 'G', new ItemStack(Blocks.stained_glass, 1, 5));
-        GameRegistry.addRecipe(new ItemStack(TFItems.subwoofersBassBlaster, 1), "TIC", " EB", "TIC", 'E', TFBlocks.energonCrystal, 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment, 'C', TFItems.energonCrystalShard, 'B', Blocks.iron_block);
-        GameRegistry.addRecipe(new ItemStack(TFItems.cloudtrapsFlamethrower, 1), "CT ", "BET", " IC", 'E', TFBlocks.energonCrystal, 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment, 'C', TFItems.energonCrystalShard, 'B', Blocks.iron_block);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.skystrikesCrossbow, 1), "EII", "ITC", "ICT", 'E', TFBlocks.energonCrystal, 'I', "ingotIron", 'T', "transformium", 'C', TFItems.energonCrystalShard));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.purgesKatana, 1), "CtC", "TET", "CIC", 'E', TFBlocks.energonCrystal, 'I', "ingotIron", 'T', "transformium", 'C', TFItems.energonCrystalShard, 't', TFSubItems.tank_track[1]));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.vurpsSniper, 1), "EI ", "CTG", "CIT", 'E', TFBlocks.energonCrystal, 'I', "ingotIron", 'T', "transformium", 'C', TFItems.energonCrystalShard, 'G', new ItemStack(Blocks.stained_glass, 1, 5)));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.subwoofersBassBlaster, 1), "TIC", " EB", "TIC", 'E', TFBlocks.energonCrystal, 'I', "ingotIron", 'T', "transformium", 'C', TFItems.energonCrystalShard, 'B', "blockIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.cloudtrapsFlamethrower, 1), "CT ", "BET", " IC", 'E', TFBlocks.energonCrystal, 'I', "ingotIron", 'T', "transformium", 'C', TFItems.energonCrystalShard, 'B', "blockIron"));
     }
 
     private static void addCraftingComponentRecipes()
     {
         GameRegistry.addRecipe(TFSubItems.iron_pole[1], "#", "#", '#', Blocks.iron_bars);
         GameRegistry.addRecipe(TFSubItems.iron_support[1], "P P", " P ", "P P", 'P', TFSubItems.iron_pole[1]);
-        GameRegistry.addRecipe(TFSubItems.canister_lid[2], " I ", "I#I", 'I', Items.iron_ingot, '#', Blocks.iron_bars);
-        GameRegistry.addRecipe(TFSubItems.lcd_panel[3], "G1G", "P#P", "RWR", 'G', Items.glowstone_dust, '1', TFSubItems.basic_circuit[1], 'P', TFSubItems.iron_pole[1], '#', Blocks.glass_pane, 'R', Items.redstone, 'W', TFSubItems.crude_alloy_wire[1]);
-        GameRegistry.addRecipe(TFSubItems.crude_alloy_wire[3], " C ", " W ", "C C", 'C', TFItems.crudeFluxAlloy, 'W', Blocks.planks);
-        GameRegistry.addRecipe(TFSubItems.refined_alloy_wire[3], " R ", " W ", "R R", 'R', TFItems.refinedFluxAlloy, 'W', Blocks.planks);
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.canister_lid[2], " I ", "I#I", 'I', "ingotIron", '#', Blocks.iron_bars));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.lcd_panel[3], "G1G", "P#P", "RWR", 'G', "dustGlowstone", '1', TFSubItems.basic_circuit[1], 'P', TFSubItems.iron_pole[1], '#', "paneGlass", 'R', "dustRedstone", 'W', TFSubItems.crude_alloy_wire[1]));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.crude_alloy_wire[3], " C ", " W ", "C C", 'C', "ingotFluxAlloyCrude", 'W', "plankWood"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.refined_alloy_wire[3], " R ", " W ", "R R", 'R', "ingotFluxAlloyRefined", 'W', "plankWood"));
         GameRegistry.addRecipe(TFSubItems.energon_coil[3], " W ", "W W", " W ", 'W', TFSubItems.crude_alloy_wire[1]);
         GameRegistry.addRecipe(TFSubItems.transmission_orb[5], "C", "F", "C", 'C', TFSubItems.energon_coil[1], 'F', TFSubItems.focusing_crystal[1]);
-        GameRegistry.addRecipe(TFSubItems.energy_converter[1], "RTR", "E2E", "RTR", 'R', Items.redstone, 'T', TFItems.transformiumAlloy, 'E', TFItems.energonDust, '2', TFSubItems.improved_circuit[1]);
-        GameRegistry.addRecipe(TFSubItems.superconductor[1], "WPW", "RPR", "WPW", 'W', TFSubItems.refined_alloy_wire[1], 'P', TFSubItems.iron_pole[1], 'R', Items.redstone);
-        GameRegistry.addRecipe(TFSubItems.singularity[1], "DED", "SNS", "DED", 'D', Items.diamond, 'E', Items.ender_pearl, 'S', TFSubItems.superconductor[1], 'N', Items.nether_star);
-        GameRegistry.addRecipe(TFSubItems.basic_circuit[1], "RRR", "CCR", "RWI", 'R', Items.redstone, 'C', TFItems.crudeFluxAlloy, 'W', TFSubItems.crude_alloy_wire[1], 'I', Items.iron_ingot);
-        GameRegistry.addRecipe(TFSubItems.improved_circuit[1], "EEE", "1F1", "EWG", 'E', TFItems.energonAlloy, '1', TFSubItems.basic_circuit[1], 'F', TFSubItems.focusing_crystal[1], 'W', TFSubItems.refined_alloy_wire[1], 'G', Items.gold_ingot);
-        GameRegistry.addRecipe(TFSubItems.advanced_circuit[1], "EEE", "2R2", "EWT", 'E', TFItems.energonAlloy, '2', TFSubItems.improved_circuit[1], 'R', TFItems.refinedFluxAlloy, 'W', TFSubItems.refined_alloy_wire[1], 'T', TFItems.transformiumAlloy);
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.energy_converter[1], "RTR", "E2E", "RTR", 'R', "dustRedstone", 'T', "ingotTransformiumAlloy", 'E', "dustEnergon", '2', TFSubItems.improved_circuit[1]));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.superconductor[1], "WPW", "RPR", "WPW", 'W', TFSubItems.refined_alloy_wire[1], 'P', TFSubItems.iron_pole[1], 'R', "dustRedstone"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.singularity[1], "DED", "SNS", "DED", 'D', "gemDiamond", 'E', Items.ender_pearl, 'S', TFSubItems.superconductor[1], 'N', Items.nether_star));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.basic_circuit[1], "RRR", "CCR", "RWI", 'R', "dustRedstone", 'C', "ingotFluxAlloyCrude", 'W', TFSubItems.crude_alloy_wire[1], 'I', "ingotIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.improved_circuit[1], "EEE", "1F1", "EWG", 'E', "ingotEnergonAlloy", '1', TFSubItems.basic_circuit[1], 'F', TFSubItems.focusing_crystal[1], 'W', TFSubItems.refined_alloy_wire[1], 'G', "ingotGold"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.advanced_circuit[1], "EEE", "2R2", "EWT", 'E', "ingotEnergonAlloy", '2', TFSubItems.improved_circuit[1], 'R', "ingotFluxAlloyRefined", 'W', TFSubItems.refined_alloy_wire[1], 'T', "ingotTransformiumAlloy"));
         
         AssemblyTable.addRecipe(TFSubItems.optic_sensor, new Dyes(), "     ", " DT  ", " TT  ", "   R ", "     ", 'D', Items.diamond, 'T', TFItems.transformiumAlloyNugget, 'R', Items.redstone);
         AssemblyTable.addRecipe(TFSubItems.protoform_head, new Dyes(GRAY, 3), "     ", " TTT ", " OTO ", " TRT ", "  T  ", 'T', TFItems.transformiumAlloy, 'O', TFSubItems.optic_sensor, 'R', Items.redstone);
         AssemblyTable.addRecipe(TFSubItems.wheel, new Dyes(BLACK, 3), "     ", " LLL ", " LIL ", " LLL ", "     ", 'L', Items.leather, 'I', Items.iron_ingot);
-        GameRegistry.addRecipe(TFSubItems.transformium_alloy_rod[1], "T", "T", "T", 'T', TFItems.transformiumAlloy);
-        GameRegistry.addRecipe(TFSubItems.standard_engine[1], "PRP", "BIB", 'P', Blocks.piston, 'R', Items.redstone, 'I', Items.iron_ingot, 'B', Blocks.iron_block);
-        GameRegistry.addRecipe(TFSubItems.jet_thruster[1], "IIB", "xRJ", "IIB", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'J', Blocks.iron_bars, 'R', Items.redstone, 'x', Blocks.redstone_block);
-        GameRegistry.addRecipe(TFSubItems.small_thruster[1], "III", " JR", "III", 'I', Items.iron_ingot, 'J', Blocks.iron_bars, 'R', Items.redstone);
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.transformium_alloy_rod[1], "T", "T", "T", 'T', "ingotTransformiumAlloy"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.standard_engine[1], "PRP", "BIB", 'P', Blocks.piston, 'R', "dustRedstone", 'I', "ingotIron", 'B', "blockIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.jet_thruster[1], "IIB", "xRJ", "IIB", 'I', "ingotIron", 'B', "blockIron", 'J', Blocks.iron_bars, 'R', "dustRedstone", 'x', "blockRedstone"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TFSubItems.small_thruster[1], "III", " JR", "III", 'I', "ingotIron", 'J', Blocks.iron_bars, 'R', "dustRedstone"));
 
         AssemblyTable.addRecipe(TFSubItems.skystrikes_wing, new Dyes(GRAY, 5, DARK_GRAY, 1), "     ", " TTT ", " TTT ", "  TT ", "     ", 'T', TFItems.transformiumAlloy);
         AssemblyTable.addRecipe(TFSubItems.skystrikes_shoulder_pad, new Dyes(GRAY, 3), "     ", " TTT ", "    T", "     ", "     ", 'T', TFItems.transformiumAlloy);
@@ -214,9 +220,9 @@ public class TFRecipes
 
     private static void addDisplayRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.displayPillar, 1), " - ", "SWS", '-', Blocks.stone_slab, 'S', Blocks.stone, 'W', Blocks.cobblestone_wall);
-        GameRegistry.addRecipe(new ItemStack(TFBlocks.displayStation, 1), " L ", " I ", "-I-", '-', new ItemStack(Blocks.stone_slab, 1, 0), 'I', Items.iron_ingot, 'L', Blocks.redstone_lamp);
-        GameRegistry.addRecipe(new ItemStack(TFItems.componentBase), "III", "ITI", "III", 'I', Items.iron_ingot, 'T', TFItems.transformiumFragment);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayPillar, 1), " - ", "SWS", '-', "slabStone", 'S', "stone", 'W', Blocks.cobblestone_wall));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayStation, 1), " L ", " I ", "-I-", '-', "slabStone", 'I', "ingotIron", 'L', Blocks.redstone_lamp));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.componentBase), "III", "ITI", "III", 'I', "ingotIron", 'T', "transformium"));
         GameRegistry.addRecipe(new ShapedOreRecipe(TFItems.colorComponent, "DDD", "DCD", "DDD", 'D', "dye", 'C', TFItems.componentBase));
         GameRegistry.addRecipe(new ItemStack(TFItems.armorComponent), " I ", "ICI", " I ", 'C', TFItems.componentBase, 'I', Items.iron_chestplate);
         GameRegistry.addRecipe(new RecipeDisplayItems());
@@ -258,8 +264,8 @@ public class TFRecipes
 
     private static void addProjectileRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(TFItems.missile, 4), "T  ", " I ", "  E", 'I', Items.iron_ingot, 'T', Blocks.tnt, 'E', TFSubItems.small_thruster[1]);
-        GameRegistry.addRecipe(new ItemStack(TFItems.tankShell, 4), "IIT", 'I', Items.iron_ingot, 'T', Items.gunpowder);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.missile, 4), "T  ", " I ", "  E", 'I', "ingotIron", 'T', Blocks.tnt, 'E', TFSubItems.small_thruster[1]));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.tankShell, 4), "IIT", 'I', "ingotIron", 'T', Items.gunpowder));
     }
 
     private static void addArmorRecipes()
@@ -289,10 +295,58 @@ public class TFRecipes
         AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapLeggings), new Dyes(GRAY, 3, PALE_BROWN, 1), "     ", "     ", " R R ", " G G ", "     ", 'R', TFSubItems.transformium_alloy_rod, 'G', TFSubItems.cloudtraps_greave);
         AssemblyTable.addRecipe(new ItemStack(TFItems.cloudtrapBoots), new Dyes(GRAY, 3, PALE_BROWN, 2), "     ", "     ", "     ", " TTT ", "     ", 'T', new ItemStack(TFItems.transformiumAlloy, 2));
     }
-
-    private static void addMaterialCompression(Object obj1, Object obj2)
+    
+    private static void addMaterialCompression(Object... args)
     {
-        GameRegistry.addShapelessRecipe(new ItemStack(obj1 instanceof Item ? (Item) obj1 : Item.getItemFromBlock((Block) obj1), 9), obj2);
-        GameRegistry.addRecipe(new ItemStack(obj2 instanceof Item ? (Item) obj2 : Item.getItemFromBlock((Block) obj2), 1), "###", "###", "###", '#', obj1);
+        for (int i = 0; i < args.length; ++i)
+        {
+            Object nugget = null;
+            Object ingot = args[i];
+            Object block = null;
+            
+            if (i > 0)
+            {
+                nugget = args[i - 1];
+            }
+            
+            if (i + 1 < args.length)
+            {
+                block = args[i + 1];
+            }
+            
+            ItemStack result = null;
+            
+            if (ingot instanceof String)
+            {
+                if (!OreDictionary.doesOreNameExist((String) ingot))
+                {
+                    continue;
+                }
+                
+                result = OreDictionary.getOres((String) ingot).get(0);
+                
+                if (result.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+                {
+                    result.setItemDamage(0);
+                }
+            }
+            else
+            {
+                result = new ItemStack(ingot instanceof Item ? (Item) ingot : Item.getItemFromBlock((Block) ingot));
+            }
+            
+            if (nugget != null) // 9 Nuggets -> Ingot
+            {
+                GameRegistry.addRecipe(new ShapedOreRecipe(result, "###", "###", "###", '#', nugget));
+            }
+
+            if (block != null) // Block -> 9 Ingots
+            {
+                result = result.copy();
+                result.stackSize = 9;
+                
+                GameRegistry.addRecipe(new ShapelessOreRecipe(result, block));
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package fiskfille.tf.common.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.item.ItemColoredTF;
@@ -28,10 +29,14 @@ public class TFBlocks
 {
     // Misc
     public static Block transformiumOre;
-    public static Block transformiumBlock;
     public static Block transformiumStone;
     public static Block transformiumSeed;
     public static Block cosmicRust;
+    public static Block transformiumBlock;
+    public static Block transformiumAlloyBlock;
+    public static Block crudeFluxAlloyBlock;
+    public static Block refinedFluxAlloyBlock;
+    public static Block energonAlloyBlock;
 
     // Energon
     public static Block energonOre;
@@ -67,11 +72,15 @@ public class TFBlocks
     public static void register()
     {
         transformiumOre = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(10.0F).setResistance(1000.0F);
-        transformiumBlock = new BlockBasic(Material.rock).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
         transformiumStone = new BlockTransformiumStone().setResistance(1000.0F);
         transformiumSeed = new BlockTransformiumSeed();
         cosmicRust = new BlockCosmicRust();
-
+        transformiumBlock = new BlockCompressedTF(MapColor.brownColor).setHarvestLvl("pickaxe", 2).setHardness(7.0F).setResistance(1000000.0F);
+        transformiumAlloyBlock = new BlockCompressedTF(MapColor.dirtColor).setHarvestLvl("pickaxe", 3).setHardness(10.0F).setResistance(50.0F).setStepSound(Block.soundTypeMetal);
+        crudeFluxAlloyBlock = new BlockCompressedTF(MapColor.adobeColor).setHarvestLvl("pickaxe", 1).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
+        refinedFluxAlloyBlock = new BlockCompressedTF(MapColor.yellowColor).setHarvestLvl("pickaxe", 2).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
+        energonAlloyBlock = new BlockCompressedTF(MapColor.diamondColor).setHarvestLvl("pickaxe", 1).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
+        
         energonOre = new BlockEnergonOre();
         energonCrystal = new BlockEnergonCrystal(TFEnergonManager.energon);
         redEnergonCrystal = new BlockEnergonCrystal(TFEnergonManager.redEnergon);
@@ -102,10 +111,14 @@ public class TFBlocks
         
 
         TFBlockRegistry.registerBlock(transformiumOre, "Transformium Ore");
-        TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium");
         TFBlockRegistry.registerBlock(transformiumStone, "Transformium Stone");
         TFBlockRegistry.registerTileEntity(transformiumSeed, "Transformium Seed", TileEntityTransformiumSeed.class);
         TFBlockRegistry.registerItemBlock(cosmicRust, "Cosmic Rust");
+        TFBlockRegistry.registerBlock(transformiumBlock, "Block of Transformium");
+        TFBlockRegistry.registerBlock(transformiumAlloyBlock, "Block of Transformium Alloy");
+        TFBlockRegistry.registerBlock(crudeFluxAlloyBlock, "Block of Crude Flux Alloy");
+        TFBlockRegistry.registerBlock(refinedFluxAlloyBlock, "Block of Refined Flux Alloy");
+        TFBlockRegistry.registerBlock(energonAlloyBlock, "Block of Energon Alloy");
 
         TFBlockRegistry.registerBlock(energonOre, "Energon Ore");
         TFBlockRegistry.registerTileEntity(energonCrystal, "Energon Crystal", TileEntityCrystal.class);

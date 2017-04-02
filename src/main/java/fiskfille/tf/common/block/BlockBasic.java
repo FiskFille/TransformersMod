@@ -12,8 +12,7 @@ public class BlockBasic extends Block
 
     public BlockBasic setHarvestLvl(String tool, int level)
     {
-        this.setHarvestLevel(tool, level);
-
+        setHarvestLevel(tool, level);
         return this;
     }
 }
