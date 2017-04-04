@@ -22,9 +22,24 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
 
     public void renderModelAt(TileEntityDisplayPillar displayPillar, double x, double y, double z, float partialTicks)
     {
+        ItemStack displayItem = displayPillar.getDisplayItem();
+        
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
+
+        if (displayItem != null)
+        {
+            Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
+
+            if (displayable != null)
+            {
+                GL11.glPushMatrix();
+                displayable.render(displayItem);
+                GL11.glPopMatrix();
+            }
+        }
+        
         bindTexture(texture);
         model.setBreaking(false);
         model.render();
@@ -51,18 +66,6 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
                 GL11.glDisable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glPopMatrix();
-            }
-        }
-
-        ItemStack displayItem = displayPillar.getDisplayItem();
-
-        if (displayItem != null)
-        {
-            Displayable displayable = TransformersAPI.getDisplayableFor(displayItem.getItem());
-
-            if (displayable != null)
-            {
-                displayable.render(displayItem);
             }
         }
 

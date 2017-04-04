@@ -47,7 +47,6 @@ public abstract class ModelTransformerBase extends MowzieModelBase
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
-
             ItemStack head = player.getCurrentArmor(3);
             ItemStack chest = player.getCurrentArmor(2);
             ItemStack legs = player.getCurrentArmor(1);
@@ -57,7 +56,6 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             boolean wearingChest = TFHelper.getTransformerFromArmor(player, 2) == getTransformer();
             boolean wearingLegs = TFHelper.getTransformerFromArmor(player, 1) == getTransformer();
             boolean wearingFeet = TFHelper.getTransformerFromArmor(player, 0) == getTransformer();
-            boolean hasLightsLayer = getTransformerModel().hasLightsLayer();
 
             TransformerModel tfModel = getTransformerModel();
             ModelVehicleBase vehicleModel = tfModel.getEffectiveVehicleModel(player);
@@ -69,7 +67,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
             {
                 if (layerToRender == 2)
                 {
-                    vehicleModel.render(player, chest, hasLightsLayer); // TODO: Create display vehicle instance with all pieces
+                    vehicleModel.render(player, chest); // TODO: Create display vehicle instance with all pieces
                 }
             }
             else
@@ -78,7 +76,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 {
                     if (layerToRender == 1 && wearingHead)
                     {
-                        TFRenderHelper.setupRenderLayers(head, tfModel.getHead(), hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(entity, head, tfModel.getHead());
                     }
 
                     if (layerToRender == 3 && wearingLegs)
@@ -94,7 +92,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                             model.isHidden = true;
                         }
 
-                        TFRenderHelper.setupRenderLayers(legs, getWaist(), hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(entity, legs, getWaist());
 
                         for (ModelRenderer model : hidden)
                         {
@@ -107,7 +105,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                         getWaist().hideUntil(tfModel.getFeet());
 
                         tfModel.getHead().isHidden = true;
-                        TFRenderHelper.setupRenderLayers(feet, getWaist(), hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(entity, feet, getWaist());
                         tfModel.getHead().isHidden = false;
                     }
                 }
@@ -182,7 +180,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                         model.isHidden = true;
                     }
 
-                    TFRenderHelper.setupRenderLayers(itemstack, getWaist(), hasLightsLayer);
+                    TFRenderHelper.setupRenderLayers(entity, itemstack, getWaist());
 
                     for (ModelRenderer model : hidden)
                     {
@@ -193,7 +191,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 {
                     if (layerToRender == 2)
                     {
-                        TFRenderHelper.setupRenderLayers(chest, getWaist(), hasLightsLayer);
+                        TFRenderHelper.setupRenderLayers(entity, chest, getWaist());
                     }
                 }
 

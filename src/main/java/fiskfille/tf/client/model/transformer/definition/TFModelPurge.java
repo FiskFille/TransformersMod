@@ -100,15 +100,9 @@ public class TFModelPurge extends TransformerModel
     }
 
     @Override
-    public ResourceLocation getTexture(Entity entity)
+    public ResourceLocation getTexture(Entity entity, String suffix)
     {
-        return new ResourceLocation(TransformersMod.modid, "textures/models/purge/purge.png");
-    }
-
-    @Override
-    public String getTextureDir()
-    {
-        return "purge/purge";
+        return new ResourceLocation(TransformersMod.modid, String.format("textures/models/purge/purge%s.png", suffix));
     }
 
     @Override

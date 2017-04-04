@@ -312,9 +312,9 @@ public class ModelSubwooferStealth extends ModelSubwooferVehicle
     }
 
     @Override
-    public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
+    public void render(EntityPlayer player, ItemStack itemstack)
     {
-        TFRenderHelper.setupRenderLayers(itemstack, vehicleBase, hasLightsLayer);
+        TFRenderHelper.setupRenderLayers(player, itemstack, vehicleBase);
     }
 
     @Override

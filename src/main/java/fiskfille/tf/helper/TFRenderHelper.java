@@ -18,13 +18,13 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -84,7 +84,7 @@ public class TFRenderHelper
         return new float[] {r, g, b};
     }
 
-    public static void setupRenderLayers(ItemStack itemstack, ModelRenderer model, boolean hasLightsLayer)
+    public static void setupRenderLayers(Entity entity, ItemStack itemstack, ModelRenderer model)
     {
         if (itemstack != null && itemstack.getItem() instanceof ItemTransformerArmor)
         {
@@ -96,27 +96,31 @@ public class TFRenderHelper
 
             if (TFArmorDyeHelper.isDyed(itemstack))
             {
-                float[] afloat = hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
+                float[] primaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
+                float[] secondaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
 
-                GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
-                mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_primary.png"));
+                GL11.glColor4f(primaryColor[0], primaryColor[1], primaryColor[2], 1);
+                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_primary"));
                 model.render(0.0625F);
 
-                afloat = hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
-                GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
-                mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_secondary.png"));
+                GL11.glColor4f(secondaryColor[0], secondaryColor[1], secondaryColor[2], 1);
+                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_secondary"));
                 model.render(0.0625F);
 
                 GL11.glColor4f(1, 1, 1, 1);
-                mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_base.png"));
+                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_base"));
+            }
+            else
+            {
+                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, ""));
             }
 
             model.render(0.0625F);
 
-            if (hasLightsLayer)
+            if (tfModel.hasLightsLayer())
             {
                 setLighting(LIGHTING_LUMINOUS);
-                mc.getTextureManager().bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_lights.png"));
+                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_lights"));
                 model.render(0.0625F);
                 resetLighting();
             }
@@ -127,7 +131,6 @@ public class TFRenderHelper
 
     public static void startGlScissor(int x, int y, int width, int height)
     {
-        Minecraft mc = Minecraft.getMinecraft();
         ScaledResolution reso = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
         double scaleW = mc.displayWidth / reso.getScaledWidth_double();

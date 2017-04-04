@@ -1,8 +1,8 @@
 package fiskfille.tf.client.render.item;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
@@ -16,6 +16,8 @@ import fiskfille.tf.helper.TFRenderHelper;
 
 public class RenderItemArmor implements IItemRenderer
 {
+    private Minecraft mc = Minecraft.getMinecraft();
+    
     private Transformer transformer;
     private int armorPiece;
 
@@ -28,7 +30,7 @@ public class RenderItemArmor implements IItemRenderer
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
-        return type != ItemRenderType.FIRST_PERSON_MAP;
+        return true;
     }
 
     @Override
@@ -61,9 +63,11 @@ public class RenderItemArmor implements IItemRenderer
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-        Minecraft.getMinecraft().getTextureManager().bindTexture(tfModel.getTexture(null));
-        renderArmor(type, model);
+        
+        if (type == ItemRenderType.INVENTORY)
+        {
+            RenderHelper.enableGUIStandardItemLighting();
+        }
 
         if (TFArmorDyeHelper.isDyed(item))
         {
@@ -71,12 +75,30 @@ public class RenderItemArmor implements IItemRenderer
             float[] secondaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(item));
 
             GL11.glColor4f(primaryColor[0], primaryColor[1], primaryColor[2], 1);
-            Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_primary.png"));
+            mc.getTextureManager().bindTexture(tfModel.getTexture(null, "_primary"));
             renderArmor(type, model);
 
             GL11.glColor4f(secondaryColor[0], secondaryColor[1], secondaryColor[2], 1);
-            Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(tfModel.getTextureDirPrefix(), "textures/models/" + tfModel.getTextureDir() + "_secondary.png"));
+            mc.getTextureManager().bindTexture(tfModel.getTexture(null, "_secondary"));
             renderArmor(type, model);
+            
+            GL11.glColor4f(1, 1, 1, 1);
+            mc.getTextureManager().bindTexture(tfModel.getTexture(null, "_base"));
+            renderArmor(type, model);
+        }
+        else
+        {
+            mc.getTextureManager().bindTexture(tfModel.getTexture(null, ""));
+        }
+        
+        renderArmor(type, model);
+        
+        if (tfModel.hasLightsLayer())
+        {
+            TFRenderHelper.setLighting(TFRenderHelper.LIGHTING_LUMINOUS);
+            mc.getTextureManager().bindTexture(tfModel.getTexture(null, "_lights"));
+            renderArmor(type, model);
+            TFRenderHelper.resetLighting();
         }
 
         GL11.glDisable(GL11.GL_BLEND);

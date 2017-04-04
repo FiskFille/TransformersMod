@@ -95,7 +95,7 @@ public abstract class ItemTransformerArmor extends ItemArmor implements ISpecial
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
-        return TFModelRegistry.getModel(getTransformer()).getTexture(entity).toString();
+        return TFModelRegistry.getModel(getTransformer()).getTexture(entity, "").toString();
     }
 
     @Override

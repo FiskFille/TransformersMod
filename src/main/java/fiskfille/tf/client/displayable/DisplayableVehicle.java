@@ -1,13 +1,13 @@
 package fiskfille.tf.client.displayable;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.model.transformer.vehicle.ModelVehicleBase;
 import fiskfille.tf.common.tick.ClientTickHandler;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -17,8 +17,8 @@ public class DisplayableVehicle extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        bindTexture(new ResourceLocation(TransformersMod.modid, "textures/models/" + getTextureFromStack(itemstack)));
-        ModelVehicleBase vehicle = getModelFromStack(itemstack);
+        TransformerModel tfModel = getModelFromStack(itemstack);
+        ModelVehicleBase vehicle = tfModel.getVehicleModel();
 
         if (vehicle != null)
         {
@@ -27,30 +27,20 @@ public class DisplayableVehicle extends Displayable
 
             float scale = 0.75F;
             GL11.glScalef(scale, scale, scale);
+
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             vehicle.renderDisplayVehicle(itemstack);
+            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         }
     }
 
-    public ModelVehicleBase getModelFromStack(ItemStack displayItem)
+    public TransformerModel getModelFromStack(ItemStack displayItem)
     {
         Transformer transformer = TransformersAPI.getTransformers().get(displayItem.getItemDamage());
 
         if (transformer != null)
         {
-            return TFModelRegistry.getModel(transformer).getVehicleModel();
-        }
-
-        return null;
-    }
-
-    public String getTextureFromStack(ItemStack displayItem)
-    {
-        Transformer transformer = TransformersAPI.getTransformers().get(displayItem.getItemDamage());
-
-        if (transformer != null)
-        {
-            String name = transformer.getName().toLowerCase().replaceAll(" ", "_");
-            return name + "/" + name + ".png";
+            return TFModelRegistry.getModel(transformer);
         }
 
         return null;

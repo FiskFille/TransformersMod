@@ -46,14 +46,16 @@ import fiskfille.tf.common.transformer.base.Transformer;
 
 public class TFRecipes
 {
+    public static List<IRecipe> prevRecipes = Lists.newArrayList();
+    public static List<ItemStack> prevFurnaceRecipes = Lists.newArrayList();
+    
     public static List<IRecipe> tempRecipes = Lists.newArrayList();
     public static List<ItemStack> tempFurnaceRecipes = Lists.newArrayList();
     
     public static void register()
     {
+        AssemblyTableCraftingManager.getInstance().getRecipeList().clear();
         restore();
-        List<IRecipe> prevRecipes = Lists.newArrayList(CraftingManager.getInstance().getRecipeList());
-        List<ItemStack> prevFurnaceRecipes = Lists.newArrayList(FurnaceRecipes.smelting().getSmeltingList().keySet());
         
         PowerManager.register();
         AlloyRecipes.register();
@@ -103,7 +105,10 @@ public class TFRecipes
         addMaterialCompression("nuggetFluxAlloyCrude", "ingotFluxAlloyCrude", "blockFluxAlloyCrude");
         addMaterialCompression("nuggetFluxAlloyRefined", "ingotFluxAlloyRefined", "blockFluxAlloyRefined");
         addMaterialCompression("nuggetEnergonAlloy", "ingotEnergonAlloy", "blockEnergonAlloy");
-        
+    }
+    
+    public static void save()
+    {
         for (IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList())
         {
             if (!prevRecipes.contains(recipe))
@@ -134,17 +139,18 @@ public class TFRecipes
         }
         
         CraftingManager.getInstance().getRecipeList().removeAll(tempRecipes);
-        AssemblyTableCraftingManager.getInstance().getRecipeList().clear();
         FurnaceRecipes.smelting().getSmeltingList().clear();
         FurnaceRecipes.smelting().getSmeltingList().putAll(map);
         
         tempRecipes.clear();
         tempFurnaceRecipes.clear();
+        
+        prevRecipes = Lists.newArrayList(CraftingManager.getInstance().getRecipeList());
+        prevFurnaceRecipes = Lists.newArrayList(FurnaceRecipes.smelting().getSmeltingList().keySet());
     }
 
     private static void addSmelting()
     {
-        
         GameRegistry.addSmelting(TFBlocks.transformiumOre, new ItemStack(TFItems.transformiumFragment, 1), 1.0F);
         GameRegistry.addSmelting(TFBlocks.energonOre, new ItemStack(TFItems.energonDust, 1), 0.7F);
     }

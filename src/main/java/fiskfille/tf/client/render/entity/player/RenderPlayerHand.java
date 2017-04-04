@@ -5,7 +5,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -34,14 +33,8 @@ public class RenderPlayerHand extends RenderPlayer
             if (transformer != null)
             {
                 TransformerModel model = TFModelRegistry.getModel(transformer);
-                ModelRenderer upperArm = model.getUpperArm();
-                ResourceLocation resourcelocation = new ResourceLocation(transformer.getChestplate().getArmorTexture(player.getCurrentArmor(2), player, 3, ""));
-
-                float f = 1.0F;
-                GL11.glColor3f(f, f, f);
-                bindTexture(resourcelocation);
-
                 ModelTransformerBase mainModel = model.getMainModel();
+                ModelRenderer upperArm = model.getUpperArm();
 
                 if (upperArm == null)
                 {
@@ -56,8 +49,7 @@ public class RenderPlayerHand extends RenderPlayer
 
                 model.renderFirstPersonArm(player);
                 GL11.glTranslatef(0.0F, 0.35F, 0.0F);
-
-                TFRenderHelper.setupRenderLayers(player.getCurrentArmor(2), upperArm, model.hasLightsLayer());
+                TFRenderHelper.setupRenderLayers(player, player.getCurrentArmor(2), upperArm);
             }
             else
             {

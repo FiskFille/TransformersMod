@@ -1091,9 +1091,9 @@ public class ModelSkystrikeVehicle extends ModelVehicleBase
     }
 
     @Override
-    public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
+    public void render(EntityPlayer player, ItemStack itemstack)
     {
-        TFRenderHelper.setupRenderLayers(itemstack, waistbase, hasLightsLayer);
+        TFRenderHelper.setupRenderLayers(player, itemstack, waistbase);
     }
 
     @Override

@@ -104,15 +104,9 @@ public class TFModelCloudtrap extends TransformerModel
     }
 
     @Override
-    public ResourceLocation getTexture(Entity entity)
+    public ResourceLocation getTexture(Entity entity, String suffix)
     {
-        return new ResourceLocation(TransformersMod.modid, "textures/models/cloudtrap/cloudtrap.png");
-    }
-
-    @Override
-    public String getTextureDir()
-    {
-        return "cloudtrap/cloudtrap";
+        return new ResourceLocation(TransformersMod.modid, String.format("textures/models/cloudtrap/cloudtrap%s.png", suffix));
     }
 
     @Override

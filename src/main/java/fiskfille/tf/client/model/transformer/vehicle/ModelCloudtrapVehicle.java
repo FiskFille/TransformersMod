@@ -852,9 +852,9 @@ public class ModelCloudtrapVehicle extends ModelVehicleBase
     }
 
     @Override
-    public void render(EntityPlayer player, ItemStack itemstack, boolean hasLightsLayer)
+    public void render(EntityPlayer player, ItemStack itemstack)
     {
-        TFRenderHelper.setupRenderLayers(itemstack, vehicleBody, hasLightsLayer);
+        TFRenderHelper.setupRenderLayers(player, itemstack, vehicleBody);
     }
 
     @Override
