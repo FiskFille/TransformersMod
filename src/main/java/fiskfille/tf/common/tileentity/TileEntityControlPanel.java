@@ -66,10 +66,11 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
     public float prevActivationLeverTimer;
     public float activationLeverCoverTimer;
     public float prevActivationLeverCoverTimer;
-
+    
     public boolean hasSpace;
     public float lastUsage;
     public int destDimIndex = 1;
+    public int prevYCoord;
 
     public LinkedList<Ticket> chunkTickets = Lists.newLinkedList(Arrays.asList((Ticket) null, (Ticket) null));
     public LinkedList<ForcedChunk> forcedChunks = Lists.newLinkedList(Arrays.asList((ForcedChunk) null, (ForcedChunk) null));
@@ -327,11 +328,20 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
                 int y = data.destination.posY;
                 int z = data.destination.posZ;
 
-                if (hasUpgrade(DataCore.leveler) && !data.activationLeverState)
+                if (hasUpgrade(DataCore.leveler))
                 {
-                    while (y > 0 && checkForSpace(world, x, y - 1, z))
+                    if (!data.activationLeverState)
                     {
-                        --y;
+                        while (y > 0 && checkForSpace(world, x, y - 1, z))
+                        {
+                            --y;
+                        }
+                        
+                        prevYCoord = y;
+                    }
+                    else
+                    {
+                        y = prevYCoord;
                     }
                 }
 
@@ -628,6 +638,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
         activationLeverTimer = prevActivationLeverTimer = data.activationLeverState ? 1 : 0;
         hasSpace = nbt.getBoolean("HasSpace");
         destDimIndex = nbt.getInteger("DestDimIndex");
+        prevYCoord = nbt.getInteger("PrevY");
 
         if (nbt.getBoolean("ReadFramePos"))
         {
@@ -667,6 +678,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
         nbt.setBoolean("HasSpace", hasSpace);
         nbt.setBoolean("ReadFramePos", data.framePos != null);
         nbt.setInteger("DestDimIndex", destDimIndex);
+        nbt.setInteger("PrevY", prevYCoord);
 
         if (data.framePos != null)
         {
