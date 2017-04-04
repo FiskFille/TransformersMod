@@ -2,6 +2,7 @@ package fiskfille.tf.common.registry;
 
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersMod;
 
@@ -22,7 +23,12 @@ public class TFItemRegistry
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
 
         item.setUnlocalizedName(unlocalizedName);
-        item.setTextureName(TransformersMod.modid + ":" + unlocalizedName);
+        item.setTextureName(getMod() + ":" + unlocalizedName);
         GameRegistry.registerItem(item, unlocalizedName);
+    }
+    
+    private static String getMod()
+    {
+        return Loader.instance().activeModContainer().getModId();
     }
 }

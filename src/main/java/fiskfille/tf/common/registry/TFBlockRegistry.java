@@ -3,6 +3,7 @@ package fiskfille.tf.common.registry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.block.BlockMachineBase;
@@ -16,7 +17,7 @@ public class TFBlockRegistry
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
 
         block.setBlockName(unlocalizedName);
-        block.setBlockTextureName(TransformersMod.modid + ":" + unlocalizedName);
+        block.setBlockTextureName(getMod() + ":" + unlocalizedName);
         GameRegistry.registerBlock(block, unlocalizedName);
 
         if (FMLCommonHandler.instance().getSide().isClient() && block.getCreativeTabToDisplayOn() == null)
@@ -30,7 +31,7 @@ public class TFBlockRegistry
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
 
         block.setBlockName(unlocalizedName);
-        block.setBlockTextureName(TransformersMod.modid + ":" + unlocalizedName);
+        block.setBlockTextureName(getMod() + ":" + unlocalizedName);
         GameRegistry.registerBlock(block, clazz, unlocalizedName);
 
         if (FMLCommonHandler.instance().getSide().isClient() && block.getCreativeTabToDisplayOn() == null)
@@ -63,5 +64,10 @@ public class TFBlockRegistry
     public static void registerMachine(Block block, String name, Class clazz)
     {
         registerItemBlockAsTileEntity(block, name, clazz, ItemMachine.class);
+    }
+    
+    private static String getMod()
+    {
+        return Loader.instance().activeModContainer().getModId();
     }
 }

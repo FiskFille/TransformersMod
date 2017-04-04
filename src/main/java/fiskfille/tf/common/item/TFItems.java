@@ -207,7 +207,5 @@ public class TFItems
         TFItemRegistry.registerItem(redEnergonCrystalShard, "Red Energon Crystal Shard");
         TFItemRegistry.registerItem(tankShell, "Tank Shell");
         TFItemRegistry.registerItem(missile, "Missile");
-        
-        TFSubItems.register();
     }
 }

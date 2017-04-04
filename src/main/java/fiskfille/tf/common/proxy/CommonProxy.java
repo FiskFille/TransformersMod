@@ -19,7 +19,9 @@ import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.event.CommonEventHandler;
 import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.generator.TFWorldGenHandler;
+import fiskfille.tf.common.item.ItemHandler;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.item.TFSubItems;
 import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tick.CommonTickHandler;
 import fiskfille.tf.helper.TFShootManager;
@@ -40,7 +42,7 @@ public class CommonProxy
         TFEntities.register();
         TFDisplayableManager.registerDisplayables();
         TFGui.register();
-
+        
         NetworkRegistry.INSTANCE.registerGuiHandler(TransformersMod.modid, new GuiHandlerTF());
         registerEventHandler(new TFWorldGenHandler());
         registerEventHandler(new CommonEventHandler());
@@ -50,7 +52,7 @@ public class CommonProxy
 
     public void init()
     {
-
+        ItemHandler.init();
     }
 
     public void registerEventHandler(Object obj)

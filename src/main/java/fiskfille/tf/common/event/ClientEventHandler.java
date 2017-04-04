@@ -1,8 +1,6 @@
 package fiskfille.tf.common.event;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,9 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -40,12 +36,9 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
@@ -55,9 +48,7 @@ import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import fiskfille.tf.TFReflection;
-import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.client.displayable.Displayable;
 import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.player.ModelBipedPartial;
@@ -68,9 +59,9 @@ import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.render.entity.player.RenderPlayerHand;
-import fiskfille.tf.client.tutorial.TutorialHandler;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFDataManager;
+import fiskfille.tf.common.item.ItemHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
@@ -226,6 +217,11 @@ public class ClientEventHandler
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre event)
     {
+        if (!ItemHandler.hasInit)
+        {
+            ItemHandler.init();
+        }
+        
         if (event.map.getTextureType() == 0)
         {
             TFFluidRenderHelper.onTextureStitch(event.map);

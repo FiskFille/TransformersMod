@@ -20,7 +20,6 @@ import com.google.common.collect.Maps;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersMod;
 
 public class ItemMetaBasic extends Item
 {
@@ -28,6 +27,7 @@ public class ItemMetaBasic extends Item
     public Map<String, IIcon> mappedIcons = Maps.newHashMap();
     
     public static String[] iconNames;
+    public static String[] iconDomains;
 
     public ItemMetaBasic()
     {
@@ -102,7 +102,7 @@ public class ItemMetaBasic extends Item
 
         for (int i = 0; i < iconNames.length; ++i)
         {
-            mappedIcons.put(iconNames[i], iconRegister.registerIcon(TransformersMod.modid + ":" + iconNames[i]));
+            mappedIcons.put(iconNames[i], iconRegister.registerIcon(iconDomains[i] + ":" + iconNames[i]));
         }
     }
 }

@@ -34,11 +34,13 @@ import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.data.TFEntityData;
 import fiskfille.tf.common.data.TFPlayerData;
 import fiskfille.tf.common.data.TFWorldData;
+import fiskfille.tf.common.item.ItemHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.item.TFSubItems;
 import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.recipe.TFRecipes;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
@@ -83,7 +85,7 @@ public class CommonEventHandler
     @SubscribeEvent
     public void onCraft(ItemCraftedEvent event)
     {
-        if (TFSubItems.matches(event.crafting, TFSubItems.tank_track))
+        if (ItemHandler.matches(event.crafting, TFSubItems.tank_track))
         {
             event.player.addStat(TFAchievements.tracks, 1);
         }
@@ -261,7 +263,20 @@ public class CommonEventHandler
             TFWorldData.load(world);
         }
         
-        TFSubItems.load(world);
+        ItemHandler.load(world);
+    }
+    
+    @SubscribeEvent
+    public void onItemStitchPost(ItemStitchEvent.Post event)
+    {
+        TFRecipes.register();
+        TFAchievements.register();
+    }
+    
+    @SubscribeEvent
+    public void onItemHandlerInit(ItemHandlerEvent.Init event)
+    {
+        event.registerItemHandler(TransformersMod.modid, TFSubItems.class);
     }
 
     @SubscribeEvent
