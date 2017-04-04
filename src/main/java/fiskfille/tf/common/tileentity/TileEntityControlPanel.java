@@ -178,7 +178,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
                 int destY = data.modifiedDestY;
                 int destZ = data.destination.posZ;
 
-                if (!TFConfig.groundBridgeMinRange || Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64 && getDestDimensionID() == worldObj.provider.dimensionId)
+                if (TFConfig.groundBridgeMinRange && Math.sqrt(getDistanceFrom(destX, destY, destZ)) <= 64 && getDestDimensionID() == worldObj.provider.dimensionId)
                 {
                     data.errors.add(new ErrorContainer(GroundBridgeError.INVALID_COORDS, 64));
                 }
