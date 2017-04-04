@@ -105,6 +105,8 @@ public class TFRecipes
         addMaterialCompression("nuggetFluxAlloyCrude", "ingotFluxAlloyCrude", "blockFluxAlloyCrude");
         addMaterialCompression("nuggetFluxAlloyRefined", "ingotFluxAlloyRefined", "blockFluxAlloyRefined");
         addMaterialCompression("nuggetEnergonAlloy", "ingotEnergonAlloy", "blockEnergonAlloy");
+        
+        save();
     }
     
     public static void save()

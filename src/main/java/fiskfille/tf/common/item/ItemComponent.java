@@ -14,7 +14,6 @@ public class ItemComponent extends Item implements IComponent
 
     public ItemComponent(Component c)
     {
-        setMaxStackSize(1);
         component = c;
     }
 
