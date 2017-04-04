@@ -1,6 +1,32 @@
 package fiskfille.tf.common.tileentity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.google.common.collect.Lists;
+
 import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.block.BlockGroundBridgeFrame;
 import fiskfille.tf.common.block.BlockGroundBridgeTeleporter;
@@ -22,30 +48,6 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFDimensionHelper;
 import fiskfille.tf.helper.TFMathHelper;
 import fiskfille.tf.helper.TFTileHelper;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 
 public class TileEntityControlPanel extends TileEntityMachineContainer implements ISidedInventory, IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
 {
@@ -96,7 +98,7 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
 
                 for (TileEntity tile : list)
                 {
-                    if (Math.sqrt(getDistanceFrom(tile.xCoord, tile.yCoord, tile.zCoord)) <= 20)
+                    if (Math.sqrt(getDistanceFrom(tile.xCoord, tile.yCoord, tile.zCoord)) <= TFConfig.controlPanelMaxRange)
                     {
                         if (tile instanceof TileEntityGroundBridgeFrame)
                         {
