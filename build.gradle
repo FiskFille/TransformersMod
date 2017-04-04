@@ -18,13 +18,34 @@ buildscript {
 apply plugin: 'forge'
 
 version = "0.6.0"
-group = "fiskfille.tf"
-archivesBaseName = "TransformersMod"
+group= "fiskfille.tf"
+archivesBaseName = "TransformersMod-1.7.10"
 
 minecraft {
     version = "1.7.10-10.13.4.1558-1.7.10"
-    runDir = "minecraft"
-	replace '${version}', project.version
+    runDir = "eclipse"
+    replace '${version}', '0.6.0'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'resources'
+        }
+    }
+}
+
+def coremodManifest = {
+    attributes 'FMLCorePlugin': 'fiskfille.tf.asm.TFLoadingPlugin'
+    attributes 'FMLCorePluginContainsFMLMod': 'true'
+}
+
+jar {
+    destinationDir = file 'jars'
+    includeEmptyDirs = false
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	
+    manifest coremodManifest
 }
 
 processResources {
@@ -39,4 +60,24 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+task deobfJar(type: Jar) {
+	destinationDir = file 'jars/deobf'
+    classifier = 'deobf'
+	
+	from sourceSets.main.output
+	manifest coremodManifest
+}
+
+task sourceJar(type: Jar, dependsOn:classes) {
+	destinationDir = file 'jars/src'
+    classifier = 'src'
+	
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives deobfJar
+    archives sourceJar
 }
