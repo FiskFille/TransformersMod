@@ -187,7 +187,14 @@ public class GuiOverlay extends Gui
 
             if (transformationTimer > 0 && transformer.canShoot(player, altMode))
             {
-                int offset = Math.round((1 - Math.min(transformationTimer, stealthModeTimer)) * 210);
+                float f = transformationTimer;
+                
+                if (transformer.hasStealthForce(player, altMode))
+                {
+                    f = stealthModeTimer;
+                }
+                
+                int offset = Math.round((1 - Math.min(transformationTimer, f)) * 210);
                 int y = 30;
                 int x = 6;
                 int j = 20 - TFShootManager.shootCooldown;
