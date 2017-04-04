@@ -3,6 +3,7 @@ package fiskfille.tf.common.transformer.base;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.client.tutorial.EnumTutorialType;
@@ -206,5 +207,10 @@ public abstract class Transformer
     public int getAltModeCount()
     {
         return 1;
+    }
+
+    public String getTransformationSound(int altMode)
+    {
+        return TransformersMod.modid + ":transform_" + (altMode == -1 ? "robot" : "vehicle");
     }
 }

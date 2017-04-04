@@ -10,6 +10,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.transformer.base.Transformer;
+import fiskfille.tf.helper.TFHelper;
 
 public class MessagePlayerData implements IMessage
 {
@@ -74,8 +76,12 @@ public class MessagePlayerData implements IMessage
 
                     if (type == TFData.ALT_MODE)
                     {
-                        String suffix = (Integer) value != -1 ? "vehicle" : "robot";
-                        entity.worldObj.playSound(entity.posX, entity.posY - entity.yOffset, entity.posZ, TransformersMod.modid + ":transform_" + suffix, 1, 1, false);
+                        Transformer transformer = TFHelper.getTransformer((EntityPlayer) entity);
+                        
+                        if (transformer != null)
+                        {
+                            entity.worldObj.playSound(entity.posX, entity.posY - entity.yOffset, entity.posZ, transformer.getTransformationSound((Integer) value), 1, 1, false);
+                        }
                     }
                     else if (type == TFData.STEALTH_FORCE)
                     {
