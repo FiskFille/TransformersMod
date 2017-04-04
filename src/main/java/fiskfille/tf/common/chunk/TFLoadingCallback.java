@@ -2,6 +2,7 @@ package fiskfille.tf.common.chunk;
 
 import java.util.List;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -21,11 +22,11 @@ public class TFLoadingCallback implements ForgeChunkManager.OrderedLoadingCallba
 
             for (SubTicket subTicket : subTickets)
             {
-                IChunkLoaderTile tile = (IChunkLoaderTile) world.getTileEntity(subTicket.xCoord, subTicket.yCoord, subTicket.zCoord);
-
-                if (tile != null)
+                TileEntity tile = world.getTileEntity(subTicket.xCoord, subTicket.yCoord, subTicket.zCoord);
+                
+                if (tile instanceof IChunkLoaderTile)
                 {
-                    tile.forceChunks(subTicket);
+                    ((IChunkLoaderTile) tile).forceChunks(subTicket);
                 }
             }
         }
