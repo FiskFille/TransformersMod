@@ -1,6 +1,21 @@
 package fiskfille.tf.common.motion;
 
-import static net.minecraft.block.material.Material.*;
+import static net.minecraft.block.material.Material.cactus;
+import static net.minecraft.block.material.Material.cake;
+import static net.minecraft.block.material.Material.clay;
+import static net.minecraft.block.material.Material.coral;
+import static net.minecraft.block.material.Material.craftedSnow;
+import static net.minecraft.block.material.Material.gourd;
+import static net.minecraft.block.material.Material.ground;
+import static net.minecraft.block.material.Material.ice;
+import static net.minecraft.block.material.Material.leaves;
+import static net.minecraft.block.material.Material.packedIce;
+import static net.minecraft.block.material.Material.plants;
+import static net.minecraft.block.material.Material.sand;
+import static net.minecraft.block.material.Material.snow;
+import static net.minecraft.block.material.Material.sponge;
+import static net.minecraft.block.material.Material.vine;
+import static net.minecraft.block.material.Material.web;
 
 import java.util.Random;
 
@@ -44,7 +59,7 @@ public class TFMotionManager
 
         // Variables
         boolean inStealthMode = TFHelper.isInStealthMode(player);
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+        boolean nitroPressed = mc.gameSettings.keyBindSprint.getIsKeyPressed();
         boolean driftPressed = TFKeyBinds.keyBindingBrake.getIsKeyPressed();
 
         double forwardVelocity = TFData.FORWARD_VELOCITY.get(player);
@@ -196,7 +211,7 @@ public class TFMotionManager
 
         // Controls
         boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean nitroPressed = TFKeyBinds.keyBindingNitro.getIsKeyPressed() || mc.gameSettings.keyBindSprint.getIsKeyPressed();
+        boolean nitroPressed = mc.gameSettings.keyBindSprint.getIsKeyPressed();
 
         double forwardVelocity = TFData.FORWARD_VELOCITY.get(player);
         double currentSpeedLimit = nitroPressed && TFData.NITRO.get(player) > 0 ? nitroSpeedLimit : speedLimit;

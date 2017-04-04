@@ -800,7 +800,7 @@ public class ClientEventHandler
 
         float nitro = TFData.NITRO.get(player);
         boolean moveForward = mc.gameSettings.keyBindForward.getIsKeyPressed();
-        boolean nitroPressed = mc.gameSettings.keyBindSprint.getIsKeyPressed() || TFKeyBinds.keyBindingNitro.getIsKeyPressed();
+        boolean nitroPressed = mc.gameSettings.keyBindSprint.getIsKeyPressed();
 
         int altMode = TFData.ALT_MODE.get(player);
 

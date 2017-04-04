@@ -1,5 +1,14 @@
 package fiskfille.tf.common.tick;
 
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -17,15 +26,6 @@ import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
 import fiskfille.tf.helper.TFRenderHelper;
 import fiskfille.tf.helper.TFTileHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.Map;
 
 public class ClientTickHandler
 {
@@ -89,7 +89,7 @@ public class ClientTickHandler
 
                         if (transformationTimer >= 0.5F && transformer.canUseNitro(player, altMode))
                         {
-                            useNitro = gameSettings.keyBindForward.getIsKeyPressed() && (gameSettings.keyBindSprint.getIsKeyPressed() || TFKeyBinds.keyBindingNitro.getIsKeyPressed());
+                            useNitro = gameSettings.keyBindForward.getIsKeyPressed() && (gameSettings.keyBindSprint.getIsKeyPressed());
                         }
 
                         TFData.BOOSTING.set(player, useNitro);

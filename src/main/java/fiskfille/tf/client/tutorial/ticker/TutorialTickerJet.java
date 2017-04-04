@@ -1,14 +1,13 @@
 package fiskfille.tf.client.tutorial.ticker;
 
-import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.tutorial.EnumTutorialType;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.client.tutorial.TutorialObjective;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.client.tutorial.TutorialObjective;
 
 public class TutorialTickerJet extends TutorialTicker
 {
@@ -28,7 +27,7 @@ public class TutorialTickerJet extends TutorialTicker
         }
         else if (!nitro.get())
         {
-            if (mc.gameSettings.keyBindForward.getIsKeyPressed() && (mc.gameSettings.keyBindSprint.getIsKeyPressed() || TFKeyBinds.keyBindingNitro.getIsKeyPressed()))
+            if (mc.gameSettings.keyBindForward.getIsKeyPressed() && (mc.gameSettings.keyBindSprint.getIsKeyPressed()))
             {
                 nitro.complete(10);
             }
@@ -50,8 +49,7 @@ public class TutorialTickerJet extends TutorialTicker
     public void render(RenderGameOverlayEvent.Pre event, int width, int height, EntityPlayer player)
     {
         String forwardKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindForward.getKeyCode());
-        String nitroKeyBindName1 = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindSprint.getKeyCode());
-        String nitroKeyBindName2 = GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingNitro.getKeyCode());
+        String nitroKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindSprint.getKeyCode());
         String rightClickKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindUseItem.getKeyCode());
 
         if (!accelerate.get())
@@ -69,7 +67,7 @@ public class TutorialTickerJet extends TutorialTicker
         }
         else if (!nitro.get())
         {
-            drawCenteredScaledString(StatCollector.translateToLocalFormatted("tutorial.nitro.instructions", EnumChatFormatting.GOLD + nitroKeyBindName1 + EnumChatFormatting.RESET, EnumChatFormatting.GOLD + nitroKeyBindName2 + EnumChatFormatting.RESET), width / 2, height / 2 - 40, -1, 1.5F);
+            drawCenteredScaledString(StatCollector.translateToLocalFormatted("tutorial.nitro.instructions", EnumChatFormatting.GOLD + nitroKeyBindName + EnumChatFormatting.RESET), width / 2, height / 2 - 40, -1, 1.5F);
 
             if (nitro.midCompletion())
             {

@@ -1,14 +1,14 @@
 package fiskfille.tf.client.tutorial.ticker;
 
-import fiskfille.tf.client.keybinds.TFKeyBinds;
-import fiskfille.tf.client.tutorial.EnumTutorialType;
-import fiskfille.tf.client.tutorial.TutorialHandler;
-import fiskfille.tf.client.tutorial.TutorialObjective;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.tutorial.EnumTutorialType;
+import fiskfille.tf.client.tutorial.TutorialHandler;
+import fiskfille.tf.client.tutorial.TutorialObjective;
 
 public class TutorialTickerTank extends TutorialTicker
 {
@@ -29,7 +29,7 @@ public class TutorialTickerTank extends TutorialTicker
         }
         else if (!nitro.get())
         {
-            if (mc.gameSettings.keyBindForward.getIsKeyPressed() && (mc.gameSettings.keyBindSprint.getIsKeyPressed() || TFKeyBinds.keyBindingNitro.getIsKeyPressed()))
+            if (mc.gameSettings.keyBindForward.getIsKeyPressed() && (mc.gameSettings.keyBindSprint.getIsKeyPressed()))
             {
                 nitro.complete(10);
             }
@@ -59,8 +59,7 @@ public class TutorialTickerTank extends TutorialTicker
     {
         String forwardKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindForward.getKeyCode());
         String backKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindBack.getKeyCode());
-        String nitroKeyBindName1 = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindSprint.getKeyCode());
-        String nitroKeyBindName2 = GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingNitro.getKeyCode());
+        String nitroKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindSprint.getKeyCode());
         String rightClickKeyBindName = GameSettings.getKeyDisplayString(mc.gameSettings.keyBindUseItem.getKeyCode());
         String aimKeyBindName = GameSettings.getKeyDisplayString(TFKeyBinds.keyBindingZoom.getKeyCode());
 
@@ -80,7 +79,7 @@ public class TutorialTickerTank extends TutorialTicker
         }
         else if (!nitro.get())
         {
-            drawCenteredScaledString(StatCollector.translateToLocalFormatted("tutorial.nitro.instructions", EnumChatFormatting.GOLD + nitroKeyBindName1 + EnumChatFormatting.RESET, EnumChatFormatting.GOLD + nitroKeyBindName2 + EnumChatFormatting.RESET), width / 2, height / 2 - 40, -1, 1.5F);
+            drawCenteredScaledString(StatCollector.translateToLocalFormatted("tutorial.nitro.instructions", EnumChatFormatting.GOLD + nitroKeyBindName + EnumChatFormatting.RESET), width / 2, height / 2 - 40, -1, 1.5F);
 
             if (nitro.midCompletion())
             {
