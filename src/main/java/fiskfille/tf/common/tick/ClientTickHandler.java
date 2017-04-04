@@ -94,7 +94,7 @@ public class ClientTickHandler
 
                         TFData.BOOSTING.set(player, useNitro);
 
-                        if (transformationTimer == 0 && TFData.PREV_TRANSFORM_PROGRESS.get(player) > 0)
+                        if (TFData.TRANSFORM_PROGRESS.get(player) == 0 && TFData.PREV_TRANSFORM_PROGRESS.get(player) > 0)
                         {
                             if (TFConfig.firstPersonAfterTransformation)
                             {
