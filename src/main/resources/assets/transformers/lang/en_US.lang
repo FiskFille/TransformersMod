@@ -152,8 +152,8 @@ tile.red_energon_crystal.name=Red Energon Crystal
 tile.energon_cube.name=Energon Cube
 tile.red_energon_cube.name=Red Energon Cube
 
-tile.display_pillar.name=Display Pillar
-tile.display_pillar.amount=x%s
+tile.display_pedestal.name=Display Pedestal
+tile.display_pedestal.amount=x%s
 tile.transformer_display_station.name=Transformer Display Station
 tile.wool.dark_red.name=Dark Red Wool
 tile.wool.beige.name=Beige Wool
@@ -232,7 +232,6 @@ gui.tf.redstone.without=Active without signal
 gui.tf.distribution=Distribution
 gui.tf.distribution.queued=Queued
 gui.tf.distribution.spread=Spread
-gui.display_pillar.name=Display Pillar
 gui.display_station=Display Station
 gui.display_station.transform=Transform
 gui.display_station.color=Customize
@@ -381,7 +380,7 @@ stats.fuel.name=Fuel
 ------Tooltip------
 item-info.prompt=Hold SHIFT for info.
 tile.transformium_seed.desc=\lConverts matter into Transformium when detonated.
-tile.display_pillar.desc=Right click a displayable item on the pillar\nto put it on display.\n[key=38,name="<FORMAT_BLUE>Hold L for a list of displayable items.",content="\snDisplayable items:\snVAR_LIST_DISPLAYABLES"]
+tile.display_pedestal.desc=Right click a displayable item on the pedestal\nto put it on display.\n[key=38,name="<FORMAT_BLUE>Hold L for a list of displayable items.",content="\snDisplayable items:\snVAR_LIST_DISPLAYABLES"]
 tile.energon_crystal.desc=\lCan be obtained by either mining an Energon Crystal with a silk touch pickaxe, or mining the block the crystal is attached to. The latter yields a 1/9 chance of dropping the full crystal.
 tile.cosmic_rust.desc=Virus that spreads through physical\ncontact with <FORMAT_ITALIC>Transformium Stone<FORMAT_RESET><FORMAT_GRAY>. The\nvirus is naturally formed in transformium\nstone not exposed to direct sunlight.
 

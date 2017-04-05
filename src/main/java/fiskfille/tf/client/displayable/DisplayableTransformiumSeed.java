@@ -16,7 +16,7 @@ public class DisplayableTransformiumSeed extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        TFRenderHelper.renderTag(StatCollector.translateToLocalFormatted("tile.display_pillar.amount", itemstack.stackSize), 0, 0.05F, 0);
+        TFRenderHelper.renderTag(StatCollector.translateToLocalFormatted("tile.display_pedestal.amount", itemstack.stackSize), 0, 0.05F, 0);
 
         GL11.glPushMatrix();
         float f = 0.5F;

@@ -40,7 +40,7 @@ import fiskfille.tf.client.render.tileentity.RenderAssemblyTable;
 import fiskfille.tf.client.render.tileentity.RenderColumn;
 import fiskfille.tf.client.render.tileentity.RenderControlPanel;
 import fiskfille.tf.client.render.tileentity.RenderCrystal;
-import fiskfille.tf.client.render.tileentity.RenderDisplayPillar;
+import fiskfille.tf.client.render.tileentity.RenderDisplayPedestal;
 import fiskfille.tf.client.render.tileentity.RenderDisplayStation;
 import fiskfille.tf.client.render.tileentity.RenderEnergonProcessor;
 import fiskfille.tf.client.render.tileentity.RenderEnergonTank;
@@ -67,7 +67,7 @@ import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPedestal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
@@ -139,7 +139,7 @@ public class ClientProxy extends CommonProxy
         registerArmorRenderer(TFItems.subwooferHelmet, TFItems.subwooferChestplate, TFItems.subwooferLeggings, TFItems.subwooferBoots);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPillar.class, new RenderDisplayPillar());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayPedestal.class, new RenderDisplayPedestal());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransformiumSeed.class, new RenderTransformiumSeed());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplayStation.class, new RenderDisplayStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssemblyTable.class, new RenderAssemblyTable());

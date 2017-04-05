@@ -228,7 +228,7 @@ public class TFRecipes
 
     private static void addDisplayRecipes()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayPillar, 1), " - ", "SWS", '-', "slabStone", 'S', "stone", 'W', Blocks.cobblestone_wall));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayPedestal, 1), " - ", "SWS", '-', "slabStone", 'S', "stone", 'W', Blocks.cobblestone_wall));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayStation, 1), " L ", " I ", "-I-", '-', "slabStone", 'I', "ingotIron", 'L', Blocks.redstone_lamp));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.componentBase), "III", "ITI", "III", 'I', "ingotIron", 'T', "transformium"));
         GameRegistry.addRecipe(new ShapedOreRecipe(TFItems.colorComponent, "DDD", "DCD", "DDD", 'D', "dye", 'C', TFItems.componentBase));

@@ -12,7 +12,7 @@ import fiskfille.tf.common.tileentity.TileEntityAssemblyTable;
 import fiskfille.tf.common.tileentity.TileEntityColumn;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.common.tileentity.TileEntityCrystal;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPedestal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.common.tileentity.TileEntityEnergonProcessor;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
@@ -46,7 +46,7 @@ public class TFBlocks
     public static Block redEnergonCube;
 
     // Aesthetic
-    public static Block displayPillar;
+    public static Block displayPedestal;
     public static Block displayStation;
     public static Block wool;
     public static Block stainedHardenedClay;
@@ -87,7 +87,7 @@ public class TFBlocks
         energonCube = new BlockEnergonCube(TFEnergonManager.energon);
         redEnergonCube = new BlockEnergonCube(TFEnergonManager.redEnergon);
 
-        displayPillar = new BlockDisplayPillar();
+        displayPedestal = new BlockDisplayPedestal();
         displayStation = new BlockDisplayStation();
         wool = new BlockColoredTF(Material.cloth).setHardness(0.8F).setStepSound(Block.soundTypeCloth);
         stainedHardenedClay = new BlockColoredTF(Material.rock).setHardness(1.25F).setResistance(7.0F).setStepSound(Block.soundTypePiston);
@@ -126,7 +126,7 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube");
         TFBlockRegistry.registerBlock(redEnergonCube, "Red Energon Cube");
 
-        TFBlockRegistry.registerTileEntity(displayPillar, "Display Pillar", TileEntityDisplayPillar.class);
+        TFBlockRegistry.registerTileEntity(displayPedestal, "Display Pedestal", TileEntityDisplayPedestal.class);
         TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class);
         TFBlockRegistry.registerItemBlock(wool, "Wool", ItemColoredTF.class);
         TFBlockRegistry.registerItemBlock(stainedHardenedClay, "Stained Hardened Clay", ItemColoredTF.class);

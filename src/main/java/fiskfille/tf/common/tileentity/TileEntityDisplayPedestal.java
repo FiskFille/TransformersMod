@@ -2,7 +2,7 @@ package fiskfille.tf.common.tileentity;
 
 import net.minecraft.item.ItemStack;
 
-public class TileEntityDisplayPillar extends TileEntityContainer
+public class TileEntityDisplayPedestal extends TileEntityContainer
 {
     private ItemStack[] inventory = new ItemStack[1];
 

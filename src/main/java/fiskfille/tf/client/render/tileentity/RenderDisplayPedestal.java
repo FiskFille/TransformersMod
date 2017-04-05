@@ -7,20 +7,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.client.model.tileentity.ModelDisplayPillar;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.client.model.tileentity.ModelDisplayPedestal;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPedestal;
 import fiskfille.tf.helper.TFRenderHelper;
 
-public class RenderDisplayPillar extends TileEntitySpecialRenderer
+public class RenderDisplayPedestal extends TileEntitySpecialRenderer
 {
-    private ResourceLocation texture = new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/display_pillar.png");
-    private ModelDisplayPillar model = new ModelDisplayPillar();
+    private ResourceLocation texture = new ResourceLocation(TransformersMod.modid + ":textures/models/tiles/display_pedestal.png");
+    private ModelDisplayPedestal model = new ModelDisplayPedestal();
 
-    public void renderModelAt(TileEntityDisplayPillar displayPillar, double x, double y, double z, float partialTicks)
+    public void renderModelAt(TileEntityDisplayPedestal displayPillar, double x, double y, double z, float partialTicks)
     {
         ItemStack displayItem = displayPillar.getDisplayItem();
         
@@ -35,7 +36,10 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
             if (displayable != null)
             {
                 GL11.glPushMatrix();
+                GL11.glEnable(GL12.GL_RESCALE_NORMAL);
                 displayable.render(displayItem);
+                GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+                GL11.glColor4f(1, 1, 1, 1);
                 GL11.glPopMatrix();
             }
         }
@@ -75,6 +79,6 @@ public class RenderDisplayPillar extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
-        renderModelAt((TileEntityDisplayPillar) tileentity, x, y, z, partialTicks);
+        renderModelAt((TileEntityDisplayPedestal) tileentity, x, y, z, partialTicks);
     }
 }

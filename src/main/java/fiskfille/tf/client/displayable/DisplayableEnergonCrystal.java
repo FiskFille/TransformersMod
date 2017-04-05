@@ -20,7 +20,7 @@ public class DisplayableEnergonCrystal extends Displayable
     @Override
     public void render(ItemStack itemstack)
     {
-        TFRenderHelper.renderTag(StatCollector.translateToLocalFormatted("tile.display_pillar.amount", itemstack.stackSize), 0, 0.1F, 0);
+        TFRenderHelper.renderTag(StatCollector.translateToLocalFormatted("tile.display_pedestal.amount", itemstack.stackSize), 0, 0.1F, 0);
 
         BlockEnergonCrystal block = (BlockEnergonCrystal) Block.getBlockFromItem(itemstack.getItem());
         Energon energon = block.getEnergonType();

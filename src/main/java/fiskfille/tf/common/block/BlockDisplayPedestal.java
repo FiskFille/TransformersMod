@@ -9,11 +9,11 @@ import net.minecraft.world.World;
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.displayable.Displayable;
-import fiskfille.tf.common.tileentity.TileEntityDisplayPillar;
+import fiskfille.tf.common.tileentity.TileEntityDisplayPedestal;
 
-public class BlockDisplayPillar extends BlockMachineBase
+public class BlockDisplayPedestal extends BlockMachineBase
 {
-    public BlockDisplayPillar()
+    public BlockDisplayPedestal()
     {
         super(TFMaterial.display);
         setHardness(2.0F);
@@ -35,7 +35,7 @@ public class BlockDisplayPillar extends BlockMachineBase
             return true;
         }
         
-        TileEntityDisplayPillar tile = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+        TileEntityDisplayPedestal tile = (TileEntityDisplayPedestal) world.getTileEntity(x, y, z);
 
         if (tile != null)
         {
@@ -67,7 +67,7 @@ public class BlockDisplayPillar extends BlockMachineBase
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
-        TileEntityDisplayPillar tile = (TileEntityDisplayPillar) world.getTileEntity(x, y, z);
+        TileEntityDisplayPedestal tile = (TileEntityDisplayPedestal) world.getTileEntity(x, y, z);
 
         if (tile != null)
         {

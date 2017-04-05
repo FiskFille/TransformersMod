@@ -3,7 +3,6 @@ package fiskfille.tf.client.displayable;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
@@ -27,10 +26,7 @@ public class DisplayableVehicle extends Displayable
 
             float scale = 0.75F;
             GL11.glScalef(scale, scale, scale);
-
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             vehicle.renderDisplayVehicle(itemstack);
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         }
     }
 

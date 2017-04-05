@@ -1,19 +1,19 @@
 package fiskfille.tf.client.model.tileentity;
 
 import fiskfille.tf.client.model.tools.ModelRendererBreakable;
+import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.tools.MowzieModelBase;
-import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 
-public class ModelDisplayPillar extends MowzieModelBase
+public class ModelDisplayPedestal extends MowzieModelBase
 {
-    MowzieModelRenderer main;
-    MowzieModelRenderer backLeftFoot;
-    MowzieModelRenderer frontLeftFoot;
-    MowzieModelRenderer frontRightFoot;
-    MowzieModelRenderer backRightFoot;
-    MowzieModelRenderer top;
+    public ModelRendererTF main;
+    public ModelRendererTF backLeftFoot;
+    public ModelRendererTF frontLeftFoot;
+    public ModelRendererTF frontRightFoot;
+    public ModelRendererTF backRightFoot;
+    public ModelRendererTF top;
 
-    public ModelDisplayPillar()
+    public ModelDisplayPedestal()
     {
         textureWidth = 64;
         textureHeight = 64;

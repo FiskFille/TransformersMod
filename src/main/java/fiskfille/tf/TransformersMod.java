@@ -1,11 +1,11 @@
 package fiskfille.tf;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import fiskfille.tf.asm.TFLoadingPlugin;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.config.Configuration;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -17,6 +17,9 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import fiskfille.tf.asm.TFLoadingPlugin;
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.chunk.TFLoadingCallback;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.base.TFNetworkManager;
@@ -106,14 +109,26 @@ public class TransformersMod
             remap(mapping, "transformium", TFItems.transformiumFragment);
             remap(mapping, "energon_crystal_piece", TFItems.energonCrystalShard);
             remap(mapping, "red_energon_crystal_piece", TFItems.redEnergonCrystalShard);
+            
+            remap(mapping, "display_pillar", TFBlocks.displayPedestal);
         }
     }
 
     private void remap(MissingMapping mapping, String name, Item item)
     {
-        if (mapping.name.equals(modid + ":" + name))
+        if (mapping.type == GameRegistry.Type.ITEM && mapping.name.equals(modid + ":" + name))
         {
             mapping.remap(item);
+        }
+    }
+    
+    private void remap(MissingMapping mapping, String name, Block block)
+    {
+        remap(mapping, name, Item.getItemFromBlock(block));
+        
+        if (mapping.type == GameRegistry.Type.BLOCK && mapping.name.equals(modid + ":" + name))
+        {
+            mapping.remap(block);
         }
     }
 }
