@@ -12,6 +12,7 @@ import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.render.block.RenderBlockAlloyCrucible;
+import fiskfille.tf.client.render.block.RenderBlockDisplayPedestal;
 import fiskfille.tf.client.render.block.RenderBlockEnergonTank;
 import fiskfille.tf.client.render.block.RenderBlockGroundBridgeFrame;
 import fiskfille.tf.client.render.entity.RenderBassCharge;
@@ -156,6 +157,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerBlockHandler(RenderBlockGroundBridgeFrame.instance);
         RenderingRegistry.registerBlockHandler(RenderBlockEnergonTank.instance);
         RenderingRegistry.registerBlockHandler(RenderBlockAlloyCrucible.instance);
+        RenderingRegistry.registerBlockHandler(RenderBlockDisplayPedestal.instance);
     }
 
     public void registerArmorRenderer(ItemTransformerArmor helmet, ItemTransformerArmor chest, ItemTransformerArmor legs, ItemTransformerArmor boots)

@@ -5,6 +5,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import fiskfille.tf.common.energon.TFEnergonManager;
 import fiskfille.tf.common.item.ItemColoredTF;
+import fiskfille.tf.common.item.ItemDisplayPedestal;
 import fiskfille.tf.common.item.ItemGroundBridgeControl;
 import fiskfille.tf.common.registry.TFBlockRegistry;
 import fiskfille.tf.common.tileentity.TileEntityAlloyCrucible;
@@ -126,7 +127,7 @@ public class TFBlocks
         TFBlockRegistry.registerBlock(energonCube, "Energon Cube");
         TFBlockRegistry.registerBlock(redEnergonCube, "Red Energon Cube");
 
-        TFBlockRegistry.registerTileEntity(displayPedestal, "Display Pedestal", TileEntityDisplayPedestal.class);
+        TFBlockRegistry.registerItemBlockAsTileEntity(displayPedestal, "Display Pedestal", TileEntityDisplayPedestal.class, ItemDisplayPedestal.class);
         TFBlockRegistry.registerTileEntity(displayStation, "Transformer Display Station", TileEntityDisplayStation.class);
         TFBlockRegistry.registerItemBlock(wool, "Wool", ItemColoredTF.class);
         TFBlockRegistry.registerItemBlock(stainedHardenedClay, "Stained Hardened Clay", ItemColoredTF.class);

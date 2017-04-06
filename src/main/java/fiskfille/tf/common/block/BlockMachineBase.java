@@ -6,7 +6,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -188,11 +187,11 @@ public class BlockMachineBase extends Block implements ITileEntityProvider
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
-    public void addBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
+    public void addBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, int x, int y, int z, AxisAlignedBB aabb, List list)
     {
-        AxisAlignedBB aabb1 = AxisAlignedBB.getBoundingBox(x + minX, y + minY, z + minZ, x + maxX, y + maxY, z + maxZ);
+        AxisAlignedBB aabb1 = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ).offset(x, y, z);
 
-        if (aabb1 != null && aabb.intersectsWith(aabb1))
+        if (aabb1.intersectsWith(aabb))
         {
             list.add(aabb1);
         }

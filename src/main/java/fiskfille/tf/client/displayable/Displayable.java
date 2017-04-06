@@ -14,9 +14,4 @@ public abstract class Displayable
     {
         mc.getTextureManager().bindTexture(resourcelocation);
     }
-
-    public float getBlockHeight(ItemStack itemstack)
-    {
-        return 1.0F;
-    }
 }

@@ -56,13 +56,13 @@ public class BlockRelayTower extends BlockMachineBase
 
         if (metadata < 4)
         {
-            addBox(width, 0, width, 1 - width, f * 2, 1 - width, world, x, y, z, aabb, list, entity);
+            addBox(width, 0, width, 1 - width, f * 2, 1 - width, x, y, z, aabb, list);
             width = f * 4;
-            addBox(width, f * 2, width, 1 - width, f * 14, 1 - width, world, x, y, z, aabb, list, entity);
+            addBox(width, f * 2, width, 1 - width, f * 14, 1 - width, x, y, z, aabb, list);
             width = f * 5;
-            addBox(width, f * 14, width, 1 - width, f * 22, 1 - width, world, x, y, z, aabb, list, entity);
+            addBox(width, f * 14, width, 1 - width, f * 22, 1 - width, x, y, z, aabb, list);
             width = f * 6;
-            addBox(width, f * 22, width, 1 - width, 2, 1 - width, world, x, y, z, aabb, list, entity);
+            addBox(width, f * 22, width, 1 - width, 2, 1 - width, x, y, z, aabb, list);
         }
     }
 

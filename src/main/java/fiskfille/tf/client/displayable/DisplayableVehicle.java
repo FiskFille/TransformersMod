@@ -41,17 +41,4 @@ public class DisplayableVehicle extends Displayable
 
         return null;
     }
-
-    @Override
-    public float getBlockHeight(ItemStack itemstack)
-    {
-        int i = itemstack.getItemDamage();
-
-        if (i == 2)
-        {
-            return 0.85F;
-        }
-
-        return 1.0F;
-    }
 }

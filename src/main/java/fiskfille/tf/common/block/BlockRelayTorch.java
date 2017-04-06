@@ -38,25 +38,25 @@ public class BlockRelayTorch extends BlockRelayTower
             switch (dir)
             {
             case DOWN:
-                addBox(0.5F - width / 2, 0, 0.5F - width / 2, 0.5F + width / 2, height, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                addBox(0.5F - width / 2, 0, 0.5F - width / 2, 0.5F + width / 2, height, 0.5F + width / 2, x, y, z, aabb, list);
                 break;
             case UP:
-                addBox(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                addBox(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2, x, y, z, aabb, list);
                 break;
             case NORTH:
-                addBox(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height, world, x, y, z, aabb, list, entity);
+                addBox(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height, x, y, z, aabb, list);
                 break;
             case SOUTH:
-                addBox(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1, world, x, y, z, aabb, list, entity);
+                addBox(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1, x, y, z, aabb, list);
                 break;
             case WEST:
-                addBox(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                addBox(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2, x, y, z, aabb, list);
                 break;
             case EAST:
-                addBox(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2, world, x, y, z, aabb, list, entity);
+                addBox(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2, x, y, z, aabb, list);
                 break;
             default:
-                addBox(0, 0, 0, 1, 0.1F, 1, world, x, y, z, aabb, list, entity);
+                addBox(0, 0, 0, 1, 0.1F, 1, x, y, z, aabb, list);
                 break;
             }
 

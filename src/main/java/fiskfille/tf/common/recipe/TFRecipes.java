@@ -38,6 +38,8 @@ import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.block.BlockDisplayPedestal;
+import fiskfille.tf.common.block.BlockDisplayPedestal.BlockIcon;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.groundbridge.DataCore;
 import fiskfille.tf.common.item.TFItems;
@@ -228,12 +230,17 @@ public class TFRecipes
 
     private static void addDisplayRecipes()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayPedestal, 1), " - ", "SWS", '-', "slabStone", 'S', "stone", 'W', Blocks.cobblestone_wall));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFBlocks.displayStation, 1), " L ", " I ", "-I-", '-', "slabStone", 'I', "ingotIron", 'L', Blocks.redstone_lamp));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(TFItems.componentBase), "III", "ITI", "III", 'I', "ingotIron", 'T', "transformium"));
         GameRegistry.addRecipe(new ShapedOreRecipe(TFItems.colorComponent, "DDD", "DCD", "DDD", 'D', "dye", 'C', TFItems.componentBase));
         GameRegistry.addRecipe(new ItemStack(TFItems.armorComponent), " I ", "ICI", " I ", 'C', TFItems.componentBase, 'I', Items.iron_chestplate);
         GameRegistry.addRecipe(new RecipeDisplayItems());
+        
+        for (int i = 0; i < BlockDisplayPedestal.getTextures().size(); ++i)
+        {
+            BlockIcon[] icons = BlockDisplayPedestal.getTexture(i);
+            GameRegistry.addRecipe(new ItemStack(TFBlocks.displayPedestal, 2, i), " T ", "BPB", 'T', new ItemStack(icons[2].block, 1, icons[2].metadata), 'P', new ItemStack(icons[1].block, 1, icons[1].metadata), 'B', new ItemStack(icons[0].block, 1, icons[0].metadata));
+        }
 
         int i = 0;
 

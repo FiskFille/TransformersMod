@@ -27,8 +27,8 @@ public class DisplayableEnergonCrystal extends Displayable
 
         GL11.glPushMatrix();
         float f = 0.75F;
-        float f1 = MathHelper.sin((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) / 15.0F) * 0.07F;
-        GL11.glRotatef((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) * 0.75F, 0.0F, 1.0F, 0.0F);
+        float f1 = MathHelper.sin((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) / 15) * 0.07F;
+        GL11.glRotatef((mc.thePlayer.ticksExisted + ClientTickHandler.renderTick) * 0.75F, 0, 1, 0);
         GL11.glTranslatef(0, -0.3F + f1, 0);
         GL11.glScalef(f, f, f);
 

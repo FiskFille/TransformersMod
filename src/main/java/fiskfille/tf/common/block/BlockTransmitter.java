@@ -55,22 +55,22 @@ public class BlockTransmitter extends BlockMachineBase
 
         if (metadata < 4)
         {
-            addBox(0, 0, 0, 1, f * 4, 1, world, x, y, z, aabb, list, entity);
+            addBox(0, 0, 0, 1, f * 4, 1, x, y, z, aabb, list);
 
             for (int i = 0; i < 26; ++i)
             {
                 float width = 1 - 0.6F * ((float) i / 26);
                 float f1 = 1 - width;
-                addBox(f1 / 2, f * (i + 4), f1 / 2, 1 - f1 / 2, f * (i + 5), 1 - f1 / 2, world, x, y, z, aabb, list, entity);
+                addBox(f1 / 2, f * (i + 4), f1 / 2, 1 - f1 / 2, f * (i + 5), 1 - f1 / 2, x, y, z, aabb, list);
             }
         }
         else if (metadata < 8)
         {
-            addBox(0, f * 14, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
+            addBox(0, f * 14, 0, 1, 1, 1, x, y, z, aabb, list);
         }
         else
         {
-            addBox(0, 0, 0, 1, 1, 1, world, x, y, z, aabb, list, entity);
+            addBox(0, 0, 0, 1, 1, 1, x, y, z, aabb, list);
         }
 
         setBlockBoundsBasedOnState(world, x, y, z);
