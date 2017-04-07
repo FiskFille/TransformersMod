@@ -20,6 +20,7 @@ import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetPlayerData;
 import fiskfille.tf.common.network.MessageSetTileData;
 import fiskfille.tf.common.network.MessageTileTrigger;
+import fiskfille.tf.common.network.MessageUpdateArmor;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 
 public class TFNetworkManager
@@ -47,6 +48,7 @@ public class TFNetworkManager
         registerPacket(MessageTileTrigger.Handler.class, MessageTileTrigger.class);
         registerPacket(MessageSetTileData.Handler.class, MessageSetTileData.class);
         registerPacket(MessageConnectReceiver.Handler.class, MessageConnectReceiver.class);
+        registerPacket(MessageUpdateArmor.Handler.class, MessageUpdateArmor.class);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)
