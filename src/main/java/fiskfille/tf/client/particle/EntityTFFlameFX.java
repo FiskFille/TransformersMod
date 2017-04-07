@@ -2,14 +2,10 @@ package fiskfille.tf.client.particle;
 
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityTFFlameFX extends EntityFX
 {
-    /**
-     * the scale of the flame FX
-     */
     private float flameScale;
 
     public EntityTFFlameFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ)
@@ -36,46 +32,13 @@ public class EntityTFFlameFX extends EntityFX
     @Override
     public int getBrightnessForRender(float partialTicks)
     {
-        float age = (particleAge + partialTicks) / particleMaxAge;
-
-        if (age < 0.0F)
-        {
-            age = 0.0F;
-        }
-        else if (age > 1.0F)
-        {
-            age = 1.0F;
-        }
-
-        int renderBrightness = super.getBrightnessForRender(partialTicks);
-        int j = renderBrightness & 255;
-        int k = renderBrightness >> 16 & 255;
-        j += (int) (age * 15.0F * 16.0F);
-
-        if (j > 240)
-        {
-            j = 240;
-        }
-
-        return j | k << 16;
+        return 0xF000F0;
     }
 
     @Override
     public float getBrightness(float partialTicks)
     {
-        float age = (particleAge + partialTicks) / particleMaxAge;
-
-        if (age < 0.0F)
-        {
-            age = 0.0F;
-        }
-        else if (age > 1.0F)
-        {
-            age = 1.0F;
-        }
-
-        float brightness = super.getBrightness(partialTicks);
-        return brightness * age + (1.0F - age);
+        return 0xF000F0;
     }
 
     @Override
@@ -94,13 +57,5 @@ public class EntityTFFlameFX extends EntityFX
         motionX *= 0.9599999785423279D;
         motionY *= 0.9599999785423279D;
         motionZ *= 0.9599999785423279D;
-    }
-
-    protected void onImpact(MovingObjectPosition mop)
-    {
-        float f = 0.25F;
-        motionX *= f;
-        motionY *= f;
-        motionZ *= f;
     }
 }
