@@ -1,6 +1,6 @@
 package fiskfille.tf.client.model.transformer;
 
-import static fiskfille.tf.common.data.TFPredicates.*;
+import static fiskfille.tf.common.data.TFPredicates.isBacking;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -225,7 +225,7 @@ public class ModelVurp extends ModelTransformerBase
         ribs2.addBox(-0.9F, 0, -3, 2, 1, 6);
         setRotateAngle(ribs2, 0, 0.7853981633974483F, 0);
         lowerlegR6 = new ModelRendererTF(this, 15, 82);
-        lowerlegR6.setRotationPoint(1, 0, 2);
+        lowerlegR6.setRotationPoint(1.25F, 0, 2);
         lowerlegR6.addBox(-2, 0, 0, 2, 2, 1);
         setRotateAngle(lowerlegR6, -0.45378560551852565F, 0, 0);
         lowerLegL = new ModelRendererTF(this, 0, 77);
@@ -314,7 +314,7 @@ public class ModelVurp extends ModelTransformerBase
         setRotateAngle(footL3, 0, -0.008726646259971648F, 0);
         lowerlegL6 = new ModelRendererTF(this, 15, 82);
         lowerlegL6.mirror = true;
-        lowerlegL6.setRotationPoint(-1, 0, 2);
+        lowerlegL6.setRotationPoint(-1.25F, 0, 2);
         lowerlegL6.addBox(0, 0, 0, 2, 2, 1);
         setRotateAngle(lowerlegL6, -0.45378560551852565F, 0, 0);
         frontR2 = new ModelRendererTF(this, 48, 70);

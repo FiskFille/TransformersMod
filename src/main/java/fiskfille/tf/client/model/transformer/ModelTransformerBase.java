@@ -109,14 +109,14 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                         tfModel.getHead().isHidden = false;
                     }
                 }
-                else if (!TFArmorDyeHelper.areColorsIdentical(head, chest, legs, feet))
+                else if (!areIdentical(head, chest, legs, feet))
                 {
                     List<ModelRenderer> hidden = Lists.newArrayList();
                     ItemStack itemstack = chest;
 
                     if (layerToRender == 1)
                     {
-                        if (!TFArmorDyeHelper.areColorsIdentical(chest, head))
+                        if (!areIdentical(chest, head))
                         {
                             getWaist().hideUntil(tfModel.getHead());
                             hidden.addAll(Arrays.asList(tfModel.getLegs()));
@@ -129,29 +129,29 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                     }
                     else if (layerToRender == 2)
                     {
-                        if (!TFArmorDyeHelper.areColorsIdentical(chest, head))
+                        if (!areIdentical(chest, head))
                         {
                             hidden.add(tfModel.getHead());
                         }
 
-                        if (!TFArmorDyeHelper.areColorsIdentical(chest, legs))
+                        if (!areIdentical(chest, legs))
                         {
                             hidden.addAll(Arrays.asList(tfModel.getLegs()));
                         }
-                        else if (!TFArmorDyeHelper.areColorsIdentical(chest, feet))
+                        else if (!areIdentical(chest, feet))
                         {
                             hidden.addAll(Arrays.asList(tfModel.getFeet()));
                         }
                     }
                     else if (layerToRender == 3)
                     {
-                        if (!TFArmorDyeHelper.areColorsIdentical(chest, legs))
+                        if (!areIdentical(chest, legs))
                         {
                             getWaist().hideUntil(tfModel.getLegs());
                             hidden.add(tfModel.getHead());
                             itemstack = legs;
 
-                            if (!TFArmorDyeHelper.areColorsIdentical(legs, feet))
+                            if (!areIdentical(legs, feet))
                             {
                                 hidden.addAll(Arrays.asList(tfModel.getFeet()));
                             }
@@ -163,7 +163,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                     }
                     else
                     {
-                        if (!TFArmorDyeHelper.areColorsIdentical(legs, feet))
+                        if (!areIdentical(legs, feet))
                         {
                             getWaist().hideUntil(tfModel.getFeet());
                             hidden.add(tfModel.getHead());
@@ -198,6 +198,27 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                 getWaist().hideUntil();
             }
         }
+    }
+
+    private boolean areIdentical(ItemStack... itemstacks)
+    {
+        if (!TFArmorDyeHelper.areColorsIdentical(itemstacks))
+        {
+            return false;
+        }
+
+        if (itemstacks.length > 1)
+        {
+            for (ItemStack itemstack : itemstacks)
+            {
+                if (itemstack == null || itemstacks[0] == null || itemstacks[0].hasEffect(0) != itemstack.hasEffect(0))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     protected final TransformerModel getTransformerModel()
@@ -243,6 +264,11 @@ public abstract class ModelTransformerBase extends MowzieModelBase
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale, Entity entity)
     {
+        if (entity.motionY == 1.25E-85)
+        {
+            ticks = 0;
+        }
+        
         super.setRotationAngles(limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale, entity);
         setToInitPose();
         globalSpeed = baseSpeed;
@@ -266,13 +292,11 @@ public abstract class ModelTransformerBase extends MowzieModelBase
                     switch (modifier.type)
                     {
                     case SPEED:
-                    {
                         globalSpeed *= modifier.factor;
-                    }
+                        break;
                     case DEGREE:
-                    {
                         globalDegree *= modifier.factor;
-                    }
+                        break;
                     }
                 }
             }

@@ -1,13 +1,14 @@
 package fiskfille.tf.asm;
 
+import java.util.Map;
+
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import fiskfille.tf.asm.transformers.ClassTransformerEntity;
+import fiskfille.tf.asm.transformers.ClassTransformerGuiContainer;
 import fiskfille.tf.asm.transformers.ClassTransformerModelBiped;
 import fiskfille.tf.asm.transformers.ClassTransformerRenderPlayer;
-
-import java.util.Map;
 
 @MCVersion("1.7.10")
 @TransformerExclusions("fiskfille.tf.asm")
@@ -15,7 +16,7 @@ public class TFLoadingPlugin implements IFMLLoadingPlugin
 {
     public static boolean loaded;
 
-    private static final String[] transformers = new String[] {ClassTransformerRenderPlayer.class.getName(), ClassTransformerEntity.class.getName(), ClassTransformerModelBiped.class.getName()};
+    private static final String[] transformers = new String[] {ClassTransformerRenderPlayer.class.getName(), ClassTransformerEntity.class.getName(), ClassTransformerModelBiped.class.getName(), ClassTransformerGuiContainer.class.getName()};
 
     @Override
     public String[] getASMTransformerClass()

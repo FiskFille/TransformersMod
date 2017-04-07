@@ -8,6 +8,8 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.stats.StatFileWriter;
+import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -21,6 +23,7 @@ import fiskfille.tf.client.tutorial.TutorialHandler;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.tile.TileData;
 import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
+import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.TFHelper;
@@ -125,6 +128,19 @@ public class ClientTickHandler
                     {
                         e.getValue().clientTick();
                     }
+                }
+                
+                if (ClientProxy.fakePlayer == null || ClientProxy.fakePlayer.worldObj != mc.theWorld)
+                {
+                    if (mc.playerController != null)
+                    {
+                        ClientProxy.fakePlayer = mc.playerController.func_147493_a(mc.theWorld, new StatFileWriter());
+                        ClientProxy.fakePlayer.movementInput = new MovementInputFromOptions(mc.gameSettings);
+                    }
+                }
+                else
+                {
+                    ClientProxy.fakePlayer.ticksExisted += 1;
                 }
             }
         }

@@ -91,41 +91,48 @@ public class TFRenderHelper
             Transformer transformer = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
             TransformerModel tfModel = TFModelRegistry.getModel(transformer);
 
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-            if (TFArmorDyeHelper.isDyed(itemstack))
+            if (TFTextureHelper.isBoundTexture(TFTextureHelper.RES_ITEM_GLINT))
             {
-                float[] primaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
-                float[] secondaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
-
-                GL11.glColor4f(primaryColor[0], primaryColor[1], primaryColor[2], 1);
-                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_primary"));
                 model.render(0.0625F);
-
-                GL11.glColor4f(secondaryColor[0], secondaryColor[1], secondaryColor[2], 1);
-                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_secondary"));
-                model.render(0.0625F);
-
-                GL11.glColor4f(1, 1, 1, 1);
-                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_base"));
             }
             else
             {
-                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, ""));
-            }
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                
+                if (TFArmorDyeHelper.isDyed(itemstack))
+                {
+                    float[] primaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getPrimaryColor(itemstack));
+                    float[] secondaryColor = TFRenderHelper.hexToRGB(TFArmorDyeHelper.getSecondaryColor(itemstack));
 
-            model.render(0.0625F);
+                    GL11.glColor4f(primaryColor[0], primaryColor[1], primaryColor[2], 1);
+                    mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_primary"));
+                    model.render(0.0625F);
 
-            if (tfModel.hasLightsLayer())
-            {
-                setLighting(LIGHTING_LUMINOUS);
-                mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_lights"));
+                    GL11.glColor4f(secondaryColor[0], secondaryColor[1], secondaryColor[2], 1);
+                    mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_secondary"));
+                    model.render(0.0625F);
+
+                    GL11.glColor4f(1, 1, 1, 1);
+                    mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_base"));
+                }
+                else
+                {
+                    mc.getTextureManager().bindTexture(tfModel.getTexture(entity, ""));
+                }
+
                 model.render(0.0625F);
-                resetLighting();
-            }
 
-            GL11.glDisable(GL11.GL_BLEND);
+                if (tfModel.hasLightsLayer())
+                {
+                    setLighting(LIGHTING_LUMINOUS);
+                    mc.getTextureManager().bindTexture(tfModel.getTexture(entity, "_lights"));
+                    model.render(0.0625F);
+                    resetLighting();
+                }
+                
+                GL11.glDisable(GL11.GL_BLEND);
+            }
         }
     }
 

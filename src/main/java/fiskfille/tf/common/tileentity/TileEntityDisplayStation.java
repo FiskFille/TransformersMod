@@ -56,8 +56,8 @@ public class TileEntityDisplayStation extends TileEntityContainer implements IMu
             
             if (fakePlayer != null)
             {
-//                ++fakePlayer.ticksExisted;
-//                fakePlayer.motionY = 1.25E-85;
+                ++fakePlayer.ticksExisted;
+                fakePlayer.motionY = 1.25E-85;
                 
                 for (int i = 0; i < 4; ++i)
                 {

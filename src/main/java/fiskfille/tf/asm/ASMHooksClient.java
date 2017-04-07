@@ -2,9 +2,12 @@ package fiskfille.tf.asm;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
@@ -42,5 +45,14 @@ public class ASMHooksClient
     public static double getScaledSneakOffset(EntityPlayer player)
     {
         return 0.125D;
+    }
+    
+    public static void renderSlotPre(GuiContainer gui, Slot slot)
+    {
+    }
+    
+    public static void renderSlotPost(GuiContainer gui, Slot slot)
+    {
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
     }
 }

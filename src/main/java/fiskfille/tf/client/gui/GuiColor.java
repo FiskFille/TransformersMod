@@ -22,6 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.network.MessageColorArmor;
 import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.proxy.ClientProxy;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 import fiskfille.tf.helper.TFArmorDyeHelper;
 import fiskfille.tf.helper.TFRenderHelper;
@@ -227,53 +228,54 @@ public class GuiColor extends GuiScreen
         drawTexturedModalRect(width / 2 - 128, height / 6, 0, 0, 100, 150);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-        EntityPlayer entity = tileentity.fakePlayer;
-        ItemStack head = tileentity.getStackInSlot(0).copy();
-        ItemStack chest = tileentity.getStackInSlot(1).copy();
-        ItemStack legs = tileentity.getStackInSlot(2).copy();
-        ItemStack feet = tileentity.getStackInSlot(3).copy();
+        EntityPlayer entity = ClientProxy.fakePlayer;
+        
+        if (entity != null)
+        {
+            Color primary = new Color(layerColors[0][0], layerColors[0][1], layerColors[0][2]);
+            Color secondary = new Color(layerColors[1][0], layerColors[1][1], layerColors[1][2]);
+            
+            for (int i = 0; i < 4; ++i)
+            {
+                ItemStack armor = tileentity.getStackInSlot(i);
+                
+                if (armor != null)
+                {
+                    armor = armor.copy();
+                    TFArmorDyeHelper.setPrimaryColor(armor, primary.getRGB());
+                    TFArmorDyeHelper.setSecondaryColor(armor, secondary.getRGB());
+                }
+                
+                entity.setCurrentItemOrArmor(4 - i, armor);
+            }
+            
+            entity.capabilities.isFlying = true;
+            entity.rotationYawHead = 0;
+            entity.setInvisible(true);
 
-        Color primary = new Color(layerColors[0][0], layerColors[0][1], layerColors[0][2]);
-        Color secondary = new Color(layerColors[1][0], layerColors[1][1], layerColors[1][2]);
-        TFArmorDyeHelper.setPrimaryColor(head, primary.getRGB());
-        TFArmorDyeHelper.setPrimaryColor(chest, primary.getRGB());
-        TFArmorDyeHelper.setPrimaryColor(legs, primary.getRGB());
-        TFArmorDyeHelper.setPrimaryColor(feet, primary.getRGB());
-        TFArmorDyeHelper.setSecondaryColor(head, secondary.getRGB());
-        TFArmorDyeHelper.setSecondaryColor(chest, secondary.getRGB());
-        TFArmorDyeHelper.setSecondaryColor(legs, secondary.getRGB());
-        TFArmorDyeHelper.setSecondaryColor(feet, secondary.getRGB());
-
-        entity.setCurrentItemOrArmor(4, head);
-        entity.setCurrentItemOrArmor(3, chest);
-        entity.setCurrentItemOrArmor(2, legs);
-        entity.setCurrentItemOrArmor(1, feet);
-        entity.capabilities.isFlying = true;
-        entity.rotationYawHead = 0;
-        entity.setInvisible(true);
-
-        int k = width / 2 - 128 + 50;
-        int l = height / 6 + 132;
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glPushMatrix();
-        GL11.glTranslatef(k, l, 50.0F);
-        GL11.glScalef(-60, 60, 60);
-        GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-        RenderHelper.enableStandardItemLighting();
-        GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
-        GL11.glRotatef((ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
-        RenderManager.instance.playerViewY = 180.0F;
-        TFRenderHelper.startGlScissor(width / 2 - 128, height / 6, 100, 150);
-        RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-        TFRenderHelper.endGlScissor();
-        GL11.glPopMatrix();
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+            int k = width / 2 - 128 + 50;
+            int l = height / 6 + 132;
+            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+            GL11.glPushMatrix();
+            GL11.glTranslatef(k, l, 50.0F);
+            GL11.glScalef(-60, 60, 60);
+            GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
+            RenderHelper.enableStandardItemLighting();
+            GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
+            GL11.glTranslatef(0.0F, entity.yOffset, 10.0F);
+            GL11.glRotatef((ticks + partialTicks) / 2, 0.0F, 1.0F, 0.0F);
+            RenderManager.instance.playerViewY = 180.0F;
+            TFRenderHelper.startGlScissor(width / 2 - 128, height / 6, 100, 150);
+            RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+            TFRenderHelper.endGlScissor();
+            GL11.glPopMatrix();
+            RenderHelper.disableStandardItemLighting();
+            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+            OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+        }
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);

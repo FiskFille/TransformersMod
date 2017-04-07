@@ -45,6 +45,7 @@ public abstract class TileEntityTF extends TileEntity
     @Override
     public void markDirty()
     {
+        super.markDirty();
         TileEntity tile = TFTileHelper.getTileBase(this);
         
         if (tile != null)

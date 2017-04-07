@@ -136,4 +136,22 @@ public class ContainerDisplayStationArmor extends ContainerBasic
 
         return itemstack;
     }
+    
+    @Override
+    public void detectAndSendChanges()
+    {
+        for (int i = 0; i < inventorySlots.size(); ++i)
+        {
+            ItemStack itemstack = ((Slot) inventorySlots.get(i)).getStack();
+            ItemStack itemstack1 = (ItemStack) inventoryItemStacks.get(i);
+
+            if (!ItemStack.areItemStacksEqual(itemstack1, itemstack))
+            {
+                getTile().markDirty();
+                break;
+            }
+        }
+        
+        super.detectAndSendChanges();
+    }
 }

@@ -188,11 +188,11 @@ public class ContainerDisplayStation extends ContainerBasic
 
             if (!ItemStack.areItemStacksEqual(itemstack1, itemstack))
             {
-                itemstack1 = itemstack == null ? null : itemstack.copy();
-                inventoryItemStacks.set(i, itemstack1);
-
                 getTile().markDirty();
+                break;
             }
         }
+        
+        super.detectAndSendChanges();
     }
 }

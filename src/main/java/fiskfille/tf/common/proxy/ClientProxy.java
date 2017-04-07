@@ -1,6 +1,7 @@
 package fiskfille.tf.common.proxy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -85,6 +86,7 @@ public class ClientProxy extends CommonProxy
     private Minecraft mc = Minecraft.getMinecraft();
 
     public static GuiOverlay guiOverlay = new GuiOverlay();
+    public static EntityClientPlayerMP fakePlayer;
 
     @Override
     public void preInit()
