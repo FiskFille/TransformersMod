@@ -1,14 +1,15 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.network.MessageLaserShoot;
-import fiskfille.tf.common.network.base.TFNetworkManager;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFShootManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.network.MessageLaserShoot;
+import fiskfille.tf.common.network.base.TFNetworkManager;
+import fiskfille.tf.common.transformer.TransformerVurp;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFShootManager;
 
 public class ItemVurpsSniper extends Item
 {
@@ -22,7 +23,7 @@ public class ItemVurpsSniper extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerVurp(player) && !TFHelper.isFullyTransformed(player))
+        if (TFHelper.getTransformer(player) instanceof TransformerVurp && !TFHelper.isFullyTransformed(player))
         {
             if (world.isRemote)
             {

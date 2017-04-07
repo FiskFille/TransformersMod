@@ -2,10 +2,15 @@ package fiskfille.tf.common.tileentity;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import fiskfille.tf.TransformersAPI;
 
 public class TileEntityDisplayPedestal extends TileEntityContainer
 {
-    private ItemStack[] inventory = new ItemStack[1];
+    @Override
+    public int getSizeInventory()
+    {
+        return 1;
+    }
     
     @Override
     public AxisAlignedBB getRenderBoundingBox()
@@ -13,28 +18,16 @@ public class TileEntityDisplayPedestal extends TileEntityContainer
         return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(1, 1, 1);
     }
 
-    @Override
-    public ItemStack[] getItemStacks()
+    public void setDisplayItem(ItemStack itemstack, boolean sync)
     {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
-    }
-
-    public void setDisplayItem(ItemStack item, boolean sync)
-    {
-        if (item != getDisplayItem())
+        if (itemstack != getDisplayItem())
         {
             if (sync)
             {
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
 
-            setInventorySlotContents(0, ItemStack.copyItemStack(item));
+            setInventorySlotContents(0, itemstack);
         }
     }
 
@@ -47,5 +40,11 @@ public class TileEntityDisplayPedestal extends TileEntityContainer
     public String getInventoryName()
     {
         return "";
+    }
+    
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack stack)
+    {
+        return TransformersAPI.hasDisplayable(stack.getItem());
     }
 }

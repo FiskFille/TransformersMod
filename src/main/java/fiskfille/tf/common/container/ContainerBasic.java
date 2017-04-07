@@ -59,9 +59,14 @@ public class ContainerBasic extends Container
 
         return true;
     }
-
+    
     @Override
     protected boolean mergeItemStack(ItemStack stackToMove, int fromId, int toId, boolean descending)
+    {
+        return mergeItemStack(stackToMove, fromId, toId, descending, false);
+    }
+
+    protected boolean mergeItemStack(ItemStack stackToMove, int fromId, int toId, boolean descending, boolean check)
     {
         boolean success = false;
         int id = fromId;
@@ -81,7 +86,7 @@ public class ContainerBasic extends Container
                 slot = (Slot) inventorySlots.get(id);
                 dstStack = slot.getStack();
 
-                if (dstStack != null && dstStack.getItem() == stackToMove.getItem() && (!stackToMove.getHasSubtypes() || stackToMove.getItemDamage() == dstStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stackToMove, dstStack))
+                if ((!check || slot.isItemValid(stackToMove)) && dstStack != null && dstStack.getItem() == stackToMove.getItem() && (!stackToMove.getHasSubtypes() || stackToMove.getItemDamage() == dstStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stackToMove, dstStack))
                 {
                     int maxStackSize = Math.min(slot.inventory.getInventoryStackLimit(), Math.min(dstStack.getMaxStackSize(), slot.getSlotStackLimit()));
                     int combinedStackSize = dstStack.stackSize + stackToMove.stackSize;
@@ -129,7 +134,7 @@ public class ContainerBasic extends Container
                 slot = (Slot) inventorySlots.get(id);
                 dstStack = slot.getStack();
 
-                if (dstStack == null)
+                if ((!check || slot.isItemValid(stackToMove)) && dstStack == null)
                 {
                     int maxStackSize = Math.min(slot.inventory.getInventoryStackLimit(), Math.min(stackToMove.getMaxStackSize(), slot.getSlotStackLimit()));
                     ItemStack itemstack1 = stackToMove.copy();

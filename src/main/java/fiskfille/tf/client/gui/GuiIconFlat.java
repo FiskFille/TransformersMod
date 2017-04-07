@@ -1,5 +1,6 @@
 package fiskfille.tf.client.gui;
 
+import java.awt.Rectangle;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -27,7 +28,7 @@ public class GuiIconFlat extends GuiButtonFlat
             mc.getTextureManager().bindTexture(GuiButtonFlat.tfButtonTextures);
 
             GL11.glColor4f(1, 1, 1, 1);
-            field_146123_n = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+            field_146123_n = new Rectangle(xPosition, yPosition, width, height).contains(mouseX, mouseY);
             int hoverState = getHoverState(field_146123_n);
 
             GL11.glEnable(GL11.GL_BLEND);

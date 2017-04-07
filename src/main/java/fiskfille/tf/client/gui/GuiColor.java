@@ -2,7 +2,6 @@ package fiskfille.tf.client.gui;
 
 import java.awt.Color;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -10,9 +9,9 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -228,7 +227,7 @@ public class GuiColor extends GuiScreen
         drawTexturedModalRect(width / 2 - 128, height / 6, 0, 0, 100, 150);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-        EntityClientPlayerMP entity = tileentity.fakePlayer;
+        EntityPlayer entity = tileentity.fakePlayer;
         ItemStack head = tileentity.getStackInSlot(0).copy();
         ItemStack chest = tileentity.getStackInSlot(1).copy();
         ItemStack legs = tileentity.getStackInSlot(2).copy();

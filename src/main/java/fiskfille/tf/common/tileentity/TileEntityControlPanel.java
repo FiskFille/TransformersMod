@@ -10,7 +10,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -49,7 +48,7 @@ import fiskfille.tf.helper.TFDimensionHelper;
 import fiskfille.tf.helper.TFMathHelper;
 import fiskfille.tf.helper.TFTileHelper;
 
-public class TileEntityControlPanel extends TileEntityMachineContainer implements ISidedInventory, IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
+public class TileEntityControlPanel extends TileEntityMachineContainer implements IEnergyReceiver, ITileDataCallback, IChunkLoaderTile, IMultiTile
 {
     public static final int[][] directions = new int[][] { {-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
@@ -57,7 +56,6 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
     public Integer[][] switches = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
     public TileDataControlPanel data = new TileDataControlPanel();
-    private ItemStack[] inventory = new ItemStack[3];
 
     public float animPortalDirection;
     public float prevAnimPortalDirection;
@@ -602,23 +600,17 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
             }
         }
     }
+    
+    @Override
+    public int getSizeInventory()
+    {
+        return 3;
+    }
 
     @Override
     public String getInventoryName()
     {
         return "gui.control_panel";
-    }
-
-    @Override
-    public ItemStack[] getItemStacks()
-    {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
     }
 
     @Override
@@ -717,24 +709,6 @@ public class TileEntityControlPanel extends TileEntityMachineContainer implement
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return stack.getItem() == TFItems.dataCore;
-    }
-
-    @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int side)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemstack, int side)
-    {
-        return false;
-    }
-
-    @Override
-    public int[] getAccessibleSlotsFromSide(int side)
-    {
-        return new int[] {};
     }
 
     @Override

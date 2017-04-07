@@ -1,11 +1,9 @@
 package fiskfille.tf.client.render.tileentity;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -20,13 +18,13 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 {
     private ModelDisplayStation model = new ModelDisplayStation();
 
-    public void render(TileEntityDisplayStation tileentity, double x, double y, double z, float partialTicks)
+    public void render(TileEntityDisplayStation tile, double x, double y, double z, float partialTicks)
     {
         int metadata = 0;
 
-        if (tileentity.getWorldObj() != null)
+        if (tile.getWorldObj() != null)
         {
-            metadata = tileentity.getBlockMetadata();
+            metadata = tile.getBlockMetadata();
         }
 
         GL11.glPushMatrix();
@@ -49,9 +47,9 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_BLEND);
 
-            if (tileentity.getWorldObj() != null)
+            if (tile.getWorldObj() != null)
             {
-                int progress = TFRenderHelper.getBlockDestroyProgress(tileentity.getWorldObj(), tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
+                int progress = TFRenderHelper.getBlockDestroyProgress(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
 
                 if (progress >= 0)
                 {
@@ -76,30 +74,26 @@ public class RenderDisplayStation extends TileEntitySpecialRenderer
 
             try
             {
-                EntityClientPlayerMP entity = tileentity.fakePlayer;
-                ItemStack head = tileentity.getStackInSlot(0);
-                ItemStack chest = tileentity.getStackInSlot(1);
-                ItemStack legs = tileentity.getStackInSlot(2);
-                ItemStack feet = tileentity.getStackInSlot(3);
+                EntityPlayer entity = tile.fakePlayer;
+                
+                if (entity != null && entity.experience != -0.0085F)
+                {
+                    entity.width = 0.6F;
+                    entity.height = 1.8F;
+                    entity.yOffset = 1.62F;
+                    entity.capabilities.isFlying = true;
+                    entity.rotationYawHead = 0;
+                    entity.experience = -0.0085F;
+                    entity.setInvisible(true);
+                    entity.setDead();
+                    entity.setLocationAndAngles(tile.xCoord + 0.5F, tile.yCoord, tile.zCoord + 0.5F, 0, 0);
+                }
 
                 if (entity != null)
                 {
-                    entity.setCurrentItemOrArmor(4, head);
-                    entity.setCurrentItemOrArmor(3, chest);
-                    entity.setCurrentItemOrArmor(2, legs);
-                    entity.setCurrentItemOrArmor(1, feet);
-                    entity.capabilities.isFlying = true;
-                    entity.rotationYawHead = 0;
-                    entity.setInvisible(true);
-
-                    Render render = RenderManager.instance.getEntityRenderObject(entity);
-
-                    if (render != null)
-                    {
-                        GL11.glRotatef(180, 1, 0, 0);
-                        GL11.glTranslatef(0, 0.0625F * 3, 0);
-                        render.doRender(entity, 0, 0, 0, 0, 0.0625F);
-                    }
+                    GL11.glRotatef(180, 1, 0, 0);
+                    GL11.glTranslatef(0, 0.0625F * 3, 0);
+                    RenderManager.instance.renderEntityWithPosYaw(entity, 0, 0, 0, 0, 1);
                 }
             }
             catch (Exception e)

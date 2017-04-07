@@ -2,15 +2,17 @@ package fiskfille.tf.client.render.item;
 
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
+
 import org.lwjgl.opengl.GL11;
 
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
 
 public class RenderItemDisplayStation extends RenderItemTileEntity
 {
     public RenderItemDisplayStation()
     {
-        super(new TileEntityDisplayStation());
+        super(TFBlocks.displayStation);
     }
 
     @Override
@@ -30,17 +32,24 @@ public class RenderItemDisplayStation extends RenderItemTileEntity
                 GL11.glRotatef(180, 0, 1, 0);
             }
 
-            GL11.glTranslatef(-0.5F, -1.0F, -0.5F);
+            GL11.glTranslatef(-0.5F, -1, -0.5F);
         }
         else if (type == ItemRenderType.EQUIPPED)
         {
-            GL11.glTranslatef(0.5F, 0.0F, 0.5F);
+            GL11.glTranslatef(0.5F, 0, 0.5F);
         }
         else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.FIRST_PERSON_MAP)
         {
-            GL11.glTranslatef(0.5F, 0.0F, 0.5F);
+            GL11.glTranslatef(0.5F, 0, 0.5F);
         }
 
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+        try
+        {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0, 0, 0, 0);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

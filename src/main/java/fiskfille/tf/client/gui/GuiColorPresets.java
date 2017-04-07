@@ -3,7 +3,6 @@ package fiskfille.tf.client.gui;
 import java.awt.Color;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -12,8 +11,8 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -260,7 +259,7 @@ public class GuiColorPresets extends GuiScreen
 
         if (flag)
         {
-            EntityClientPlayerMP entity = tileentity.fakePlayer;
+            EntityPlayer entity = tileentity.fakePlayer;
             ItemStack head = tileentity.getStackInSlot(0).copy();
             ItemStack chest = tileentity.getStackInSlot(1).copy();
             ItemStack legs = tileentity.getStackInSlot(2).copy();

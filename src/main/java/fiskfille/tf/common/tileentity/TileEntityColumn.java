@@ -16,48 +16,12 @@ public class TileEntityColumn extends TileEntityMachineContainer implements IEne
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     public EnergyStorage storage = new EnergyStorageInventory(this, this);
 
-    public ItemStack[] inventory = new ItemStack[6];
-    public ItemStack[] lastInventory = new ItemStack[6];
-
     @Override
     public void updateEntity()
     {
         if (getBlockMetadata() < 4)
         {
             super.updateEntity();
-            
-            if (!worldObj.isRemote)
-            {
-                boolean dirty = false;
-
-                for (int i = 0; i < inventory.length; i++)
-                {
-                    ItemStack current = inventory[i];
-                    ItemStack previous = lastInventory[i];
-
-                    if (!ItemStack.areItemStacksEqual(current, previous) || !ItemStack.areItemStackTagsEqual(current, previous))
-                    {
-                        dirty = true;
-                        break;
-                    }
-                }
-
-                if (dirty)
-                {
-                    markBlockForUpdate();
-
-                    for (int i = 0; i < inventory.length; i++)
-                    {
-                        ItemStack itemstack = inventory[i];
-
-                        if (itemstack != null)
-                        {
-                            lastInventory[i] = itemstack.copy();
-                        }
-                    }
-                }
-            }
-
             storage.calculateUsage();
         }
     }
@@ -69,15 +33,9 @@ public class TileEntityColumn extends TileEntityMachineContainer implements IEne
     }
 
     @Override
-    public ItemStack[] getItemStacks()
+    public int getSizeInventory()
     {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
+        return 6;
     }
 
     @Override
@@ -167,7 +125,7 @@ public class TileEntityColumn extends TileEntityMachineContainer implements IEne
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
-        return getBlockMetadata() < 4 && itemstack.getItem() == TFItems.powerCanister;
+        return itemstack.getItem() == TFItems.powerCanister;
     }
 
     @Override

@@ -32,7 +32,6 @@ public class TileEntityEnergonTank extends TileEntityMachineContainer implements
     private static final int[] slotsSides = {0, 1};
 
     public TileDataEnergonTank data = new TileDataEnergonTank(16000);
-    private ItemStack[] inventory = new ItemStack[2];
 
     public int fillTime;
     public int lastFluidUsage;
@@ -260,23 +259,17 @@ public class TileEntityEnergonTank extends TileEntityMachineContainer implements
             data.kill();
         }
     }
+    
+    @Override
+    public int getSizeInventory()
+    {
+        return 2;
+    }
 
     @Override
     public String getInventoryName()
     {
         return "gui.energon_fluid_tank";
-    }
-
-    @Override
-    public ItemStack[] getItemStacks()
-    {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
     }
 
     @Override

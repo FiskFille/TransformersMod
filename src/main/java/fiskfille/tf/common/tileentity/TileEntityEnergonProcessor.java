@@ -32,7 +32,6 @@ public class TileEntityEnergonProcessor extends TileEntityMachineContainer imple
     private static final int[] slotsSides = {0, 2};
 
     public TileDataEnergonTank data = new TileDataEnergonTank(2000);
-    private ItemStack[] inventory = new ItemStack[3];
 
     public int burnTime;
     public int powerTime;
@@ -244,23 +243,17 @@ public class TileEntityEnergonProcessor extends TileEntityMachineContainer imple
             data.kill();
         }
     }
+    
+    @Override
+    public int getSizeInventory()
+    {
+        return 3;
+    }
 
     @Override
     public String getInventoryName()
     {
         return "gui.energon_processor";
-    }
-
-    @Override
-    public ItemStack[] getItemStacks()
-    {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
     }
 
     @Override

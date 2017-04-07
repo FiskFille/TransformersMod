@@ -1,5 +1,6 @@
 package fiskfille.tf.helper;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,104 +21,75 @@ import fiskfille.tf.common.transformer.base.Transformer;
  */
 public class TFHelper
 {
-    /**
-     * @returns whether the player is wearing the 'Cloudtrap' set.
-     */
-    public static boolean isPlayerCloudtrap(EntityPlayer player)
+    public static boolean isTransformer(EntityLivingBase entity)
     {
-        return getTransformer(player) instanceof TransformerCloudtrap;
+        return isTransformer(new ItemStack[] {entity.getEquipmentInSlot(4), entity.getEquipmentInSlot(3), entity.getEquipmentInSlot(2), entity.getEquipmentInSlot(1)});
     }
 
-    /**
-     * @returns whether the player is wearing the 'Skystrike' set.
-     */
-    public static boolean isPlayerSkystrike(EntityPlayer player)
+    public static boolean isTransformer(ItemStack... itemstacks)
     {
-        return getTransformer(player) instanceof TransformerSkystrike;
-    }
-
-    /**
-     * @returns whether the player is wearing the 'Purge' set.
-     */
-    public static boolean isPlayerPurge(EntityPlayer player)
-    {
-        return getTransformer(player) instanceof TransformerPurge;
-    }
-
-    /**
-     * @returns whether the player is wearing the 'Vurp' set.
-     */
-    public static boolean isPlayerVurp(EntityPlayer player)
-    {
-        return getTransformer(player) instanceof TransformerVurp;
-    }
-
-    /**
-     * @returns whether the player is wearing the 'Subwoofer' set.
-     */
-    public static boolean isPlayerSubwoofer(EntityPlayer player)
-    {
-        return getTransformer(player) instanceof TransformerSubwoofer;
-    }
-
-    /**
-     * @returns whether the player is wearing a full Transformer set.
-     */
-    public static boolean isPlayerTransformer(EntityPlayer player)
-    {
-        Transformer helmetTransformer = getTransformerFromArmor(player, 3);
-        Transformer chestTransformer = getTransformerFromArmor(player, 2);
-        Transformer legsTransformer = getTransformerFromArmor(player, 1);
-        Transformer feetTransformer = getTransformerFromArmor(player, 0);
-
-        return helmetTransformer != null && helmetTransformer == chestTransformer && chestTransformer == legsTransformer && legsTransformer == feetTransformer;
-    }
-
-    /**
-     * @returns the Transformer that the player currently has fully equipped, null when not wearing a full set.
-     */
-    public static Transformer getTransformer(EntityPlayer player)
-    {
-        if (player != null && isPlayerTransformer(player))
+        ItemStack itemstack = itemstacks[0];
+        
+        for (int i = 1; i < itemstacks.length; ++i)
         {
-            return getTransformerFromArmor(player, 0);
-        }
-
-        return null;
-    }
-
-    /**
-     * @returns the Transformer that the player is wearing in the specified slot.
-     */
-    public static Transformer getTransformerFromArmor(EntityPlayer player, int slot)
-    {
-        ItemStack currentArmorStack = player.getCurrentArmor(slot);
-
-        if (currentArmorStack != null)
-        {
-            Item currentArmor = currentArmorStack.getItem();
-
-            if (currentArmor instanceof ItemTransformerArmor)
+            if (getTransformerFromArmor(itemstack) == null || getTransformerFromArmor(itemstack) != getTransformerFromArmor(itemstacks[i]))
             {
-                return ((ItemTransformerArmor) currentArmor).getTransformer();
+                return false;
             }
+            
+            itemstack = itemstacks[i];
+        }
+        
+        return true;
+        
+        
+//        Transformer helmet = getTransformerFromArmor(itemstacks[0]);
+//        Transformer chest = getTransformerFromArmor(itemstacks[1]);
+//        Transformer legs = getTransformerFromArmor(itemstacks[2]);
+//        Transformer feet = getTransformerFromArmor(itemstacks[3]);
+//
+//        if ((helmet == null || helmet != chest) && chest != null && chest.getHelmet() == null)
+//        {
+//            return itemstacks[0] == null && chest == legs && legs == feet;
+//        }
+//
+//        return helmet != null && helmet == chest && chest == legs && legs == feet;
+    }
+
+    public static Transformer getTransformer(EntityLivingBase entity)
+    {
+        if (entity != null && isTransformer(entity))
+        {
+            return getTransformerFromArmor(entity, 0);
         }
 
         return null;
     }
 
-    /**
-     * @returns the Transformer for the specific armor ItemStack.
-     */
+    public static Transformer getTransformer(ItemStack... itemstacks)
+    {
+        if (isTransformer(itemstacks))
+        {
+            return getTransformerFromArmor(itemstacks[0]);
+        }
+
+        return null;
+    }
+
+    public static Transformer getTransformerFromArmor(EntityLivingBase entity, int slot)
+    {
+        return getTransformerFromArmor(entity.getEquipmentInSlot(slot + 1));
+    }
+
     public static Transformer getTransformerFromArmor(ItemStack itemstack)
     {
         if (itemstack != null)
         {
-            Item currentArmor = itemstack.getItem();
+            Item item = itemstack.getItem();
 
-            if (currentArmor instanceof ItemTransformerArmor)
+            if (item instanceof ItemTransformerArmor)
             {
-                return ((ItemTransformerArmor) currentArmor).getTransformer();
+                return ((ItemTransformerArmor) item).getTransformer();
             }
         }
 
@@ -126,12 +98,12 @@ public class TFHelper
 
     public static boolean isFullyTransformed(EntityPlayer player)
     {
-        return isPlayerTransformer(player) && getTransformationTimer(player) == 1;
+        return isTransformer(player) && getTransformationTimer(player) == 1;
     }
 
     public static boolean isInRobotMode(EntityPlayer player)
     {
-        return isPlayerTransformer(player) && getTransformationTimer(player) == 0;
+        return isTransformer(player) && getTransformationTimer(player) == 0;
     }
 
     public static boolean isInStealthMode(EntityPlayer player)

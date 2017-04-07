@@ -5,13 +5,13 @@ import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
-import fiskfille.tf.common.tileentity.TileEntityColumn;
+import fiskfille.tf.common.block.TFBlocks;
 
 public class RenderItemColumn extends RenderItemTileEntity
 {
     public RenderItemColumn()
     {
-        super(new TileEntityColumn());
+        super(TFBlocks.energyColumn);
     }
 
     @Override
@@ -35,13 +35,20 @@ public class RenderItemColumn extends RenderItemTileEntity
         }
         else if (type == ItemRenderType.EQUIPPED)
         {
-            GL11.glTranslatef(0.5F, 0.0F, 0.5F);
+            GL11.glTranslatef(0.5F, 0, 0.5F);
         }
         else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.FIRST_PERSON_MAP)
         {
-            GL11.glTranslatef(0.5F, 0.0F, 0.5F);
+            GL11.glTranslatef(0.5F, 0, 0.5F);
         }
 
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+        try
+        {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0, 0, 0, 0);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

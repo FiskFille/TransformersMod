@@ -1,7 +1,7 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.common.entity.EntityBassCharge;
-import fiskfille.tf.helper.TFHelper;
+import java.util.List;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,8 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-
-import java.util.List;
+import fiskfille.tf.common.entity.EntityBassCharge;
+import fiskfille.tf.common.transformer.TransformerSubwoofer;
+import fiskfille.tf.helper.TFHelper;
 
 public class ItemBassBlaster extends Item
 {
@@ -26,7 +27,7 @@ public class ItemBassBlaster extends Item
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (TFHelper.isPlayerSubwoofer(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
+        if (TFHelper.getTransformer(player) instanceof TransformerSubwoofer && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             stack.damageItem(1, player);
 
@@ -71,7 +72,7 @@ public class ItemBassBlaster extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerSubwoofer(player) && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
+        if (TFHelper.getTransformer(player) instanceof TransformerSubwoofer && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }

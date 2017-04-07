@@ -6,59 +6,38 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.tileentity.TileEntityDisplayStation;
-import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.helper.TFArmorHelper;
 
 public class ContainerDisplayStationArmor extends ContainerBasic
 {
     public InventoryDisplayStationArmor craftMatrix = new InventoryDisplayStationArmor(this);
 
-    public ContainerDisplayStationArmor(final InventoryPlayer inventoryPlayer, TileEntityDisplayStation tile)
+    public ContainerDisplayStationArmor(final InventoryPlayer inventoryPlayer, final TileEntityDisplayStation tile)
     {
         super(tile);
 
         for (int i = 0; i < 4; ++i)
         {
-            final int j = i;
+            final int finalSlotIndex = i;
             addSlotToContainer(new SlotDisplayStationArmor(this, tile, tile, i, 25, 18 + i * 18)
             {
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    Transformer newArmor = null;
-                    
-                    if (itemstack.getItem() instanceof ItemTransformerArmor)
-                    {
-                        newArmor = ((ItemTransformerArmor) itemstack.getItem()).getTransformer();
-                        
-                        for (int k = 0; k < 4; ++k)
-                        {
-                            ItemStack armor = getTile().getStackInSlot(k);
-                            
-                            if (armor != null && armor.getItem() instanceof ItemTransformerArmor)
-                            {
-                                if (newArmor != ((ItemTransformerArmor) armor.getItem()).getTransformer())
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                    
-                    return super.isItemValid(itemstack) && itemstack.getItem().isValidArmor(itemstack, j, inventoryPlayer.player);
+                    return super.isItemValid(itemstack) && itemstack.getItem().isValidArmor(itemstack, finalSlotIndex, tile.fakePlayer);
                 }
             });
         }
 
         for (int i = 0; i < 4; ++i)
         {
-            final int j = i;
+            final int finalSlotIndex = i;
             addSlotToContainer(new SlotDisplayStationArmor(this, craftMatrix, tile, i, 47, 18 + i * 18)
             {
                 @Override
                 public boolean isItemValid(ItemStack itemstack)
                 {
-                    return super.isItemValid(itemstack) && itemstack.getItem().isValidArmor(itemstack, j, inventoryPlayer.player);
+                    return super.isItemValid(itemstack) && itemstack.getItem().isValidArmor(itemstack, finalSlotIndex, inventoryPlayer.player);
                 }
             });
         }

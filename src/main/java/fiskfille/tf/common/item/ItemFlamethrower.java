@@ -1,10 +1,8 @@
 package fiskfille.tf.common.item;
 
-import fiskfille.tf.client.particle.TFParticleType;
-import fiskfille.tf.client.particle.TFParticles;
-import fiskfille.tf.common.entity.EntityFlamethrowerFire;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFVectorHelper;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,9 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.Random;
+import fiskfille.tf.client.particle.TFParticleType;
+import fiskfille.tf.client.particle.TFParticles;
+import fiskfille.tf.common.entity.EntityFlamethrowerFire;
+import fiskfille.tf.common.transformer.TransformerCloudtrap;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFVectorHelper;
 
 public class ItemFlamethrower extends Item
 {
@@ -31,7 +32,7 @@ public class ItemFlamethrower extends Item
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (TFHelper.isPlayerCloudtrap(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
+        if (TFHelper.getTransformer(player) instanceof TransformerCloudtrap && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             stack.damageItem(1, player);
 
@@ -119,7 +120,7 @@ public class ItemFlamethrower extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerCloudtrap(player) && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
+        if (TFHelper.getTransformer(player) instanceof TransformerCloudtrap && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }

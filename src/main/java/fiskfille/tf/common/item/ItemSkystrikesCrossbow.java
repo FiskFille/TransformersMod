@@ -1,8 +1,7 @@
 package fiskfille.tf.common.item;
 
-import com.google.common.collect.Multimap;
-import fiskfille.tf.common.entity.EntityLaserBeam;
-import fiskfille.tf.helper.TFHelper;
+import java.util.List;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +15,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.google.common.collect.Multimap;
+
+import fiskfille.tf.common.entity.EntityLaserBeam;
+import fiskfille.tf.common.transformer.TransformerSkystrike;
+import fiskfille.tf.helper.TFHelper;
 
 public class ItemSkystrikesCrossbow extends Item
 {
@@ -40,7 +43,7 @@ public class ItemSkystrikesCrossbow extends Item
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (TFHelper.isPlayerSkystrike(player) && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
+        if (TFHelper.getTransformer(player) instanceof TransformerSkystrike && !world.isRemote && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             boolean blue = isBlue(stack);
             stack.getTagCompound().setBoolean("blueMode", !blue);
@@ -101,7 +104,7 @@ public class ItemSkystrikesCrossbow extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerSkystrike(player) && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
+        if (TFHelper.getTransformer(player) instanceof TransformerSkystrike && (player.inventory.hasItem(TFItems.energonCrystalShard) || player.capabilities.isCreativeMode))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }

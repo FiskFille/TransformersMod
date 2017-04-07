@@ -20,7 +20,6 @@ import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.MessageSetPlayerData;
 import fiskfille.tf.common.network.MessageSetTileData;
 import fiskfille.tf.common.network.MessageTileTrigger;
-import fiskfille.tf.common.network.MessageTransformDisplayStation;
 import fiskfille.tf.common.network.MessageVehicleShoot;
 
 public class TFNetworkManager
@@ -40,7 +39,6 @@ public class TFNetworkManager
         registerPacket(MessageCloudtrapJetpack.Handler.class, MessageCloudtrapJetpack.class);
         registerPacket(MessageLaserShoot.Handler.class, MessageLaserShoot.class);
         registerPacket(MessageSendFlying.Handler.class, MessageSendFlying.class);
-        registerPacket(MessageTransformDisplayStation.Handler.class, MessageTransformDisplayStation.class);
         registerPacket(MessageColorArmor.Handler.class, MessageColorArmor.class);
         registerPacket(MessageControlPanelSetConfig.Handler.class, MessageControlPanelSetConfig.class);
         registerPacket(MessageGroundBridgeTeleport.Handler.class, MessageGroundBridgeTeleport.class);

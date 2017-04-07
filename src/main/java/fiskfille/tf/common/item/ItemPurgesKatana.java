@@ -1,10 +1,7 @@
 package fiskfille.tf.common.item;
 
-import com.google.common.collect.Multimap;
+import java.util.List;
 
-import fiskfille.tf.TransformersMod;
-import fiskfille.tf.helper.TFHelper;
-import fiskfille.tf.helper.TFVectorHelper;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +15,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.google.common.collect.Multimap;
+
+import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.transformer.TransformerPurge;
+import fiskfille.tf.helper.TFHelper;
+import fiskfille.tf.helper.TFVectorHelper;
 
 public class ItemPurgesKatana extends ItemSword
 {
@@ -32,7 +34,7 @@ public class ItemPurgesKatana extends ItemSword
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int time)
     {
-        if (!TFHelper.isFullyTransformed(player) && TFHelper.isPlayerPurge(player))
+        if (!TFHelper.isFullyTransformed(player) && TFHelper.getTransformer(player) instanceof TransformerPurge)
         {
             int timeLeft = getMaxItemUseDuration(stack) - time;
             double force = (double) timeLeft / 10;
@@ -73,7 +75,7 @@ public class ItemPurgesKatana extends ItemSword
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (TFHelper.isPlayerPurge(player))
+        if (TFHelper.getTransformer(player) instanceof TransformerPurge)
         {
             if (!TFHelper.isFullyTransformed(player))
             {

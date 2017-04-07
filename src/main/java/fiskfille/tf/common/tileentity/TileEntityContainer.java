@@ -5,17 +5,50 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import fiskfille.tf.helper.TFTileHelper;
 
 public abstract class TileEntityContainer extends TileEntityTF implements IInventory
 {
-    public abstract ItemStack[] getItemStacks();
-
-    public abstract void setItemStacks(ItemStack[] itemstacks);
-
-    @Override
-    public int getSizeInventory()
+    protected ItemStack[] inventory = new ItemStack[getSizeInventory()];
+    
+    public ItemStack[] getItemStacks()
     {
-        return getItemStacks().length;
+        if (hasWorldObj())
+        {
+            TileEntityContainer base = TFTileHelper.getTileBase(this);
+
+            if (base != this)
+            {
+                if (base != null)
+                {
+                    return base.getItemStacks();
+                }
+
+                return new ItemStack[getSizeInventory()];
+            }
+        }
+        
+        return inventory;
+    }
+
+    public void setItemStacks(ItemStack[] itemstacks)
+    {
+        if (hasWorldObj())
+        {
+            TileEntityContainer base = TFTileHelper.getTileBase(this);
+
+            if (base != this)
+            {
+                if (base != null)
+                {
+                    base.setItemStacks(itemstacks);
+                }
+
+                return;
+            }
+        }
+        
+        inventory = itemstacks;
     }
 
     @Override
@@ -90,17 +123,20 @@ public abstract class TileEntityContainer extends TileEntityTF implements IInven
     @Override
     public void readCustomNBT(NBTTagCompound nbt)
     {
-        NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-        setItemStacks(new ItemStack[getSizeInventory()]);
-
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
+        if (nbt.hasKey("LoadInventory"))
         {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            byte slot = nbttagcompound1.getByte("Slot");
+            NBTTagList nbttaglist = nbt.getTagList("Items", 10);
+            setItemStacks(new ItemStack[getSizeInventory()]);
 
-            if (slot >= 0 && slot < getItemStacks().length)
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                getItemStacks()[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+                byte slot = nbttagcompound1.getByte("Slot");
+
+                if (slot >= 0 && slot < getItemStacks().length)
+                {
+                    getItemStacks()[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+                }
             }
         }
     }
@@ -108,6 +144,12 @@ public abstract class TileEntityContainer extends TileEntityTF implements IInven
     @Override
     public void writeCustomNBT(NBTTagCompound nbt)
     {
+        if (TFTileHelper.getTileBase(this) != this)
+        {
+            return;
+        }
+        
+        nbt.setBoolean("LoadInventory", true);
         NBTTagList nbttaglist = new NBTTagList();
 
         for (int i = 0; i < getItemStacks().length; ++i)

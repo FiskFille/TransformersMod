@@ -20,7 +20,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.google.common.collect.Lists;
 
-import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.client.render.block.RenderBlockDisplayPedestal;
 import fiskfille.tf.common.tileentity.TileEntityDisplayPedestal;
 
@@ -150,22 +149,50 @@ public class BlockDisplayPedestal extends BlockMachineBase
             ItemStack heldItem = player.getHeldItem();
             ItemStack displayItem = tile.getDisplayItem();
 
-            if (heldItem == null && displayItem != null)
+            if (heldItem != null)
+            {
+                if (tile.isItemValidForSlot(0, heldItem))
+                {
+                    if (displayItem != null)
+                    {
+                        if (displayItem.isStackable() && heldItem.getItem() == displayItem.getItem() && heldItem.getItemDamage() == displayItem.getItemDamage() && ItemStack.areItemStackTagsEqual(heldItem, displayItem))
+                        {
+                            if (displayItem.stackSize < displayItem.getMaxStackSize())
+                            {
+                                int amount = Math.min(heldItem.stackSize, displayItem.getMaxStackSize() - displayItem.stackSize);
+                                displayItem.stackSize += amount;
+                                
+                                if ((heldItem.stackSize -= amount) <= 0)
+                                {
+                                    player.setCurrentItemOrArmor(0, null);
+                                }
+                                
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            tile.setDisplayItem(heldItem, true);
+                            player.setCurrentItemOrArmor(0, displayItem);
+                            
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        tile.setDisplayItem(heldItem, true);
+                        player.setCurrentItemOrArmor(0, null);
+
+                        return true;
+                    }
+                }
+            }
+            else if (displayItem != null)
             {
                 player.setCurrentItemOrArmor(0, displayItem);
                 tile.setDisplayItem(null, true);
 
                 return true;
-            }
-            else if (heldItem != null && TransformersAPI.hasDisplayable(heldItem.getItem()))
-            {
-                if (displayItem == null)
-                {
-                    tile.setDisplayItem(heldItem, true);
-                    player.setCurrentItemOrArmor(0, null);
-
-                    return true;
-                }
             }
         }
 

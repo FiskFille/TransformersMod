@@ -5,6 +5,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import fiskfille.tf.helper.TFTileHelper;
 
 public abstract class TileEntityTF extends TileEntity
 {
@@ -39,6 +40,17 @@ public abstract class TileEntityTF extends TileEntity
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         readCustomNBT(pkt.func_148857_g());
+    }
+    
+    @Override
+    public void markDirty()
+    {
+        TileEntity tile = TFTileHelper.getTileBase(this);
+        
+        if (tile != null)
+        {
+            worldObj.markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
+        }
     }
 
     protected abstract void writeCustomNBT(NBTTagCompound nbt);

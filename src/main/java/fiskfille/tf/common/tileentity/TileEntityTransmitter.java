@@ -42,7 +42,6 @@ import fiskfille.tf.helper.TFTileHelper;
 public class TileEntityTransmitter extends TileEntityMachineContainer implements IEnergyTransmitter, IFluidHandlerTF, ISidedInventory, IChunkLoaderTile, IMultiTile, ITransmitterRender
 {
     public TileDataTransmitter data = new TileDataTransmitter(16000, 6000);
-    public ItemStack[] inventory = new ItemStack[1];
 
     public int animationTimer;
 
@@ -141,23 +140,17 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
             }
         }
     }
+    
+    @Override
+    public int getSizeInventory()
+    {
+        return 1;
+    }
 
     @Override
     public String getInventoryName()
     {
         return "gui.transmitter";
-    }
-
-    @Override
-    public ItemStack[] getItemStacks()
-    {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
     }
 
     @Override
@@ -351,11 +344,6 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
     {
-        if (getBlockMetadata() >= 4)
-        {
-            return false;
-        }
-
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return isItemValidForSlot(slot, itemstack);
     }
@@ -363,13 +351,13 @@ public class TileEntityTransmitter extends TileEntityMachineContainer implements
     @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, int side)
     {
-        return getBlockMetadata() < 4 && ItemFuelCanister.isEmpty(itemstack);
+        return ItemFuelCanister.isEmpty(itemstack);
     }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
-        return getBlockMetadata() < 4 && itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
+        return itemstack.getItem() instanceof IFluidContainerItem && !ItemFuelCanister.isEmpty(itemstack) && ItemFuelCanister.getContainerFluid(itemstack).getFluid() == TFFluids.energon;
     }
 
     @Override

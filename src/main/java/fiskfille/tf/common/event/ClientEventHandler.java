@@ -63,6 +63,7 @@ import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.item.ItemHandler;
 import fiskfille.tf.common.item.TFItems;
+import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 import fiskfille.tf.config.TFConfig;
 import fiskfille.tf.helper.ModelOffset;
@@ -104,7 +105,7 @@ public class ClientEventHandler
 
         if (mc.currentScreen == null && player.ridingEntity == null)
         {
-            if (TFHelper.isPlayerTransformer(player))
+            if (TFHelper.isTransformer(player))
             {
                 KeyBinding[] keys = new KeyBinding[] {TFKeyBinds.keyBindingTransform1};
 
@@ -815,7 +816,7 @@ public class ClientEventHandler
         {
             ItemStack itemstack = player.getHeldItem();
 
-            if (TFDataManager.getZoomTimer(player) > 0 && TFHelper.isPlayerVurp(player) && itemstack != null && itemstack.getItem() == TFItems.vurpsSniper && mc.gameSettings.thirdPersonView == 0)
+            if (TFDataManager.getZoomTimer(player) > 0 && TFHelper.getTransformer(player) instanceof TransformerVurp && itemstack != null && itemstack.getItem() == TFItems.vurpsSniper && mc.gameSettings.thirdPersonView == 0)
             {
                 event.newfov = 1.0F - (float) TFDataManager.getZoomTimer(player) / 10;
             }

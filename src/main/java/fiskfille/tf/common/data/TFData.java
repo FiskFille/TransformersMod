@@ -295,7 +295,7 @@ public class TFData<T>
 
         if (this == ALT_MODE)
         {
-            if (!TFHelper.isPlayerTransformer(player) && (Integer) value != -1)
+            if (!TFHelper.isTransformer(player) && (Integer) value != -1)
             {
                 TFPlayerData.getData(player).putData(this, (T) Integer.valueOf(-1));
                 value = (T) Integer.valueOf(-1);

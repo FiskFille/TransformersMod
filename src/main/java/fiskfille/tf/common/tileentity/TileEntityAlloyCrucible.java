@@ -36,7 +36,6 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
     public ReceiverHandler receiverHandler = new ReceiverHandler(this);
     public TileDataEnergyContainer data = new TileDataEnergyContainer(32000);
 
-    public ItemStack[] inventory = new ItemStack[4];
     public EnumSmeltingMode smeltingMode = EnumSmeltingMode.ALLOY;
     public ItemStack smeltingResult;
     public boolean alloyResult;
@@ -122,23 +121,17 @@ public class TileEntityAlloyCrucible extends TileEntityMachineContainer implemen
             data.kill();
         }
     }
+    
+    @Override
+    public int getSizeInventory()
+    {
+        return 4;
+    }
 
     @Override
     public String getInventoryName()
     {
         return "gui.alloy_crucible";
-    }
-
-    @Override
-    public ItemStack[] getItemStacks()
-    {
-        return inventory;
-    }
-
-    @Override
-    public void setItemStacks(ItemStack[] itemstacks)
-    {
-        inventory = itemstacks;
     }
 
     public boolean canSmelt()

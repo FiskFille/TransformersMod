@@ -68,7 +68,7 @@ public class TFPredicates
             @Override
             public boolean apply(EntityPlayer input)
             {
-                return TFHelper.isPlayerTransformer(input);
+                return TFHelper.isTransformer(input);
             }
         };
     }

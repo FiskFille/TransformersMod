@@ -75,7 +75,6 @@ import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 import fiskfille.tf.common.tileentity.TileEntityEnergyPort;
 import fiskfille.tf.common.tileentity.TileEntityGroundBridgeTeleporter;
 import fiskfille.tf.common.tileentity.TileEntityIsoCondenser;
-import fiskfille.tf.common.tileentity.TileEntityRelayTorch;
 import fiskfille.tf.common.tileentity.TileEntityRelayTower;
 import fiskfille.tf.common.tileentity.TileEntityTransformiumSeed;
 import fiskfille.tf.common.tileentity.TileEntityTransmitter;
@@ -115,15 +114,15 @@ public class ClientProxy extends CommonProxy
 //        RenderingRegistry.registerEntityRenderingHandler(EntityTransformer.class, new RenderTransformer());
 
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.displayStation), new RenderItemDisplayStation());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.assemblyTable), new RenderItemTileEntity(new TileEntityAssemblyTable()));
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonProcessor), new RenderItemTileEntity(new TileEntityEnergonProcessor()));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.assemblyTable), new RenderItemTileEntity(TFBlocks.assemblyTable));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonProcessor), new RenderItemTileEntity(TFBlocks.energonProcessor));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energonFluidTank), new RenderItemEnergonTank());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.transmitter), new RenderItemTransmitter());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTower), new RenderItemRelayTower());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTorch), new RenderItemTileEntity(new TileEntityRelayTorch()));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.relayTorch), new RenderItemTileEntity(TFBlocks.relayTorch));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energyColumn), new RenderItemColumn());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energyPort), new RenderItemTileEntity(new TileEntityEnergyPort()));
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.isoCondenser), new RenderItemTileEntity(new TileEntityIsoCondenser()));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.energyPort), new RenderItemTileEntity(TFBlocks.energyPort));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.isoCondenser), new RenderItemTileEntity(TFBlocks.isoCondenser));
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(TFBlocks.groundBridgeControlPanel), new RenderItemControlPanel());
         MinecraftForgeClient.registerItemRenderer(TFItems.displayVehicle, new RenderItemDisplayVehicle());
         MinecraftForgeClient.registerItemRenderer(TFItems.dataCore, new RenderItemDataCore());

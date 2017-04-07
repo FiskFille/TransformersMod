@@ -1,5 +1,6 @@
 package fiskfille.tf.client.render.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -10,10 +11,14 @@ import org.lwjgl.opengl.GL11;
 public class RenderItemTileEntity implements IItemRenderer
 {
     protected TileEntity tileentity;
+    protected Block block;
 
-    public RenderItemTileEntity(TileEntity tile)
+    public RenderItemTileEntity(Block b)
     {
-        tileentity = tile;
+        block = b;
+        tileentity = block.createTileEntity(null, 0);
+        tileentity.blockType = block;
+        tileentity.blockMetadata = 0;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class RenderItemTileEntity implements IItemRenderer
 
         try
         {
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0, 0, 0, 0);
         }
         catch (Exception e)
         {

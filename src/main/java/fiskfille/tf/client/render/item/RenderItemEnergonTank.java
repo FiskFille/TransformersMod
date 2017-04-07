@@ -9,13 +9,14 @@ import net.minecraftforge.common.util.Constants.NBT;
 
 import org.lwjgl.opengl.GL11;
 
+import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.tileentity.TileEntityEnergonTank;
 
 public class RenderItemEnergonTank extends RenderItemTileEntity
 {
     public RenderItemEnergonTank()
     {
-        super(new TileEntityEnergonTank());
+        super(TFBlocks.energonFluidTank);
     }
 
     @Override
@@ -45,8 +46,8 @@ public class RenderItemEnergonTank extends RenderItemTileEntity
         }
 
         GL11.glEnable(GL11.GL_CULL_FACE);
-        RenderBlocks.getInstance().renderBlockAsItem(Block.getBlockFromItem(item.getItem()), 1, 1.0F);
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0.0F, 0.0F, 0.0F, 0.0F);
+        RenderBlocks.getInstance().renderBlockAsItem(Block.getBlockFromItem(item.getItem()), 1, 1);
+        TileEntityRendererDispatcher.instance.renderTileEntityAt(tileentity, 0, 0, 0, 0);
 
         if (type == ItemRenderType.INVENTORY)
         {

@@ -261,9 +261,13 @@ public class GuiGroundBridge extends GuiContainerTF implements INEIGuiHandler
         }
 
         String destDimension = String.valueOf(data.destination.dimension);
-        String modifiedY = "(-> " + data.modifiedDestY + ")";
         fontRendererObj.drawString(destDimension, (buttonDimLeft.xPosition + buttonDimRight.xPosition + buttonDimRight.width - fontRendererObj.getStringWidth(destDimension)) / 2 - x, (buttonDimLeft.yPosition + buttonDimLeft.height / 2 + buttonDimRight.yPosition + buttonDimRight.height / 2 - fontRendererObj.FONT_HEIGHT + 1) / 2 + 1 - y, -1);
-        fontRendererObj.drawString(modifiedY, coordinateFields[1].xPosition + (coordinateFields[1].width - fontRendererObj.getStringWidth(modifiedY)) / 2 - x, coordinateFields[1].yPosition + coordinateFields[1].height + fontRendererObj.FONT_HEIGHT / 2 - y, 0x7F7F7F);
+        
+        if (data.hasUpgrade(DataCore.leveler))
+        {
+            String modifiedY = "(-> " + data.modifiedDestY + ")";
+            fontRendererObj.drawString(modifiedY, coordinateFields[1].xPosition + (coordinateFields[1].width - fontRendererObj.getStringWidth(modifiedY)) / 2 - x, coordinateFields[1].yPosition + coordinateFields[1].height + fontRendererObj.FONT_HEIGHT / 2 - y, 0x7F7F7F);
+        }
         
         TFRenderHelper.setupRenderItemIntoGUI();
 
