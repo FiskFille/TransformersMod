@@ -1,9 +1,7 @@
 package fiskfille.tf.common.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.transformer.base.Transformer;
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import java.util.List;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fiskfille.tf.TransformersAPI;
+import fiskfille.tf.common.transformer.base.Transformer;
 
 public class ItemDisplayVehicle extends Item
 {
@@ -59,7 +59,6 @@ public class ItemDisplayVehicle extends Item
                 ItemStack feet = new ItemStack(transformer.getBoots());
 
                 ItemStack[] itemstacks = {head, chest, legs, feet};
-
                 NBTTagList itemsList = new NBTTagList();
 
                 for (int i = 0; i < itemstacks.length; ++i)
@@ -74,6 +73,7 @@ public class ItemDisplayVehicle extends Item
                 }
 
                 itemstack.getTagCompound().setTag("Items", itemsList);
+                break;
             }
 
             transformerIndex++;
@@ -97,62 +97,24 @@ public class ItemDisplayVehicle extends Item
                 setNBTData(itemstack);
                 armorFromNBT = getArmorFromNBT(itemstack);
             }
-
-            boolean server = !player.worldObj.isRemote;
-
-            if (armorFromNBT[0] != null)
-            {
-                if (server)
-                {
-                    if (player.getCurrentArmor(3) != null)
-                    {
-                        player.entityDropItem(player.getCurrentArmor(3), 0);
-                    }
-                }
-
-                player.setCurrentItemOrArmor(4, armorFromNBT[0]);
-            }
-
-            if (armorFromNBT[1] != null)
-            {
-                if (server)
-                {
-                    if (player.getCurrentArmor(2) != null)
-                    {
-                        player.entityDropItem(player.getCurrentArmor(2), 0);
-                    }
-                }
-
-                player.setCurrentItemOrArmor(3, armorFromNBT[1]);
-            }
-
-            if (armorFromNBT[2] != null)
-            {
-                if (server)
-                {
-                    if (player.getCurrentArmor(1) != null)
-                    {
-                        player.entityDropItem(player.getCurrentArmor(1), 0);
-                    }
-                }
-
-                player.setCurrentItemOrArmor(2, armorFromNBT[2]);
-            }
-
-            if (armorFromNBT[3] != null)
-            {
-                if (server)
-                {
-                    if (player.getCurrentArmor(0) != null)
-                    {
-                        player.entityDropItem(player.getCurrentArmor(0), 0);
-                    }
-                }
-
-                player.setCurrentItemOrArmor(1, armorFromNBT[3]);
-            }
-
+            
             player.setCurrentItemOrArmor(0, null);
+            
+            for (int i = 0; i < 4; ++i)
+            {
+                if (player.getCurrentArmor(i) != null)
+                {
+                    if (!player.inventory.addItemStackToInventory(player.getCurrentArmor(i)))
+                    {
+                        if (!player.worldObj.isRemote)
+                        {
+                            player.entityDropItem(player.getCurrentArmor(i), 0);
+                        }
+                    }
+                }
+
+                player.setCurrentItemOrArmor(i + 1, armorFromNBT[3 - i]);
+            }
         }
 
         return itemstack;
@@ -168,7 +130,6 @@ public class ItemDisplayVehicle extends Item
             for (int i = 0; i < nbtItems.tagCount(); ++i)
             {
                 NBTTagCompound item = nbtItems.getCompoundTagAt(i);
-
                 byte slot = item.getByte("Slot");
 
                 if (slot >= 0 && slot < items.length)
