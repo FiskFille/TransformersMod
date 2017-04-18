@@ -1,8 +1,10 @@
-# Transformers Mod [![Build Status](https://travis-ci.org/FiskFille/TransformersMod.svg?branch=master)](https://travis-ci.org/FiskFille/TransformersMod)
+# Transformers Mod
 
-This is the Official GitHub Repository for the Transformers Mod for Minecraft. 
-This mod is developed by FiskFille and gegy1000. 
+This is not the Official GitHub Repository for the Transformers Mod for Minecraft. 
+This mod originally is developed by FiskFille and gegy1000. 
 
-If you want to contribute, feel free to submit a Pull Request.
+This is an Fork off of FiskFille and gegy1000 Transformers mod 
+ 
+just made some modifications to the mod
 
-Also, if you have any problems with the mod, submit it on the "Issues" page. 
+Source code will be release and the jar soon once I'm done :)
