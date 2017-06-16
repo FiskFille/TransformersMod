@@ -1,6 +1,6 @@
 package fiskfille.tf.common.block;
 
-import fiskfille.tf.common.api.item.RegisterItemModel;
+import fiskfille.tf.common.item.RegisterItemModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 

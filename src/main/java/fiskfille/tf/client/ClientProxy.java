@@ -2,7 +2,7 @@ package fiskfille.tf.client;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.CommonProxy;
-import fiskfille.tf.common.api.item.RegisterItemModel;
+import fiskfille.tf.common.item.RegisterItemModel;
 import fiskfille.tf.common.block.TFBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
