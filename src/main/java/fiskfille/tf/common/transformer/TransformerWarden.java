@@ -3,7 +3,7 @@
 //import fiskfille.tf.common.achievement.TFAchievements;
 //import fiskfille.tf.common.block.TFBlocks;
 //import fiskfille.tf.common.entity.EntityLaser;
-//import fiskfille.tf.common.item.TFItems;
+//import TFItems;
 //import fiskfille.tf.common.transformer.base.TransformerJet;
 //import fiskfille.tf.helper.TFVectorHelper;
 //import net.minecraft.client.Minecraft;

@@ -9,11 +9,6 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.fluid.FluidTankTF;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.transformer.TransformerCloudtrap;
-import fiskfille.tf.common.transformer.TransformerPurge;
-import fiskfille.tf.common.transformer.TransformerSkystrike;
-import fiskfille.tf.common.transformer.TransformerSubwoofer;
-import fiskfille.tf.common.transformer.TransformerVurp;
 import fiskfille.tf.common.transformer.base.Transformer;
 
 /**

@@ -3,7 +3,7 @@
 //import fiskfille.tf.TransformerManager;
 //import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 //import fiskfille.tf.common.entity.EntityTransformer;
-//import fiskfille.tf.common.item.TFItems;
+//import TFItems;
 //import fiskfille.tf.common.transformer.base.Transformer;
 //import net.minecraft.client.model.ModelRenderer;
 //import net.minecraft.entity.Entity;
@@ -2281,7 +2281,7 @@
 ////import fiskfille.tf.client.model.tools.MowzieModelBase;
 ////import fiskfille.tf.client.model.tools.MowzieModelRenderer;
 ////import fiskfille.tf.common.entity.EntityTransformer;
-////import fiskfille.tf.common.item.TFItems;
+////import TFItems;
 ////import net.minecraft.client.model.ModelRenderer;
 ////import net.minecraft.entity.Entity;
 ////import net.minecraft.util.MathHelper;

@@ -1,7 +1,7 @@
 // package fiskfille.tf.common.item.armor;
 //
 //import fiskfille.tf.TransformerManager;
-//import fiskfille.tf.common.item.TFItems;
+//import TFItems;
 //import fiskfille.tf.common.transformer.base.Transformer;
 //
 //public class ItemWardenArmor extends ItemTransformerArmor

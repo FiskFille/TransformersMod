@@ -21,7 +21,6 @@ import fiskfille.tf.common.fluid.TFFluids;
 import fiskfille.tf.common.generator.TFWorldGenHandler;
 import fiskfille.tf.common.item.ItemHandler;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.item.TFSubItems;
 import fiskfille.tf.common.registry.TFOreDictRegistry;
 import fiskfille.tf.common.tick.CommonTickHandler;
 import fiskfille.tf.helper.TFShootManager;

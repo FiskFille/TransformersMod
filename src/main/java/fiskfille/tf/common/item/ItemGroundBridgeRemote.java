@@ -19,7 +19,6 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.gui.GuiHandlerTF.TFGui;
 import fiskfille.tf.common.block.BlockControlPanel;
 import fiskfille.tf.common.data.tile.TileDataControlPanel;
-import fiskfille.tf.common.item.ItemCSD.DimensionalCoords;
 import fiskfille.tf.common.tileentity.TileEntityControlPanel;
 import fiskfille.tf.helper.TFTileHelper;
 
@@ -35,14 +34,14 @@ public class ItemGroundBridgeRemote extends Item
     @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean flag)
     {
-        DimensionalCoords coords = ItemCSD.getCoords(itemstack);
+        ItemCSD.DimensionalCoords coords = ItemCSD.getCoords(itemstack);
         list.add(coords.getFormatted().getFormattedText());
     }
 
     @Override
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int usingTick, boolean holding)
     {
-        DimensionalCoords coords = ItemCSD.getCoords(itemstack);
+        ItemCSD.DimensionalCoords coords = ItemCSD.getCoords(itemstack);
 
         if (TFTileHelper.getTileData(coords) instanceof TileDataControlPanel)
         {
@@ -59,7 +58,7 @@ public class ItemGroundBridgeRemote extends Item
     {
         if (!world.isRemote)
         {
-            DimensionalCoords coords = ItemCSD.getCoords(stack);
+            ItemCSD.DimensionalCoords coords = ItemCSD.getCoords(stack);
             WorldServer targetWorld = MinecraftServer.getServer().worldServerForDimension(coords.dimension);
 
             if (!player.isSneaking())
@@ -94,7 +93,7 @@ public class ItemGroundBridgeRemote extends Item
 
             if (tile instanceof TileEntityControlPanel && BlockControlPanel.isBlockLeftSideOfPanel(tile.getBlockMetadata()))
             {
-                DimensionalCoords coords = new DimensionalCoords(tile.xCoord, tile.yCoord, tile.zCoord, world.provider.dimensionId);
+                ItemCSD.DimensionalCoords coords = new ItemCSD.DimensionalCoords(tile.xCoord, tile.yCoord, tile.zCoord, world.provider.dimensionId);
                 ItemCSD.setCoords(itemstack, coords);
 
                 if (world.isRemote)

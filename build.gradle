@@ -27,6 +27,21 @@ minecraft {
     replace '${version}', '0.6.0'
 }
 
+repositories {
+	mavenCentral()
+    maven {
+        url = "http://mobiusstrip.eu/maven"
+    }
+    maven {
+        url = "http://chickenbones.net/maven"
+    }
+}
+
+dependencies {
+    compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev"
+}
+
 sourceSets {
     main {
         resources {

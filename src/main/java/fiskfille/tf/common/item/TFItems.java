@@ -1,17 +1,17 @@
 package fiskfille.tf.common.item;
 
+import fiskfille.tf.common.item.armor.ItemPurgeArmor;
+import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
+import fiskfille.tf.common.item.armor.ItemSubwooferArmor;
+import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.item.armor.ItemVurpArmor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import fiskfille.tf.common.component.ComponentArmor;
 import fiskfille.tf.common.component.ComponentColor;
 import fiskfille.tf.common.energon.TFEnergonManager;
-import fiskfille.tf.common.item.armor.ItemCloudtrapArmor;
-import fiskfille.tf.common.item.armor.ItemPurgeArmor;
-import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
-import fiskfille.tf.common.item.armor.ItemSubwooferArmor;
-import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.item.armor.ItemVurpArmor;
 import fiskfille.tf.common.registry.TFItemRegistry;
 
 public class TFItems
