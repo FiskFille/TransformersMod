@@ -1,30 +1,45 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: "net.minecraftforge.gradle.forge"
+
+version = "0.6.0"
+group = "fiskfille.tf"
+archivesBaseName = "transformers-mod"
+
+sourceCompatibility = targetCompatibility = "1.8"
+
+minecraft {
+    version = "1.11.2-13.20.0.2282"
+    mappings = "stable_31"
+    runDir = "run"
+    replace '${version}', '0.6.0'
+}
+
+repositories {
+	mavenCentral()
+    maven {
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        url = "http://mobiusstrip.eu/maven"
     }
 }
 
-apply plugin: 'forge'
+dependencies {
+    compile "mcp.mobius.waila:Waila:1.7.1_1.11.2:dev"
 
-version = "0.6.0"
-group= "fiskfille.tf"
-archivesBaseName = "TransformersMod-1.7.10"
-
-minecraft {
-    version = "1.7.10-10.13.4.1558-1.7.10"
-    runDir = "eclipse"
-    replace '${version}', '0.6.0'
+    deobfCompile "mezz.jei:jei_1.11.2:4.3.1.260:api"
+    runtime "mezz.jei:jei_1.11.2:4.3.1.260"
 }
 
 sourceSets {
@@ -48,6 +63,19 @@ jar {
     manifest coremodManifest
 }
 
+task deobfJar(type: Jar) {
+	destinationDir = file 'jars/deobf'
+    classifier = 'deobf'
+	
+	from sourceSets.main.output
+	manifest coremodManifest
+}
+
+artifacts {
+    archives deobfJar
+    archives sourceJar
+}
+
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -60,24 +88,4 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
-
-task deobfJar(type: Jar) {
-	destinationDir = file 'jars/deobf'
-    classifier = 'deobf'
-	
-	from sourceSets.main.output
-	manifest coremodManifest
-}
-
-task sourceJar(type: Jar, dependsOn:classes) {
-	destinationDir = file 'jars/src'
-    classifier = 'src'
-	
-    from sourceSets.main.allJava
-}
-
-artifacts {
-    archives deobfJar
-    archives sourceJar
 }

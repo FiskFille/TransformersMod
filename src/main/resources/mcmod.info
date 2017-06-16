@@ -4,7 +4,7 @@
   "name": "Transformers Mod",
   "description": "The Transformers mod adds a variety of things from the Transformers fictional universe, primarily the concept of transformation.",
   "version": "${version}",
-  "mcversion": "1.7.10",
+  "mcversion": "1.11.2",
   "url": "http://www.planetminecraft.com/mod/transformers-mod/",
   "updateUrl": "",
   "authorList": ["FiskFille"],

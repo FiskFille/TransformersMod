@@ -1,9 +1,10 @@
 package fiskfille.tf.common.block;
 
+import fiskfille.tf.common.api.item.RegisterItemModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
-public class BlockBasic extends Block
+public class BlockBasic extends Block implements RegisterItemModel
 {
     public BlockBasic(Material material)
     {
@@ -12,7 +13,7 @@ public class BlockBasic extends Block
 
     public BlockBasic setHarvestLvl(String tool, int level)
     {
-        setHarvestLevel(tool, level);
+        this.setHarvestLevel(tool, level);
         return this;
     }
 }
