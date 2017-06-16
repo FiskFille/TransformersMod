@@ -5,3 +5,7 @@ itemGroup.transformers=Transformers Mod
 # Blocks
 
 tile.transformium_ore.name=Transformium Ore
+
+# Items
+
+item.transformium_fragment.name=Transformium Fragment
