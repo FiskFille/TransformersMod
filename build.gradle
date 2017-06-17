@@ -17,6 +17,9 @@ group = "fiskfille.tf"
 archivesBaseName = "transformers-mod"
 
 sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
 
 minecraft {
     version = "1.11.2-13.20.0.2282"
