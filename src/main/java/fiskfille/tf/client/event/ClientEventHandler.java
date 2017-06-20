@@ -4,16 +4,19 @@ import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.config.TFConfig;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.helper.TFHelper;
 import fiskfille.tf.common.helper.TFRenderHelper;
 import fiskfille.tf.common.transformer.Transformer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -102,6 +105,60 @@ public class ClientEventHandler
     public static void onRenderTick(TickEvent.RenderTickEvent event)
     {
         renderTick = event.renderTickTime;
+
+        if (event.phase == TickEvent.Phase.START)
+        {
+            EntityPlayerSP player = MC.player;
+
+            if (player != null)
+            {
+                if (TFRenderHelper.shouldOverrideView(player))
+                {
+                    player.eyeHeight = TFHelper.getHeight(player);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onFOVUpdate(FOVUpdateEvent event)
+    {
+        EntityPlayer player = event.getEntity();
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        float nitro = TFData.NITRO.get(player);
+        boolean moveForward = MC.gameSettings.keyBindForward.isKeyDown();
+        boolean nitroPressed = MC.gameSettings.keyBindSprint.isKeyDown();
+
+        int altMode = TFData.ALT_MODE.get(player);
+
+        if (TFHelper.isFullyTransformed(player))
+        {
+            if ((transformer == null || transformer.canUseNitro(player, altMode)) && nitro > 0 && moveForward && nitroPressed)
+            {
+                event.setNewfov(1.3F);
+            }
+        }
+        else
+        {
+            /*for (EnumHand hand : EnumHand.values())
+            {
+                ItemStack stack = player.getHeldItem(hand);
+
+                if (TFDataManager.getZoomTimer(player) > 0 && TFHelper.getTransformer(player) instanceof TransformerVurp && !stack.isEmpty() && stack.getItem() == TFItems.vurpsSniper && mc.gameSettings.thirdPersonView == 0)
+                {
+                    event.setNewfov(1.0F - (float) TFDataManager.getZoomTimer(player) / 10);
+                    break;
+                }
+            }*/
+
+            //TODO: Reimplement with vurp
+        }
+
+        if (TFHelper.getTransformationTimer(player) > 0 && !(nitro > 0 && moveForward && nitroPressed && !TFHelper.isInStealthMode(player)))
+        {
+            event.setNewfov(1.0F);
+        }
     }
 
     @SubscribeEvent
@@ -166,10 +223,10 @@ public class ClientEventHandler
 
                         if (TFData.TRANSFORM_PROGRESS.get(player) == 0 && TFData.PREV_TRANSFORM_PROGRESS.get(player) > 0)
                         {
-//                            if (TFConfig.firstPersonAfterTransformation) TODO: Config
-//                            {
-//                                gameSettings.thirdPersonView = 0;
-//                            }
+                            if (TFConfig.options.firstPersonSwitch)
+                            {
+                                gameSettings.thirdPersonView = 0;
+                            }
                         }
                     }
                 }

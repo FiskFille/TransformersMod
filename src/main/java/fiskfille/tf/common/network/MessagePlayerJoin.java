@@ -2,14 +2,12 @@ package fiskfille.tf.common.network;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import fiskfille.tf.TransformersAPI;
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.config.TFConfig;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.helper.TFDimensionHelper;
-import fiskfille.tf.common.transformer.Transformer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -20,14 +18,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MessagePlayerJoin extends MessageSyncBase
 {
-    private Map<Transformer, Boolean> canTransform;
+    private String[] transformBlacklist;
     private Map<Integer, String> dimensionNames = Maps.newHashMap();
     private Integer[] dimensionIDs;
 
@@ -38,18 +34,8 @@ public class MessagePlayerJoin extends MessageSyncBase
     public MessagePlayerJoin(EntityPlayer player)
     {
         super(player);
-        this.canTransform = new HashMap<>();//TFConfig.canTransform; TODO
 
-        if (this.canTransform.isEmpty() || !this.canTransform.keySet().containsAll(TransformersAPI.REGISTRY.getKeys().stream().map(ResourceLocation::toString).collect(Collectors.toList())))
-        {
-            for (Transformer transformer : TransformersAPI.REGISTRY)
-            {
-                if (!this.canTransform.containsKey(transformer))
-                {
-                    this.canTransform.put(transformer, true);
-                }
-            }
-        }
+        this.transformBlacklist = TFConfig.getGlobalRestrictions().transformBlacklist;
 
         Integer[] ids = DimensionManager.getIDs();
         this.dimensionNames = TFDimensionHelper.DIMENSION_NAMES;
@@ -77,21 +63,22 @@ public class MessagePlayerJoin extends MessageSyncBase
     public void fromBytes(ByteBuf buf)
     {
         super.fromBytes(buf);
-        this.canTransform = Maps.newHashMap();
 
-        for (Transformer transformer : TransformersAPI.REGISTRY)
+        this.transformBlacklist = new String[buf.readUnsignedByte()];
+
+        for (int i = 0; i < this.transformBlacklist.length; i++)
         {
-            this.canTransform.put(transformer, buf.readBoolean());
+            this.transformBlacklist[i] = ByteBufUtils.readUTF8String(buf);
         }
 
-        int length = buf.readInt();
+        int length = buf.readUnsignedByte();
 
         for (int i = 0; i < length; ++i)
         {
             this.dimensionNames.put(buf.readInt(), ByteBufUtils.readUTF8String(buf));
         }
 
-        this.dimensionIDs = new Integer[buf.readInt()];
+        this.dimensionIDs = new Integer[buf.readUnsignedByte()];
 
         for (int i = 0; i < this.dimensionIDs.length; ++i)
         {
@@ -104,12 +91,14 @@ public class MessagePlayerJoin extends MessageSyncBase
     {
         super.toBytes(buf);
 
-        for (Map.Entry<Transformer, Boolean> transformable : this.canTransform.entrySet())
+        buf.writeByte(this.transformBlacklist.length);
+
+        for (String blacklisted : this.transformBlacklist)
         {
-            buf.writeBoolean(transformable.getValue());
+            ByteBufUtils.writeUTF8String(buf, blacklisted);
         }
 
-        buf.writeInt(this.dimensionNames.size());
+        buf.writeByte(this.dimensionNames.size());
 
         for (Map.Entry<Integer, String> e : this.dimensionNames.entrySet())
         {
@@ -117,7 +106,7 @@ public class MessagePlayerJoin extends MessageSyncBase
             ByteBufUtils.writeUTF8String(buf, e.getValue());
         }
 
-        buf.writeInt(this.dimensionIDs.length);
+        buf.writeByte(this.dimensionIDs.length);
 
         for (Integer dimensionID : this.dimensionIDs)
         {
@@ -141,10 +130,7 @@ public class MessagePlayerJoin extends MessageSyncBase
                         e.getKey().setWithoutNotify(player, e.getValue());
                     }
 
-                    if (message.canTransform != null)
-                    {
-//                    TFConfig.canTransform = message.canTransform; TODO: Config
-                    }
+                    TFConfig.getGlobalRestrictions().transformBlacklist = message.transformBlacklist;
 
                     TFDimensionHelper.DIMENSION_NAMES = message.dimensionNames;
                     TFDimensionHelper.DIMENSION_IDS = message.dimensionIDs;

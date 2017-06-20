@@ -245,4 +245,24 @@ public class CommonEventHandler
             TFData.PREV_TRANSFORMER.setWithoutNotify(player, TFHelper.getTransformer(player));
         }
     }
+
+    @SubscribeEvent
+    public static void onLivingJump(LivingEvent.LivingJumpEvent event)
+    {
+        if (event.getEntity() instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) event.getEntity();
+            Transformer transformer = TFHelper.getTransformer(player);
+
+            if (transformer != null)
+            {
+                int altMode = TFData.ALT_MODE.get(player);
+
+                if (!transformer.onJump(player) || !transformer.canJumpAsVehicle(player, altMode) && TFHelper.getTransformationTimer(player) >= 0.5F)
+                {
+                    player.motionY = 0;
+                }
+            }
+        }
+    }
 }

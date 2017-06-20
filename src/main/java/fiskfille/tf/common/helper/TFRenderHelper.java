@@ -3,6 +3,7 @@ package fiskfille.tf.common.helper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.Transformer;
 import net.minecraft.client.Minecraft;
@@ -577,7 +578,7 @@ public class TFRenderHelper
         renderer.renderFaceZPos(block, x, y, z, icon);
         renderer.renderFaceXNeg(block, x, y, z, icon);
         renderer.renderFaceXPos(block, x, y, z, icon);
-    }
+    }*/
 
     public static boolean shouldOverrideView(EntityPlayer player)
     {
@@ -586,10 +587,10 @@ public class TFRenderHelper
 
     public static boolean shouldOverrideThirdPersonDistance(EntityPlayer player)
     {
-        return player.ridingEntity == null && (TFHelper.getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null);
+        return player.getRidingEntity() == null && (TFHelper.getTransformer(player) != null || TFData.PREV_TRANSFORMER.get(player) != null);
     }
 
-    public static void renderItemIntoGUI(int x, int y, ItemStack itemstack)
+    /*public static void renderItemIntoGUI(int x, int y, ItemStack itemstack)
     {
         if (itemstack != null)
         {

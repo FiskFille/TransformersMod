@@ -2,6 +2,7 @@ package fiskfille.tf.common.transformer;
 
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
+import fiskfille.tf.common.config.TFConfig;
 import fiskfille.tf.common.helper.TFHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -100,10 +101,10 @@ public abstract class Transformer
         return false;
     }
 
-    /*public boolean canTransform(EntityPlayer player)
+    public boolean canTransform(EntityPlayer player)
     {
-        return TFConfig.canTransform(this);
-    }*/
+        return TFConfig.getGlobalRestrictions().canTransform(this);
+    }
 
     public boolean hasStealthForce(EntityPlayer player, int altMode)
     {

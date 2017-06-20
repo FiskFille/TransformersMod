@@ -9,3 +9,28 @@ tile.transformium_ore.name=Transformium Ore
 # Items
 
 item.transformium_fragment.name=Transformium Fragment
+
+# Config
+
+config.transformers.options=Options
+config.transformers.aesthetic=Aesthetic
+config.transformers.projectiles=Projectiles
+config.transformers.restrictions=Restrictions
+
+config.transformers.options.tooltip=General options
+config.transformers.aesthetic.tooltip=Options that change the aesthetics of the mod
+config.transformers.projectiles.tooltip=Options that change the behaviour or projectiles
+config.transformers.restrictions.tooltip=Options that define restrictions for the mod
+
+config.transformers.groundBridgeMinRange=Minimum Ground Bridge Range
+config.transformers.controlPanelMaxRange=Maximum Control Panel Range
+
+config.transformers.purgeDashTop=Purge Dash Top
+config.transformers.useMiles=Use Miles
+config.transformers.oldPortalRender=Old Portal Render
+
+config.transformers.allowMissileExplosions=Allow Missile Explosions
+config.transformers.allowTankShellExplosions=Allow Tank Shell Explosions
+config.transformers.firstPersonSwitch=First Person Switch
+
+config.transformers.transformBlacklist=Transformation Blacklist
