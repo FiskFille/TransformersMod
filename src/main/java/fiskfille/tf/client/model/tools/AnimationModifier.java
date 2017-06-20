@@ -1,16 +1,16 @@
 package fiskfille.tf.client.model.tools;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.function.Predicate;
 
 public class AnimationModifier
 {
     public Type type;
-    public Predicate<Entity> predicate;
+    public Predicate<EntityPlayer> predicate;
     public float factor;
 
-    public AnimationModifier(Type type, Predicate<Entity> predicate, float factor)
+    public AnimationModifier(Type type, Predicate<EntityPlayer> predicate, float factor)
     {
         this.type = type;
         this.predicate = predicate;

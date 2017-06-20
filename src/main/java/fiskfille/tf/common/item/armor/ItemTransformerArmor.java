@@ -1,4 +1,4 @@
-package fiskfille.tf.common.item;
+package fiskfille.tf.common.item.armor;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;

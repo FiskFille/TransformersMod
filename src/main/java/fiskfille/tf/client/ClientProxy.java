@@ -1,6 +1,9 @@
 package fiskfille.tf.client;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.keybinds.TFKeyBinds;
+import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.CommonProxy;
 import fiskfille.tf.common.api.item.RegisterItemModel;
 import fiskfille.tf.common.block.TFBlocks;
@@ -8,14 +11,18 @@ import fiskfille.tf.common.item.TFItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
+    private static final Minecraft MC = Minecraft.getMinecraft();
+
     @Override
     public void onPreInit()
     {
@@ -50,6 +57,9 @@ public class ClientProxy extends CommonProxy
                 item.setCreativeTab(TransformersMod.TRANSFORMERS_TAB);
             }
         }
+
+        TFKeyBinds.register();
+        TFModelRegistry.register();
     }
 
     @Override
@@ -88,6 +98,30 @@ public class ClientProxy extends CommonProxy
     @Override
     public float getRenderTick()
     {
-        return Minecraft.getMinecraft().getRenderPartialTicks();
+        return ClientEventHandler.renderTick;
+    }
+
+    @Override
+    public void schedule(Runnable runnable, MessageContext ctx)
+    {
+        if (ctx.side.isClient())
+        {
+            MC.addScheduledTask(runnable);
+        }
+        else
+        {
+            super.schedule(runnable, ctx);
+        }
+    }
+
+    @Override
+    public EntityPlayer getPlayer(MessageContext ctx)
+    {
+        if (ctx.side.isClient())
+        {
+            return MC.player;
+        }
+
+        return super.getPlayer(ctx);
     }
 }

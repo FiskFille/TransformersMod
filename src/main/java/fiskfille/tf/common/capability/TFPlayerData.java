@@ -17,6 +17,8 @@ public interface TFPlayerData extends ICapabilitySerializable<NBTTagCompound>
 
     <T> T getData(TFData<T> type);
 
+    void setData(Map<TFData, Object> playerData);
+
     Map<TFData, Object> getData();
 
     class Implementation implements TFPlayerData
@@ -39,6 +41,12 @@ public interface TFPlayerData extends ICapabilitySerializable<NBTTagCompound>
         public <T> T getData(TFData<T> type)
         {
             return (T) this.data.get(type);
+        }
+
+        @Override
+        public void setData(Map<TFData, Object> data)
+        {
+            this.data = data;
         }
 
         @Override

@@ -2,7 +2,7 @@ package fiskfille.tf.common.helper;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFData;
-import fiskfille.tf.common.item.ItemTransformerArmor;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.Transformer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

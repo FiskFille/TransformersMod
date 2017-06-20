@@ -9,18 +9,18 @@ import net.minecraft.util.math.Vec3d;
  */
 public class TFVectorHelper
 {
-    public static Vec3d getBackSides(EntityPlayer player, double amount, boolean side, double backAmount, boolean pitch)
+    public static Vec3d getBackSideCoords(EntityPlayer player, double amount, boolean side, double backAmount, boolean pitch)
     {
-        Vec3d front = getFronts(player, backAmount, pitch).addVector(-player.posX, -player.getEntityBoundingBox().minY, -player.posZ);
-        return getSides(player, amount, side).addVector(front.x, front.y, front.z);
+        Vec3d front = getFrontCoords(player, backAmount, pitch).addVector(-player.posX, -player.getEntityBoundingBox().minY, -player.posZ);
+        return getSideCoords(player, amount, side).addVector(front.x, front.y, front.z);
     }
 
-    public static Vec3d add(Vec3d left, Vec3d right)
+    public static Vec3d addCoords(Vec3d left, Vec3d right)
     {
         return left.addVector(right.x, right.y, right.z);
     }
 
-    public static Vec3d getSides(EntityPlayer player, double amount, int side)
+    public static Vec3d getSideCoords(EntityPlayer player, double amount, int side)
     {
         float rotationPitch = player.rotationPitch;
         float rotationYaw = player.rotationYaw + side;
@@ -37,7 +37,7 @@ public class TFVectorHelper
         return pos.addVector(f7 * amount, f6 * amount, f8 * amount);
     }
 
-    public static Vec3d getSides(EntityPlayer player, double amount, boolean side)
+    public static Vec3d getSideCoords(EntityPlayer player, double amount, boolean side)
     {
         float f1 = 0;
         float rotationYaw = player.rotationYaw + (side ? -90 : 90);
@@ -54,7 +54,7 @@ public class TFVectorHelper
         return pos.addVector(f7 * amount, f6 * amount, f8 * amount);
     }
 
-    public static Vec3d getSides(EntityPlayer player, double amount, boolean side, boolean pitch)
+    public static Vec3d getSideCoords(EntityPlayer player, double amount, boolean side, boolean pitch)
     {
         float rotationPitch = player.rotationPitch;
 
@@ -77,7 +77,7 @@ public class TFVectorHelper
         return pos.addVector(f7 * amount, f6 * amount, f8 * amount);
     }
 
-    public static Vec3d getFronts(EntityPlayer player, double amount, boolean pitch)
+    public static Vec3d getFrontCoords(EntityPlayer player, double amount, boolean pitch)
     {
         float rotationPitch = player.rotationPitch;
         float rotationYaw = player.rotationYaw;
@@ -100,7 +100,7 @@ public class TFVectorHelper
         return pos.addVector(f7 * amount, f6 * amount, f8 * amount);
     }
 
-    public static Vec3d getFronts(EntityPlayer player, float angle, double amount)
+    public static Vec3d getFrontCoords(EntityPlayer player, float angle, double amount)
     {
         float rotationYaw = player.rotationYaw;
         double posX = player.posX;
@@ -116,7 +116,7 @@ public class TFVectorHelper
         return pos.addVector(f7 * amount, f6 * amount, f8 * amount);
     }
 
-    public static Vec3d getAboves(EntityPlayer player, float angle, double amount)
+    public static Vec3d getAboveCoords(EntityPlayer player, float angle, double amount)
     {
         float rotationYaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
         double posX = player.posX;
@@ -132,7 +132,7 @@ public class TFVectorHelper
         return pos.addVector(f7 * amount, f6 * amount, f8 * amount);
     }
 
-    public static Vec3d getVerticals(EntityPlayer player, float angle, double amount)
+    public static Vec3d getVerticalCoords(EntityPlayer player, float angle, double amount)
     {
         float pitch = player.rotationPitch - angle;
         double posX = player.posX;

@@ -1,6 +1,9 @@
 package fiskfille.tf.common.data;
 
+import fiskfille.tf.common.network.MessagePlayerJoin;
+import fiskfille.tf.common.network.TFNetworkManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +54,7 @@ public class TFDataManager
     {
         if (!player.world.isRemote)
         {
-//            TFNetworkManager.networkWrapper.sendTo(new MessagePlayerJoin(player), (EntityPlayerMP) player); TODO: Implement
+            TFNetworkManager.WRAPPER.sendTo(new MessagePlayerJoin(player), (EntityPlayerMP) player);
         }
     }
 }

@@ -397,7 +397,7 @@ public abstract class ModelTransformerBase extends MowzieModelBase
         return null;
     }
 
-    public void renderArmorPiece(int armorPiece)
+    public void renderArmorPiece(EntityEquipmentSlot armorPiece)
     {
     }
 }

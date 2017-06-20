@@ -7,6 +7,8 @@ import fiskfille.tf.common.capability.TFPlayerData;
 import fiskfille.tf.common.event.PlayerTransformEvent;
 import fiskfille.tf.common.helper.TFFormatHelper;
 import fiskfille.tf.common.helper.TFHelper;
+import fiskfille.tf.common.network.MessagePlayerData;
+import fiskfille.tf.common.network.TFNetworkManager;
 import fiskfille.tf.common.transformer.Transformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -74,11 +76,11 @@ public class TFData<T>
                 {
                     if (player.world.isRemote)
                     {
-//                        TFNetworkManager.networkWrapper.sendToServer(new MessagePlayerData(player, this, value)); TODO: Implement
+                        TFNetworkManager.WRAPPER.sendToServer(new MessagePlayerData(player, this, value));
                     }
                     else
                     {
-//                        TFNetworkManager.networkWrapper.sendToDimension(new MessagePlayerData(player, this, value), player.dimension);
+                        TFNetworkManager.WRAPPER.sendToDimension(new MessagePlayerData(player, this, value), player.dimension);
                     }
 
                     return true;

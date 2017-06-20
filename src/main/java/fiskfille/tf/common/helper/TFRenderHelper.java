@@ -3,7 +3,7 @@ package fiskfille.tf.common.helper;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
-import fiskfille.tf.common.item.ItemTransformerArmor;
+import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.transformer.Transformer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

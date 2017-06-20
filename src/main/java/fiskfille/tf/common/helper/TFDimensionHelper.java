@@ -14,8 +14,8 @@ import java.util.Map;
 
 public class TFDimensionHelper
 {
-    public static final Map<Integer, String> DIMENSION_NAMES = Maps.newHashMap();
-    public static final Integer[] DIMENSION_IDS = new Integer[0];
+    public static Map<Integer, String> DIMENSION_NAMES = Maps.newHashMap();
+    public static Integer[] DIMENSION_IDS = new Integer[0];
 
     public static void travelToDimension(Entity entity, int targetDimension, Teleporter teleporter)
     {
