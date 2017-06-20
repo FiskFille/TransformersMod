@@ -14,3 +14,5 @@ libs/
 gradlew
 gradlew.bat
 gradle/
+
+eclipse/
