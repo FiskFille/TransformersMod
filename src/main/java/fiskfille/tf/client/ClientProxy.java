@@ -6,6 +6,7 @@ import fiskfille.tf.common.api.item.RegisterItemModel;
 import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.item.TFItems;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -82,5 +83,11 @@ public class ClientProxy extends CommonProxy
     public void registerModel(Block block, final String path, final String type)
     {
         this.registerModel(block, 0, path, type);
+    }
+
+    @Override
+    public float getRenderTick()
+    {
+        return Minecraft.getMinecraft().getRenderPartialTicks();
     }
 }

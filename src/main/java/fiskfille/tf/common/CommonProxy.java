@@ -1,6 +1,7 @@
 package fiskfille.tf.common;
 
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.capability.TFCapabilities;
 import fiskfille.tf.common.generator.TFWorldGenHandler;
 import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.recipe.TFRecipes;
@@ -15,6 +16,8 @@ public class CommonProxy
 
         TFRecipes.register();
 
+        TFCapabilities.register();
+
         MinecraftForge.ORE_GEN_BUS.register(new TFWorldGenHandler());
     }
 
@@ -26,5 +29,10 @@ public class CommonProxy
     public void onPostInit()
     {
 
+    }
+
+    public float getRenderTick()
+    {
+        return 1.0F;
     }
 }
