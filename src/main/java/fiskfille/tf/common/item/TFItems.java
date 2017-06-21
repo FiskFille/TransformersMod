@@ -10,11 +10,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Mod.EventBusSubscriber
 public class TFItems
 {
     public static final List<Item> REGISTERED_ITEMS = new ArrayList<>();
@@ -33,7 +37,11 @@ public class TFItems
     public static final ItemTransformerArmor PURGE_LEGGINGS = new ItemPurgeArmor(EntityEquipmentSlot.LEGS);
     public static final ItemTransformerArmor PURGE_BOOTS = new ItemPurgeArmor(EntityEquipmentSlot.FEET);
 
-    public static void register()
+    public static final Item TANK_SHELL = new ItemBasic();
+    public static final Item MISSILE = new ItemBasic();
+
+    @SubscribeEvent
+    public static void register(RegistryEvent<Item> event)
     {
         TFItems.register(TRANSFORMIUM_FRAGMENT, new ResourceLocation(TransformersMod.MODID, "transformium_fragment"));
 
@@ -46,6 +54,9 @@ public class TFItems
         TFItems.register(PURGE_CHEST, new ResourceLocation(TransformersMod.MODID, "purge_chest"));
         TFItems.register(PURGE_LEGGINGS, new ResourceLocation(TransformersMod.MODID, "purge_leggings"));
         TFItems.register(PURGE_BOOTS, new ResourceLocation(TransformersMod.MODID, "purge_boots"));
+
+        TFItems.register(TANK_SHELL, new ResourceLocation(TransformersMod.MODID, "tank_shell"));
+        TFItems.register(MISSILE, new ResourceLocation(TransformersMod.MODID, "missile"));
     }
 
     private static void register(Item item, ResourceLocation identifier)

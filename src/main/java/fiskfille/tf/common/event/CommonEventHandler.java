@@ -7,6 +7,7 @@ import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.data.TFDataManager;
 import fiskfille.tf.common.helper.TFHelper;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
+import fiskfille.tf.common.network.MessageBroadcastState;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.TFNetworkManager;
 import fiskfille.tf.common.transformer.base.Transformer;
@@ -16,10 +17,16 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -262,6 +269,113 @@ public class CommonEventHandler
                 {
                     player.motionY = 0;
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event)
+    {
+        EntityPlayer player = event.getPlayer();
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        int altMode = TFData.ALT_MODE.get(player);
+
+        if (TFHelper.isFullyTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
+        {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event)
+    {
+        EntityPlayer player = event.getEntityPlayer();
+
+        if (player != null)
+        {
+            if (!player.world.isRemote)
+            {
+                if (event.getTarget() instanceof EntityPlayer)
+                {
+                    EntityPlayer beingTracked = (EntityPlayer) event.getTarget();
+
+                    EntityPlayerMP playerMP = (EntityPlayerMP) player;
+                    EntityPlayerMP beingTrackedMP = (EntityPlayerMP) beingTracked;
+
+                    TFNetworkManager.WRAPPER.sendTo(new MessageBroadcastState(player), beingTrackedMP);
+                    TFNetworkManager.WRAPPER.sendTo(new MessageBroadcastState(beingTracked), playerMP);
+
+                    TFNetworkManager.WRAPPER.sendTo(new MessageSendFlying(beingTracked, beingTracked.capabilities.isFlying), playerMP);
+                    TFNetworkManager.WRAPPER.sendTo(new MessageSendFlying(player, player.capabilities.isFlying), beingTrackedMP);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClonePlayer(PlayerEvent.Clone event)
+    {
+        TFPlayerData currentData = event.getEntityPlayer().getCapability(TFCapabilities.PLAYER_DATA_CAP, null);
+        TFPlayerData originalData = event.getOriginal().getCapability(TFCapabilities.PLAYER_DATA_CAP, null);
+
+        currentData.copy(originalData);
+    }
+
+    @SubscribeEvent
+    public static void onEntityInteract(PlayerInteractEvent.EntityInteract event)
+    {
+        EntityPlayer player = event.getEntityPlayer();
+        Transformer transformer = TFHelper.getTransformer(player);
+
+        int altMode = TFData.ALT_MODE.get(player);
+
+        if (TFHelper.isFullyTransformed(player) && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
+        {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingFall(LivingFallEvent event)
+    {
+        if (event.getEntity() instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) event.getEntity();
+
+            Transformer transformer = TFHelper.getTransformer(player);
+
+            if (transformer != null)
+            {
+                float newDist = transformer.fall(player, event.getDistance(), TFData.ALT_MODE.get(player));
+
+                if (newDist <= 0)
+                {
+                    event.setCanceled(true);
+                }
+                else
+                {
+                    event.setDistance(newDist);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onHit(LivingAttackEvent event)
+    {
+        Entity cause = event.getSource().getImmediateSource();
+
+        if (cause instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) cause;
+            Transformer transformer = TFHelper.getTransformer(player);
+
+            int altMode = TFData.ALT_MODE.get(player);
+
+            if (TFHelper.isFullyTransformed(player) && !event.getSource().isProjectile() && (transformer == null || transformer.canInteractInVehicleMode(player, altMode)))
+            {
+                event.setCanceled(true);
             }
         }
     }

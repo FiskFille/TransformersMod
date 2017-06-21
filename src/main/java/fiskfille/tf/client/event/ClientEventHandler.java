@@ -1,12 +1,16 @@
 package fiskfille.tf.client.event;
 
+import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.tools.ModelRendererTF;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.config.TFConfig;
 import fiskfille.tf.common.data.TFData;
+import fiskfille.tf.common.event.PlayerTransformEvent;
+import fiskfille.tf.common.helper.ModelOffset;
 import fiskfille.tf.common.helper.TFHelper;
+import fiskfille.tf.common.helper.TFModelHelper;
 import fiskfille.tf.common.helper.TFRenderHelper;
 import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
@@ -16,13 +20,19 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.util.Map;
+import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber
 public class ClientEventHandler
@@ -30,6 +40,43 @@ public class ClientEventHandler
     public static final Minecraft MC = Minecraft.getMinecraft();
 
     public static float renderTick;
+
+    private static boolean prevViewBobbing = MC.gameSettings.viewBobbing;
+
+    private static double lastX;
+    private static double lastY;
+    private static double lastZ;
+
+    private static Map<EntityPlayer, Item> prevHelm = new WeakHashMap<>();
+    private static Map<EntityPlayer, Item> prevChest = new WeakHashMap<>();
+    private static Map<EntityPlayer, Item> prevLegs = new WeakHashMap<>();
+    private static Map<EntityPlayer, Item> prevBoots = new WeakHashMap<>();
+
+    @SubscribeEvent
+    public static void onTransform(PlayerTransformEvent event)
+    {
+        EntityPlayer player = event.getEntityPlayer();
+        Transformer transformer = event.transformer;
+
+        if (player == MC.player)
+        {
+            boolean isTransformed = event.altMode != -1;
+
+            if (transformer == null || transformer.disableViewBobbing(player, event.altMode))
+            {
+                if (isTransformed)
+                {
+                    GameSettings gameSettings = MC.gameSettings;
+                    prevViewBobbing = gameSettings.viewBobbing;
+                    gameSettings.viewBobbing = false;
+                }
+                else
+                {
+                    MC.gameSettings.viewBobbing = prevViewBobbing;
+                }
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onRenderPlayerPre(RenderLivingEvent.Pre<EntityPlayer> event)
@@ -98,6 +145,58 @@ public class ClientEventHandler
 
             modelBipedMain.bipedLeftLeg.showModel = true;
             modelBipedMain.bipedRightLeg.showModel = true;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderPlayerSpecialsPost(RenderPlayerEvent.Specials.Post event)
+    {
+        //TODO: Move to player cap
+
+        EntityPlayer player = event.getEntityPlayer();
+        ModelOffset offsets = TFModelHelper.getOffsets(player);
+
+        ItemStack bootsStack = player.getItemStackFromSlot(EntityEquipmentSlot.FEET);
+        ItemStack legsStack = player.getItemStackFromSlot(EntityEquipmentSlot.LEGS);
+        ItemStack chestStack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+        ItemStack helmStack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+
+        Item boots = !bootsStack.isEmpty() ? bootsStack.getItem() : null;
+        Item legs = !legsStack.isEmpty() ? legsStack.getItem() : null;
+        Item chest = !chestStack.isEmpty() ? chestStack.getItem() : null;
+        Item helm = !helmStack.isEmpty() ? helmStack.getItem() : null;
+
+        boolean armorChanged = false;
+
+        if (boots != prevBoots.get(player))
+        {
+            prevBoots.put(player, boots);
+            armorChanged = true;
+        }
+
+        if (chest != prevChest.get(player))
+        {
+            prevChest.put(player, chest);
+            armorChanged = true;
+        }
+
+        if (legs != prevLegs.get(player))
+        {
+            prevLegs.put(player, legs);
+            armorChanged = true;
+        }
+
+        if (helm != prevHelm.get(player))
+        {
+            prevHelm.put(player, helm);
+            armorChanged = true;
+        }
+
+        if (armorChanged)
+        {
+            offsets.headOffsetX = 0;
+            offsets.headOffsetY = 0;
+            offsets.headOffsetZ = 0;
         }
     }
 
@@ -174,6 +273,24 @@ public class ClientEventHandler
         if (event.phase == TickEvent.Phase.END)
         {
 //            TutorialHandler.tick(player);
+
+            if (MC.player == player)
+            {
+                double deltaX = player.posX - lastX;
+                double deltaY = player.posY - lastY;
+                double deltaZ = player.posZ - lastZ;
+
+                double blocksMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+                GuiOverlay.prevSpeed = GuiOverlay.speed;
+                GuiOverlay.speed = blocksMoved * 20.0 * 60.0 * 60.0 / 1000.0;
+
+                //TODO: Player cap
+
+                lastX = player.posX;
+                lastY = player.posY;
+                lastZ = player.posZ;
+            }
 
             if (transformer != null)
             {
@@ -299,6 +416,29 @@ public class ClientEventHandler
                             TFData.STEALTH_FORCE.set(player, true);
                         }
                     }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlaySound(PlaySoundAtEntityEvent event)
+    {
+        if (event.getEntity() instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) event.getEntity();
+
+            String name = event.getSound().getSoundName().getResourcePath();
+
+            if (name.startsWith("step.") && TFHelper.isFullyTransformed(player))
+            {
+                Transformer transformer = TFHelper.getTransformer(player);
+
+                int altMode = TFData.ALT_MODE.get(player);
+
+                if (transformer != null && transformer.disableStepSounds(player, altMode))
+                {
+                    event.setCanceled(true);
                 }
             }
         }

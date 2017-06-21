@@ -1,11 +1,18 @@
 package fiskfille.tf.common.transformer.base;
 
+import fiskfille.tf.common.config.TFConfig;
+import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.helper.TFHelper;
 import fiskfille.tf.common.helper.TFVectorHelper;
+import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.motion.TFMotionManager;
+import fiskfille.tf.common.sound.TFSounds;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Random;
@@ -26,11 +33,11 @@ public abstract class TransformerTank extends Transformer
         return true;
     }
 
-    /*@Override
-    public String getShootSound(int altMode)
+    @Override
+    public SoundEvent getShootSound(int altMode)
     {
-        return TransformersMod.modid + ":tankfire";
-    }*/
+        return TFSounds.TANK_FIRE;
+    }
 
     @Override
     public float fall(EntityPlayer player, float distance, int altMode)
@@ -50,17 +57,17 @@ public abstract class TransformerTank extends Transformer
         return true;
     }
 
-    /*@Override
+    @Override
     public Item getShootItem(int altMode)
     {
-        return TFItems.tankShell;
+        return TFItems.TANK_SHELL;
     }
 
     @Override
     public Entity getShootEntity(EntityPlayer player, int altMode)
     {
-        return new EntityTankShell(player.worldObj, player, TFConfig.allowTankShellExplosions);
-    }*/
+        return new EntityTankShell(player.world, player, TFConfig.projectiles.allowTankShellExplosions);
+    }
 
     @Override
     public void doNitroParticles(EntityPlayer player, int altMode)

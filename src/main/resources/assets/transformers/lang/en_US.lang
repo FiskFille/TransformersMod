@@ -10,6 +10,9 @@ tile.transformium_ore.name=Transformium Ore
 
 item.transformium_fragment.name=Transformium Fragment
 
+item.missile.name=Missile
+item.tank_shell.name=Tank Shell
+
 item.skystrike_helmet.name=Skystrike Head
 item.skystrike_chest.name=Skystrike Torso
 item.skystrike_leggings.name=Skystrike Legs
@@ -44,3 +47,10 @@ config.transformers.allowTankShellExplosions=Allow Tank Shell Explosions
 config.transformers.firstPersonSwitch=First Person Switch
 
 config.transformers.transformBlacklist=Transformation Blacklist
+
+# GUI
+
+stats.nitro.name=Nitro
+stats.ammo.name=Ammo: %s
+stats.shots_left.name=Shots Left
+stats.laser_charge.name=Laser Charge

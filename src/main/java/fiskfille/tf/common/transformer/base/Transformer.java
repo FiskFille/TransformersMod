@@ -125,7 +125,7 @@ public abstract class Transformer
         return null;
     }
 
-    public String getShootSound(int altMode)
+    public SoundEvent getShootSound(int altMode)
     {
         return null;
     }

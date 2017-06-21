@@ -2,11 +2,16 @@ package fiskfille.tf.client;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.event.ClientEventHandler;
+import fiskfille.tf.client.gui.GuiOverlay;
 import fiskfille.tf.client.keybinds.TFKeyBinds;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
+import fiskfille.tf.client.render.entity.RenderMissile;
+import fiskfille.tf.client.render.entity.RenderTankShell;
 import fiskfille.tf.common.CommonProxy;
 import fiskfille.tf.common.api.item.RegisterItemModel;
 import fiskfille.tf.common.block.TFBlocks;
+import fiskfille.tf.common.entity.EntityMissile;
+import fiskfille.tf.common.entity.EntityTankShell;
 import fiskfille.tf.common.item.TFItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -14,6 +19,8 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,6 +37,11 @@ public class ClientProxy extends CommonProxy
 
         TFKeyBinds.register();
         TFModelRegistry.register();
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, RenderMissile::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTankShell.class, RenderTankShell::new);
+
+        MinecraftForge.EVENT_BUS.register(new GuiOverlay());
     }
 
     @Override

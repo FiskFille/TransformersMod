@@ -2,15 +2,9 @@ package fiskfille.tf;
 
 import fiskfille.tf.common.CommonProxy;
 import fiskfille.tf.common.block.TFBlocks;
-import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.sound.TFSounds;
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -60,24 +54,6 @@ public class TransformersMod
     public void onPostInit(FMLPostInitializationEvent event)
     {
         PROXY.onPostInit();
-    }
-
-    @SubscribeEvent
-    public static void onRegisterBlocks(RegistryEvent<Block> event)
-    {
-        TFBlocks.register();
-    }
-
-    @SubscribeEvent
-    public static void onRegisterItems(RegistryEvent<Item> event)
-    {
-        TFItems.register();
-    }
-
-    @SubscribeEvent
-    public static void onRegisterSounds(RegistryEvent<SoundEvent> event)
-    {
-        TFSounds.register();
     }
 
     @SubscribeEvent

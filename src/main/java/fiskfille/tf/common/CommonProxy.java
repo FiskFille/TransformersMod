@@ -2,6 +2,7 @@ package fiskfille.tf.common;
 
 import fiskfille.tf.TransformerManager;
 import fiskfille.tf.common.capability.TFCapabilities;
+import fiskfille.tf.common.entity.TFEntities;
 import fiskfille.tf.common.generator.TFWorldGenHandler;
 import fiskfille.tf.common.network.TFNetworkManager;
 import fiskfille.tf.common.recipe.TFRecipes;
@@ -14,6 +15,7 @@ public class CommonProxy
 {
     public void onPreInit()
     {
+        TFEntities.register();
         TFRecipes.register();
 
         TFNetworkManager.register();
