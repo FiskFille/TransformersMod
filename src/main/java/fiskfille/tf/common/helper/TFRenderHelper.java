@@ -5,7 +5,7 @@ import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelRenderer;

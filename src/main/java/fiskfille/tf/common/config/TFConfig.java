@@ -1,7 +1,7 @@
 package fiskfille.tf.common.config;
 
 import fiskfille.tf.TransformersMod;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;

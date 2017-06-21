@@ -1,10 +1,8 @@
 package fiskfille.tf.common;
 
 import fiskfille.tf.TransformerManager;
-import fiskfille.tf.common.block.TFBlocks;
 import fiskfille.tf.common.capability.TFCapabilities;
 import fiskfille.tf.common.generator.TFWorldGenHandler;
-import fiskfille.tf.common.item.TFItems;
 import fiskfille.tf.common.network.TFNetworkManager;
 import fiskfille.tf.common.recipe.TFRecipes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,9 +14,6 @@ public class CommonProxy
 {
     public void onPreInit()
     {
-        TFBlocks.register();
-        TFItems.register();
-
         TFRecipes.register();
 
         TFNetworkManager.register();
@@ -54,5 +49,9 @@ public class CommonProxy
     public EntityPlayer getPlayer(MessageContext ctx)
     {
         return ctx.getServerHandler().player;
+    }
+
+    public void onRegisterModels()
+    {
     }
 }

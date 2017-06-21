@@ -1,7 +1,7 @@
 package fiskfille.tf.common.item;
 
 import fiskfille.tf.TransformersAPI;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;

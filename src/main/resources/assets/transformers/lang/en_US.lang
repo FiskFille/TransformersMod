@@ -10,6 +10,16 @@ tile.transformium_ore.name=Transformium Ore
 
 item.transformium_fragment.name=Transformium Fragment
 
+item.skystrike_helmet.name=Skystrike Head
+item.skystrike_chest.name=Skystrike Torso
+item.skystrike_leggings.name=Skystrike Legs
+item.skystrike_boots.name=Skystrike Feet
+
+item.purge_helmet.name=Purge Head
+item.purge_chest.name=Purge Torso
+item.purge_leggings.name=Purge Legs
+item.purge_boots.name=Purge Feet
+
 # Config
 
 config.transformers.options=Options

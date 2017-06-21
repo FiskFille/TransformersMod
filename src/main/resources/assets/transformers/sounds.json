@@ -1,0 +1,92 @@
+{
+  "transform_robot": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:transform_robot",
+        "stream": false
+      }
+    ]
+  },
+  "transform_vehicle": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:transform_vehicle",
+        "stream": false
+      }
+    ]
+  },
+  "transform_stealth": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:transform_stealth",
+        "stream": false
+      }
+    ]
+  },
+  "transform_stealth_in": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:transform_stealth_in",
+        "stream": false
+      }
+    ]
+  },
+  "tankfire": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:tankfire",
+        "stream": false
+      }
+    ]
+  },
+  "car1": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:car1",
+        "stream": false
+      }
+    ]
+  },
+  "car2": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:car2",
+        "stream": false
+      }
+    ]
+  },
+  "car3": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:car3",
+        "stream": false
+      }
+    ]
+  },
+  "car4": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:car4",
+        "stream": false
+      }
+    ]
+  },
+  "car5": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "transformers:car5",
+        "stream": false
+      }
+    ]
+  }
+}

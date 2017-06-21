@@ -9,7 +9,7 @@ import fiskfille.tf.common.helper.TFHelper;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import fiskfille.tf.common.network.MessageSendFlying;
 import fiskfille.tf.common.network.TFNetworkManager;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;

@@ -9,7 +9,7 @@ import fiskfille.tf.common.helper.TFFormatHelper;
 import fiskfille.tf.common.helper.TFHelper;
 import fiskfille.tf.common.network.MessagePlayerData;
 import fiskfille.tf.common.network.TFNetworkManager;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;

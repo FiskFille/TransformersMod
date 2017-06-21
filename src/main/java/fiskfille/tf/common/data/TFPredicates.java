@@ -1,7 +1,7 @@
 package fiskfille.tf.common.data;
 
 import fiskfille.tf.common.helper.TFHelper;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 

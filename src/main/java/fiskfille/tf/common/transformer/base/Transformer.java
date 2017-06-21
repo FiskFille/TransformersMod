@@ -1,13 +1,15 @@
-package fiskfille.tf.common.transformer;
+package fiskfille.tf.common.transformer.base;
 
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.client.model.transformer.definition.TransformerModel;
 import fiskfille.tf.common.config.TFConfig;
 import fiskfille.tf.common.helper.TFHelper;
+import fiskfille.tf.common.sound.TFSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 /**
  * @author gegy1000, FiskFille
@@ -218,8 +220,13 @@ public abstract class Transformer
         return 1;
     }
 
-    /*public String getTransformationSound(int altMode)
+    public SoundEvent getTransformationSound(int altMode)
     {
-        return TransformersMod.MODID + ":transform_" + (altMode == -1 ? "robot" : "vehicle");
-    }*/
+        return altMode == -1 ? TFSounds.TRANSFORM_ROBOT : TFSounds.TRANSFORM_VEHICLE;
+    }
+
+    public SoundEvent getStealthTransformationSound(boolean stealth)
+    {
+        return stealth ? TFSounds.TRANSFORM_STEALTH : TFSounds.TRANSFORM_STEALTH_IN;
+    }
 }

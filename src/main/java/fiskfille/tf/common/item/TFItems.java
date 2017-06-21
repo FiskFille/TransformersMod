@@ -1,6 +1,7 @@
 package fiskfille.tf.common.item;
 
 import fiskfille.tf.TransformersMod;
+import fiskfille.tf.common.item.armor.ItemPurgeArmor;
 import fiskfille.tf.common.item.armor.ItemSkystrikeArmor;
 import fiskfille.tf.common.item.armor.ItemTransformerArmor;
 import net.minecraft.init.SoundEvents;
@@ -27,6 +28,11 @@ public class TFItems
     public static final ItemTransformerArmor SKYSTRIKE_LEGGINGS = new ItemSkystrikeArmor(EntityEquipmentSlot.LEGS);
     public static final ItemTransformerArmor SKYSTRIKE_BOOTS = new ItemSkystrikeArmor(EntityEquipmentSlot.FEET);
 
+    public static final ItemTransformerArmor PURGE_HELMET = new ItemPurgeArmor(EntityEquipmentSlot.HEAD);
+    public static final ItemTransformerArmor PURGE_CHEST = new ItemPurgeArmor(EntityEquipmentSlot.CHEST);
+    public static final ItemTransformerArmor PURGE_LEGGINGS = new ItemPurgeArmor(EntityEquipmentSlot.LEGS);
+    public static final ItemTransformerArmor PURGE_BOOTS = new ItemPurgeArmor(EntityEquipmentSlot.FEET);
+
     public static void register()
     {
         TFItems.register(TRANSFORMIUM_FRAGMENT, new ResourceLocation(TransformersMod.MODID, "transformium_fragment"));
@@ -35,6 +41,11 @@ public class TFItems
         TFItems.register(SKYSTRIKE_CHEST, new ResourceLocation(TransformersMod.MODID, "skystrike_chest"));
         TFItems.register(SKYSTRIKE_LEGGINGS, new ResourceLocation(TransformersMod.MODID, "skystrike_leggings"));
         TFItems.register(SKYSTRIKE_BOOTS, new ResourceLocation(TransformersMod.MODID, "skystrike_boots"));
+
+        TFItems.register(PURGE_HELMET, new ResourceLocation(TransformersMod.MODID, "purge_helmet"));
+        TFItems.register(PURGE_CHEST, new ResourceLocation(TransformersMod.MODID, "purge_chest"));
+        TFItems.register(PURGE_LEGGINGS, new ResourceLocation(TransformersMod.MODID, "purge_leggings"));
+        TFItems.register(PURGE_BOOTS, new ResourceLocation(TransformersMod.MODID, "purge_boots"));
     }
 
     private static void register(Item item, ResourceLocation identifier)

@@ -3,11 +3,13 @@ package fiskfille.tf.common.network;
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.helper.TFHelper;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -77,18 +79,20 @@ public class MessagePlayerData implements IMessage
                     {
                         type.setWithoutNotify((EntityPlayer) entity, value);
 
-                        if (type == TFData.ALT_MODE)
-                        {
-                            Transformer transformer = TFHelper.getTransformer((EntityPlayer) entity);
+                        Transformer transformer = TFHelper.getTransformer((EntityPlayer) entity);
 
-                            if (transformer != null)
-                            {
-//                                entity.world.playSound(entity.posX, entity.posY, entity.posZ, transformer.getTransformation,Sound((Integer) value), 1, 1 false); TODO: Sounds
-                            }
-                        }
-                        else if (type == TFData.STEALTH_FORCE)
+                        if (transformer != null)
                         {
-//                            entity.world.playSound(entity.posX, entity.posY, entity.posZ, TransformersMod.modid + ":transform_stealth" + ((Boolean) value ? "" : "_in"), 1, 1.25F, false);
+                            if (type == TFData.ALT_MODE)
+                            {
+                                SoundEvent sound = transformer.getTransformationSound((Integer) value);
+                                entity.world.playSound(entity.posX, entity.posY, entity.posZ, sound, SoundCategory.PLAYERS, 1, 1, false);
+                            }
+                            else if (type == TFData.STEALTH_FORCE)
+                            {
+                                SoundEvent sound = transformer.getStealthTransformationSound((Boolean) value);
+                                entity.world.playSound(entity.posX, entity.posY, entity.posZ, sound, SoundCategory.PLAYERS, 1, 1.25F, false);
+                            }
                         }
                     }
                 }

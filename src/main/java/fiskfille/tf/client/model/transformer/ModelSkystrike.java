@@ -7,7 +7,7 @@ import fiskfille.tf.client.model.transformer.vehicle.ModelSkystrikeVehicle;
 import fiskfille.tf.common.helper.ModelOffset;
 import fiskfille.tf.common.helper.TFModelHelper;
 import fiskfille.tf.common.helper.TFRenderHelper;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;

@@ -8,7 +8,7 @@ import fiskfille.tf.common.config.TFConfig;
 import fiskfille.tf.common.data.TFData;
 import fiskfille.tf.common.helper.TFHelper;
 import fiskfille.tf.common.helper.TFRenderHelper;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;

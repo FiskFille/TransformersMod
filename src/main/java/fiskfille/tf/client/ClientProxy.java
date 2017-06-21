@@ -28,6 +28,15 @@ public class ClientProxy extends CommonProxy
     {
         super.onPreInit();
 
+        TFKeyBinds.register();
+        TFModelRegistry.register();
+    }
+
+    @Override
+    public void onRegisterModels()
+    {
+        super.onRegisterModels();
+
         for (Block block : TFBlocks.REGISTERED_BLOCKS)
         {
             String name = block.getUnlocalizedName().substring("tile.".length());
@@ -57,9 +66,6 @@ public class ClientProxy extends CommonProxy
                 item.setCreativeTab(TransformersMod.TRANSFORMERS_TAB);
             }
         }
-
-        TFKeyBinds.register();
-        TFModelRegistry.register();
     }
 
     @Override

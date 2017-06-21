@@ -1,4 +1,4 @@
-package fiskfille.tf.common.transformer;
+package fiskfille.tf.common.transformer.base;
 
 import fiskfille.tf.common.helper.TFVectorHelper;
 import fiskfille.tf.common.motion.TFMotionManager;

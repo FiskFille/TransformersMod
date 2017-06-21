@@ -2,7 +2,7 @@ package fiskfille.tf.common.transformer;
 
 import fiskfille.tf.TransformersMod;
 import fiskfille.tf.common.item.TFItems;
-import fiskfille.tf.common.transformer.base.TransformerJet;
+import fiskfille.tf.common.transformer.base.TransformerTank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -10,35 +10,35 @@ import net.minecraft.util.ResourceLocation;
 /**
  * @author gegy1000
  */
-public class TransformerSkystrike extends TransformerJet
+public class TransformerPurge extends TransformerTank
 {
-    public TransformerSkystrike()
+    public TransformerPurge()
     {
-        super(0, new ResourceLocation(TransformersMod.MODID, "skystrike"));
+        super(1, new ResourceLocation(TransformersMod.MODID, "purge"));
     }
 
     @Override
     public Item getHelmet()
     {
-        return TFItems.SKYSTRIKE_HELMET;
+        return TFItems.PURGE_HELMET;
     }
 
     @Override
     public Item getChestplate()
     {
-        return TFItems.SKYSTRIKE_CHEST;
+        return TFItems.PURGE_CHEST;
     }
 
     @Override
     public Item getLeggings()
     {
-        return TFItems.SKYSTRIKE_LEGGINGS;
+        return TFItems.PURGE_LEGGINGS;
     }
 
     @Override
     public Item getBoots()
     {
-        return TFItems.SKYSTRIKE_BOOTS;
+        return TFItems.PURGE_BOOTS;
     }
 
     @Override
@@ -50,19 +50,14 @@ public class TransformerSkystrike extends TransformerJet
     @Override
     public float getVehicleHeightOffset(EntityPlayer player, int altMode)
     {
-        return -1.25F;
-    }
-
-    @Override
-    public boolean onJump(EntityPlayer player)
-    {
-        player.motionY += 0.205D;
-        return true;
+        return -1.1F;
     }
 
     /*@Override
     public void tick(EntityPlayer player, float timer)
     {
-        player.addStat(TFAchievements.skystrike, 1);
+        super.tick(player, timer);
+
+        player.addStat(TFAchievements.purge, 1);
     }*/
 }

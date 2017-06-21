@@ -4,7 +4,7 @@ import fiskfille.tf.TransformersMod;
 import fiskfille.tf.client.model.transformer.ModelTransformerBase;
 import fiskfille.tf.client.model.transformer.definition.TFModelRegistry;
 import fiskfille.tf.common.helper.TFArmorHelper;
-import fiskfille.tf.common.transformer.Transformer;
+import fiskfille.tf.common.transformer.base.Transformer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
